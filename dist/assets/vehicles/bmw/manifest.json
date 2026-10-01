@@ -1,0 +1,17 @@
+{
+  "title": "Low Poly BMW G80 M3",
+  "author": "SharkyStudios",
+  "license": "CC-BY-4.0",
+  "source": "https://sketchfab.com/3d-models/low-poly-bmw-g80-m3-ea3e807ff69e40fe82c5577ee9f0a2f4",
+  "files": [
+    {
+      "file": "low-poly-bmw-g80-m3.glb",
+      "bytes": 353124,
+      "sha256": "1d46ba0f0eb984b2cffff0279c13e4550d80d99fe95fc42a0559370cd3c5aba5",
+      "triangles": 6618,
+      "primitives": 16,
+      "sourceMaterials": 9,
+      "sourceTextures": 0
+    }
+  ]
+}

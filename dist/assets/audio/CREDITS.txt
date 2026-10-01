@@ -1,0 +1,16 @@
+Car Engine Loop 96kHz 4s — qubodup
+Source: https://opengameart.org/content/car-engine-loop-96khz-4s
+License: Creative Commons Attribution 3.0
+https://creativecommons.org/licenses/by/3.0/
+Changes: supplied normalized 4-second WAV converted from stereo to mono and encoded as Ogg Vorbis, 44.1 kHz; runtime gain and playback pitch vary with vehicle movement/load.
+
+Car Tire Squeal Skid Loop — audible-edge (Tom Haigh); loop processing by qubodup
+Source: https://opengameart.org/content/car-tire-squeal-skid-loop
+License: Creative Commons Attribution 3.0
+https://creativecommons.org/licenses/by/3.0/
+Changes: 3-second mono WAV resampled from 96 kHz to 44.1 kHz and encoded as Ogg Vorbis; runtime volume/pitch vary with actual slip/braking.
+
+Impact Sounds / impactMetal_heavy_001.ogg — Kenney
+Source: https://kenney.nl/assets/impact-sounds
+License: CC0 1.0 https://creativecommons.org/publicdomain/zero/1.0/
+File unchanged; runtime gain varies with collision strength.

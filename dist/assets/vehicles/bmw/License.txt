@@ -1,0 +1,23 @@
+Low Poly BMW G80 M3
+Copyright SharkyStudios
+Author: https://sketchfab.com/sharkycat109
+Source: https://sketchfab.com/3d-models/low-poly-bmw-g80-m3-ea3e807ff69e40fe82c5577ee9f0a2f4
+
+Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0).
+License: https://creativecommons.org/licenses/by/4.0/
+Legal code: https://creativecommons.org/licenses/by/4.0/legalcode
+
+The original GLB asset metadata explicitly records:
+"author": "SharkyStudios (https://sketchfab.com/sharkycat109)"
+"license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)"
+"source": "https://sketchfab.com/3d-models/low-poly-bmw-g80-m3-ea3e807ff69e40fe82c5577ee9f0a2f4"
+"title": "Low Poly BMW G80 M3"
+
+The bundled GLB is unchanged. Runtime adaptations by this project: uniform
+scaling and centering, source-axis correction, four wheel-center pivots and
+steering/rolling animation, gold metallic paint with moderate golden emission
+and a procedural reflection environment, capped lamp emission, and back-face
+solid shadow casting. Glass, tires, trim, rims and light colors are retained.
+
+This attribution does not imply endorsement by the model author or BMW.
+The model's copyright license does not grant trademark rights.

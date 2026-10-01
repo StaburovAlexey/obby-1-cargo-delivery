@@ -1,0 +1,388 @@
+:root { --top-icon-size: 82px; }
+:root {
+  font-family: "Arial Rounded MT Bold", "Trebuchet MS", Arial, sans-serif;
+  color: #fffdf3;
+  background: #68bde9;
+  font-synthesis: none;
+  --hud-ink: #14213d;
+  --hud-brown: #167ce3;
+  --hud-cream: #fff4d0;
+  --hud-shadow: -1px -1px 0 #14213d, 1px -1px 0 #14213d, -1px 1px 0 #14213d, 1px 2px 0 #14213d, 0 3px 0 #14213d;
+}
+* { box-sizing: border-box; }
+body { margin: 0; overflow: hidden; overscroll-behavior: none; touch-action: none; }
+button, input { font: inherit; }
+button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+button:focus-visible, input:focus-visible, [role="button"]:focus-visible {
+  outline: 4px solid #fff49a;
+  outline-offset: 5px;
+}
+button:disabled { opacity: .48; cursor: default; }
+[hidden] { display: none !important; }
+#viewport { position: fixed; inset: 0; }
+canvas { width: 100%; height: 100%; display: block; touch-action: none; }
+.hud-symbols { position: absolute; width: 0; height: 0; overflow: hidden; pointer-events: none; }
+.hud-art { display: block; width: 32px; height: 32px; flex: none; overflow: visible; }
+.hud-art, .hud-art *, .hud-circle, .button-label { pointer-events: none; user-select: none; }
+.button-label, .session-hud, .walk-tip, .view-label, .gesture, .biome-name {
+  font-weight: 900;
+  color: #fffdf3;
+  text-shadow: var(--hud-shadow);
+  -webkit-text-stroke: 1px var(--hud-ink);
+  paint-order: stroke fill;
+}
+.topbar {
+  position: fixed;
+  left: max(20px, calc(env(safe-area-inset-left) + 12px));
+  right: max(20px, calc(env(safe-area-inset-right) + 12px));
+  top: max(15px, calc(env(safe-area-inset-top) + 8px));
+  z-index: 7;
+  pointer-events: none;
+}
+.top-actions { display: flex; align-items: flex-start; gap: 13px; width: 100%; pointer-events: none; }
+.hud-menu-button {
+  width: 86px;
+  min-height: 108px;
+  padding: 0;
+  border: 0;
+  background: none;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+  pointer-events: auto;
+  touch-action: manipulation;
+}
+.hud-circle {
+  display: grid;
+  place-items: center;
+  width: var(--top-icon-size);
+  height: var(--top-icon-size);
+  border-radius: 50%;
+  background: var(--action-color, #147ce5);
+  border: 3px solid #172642c9;
+  box-shadow: inset 0 3px 0 #c6f4ff75, inset 0 -5px 0 #10245c56, 0 3px 0 #14213d35;
+  transition: background .12s, transform .12s;
+}
+#mode-toggle { --action-color: #147ce5; --action-hover: #369aff; }
+#garage-button { --action-color: #f47d19; --action-hover: #ffa441; }
+.hud-circle .hud-art { width: 58px; height: 58px; }
+.hud-menu-button .button-label { font-size: 17px; line-height: 1.1; white-space: nowrap; }
+.hud-menu-button:hover .hud-circle, .hud-menu-button[aria-expanded="true"] .hud-circle { background: var(--action-hover, #3ba1ff); }
+.hud-menu-button:active .hud-circle { transform: translateY(3px) scale(.96); }
+.brand { position: absolute; left: 50%; top: 7px; transform: translateX(-50%); text-align: center; white-space: nowrap; }
+.brand .eyebrow { font-size: 9px; letter-spacing: 1px; text-shadow: var(--hud-shadow); font-weight: 900; }
+h1 { margin: 5px 0 0; font-size: 25px; line-height: 1; font-weight: 900; text-shadow: var(--hud-shadow); }
+h1 span { margin-left: 5px; color: #ffdb55; font-size: 14px; vertical-align: top; }
+.is-walking .brand, .is-driving .brand { display: none; }
+/* Short, high-contrast game captions leave the middle of the world unobstructed. */
+.session-hud {
+  position: fixed;
+  top: max(24px, calc(env(safe-area-inset-top) + 18px));
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(460px, calc(100% - 440px));
+  z-index: 5;
+  display: grid;
+  gap: 6px;
+  text-align: center;
+  pointer-events: none;
+}
+.session-hud strong { font-size: 17px; letter-spacing: .5px; }
+.session-hud span { font-size: 13px; line-height: 1.35; }
+body:not(.is-driving):not(.is-walking) .session-hud { display: none; }
+#walk-ui { position: fixed; inset: 0; pointer-events: none; z-index: 3; touch-action: none; user-select: none; }
+#walk-stick, .settings-stick {
+  position: absolute;
+  width: 142px;
+  height: 142px;
+  left: max(25px, calc(env(safe-area-inset-left) + 14px));
+  bottom: max(45px, calc(env(safe-area-inset-bottom) + 28px));
+  border: 3px solid #fffdf3ee;
+  border-radius: 50%;
+  background: #fffdf316;
+  box-shadow: 0 0 0 2px #14213d55, inset 0 3px 0 #ffffff38, 0 4px 0 #14213d26;
+  pointer-events: auto;
+  touch-action: none;
+}
+#walk-stick::before, #walk-stick::after, .settings-stick::before, .settings-stick::after { content: ""; position: absolute; left: calc(50% - 2px); top: 12px; width: 4px; height: 14px; border-radius: 3px; background: #fffdf380; pointer-events: none; }
+#walk-stick::after, .settings-stick::after { top: auto; bottom: 12px; }
+#walk-thumb, .settings-stick-thumb {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  left: calc(50% - 30px);
+  top: calc(50% - 30px);
+  border: 3px solid #fffdf3;
+  border-radius: 50%;
+  background: #51d7ffdb;
+  box-shadow: inset 0 5px 0 #fff8, 0 3px 0 #14213d66;
+  pointer-events: none;
+}
+.walk-tip { position: absolute; left: max(25px, calc(env(safe-area-inset-left) + 14px)); bottom: 201px; max-width: 330px; font-size: 13px; line-height: 1.5; pointer-events: none; }
+.walk-tip small { font-size: 11px; }
+.jump-button {
+  position: absolute;
+  right: max(28px, calc(env(safe-area-inset-right) + 14px));
+  bottom: max(48px, calc(env(safe-area-inset-bottom) + 30px));
+  width: 110px;
+  height: 110px;
+  display: grid;
+  place-items: center;
+  padding: 13px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: #24b83be6;
+  color: #fff;
+  box-shadow: 0 0 0 2px #14213d60, inset 0 0 0 1px #ffffff40, 0 4px 0 #14213d20;
+  pointer-events: auto;
+  touch-action: none;
+}
+.jump-button .hud-art { width: 76px; height: 76px; filter: drop-shadow(0 2px 0 #14213d55); }
+.jump-button .button-label { position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); font-size: 16px; white-space: nowrap; }
+.jump-button:active { background: #51dc4de6; }
+.stand-button {
+  position: absolute;
+  right: max(25px, calc(env(safe-area-inset-right) + 14px));
+  bottom: max(50px, calc(env(safe-area-inset-bottom) + 30px));
+  min-width: 108px;
+  min-height: 112px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: #04aaa5ed;
+  border: 3px solid var(--hud-ink);
+  border-radius: 22px;
+  box-shadow: inset 0 3px 0 #ffffff50, 0 4px 0 #14213d80;
+  pointer-events: auto;
+  touch-action: manipulation;
+}
+.stand-button .hud-art { width: 56px; height: 56px; }
+.stand-button .button-label { font-size: 18px; }
+/* Overview tools keep the same functions in a matching compact game panel. */
+.seed-card { position: fixed; left: max(24px, calc(env(safe-area-inset-left) + 12px)); top: 149px; width: 292px; padding: 14px; background: #fff1c9f2; border: 3px solid var(--hud-ink); border-radius: 17px; box-shadow: inset 0 3px #fff, 0 5px #14213d55; color: var(--hud-ink); }
+.seed-title { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 900; }
+.status-dot { width: 10px; height: 10px; background: #92e73e; border: 2px solid var(--hud-ink); border-radius: 50%; }
+.seed-row { display: flex; align-items: center; gap: 7px; margin-top: 11px; }
+.seed-row label { font-size: 10px; font-weight: 900; }
+.seed-row input { width: 62px; height: 40px; min-width: 0; border: 2px solid var(--hud-ink); border-radius: 8px; background: #fffaf0; color: var(--hud-ink); padding: 5px; font-size: 13px; font-weight: 700; appearance: textfield; }
+.seed-row input::-webkit-inner-spin-button { appearance: none; }
+.seed-row button { display: flex; align-items: center; justify-content: center; gap: 5px; min-height: 42px; border: 2px solid var(--hud-ink); border-radius: 9px; padding: 6px 8px; background: #167ce3; color: #fff; font-size: 11px; font-weight: 900; white-space: nowrap; text-shadow: 0 1px #14213d; }
+.seed-row button .hud-art { width: 23px; height: 23px; }
+.seed-card p { font-size: 10px; font-weight: 700; margin: 10px 0 0; }
+.is-walking .seed-card, .is-walking .bottom-ui, .is-driving .seed-card, .is-driving .bottom-ui { display: none; }
+.bottom-ui { position: fixed; bottom: max(17px, calc(env(safe-area-inset-bottom) + 10px)); left: 50%; transform: translateX(-50%); width: min(790px, calc(100% - 32px)); }
+.view-label { display: flex; align-items: center; gap: 10px; margin: 0 12px 10px; font-size: 11px; }
+.view-line { height: 2px; background: #ffffff8c; flex: 1; }
+#metrics { font-size: 9px; }
+.controls { display: flex; gap: 5px; align-items: center; padding: 7px; border: 3px solid var(--hud-ink); border-radius: 19px; background: #285fcfed; box-shadow: inset 0 3px #ffffff50, 0 4px #14213d60; }
+.controls button { display: flex; align-items: center; justify-content: center; gap: 5px; flex: 1; min-width: 0; height: 46px; padding: 0 5px; white-space: nowrap; border: 2px solid transparent; border-radius: 11px; color: #fff; background: transparent; font-size: 12px; font-weight: 900; text-shadow: 0 2px #14213d; }
+.controls button:hover { background: #4288ed; }
+.controls button.active, .controls button[aria-pressed="true"] { color: #fff; border-color: #14213d; background: #18bfc3; box-shadow: inset 0 3px #ffe49780; }
+/* Each existing view/action keeps its own bright, recognizable color. */
+.controls button[data-view="street"] { background: #147ce5; }
+.controls button[data-view="overview"] { background: #9544e9; }
+.controls button[data-view="delivery"] { background: #20a84b; }
+.controls button[data-view="fuel"] { background: #168ec3; }
+#rotate { background: #ed6850; }
+#wire { background: #bd429f; }
+#regenerate { background: #029da8; }
+.controls .hud-art { width: 27px; height: 27px; }
+.key { font-size: 10px; opacity: .7; }
+.divider { height: 24px; width: 2px; background: #192a5066; }
+.gesture { margin: 11px 0 0; text-align: center; font-size: 10px; line-height: 1.4; }
+#error button { min-height: 45px; border: 3px solid var(--hud-ink); border-radius: 11px; padding: 8px 20px; background: #167ce3; color: #fff; font-size: 15px; font-weight: 900; box-shadow: inset 0 3px #ffffff40, 0 3px #14213d45; }
+#loading { position: fixed; inset: 0; background: #68bde9; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 13px; z-index: 20; }
+#loading strong { font-size: 23px; font-weight: 900; text-shadow: var(--hud-shadow); }
+#loading span { font-size: 14px; font-weight: 700; color: #24496a; }
+.spinner { width: 43px; height: 43px; border: 5px solid #fff7d1; border-top-color: #167ce3; border-radius: 50%; box-shadow: 0 0 0 2px #14213d; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+#error { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); max-width: 460px; width: calc(100% - 32px); max-height: calc(100dvh - 32px); overflow-y: auto; touch-action: pan-y; padding: 25px; border: 4px solid var(--hud-ink); border-radius: 22px; background: #fff1ce; color: #203355; box-shadow: 0 7px #14213d60; z-index: 21; }
+#error h2 { font-size: 23px; }
+#error p { font-size: 14px; line-height: 1.5; overflow-wrap: anywhere; }
+@media (max-width: 760px) {
+  .topbar { left: max(13px, calc(env(safe-area-inset-left) + 8px)); right: max(13px, calc(env(safe-area-inset-right) + 8px)); top: max(12px, calc(env(safe-area-inset-top) + 7px)); }
+  .top-actions { gap: 9px; }
+  .hud-menu-button { width: 70px; min-height: 89px; gap: 5px; }
+  :root { --top-icon-size: 65px; }
+  .hud-circle .hud-art { width: 47px; height: 47px; }
+  .hud-menu-button .button-label { font-size: 14px; }
+  .brand { display: none; }
+  .session-hud { top: max(110px, calc(env(safe-area-inset-top) + 101px)); width: calc(100% - 34px); gap: 4px; }
+  .session-hud strong { font-size: 16px; }
+  .session-hud span { font-size: 12px; max-width: 440px; margin: auto; }
+  .walk-tip { max-width: 285px; font-size: 12px; bottom: 204px; }
+  .walk-tip small { font-size: 10px; }
+  .seed-card { left: 17px; top: 116px; width: 283px; }
+.controls { gap: 2px; padding: 5px; }
+  .controls button { font-size: 10px; gap: 3px; }
+  .key, .desktop-label { display: none; }
+  #rotate, #wire { flex: 0 0 43px; }
+  .gesture { max-width: 400px; margin: 9px auto 0; font-size: 9px; }
+}
+@media (max-width: 480px) {
+  #walk-stick { width: 132px; height: 132px; left: max(20px, env(safe-area-inset-left)); }
+  .jump-button { width: 101px; height: 101px; right: max(22px, env(safe-area-inset-right)); }
+  .jump-button .hud-art { width: 68px; height: 68px; }
+  .walk-tip { left: 20px; bottom: 190px; max-width: calc(100% - 40px); font-size: 11px; }
+  .bottom-ui { width: calc(100% - 20px); }
+  .controls button { font-size: 9px; padding: 0 2px; }
+  #rotate, #wire { flex-basis: 35px; }
+  .controls .hud-art { width: 24px; height: 24px; }
+  #metrics { font-size: 8px; }
+}
+@media (max-height: 500px) and (min-width: 501px) {
+  .topbar { top: max(9px, calc(env(safe-area-inset-top) + 4px)); }
+  .top-actions { gap: 8px; }
+  .hud-menu-button { width: 61px; min-height: 78px; gap: 4px; }
+  :root { --top-icon-size: 56px; }
+  .hud-circle { border-width: 2px; }
+  .hud-circle .hud-art { width: 41px; height: 41px; }
+  .hud-menu-button .button-label { font-size: 12px; }
+  .session-hud { top: max(18px, calc(env(safe-area-inset-top) + 9px)); width: min(440px, calc(100% - 340px)); gap: 4px; }
+  .session-hud strong { font-size: 14px; }
+  .session-hud span { font-size: 11px; line-height: 1.3; }
+  #walk-stick { width: 112px; height: 112px; bottom: max(23px, calc(env(safe-area-inset-bottom) + 10px)); }
+  #walk-thumb { width: 52px; height: 52px; left: calc(50% - 26px); top: calc(50% - 26px); }
+  .walk-tip { bottom: 145px; font-size: 10px; max-width: 310px; }
+  .walk-tip small { font-size: 9px; }
+  .jump-button { bottom: max(31px, calc(env(safe-area-inset-bottom) + 17px)); width: 86px; height: 86px; }
+  .jump-button .hud-art { width: 60px; height: 60px; }
+  .jump-button .button-label { font-size: 13px; top: calc(100% + 5px); }
+  .stand-button { min-width: 94px; min-height: 91px; bottom: 25px; padding: 7px 10px; gap: 1px; }
+  .stand-button .hud-art { width: 44px; height: 44px; }
+  .stand-button .button-label { font-size: 15px; }
+.seed-card { top: 101px; padding: 10px; }
+  .seed-card p { display: none; }
+  .seed-row { margin-top: 6px; }
+  .seed-title { font-size: 13px; }
+  .bottom-ui { bottom: 10px; }
+  .view-label, .gesture { display: none; }
+  .brand { display: none; }
+}
+@media (max-height: 380px) and (min-width: 501px) {
+  .walk-tip { max-width: 260px; font-size: 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+  .spinner { animation: none; }
+}
+/* One return action: the orange top icon. No visible caption or lower clone. */
+#garage-button { min-height: 0; }
+/* Fuel is the left flexible item in the shared bottom row; no outer card. */
+#fuel-hud {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 100px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  pointer-events: none;
+}
+#fuel-meter { position: relative; width: 100%; height: 100%; overflow: hidden; border: 3px solid var(--hud-ink); border-radius: 14px; background: #142954; box-shadow: inset 0 2px #ffffff40, 0 3px #14213d45; }
+#fuel-fill { position: absolute; inset: 0 auto 0 0; width: 100%; background: #91ef3a; box-shadow: inset 0 3px #dfff89; transition: width .12s linear; }
+#fuel-meter.low-fuel #fuel-fill { background: #ff7338; box-shadow: inset 0 3px #ffc774; }
+#fuel-meter .fuel-icon { position: absolute; width: 34px; height: 34px; left: 8px; top: 2px; }
+#fuel-value { position: absolute; inset: 0 10px 0 47px; display: grid; place-items: center; color: #fff; font-size: 22px; font-weight: 900; font-variant-numeric: tabular-nums; text-shadow: var(--hud-shadow); -webkit-text-stroke: 1px var(--hud-ink); paint-order: stroke fill; }
+@media (max-width: 540px) {
+  #fuel-value { font-size: 15px; inset-inline: 32px 2px; }
+  #fuel-meter .fuel-icon { left: 3px; width: 25px; height: 25px; top: 6.5px; }
+}
+
+@media (max-height: 420px) and (min-width: 501px) {
+  .hud-menu-button { min-height: 64px; gap: 3px; }
+  :root { --top-icon-size: 48px; }
+  .hud-circle .hud-art { width: 35px; height: 35px; }
+  .hud-menu-button .button-label { font-size: 11px; }
+}
+
+/* Earned local currency. World labels track 3D markers without taking touches. */
+#wallet-hud { --wallet-gap: 6px; position: absolute; z-index: 7; right: 0; top: 0; display: flex; gap: var(--wallet-gap); align-items: center; height: var(--top-icon-size); max-width: calc(100% - var(--top-actions-width) - 12px); padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; pointer-events: none; }
+#wallet-hud .hud-art { width: var(--top-icon-size); height: var(--top-icon-size); flex: 0 0 var(--top-icon-size); }
+#wallet-value { font-size: min(calc(var(--top-icon-size) * .56), calc((100cqw - var(--top-actions-width) - var(--top-icon-size) - var(--wallet-gap) - 12px) / (var(--wallet-digits, 1) * .68))); line-height: 1; white-space: nowrap; font-weight: 900; font-variant-numeric: tabular-nums; text-shadow: var(--hud-shadow); -webkit-text-stroke: 1.5px var(--hud-ink); paint-order: stroke fill; }
+#world-labels { position: fixed; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
+.world-price { position: absolute; transform: translate(-50%,-100%); display: flex; gap: 3px; align-items: center; padding: 4px 10px 4px 4px; color: white; background: #14213dc9; border: 2px solid #fff4a5; border-radius: 16px; white-space: nowrap; text-shadow: var(--hud-shadow); font-weight: 900; pointer-events: none; }
+.world-price .hud-art { width: 36px; height: 36px; }
+.world-price strong { font-size: 25px; }
+.delivery-price { padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; gap: 4px; }
+.delivery-price strong { -webkit-text-stroke: 2px var(--hud-ink); paint-order: stroke fill; }
+.buy-button { position: fixed; z-index: 8; left: 50%; transform: translateX(-50%); bottom: calc(env(safe-area-inset-bottom,0px) + 225px); display: flex; align-items: center; justify-content: center; gap: 8px; padding: 8px 18px; min-height: 54px; max-width: calc(100% - 32px); border: 3px solid var(--hud-ink); border-radius: 18px; color: white; background: #20ac47; font-size: 19px; font-weight: 900; text-shadow: var(--hud-shadow); box-shadow: inset 0 3px #d9ff7966,0 4px #14213d60; pointer-events: auto; touch-action: manipulation; }
+.buy-button .hud-art { width: 34px; height: 34px; }
+.buy-button[data-affordable="false"] { background: #667878; }
+@media (max-width: 500px) { #wallet-hud { --wallet-gap: 5px; } .world-price strong { font-size: 21px; } }
+@media (max-height: 650px) and (max-width: 500px) { .buy-button { bottom: calc(env(safe-area-inset-bottom,0px) + 190px); } }
+@media (max-height: 500px) and (min-width: 501px) { .buy-button { bottom: calc(env(safe-area-inset-bottom,0px) + 20px); font-size: 16px; min-height: 48px; padding: 5px 14px; } }
+
+/* Save failure is separate from the bare wallet, shown only when needed. */
+#save-notice { position: fixed; z-index: 7; top: calc(max(15px, env(safe-area-inset-top,0px) + 8px) + var(--top-icon-size) + 8px); right: max(13px, calc(env(safe-area-inset-right) + 8px)); padding: 3px 5px; background: #75300edb; color: #ffe99a; border-radius: 5px; font-size: 10px; font-weight: 900; white-space: nowrap; pointer-events: none; }
+.topbar { container-type: inline-size; }
+@container (max-width: 260px) {
+  .top-actions { gap: 6px; }
+  .hud-menu-button { width: 48px; min-height: 66px; }
+  .top-actions, #wallet-hud { --top-icon-size: 44px; --top-actions-width: 102px; }
+  .hud-circle .hud-art { width: 32px; height: 32px; }
+  .hud-menu-button .button-label { font-size: 11px; }
+}
+/* Both sides share the same icon box at every breakpoint; numbers fit the
+   remaining header width without abbreviating the saved balance. */
+:root { --top-actions-width: 185px; }
+
+@media (max-width: 760px) { :root { --top-actions-width: 149px; } }
+@media (max-height: 500px) and (min-width: 501px) { :root { --top-actions-width: 130px; } }
+@media (max-height: 420px) and (min-width: 501px) { :root { --top-actions-width: 130px; } }
+@media (max-width: 360px) {
+  :root { --top-icon-size: 52px; --top-actions-width: 120px; }
+  .hud-menu-button { width: 56px; }
+  .top-actions { gap: 8px; }
+  #wallet-hud { --wallet-gap: 4px; }
+}
+
+/* Final shared sizes follow the same cascade as the top-left controls. */
+:root { --top-icon-size: 82px; }
+@media (max-width: 760px) { :root { --top-icon-size: 65px; } }
+@media (max-height: 500px) and (min-width: 501px) { :root { --top-icon-size: 56px; } }
+@media (max-height: 420px) and (min-width: 501px) { :root { --top-icon-size: 48px; } }
+@media (max-width: 360px) { :root { --top-icon-size: 52px; } }
+@container (max-width: 260px) {
+  .top-actions, #wallet-hud { --top-icon-size: 44px; --top-actions-width: 102px; }
+  .hud-menu-button { width: 48px; }
+  .top-actions { gap: 6px; }
+}
+
+/* Biome preview is a separate modal action: it never crowds the bare wallet. */
+#biome-button { position:fixed; z-index:8; right:max(14px,calc(env(safe-area-inset-right) + 8px)); top:max(158px,calc(env(safe-area-inset-top) + 150px)); display:flex; align-items:center; gap:5px; min-height:44px; padding:5px 10px 5px 6px; color:#fff; background:#9c38eb; border:3px solid var(--hud-ink); border-radius:18px; box-shadow:inset 0 3px #eac4ff; font-weight:900; text-shadow:var(--hud-shadow); touch-action:none; }
+#biome-button .hud-art { width:30px; height:30px; }
+#biome-menu { position:fixed; z-index:30; inset:0; display:grid; place-items:center; padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left)); background:#07132ac7; touch-action:none; }
+#biome-panel { width:min(390px,100%); max-height:100%; overflow:auto; border:4px solid #14213d; border-radius:24px; padding:14px; background:#2266be; box-shadow:inset 0 4px #9ddfff; text-align:center; }
+#biome-panel h2 { font-size:25px; margin:0 0 5px; text-shadow:var(--hud-shadow); }
+#biome-panel p { margin:0 0 10px; font-size:14px; font-weight:700; line-height:1.3; }
+.biome-options { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+#biome-panel button { min-height:48px; border:3px solid #14213d; border-radius:13px; color:#fff; font-size:17px; font-weight:900; text-shadow:var(--hud-shadow); background:#63879e; box-shadow:inset 0 3px #ffffff65; touch-action:none; }
+#biome-go-forest { background:#54942a !important; } #biome-go-desert { background:#e6a830 !important; } #biome-go-snow { background:#77b9e8 !important; } #biome-go-volcanic { background:#9e4632 !important; }
+#biome-close { width:100%; margin-top:10px; background:#e45d4c !important; }
+#biome-test-note { position:fixed; z-index:7; left:50%; transform:translateX(-50%); top:max(204px,calc(env(safe-area-inset-top) + 196px)); max-width:calc(100% - 28px); color:#ffe56b; font-size:13px; font-weight:900; text-shadow:var(--hud-shadow); pointer-events:none; white-space:nowrap; }
+@media (max-height:500px) and (min-width:501px) { #biome-button { top:max(68px,calc(env(safe-area-inset-top) + 60px)); } #biome-test-note { top:max(96px,calc(env(safe-area-inset-top) + 88px)); } #biome-panel { padding:10px; } #biome-panel h2 { font-size:21px; } #biome-panel p { font-size:12px; } #biome-panel button { min-height:44px; } }
+
+@media (max-height:360px) and (min-width:501px) {
+  #biome-button { top:max(72px,calc(env(safe-area-inset-top) + 54px)); right:auto; left:50%; transform:translateX(-50%); }
+  #biome-test-note { top:max(124px,calc(env(safe-area-inset-top) + 106px)); font-size:11px; }
+}
+
+.vehicle-price { padding:0; background:transparent; border:0; border-radius:0; box-shadow:none; }
+
+/* Quiet playfield: retain functional buttons, counters, world prices and dialogs. */
+.session-hud,.walk-tip,#biome-test-note,#drive-status,#study-status{display:none!important}
+.button-label,.view-label,.gesture,.biome-name{display:none!important}
+
+.drive-tip{display:none!important}
+
+#audio-toggle{position:fixed;right:max(14px,env(safe-area-inset-right));top:calc(env(safe-area-inset-top) + var(--top-icon-size)*2 + 30px);width:44px;height:44px;padding:8px;border:3px solid #173d82;border-radius:50%;background:#278fe5;box-shadow:0 3px 0 #173d82;z-index:25;touch-action:none}#audio-toggle svg{display:block;width:100%;height:100%}#audio-toggle .audio-cross{display:none}#audio-toggle.muted .audio-cross{display:block}#audio-toggle.muted .audio-waves{display:none}@media(max-height:500px){#audio-toggle{width:38px;height:38px}}
+
+/* Initial boot UI stays above every control, including the sound shortcut. */
+body.is-loading #audio-toggle{display:none}
+body.is-loading #loading{z-index:90}
+body.is-loading #error{z-index:91}

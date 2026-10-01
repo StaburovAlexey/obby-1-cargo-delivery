@@ -1,0 +1,56 @@
+{
+  "source": "Low Poly Cars by Cosmo",
+  "license": "CC0-1.0",
+  "files": [
+    {
+      "file": "armor.glb",
+      "bytes": 163044,
+      "sha256": "a688d2c1ff901a12f6e9f8aa55d72738525f7b8b8856f05a0968456c35ba2d2e"
+    },
+    {
+      "file": "coupe.glb",
+      "bytes": 157728,
+      "sha256": "887fcb775348b1560c98e867586d30b17f3b237481d6d9cf03970d170375082a"
+    },
+    {
+      "file": "fenyr.glb",
+      "bytes": 198324,
+      "sha256": "0d7d134821769aff80ba6bcb362c487cead44e1ef8d7c115eabff25e05139ca7"
+    },
+    {
+      "file": "ghini.glb",
+      "bytes": 154844,
+      "sha256": "213ef663f13bc324d4423f99146fd75eae996d2c8fc33fa87014e78fc91fd81e"
+    },
+    {
+      "file": "jeep.glb",
+      "bytes": 192700,
+      "sha256": "1393836f97d6dc0568a271eb81dc2812650f2177717363353a1d2c72411758e0"
+    },
+    {
+      "file": "kamaro.glb",
+      "bytes": 211808,
+      "sha256": "31943d6d0d95e38fed97ff9281e41d567688113b6f148205cede734bfc1b800b"
+    },
+    {
+      "file": "lamb.glb",
+      "bytes": 171444,
+      "sha256": "cecadc7bf8ca7287688f935f474aa82097cc6ef7f5f64ff82a525d7e2b3fa2c3"
+    },
+    {
+      "file": "police.glb",
+      "bytes": 187844,
+      "sha256": "72335502279cdb31157166bc155a274c3ad49a41e96dbffafda3b7355337c303"
+    },
+    {
+      "file": "rally.glb",
+      "bytes": 153824,
+      "sha256": "70e1ff0b445a01c8e3835495579184cf2dc4908d84721589a9d0a626a1a6450f"
+    },
+    {
+      "file": "van.glb",
+      "bytes": 159936,
+      "sha256": "86f0f45cfb89e5f91ab5c6d2e0082565d4a37179f65ceab100fd01c0ab020e4c"
+    }
+  ]
+}

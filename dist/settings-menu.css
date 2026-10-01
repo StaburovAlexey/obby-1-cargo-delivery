@@ -1,0 +1,94 @@
+/* A single compact HUD entry opens a centered, scrollable settings dialog. */
+.top-actions #settings-button{--action-color:#6585bb;--action-hover:#85a5db;position:static;inset:auto;padding:0;border:0;background:none;min-height:var(--top-icon-size);gap:0;flex-shrink:0}
+.top-actions #settings-button>.hud-circle{position:relative;display:block;overflow:hidden;isolation:isolate}
+.top-actions #settings-button>.hud-circle>.hud-art{position:absolute;inset:15%;width:70%;height:70%;max-width:70%;max-height:70%;margin:0;transform:none;overflow:hidden}
+/* Reserve the extra icon in horizontal modes; the hangar stays a left column. */
+body:not(.is-walking) .topbar,body:not(.is-walking) #wallet-hud{--top-actions-width:284px}
+body.is-driving .topbar,body.is-driving #wallet-hud{--top-actions-width:383px}
+@media(max-width:760px){body:not(.is-walking) .topbar,body:not(.is-walking) #wallet-hud{--top-actions-width:228px}body.is-driving .topbar,body.is-driving #wallet-hud{--top-actions-width:307px}}
+@media(max-height:500px) and (min-width:501px){body:not(.is-walking) .topbar,body:not(.is-walking) #wallet-hud{--top-actions-width:199px}body.is-driving .topbar,body.is-driving #wallet-hud{--top-actions-width:268px}}
+@media(max-width:500px){
+ /* Four round actions form two rows, retaining room for money and brains. */
+ body.is-driving .top-actions{display:grid;grid-template-columns:repeat(2,48px);width:102px;gap:6px}
+ body.is-driving .topbar,body.is-driving .top-actions,body.is-driving #wallet-hud{--top-actions-width:102px;--top-icon-size:44px}
+ body.is-driving .top-actions .hud-menu-button{min-height:44px;height:44px}
+ body.is-driving .top-actions .button-label{display:none}
+ body:not(.is-walking):not(.is-driving) .topbar,body:not(.is-walking):not(.is-driving) #wallet-hud{--top-actions-width:156px}
+}
+#settings-menu{position:fixed;z-index:110;inset:0;display:grid;place-items:center;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));background:#07132ad9;pointer-events:auto;touch-action:pan-y;isolation:isolate}
+#settings-panel{display:flex;flex-direction:column;width:min(100%,540px);min-width:0;min-height:0;max-height:calc(100vh - 24px);max-height:min(720px,calc(100dvh - max(12px,env(safe-area-inset-top)) - max(12px,env(safe-area-inset-bottom))));overflow:hidden;border:4px solid var(--hud-ink,#14213d);border-radius:22px;background:#173a76;color:#fffdf3;box-shadow:0 7px 0 #06162a66;text-shadow:none}
+.settings-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 18px 10px;flex:none;background:#173a76;border-bottom:1px solid #a4c8ff3d}
+#settings-title{margin:0;font-size:24px;line-height:1.2}
+#settings-close{display:grid;place-items:center;flex:none;width:42px;height:42px;padding:0;border:2px solid #14213d;border-radius:12px;color:#fff;background:#bd3b4f;font-size:30px;line-height:1;touch-action:manipulation}
+.settings-scroll{overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable;min-height:0;padding:18px;touch-action:pan-y;-webkit-overflow-scrolling:touch}
+.settings-controls{padding-bottom:18px;border-bottom:1px solid #a4c8ff3d}
+.settings-volume-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:18px;font-weight:900}
+#settings-volume-value{min-width:4ch;text-align:right;font-variant-numeric:tabular-nums;color:#ffe59b}
+#settings-volume{display:block;width:100%;min-width:0;height:40px;margin:4px 0 0;accent-color:#7be59b;cursor:pointer;touch-action:pan-y}
+.settings-language-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:16px;font-size:18px;font-weight:900}
+#settings-language{font:inherit;font-size:16px;max-width:65%;min-height:44px;padding:8px 12px;border:2px solid #8cbcf2;border-radius:11px;background:#0f2b5b;color:#fff;touch-action:manipulation}
+.settings-note{font-size:12px;color:#cbdcf5;line-height:1.45}
+#settings-volume-note{margin:0}
+.settings-credits{font-size:13px;line-height:1.5;overflow-wrap:anywhere}
+.settings-credits h3{font-size:20px;margin:20px 0 14px;color:#ffe59b}
+.settings-credits h4{font-size:16px;margin:18px 0 10px}
+.settings-credit-list{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.settings-credit-list>li{padding:12px;border:1px solid #8db8ed47;border-radius:12px;background:#102e60}
+.settings-credit-list p{margin:6px 0}
+.settings-credit-list strong{font-size:14px}
+.settings-credit-links{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:8px}
+.settings-credits a{color:#b8e5ff;text-decoration:underline;text-underline-offset:3px;touch-action:manipulation}
+.settings-credit-links a{display:inline-flex;align-items:center;min-height:28px}
+.settings-credits a:hover{color:#fff}
+.settings-model-list{color:#cbdcf5;font-size:12px}
+.settings-license-warning{padding:9px;border-left:3px solid #ffcb70;background:#6e491b3d;color:#ffdda1}
+#settings-panel :is(button,input,select,a):focus-visible{outline:3px solid #fff49a;outline-offset:3px}
+@media(max-width:360px){.settings-heading{padding:10px 12px}.settings-scroll{padding:12px}#settings-title{font-size:22px}.settings-credit-list>li{padding:10px}}
+@media(max-height:500px){#settings-panel{border-radius:16px}.settings-heading{padding:7px 12px}#settings-title{font-size:20px}#settings-close{width:36px;height:36px}.settings-scroll{padding:12px}.settings-credits h3{margin-top:16px}}
+
+/* The developer-only Overview button adds one action to the horizontal row. */
+@media(min-width:501px){body.developer-mode.is-driving .topbar,body.developer-mode.is-driving #wallet-hud{--top-actions-width:482px}}
+@media(min-width:501px) and (max-width:760px){body.developer-mode.is-driving .topbar,body.developer-mode.is-driving #wallet-hud{--top-actions-width:386px}}
+@media(min-width:501px) and (max-height:500px){body.developer-mode.is-driving .topbar,body.developer-mode.is-driving #wallet-hud{--top-actions-width:337px}}
+
+/* Readable, in-panel instructions. Every sample reuses real HUD symbols,
+   the wheel asset or the existing control artwork, without gameplay handlers. */
+body.settings-menu-open{overflow:hidden;overscroll-behavior:none}
+.settings-jump-nav{display:flex;flex-wrap:wrap;gap:6px;padding:8px 18px 10px;border-bottom:1px solid #a4c8ff3d;flex:none}
+.settings-jump-nav button{flex:1 1 auto;min-height:36px;padding:6px 9px;border:1px solid #91bbef78;border-radius:9px;background:#244c87;color:#fff4cb;font:inherit;font-size:12px;font-weight:800;line-height:1.25;touch-action:manipulation}
+.settings-jump-nav button:hover{background:#3262a2}
+.settings-help{font-size:14px;line-height:1.5;overflow-wrap:anywhere;padding-bottom:16px;border-bottom:1px solid #a4c8ff3d}
+.settings-help h3{font-size:21px;line-height:1.25;margin:22px 0 10px;color:#ffe59b}
+.settings-help h4{font-size:16px;margin:18px 0 10px;color:#e2edff;line-height:1.3}
+.settings-help p{margin:6px 0 0}
+.settings-help-intro{color:#d4e4ff}
+.settings-play-steps{margin:16px 0 0;padding-left:25px;display:grid;gap:14px}
+.settings-play-steps li{padding-left:4px}
+.settings-play-steps li::marker{font-weight:900;color:#ffe59b}
+.settings-play-steps h4{margin:0 0 4px;color:#fff}
+.settings-help-note{padding:11px 12px;border-radius:10px;background:#0d2957;color:#d9e7ff;font-size:13px}
+.settings-help .settings-help-note{margin-top:16px}
+.settings-icon-list{display:grid;gap:9px;list-style:none;margin:0;padding:0}
+.settings-icon-list>li{display:grid;grid-template-columns:62px minmax(0,1fr);gap:10px;align-items:start;border:1px solid #8db8ed47;border-radius:12px;padding:11px 10px;background:#102e60}
+.settings-icon-list h5{font-size:14px;line-height:1.3;margin:1px 0 4px;color:#fff5cf}
+.settings-icon-list p{font-size:13px;line-height:1.45;margin:0;color:#dce8fa}
+.settings-icon-example{display:grid;place-items:center;min-height:52px;width:62px;pointer-events:none;user-select:none}
+.settings-help-art{display:block;width:44px;height:44px;max-width:100%;object-fit:contain}
+.settings-icon-example .settings-example-pedal{position:relative;inset:auto;display:flex;width:35px;height:50px;min-height:0;padding:4px;gap:3px;border-width:2px;border-radius:9px;font-size:9px;box-shadow:inset 0 2px #f0fcff88,0 2px #14213d70;pointer-events:none;cursor:default}
+.settings-icon-example .settings-example-pedal .gas-pedal-grip{border-radius:3px;background:repeating-linear-gradient(to bottom,#14213d99 0 2px,transparent 2px 5px)}
+.settings-icon-example .settings-example-pedal.reverse-pedal{width:44px;height:29px;padding:2px;font-size:14px;justify-content:center}
+.settings-icon-example .settings-stick{position:relative;inset:auto;width:48px;height:48px;border-width:2px;pointer-events:none;touch-action:pan-y}
+.settings-icon-example .settings-stick::before,.settings-icon-example .settings-stick::after{width:2px;height:5px;left:calc(50% - 1px);top:3px}
+.settings-icon-example .settings-stick::after{top:auto;bottom:3px}
+.settings-stick-thumb{width:22px;height:22px;left:calc(50% - 11px);top:calc(50% - 11px);border-width:2px}
+.settings-icon-example .settings-example-speed{display:flex;align-items:baseline;justify-content:center;gap:2px;width:62px;min-width:0;padding:4px;border-width:2px;border-radius:9px;white-space:nowrap;text-shadow:none}
+.settings-example-speed strong{font-size:18px}.settings-example-speed small{font-size:8px}
+.settings-example-audio{display:grid;place-items:center;width:42px;height:42px;padding:7px;border:3px solid #173d82;border-radius:50%;background:#278fe5;box-shadow:0 3px 0 #173d82}
+.settings-example-audio svg{width:100%;height:100%}.settings-example-audio .audio-cross{display:none}
+.settings-example-close{display:grid;place-items:center;width:35px;height:35px;border:2px solid #14213d;border-radius:10px;background:#bd3b4f;color:#fff;font-size:26px;line-height:1}
+#settings-panel :is(button,input,select,a,[tabindex="0"]):focus-visible{outline:3px solid #fff49a;outline-offset:3px}
+@media(max-width:360px){.settings-jump-nav{padding:7px 12px;gap:5px}.settings-jump-nav button{font-size:11px}.settings-icon-list>li{grid-template-columns:48px minmax(0,1fr);padding:10px 8px;gap:8px}.settings-icon-example{width:48px}.settings-icon-example .settings-example-speed{width:48px}.settings-example-speed strong{font-size:15px}.settings-example-speed small{font-size:7px}.settings-help{font-size:13px}}
+@media(max-height:500px){.settings-jump-nav{padding:5px 12px}.settings-jump-nav button{min-height:32px}.settings-help h3{margin-top:16px}}
+.settings-example-sound-states{display:flex;flex-direction:column;gap:6px}
+.settings-example-sound-states .settings-example-audio{width:30px;height:30px;padding:4px;border-width:2px}
+.settings-example-audio.muted .audio-waves{display:none}.settings-example-audio.muted .audio-cross{display:block}

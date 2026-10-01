@@ -1,0 +1,192 @@
+/* Transparent currency and code-native progression controls. */
+/* Icon precedes the right-anchored balance; artwork keeps its responsive size. */
+#brain-hud{position:absolute;z-index:7;right:0;top:calc(var(--top-icon-size) + 5px);display:flex;flex-direction:row;align-items:center;gap:6px;height:var(--top-icon-size);max-width:calc(100% - 115px);background:transparent;padding:0;border:0;pointer-events:none}
+#brain-hud .hud-art{width:var(--top-icon-size);height:var(--top-icon-size);flex:0 0 var(--top-icon-size)}
+#brain-value{min-width:0;overflow:hidden;text-align:right;font-size:min(calc(var(--top-icon-size)*.56),calc((100cqw - 115px - var(--top-icon-size) - 12px)/(var(--brain-digits,1)*.68)));line-height:1;font-weight:900;font-variant-numeric:tabular-nums;white-space:nowrap;text-shadow:var(--hud-shadow);-webkit-text-stroke:1.5px var(--hud-ink);paint-order:stroke fill}
+.progression-action{position:fixed;z-index:8;left:max(14px,calc(env(safe-area-inset-left) + 8px));top:calc(max(14px,env(safe-area-inset-top) + 8px) + var(--top-icon-size) + 30px);display:flex;align-items:center;gap:5px;max-width:180px;min-height:48px;padding:6px 10px 6px 6px;border:3px solid var(--hud-ink);border-radius:17px;background:#1486d0;color:#fff;font-weight:900;font-size:15px;line-height:1.1;text-shadow:var(--hud-shadow);box-shadow:inset 0 3px #b5efff80;touch-action:none}
+.progression-action .hud-art{width:32px;height:32px;flex:0 0 32px}
+#vehicle-funds-button{background:#d78316;max-width:174px;font-size:13px}
+#vehicle-funds-button small{display:block;margin-top:3px;font-size:10px;color:#ffeb98}
+#vehicle-funds-button:disabled{background:#58646b;opacity:.72}
+#biome-button{top:calc(max(14px,env(safe-area-inset-top) + 8px) + var(--top-icon-size)*2 + 12px)}
+#biome-test-note{top:calc(max(14px,env(safe-area-inset-top) + 8px) + var(--top-icon-size)*2 + 61px)}
+#save-notice{top:calc(max(14px,env(safe-area-inset-top) + 8px) + var(--top-icon-size)*2 + 5px)}
+#upgrade-menu{position:fixed;z-index:32;inset:0;display:grid;place-items:center;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));background:#07132ad9;touch-action:pan-y}
+#upgrade-panel{width:min(780px,100%);max-height:100%;overflow:auto;overscroll-behavior:contain;touch-action:pan-y;padding:14px;border:4px solid var(--hud-ink);border-radius:22px;background:#5143ac;box-shadow:inset 0 4px #dcb6ff;text-align:center}
+#upgrade-panel h2{margin:0 0 4px;font-size:24px;text-shadow:var(--hud-shadow)}
+#upgrade-panel p{margin:4px 0 8px;font-size:13px;font-weight:800}
+#upgrade-car-name{color:#fff188;font-size:17px!important}
+.upgrade-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.upgrade-card{display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 7px;background:#183d83;border:3px solid var(--hud-ink);border-radius:15px}
+.upgrade-card>.hud-art{width:44px;height:44px}
+.upgrade-card h3{margin:0;font-size:15px}
+.upgrade-card>span{font-size:12px;color:#bfd4ff;font-weight:800}
+.upgrade-card>strong{font-size:16px;white-space:nowrap;color:#fbf2bd}
+.upgrade-card>small{font-size:11px;line-height:1.3;min-height:28px}
+#upgrade-panel button{min-height:46px;border:3px solid var(--hud-ink);border-radius:13px;color:#fff;font-size:16px;font-weight:900;text-shadow:var(--hud-shadow);background:#209c50;box-shadow:inset 0 3px #d2ffbe70;touch-action:none}
+.upgrade-card button{display:flex;align-items:center;justify-content:center;gap:5px;width:100%;min-width:0;padding:0 3px;margin-top:auto}
+.upgrade-card button .hud-art{width:29px;height:29px}
+#upgrade-panel button:disabled{background:#566473;box-shadow:none;color:#d2d9e2}
+#upgrade-close{margin-top:10px;width:100%;background:#db5367!important}
+#study-status{position:fixed;z-index:8;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom) + 30px);max-width:calc(100% - 150px);color:#ffe994;font-size:17px;font-weight:900;text-shadow:var(--hud-shadow);pointer-events:none;text-align:center}
+.learning-world-label{position:absolute;transform:translate(-50%,-100%);text-align:center;color:white;font-weight:900;text-shadow:var(--hud-shadow);font-size:18px;line-height:1.2;pointer-events:none;white-space:nowrap}
+.learning-world-label .school-content>span{display:flex;align-items:center;justify-content:center;gap:3px}
+.learning-world-label .hud-art{width:34px;height:34px}
+.learning-world-label small{font-size:13.2px}
+.learning-world-label .school-content>span:last-child{color:#ffe380;font-size:12px}
+.skin-price{padding:0;background:transparent;border:0;border-radius:0;box-shadow:none}.skin-price .hud-art{width:36px;height:36px}
+@media(max-width:600px){
+ #upgrade-panel .upgrade-card button{font-size:13px;padding:0 2px;gap:3px}
+ .upgrade-cards{grid-template-columns:1fr}.upgrade-card{display:grid;grid-template-columns:40px minmax(0,1fr) 85px;gap:3px 6px;text-align:left;padding:8px}
+ .upgrade-card>.hud-art{grid-column:1;grid-row:1/4;width:38px;height:38px}.upgrade-card h3{grid-column:2;grid-row:1;font-size:14px}.upgrade-card>span{grid-column:3;grid-row:1;text-align:center}
+ .upgrade-card>strong{grid-column:2;grid-row:2;font-size:15px;white-space:normal;overflow-wrap:anywhere}.upgrade-card>small{grid-column:2;grid-row:3;min-height:0;font-size:10px}.upgrade-card button{grid-column:3;grid-row:2/4;height:50px;margin:0;font-size:14px}.upgrade-card button .hud-art{width:23px;height:23px}
+ #study-status{bottom:calc(env(safe-area-inset-bottom) + 140px);max-width:calc(100% - 28px);font-size:15px}
+}
+@media(max-height:420px) and (min-width:501px){
+ /* Leave the distant road/warning area clear, above the bottom readout and
+    between the complete rotated wheel and D/R hit regions. */
+ #biome-button{top:auto;right:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 140px);transform:none;width:48px;height:48px;min-height:48px;max-width:48px;padding:4px;justify-content:center;gap:0}
+ #biome-button{left:calc(50% + 4px)}
+ #biome-button>span{display:none}
+ #biome-button .hud-art{width:32px;height:32px;flex:0 0 32px}
+ #biome-test-note{top:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 194px);font-size:10px}
+ #vehicle-funds-button{left:calc(50% - 88px);top:max(12px,calc(env(safe-area-inset-top) + 6px));font-size:12px}
+ #upgrade-panel{padding:8px}#upgrade-panel h2{font-size:20px}#upgrade-panel p{margin:2px 0 5px;font-size:11px}.upgrade-card{gap:3px;padding:6px}.upgrade-card>.hud-art{width:30px;height:30px}.upgrade-card h3{font-size:13px}.upgrade-card>small{min-height:24px;font-size:10px}#upgrade-panel button{min-height:44px}
+ #study-status{bottom:calc(env(safe-area-inset-bottom) + 22px);font-size:14px}
+}
+@media(max-width:340px){.progression-action{max-width:146px;font-size:13px}#vehicle-funds-button{max-width:146px;font-size:11px}#brain-hud{max-width:calc(100% - 110px)}}
+.learning-world-label{width:120px;height:128px;transform:translate(-50%,-100%) scale(var(--school-scale,1));transform-origin:bottom center}
+.school-content{position:relative;width:120px;height:128px;animation:school-float 2.8s ease-in-out infinite;animation-delay:var(--float-delay,0s)}
+.school-content .school-rate-row{position:absolute;top:62px;left:0;width:120px;height:34px}
+.school-content>span:last-child{position:absolute;top:104px;left:0;width:120px;height:24px}
+.learning-world-label .school-symbol{display:block;margin:0 auto 3px;width:58px;height:58px}
+.learning-world-label .school-content>span:last-child .hud-art{width:21px;height:21px}
+.learning-world-label [data-affordable="false"]{color:#ff9b92}
+@keyframes school-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@media(prefers-reduced-motion:reduce){.school-content{animation:none}}
+
+body.upgrade-menu-open{touch-action:pan-y}
+@media(min-width:601px) and (max-width:800px){.upgrade-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* The upgrade action shares the hangar's top-row circle in every orientation.
+   Explicit containment prevents legacy action/SVG rules from moving the icon. */
+.top-actions #upgrade-button{position:static;inset:auto;z-index:auto;min-height:var(--top-icon-size);max-width:none;padding:0;border:0;border-radius:0;background:none;box-shadow:none;gap:0;touch-action:manipulation;--action-color:#1486d0;--action-hover:#36a5eb}
+.top-actions #upgrade-button>.hud-circle{position:relative;display:block;flex:none;overflow:hidden;isolation:isolate}
+.top-actions #upgrade-button>.hud-circle>.hud-art{position:absolute;inset:15%;display:block;width:70%;height:70%;min-width:0;min-height:0;max-width:70%;max-height:70%;margin:0;transform:none;flex:none;overflow:hidden}
+/* Reserve the third icon only while driving. Compact phone controls leave a
+   separate wallet column instead of squeezing its number beneath the buttons. */
+.is-driving .topbar{--top-actions-width:284px}
+.is-driving #wallet-hud{--top-actions-width:284px}
+@media(max-width:760px){.is-driving .topbar,.is-driving #wallet-hud{--top-actions-width:228px}}
+@media(max-height:500px) and (min-width:501px){.is-driving .topbar,.is-driving #wallet-hud{--top-actions-width:199px}}
+@media(max-width:600px){
+ .is-driving .top-actions,.is-driving #wallet-hud{--top-icon-size:44px;--top-actions-width:156px}
+ .is-driving .top-actions{gap:6px}
+ .is-driving .top-actions .hud-menu-button{width:48px;min-height:64px;flex-shrink:0}
+ .is-driving .top-actions .hud-circle .hud-art{width:32px;height:32px}
+ .is-driving .top-actions .button-label{font-size:11px}
+}
+
+/* Savings and tasks remain two bright, round, explicit actions on the left.
+   Only narrow phones wrap to a 2×2 group, leaving exact balances readable. */
+.top-actions .career-action{position:static;inset:auto;min-height:var(--top-icon-size);padding:0;border:0;background:none;gap:0;flex-shrink:0;touch-action:manipulation}
+#career-goal-button{--action-color:#e8ae1e;--action-hover:#ffd354}
+#career-mission-button{--action-color:#8251d4;--action-hover:#ac78f4}
+.top-actions .career-action>.hud-circle{position:relative;display:block;overflow:hidden;isolation:isolate}
+.top-actions .career-action>.hud-circle>.hud-art{position:absolute;inset:15%;width:70%;height:70%;max-width:70%;max-height:70%;margin:0;transform:none;overflow:hidden}
+.career-actions-visible .topbar,.career-actions-visible #wallet-hud{--top-actions-width:383px}
+@media(max-width:760px){.career-actions-visible .topbar,.career-actions-visible #wallet-hud{--top-actions-width:307px}}
+@media(max-width:600px){
+ .career-actions-visible .top-actions{display:grid;grid-template-columns:repeat(2,48px);gap:6px;width:102px;align-items:start}
+ .career-actions-visible .top-actions,.career-actions-visible #wallet-hud,.career-actions-visible #brain-hud{--top-icon-size:44px;--top-actions-width:102px}
+ .career-actions-visible .top-actions .hud-menu-button{width:48px;min-height:64px;gap:3px}
+ .career-actions-visible .top-actions .career-action{min-height:44px}
+ .career-actions-visible .top-actions .hud-circle .hud-art{width:32px;height:32px}
+ .career-actions-visible .top-actions .career-action>.hud-circle>.hud-art{width:70%;height:70%}
+ .career-actions-visible .top-actions .button-label{font-size:11px}
+}
+@media(max-height:500px) and (min-width:501px){
+ .career-actions-visible .topbar,.career-actions-visible #wallet-hud{--top-actions-width:268px}
+ .career-actions-visible .top-actions{display:flex;gap:8px;width:100%;--top-actions-width:268px;--top-icon-size:56px}
+ .career-actions-visible #wallet-hud,.career-actions-visible #brain-hud{--top-icon-size:56px}
+ .career-actions-visible .top-actions .hud-menu-button{width:61px;min-height:78px}
+ .career-actions-visible .top-actions .career-action{min-height:56px}
+ .career-actions-visible .top-actions .hud-circle .hud-art{width:41px;height:41px}
+ .career-actions-visible .top-actions .career-action>.hud-circle>.hud-art{width:70%;height:70%}
+}
+@media(max-height:420px) and (min-width:501px){
+ .career-actions-visible .top-actions,.career-actions-visible #wallet-hud,.career-actions-visible #brain-hud{--top-icon-size:48px}
+ .career-actions-visible .top-actions .hud-menu-button{min-height:64px}
+ .career-actions-visible .top-actions .career-action{min-height:48px}
+ .career-actions-visible .top-actions .hud-circle .hud-art{width:35px;height:35px}
+ .career-actions-visible .top-actions .career-action>.hud-circle>.hud-art{width:70%;height:70%}
+}
+/* A single modal surface holds only the action explicitly opened by the player. */
+body.career-menu-open{touch-action:pan-y}
+#career-menu{position:fixed;z-index:34;inset:0;display:grid;place-items:center;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));background:#07132ad9;touch-action:pan-y}
+#career-panel{width:min(420px,100%);max-height:100%;overflow:auto;overscroll-behavior:contain;touch-action:pan-y;padding:16px;border:4px solid var(--hud-ink);border-radius:22px;background:#243f85;box-shadow:inset 0 4px #87ccff77;color:#fffdf3;font-size:14px}
+#career-panel *,#delivery-receipt *{min-width:0}
+#career-panel .hud-art,#delivery-receipt .hud-art{width:25px;height:25px;flex:0 0 25px}
+.career-panel-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+#career-panel h2{margin:0;font-size:21px;line-height:1.2;overflow-wrap:anywhere;text-shadow:var(--hud-shadow)}
+#career-close{flex:0 0 44px;min-width:44px;min-height:44px;border:2px solid var(--hud-ink);border-radius:12px;background:#db5367;color:#fff;font-size:29px;line-height:1;touch-action:manipulation}
+.career-heading{display:flex;gap:6px;align-items:center;font-size:15px;font-weight:900;margin:0 0 9px}
+#career-goal-select{display:block;width:100%;min-height:48px;padding:9px 26px 9px 9px;background:#102b5c;color:#fff4ba;border:2px solid #6c9ac7;border-radius:10px;font:800 14px "Trebuchet MS",Arial,sans-serif;text-overflow:ellipsis;touch-action:manipulation}
+#career-goal-select:focus-visible{outline:3px solid #fff49a;outline-offset:2px}
+#career-goal-amount{display:block;margin-top:14px;font-size:18px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+#career-panel progress{display:block;width:100%;height:10px;margin:10px 0;overflow:hidden;border:0;border-radius:5px;background:#0a204a;accent-color:#5edd8c}
+#career-panel progress::-webkit-progress-bar{background:#0a204a;border-radius:5px}
+#career-panel progress::-webkit-progress-value{background:#5edd8c;border-radius:5px}
+#career-panel progress::-moz-progress-bar{background:#5edd8c;border-radius:5px}
+#career-goal-remaining{display:block;font-size:13px;color:#d3e8ff;overflow-wrap:anywhere}
+#career-goal-content[data-ready="true"] #career-goal-remaining{color:#8ef0ad}
+#career-goal-complete{font-weight:900;color:#8ef0ad;margin:2px 0 8px}
+#career-mission-count{display:block;margin-top:10px;font-size:16px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.career-mission-heading{display:flex;align-items:center;justify-content:space-between;gap:10px}
+#career-mission-name{margin:0;font-size:17px;line-height:1.3;overflow-wrap:anywhere}
+#career-mission-description{font-size:14px;line-height:1.5;margin:9px 0;color:#e0ecff}
+#career-mission-skip{min-height:44px;min-width:76px;padding:6px;border:2px solid #89add5;border-radius:10px;background:#204a72;color:#fff;font-size:12px;font-weight:800;touch-action:manipulation}
+.career-reward{display:flex;align-items:center;gap:5px;flex-wrap:wrap;font-variant-numeric:tabular-nums}
+.career-reward strong{overflow-wrap:anywhere}
+.career-reward .hud-art:nth-of-type(2){margin-left:8px}
+/* A viewport-centered receipt sits above every HUD and game dialog. The
+   constrained card scrolls in short landscape without moving its backdrop. */
+#delivery-receipt-menu{position:fixed;z-index:100;inset:0;display:grid;place-items:center;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));background:#07132ad9;touch-action:pan-y;pointer-events:auto;isolation:isolate}
+#delivery-receipt{width:min(440px,100%);min-height:0;max-height:calc(100vh - max(12px,env(safe-area-inset-top)) - max(12px,env(safe-area-inset-bottom)));max-height:calc(100dvh - max(12px,env(safe-area-inset-top)) - max(12px,env(safe-area-inset-bottom)));overflow:auto;overscroll-behavior:contain;touch-action:pan-y;padding:16px;border:4px solid var(--hud-ink);border-radius:22px;background:#173a76;box-shadow:inset 0 3px #87ccff55,0 12px 40px #0006;color:#fffdf3;pointer-events:auto}
+body.career-menu-open .buy-button{display:none!important}
+.receipt-heading{position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 10px;padding:4px 0;background:#173a76;color:#a3ffc2}
+.receipt-heading h2{margin:0;font-size:22px;line-height:1.3;overflow-wrap:anywhere}
+#delivery-receipt-close{flex:0 0 44px;min-width:44px;min-height:44px;background:#204a72;border:2px solid #83b5d4;border-radius:11px;color:#fff;font-size:25px;line-height:1;touch-action:manipulation;pointer-events:auto}
+#delivery-receipt table{width:100%;table-layout:fixed;border-collapse:collapse;font-size:15px;font-variant-numeric:tabular-nums}
+#delivery-receipt th,#delivery-receipt td{padding:9px 4px;overflow-wrap:anywhere;white-space:normal;vertical-align:middle}
+#delivery-receipt th{width:40%;text-align:left;font-weight:700}
+#delivery-receipt td,#delivery-receipt thead th:not(:first-child){width:30%;text-align:right}
+#delivery-receipt thead .hud-art{margin-left:auto;width:23px;height:23px}
+#delivery-receipt tfoot{border-top:1px solid #76b291;color:#b8ffd1;font-weight:900}
+.career-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+/* Physical values and range detail stay readable even for the tenth vehicle. */
+.upgrade-card>strong{max-width:100%;white-space:normal;overflow-wrap:anywhere}
+.upgrade-card>small{overflow-wrap:anywhere}
+@media(max-width:600px){#career-panel{padding:12px}#career-panel h2{font-size:19px}#delivery-receipt{padding:12px}.receipt-heading h2{font-size:20px}#delivery-receipt table{font-size:14px}}
+@media(max-height:500px){#career-panel{padding:12px}#delivery-receipt{padding:10px}.receipt-heading{margin-bottom:5px}.receipt-heading h2{font-size:19px}#delivery-receipt th,#delivery-receipt td{padding:6px 4px}}
+
+
+.hard-route-price{padding:0;border:0;background:transparent;box-shadow:none;gap:3px;color:#ffe580}
+.hard-route-price .hud-art{width:28px;height:28px}
+
+/* Hangar actions form one left-edge column. Driving keeps its existing row.
+   Short landscape views shrink only this walking column above the joystick. */
+.is-walking .top-actions{display:flex;flex-direction:column;align-items:center;gap:6px;width:var(--top-icon-size);--top-actions-width:var(--top-icon-size)}
+.is-walking .top-actions .hud-menu-button{width:var(--top-icon-size);height:var(--top-icon-size);min-height:var(--top-icon-size);gap:0;flex:none}
+.is-walking .top-actions .button-label{display:none}
+.is-walking #wallet-hud,.is-walking #brain-hud{--top-actions-width:var(--top-icon-size)}
+@media(max-height:420px){
+ .is-walking .top-actions{--top-icon-size:clamp(28px,calc((100dvh - 180px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))/4),44px);gap:4px}
+ .is-walking .top-actions .hud-menu-button>.hud-circle>.hud-art{width:70%;height:70%;max-width:70%;max-height:70%}
+}
+/* The optional one-time test grant must not cover the new left icon column. */
+.is-walking #vehicle-funds-button{left:50%;transform:translateX(-50%);top:calc(max(15px,env(safe-area-inset-top,0px) + 8px) + var(--top-icon-size)*2 + 24px)}
+@media(max-height:420px) and (min-width:501px){.is-walking #vehicle-funds-button{top:max(12px,calc(env(safe-area-inset-top,0px) + 6px))}}
+
+/* Owned characters use a plain selection label; purchases retain their coin. */
+#buy-skin[data-owned="true"] .hud-art{display:none}
