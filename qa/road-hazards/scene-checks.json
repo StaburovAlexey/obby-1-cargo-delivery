@@ -1,0 +1,40 @@
+{
+  "kind": "Offline actual Three.js road-hazard visual checks",
+  "limitations": "No browser, WebGL shader compilation, GPU performance or Android validation.",
+  "checks": [
+    {
+      "name": "68 hazards use six bounded instanced pools and two merged patch meshes",
+      "passed": true
+    },
+    {
+      "name": "yellow repair faces have code-native black stripes and outward-facing normals",
+      "passed": true
+    },
+    {
+      "name": "solid horizontal bounds match their exact OBBs and sit into the curved road",
+      "passed": true
+    },
+    {
+      "name": "sand and ice use their full local soft-physics footprint with ground-conforming vertices",
+      "passed": true
+    },
+    {
+      "name": "warning rock and footprint appear before the drop at 170m with no hidden collider",
+      "passed": true
+    },
+    {
+      "name": "repeated runs reuse every mesh, material, geometry and typed instance buffer",
+      "passed": true
+    },
+    {
+      "name": "multiple seeded curved/hilly layouts keep patch edges and solid footprints aligned",
+      "passed": true
+    },
+    {
+      "name": "dispose is idempotent and releases the shared checker only after its last owner",
+      "passed": true
+    }
+  ],
+  "passed": 8,
+  "generatedAt": "2026-10-14T07:31:08.575Z"
+}

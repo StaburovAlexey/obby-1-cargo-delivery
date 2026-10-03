@@ -1,0 +1,6 @@
+{
+  "generatedAt": "2026-10-14T12:25:10.594Z",
+  "passed": true,
+  "scope": "Integrated main and frozen approved candidate have identical complete generated bridge/hazard descriptors, route/fork/turn/elevation/checkpoint data, vehicle specs except names, selected actual performances and16payouts. Only biome display names excluded.",
+  "snapshotHash": "3e7d57e72ea2658a7be048044ef7c303541bd8dae0d2bed73916915f12859632"
+}

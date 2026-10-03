@@ -1,0 +1,41 @@
+{
+  "rendererFree": true,
+  "actualBrowser": false,
+  "passed": true,
+  "results": [
+    {
+      "name": "production lifecycle freezes hazards/economy across all modal, focus and overview pauses without catch-up",
+      "passed": true,
+      "detail": {
+        "pauseCases": 6,
+        "frames": 3606
+      }
+    },
+    {
+      "name": "50 repeated biome travels reset rocks without fuel, cash, brain or cargo minting",
+      "passed": true,
+      "detail": {
+        "switches": 50
+      }
+    },
+    {
+      "name": "20 app rebuilds dispose every old hazard resource exactly once and retain one live pool",
+      "passed": true,
+      "detail": {
+        "rebuilds": 20,
+        "geometries": 160,
+        "materials": 160
+      }
+    },
+    {
+      "name": "warning mesh vertices and ground shadow stay visible in default cameras140–180m ahead in both travel directions",
+      "passed": true,
+      "detail": {
+        "cases": 5400,
+        "altitude": 10,
+        "maxNdcY": 0.9984178383325805,
+        "minShadowClearance": 0.2036569028209385
+      }
+    }
+  ]
+}

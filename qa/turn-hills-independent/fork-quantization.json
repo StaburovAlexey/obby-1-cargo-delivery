@@ -1,0 +1,278 @@
+{
+  "maxGradientError": 0.003805895462773224,
+  "maxHeightError": 0.0003579775943691743,
+  "maxSupportResidual": 0.000021232908483881374,
+  "supportChecks": 1422,
+  "worstBands": [
+    {
+      "kind": "road",
+      "triangle": 2808,
+      "fork": "forest-fork",
+      "q": 2785.9998585552335,
+      "gradientError": 0.003805895462773224,
+      "heightError": 4.173179917188463e-7,
+      "area": 0.012817434966564178
+    },
+    {
+      "kind": "ground",
+      "triangle": 5616,
+      "fork": "forest-fork",
+      "q": 2785.9998585552335,
+      "gradientError": 0.003805895462773224,
+      "heightError": 4.173179917188463e-7,
+      "area": 0.04058832675218582
+    },
+    {
+      "kind": "ground",
+      "triangle": 5618,
+      "fork": "forest-fork",
+      "q": 2785.9998585552335,
+      "gradientError": 0.003805895462773224,
+      "heightError": 4.173179917188463e-7,
+      "area": 0.04058837890625
+    },
+    {
+      "kind": "road",
+      "triangle": 2809,
+      "fork": "forest-fork",
+      "q": 2786.0001433859625,
+      "gradientError": 0.0038058344871641334,
+      "heightError": 6.667093117584955e-7,
+      "area": 0.012817434966564178
+    },
+    {
+      "kind": "ground",
+      "triangle": 5617,
+      "fork": "forest-fork",
+      "q": 2786.0001433859625,
+      "gradientError": 0.0038058344871641334,
+      "heightError": 6.667093117584955e-7,
+      "area": 0.04058832675218582
+    },
+    {
+      "kind": "ground",
+      "triangle": 5619,
+      "fork": "forest-fork",
+      "q": 2786.0001433859625,
+      "gradientError": 0.0038058344871641334,
+      "heightError": 6.667093117584955e-7,
+      "area": 0.04058837890625
+    },
+    {
+      "kind": "road",
+      "triangle": 10318,
+      "fork": "snow-fork",
+      "q": 7283.047141492587,
+      "gradientError": 0.0012787665111682264,
+      "heightError": 0.000011771592443921008,
+      "area": 0.1196136474609375
+    },
+    {
+      "kind": "road",
+      "triangle": 10320,
+      "fork": "snow-fork",
+      "q": 7283.047141492587,
+      "gradientError": 0.0012787665111682264,
+      "heightError": 0.000011771592443921008,
+      "area": 0.1196136474609375
+    },
+    {
+      "kind": "ground",
+      "triangle": 19329,
+      "fork": "snow-fork",
+      "q": 7283.047141492587,
+      "gradientError": 0.0012787665111682264,
+      "heightError": 0.000011771592443921008,
+      "area": 0.05937623977661133
+    },
+    {
+      "kind": "ground",
+      "triangle": 19331,
+      "fork": "snow-fork",
+      "q": 7283.047141492587,
+      "gradientError": 0.0012787665111682264,
+      "heightError": 0.000011771592443921008,
+      "area": 0.28038597106933594
+    },
+    {
+      "kind": "ground",
+      "triangle": 19333,
+      "fork": "snow-fork",
+      "q": 7283.047141492587,
+      "gradientError": 0.0012787665111682264,
+      "heightError": 0.000011771592443921008,
+      "area": 0.28038549423217773
+    },
+    {
+      "kind": "road",
+      "triangle": 10319,
+      "fork": "snow-fork",
+      "q": 7283.049745659254,
+      "gradientError": 0.0012781944814435064,
+      "heightError": 0.000008442216174131545,
+      "area": 0.1196131706237793
+    },
+    {
+      "kind": "road",
+      "triangle": 10321,
+      "fork": "snow-fork",
+      "q": 7283.049745659254,
+      "gradientError": 0.0012781944814435064,
+      "heightError": 0.000008442216174131545,
+      "area": 0.1196136474609375
+    },
+    {
+      "kind": "ground",
+      "triangle": 19330,
+      "fork": "snow-fork",
+      "q": 7283.049745659254,
+      "gradientError": 0.0012781944814435064,
+      "heightError": 0.000008442216174131545,
+      "area": 0.05938911437988281
+    },
+    {
+      "kind": "ground",
+      "triangle": 19332,
+      "fork": "snow-fork",
+      "q": 7283.049745659254,
+      "gradientError": 0.0012781944814435064,
+      "heightError": 0.000008442216174131545,
+      "area": 0.2803797721862793
+    },
+    {
+      "kind": "ground",
+      "triangle": 19334,
+      "fork": "snow-fork",
+      "q": 7283.049745659254,
+      "gradientError": 0.0012781944814435064,
+      "heightError": 0.000008442216174131545,
+      "area": 0.2803792953491211
+    },
+    {
+      "kind": "road",
+      "triangle": 8694,
+      "fork": "desert-fork",
+      "q": 5963.999592646519,
+      "gradientError": 0.0010363246045325834,
+      "heightError": 1.2142643868173764e-7,
+      "area": 0.03570614755153656
+    },
+    {
+      "kind": "ground",
+      "triangle": 16152,
+      "fork": "desert-fork",
+      "q": 5963.999592646519,
+      "gradientError": 0.0010363246045325834,
+      "heightError": 1.2142643868173764e-7,
+      "area": 0.11306733638048172
+    },
+    {
+      "kind": "ground",
+      "triangle": 16154,
+      "fork": "desert-fork",
+      "q": 5963.999592646519,
+      "gradientError": 0.0010363246045325834,
+      "heightError": 1.2142643868173764e-7,
+      "area": 0.11306733638048172
+    },
+    {
+      "kind": "road",
+      "triangle": 8695,
+      "fork": "desert-fork",
+      "q": 5964.00038610355,
+      "gradientError": 0.0010362252223332844,
+      "heightError": 7.008131959196362e-7,
+      "area": 0.03570614755153656
+    },
+    {
+      "kind": "ground",
+      "triangle": 16153,
+      "fork": "desert-fork",
+      "q": 5964.00038610355,
+      "gradientError": 0.0010362252223332844,
+      "heightError": 7.008131959196362e-7,
+      "area": 0.11306733638048172
+    },
+    {
+      "kind": "ground",
+      "triangle": 16155,
+      "fork": "desert-fork",
+      "q": 5964.00038610355,
+      "gradientError": 0.0010362252223332844,
+      "heightError": 7.008131959196362e-7,
+      "area": 0.11306733638048172
+    },
+    {
+      "kind": "road",
+      "triangle": 10931,
+      "fork": "snow-fork",
+      "q": 7436.953065971753,
+      "gradientError": 0.0010346714583788566,
+      "heightError": 4.059036484704848e-8,
+      "area": 0.1196136474609375
+    },
+    {
+      "kind": "road",
+      "triangle": 10933,
+      "fork": "snow-fork",
+      "q": 7436.953065971753,
+      "gradientError": 0.0010346714583788566,
+      "heightError": 4.059036484704848e-8,
+      "area": 0.1196136474609375
+    },
+    {
+      "kind": "ground",
+      "triangle": 20248,
+      "fork": "snow-fork",
+      "q": 7436.953065971753,
+      "gradientError": 0.0010346714583788566,
+      "heightError": 4.059036484704848e-8,
+      "area": 0.05937623977661133
+    },
+    {
+      "kind": "ground",
+      "triangle": 20250,
+      "fork": "snow-fork",
+      "q": 7436.953065971753,
+      "gradientError": 0.0010346714583788566,
+      "heightError": 4.059036484704848e-8,
+      "area": 0.28038597106933594
+    },
+    {
+      "kind": "ground",
+      "triangle": 20252,
+      "fork": "snow-fork",
+      "q": 7436.953065971753,
+      "gradientError": 0.0010346714583788566,
+      "heightError": 4.059036484704848e-8,
+      "area": 0.28038549423217773
+    },
+    {
+      "kind": "road",
+      "triangle": 10930,
+      "fork": "snow-fork",
+      "q": 7436.950461805086,
+      "gradientError": 0.0010340994273291687,
+      "heightError": 0.0000027343024484594025,
+      "area": 0.1196131706237793
+    },
+    {
+      "kind": "road",
+      "triangle": 10932,
+      "fork": "snow-fork",
+      "q": 7436.950461805086,
+      "gradientError": 0.0010340994273291687,
+      "heightError": 0.0000027343024484594025,
+      "area": 0.1196136474609375
+    },
+    {
+      "kind": "ground",
+      "triangle": 20247,
+      "fork": "snow-fork",
+      "q": 7436.950461805086,
+      "gradientError": 0.0010340994273291687,
+      "heightError": 0.0000027343024484594025,
+      "area": 0.05938911437988281
+    }
+  ]
+}

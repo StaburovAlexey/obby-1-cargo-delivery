@@ -1,0 +1,372 @@
+{
+  "generatedAt": "2026-10-14T09:40:35.509Z",
+  "scope": "Offline production physics and gameplay, actual XZ pathDistance fuel, real refills, every-frame bridgeSupport checks, shifted-deck steering, held/released pedal only, 3D route lengths reported separately. No browser/rendering/human playtest claim.",
+  "runtimeHashes": {
+    "economy-config.js": "9920510201a0b051efe78c5c507e1101bb40be4cc8b28490c6ba5973e3cc2734",
+    "vehicle-upgrades.js": "6ba02ae4e0483f4dfefc9d6f953ffb0e2a0462da8be0adcc9519ce6c3c616a28",
+    "biome-surfaces.js": "b92ae1dc7f7a8585f4bd9bf595251f795ca034e2dcdb8643e161f10e5f4dc7b0",
+    "gameplay.js": "efeb4eef0b243324cb96d0cecf878813911ddfe56035d70da15924ea7bed9849",
+    "driving-model.js": "c8f6f89ef6bec3fb7da5e4348897389d1da8112747cb06eaa2564366433e4ada",
+    "route-network.js": "52b9464e7d80ac1dfcedf94448127bfbe6138999fc65387a4a78a19527aa3824",
+    "route-network-config.js": "87aed2fe101c85b01e5debc676cb203be730f1e1af587808443b740ec27e6efd",
+    "road-bridges.js": "f0abea6ff36a5f65adbfdfc97d617936b73f3599ec18fdf48da0a244dc8ec198"
+  },
+  "routeLength3D": 10830.787649846368,
+  "checks": [
+    {
+      "name": "10 levels, strict next-stock performance and transparent costs",
+      "passed": true,
+      "cars": 10,
+      "stats": 4,
+      "levels": 10,
+      "totals": [
+        {
+          "id": "pickup",
+          "costPerStat": 875,
+          "allFourStats": 3500
+        },
+        {
+          "id": "citycourier",
+          "costPerStat": 1150,
+          "allFourStats": 4600
+        },
+        {
+          "id": "rover",
+          "costPerStat": 1425,
+          "allFourStats": 5700
+        },
+        {
+          "id": "foresthauler",
+          "costPerStat": 1700,
+          "allFourStats": 6800
+        },
+        {
+          "id": "van",
+          "costPerStat": 1975,
+          "allFourStats": 7900
+        },
+        {
+          "id": "desertscout",
+          "costPerStat": 2250,
+          "allFourStats": 9000
+        },
+        {
+          "id": "snowgrip",
+          "costPerStat": 2525,
+          "allFourStats": 10100
+        },
+        {
+          "id": "snowrunner",
+          "costPerStat": 2800,
+          "allFourStats": 11200
+        },
+        {
+          "id": "lavacrawler",
+          "costPerStat": 3075,
+          "allFourStats": 12300
+        },
+        {
+          "id": "ashhauler",
+          "costPerStat": 3350,
+          "allFourStats": 13400
+        }
+      ]
+    },
+    {
+      "name": "Starter cannot reach third circle even by geometric shortcut",
+      "passed": true,
+      "minimumXZAfterLastFullRefill": 331.2,
+      "stockRange": 290,
+      "margin": 41.2
+    },
+    {
+      "name": "Pickup stock reaches unload 2 with full refill",
+      "passed": true,
+      "id": "pickup",
+      "upgrade": "stock",
+      "target": 2,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "primary",
+      "slalom": false,
+      "carefulPedalFrames": 125,
+      "frames": 482,
+      "seconds": 48.2,
+      "travelXZ": 439.12,
+      "travel3D": 439.331,
+      "fuelDemand": 151.421,
+      "refills": [
+        "fuel-checkpoint-01"
+      ],
+      "crossedBridges": [],
+      "finalProgress": 436.656,
+      "finalDistance3D": 436.868,
+      "maxOffset": 8.391,
+      "maxStep": 1.1,
+      "range": 290,
+      "reward": 260
+    },
+    {
+      "name": "Pickup stock fails unload 3 despite both full refills",
+      "passed": true,
+      "id": "pickup",
+      "upgrade": "stock",
+      "target": 3,
+      "expect": "empty",
+      "outcome": "empty",
+      "branch": "primary",
+      "slalom": false,
+      "carefulPedalFrames": 419,
+      "frames": 931,
+      "seconds": 93.1,
+      "travelXZ": 736.712,
+      "travel3D": 737.009,
+      "fuelDemand": 254.039,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02"
+      ],
+      "crossedBridges": [
+        "city-bridge-1"
+      ],
+      "finalProgress": 733.444,
+      "finalDistance3D": 733.743,
+      "maxOffset": 8.391,
+      "maxStep": 1.109,
+      "range": 290,
+      "reward": 0
+    },
+    {
+      "name": "Pickup max10 reaches unload 3",
+      "passed": true,
+      "id": "pickup",
+      "upgrade": "max10",
+      "target": 3,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "primary",
+      "slalom": false,
+      "carefulPedalFrames": 505,
+      "frames": 973,
+      "seconds": 97.3,
+      "travelXZ": 779.557,
+      "travel3D": 779.854,
+      "fuelDemand": 268.813,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02"
+      ],
+      "crossedBridges": [
+        "city-bridge-1"
+      ],
+      "finalProgress": 776.24,
+      "finalDistance3D": 776.539,
+      "maxOffset": 8.392,
+      "maxStep": 1.219,
+      "range": 377,
+      "reward": 470
+    },
+    {
+      "name": "Pickup max10 fails unload 4 despite full refills",
+      "passed": true,
+      "id": "pickup",
+      "upgrade": "max10",
+      "target": 4,
+      "expect": "empty",
+      "outcome": "empty",
+      "branch": "primary",
+      "slalom": false,
+      "carefulPedalFrames": 780,
+      "frames": 1476,
+      "seconds": 147.6,
+      "travelXZ": 1163.428,
+      "travel3D": 1164.03,
+      "fuelDemand": 401.182,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02",
+        "fuel-checkpoint-03"
+      ],
+      "crossedBridges": [
+        "city-bridge-1",
+        "city-bridge-2"
+      ],
+      "finalProgress": 1159.283,
+      "finalDistance3D": 1159.886,
+      "maxOffset": 8.392,
+      "maxStep": 1.219,
+      "range": 377,
+      "reward": 0
+    },
+    {
+      "name": "Pickup stock slalom still reaches unload 2",
+      "passed": true,
+      "id": "pickup",
+      "upgrade": "stock",
+      "target": 2,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "primary",
+      "slalom": true,
+      "carefulPedalFrames": 126,
+      "frames": 483,
+      "seconds": 48.3,
+      "travelXZ": 439.53,
+      "travel3D": 439.741,
+      "fuelDemand": 151.562,
+      "refills": [
+        "fuel-checkpoint-01"
+      ],
+      "crossedBridges": [],
+      "finalProgress": 437.054,
+      "finalDistance3D": 437.265,
+      "maxOffset": 8.37,
+      "maxStep": 1.1,
+      "range": 290,
+      "reward": 260
+    },
+    {
+      "name": "World-space biome crossing uses actual distance multiplier",
+      "passed": true,
+      "demand": [
+        {
+          "biome": "city",
+          "factor": 1,
+          "fuelFor075m": 0.259
+        },
+        {
+          "biome": "forest",
+          "factor": 2,
+          "fuelFor075m": 0.517
+        },
+        {
+          "biome": "desert",
+          "factor": 3,
+          "fuelFor075m": 0.776
+        },
+        {
+          "biome": "snow",
+          "factor": 4,
+          "fuelFor075m": 1.034
+        },
+        {
+          "biome": "volcanic",
+          "factor": 5,
+          "fuelFor075m": 1.293
+        }
+      ]
+    },
+    {
+      "name": "snowrunner stock reaches expected unload",
+      "passed": true,
+      "id": "snowrunner",
+      "upgrade": "stock",
+      "target": 10,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "alternate",
+      "slalom": false,
+      "carefulPedalFrames": 3282,
+      "frames": 5611,
+      "seconds": 561.1,
+      "travelXZ": 7902.169,
+      "travel3D": 7907.367,
+      "fuelDemand": 2483.539,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02",
+        "fuel-checkpoint-03",
+        "fuel-checkpoint-04",
+        "fuel-checkpoint-05",
+        "fuel-checkpoint-06",
+        "fuel-checkpoint-07",
+        "fuel-checkpoint-08",
+        "fuel-checkpoint-09"
+      ],
+      "crossedBridges": [
+        "city-bridge-1",
+        "city-bridge-2",
+        "city-bridge-3",
+        "forest-bridge-1",
+        "forest-bridge-2",
+        "forest-bridge-3",
+        "desert-bridge-1",
+        "desert-bridge-2",
+        "desert-bridge-3",
+        "snow-bridge-1",
+        "snow-bridge-2"
+      ],
+      "finalProgress": 7867.345,
+      "finalDistance3D": 7888.948,
+      "maxOffset": 8.63,
+      "maxStep": 2.733,
+      "range": 2800,
+      "reward": 4730
+    },
+    {
+      "name": "snowrunner max10 reaches expected unload",
+      "passed": true,
+      "id": "snowrunner",
+      "upgrade": "max10",
+      "target": 11,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "alternate",
+      "slalom": false,
+      "carefulPedalFrames": 7737,
+      "frames": 9870,
+      "seconds": 987,
+      "travelXZ": 9910.925,
+      "travel3D": 9916.916,
+      "fuelDemand": 3578.388,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02",
+        "fuel-checkpoint-03",
+        "fuel-checkpoint-04",
+        "fuel-checkpoint-05",
+        "fuel-checkpoint-06",
+        "fuel-checkpoint-07",
+        "fuel-checkpoint-08",
+        "fuel-checkpoint-09",
+        "fuel-checkpoint-10"
+      ],
+      "crossedBridges": [
+        "city-bridge-1",
+        "city-bridge-2",
+        "city-bridge-3",
+        "forest-bridge-1",
+        "forest-bridge-2",
+        "forest-bridge-3",
+        "desert-bridge-1",
+        "desert-bridge-2",
+        "desert-bridge-3",
+        "snow-bridge-1",
+        "snow-bridge-2",
+        "snow-bridge-3",
+        "volcanic-bridge-1",
+        "volcanic-bridge-2"
+      ],
+      "finalProgress": 9865.961,
+      "finalDistance3D": 9896.011,
+      "maxOffset": 8.637,
+      "maxStep": 3.005,
+      "range": 3640,
+      "reward": 5940
+    }
+  ],
+  "failures": [],
+  "complete": true,
+  "runtimeHashesAtEnd": {
+    "economy-config.js": "9920510201a0b051efe78c5c507e1101bb40be4cc8b28490c6ba5973e3cc2734",
+    "vehicle-upgrades.js": "6ba02ae4e0483f4dfefc9d6f953ffb0e2a0462da8be0adcc9519ce6c3c616a28",
+    "biome-surfaces.js": "b92ae1dc7f7a8585f4bd9bf595251f795ca034e2dcdb8643e161f10e5f4dc7b0",
+    "gameplay.js": "efeb4eef0b243324cb96d0cecf878813911ddfe56035d70da15924ea7bed9849",
+    "driving-model.js": "c8f6f89ef6bec3fb7da5e4348897389d1da8112747cb06eaa2564366433e4ada",
+    "route-network.js": "52b9464e7d80ac1dfcedf94448127bfbe6138999fc65387a4a78a19527aa3824",
+    "route-network-config.js": "87aed2fe101c85b01e5debc676cb203be730f1e1af587808443b740ec27e6efd",
+    "road-bridges.js": "f0abea6ff36a5f65adbfdfc97d617936b73f3599ec18fdf48da0a244dc8ec198"
+  },
+  "changedRuntimeFiles": [],
+  "passed": true
+}

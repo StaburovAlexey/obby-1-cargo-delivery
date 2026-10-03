@@ -1,0 +1,77 @@
+{
+  "strict": false,
+  "rows": [
+    {
+      "fps": 15,
+      "seconds10": 45,
+      "seconds60": 270,
+      "rate": 4.5,
+      "hud": "270",
+      "saved": 270,
+      "desk": "desk-05",
+      "status": "\u041a\u043b\u0430\u0441\u0441 5 \u00b7 +6 \u043c\u043e\u0437\u0433\u0430/\u0441\u0435\u043a"
+    },
+    {
+      "fps": 30,
+      "seconds10": 60,
+      "seconds60": 360,
+      "rate": 6,
+      "hud": "360",
+      "saved": 360,
+      "desk": "desk-05",
+      "status": "\u041a\u043b\u0430\u0441\u0441 5 \u00b7 +6 \u043c\u043e\u0437\u0433\u0430/\u0441\u0435\u043a"
+    },
+    {
+      "fps": 60,
+      "seconds10": 60,
+      "seconds60": 360,
+      "rate": 6,
+      "hud": "360",
+      "saved": 360,
+      "desk": "desk-05",
+      "status": "\u041a\u043b\u0430\u0441\u0441 5 \u00b7 +6 \u043c\u043e\u0437\u0433\u0430/\u0441\u0435\u043a"
+    },
+    {
+      "fps": 120,
+      "seconds10": 60,
+      "seconds60": 360,
+      "rate": 6,
+      "hud": "360",
+      "saved": 360,
+      "desk": "desk-05",
+      "status": "\u041a\u043b\u0430\u0441\u0441 5 \u00b7 +6 \u043c\u043e\u0437\u0433\u0430/\u0441\u0435\u043a"
+    },
+    {
+      "fps": 144,
+      "seconds10": 60,
+      "seconds60": 360,
+      "rate": 6,
+      "hud": "360",
+      "saved": 360,
+      "desk": "desk-05",
+      "status": "\u041a\u043b\u0430\u0441\u0441 5 \u00b7 +6 \u043c\u043e\u0437\u0433\u0430/\u0441\u0435\u043a"
+    },
+    {
+      "fps": 240,
+      "seconds10": 60,
+      "seconds60": 360,
+      "rate": 6,
+      "hud": "360",
+      "saved": 360,
+      "desk": "desk-05",
+      "status": "\u041a\u043b\u0430\u0441\u0441 5 \u00b7 +6 \u043c\u043e\u0437\u0433\u0430/\u0441\u0435\u043a"
+    },
+    {
+      "case": "jitter-valid-through-100ms",
+      "elapsed": 9.999999999999996,
+      "earned": 43.349999999999916,
+      "expected": 60,
+      "physicsClampedExpected": 43.34999999999995
+    },
+    {
+      "case": "long-stall-hidden-blur-stand-reload",
+      "result": "PASS",
+      "saved": 6.099999999999069
+    }
+  ]
+}

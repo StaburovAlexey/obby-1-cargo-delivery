@@ -1,0 +1,16 @@
+{
+  "scope": "Isolated candidate seed42 authoring, original100m exclusion+footprint,120m moving-neighbor spacing, original terrain hazard sizes and fork tips, no weakening safety limits. Not maximalpacking proof, no browser/human test.",
+  "count": 90,
+  "moving": 10,
+  "centerCrossing": 5,
+  "byBiome": {
+    "city": 25,
+    "forest": 26,
+    "desert": 11,
+    "snow": 14,
+    "volcanic": 14
+  },
+  "minExclusionClearance": 0.17627788148206314,
+  "minSpacingMargin": 0,
+  "violations": []
+}

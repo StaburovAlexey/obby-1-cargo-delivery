@@ -1,0 +1,99 @@
+{
+  "note": "Offline diagnostic specimen. Runtime SVG symbols and actual app fixture text/state; illustrative SVG layout, not a browser screenshot.",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "brains": "29,5",
+  "car": "Пикап",
+  "schools": [
+    {
+      "id": "school-1",
+      "name": "Класс 1",
+      "price": 0,
+      "rate": 1.5,
+      "rateText": "1,5",
+      "priceText": "ОТКРЫТО",
+      "owned": true,
+      "affordable": true
+    },
+    {
+      "id": "school-2",
+      "name": "Класс 2",
+      "price": 500,
+      "rate": 2,
+      "rateText": "2",
+      "priceText": "ОТКРЫТО",
+      "owned": true,
+      "affordable": true
+    },
+    {
+      "id": "school-3",
+      "name": "Класс 3",
+      "price": 1500,
+      "rate": 3,
+      "rateText": "3",
+      "priceText": "1500",
+      "owned": false,
+      "affordable": true
+    },
+    {
+      "id": "school-4",
+      "name": "Класс 4",
+      "price": 3500,
+      "rate": 4.5,
+      "rateText": "4,5",
+      "priceText": "3500",
+      "owned": false,
+      "affordable": false
+    },
+    {
+      "id": "school-5",
+      "name": "Класс 5",
+      "price": 7000,
+      "rate": 6,
+      "rateText": "6",
+      "priceText": "7000",
+      "owned": false,
+      "affordable": false
+    }
+  ],
+  "upgrades": [
+    {
+      "id": "speed",
+      "name": "Скорость",
+      "maxLevel": 3,
+      "unit": "м/с",
+      "step": 0.02,
+      "value": "42.0 км/ч",
+      "level": "3 / 3",
+      "price": "МАКС",
+      "description": "Тяга двигателя и максимальная скорость",
+      "disabled": true
+    },
+    {
+      "id": "handling",
+      "name": "Управление",
+      "maxLevel": 3,
+      "unit": "%",
+      "step": 0.02,
+      "value": "102.0% → 104.0%",
+      "level": "1 / 3",
+      "price": "35",
+      "description": "Отклик руля и разворот корпуса",
+      "disabled": true
+    },
+    {
+      "id": "grip",
+      "name": "Сцепление",
+      "maxLevel": 3,
+      "unit": "%",
+      "step": 0.02,
+      "value": "100.0% → 102.0%",
+      "level": "0 / 3",
+      "price": "20",
+      "description": "Боковое сцепление и торможение",
+      "disabled": false
+    }
+  ]
+}

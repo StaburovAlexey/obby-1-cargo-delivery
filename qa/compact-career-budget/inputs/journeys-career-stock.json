@@ -1,0 +1,1929 @@
+{
+  "generatedAt": "2026-10-14T12:17:02.673Z",
+  "scope": "Offline CPU production modules at 20 Hz controller update and 120 Hz fixed physics. No browser/GPU/rendering or human playtest claim.",
+  "runtimeHashes": {
+    "app.js": "da69b5ed46b500cf86a69f8c1bfc1e0dd91f0bfc583f74051cbb8f7b6b327d4e",
+    "biome-surfaces.js": "269e51c2c3ac2d32bc29f1780a2342a9df315fc3a7e6efe7b24a210d994e628a",
+    "biome-travel.js": "604c1c2e90abab4bf6526c324b4ae09eb6d647cdbbcf2da61d22eff78a12ed73",
+    "biome-weather.js": "17182b09e8c82129bfcecfed0a2bae0c7c3b4d9324943141fbe2263dd20415fa",
+    "building-material.js": "de80b6b72afb2489a2a47baa11570c2190b8c6f54b372748748c1b790a0fe042",
+    "career-missions.js": "551340b29d59c5bcfe3724feb372bc60cc463bf8602f2d51f924b40744b24cce",
+    "career-route-tracker.js": "55398b1b04d3443e19dce4c3bdf4df635ec8271ce581f6c16fdab3460d250d71",
+    "career-save.js": "0f11c377f130618880d4b811c67b07420b53d2019e5fbd51c80aaa911bdf107d",
+    "character-catalog.js": "1ceed0f70e0604f1ab4343ee09184e9bb6c0b33767ff5415c0427363440707f6",
+    "character-seat-calibration.js": "2d09cbf7f2b2581bed84f81ae41b790c2877e979f017360a04561b8e3443d51d",
+    "character-seat-pose.js": "aef6693f7fa229e6a4a2c8c5c3c31d56213820a109275a09d5fd755bd3fdcb73",
+    "character-support.js": "35b780187ae42ed5fc2a34035c9bf5c7b5603d1304c7e6e658a5a2e531211528",
+    "character.js": "ff88173983ee6a022290542aac867b73f5ae0c6d009cef1f47b3641d16951f59",
+    "city-driving.js": "a33f82d66e2fa50fb281fb28e8231decb76ef216557110fd2881f4b3338f4b82",
+    "driving-ground.js": "157ac92a62df8858ba2af419e334121966214aa59dd91b063e6e30a7d4e14c84",
+    "driving-model.js": "74b1165a2cc326b940eb1de89292741596035e58fc06c57ef4d4c292f35af3bc",
+    "economy-config.js": "bb5d41f9e54843bc373630fb32c29c74f91bcc66475569e7f494d1d4fb2177b6",
+    "follow-camera.js": "619bec5c16b350b5c6404127cd2d772a7aef5276091b6d2f8a2e9b5b3d6a9a25",
+    "gameplay.js": "2443ef2cff35a3f83b85627e5316da141149454e7265cca1f672eabe0f095b73",
+    "garage-scene.js": "13d4a7fc38bc53ae02e26e9a04b98a8f05e391843b389a693b39237d21a6b95b",
+    "ground-material.js": "3855969200dfbd2f567e965f3e3e621bcd64e137034506eedf420f22374ed103",
+    "jump-input.js": "7b6f4a074658f15691c0e1e2f39cad9acf6a66264d8d7854d78f6f303c445832",
+    "look-input.js": "73c8fbee12a361fa230c9070cd96671da01f8ebba5e8d698368987b6aa9869ec",
+    "network-scene.js": "71bde9a8753033348274ec7f4f1661526730e9d35cf96457e769da85f86f7a11",
+    "progression-config.js": "53618eb715251c0feef2cf62ea62206e7ccf12ca9ba3fae9d1dfe61a8013110e",
+    "progression-hud.js": "55ff5a58e2b0fd0d166e98a42d58be02f126112af3735bd8e217e05eb707a6d5",
+    "retention-ui.js": "342a276916157e01909535ed60117d78feac9ae21472886ec3d8aa761d5e3420",
+    "road-bridges.js": "a717a3019e8cb8d04d45324a959ba84a85e1d11fb43f8fc919508e1643046384",
+    "road-hazards-scene.js": "f9c1ddafbf68bf1ebdd2fe4313ff77c6d3e838741a068c9aa285c97f349593d2",
+    "road-hazards.js": "00c9f66ee5469692e1dbc2ae24b1a0a12ff978d2585dfb6952f5768650e90948",
+    "road-layout.js": "4705972cf548ff56a004b63a5d85ba41f67caf2b1fe16572c908abd3d10b8685",
+    "road-material.js": "90a81ae425b987e980c8d94b73ce5311f4121632ae99e4f7dfaaafab8f48067a",
+    "route-network-config.js": "7b3542dc2e057b59ceb6e5858bd32bc33f524bcb2e2be6beba924b1162b7ec18",
+    "route-network.js": "c906578aa6d913d6c0d96f82a3c230373c4aefebe85c9accd1637a0a61dc115e",
+    "scene-lighting.js": "ba7b5eeeda73bb2532111668ee7d7d4520f78e102645d1c6f67a6b7c74f55608",
+    "scene.js": "169df363d212808a50b43cd9106ab1a4b8f7b35a04009bdf50acf695cb50290a",
+    "square-stud-texture.js": "8dcbe950316893d74bcb5b0f103b7e8bd972e6ef82e968239f6ee0c4442e367b",
+    "vehicle-input.js": "9bcf192299b0f5d56a0346e8eed53fc7a281bea24939690b8a2bfe99b2ffcc2e",
+    "vehicle-rig.js": "11c527c5aced8eeac2b748c8dfa1a413eab132de88ca28e9437f603fb7945b72",
+    "vehicle-upgrades.js": "6694010402ede4bb0df4a9b25b86c0765c4a0de4912db2175a404dfbd0939ccf",
+    "walk-input.js": "0f575e0a4a58c8a5f7f74edd78e941c5ab0304ecab18ff25d6c2a3b103850af7",
+    "wheel-particles.js": "4393a9ef61623d0a7a6d89934cc4acb984b7a768a954fdc8649ed5c8f070f743"
+  },
+  "routeLength3D": 13588.948828488023,
+  "checks": [
+    {
+      "name": "endpoint pickup stock",
+      "passed": true,
+      "id": "pickup",
+      "upgrade": "stock",
+      "target": 2,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "primary",
+      "slalom": false,
+      "carefulPedalFrames": 0,
+      "frames": 816,
+      "seconds": 40.8,
+      "travelXZ": 438.077,
+      "travel3D": 438.077,
+      "fuelDemand": 151.061,
+      "refills": [
+        "fuel-checkpoint-01"
+      ],
+      "crossedBridges": [],
+      "finalProgress": 435.863,
+      "finalDistance3D": 435.863,
+      "maxOffset": 8.368,
+      "maxStep": 0.55,
+      "range": 290,
+      "capacity": 100,
+      "endingFuel": 12.764,
+      "brainsEarned": 134.35,
+      "timingBreakdown": {
+        "bridge-deck": {
+          "seconds": 0,
+          "distance": 0,
+          "averageSpeed": 0,
+          "overheadVersusFlatMax": 0
+        },
+        "bridge-approach": {
+          "seconds": 0,
+          "distance": 0,
+          "averageSpeed": 0,
+          "overheadVersusFlatMax": 0
+        },
+        "unsuitable-terrain": {
+          "seconds": 0,
+          "distance": 0,
+          "averageSpeed": 0,
+          "overheadVersusFlatMax": 0
+        },
+        "moving-obstacle-approach": {
+          "seconds": 0,
+          "distance": 0,
+          "averageSpeed": 0,
+          "overheadVersusFlatMax": 0
+        },
+        "service-approach": {
+          "seconds": 25.7,
+          "distance": 282.679,
+          "averageSpeed": 10.999,
+          "overheadVersusFlatMax": 0.002
+        },
+        "cruise": {
+          "seconds": 15.1,
+          "distance": 155.398,
+          "averageSpeed": 10.291,
+          "overheadVersusFlatMax": 0.973
+        }
+      },
+      "maxSpeed": 11,
+      "avoidanceFrames": 0,
+      "avoidedObstacleIds": [],
+      "reward": 260,
+      "totalReward": 325,
+      "rewardBreakdown": {
+        "base": 260,
+        "clean": 52,
+        "hard": 0,
+        "first": 13,
+        "mission": 0,
+        "brains": {
+          "clean": 10,
+          "hard": 0,
+          "first": 2,
+          "mission": 0,
+          "total": 12
+        },
+        "totalCash": 325
+      },
+      "recordedBridges": [],
+      "recordedHardBranches": [],
+      "fuelReserveMetres": 37.015,
+      "cashPerMinute": {
+        "0sRestart": 477.941,
+        "5sRestart": 425.764,
+        "10sRestart": 383.858,
+        "20sRestart": 320.724
+      }
+    },
+    {
+      "name": "endpoint citycourier stock",
+      "passed": true,
+      "id": "citycourier",
+      "upgrade": "stock",
+      "target": 4,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "alternate",
+      "slalom": false,
+      "carefulPedalFrames": 289,
+      "frames": 1947,
+      "seconds": 97.35,
+      "travelXZ": 1140.869,
+      "travel3D": 1140.87,
+      "fuelDemand": 420.32,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02",
+        "fuel-checkpoint-03"
+      ],
+      "crossedBridges": [
+        "city-bridge-1"
+      ],
+      "finalProgress": 1135.845,
+      "finalDistance3D": 1135.846,
+      "maxOffset": 8.382,
+      "maxStep": 0.625,
+      "range": 380,
+      "capacity": 140,
+      "endingFuel": 9.906,
+      "brainsEarned": 328,
+      "timingBreakdown": {
+        "bridge-deck": {
+          "seconds": 2.95,
+          "distance": 23.812,
+          "averageSpeed": 8.072,
+          "overheadVersusFlatMax": 1.045
+        },
+        "bridge-approach": {
+          "seconds": 11.5,
+          "distance": 95.028,
+          "averageSpeed": 8.263,
+          "overheadVersusFlatMax": 3.898
+        },
+        "unsuitable-terrain": {
+          "seconds": 0,
+          "distance": 0,
+          "averageSpeed": 0,
+          "overheadVersusFlatMax": 0
+        },
+        "moving-obstacle-approach": {
+          "seconds": 0,
+          "distance": 0,
+          "averageSpeed": 0,
+          "overheadVersusFlatMax": 0
+        },
+        "service-approach": {
+          "seconds": 52.7,
+          "distance": 658.679,
+          "averageSpeed": 12.499,
+          "overheadVersusFlatMax": 0.006
+        },
+        "cruise": {
+          "seconds": 30.2,
+          "distance": 363.351,
+          "averageSpeed": 12.031,
+          "overheadVersusFlatMax": 1.132
+        }
+      },
+      "maxSpeed": 12.5,
+      "avoidanceFrames": 0,
+      "avoidedObstacleIds": [],
+      "reward": 730,
+      "totalReward": 912,
+      "rewardBreakdown": {
+        "base": 730,
+        "clean": 146,
+        "hard": 0,
+        "first": 36,
+        "mission": 0,
+        "brains": {
+          "clean": 29,
+          "hard": 0,
+          "first": 7,
+          "mission": 0,
+          "total": 36
+        },
+        "totalCash": 912
+      },
+      "recordedBridges": [
+        "city-bridge-1"
+      ],
+      "recordedHardBranches": [],
+      "fuelReserveMetres": 26.887,
+      "cashPerMinute": {
+        "0sRestart": 562.096,
+        "5sRestart": 534.636,
+        "10sRestart": 509.735,
+        "20sRestart": 466.297
+      }
+    },
+    {
+      "name": "endpoint rover stock",
+      "passed": true,
+      "id": "rover",
+      "upgrade": "stock",
+      "target": 7,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "primary",
+      "slalom": false,
+      "carefulPedalFrames": 1478,
+      "frames": 4217,
+      "seconds": 210.85,
+      "travelXZ": 2491.641,
+      "travel3D": 2491.837,
+      "fuelDemand": 954.459,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02",
+        "fuel-checkpoint-03",
+        "fuel-checkpoint-04",
+        "fuel-checkpoint-05",
+        "fuel-checkpoint-06"
+      ],
+      "crossedBridges": [
+        "city-bridge-1",
+        "city-bridge-2",
+        "city-bridge-3",
+        "city-bridge-4"
+      ],
+      "finalProgress": 2476.003,
+      "finalDistance3D": 2476.199,
+      "maxOffset": 10.073,
+      "maxStep": 0.696,
+      "range": 496,
+      "capacity": 190,
+      "endingFuel": 1.021,
+      "brainsEarned": 740.5,
+      "timingBreakdown": {
+        "bridge-deck": {
+          "seconds": 11.9,
+          "distance": 96.049,
+          "averageSpeed": 8.071,
+          "overheadVersusFlatMax": 5.136
+        },
+        "bridge-approach": {
+          "seconds": 45.1,
+          "distance": 379.487,
+          "averageSpeed": 8.414,
+          "overheadVersusFlatMax": 18.376
+        },
+        "unsuitable-terrain": {
+          "seconds": 0,
+          "distance": 0,
+          "averageSpeed": 0,
+          "overheadVersusFlatMax": 0
+        },
+        "moving-obstacle-approach": {
+          "seconds": 16.9,
+          "distance": 136.435,
+          "averageSpeed": 8.073,
+          "overheadVersusFlatMax": 7.292
+        },
+        "service-approach": {
+          "seconds": 87.6,
+          "distance": 1217.252,
+          "averageSpeed": 13.896,
+          "overheadVersusFlatMax": 1.878
+        },
+        "cruise": {
+          "seconds": 49.35,
+          "distance": 662.418,
+          "averageSpeed": 13.423,
+          "overheadVersusFlatMax": 2.701
+        }
+      },
+      "maxSpeed": 14.2,
+      "avoidanceFrames": 379,
+      "avoidedObstacleIds": [
+        "city-barrier-compact-mover-1"
+      ],
+      "reward": 2180,
+      "totalReward": 2725,
+      "rewardBreakdown": {
+        "base": 2180,
+        "clean": 436,
+        "hard": 0,
+        "first": 109,
+        "mission": 0,
+        "brains": {
+          "clean": 87,
+          "hard": 0,
+          "first": 21,
+          "mission": 0,
+          "total": 108
+        },
+        "totalCash": 2725
+      },
+      "recordedBridges": [
+        "city-bridge-1",
+        "city-bridge-2",
+        "city-bridge-3",
+        "city-bridge-4"
+      ],
+      "recordedHardBranches": [],
+      "fuelReserveMetres": 2.666,
+      "cashPerMinute": {
+        "0sRestart": 775.433,
+        "5sRestart": 757.47,
+        "10sRestart": 740.321,
+        "20sRestart": 708.252
+      }
+    },
+    {
+      "name": "endpoint foresthauler stock",
+      "passed": true,
+      "id": "foresthauler",
+      "upgrade": "stock",
+      "target": 9,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "alternate",
+      "slalom": false,
+      "carefulPedalFrames": 2332,
+      "frames": 5787,
+      "seconds": 289.35,
+      "travelXZ": 3688.831,
+      "travel3D": 3689.065,
+      "fuelDemand": 1484.669,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02",
+        "fuel-checkpoint-03",
+        "fuel-checkpoint-04",
+        "fuel-checkpoint-05",
+        "fuel-checkpoint-06",
+        "fuel-checkpoint-07",
+        "fuel-checkpoint-08"
+      ],
+      "crossedBridges": [
+        "city-bridge-1",
+        "city-bridge-2",
+        "city-bridge-3",
+        "city-bridge-4",
+        "city-bridge-5",
+        "forest-bridge-1"
+      ],
+      "finalProgress": 3665.885,
+      "finalDistance3D": 3666.119,
+      "maxOffset": 10.074,
+      "maxStep": 0.81,
+      "range": 646,
+      "capacity": 260,
+      "endingFuel": 8.15,
+      "brainsEarned": 1071,
+      "timingBreakdown": {
+        "bridge-deck": {
+          "seconds": 17.7,
+          "distance": 143.543,
+          "averageSpeed": 8.11,
+          "overheadVersusFlatMax": 8.839
+        },
+        "bridge-approach": {
+          "seconds": 66.15,
+          "distance": 571.147,
+          "averageSpeed": 8.634,
+          "overheadVersusFlatMax": 30.894
+        },
+        "unsuitable-terrain": {
+          "seconds": 0,
+          "distance": 0,
+          "averageSpeed": 0,
+          "overheadVersusFlatMax": 0
+        },
+        "moving-obstacle-approach": {
+          "seconds": 32.75,
+          "distance": 265.517,
+          "averageSpeed": 8.107,
+          "overheadVersusFlatMax": 16.36
+        },
+        "service-approach": {
+          "seconds": 100.2,
+          "distance": 1592.261,
+          "averageSpeed": 15.891,
+          "overheadVersusFlatMax": 1.912
+        },
+        "cruise": {
+          "seconds": 72.55,
+          "distance": 1116.363,
+          "averageSpeed": 15.388,
+          "overheadVersusFlatMax": 3.639
+        }
+      },
+      "maxSpeed": 16.2,
+      "avoidanceFrames": 755,
+      "avoidedObstacleIds": [
+        "city-barrier-compact-mover-1",
+        "forest-boulder-compact-mover-1"
+      ],
+      "reward": 4090,
+      "totalReward": 5112,
+      "rewardBreakdown": {
+        "base": 4090,
+        "clean": 818,
+        "hard": 0,
+        "first": 204,
+        "mission": 0,
+        "brains": {
+          "clean": 163,
+          "hard": 0,
+          "first": 40,
+          "mission": 0,
+          "total": 203
+        },
+        "totalCash": 5112
+      },
+      "recordedBridges": [
+        "city-bridge-1",
+        "city-bridge-2",
+        "city-bridge-3",
+        "city-bridge-4",
+        "city-bridge-5",
+        "forest-bridge-1"
+      ],
+      "recordedHardBranches": [],
+      "fuelReserveMetres": 20.249,
+      "cashPerMinute": {
+        "0sRestart": 1060.031,
+        "5sRestart": 1042.025,
+        "10sRestart": 1024.62,
+        "20sRestart": 991.498
+      }
+    },
+    {
+      "name": "endpoint van stock",
+      "passed": true,
+      "id": "van",
+      "upgrade": "stock",
+      "target": 11,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "primary",
+      "slalom": false,
+      "carefulPedalFrames": 2830,
+      "frames": 7325,
+      "seconds": 366.25,
+      "travelXZ": 5203.815,
+      "travel3D": 5204.381,
+      "fuelDemand": 2165.678,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02",
+        "fuel-checkpoint-03",
+        "fuel-checkpoint-04",
+        "fuel-checkpoint-05",
+        "fuel-checkpoint-06",
+        "fuel-checkpoint-07",
+        "fuel-checkpoint-08",
+        "fuel-checkpoint-09",
+        "fuel-checkpoint-10"
+      ],
+      "crossedBridges": [
+        "city-bridge-1",
+        "city-bridge-2",
+        "city-bridge-3",
+        "city-bridge-4",
+        "city-bridge-5",
+        "forest-bridge-1",
+        "forest-bridge-2",
+        "forest-bridge-3"
+      ],
+      "finalProgress": 5176.18,
+      "finalDistance3D": 5180.723,
+      "maxOffset": 10.077,
+      "maxStep": 0.911,
+      "range": 841,
+      "capacity": 350,
+      "endingFuel": 18.272,
+      "brainsEarned": 1707.725,
+      "timingBreakdown": {
+        "bridge-deck": {
+          "seconds": 23.6,
+          "distance": 191.995,
+          "averageSpeed": 8.135,
+          "overheadVersusFlatMax": 13.165
+        },
+        "bridge-approach": {
+          "seconds": 85.25,
+          "distance": 760.249,
+          "averageSpeed": 8.918,
+          "overheadVersusFlatMax": 43.932
+        },
+        "unsuitable-terrain": {
+          "seconds": 0,
+          "distance": 0,
+          "averageSpeed": 0,
+          "overheadVersusFlatMax": 0
+        },
+        "moving-obstacle-approach": {
+          "seconds": 32.65,
+          "distance": 265.483,
+          "averageSpeed": 8.131,
+          "overheadVersusFlatMax": 18.222
+        },
+        "service-approach": {
+          "seconds": 109.4,
+          "distance": 1968.262,
+          "averageSpeed": 17.991,
+          "overheadVersusFlatMax": 2.429
+        },
+        "cruise": {
+          "seconds": 115.35,
+          "distance": 2017.826,
+          "averageSpeed": 17.493,
+          "overheadVersusFlatMax": 5.686
+        }
+      },
+      "maxSpeed": 18.4,
+      "avoidanceFrames": 753,
+      "avoidedObstacleIds": [
+        "city-barrier-compact-mover-1",
+        "forest-boulder-compact-mover-1"
+      ],
+      "reward": 6780,
+      "totalReward": 9492,
+      "rewardBreakdown": {
+        "base": 6780,
+        "clean": 1356,
+        "hard": 1017,
+        "first": 339,
+        "mission": 0,
+        "brains": {
+          "clean": 271,
+          "hard": 271,
+          "first": 67,
+          "mission": 0,
+          "total": 609
+        },
+        "totalCash": 9492
+      },
+      "recordedBridges": [
+        "city-bridge-1",
+        "city-bridge-2",
+        "city-bridge-3",
+        "city-bridge-4",
+        "city-bridge-5",
+        "forest-bridge-1",
+        "forest-bridge-2",
+        "forest-bridge-3"
+      ],
+      "recordedHardBranches": [
+        "forest-fork"
+      ],
+      "fuelReserveMetres": 43.904,
+      "cashPerMinute": {
+        "0sRestart": 1555.003,
+        "5sRestart": 1534.061,
+        "10sRestart": 1513.674,
+        "20sRestart": 1474.485
+      }
+    },
+    {
+      "name": "endpoint desertscout stock",
+      "passed": true,
+      "id": "desertscout",
+      "upgrade": "stock",
+      "target": 13,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "alternate",
+      "slalom": false,
+      "carefulPedalFrames": 4608,
+      "frames": 9671,
+      "seconds": 483.55,
+      "travelXZ": 7131.537,
+      "travel3D": 7132.354,
+      "fuelDemand": 3126.153,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02",
+        "fuel-checkpoint-03",
+        "fuel-checkpoint-04",
+        "fuel-checkpoint-05",
+        "fuel-checkpoint-06",
+        "fuel-checkpoint-07",
+        "fuel-checkpoint-08",
+        "fuel-checkpoint-09",
+        "fuel-checkpoint-10",
+        "fuel-checkpoint-11",
+        "fuel-checkpoint-12"
+      ],
+      "crossedBridges": [
+        "city-bridge-1",
+        "city-bridge-2",
+        "city-bridge-3",
+        "city-bridge-4",
+        "city-bridge-5",
+        "forest-bridge-1",
+        "forest-bridge-2",
+        "forest-bridge-3",
+        "forest-bridge-4",
+        "forest-bridge-5",
+        "desert-bridge-1",
+        "desert-bridge-2",
+        "desert-bridge-3",
+        "desert-bridge-4"
+      ],
+      "finalProgress": 7096.536,
+      "finalDistance3D": 7101.442,
+      "maxOffset": 10.08,
+      "maxStep": 1.05,
+      "range": 1095,
+      "capacity": 480,
+      "endingFuel": 33.247,
+      "brainsEarned": 1975.625,
+      "timingBreakdown": {
+        "bridge-deck": {
+          "seconds": 41.25,
+          "distance": 336.781,
+          "averageSpeed": 8.164,
+          "overheadVersusFlatMax": 25.213
+        },
+        "bridge-approach": {
+          "seconds": 144.1,
+          "distance": 1330.199,
+          "averageSpeed": 9.231,
+          "overheadVersusFlatMax": 80.757
+        },
+        "unsuitable-terrain": {
+          "seconds": 0,
+          "distance": 0,
+          "averageSpeed": 0,
+          "overheadVersusFlatMax": 0
+        },
+        "moving-obstacle-approach": {
+          "seconds": 45.05,
+          "distance": 367.538,
+          "averageSpeed": 8.158,
+          "overheadVersusFlatMax": 27.548
+        },
+        "service-approach": {
+          "seconds": 113.55,
+          "distance": 2336.125,
+          "averageSpeed": 20.574,
+          "overheadVersusFlatMax": 2.306
+        },
+        "cruise": {
+          "seconds": 139.6,
+          "distance": 2760.894,
+          "averageSpeed": 19.777,
+          "overheadVersusFlatMax": 8.129
+        }
+      },
+      "maxSpeed": 21,
+      "avoidanceFrames": 1129,
+      "avoidedObstacleIds": [
+        "city-barrier-compact-mover-1",
+        "forest-boulder-compact-mover-1",
+        "desert-boulder-compact-mover-1"
+      ],
+      "reward": 10510,
+      "totalReward": 13137,
+      "rewardBreakdown": {
+        "base": 10510,
+        "clean": 2102,
+        "hard": 0,
+        "first": 525,
+        "mission": 0,
+        "brains": {
+          "clean": 420,
+          "hard": 0,
+          "first": 105,
+          "mission": 0,
+          "total": 525
+        },
+        "totalCash": 13137
+      },
+      "recordedBridges": [
+        "city-bridge-1",
+        "city-bridge-2",
+        "city-bridge-3",
+        "city-bridge-4",
+        "city-bridge-5",
+        "forest-bridge-1",
+        "forest-bridge-2",
+        "forest-bridge-3",
+        "forest-bridge-4",
+        "forest-bridge-5",
+        "desert-bridge-1",
+        "desert-bridge-2",
+        "desert-bridge-3",
+        "desert-bridge-4"
+      ],
+      "recordedHardBranches": [],
+      "fuelReserveMetres": 75.844,
+      "cashPerMinute": {
+        "0sRestart": 1630.069,
+        "5sRestart": 1613.387,
+        "10sRestart": 1597.042,
+        "20sRestart": 1565.326
+      }
+    },
+    {
+      "name": "endpoint snowgrip stock",
+      "passed": true,
+      "id": "snowgrip",
+      "upgrade": "stock",
+      "target": 15,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "primary",
+      "slalom": false,
+      "carefulPedalFrames": 5722,
+      "frames": 11811,
+      "seconds": 590.55,
+      "travelXZ": 9591.062,
+      "travel3D": 9592.479,
+      "fuelDemand": 4374.87,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02",
+        "fuel-checkpoint-03",
+        "fuel-checkpoint-04",
+        "fuel-checkpoint-05",
+        "fuel-checkpoint-06",
+        "fuel-checkpoint-07",
+        "fuel-checkpoint-08",
+        "fuel-checkpoint-09",
+        "fuel-checkpoint-10",
+        "fuel-checkpoint-11",
+        "fuel-checkpoint-12",
+        "fuel-checkpoint-13",
+        "fuel-checkpoint-14"
+      ],
+      "crossedBridges": [
+        "city-bridge-1",
+        "city-bridge-2",
+        "city-bridge-3",
+        "city-bridge-4",
+        "city-bridge-5",
+        "forest-bridge-1",
+        "forest-bridge-2",
+        "forest-bridge-3",
+        "forest-bridge-4",
+        "forest-bridge-5",
+        "desert-bridge-1",
+        "desert-bridge-2",
+        "desert-bridge-3",
+        "desert-bridge-4",
+        "desert-bridge-5",
+        "snow-bridge-1",
+        "snow-bridge-2",
+        "snow-bridge-3"
+      ],
+      "finalProgress": 9546.736,
+      "finalDistance3D": 9556.226,
+      "maxOffset": 10.099,
+      "maxStep": 1.198,
+      "range": 1425,
+      "capacity": 650,
+      "endingFuel": 58.338,
+      "brainsEarned": 3181.625,
+      "timingBreakdown": {
+        "bridge-deck": {
+          "seconds": 52.45,
+          "distance": 430.675,
+          "averageSpeed": 8.211,
+          "overheadVersusFlatMax": 34.43
+        },
+        "bridge-approach": {
+          "seconds": 171.75,
+          "distance": 1710.799,
+          "averageSpeed": 9.961,
+          "overheadVersusFlatMax": 100.168
+        },
+        "unsuitable-terrain": {
+          "seconds": 0,
+          "distance": 0,
+          "averageSpeed": 0,
+          "overheadVersusFlatMax": 0
+        },
+        "moving-obstacle-approach": {
+          "seconds": 61.9,
+          "distance": 508.186,
+          "averageSpeed": 8.21,
+          "overheadVersusFlatMax": 40.637
+        },
+        "service-approach": {
+          "seconds": 116.2,
+          "distance": 2716.275,
+          "averageSpeed": 23.376,
+          "overheadVersusFlatMax": 2.548
+        },
+        "cruise": {
+          "seconds": 188.25,
+          "distance": 4225.128,
+          "averageSpeed": 22.444,
+          "overheadVersusFlatMax": 11.466
+        }
+      },
+      "maxSpeed": 23.9,
+      "avoidanceFrames": 1499,
+      "avoidedObstacleIds": [
+        "city-barrier-compact-mover-1",
+        "forest-boulder-compact-mover-1",
+        "desert-boulder-compact-mover-1",
+        "snow-barrier-compact-mover-1"
+      ],
+      "reward": 15680,
+      "totalReward": 21952,
+      "rewardBreakdown": {
+        "base": 15680,
+        "clean": 3136,
+        "hard": 2352,
+        "first": 784,
+        "mission": 0,
+        "brains": {
+          "clean": 627,
+          "hard": 627,
+          "first": 156,
+          "mission": 0,
+          "total": 1410
+        },
+        "totalCash": 21952
+      },
+      "recordedBridges": [
+        "city-bridge-1",
+        "city-bridge-2",
+        "city-bridge-3",
+        "city-bridge-4",
+        "city-bridge-5",
+        "forest-bridge-1",
+        "forest-bridge-2",
+        "forest-bridge-3",
+        "forest-bridge-4",
+        "forest-bridge-5",
+        "desert-bridge-1",
+        "desert-bridge-2",
+        "desert-bridge-3",
+        "desert-bridge-4",
+        "desert-bridge-5",
+        "snow-bridge-1",
+        "snow-bridge-2",
+        "snow-bridge-3"
+      ],
+      "recordedHardBranches": [
+        "forest-fork",
+        "desert-fork"
+      ],
+      "fuelReserveMetres": 127.894,
+      "cashPerMinute": {
+        "0sRestart": 2230.328,
+        "5sRestart": 2211.603,
+        "10sRestart": 2193.19,
+        "20sRestart": 2157.268
+      }
+    },
+    {
+      "name": "endpoint snowrunner stock",
+      "passed": true,
+      "id": "snowrunner",
+      "upgrade": "stock",
+      "target": 15,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "alternate",
+      "slalom": false,
+      "carefulPedalFrames": 5447,
+      "frames": 10839,
+      "seconds": 541.95,
+      "travelXZ": 9588.913,
+      "travel3D": 9590.111,
+      "fuelDemand": 4548.918,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02",
+        "fuel-checkpoint-03",
+        "fuel-checkpoint-04",
+        "fuel-checkpoint-05",
+        "fuel-checkpoint-06",
+        "fuel-checkpoint-07",
+        "fuel-checkpoint-08",
+        "fuel-checkpoint-09",
+        "fuel-checkpoint-10",
+        "fuel-checkpoint-11",
+        "fuel-checkpoint-12",
+        "fuel-checkpoint-13",
+        "fuel-checkpoint-14"
+      ],
+      "crossedBridges": [
+        "city-bridge-1",
+        "city-bridge-2",
+        "city-bridge-3",
+        "city-bridge-4",
+        "city-bridge-5",
+        "forest-bridge-1",
+        "forest-bridge-2",
+        "forest-bridge-3",
+        "forest-bridge-4",
+        "forest-bridge-5",
+        "desert-bridge-1",
+        "desert-bridge-2",
+        "desert-bridge-3",
+        "desert-bridge-4",
+        "desert-bridge-5",
+        "snow-bridge-1",
+        "snow-bridge-2",
+        "snow-bridge-3"
+      ],
+      "finalProgress": 9545.86,
+      "finalDistance3D": 9555.35,
+      "maxOffset": 10.095,
+      "maxStep": 1.363,
+      "range": 1855,
+      "capacity": 880,
+      "endingFuel": 265.338,
+      "brainsEarned": 2408.825,
+      "timingBreakdown": {
+        "bridge-deck": {
+          "seconds": 52.35,
+          "distance": 432.247,
+          "averageSpeed": 8.257,
+          "overheadVersusFlatMax": 36.459
+        },
+        "bridge-approach": {
+          "seconds": 158.45,
+          "distance": 1706.161,
+          "averageSpeed": 10.768,
+          "overheadVersusFlatMax": 95.723
+        },
+        "unsuitable-terrain": {
+          "seconds": 0,
+          "distance": 0,
+          "averageSpeed": 0,
+          "overheadVersusFlatMax": 0
+        },
+        "moving-obstacle-approach": {
+          "seconds": 61.55,
+          "distance": 507.592,
+          "averageSpeed": 8.247,
+          "overheadVersusFlatMax": 42.889
+        },
+        "service-approach": {
+          "seconds": 102.15,
+          "distance": 2714.802,
+          "averageSpeed": 26.577,
+          "overheadVersusFlatMax": 2.341
+        },
+        "cruise": {
+          "seconds": 167.45,
+          "distance": 4228.111,
+          "averageSpeed": 25.25,
+          "overheadVersusFlatMax": 12.005
+        }
+      },
+      "maxSpeed": 27.2,
+      "avoidanceFrames": 1491,
+      "avoidedObstacleIds": [
+        "city-barrier-compact-mover-1",
+        "forest-boulder-compact-mover-1",
+        "desert-boulder-compact-mover-1",
+        "snow-barrier-compact-mover-1"
+      ],
+      "reward": 15680,
+      "totalReward": 19600,
+      "rewardBreakdown": {
+        "base": 15680,
+        "clean": 3136,
+        "hard": 0,
+        "first": 784,
+        "mission": 0,
+        "brains": {
+          "clean": 627,
+          "hard": 0,
+          "first": 156,
+          "mission": 0,
+          "total": 783
+        },
+        "totalCash": 19600
+      },
+      "recordedBridges": [
+        "city-bridge-1",
+        "city-bridge-2",
+        "city-bridge-3",
+        "city-bridge-4",
+        "city-bridge-5",
+        "forest-bridge-1",
+        "forest-bridge-2",
+        "forest-bridge-3",
+        "forest-bridge-4",
+        "forest-bridge-5",
+        "desert-bridge-1",
+        "desert-bridge-2",
+        "desert-bridge-3",
+        "desert-bridge-4",
+        "desert-bridge-5",
+        "snow-bridge-1",
+        "snow-bridge-2",
+        "snow-bridge-3"
+      ],
+      "recordedHardBranches": [],
+      "fuelReserveMetres": 559.32,
+      "cashPerMinute": {
+        "0sRestart": 2169.942,
+        "5sRestart": 2150.105,
+        "10sRestart": 2130.628,
+        "20sRestart": 2092.713
+      }
+    },
+    {
+      "name": "endpoint lavacrawler stock",
+      "passed": true,
+      "id": "lavacrawler",
+      "upgrade": "stock",
+      "target": 15,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "primary",
+      "slalom": false,
+      "carefulPedalFrames": 5138,
+      "frames": 9917,
+      "seconds": 495.85,
+      "travelXZ": 9588.475,
+      "travel3D": 9589.893,
+      "fuelDemand": 4728.672,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02",
+        "fuel-checkpoint-03",
+        "fuel-checkpoint-04",
+        "fuel-checkpoint-05",
+        "fuel-checkpoint-06",
+        "fuel-checkpoint-07",
+        "fuel-checkpoint-08",
+        "fuel-checkpoint-09",
+        "fuel-checkpoint-10",
+        "fuel-checkpoint-11",
+        "fuel-checkpoint-12",
+        "fuel-checkpoint-13",
+        "fuel-checkpoint-14"
+      ],
+      "crossedBridges": [
+        "city-bridge-1",
+        "city-bridge-2",
+        "city-bridge-3",
+        "city-bridge-4",
+        "city-bridge-5",
+        "forest-bridge-1",
+        "forest-bridge-2",
+        "forest-bridge-3",
+        "forest-bridge-4",
+        "forest-bridge-5",
+        "desert-bridge-1",
+        "desert-bridge-2",
+        "desert-bridge-3",
+        "desert-bridge-4",
+        "desert-bridge-5",
+        "snow-bridge-1",
+        "snow-bridge-2",
+        "snow-bridge-3"
+      ],
+      "finalProgress": 9546.648,
+      "finalDistance3D": 9556.138,
+      "maxOffset": 10.093,
+      "maxStep": 1.528,
+      "range": 2413,
+      "capacity": 1190,
+      "endingFuel": 550.589,
+      "brainsEarned": 2897.525,
+      "timingBreakdown": {
+        "bridge-deck": {
+          "seconds": 51.75,
+          "distance": 430.322,
+          "averageSpeed": 8.315,
+          "overheadVersusFlatMax": 37.869
+        },
+        "bridge-approach": {
+          "seconds": 143.95,
+          "distance": 1705.632,
+          "averageSpeed": 11.849,
+          "overheadVersusFlatMax": 88.93
+        },
+        "unsuitable-terrain": {
+          "seconds": 0,
+          "distance": 0,
+          "averageSpeed": 0,
+          "overheadVersusFlatMax": 0
+        },
+        "moving-obstacle-approach": {
+          "seconds": 61.2,
+          "distance": 507.865,
+          "averageSpeed": 8.298,
+          "overheadVersusFlatMax": 44.817
+        },
+        "service-approach": {
+          "seconds": 89.75,
+          "distance": 2713.136,
+          "averageSpeed": 30.23,
+          "overheadVersusFlatMax": 2.229
+        },
+        "cruise": {
+          "seconds": 149.2,
+          "distance": 4231.52,
+          "averageSpeed": 28.361,
+          "overheadVersusFlatMax": 12.699
+        }
+      },
+      "maxSpeed": 31,
+      "avoidanceFrames": 1481,
+      "avoidedObstacleIds": [
+        "city-barrier-compact-mover-1",
+        "forest-boulder-compact-mover-1",
+        "desert-boulder-compact-mover-1",
+        "snow-barrier-compact-mover-1"
+      ],
+      "reward": 15680,
+      "totalReward": 21952,
+      "rewardBreakdown": {
+        "base": 15680,
+        "clean": 3136,
+        "hard": 2352,
+        "first": 784,
+        "mission": 0,
+        "brains": {
+          "clean": 627,
+          "hard": 627,
+          "first": 156,
+          "mission": 0,
+          "total": 1410
+        },
+        "totalCash": 21952
+      },
+      "recordedBridges": [
+        "city-bridge-1",
+        "city-bridge-2",
+        "city-bridge-3",
+        "city-bridge-4",
+        "city-bridge-5",
+        "forest-bridge-1",
+        "forest-bridge-2",
+        "forest-bridge-3",
+        "forest-bridge-4",
+        "forest-bridge-5",
+        "desert-bridge-1",
+        "desert-bridge-2",
+        "desert-bridge-3",
+        "desert-bridge-4",
+        "desert-bridge-5",
+        "snow-bridge-1",
+        "snow-bridge-2",
+        "snow-bridge-3"
+      ],
+      "recordedHardBranches": [
+        "forest-fork",
+        "desert-fork"
+      ],
+      "fuelReserveMetres": 1116.446,
+      "cashPerMinute": {
+        "0sRestart": 2656.287,
+        "5sRestart": 2629.769,
+        "10sRestart": 2603.776,
+        "20sRestart": 2553.3
+      }
+    },
+    {
+      "name": "endpoint ashhauler stock",
+      "passed": true,
+      "id": "ashhauler",
+      "upgrade": "stock",
+      "target": 15,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "alternate",
+      "slalom": false,
+      "carefulPedalFrames": 4769,
+      "frames": 8998,
+      "seconds": 449.9,
+      "travelXZ": 9587.826,
+      "travel3D": 9589.024,
+      "fuelDemand": 4916.051,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02",
+        "fuel-checkpoint-03",
+        "fuel-checkpoint-04",
+        "fuel-checkpoint-05",
+        "fuel-checkpoint-06",
+        "fuel-checkpoint-07",
+        "fuel-checkpoint-08",
+        "fuel-checkpoint-09",
+        "fuel-checkpoint-10",
+        "fuel-checkpoint-11",
+        "fuel-checkpoint-12",
+        "fuel-checkpoint-13",
+        "fuel-checkpoint-14"
+      ],
+      "crossedBridges": [
+        "city-bridge-1",
+        "city-bridge-2",
+        "city-bridge-3",
+        "city-bridge-4",
+        "city-bridge-5",
+        "forest-bridge-1",
+        "forest-bridge-2",
+        "forest-bridge-3",
+        "forest-bridge-4",
+        "forest-bridge-5",
+        "desert-bridge-1",
+        "desert-bridge-2",
+        "desert-bridge-3",
+        "desert-bridge-4",
+        "desert-bridge-5",
+        "snow-bridge-1",
+        "snow-bridge-2",
+        "snow-bridge-3"
+      ],
+      "finalProgress": 9547.082,
+      "finalDistance3D": 9556.572,
+      "maxOffset": 10.238,
+      "maxStep": 1.742,
+      "range": 3140,
+      "capacity": 1610,
+      "endingFuel": 944.615,
+      "brainsEarned": 2132.7,
+      "timingBreakdown": {
+        "bridge-deck": {
+          "seconds": 50.05,
+          "distance": 431.943,
+          "averageSpeed": 8.63,
+          "overheadVersusFlatMax": 37.848
+        },
+        "bridge-approach": {
+          "seconds": 127.55,
+          "distance": 1706.797,
+          "averageSpeed": 13.381,
+          "overheadVersusFlatMax": 79.335
+        },
+        "unsuitable-terrain": {
+          "seconds": 0,
+          "distance": 0,
+          "averageSpeed": 0,
+          "overheadVersusFlatMax": 0
+        },
+        "moving-obstacle-approach": {
+          "seconds": 60.85,
+          "distance": 507.703,
+          "averageSpeed": 8.344,
+          "overheadVersusFlatMax": 46.508
+        },
+        "service-approach": {
+          "seconds": 78.7,
+          "distance": 2714.576,
+          "averageSpeed": 34.493,
+          "overheadVersusFlatMax": 2.017
+        },
+        "cruise": {
+          "seconds": 132.75,
+          "distance": 4226.807,
+          "averageSpeed": 31.84,
+          "overheadVersusFlatMax": 13.349
+        }
+      },
+      "maxSpeed": 35.4,
+      "avoidanceFrames": 1474,
+      "avoidedObstacleIds": [
+        "city-barrier-compact-mover-1",
+        "forest-boulder-compact-mover-1",
+        "desert-boulder-compact-mover-1",
+        "snow-barrier-compact-mover-1"
+      ],
+      "reward": 15680,
+      "totalReward": 19600,
+      "rewardBreakdown": {
+        "base": 15680,
+        "clean": 3136,
+        "hard": 0,
+        "first": 784,
+        "mission": 0,
+        "brains": {
+          "clean": 627,
+          "hard": 0,
+          "first": 156,
+          "mission": 0,
+          "total": 783
+        },
+        "totalCash": 19600
+      },
+      "recordedBridges": [
+        "city-bridge-1",
+        "city-bridge-2",
+        "city-bridge-3",
+        "city-bridge-4",
+        "city-bridge-5",
+        "forest-bridge-1",
+        "forest-bridge-2",
+        "forest-bridge-3",
+        "forest-bridge-4",
+        "forest-bridge-5",
+        "desert-bridge-1",
+        "desert-bridge-2",
+        "desert-bridge-3",
+        "desert-bridge-4",
+        "desert-bridge-5",
+        "snow-bridge-1",
+        "snow-bridge-2",
+        "snow-bridge-3"
+      ],
+      "recordedHardBranches": [],
+      "fuelReserveMetres": 1842.294,
+      "cashPerMinute": {
+        "0sRestart": 2613.914,
+        "5sRestart": 2585.184,
+        "10sRestart": 2557.078,
+        "20sRestart": 2502.66
+      }
+    }
+  ],
+  "failures": [],
+  "complete": true,
+  "sourceCommit": "working-tree",
+  "harnessSource": "tests/expanded-bridge-journeys.mjs",
+  "harnessSourceHash": "a7ade6105802b4e9b5f4f37760884a525ce5e607a152f1dd323176d0d8db12d7",
+  "expectedBridgeCount": 25,
+  "bridgeControl": {
+    "speed": 8,
+    "approach": 80,
+    "exit": 15
+  },
+  "frameSeconds": 0.05,
+  "physicsFixedStep": 0.008333333333333333,
+  "routeFingerprint": "8a3ebe5cda942db136aefbcd5a6b5e7db60038248939d2357f32af6638ab28b6",
+  "stations": [
+    {
+      "stop": 1,
+      "deliveryId": "delivery-checkpoint-01",
+      "fuelId": "fuel-checkpoint-01",
+      "progress": 180,
+      "distance3D": 180,
+      "reward": 110,
+      "biome": "city",
+      "deliveryCenter": {
+        "x": -8,
+        "z": -174
+      },
+      "fuelCenter": {
+        "x": 8,
+        "z": -174
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 2,
+      "deliveryId": "delivery-checkpoint-02",
+      "fuelId": "fuel-checkpoint-02",
+      "progress": 440,
+      "distance3D": 440,
+      "reward": 260,
+      "biome": "city",
+      "deliveryCenter": {
+        "x": -8,
+        "z": -434
+      },
+      "fuelCenter": {
+        "x": 8,
+        "z": -434
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 3,
+      "deliveryId": "delivery-checkpoint-03",
+      "fuelId": "fuel-checkpoint-03",
+      "progress": 780,
+      "distance3D": 780,
+      "reward": 470,
+      "biome": "city",
+      "deliveryCenter": {
+        "x": -8,
+        "z": -774
+      },
+      "fuelCenter": {
+        "x": 8,
+        "z": -774
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 4,
+      "deliveryId": "delivery-checkpoint-04",
+      "fuelId": "fuel-checkpoint-04",
+      "progress": 1140,
+      "distance3D": 1140.001,
+      "reward": 730,
+      "biome": "city",
+      "deliveryCenter": {
+        "x": -11.828,
+        "z": -1133.61
+      },
+      "fuelCenter": {
+        "x": 4.157,
+        "z": -1134.295
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 5,
+      "deliveryId": "delivery-checkpoint-05",
+      "fuelId": "fuel-checkpoint-05",
+      "progress": 1540,
+      "distance3D": 1540.031,
+      "reward": 1080,
+      "biome": "city",
+      "deliveryCenter": {
+        "x": -74.137,
+        "z": -1525.199
+      },
+      "fuelCenter": {
+        "x": -58.939,
+        "z": -1530.203
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 6,
+      "deliveryId": "delivery-checkpoint-06",
+      "fuelId": "fuel-checkpoint-06",
+      "progress": 1980,
+      "distance3D": 1980.123,
+      "reward": 1550,
+      "biome": "city",
+      "deliveryCenter": {
+        "x": -306.968,
+        "z": -1887.56
+      },
+      "fuelCenter": {
+        "x": -296.319,
+        "z": -1899.502
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 7,
+      "deliveryId": "delivery-checkpoint-07",
+      "fuelId": "fuel-checkpoint-07",
+      "progress": 2480,
+      "distance3D": 2480.196,
+      "reward": 2180,
+      "biome": "city",
+      "deliveryCenter": {
+        "x": -748.882,
+        "z": -2100.31
+      },
+      "fuelCenter": {
+        "x": -745.386,
+        "z": -2115.924
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 8,
+      "deliveryId": "delivery-checkpoint-08",
+      "fuelId": "fuel-checkpoint-08",
+      "progress": 3040,
+      "distance3D": 3040.201,
+      "reward": 3020,
+      "biome": "forest",
+      "deliveryCenter": {
+        "x": -1303.335,
+        "z": -2167.611
+      },
+      "fuelCenter": {
+        "x": -1301.938,
+        "z": -2183.55
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 9,
+      "deliveryId": "delivery-checkpoint-09",
+      "fuelId": "fuel-checkpoint-09",
+      "progress": 3670,
+      "distance3D": 3670.235,
+      "reward": 4090,
+      "biome": "forest",
+      "deliveryCenter": {
+        "x": -1921.23,
+        "z": -2288.133
+      },
+      "fuelCenter": {
+        "x": -1914.877,
+        "z": -2302.818
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 10,
+      "deliveryId": "delivery-checkpoint-10",
+      "fuelId": "fuel-checkpoint-10",
+      "progress": 4380,
+      "distance3D": 4380.29,
+      "reward": 5350,
+      "biome": "forest",
+      "deliveryCenter": {
+        "x": -2479.652,
+        "z": -2723.683
+      },
+      "fuelCenter": {
+        "x": -2468.338,
+        "z": -2734.997
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 11,
+      "deliveryId": "delivery-checkpoint-11",
+      "fuelId": "fuel-checkpoint-11",
+      "progress": 5180,
+      "distance3D": 5184.543,
+      "reward": 6780,
+      "biome": "forest",
+      "deliveryCenter": {
+        "x": -3045.337,
+        "z": -3289.368
+      },
+      "fuelCenter": {
+        "x": -3034.024,
+        "z": -3300.682
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 12,
+      "deliveryId": "delivery-checkpoint-12",
+      "fuelId": "fuel-checkpoint-12",
+      "progress": 6080,
+      "distance3D": 6084.696,
+      "reward": 8460,
+      "biome": "desert",
+      "deliveryCenter": {
+        "x": -3679.306,
+        "z": -3928.68
+      },
+      "fuelCenter": {
+        "x": -3667.44,
+        "z": -3939.413
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 13,
+      "deliveryId": "delivery-checkpoint-13",
+      "fuelId": "fuel-checkpoint-13",
+      "progress": 7100,
+      "distance3D": 7104.906,
+      "reward": 10510,
+      "biome": "desert",
+      "deliveryCenter": {
+        "x": -3980.346,
+        "z": -4876.686
+      },
+      "fuelCenter": {
+        "x": -3964.346,
+        "z": -4876.692
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 14,
+      "deliveryId": "delivery-checkpoint-14",
+      "fuelId": "fuel-checkpoint-14",
+      "progress": 8250,
+      "distance3D": 8259.367,
+      "reward": 12910,
+      "biome": "desert",
+      "deliveryCenter": {
+        "x": -3980.35,
+        "z": -6026.689
+      },
+      "fuelCenter": {
+        "x": -3964.35,
+        "z": -6026.689
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 15,
+      "deliveryId": "delivery-checkpoint-15",
+      "fuelId": "fuel-checkpoint-15",
+      "progress": 9550,
+      "distance3D": 9559.49,
+      "reward": 15680,
+      "biome": "snow",
+      "deliveryCenter": {
+        "x": -3634.38,
+        "z": -7231.451
+      },
+      "fuelCenter": {
+        "x": -3622.985,
+        "z": -7220.219
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 16,
+      "deliveryId": "delivery-checkpoint-16",
+      "fuelId": "fuel-checkpoint-16",
+      "progress": 13550,
+      "distance3D": 13568.949,
+      "reward": 19460,
+      "biome": "volcanic",
+      "deliveryCenter": {
+        "x": -1942.396,
+        "z": -10566.447
+      },
+      "fuelCenter": {
+        "x": -1927.613,
+        "z": -10572.569
+      },
+      "radius": 4.4
+    }
+  ],
+  "bridges": [
+    {
+      "id": "city-bridge-1",
+      "biome": "city",
+      "from": 948,
+      "to": 972,
+      "halfWidth": 2.5,
+      "offset": -3.5
+    },
+    {
+      "id": "city-bridge-2",
+      "biome": "city",
+      "from": 1308,
+      "to": 1332,
+      "halfWidth": 2.5,
+      "offset": 0
+    },
+    {
+      "id": "city-bridge-3",
+      "biome": "city",
+      "from": 1708,
+      "to": 1732,
+      "halfWidth": 2.5,
+      "offset": 3.9
+    },
+    {
+      "id": "city-bridge-4",
+      "biome": "city",
+      "from": 2148,
+      "to": 2172,
+      "halfWidth": 2.5,
+      "offset": -6.5
+    },
+    {
+      "id": "city-bridge-5",
+      "biome": "city",
+      "from": 2648,
+      "to": 2672,
+      "halfWidth": 2.5,
+      "offset": 6.6
+    },
+    {
+      "id": "forest-bridge-1",
+      "biome": "forest",
+      "from": 3308,
+      "to": 3332,
+      "halfWidth": 2.5,
+      "offset": -4.7
+    },
+    {
+      "id": "forest-bridge-2",
+      "biome": "forest",
+      "from": 3838,
+      "to": 3862,
+      "halfWidth": 2.5,
+      "offset": 0
+    },
+    {
+      "id": "forest-bridge-3",
+      "biome": "forest",
+      "from": 4058,
+      "to": 4082,
+      "halfWidth": 2.5,
+      "offset": 5.5
+    },
+    {
+      "id": "forest-bridge-4",
+      "biome": "forest",
+      "from": 5348,
+      "to": 5372,
+      "halfWidth": 2.5,
+      "offset": -6
+    },
+    {
+      "id": "forest-bridge-5",
+      "biome": "forest",
+      "from": 5568,
+      "to": 5592,
+      "halfWidth": 2.5,
+      "offset": 4.4
+    },
+    {
+      "id": "desert-bridge-1",
+      "biome": "desert",
+      "from": 6248,
+      "to": 6272,
+      "halfWidth": 2.5,
+      "offset": -5.9
+    },
+    {
+      "id": "desert-bridge-2",
+      "biome": "desert",
+      "from": 6468,
+      "to": 6492,
+      "halfWidth": 2.5,
+      "offset": 0
+    },
+    {
+      "id": "desert-bridge-3",
+      "biome": "desert",
+      "from": 6688,
+      "to": 6712,
+      "halfWidth": 2.5,
+      "offset": 6
+    },
+    {
+      "id": "desert-bridge-4",
+      "biome": "desert",
+      "from": 6908,
+      "to": 6932,
+      "halfWidth": 2.5,
+      "offset": -4.4
+    },
+    {
+      "id": "desert-bridge-5",
+      "biome": "desert",
+      "from": 7938,
+      "to": 7962,
+      "halfWidth": 2.5,
+      "offset": 5.1
+    },
+    {
+      "id": "snow-bridge-1",
+      "biome": "snow",
+      "from": 8808,
+      "to": 8832,
+      "halfWidth": 2.5,
+      "offset": -4.4
+    },
+    {
+      "id": "snow-bridge-2",
+      "biome": "snow",
+      "from": 9028,
+      "to": 9052,
+      "halfWidth": 2.5,
+      "offset": 0
+    },
+    {
+      "id": "snow-bridge-3",
+      "biome": "snow",
+      "from": 9248,
+      "to": 9272,
+      "halfWidth": 2.5,
+      "offset": 3.5
+    },
+    {
+      "id": "snow-bridge-4",
+      "biome": "snow",
+      "from": 10458,
+      "to": 10482,
+      "halfWidth": 2.5,
+      "offset": -6.3
+    },
+    {
+      "id": "snow-bridge-5",
+      "biome": "snow",
+      "from": 10678,
+      "to": 10702,
+      "halfWidth": 2.5,
+      "offset": 5.7
+    },
+    {
+      "id": "volcanic-bridge-1",
+      "biome": "volcanic",
+      "from": 11308,
+      "to": 11332,
+      "halfWidth": 2.5,
+      "offset": -6.1
+    },
+    {
+      "id": "volcanic-bridge-2",
+      "biome": "volcanic",
+      "from": 11528,
+      "to": 11552,
+      "halfWidth": 2.5,
+      "offset": 0
+    },
+    {
+      "id": "volcanic-bridge-3",
+      "biome": "volcanic",
+      "from": 12508,
+      "to": 12532,
+      "halfWidth": 2.5,
+      "offset": 5.5
+    },
+    {
+      "id": "volcanic-bridge-4",
+      "biome": "volcanic",
+      "from": 12728,
+      "to": 12752,
+      "halfWidth": 2.5,
+      "offset": -5.5
+    },
+    {
+      "id": "volcanic-bridge-5",
+      "biome": "volcanic",
+      "from": 13168,
+      "to": 13192,
+      "halfWidth": 2.5,
+      "offset": 5.1
+    }
+  ],
+  "assumptions": {
+    "driver": "Deterministic clean bridge-aware controller, not fastest possible or human-play timing. Holds/releases ordinary pedal only; requests about 4 m/s near narrow bridges/unsuitable terrain and 8 m/s near center-crossing obstacle envelopes. Follows conservative fixed bypasses around full mover envelopes using shared runtime pose metadata. No pose/speed/fuel injection. This controller is not an optimal or human driver.",
+    "refills": "Free and instantaneous when the actual vehicle centre enters each prior right-hand 4.4 m fuel circle; every prior station required by the harness. No dwell time added. Successful delivery to the left-hand circle instantly pays and returns to hangar.",
+    "restart": "Driving-only timing excludes garage walking, cooldown, car purchase, menus and reload. Cash/min shown separately with assumed 0, 5, 10 and 20 seconds of restart overhead per run. Those overheads are sensitivities, not measurements.",
+    "upgrades": "Stock means all levels 0; max10 means all four stats level 10 already owned. Does not charge time or brains to buy upgrades, and does not assert an optimal purchase plan.",
+    "failures": "All reported successful rates assume no missed refills, collision or bridge fall. Real learning and mistakes are unmeasured. Late failed runs pay zero, so real long-route yield can be substantially lower.",
+    "reward": "One endpoint payout per run, with production clean/hard/first bonuses and route tracker. reward stores base for budget compatibility; totalReward is actual payout. Each run starts a fresh career with owned vehicles/upgrades as test setup; purchase acquisition is excluded.",
+    "scope": "Offline CPU production modules at 20 Hz controller update and 120 Hz fixed physics. No browser/GPU/rendering or human playtest claim."
+  },
+  "completedAt": "2026-10-14T12:17:58.730Z",
+  "runtimeHashesAtEnd": {
+    "app.js": "da69b5ed46b500cf86a69f8c1bfc1e0dd91f0bfc583f74051cbb8f7b6b327d4e",
+    "biome-surfaces.js": "269e51c2c3ac2d32bc29f1780a2342a9df315fc3a7e6efe7b24a210d994e628a",
+    "biome-travel.js": "604c1c2e90abab4bf6526c324b4ae09eb6d647cdbbcf2da61d22eff78a12ed73",
+    "biome-weather.js": "17182b09e8c82129bfcecfed0a2bae0c7c3b4d9324943141fbe2263dd20415fa",
+    "building-material.js": "de80b6b72afb2489a2a47baa11570c2190b8c6f54b372748748c1b790a0fe042",
+    "career-missions.js": "551340b29d59c5bcfe3724feb372bc60cc463bf8602f2d51f924b40744b24cce",
+    "career-route-tracker.js": "55398b1b04d3443e19dce4c3bdf4df635ec8271ce581f6c16fdab3460d250d71",
+    "career-save.js": "0f11c377f130618880d4b811c67b07420b53d2019e5fbd51c80aaa911bdf107d",
+    "character-catalog.js": "1ceed0f70e0604f1ab4343ee09184e9bb6c0b33767ff5415c0427363440707f6",
+    "character-seat-calibration.js": "2d09cbf7f2b2581bed84f81ae41b790c2877e979f017360a04561b8e3443d51d",
+    "character-seat-pose.js": "aef6693f7fa229e6a4a2c8c5c3c31d56213820a109275a09d5fd755bd3fdcb73",
+    "character-support.js": "35b780187ae42ed5fc2a34035c9bf5c7b5603d1304c7e6e658a5a2e531211528",
+    "character.js": "ff88173983ee6a022290542aac867b73f5ae0c6d009cef1f47b3641d16951f59",
+    "city-driving.js": "a33f82d66e2fa50fb281fb28e8231decb76ef216557110fd2881f4b3338f4b82",
+    "driving-ground.js": "157ac92a62df8858ba2af419e334121966214aa59dd91b063e6e30a7d4e14c84",
+    "driving-model.js": "74b1165a2cc326b940eb1de89292741596035e58fc06c57ef4d4c292f35af3bc",
+    "economy-config.js": "bb5d41f9e54843bc373630fb32c29c74f91bcc66475569e7f494d1d4fb2177b6",
+    "follow-camera.js": "619bec5c16b350b5c6404127cd2d772a7aef5276091b6d2f8a2e9b5b3d6a9a25",
+    "gameplay.js": "2443ef2cff35a3f83b85627e5316da141149454e7265cca1f672eabe0f095b73",
+    "garage-scene.js": "13d4a7fc38bc53ae02e26e9a04b98a8f05e391843b389a693b39237d21a6b95b",
+    "ground-material.js": "3855969200dfbd2f567e965f3e3e621bcd64e137034506eedf420f22374ed103",
+    "jump-input.js": "7b6f4a074658f15691c0e1e2f39cad9acf6a66264d8d7854d78f6f303c445832",
+    "look-input.js": "73c8fbee12a361fa230c9070cd96671da01f8ebba5e8d698368987b6aa9869ec",
+    "network-scene.js": "71bde9a8753033348274ec7f4f1661526730e9d35cf96457e769da85f86f7a11",
+    "progression-config.js": "53618eb715251c0feef2cf62ea62206e7ccf12ca9ba3fae9d1dfe61a8013110e",
+    "progression-hud.js": "55ff5a58e2b0fd0d166e98a42d58be02f126112af3735bd8e217e05eb707a6d5",
+    "retention-ui.js": "342a276916157e01909535ed60117d78feac9ae21472886ec3d8aa761d5e3420",
+    "road-bridges.js": "a717a3019e8cb8d04d45324a959ba84a85e1d11fb43f8fc919508e1643046384",
+    "road-hazards-scene.js": "f9c1ddafbf68bf1ebdd2fe4313ff77c6d3e838741a068c9aa285c97f349593d2",
+    "road-hazards.js": "00c9f66ee5469692e1dbc2ae24b1a0a12ff978d2585dfb6952f5768650e90948",
+    "road-layout.js": "4705972cf548ff56a004b63a5d85ba41f67caf2b1fe16572c908abd3d10b8685",
+    "road-material.js": "90a81ae425b987e980c8d94b73ce5311f4121632ae99e4f7dfaaafab8f48067a",
+    "route-network-config.js": "7b3542dc2e057b59ceb6e5858bd32bc33f524bcb2e2be6beba924b1162b7ec18",
+    "route-network.js": "c906578aa6d913d6c0d96f82a3c230373c4aefebe85c9accd1637a0a61dc115e",
+    "scene-lighting.js": "ba7b5eeeda73bb2532111668ee7d7d4520f78e102645d1c6f67a6b7c74f55608",
+    "scene.js": "169df363d212808a50b43cd9106ab1a4b8f7b35a04009bdf50acf695cb50290a",
+    "square-stud-texture.js": "8dcbe950316893d74bcb5b0f103b7e8bd972e6ef82e968239f6ee0c4442e367b",
+    "vehicle-input.js": "9bcf192299b0f5d56a0346e8eed53fc7a281bea24939690b8a2bfe99b2ffcc2e",
+    "vehicle-rig.js": "11c527c5aced8eeac2b748c8dfa1a413eab132de88ca28e9437f603fb7945b72",
+    "vehicle-upgrades.js": "6694010402ede4bb0df4a9b25b86c0765c4a0de4912db2175a404dfbd0939ccf",
+    "walk-input.js": "0f575e0a4a58c8a5f7f74edd78e941c5ab0304ecab18ff25d6c2a3b103850af7",
+    "wheel-particles.js": "4393a9ef61623d0a7a6d89934cc4acb984b7a768a954fdc8649ed5c8f070f743"
+  },
+  "changedRuntimeFiles": [],
+  "ignoredDependencies": [],
+  "changedRelevantRuntimeFiles": [],
+  "passed": true
+}

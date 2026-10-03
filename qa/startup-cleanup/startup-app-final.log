@@ -1,0 +1,7 @@
+PASS actual app startup: no early simulation/input/render; waits for all vehicles + displays; rendered scene before reveal; in-game audio returns. CPU mock renderer only.
+World startup failed Error: Vehicle models incomplete
+    at eval (eval at createAppDom (file:///workspace/scratch/e6939d35b3a6/city-help-settings/tests/fixtures/app-dom.mjs:73:2), <anonymous>:833:84)
+    at async Promise.all (index 1)
+World startup failed Error: vehicle unavailable
+    at file:///workspace/scratch/e6939d35b3a6/city-help-settings/tests/startup-app.mjs:23:75
+PASS incomplete/rejected vehicle loads show retry error and keep gameplay blocked.

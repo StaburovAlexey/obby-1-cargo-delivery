@@ -1,0 +1,809 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> urban-route-procedural-three@1.59.0 test:large-vehicles
+> node tests/road-vehicle-scale.mjs && node tests/large-car-collisions.mjs && node tests/large-bridge-clearance.mjs && node tests/large-vehicle-envelope.mjs && node tests/vehicle-shadow-banding.mjs && node tests/parked-display-app.mjs && node tests/cosmo-app.mjs && node tests/hidden-cargo.mjs && node tests/padded-wheel-input.mjs
+
+{
+  "passed": true,
+  "scope": "CPU exact GLBs, source-derived full-size geometry/contact checks; no browser/GPU claim",
+  "vehicles": [
+    {
+      "id": "pickup",
+      "priorScale": 1.121211788358805,
+      "scale": 1.6818176825382076,
+      "width": 3.953852043261104,
+      "length": 8.64,
+      "height": 2.930843546595173,
+      "wheelRadii": [
+        0.7143922688742305,
+        0.7143922688742305,
+        0.71439226887423,
+        0.71439226887423
+      ]
+    },
+    {
+      "id": "citycourier",
+      "priorScale": 1.00656401036529,
+      "scale": 1.509846015547935,
+      "width": 3.391820320308059,
+      "length": 8.64,
+      "height": 2.523490725885277,
+      "wheelRadii": [
+        0.5684789078644872,
+        0.5684788814159625,
+        0.5684789078644872,
+        0.5684788814159625
+      ]
+    },
+    {
+      "id": "rover",
+      "priorScale": 1.2931142273448006,
+      "scale": 1.9396713410172008,
+      "width": 4.429010247417004,
+      "length": 8.64,
+      "height": 3.9471463695887032,
+      "wheelRadii": [
+        0.9681855623503198,
+        0.9681855623503198,
+        0.9681855623503198,
+        0.9681855623503198
+      ]
+    },
+    {
+      "id": "foresthauler",
+      "priorScale": 1.1556895069207118,
+      "scale": 1.7335342603810677,
+      "width": 3.673078389705141,
+      "length": 8.64,
+      "height": 3.400198016041374,
+      "wheelRadii": [
+        0.7052362599789784,
+        0.7052362181824551,
+        0.7052362599789784,
+        0.7052362181824551
+      ]
+    },
+    {
+      "id": "van",
+      "priorScale": 1.1830348995228919,
+      "scale": 1.7745523492843378,
+      "width": 3.5641289143802712,
+      "length": 8.64,
+      "height": 2.413417874845603,
+      "wheelRadii": [
+        0.6063168594752918,
+        0.6063168560223587,
+        0.6063168594752922,
+        0.6063168560223587
+      ]
+    },
+    {
+      "id": "desertscout",
+      "priorScale": 1.2025475169635933,
+      "scale": 1.80382127544539,
+      "width": 3.545898297360188,
+      "length": 8.64,
+      "height": 2.4891624486290063,
+      "wheelRadii": [
+        0.7358359754540218,
+        0.7358359912531204,
+        0.7358359754540218,
+        0.7358359912531204
+      ]
+    },
+    {
+      "id": "snowgrip",
+      "priorScale": 1.4339950680432965,
+      "scale": 2.1509926020649446,
+      "width": 4.242324486496386,
+      "length": 8.64,
+      "height": 3.4880435820888613,
+      "wheelRadii": [
+        0.6918299088902796,
+        0.6918299277301428,
+        0.6918299348211245,
+        0.691829953660987
+      ]
+    },
+    {
+      "id": "snowrunner",
+      "priorScale": 1.1186303727483626,
+      "scale": 1.677945559122544,
+      "width": 4.149532847370322,
+      "length": 8.64,
+      "height": 3.2973541051798723,
+      "wheelRadii": [
+        0.7311064981889365,
+        0.7311065331136541,
+        0.7526928422311384,
+        0.7526928422311384
+      ]
+    },
+    {
+      "id": "lavacrawler",
+      "priorScale": 1.2469780243474933,
+      "scale": 1.87046703652124,
+      "width": 3.866636491127901,
+      "length": 8.64,
+      "height": 2.4840704914060545,
+      "wheelRadii": [
+        0.7265510487011382,
+        0.7265510323183105,
+        0.7265510487011382,
+        0.7265510323183105
+      ]
+    },
+    {
+      "id": "ashhauler",
+      "priorScale": 1.1809581254203882,
+      "scale": 1.7714371881305824,
+      "width": 3.9392336498302805,
+      "length": 8.64,
+      "height": 2.303019459087425,
+      "wheelRadii": [
+        0.711708465250535,
+        0.7117084866057279,
+        0.7117084120956493,
+        0.7117084792522809
+      ]
+    }
+  ],
+  "meshVertices": 36537,
+  "tireVertices": 5884,
+  "displaySwitches": 50,
+  "smallestParkingGap": 0.6040713330666492
+}
+{
+  "passed": true,
+  "scope": "Offline actual GLBs, OBB/SAT, runtime moving poses and existing production sweeps",
+  "cars": [
+    {
+      "id": "pickup",
+      "width": 3.953852043261104,
+      "length": 8.64
+    },
+    {
+      "id": "citycourier",
+      "width": 3.391820320308059,
+      "length": 8.64
+    },
+    {
+      "id": "rover",
+      "width": 4.429010247417004,
+      "length": 8.64
+    },
+    {
+      "id": "foresthauler",
+      "width": 3.673078389705141,
+      "length": 8.64
+    },
+    {
+      "id": "van",
+      "width": 3.5641289143802712,
+      "length": 8.64
+    },
+    {
+      "id": "desertscout",
+      "width": 3.545898297360188,
+      "length": 8.64
+    },
+    {
+      "id": "snowgrip",
+      "width": 4.242324486496386,
+      "length": 8.64
+    },
+    {
+      "id": "snowrunner",
+      "width": 4.149532847370322,
+      "length": 8.64
+    },
+    {
+      "id": "lavacrawler",
+      "width": 3.866636491127901,
+      "length": 8.64
+    },
+    {
+      "id": "ashhauler",
+      "width": 3.9392336498302805,
+      "length": 8.64
+    }
+  ],
+  "faceChecks": 1200,
+  "yawChecks": 11250,
+  "roadChecks": 10420,
+  "sweeps": 140,
+  "moverChecks": 4000,
+  "minimumPassage": 13.154514405440406
+}
+{
+  "status": "PASS",
+  "scope": "Actual ten local GLBs; renderer-free Three geometry and production support. No browser, GPU or touchscreen validation.",
+  "bridges": 25,
+  "width": 5,
+  "crossings": 500,
+  "crossingSamples": 18500,
+  "modestCorrections": 9000,
+  "curvedSilhouetteChecks": 256000,
+  "vehicles": [
+    {
+      "id": "pickup",
+      "model": "coupe",
+      "dimensions": [
+        3.953852043261104,
+        2.930843546595173,
+        8.64
+      ],
+      "centeredOuterHalfWidth": 1.6983415515742446,
+      "centeredMargin": 0.8016584484257554,
+      "modestOuterHalfWidth": 1.8827672559892876,
+      "modestPhysicalMargin": 0.5972327440107124,
+      "minimumCurvedSilhouetteMargin": 0.5820062131513719,
+      "maxSteerOuterHalfWidth": 1.972006955560131,
+      "maxSteerPhysicalMargin": 0.527993044439869,
+      "projection": [
+        {
+          "viewport": [
+            1920,
+            1080
+          ],
+          "maxAbsNdcX": 0.10345732533770914,
+          "maxAbsNdcY": 0.35681076906397824,
+          "screenHeightFraction": 0.2646061336496668
+        },
+        {
+          "viewport": [
+            390,
+            844
+          ],
+          "maxAbsNdcX": 0.3232852915858231,
+          "maxAbsNdcY": 0.28557899027744754,
+          "screenHeightFraction": 0.21699259317372283
+        },
+        {
+          "viewport": [
+            320,
+            568
+          ],
+          "maxAbsNdcX": 0.2651590558060261,
+          "maxAbsNdcY": 0.28557899027744754,
+          "screenHeightFraction": 0.21699259317372283
+        },
+        {
+          "viewport": [
+            320,
+            844
+          ],
+          "maxAbsNdcX": 0.3330532500155487,
+          "maxAbsNdcY": 0.23334661289138553,
+          "screenHeightFraction": 0.18085958514025816
+        }
+      ]
+    },
+    {
+      "id": "citycourier",
+      "model": "police",
+      "dimensions": [
+        3.391820320308059,
+        2.523490725885277,
+        8.64
+      ],
+      "centeredOuterHalfWidth": 1.3514582713584122,
+      "centeredMargin": 1.1485417286415878,
+      "modestOuterHalfWidth": 1.5134859493302304,
+      "modestPhysicalMargin": 0.9665140506697696,
+      "minimumCurvedSilhouetteMargin": 0.9541724107540377,
+      "maxSteerOuterHalfWidth": 1.5692279988775026,
+      "maxSteerPhysicalMargin": 0.9307720011224974,
+      "projection": [
+        {
+          "viewport": [
+            1920,
+            1080
+          ],
+          "maxAbsNdcX": 0.08243971847232964,
+          "maxAbsNdcY": 0.3710725488071032,
+          "screenHeightFraction": 0.2533851067874616
+        },
+        {
+          "viewport": [
+            390,
+            844
+          ],
+          "maxAbsNdcX": 0.26727895446439387,
+          "maxAbsNdcY": 0.2968939985509799,
+          "screenHeightFraction": 0.20683393472744016
+        },
+        {
+          "viewport": [
+            320,
+            568
+          ],
+          "maxAbsNdcX": 0.2192225784691666,
+          "maxAbsNdcY": 0.2968939985509799,
+          "screenHeightFraction": 0.20683393472744016
+        },
+        {
+          "viewport": [
+            320,
+            844
+          ],
+          "maxAbsNdcX": 0.27690732760712605,
+          "maxAbsNdcY": 0.2425324495623639,
+          "screenHeightFraction": 0.17175803171811793
+        }
+      ]
+    },
+    {
+      "id": "rover",
+      "model": "jeep",
+      "dimensions": [
+        4.429010247417004,
+        3.9471463695887032,
+        8.64
+      ],
+      "centeredOuterHalfWidth": 2.214505123708502,
+      "centeredMargin": 0.28549487629149795,
+      "modestOuterHalfWidth": 2.4342647888436453,
+      "modestPhysicalMargin": 0.04573521115635472,
+      "minimumCurvedSilhouetteMargin": 0.025644795337739446,
+      "maxSteerOuterHalfWidth": 2.5853921983130546,
+      "maxSteerPhysicalMargin": -0.08539219831305456,
+      "projection": [
+        {
+          "viewport": [
+            1920,
+            1080
+          ],
+          "maxAbsNdcX": 0.13864253261074433,
+          "maxAbsNdcY": 0.33544576183312835,
+          "screenHeightFraction": 0.27763620382724497
+        },
+        {
+          "viewport": [
+            390,
+            844
+          ],
+          "maxAbsNdcX": 0.4255942919110357,
+          "maxAbsNdcY": 0.2698360466159547,
+          "screenHeightFraction": 0.22880223149320905
+        },
+        {
+          "viewport": [
+            320,
+            568
+          ],
+          "maxAbsNdcX": 0.34907304333579914,
+          "maxAbsNdcY": 0.2698360466159547,
+          "screenHeightFraction": 0.22880223149320905
+        },
+        {
+          "viewport": [
+            320,
+            844
+          ],
+          "maxAbsNdcX": 0.42573598171694094,
+          "maxAbsNdcY": 0.2213031790641674,
+          "screenHeightFraction": 0.19134164074153348
+        }
+      ]
+    },
+    {
+      "id": "foresthauler",
+      "model": "van",
+      "dimensions": [
+        3.673078389705141,
+        3.400198016041374,
+        8.64
+      ],
+      "centeredOuterHalfWidth": 1.7972321189688245,
+      "centeredMargin": 0.7027678810311755,
+      "modestOuterHalfWidth": 1.9758055998372206,
+      "modestPhysicalMargin": 0.5041944001627794,
+      "minimumCurvedSilhouetteMargin": 0.48962924543024133,
+      "maxSteerOuterHalfWidth": 2.0673900959470646,
+      "maxSteerPhysicalMargin": 0.4326099040529354,
+      "projection": [
+        {
+          "viewport": [
+            1920,
+            1080
+          ],
+          "maxAbsNdcX": 0.11654032428229345,
+          "maxAbsNdcY": 0.37538735558841013,
+          "screenHeightFraction": 0.28880330913397884
+        },
+        {
+          "viewport": [
+            390,
+            844
+          ],
+          "maxAbsNdcX": 0.35745082295484154,
+          "maxAbsNdcY": 0.3010423774103362,
+          "screenHeightFraction": 0.23520336182790674
+        },
+        {
+          "viewport": [
+            320,
+            568
+          ],
+          "maxAbsNdcX": 0.2931816732114799,
+          "maxAbsNdcY": 0.3010423774103362,
+          "screenHeightFraction": 0.23520336182790674
+        },
+        {
+          "viewport": [
+            320,
+            844
+          ],
+          "maxAbsNdcX": 0.3551036121100247,
+          "maxAbsNdcY": 0.2463396712079549,
+          "screenHeightFraction": 0.19480257006480434
+        }
+      ]
+    },
+    {
+      "id": "van",
+      "model": "kamaro",
+      "dimensions": [
+        3.5641289143802712,
+        2.413417874845603,
+        8.64
+      ],
+      "centeredOuterHalfWidth": 1.599685117079326,
+      "centeredMargin": 0.900314882920674,
+      "modestOuterHalfWidth": 1.7710444418663152,
+      "modestPhysicalMargin": 0.7089555581336848,
+      "minimumCurvedSilhouetteMargin": 0.6908006480483042,
+      "maxSteerOuterHalfWidth": 1.813255778245466,
+      "maxSteerPhysicalMargin": 0.6867442217545341,
+      "projection": [
+        {
+          "viewport": [
+            1920,
+            1080
+          ],
+          "maxAbsNdcX": 0.10136633850833074,
+          "maxAbsNdcY": 0.365316234202087,
+          "screenHeightFraction": 0.26242701059899937
+        },
+        {
+          "viewport": [
+            390,
+            844
+          ],
+          "maxAbsNdcX": 0.31685887643519134,
+          "maxAbsNdcY": 0.29278790742917143,
+          "screenHeightFraction": 0.21505428468541649
+        },
+        {
+          "viewport": [
+            320,
+            568
+          ],
+          "maxAbsNdcX": 0.25988810096239484,
+          "maxAbsNdcY": 0.29278790742917143,
+          "screenHeightFraction": 0.21505428468541649
+        },
+        {
+          "viewport": [
+            320,
+            844
+          ],
+          "maxAbsNdcX": 0.3190847740591461,
+          "maxAbsNdcY": 0.23947811682552875,
+          "screenHeightFraction": 0.17912638384947976
+        }
+      ]
+    },
+    {
+      "id": "desertscout",
+      "model": "ghini",
+      "dimensions": [
+        3.545898297360188,
+        2.4891624486290063,
+        8.64
+      ],
+      "centeredOuterHalfWidth": 1.6703952678568927,
+      "centeredMargin": 0.8296047321431073,
+      "modestOuterHalfWidth": 1.8478662503339667,
+      "modestPhysicalMargin": 0.6321337496660333,
+      "minimumCurvedSilhouetteMargin": 0.61671099955558,
+      "maxSteerOuterHalfWidth": 1.944312683673829,
+      "maxSteerPhysicalMargin": 0.5556873163261711,
+      "projection": [
+        {
+          "viewport": [
+            1920,
+            1080
+          ],
+          "maxAbsNdcX": 0.10178414280278339,
+          "maxAbsNdcY": 0.39279239453300674,
+          "screenHeightFraction": 0.2621753786523253
+        },
+        {
+          "viewport": [
+            390,
+            844
+          ],
+          "maxAbsNdcX": 0.31734120465652277,
+          "maxAbsNdcY": 0.31500502716585194,
+          "screenHeightFraction": 0.21426035651866673
+        },
+        {
+          "viewport": [
+            320,
+            568
+          ],
+          "maxAbsNdcX": 0.26028370725530553,
+          "maxAbsNdcY": 0.31500502716585194,
+          "screenHeightFraction": 0.21426035651866673
+        },
+        {
+          "viewport": [
+            320,
+            844
+          ],
+          "maxAbsNdcX": 0.31894894801928336,
+          "maxAbsNdcY": 0.257767957675825,
+          "screenHeightFraction": 0.17807715455041673
+        }
+      ]
+    },
+    {
+      "id": "snowgrip",
+      "model": "rally",
+      "dimensions": [
+        4.242324486496386,
+        3.4880435820888613,
+        8.64
+      ],
+      "centeredOuterHalfWidth": 1.8827099235633074,
+      "centeredMargin": 0.6172900764366926,
+      "modestOuterHalfWidth": 2.061523390923818,
+      "modestPhysicalMargin": 0.418476609076182,
+      "minimumCurvedSilhouetteMargin": 0.40395073139455384,
+      "maxSteerOuterHalfWidth": 2.147732239191246,
+      "maxSteerPhysicalMargin": 0.3522677608087541,
+      "projection": [
+        {
+          "viewport": [
+            1920,
+            1080
+          ],
+          "maxAbsNdcX": 0.13047338913161785,
+          "maxAbsNdcY": 0.38884620435946277,
+          "screenHeightFraction": 0.271609378838921
+        },
+        {
+          "viewport": [
+            390,
+            844
+          ],
+          "maxAbsNdcX": 0.4046118946812826,
+          "maxAbsNdcY": 0.31253204864186634,
+          "screenHeightFraction": 0.22277864022368954
+        },
+        {
+          "viewport": [
+            320,
+            568
+          ],
+          "maxAbsNdcX": 0.33186325129516336,
+          "maxAbsNdcY": 0.31253204864186634,
+          "screenHeightFraction": 0.22277864022368954
+        },
+        {
+          "viewport": [
+            320,
+            844
+          ],
+          "maxAbsNdcX": 0.405038062446432,
+          "maxAbsNdcY": 0.25616242642707254,
+          "screenHeightFraction": 0.1856653298254709
+        }
+      ]
+    },
+    {
+      "id": "snowrunner",
+      "model": "armor",
+      "dimensions": [
+        4.149532847370322,
+        3.2973541051798723,
+        8.64
+      ],
+      "centeredOuterHalfWidth": 1.7362280382145445,
+      "centeredMargin": 0.7637719617854555,
+      "modestOuterHalfWidth": 1.909510271438991,
+      "modestPhysicalMargin": 0.5704897285610089,
+      "minimumCurvedSilhouetteMargin": 0.5556561810137675,
+      "maxSteerOuterHalfWidth": 2.009523528731359,
+      "maxSteerPhysicalMargin": 0.49047647126864113,
+      "projection": [
+        {
+          "viewport": [
+            1920,
+            1080
+          ],
+          "maxAbsNdcX": 0.11814781864645368,
+          "maxAbsNdcY": 0.3859785392468716,
+          "screenHeightFraction": 0.2823712274752622
+        },
+        {
+          "viewport": [
+            390,
+            844
+          ],
+          "maxAbsNdcX": 0.3662791636364155,
+          "maxAbsNdcY": 0.30931422575092377,
+          "screenHeightFraction": 0.23134647416399354
+        },
+        {
+          "viewport": [
+            320,
+            568
+          ],
+          "maxAbsNdcX": 0.30042269079065,
+          "maxAbsNdcY": 0.30931422575092377,
+          "screenHeightFraction": 0.23134647416399354
+        },
+        {
+          "viewport": [
+            320,
+            844
+          ],
+          "maxAbsNdcX": 0.36658338695933784,
+          "maxAbsNdcY": 0.2529750764778288,
+          "screenHeightFraction": 0.19264342678654608
+        }
+      ]
+    },
+    {
+      "id": "lavacrawler",
+      "model": "lamb",
+      "dimensions": [
+        3.866636491127901,
+        2.4840704914060545,
+        8.64
+      ],
+      "centeredOuterHalfWidth": 1.894615868744768,
+      "centeredMargin": 0.6053841312552319,
+      "modestOuterHalfWidth": 2.047309934637356,
+      "modestPhysicalMargin": 0.43269006536264376,
+      "minimumCurvedSilhouetteMargin": 0.41851133624805303,
+      "maxSteerOuterHalfWidth": 2.165650353592742,
+      "maxSteerPhysicalMargin": 0.33434964640725795,
+      "projection": [
+        {
+          "viewport": [
+            1920,
+            1080
+          ],
+          "maxAbsNdcX": 0.11650585626177254,
+          "maxAbsNdcY": 0.36454748597905606,
+          "screenHeightFraction": 0.253460331420291
+        },
+        {
+          "viewport": [
+            390,
+            844
+          ],
+          "maxAbsNdcX": 0.3629947085740365,
+          "maxAbsNdcY": 0.2926195858447477,
+          "screenHeightFraction": 0.20759845854864487
+        },
+        {
+          "viewport": [
+            320,
+            568
+          ],
+          "maxAbsNdcX": 0.29772877607864545,
+          "maxAbsNdcY": 0.2926195858447477,
+          "screenHeightFraction": 0.20759845854864487
+        },
+        {
+          "viewport": [
+            320,
+            844
+          ],
+          "maxAbsNdcX": 0.36464895720361035,
+          "maxAbsNdcY": 0.23961037398750348,
+          "screenHeightFraction": 0.1728276139454072
+        }
+      ]
+    },
+    {
+      "id": "ashhauler",
+      "model": "fenyr",
+      "dimensions": [
+        3.9392336498302805,
+        2.303019459087425,
+        8.64
+      ],
+      "centeredOuterHalfWidth": 1.8094888098515545,
+      "centeredMargin": 0.6905111901484455,
+      "modestOuterHalfWidth": 1.9767197819184572,
+      "modestPhysicalMargin": 0.5032802180815428,
+      "minimumCurvedSilhouetteMargin": 0.4898029720233117,
+      "maxSteerOuterHalfWidth": 2.0821260864635436,
+      "maxSteerPhysicalMargin": 0.4178739135364564,
+      "projection": [
+        {
+          "viewport": [
+            1920,
+            1080
+          ],
+          "maxAbsNdcX": 0.12263308075211113,
+          "maxAbsNdcY": 0.3554433435176058,
+          "screenHeightFraction": 0.24248005447946636
+        },
+        {
+          "viewport": [
+            390,
+            844
+          ],
+          "maxAbsNdcX": 0.378894771933819,
+          "maxAbsNdcY": 0.2858321130940474,
+          "screenHeightFraction": 0.1987997056858684
+        },
+        {
+          "viewport": [
+            320,
+            568
+          ],
+          "maxAbsNdcX": 0.31077003065306413,
+          "maxAbsNdcY": 0.2858321130940474,
+          "screenHeightFraction": 0.1987997056858684
+        },
+        {
+          "viewport": [
+            320,
+            844
+          ],
+          "maxAbsNdcX": 0.37825756773809094,
+          "maxAbsNdcY": 0.23436749454799138,
+          "screenHeightFraction": 0.16562404400575248
+        }
+      ]
+    }
+  ],
+  "approach": {
+    "maximumOffset": 0.02,
+    "maximumYawRadians": 0.04,
+    "maximumSteerRadians": 0.08
+  },
+  "sourceSha256": {
+    "cosmo-vehicles": "c9a22509ad2e8a32ce4feb2fe1757709e72726eca06741d54ec5ec46bbffdd9a",
+    "road-bridges": "bad842211260de7f67fba9fff592740a2b9f1bb2e70cb339e657e7a032306fa6",
+    "follow-camera": "79288804009cfd0d936b14daec701881afc6fd52c3a3c83a99b8fbb6c6a18eeb"
+  },
+  "tightestCentered": "rover",
+  "minimumCenteredMargin": 0.28549487629149795,
+  "minimumModestPhysicalMargin": 0.04573521115635472,
+  "minimumCurvedSilhouetteMargin": 0.025644795337739446,
+  "fullSteeringOverhang": [
+    {
+      "id": "rover",
+      "perSideOverhang": 0.08539219831305456
+    }
+  ],
+  "camera": {
+    "radius": 15.423683088030565,
+    "pitch": 0.5682210115436707,
+    "fov": 70
+  },
+  "recommendation": "Keep the 5m crossings. Align before entry, stay centered, use small corrections, and avoid full-lock steering on the deck."
+}
+{"wheelChecks":90,"maxCameraX":0.9284740996047394,"maxCameraY":0.5255717384249418,"scope":"Conservative full bounding-box CPU projections; not rendered screenshot"}
+{"passed":true,"poses":80,"baselineFalseSelfOcclusion":0.0818424999139599,"correctedFalseSelfOcclusion":0,"minimumGroundFootprintRatio":0.9991467576791809,"scope":"Actual GLBs, production matrices and CPU texel-depth model; no browser/GPU claim"}
+PASS actual application: all ten cars keep the same enlarged geometry in garage and on road, unchanged wheel metadata, hidden box with loaded cargo, return/rebuild restore display scale.
+PASS actual app + ten parsed GLBs: enter/park/articulation, actual tire bridge support, once-only falling return without income, ownership and reset. CPU/mock DOM only.
+PASS all ten cars retain loaded cargo without a visible box; successful delivery still pays once.
+PASS 48 CSS layout cases: original 112/132/185 px wheel rules, 24–32 px transparent rim, fuel clearance, pedal/HUD hit priority.
+PASS real vehicle/look handlers: rim starts, outside drags, capture and failed-capture fallback, both listener orders, independent camera/D/R fingers, actual center, wrap/dead-center/regrab.
+PASS wheel ownership is cleared on up/cancel/lost capture, reset/disable/destroy, blur/pagehide/resize, hidden tab and editable focus; stale moves never reacquire camera.
+PASS actual app: padded-button target -> steering, separate camera, upgrade/biome/career/receipt dialogs, blur/resize/pagehide/visibility, garage and fresh driving reset.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

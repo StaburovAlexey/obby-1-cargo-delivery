@@ -1,0 +1,25 @@
+{
+  "generatedAt": "2026-10-13T21:59:14.882821+00:00",
+  "baseline": "Site32 / 28b8ff4445f392f47a515fe62d115d1f84b9f689",
+  "generalRegression": {
+    "command": "npm test before appending the independent test command",
+    "exitCode": 0,
+    "passGroups": 431
+  },
+  "independentReview": {
+    "command": "node tests/school-anchor-review.mjs",
+    "exitCode": 0,
+    "passGroups": 10,
+    "cameraPoses": 3072,
+    "visibleLabels": 11892,
+    "overlapPairs": 10574,
+    "maximumAnchorErrorPx": 2.3e-13
+  },
+  "canonicalTestNowIncludesBoth": true,
+  "browserVerified": false,
+  "runtimeSHA256": {
+    "dist/app.js": "3aeba42281309b933c52bb61c67d7afbd3b33e2023fa2c6008d94d841f7c77fc",
+    "dist/progression-hud.js": "be62a7f48a7678c9cb6311701f0ee1259eb9d3949dbce855791ee7a314ffa0bb",
+    "dist/progression-ui.css": "243ead708d80513538118389f08c6bee9a9f1226d543e262104245e792167fa1"
+  }
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "name": "bridge-independent",
+    "exit": 0,
+    "tail": "fset\":0},{\"vehicle\":\"rover\",\"gear\":\"R\",\"frames\":522,\"maxSpeed\":4.119007787699793,\"maxOffset\":0},{\"vehicle\":\"foresthauler\",\"gear\":\"D\",\"frames\":519,\"maxSpeed\":4.139071265385352,\"maxOffset\":0},{\"vehicle\":\"foresthauler\",\"gear\":\"R\",\"frames\":520,\"maxSpeed\":4.13542196173389,\"maxOffset\":0},{\"vehicle\":\"van\",\"gear\":\"D\",\"frames\":517,\"maxSpeed\":4.150927829265316,\"maxOffset\":0},{\"vehicle\":\"van\",\"gear\":\"R\",\"frames\":518,\"maxSpeed\":4.146308822083195,\"maxOffset\":0},{\"vehicle\":\"desertscout\",\"gear\":\"D\",\"frames\":515,\"maxSpeed\":4.162144639325135,\"maxOffset\":0},{\"vehicle\":\"desertscout\",\"gear\":\"R\",\"frames\":516,\"maxSpeed\":4.159182740006936,\"maxOffset\":0},{\"vehicle\":\"snowgrip\",\"gear\":\"D\",\"frames\":514,\"maxSpeed\":4.17536464617371,\"maxOffset\":0},{\"vehicle\":\"snowgrip\",\"gear\":\"R\",\"frames\":514,\"maxSpeed\":4.1715102278777,\"maxOffset\":0},{\"vehicle\":\"snowrunner\",\"gear\":\"D\",\"frames\":512,\"maxSpeed\":4.189079191710195,\"maxOffset\":0},{\"vehicle\":\"snowrunner\",\"gear\":\"R\",\"frames\":513,\"maxSpeed\":4.185166760693032,\"maxOffset\":0},{\"vehicle\":\"lavacrawler\",\"gear\":\"D\",\"frames\":510,\"maxSpeed\":4.203348245512749,\"maxOffset\":0},{\"vehicle\":\"lavacrawler\",\"gear\":\"R\",\"frames\":511,\"maxSpeed\":4.200353266303221,\"maxOffset\":0},{\"vehicle\":\"ashhauler\",\"gear\":\"D\",\"frames\":508,\"maxSpeed\":4.220135653693258,\"maxOffset\":0},{\"vehicle\":\"ashhauler\",\"gear\":\"R\",\"frames\":509,\"maxSpeed\":4.217085053328118,\"maxOffset\":0}],\"allVehicleFalls\":10,\"pauseResumeCases\":3,\"scope\":\"Node real app and geometry; DOM/renderer mocked, no browser/GPU/Android claim\"}\n"
+  },
+  {
+    "name": "bridge-tip-independent",
+    "exit": 0,
+    "tail": "{\"status\":\"PASS\",\"maxTipLift\":0,\"maxLift\":0.04326414860235772,\"cornerCases\":160,\"cornerMinimum\":0.002601615219884388,\"cornerFailures\":[],\"cases\":120,\"directionCounts\":{\"front\":30,\"rear\":30,\"left\":30,\"right\":30},\"minDeckClearance\":0.001798249405833105,\"failures\":[],\"scope\":\"Production THREE math and actual truck mesh; offline only\"}\n"
+  },
+  {
+    "name": "network-scene",
+    "exit": 0,
+    "tail": "PASS Graph union has exact bridge cuts, opaque up-facing metric road and unchanged start\nPASS Fifteen single-car bridges replace wide road and remove all terrain support\nPASS Road union has no self-overlap and terrain never covers asphalt\nPASS Every road/terrain boundary shares the same actual Float32 height with no riser or daylight\nPASS Height queries agree with actual road triangles including curved grades and both branches\nPASS Physical 18m city storefront rows share cuts outside bridge gaps and never overlap\nPASS All massive biome envelopes clear actual asphalt including fork islands and rejoin mouths\nPASS Existing square/stud/storefront shader uses metric faces; graph paint uses explicit progress\nPASS Original procedural truck remains compatible with its unchanged animation rig\n"
+  },
+  {
+    "name": "biome-road-shader",
+    "exit": 0,
+    "tail": "PASS Road and terrain render the canonical curved graph with exact narrow bridge cuts\nPASS One opaque standard road material uses five palettes and the exact shared LEGO tile without geometry layers\nPASS Exact v26 grass checker pixels, metric UVs and mip policy are reused in all five road colors: {\"sharedTileBytes\":65536,\"addedGeometry\":0}\nPASS Five logical biomes cover full road width with continuous linear-light palette blends\nPASS Actual road and fringe shader uniforms share the dynamic sampler bounds and cheap metric pattern\nPASS Road paint remains embedded; the pre-existing terrain fringe gets no paint and preserves outside terrain\nPASS Graph attributes locate every curved road and terrain seam without world-Z biome assumptions: {\"existingTerrainVertices\":89106,\"seamVertices\":48453,\"unchangedOutsideVertices\":40653}\nPASS Fork shoulders and median islands retain biome ground without an asphalt flood: {\"islandVertices\":7824,\"outerVertices\":18504,\"edgeVertices\":18504,\"geometryAdded\":0}\nPASS Independent road-material instances preserve legacy city-color override and deterministic shader setup\n\n9 biome road material/geometry groups passed. Shader-source and CPU checks only, no WebGL/GPU claim.\n"
+  }
+]

@@ -1,0 +1,177 @@
+{
+  "totals": {
+    "allCars": 285000,
+    "allFourStatsAllCars": 226780,
+    "allSchools": 47000
+  },
+  "changedSinceCalibration": [],
+  "scenarios": [
+    {
+      "name": "Expanded route: same illustrative seven-car first-clear plan",
+      "hours": 12.264,
+      "runs": 56,
+      "retention": {
+        "firstCash": 2771,
+        "firstBrains": 550,
+        "missionCash": 889.316,
+        "missionBrains": 220.872,
+        "expectedMissionCompletions": 7.557,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "path": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ]
+    },
+    {
+      "name": "Expanded route: same plan without first-delivery and mission rewards",
+      "hours": 12.264,
+      "runs": 56,
+      "retention": {
+        "firstCash": 0,
+        "firstBrains": 0,
+        "missionCash": 0,
+        "missionBrains": 0,
+        "expectedMissionCompletions": 0,
+        "firstCheckpoints": []
+      },
+      "path": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ]
+    },
+    {
+      "name": "Expanded route: same plan without optional bonuses",
+      "hours": 13.995,
+      "runs": 63,
+      "retention": {
+        "firstCash": 0,
+        "firstBrains": 0,
+        "missionCash": 0,
+        "missionBrains": 0,
+        "expectedMissionCompletions": 0,
+        "firstCheckpoints": []
+      },
+      "path": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ]
+    },
+    {
+      "name": "Expanded route: capable careful driver assumptions",
+      "hours": 9.632,
+      "runs": 54,
+      "retention": {
+        "firstCash": 2771,
+        "firstBrains": 550,
+        "missionCash": 944.24,
+        "missionBrains": 234.855,
+        "expectedMissionCompletions": 7.989,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "path": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ]
+    },
+    {
+      "name": "Expanded route: frequent mistakes assumptions",
+      "hours": 17.056,
+      "runs": 58,
+      "retention": {
+        "firstCash": 2694,
+        "firstBrains": 535,
+        "missionCash": 831.939,
+        "missionBrains": 206.355,
+        "expectedMissionCompletions": 7.096,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "path": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ]
+    },
+    {
+      "name": "Expanded route: no hard-branch choices",
+      "hours": 12.755,
+      "runs": 57,
+      "retention": {
+        "firstCash": 2771,
+        "firstBrains": 550,
+        "missionCash": 210,
+        "missionBrains": 50,
+        "expectedMissionCompletions": 2,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "path": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ]
+    }
+  ]
+}

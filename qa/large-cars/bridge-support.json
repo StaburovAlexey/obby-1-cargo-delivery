@@ -1,0 +1,126 @@
+{
+  "status": "PASS",
+  "scope": "Actual ten GLBs, CPU production support and fall poses; no browser/GPU claim",
+  "vehicles": [
+    {
+      "id": "pickup",
+      "outerHalfWidth": 1.6983415515742446,
+      "centeredMargin": 0.8016584484257554,
+      "wheelRadii": [
+        0.7143922688742305,
+        0.7143922688742305,
+        0.71439226887423,
+        0.71439226887423
+      ]
+    },
+    {
+      "id": "citycourier",
+      "outerHalfWidth": 1.3514582713584122,
+      "centeredMargin": 1.1485417286415878,
+      "wheelRadii": [
+        0.5684789078644872,
+        0.5684788814159625,
+        0.5684789078644872,
+        0.5684788814159625
+      ]
+    },
+    {
+      "id": "rover",
+      "outerHalfWidth": 2.214505123708502,
+      "centeredMargin": 0.28549487629149795,
+      "wheelRadii": [
+        0.9681855623503198,
+        0.9681855623503198,
+        0.9681855623503198,
+        0.9681855623503198
+      ]
+    },
+    {
+      "id": "foresthauler",
+      "outerHalfWidth": 1.7972321189688245,
+      "centeredMargin": 0.7027678810311755,
+      "wheelRadii": [
+        0.7052362599789784,
+        0.7052362181824551,
+        0.7052362599789784,
+        0.7052362181824551
+      ]
+    },
+    {
+      "id": "van",
+      "outerHalfWidth": 1.5996851170793258,
+      "centeredMargin": 0.9003148829206742,
+      "wheelRadii": [
+        0.6063168594752918,
+        0.6063168560223587,
+        0.6063168594752922,
+        0.6063168560223587
+      ]
+    },
+    {
+      "id": "desertscout",
+      "outerHalfWidth": 1.6703952678568927,
+      "centeredMargin": 0.8296047321431073,
+      "wheelRadii": [
+        0.7358359754540218,
+        0.7358359912531204,
+        0.7358359754540218,
+        0.7358359912531204
+      ]
+    },
+    {
+      "id": "snowgrip",
+      "outerHalfWidth": 1.8827099235633074,
+      "centeredMargin": 0.6172900764366926,
+      "wheelRadii": [
+        0.6918299088902796,
+        0.6918299277301428,
+        0.6918299348211245,
+        0.691829953660987
+      ]
+    },
+    {
+      "id": "snowrunner",
+      "outerHalfWidth": 1.7362280382145445,
+      "centeredMargin": 0.7637719617854555,
+      "wheelRadii": [
+        0.7311064981889365,
+        0.7311065331136541,
+        0.7526928422311384,
+        0.7526928422311384
+      ]
+    },
+    {
+      "id": "lavacrawler",
+      "outerHalfWidth": 1.894615868744768,
+      "centeredMargin": 0.6053841312552319,
+      "wheelRadii": [
+        0.7265510487011382,
+        0.7265510323183105,
+        0.7265510487011382,
+        0.7265510323183105
+      ]
+    },
+    {
+      "id": "ashhauler",
+      "outerHalfWidth": 1.8094888098515545,
+      "centeredMargin": 0.6905111901484455,
+      "wheelRadii": [
+        0.711708465250535,
+        0.7117084866057279,
+        0.7117084120956493,
+        0.7117084792522809
+      ]
+    }
+  ],
+  "centered": 10500,
+  "edges": 2000,
+  "approaches": 1000,
+  "longitudinalThresholds": 320,
+  "diagonals": 3000,
+  "falls": 240,
+  "deckVertices": 965496,
+  "maxTipLift": 0,
+  "maxStartLift": 0,
+  "minimumClearance": 0.002999999999998282
+}

@@ -1,0 +1,41 @@
+#!/usr/bin/env node
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {execFileSync} from 'node:child_process';
+import {VEHICLE_CONFIG,DELIVERY_CHECKPOINTS} from '../dist/economy-config.js';
+import {SCHOOL_CONFIG,PROGRESSION_CONFIG} from '../dist/progression-config.js';
+import {CAREER_MISSIONS,DELIVERY_BONUS_RATES,calculateDeliveryReward} from '../dist/career-missions.js';
+const root=new URL('../',import.meta.url);
+execFileSync(process.execPath,['qa/economy-seven-hour/budget-model.mjs'],{cwd:root,stdio:'pipe'});
+const r=JSON.parse(fs.readFileSync(new URL('../qa/economy-seven-hour/budget-results.json',import.meta.url)));
+assert.deepEqual(r.cars.map(c=>c.price),VEHICLE_CONFIG.map(v=>v.price));
+assert.deepEqual(r.schools,SCHOOL_CONFIG.map(({id,price,rate})=>({id,price,rate})));
+assert.equal(r.drivingBrainsPerSecond,PROGRESSION_CONFIG.drivingRate);
+assert.deepEqual(r.mastery.rates,DELIVERY_BONUS_RATES);
+assert.deepEqual(r.retention.missions,CAREER_MISSIONS);
+assert.equal(r.mastery.firstEligibleCheckpoint,11);
+assert.equal(r.scenarios.length,13);
+assert.equal(r.totals.allCars,285000);assert.equal(r.totals.allFourStatsAllCars,226780);assert.equal(r.totals.allSchools,47000);
+const [typical,withoutRetention,historical]=r.scenarios;
+assert.ok(typical.totalHours>=7&&typical.totalHours<=8);
+assert.equal(typical.assumptions.historicalHardProxy,undefined);
+assert.equal(historical.assumptions.historicalHardProxy,true);
+assert.equal(typical.requiredStudyMinutes,0);
+assert.equal(withoutRetention.retentionRewards.firstCash,0);assert.equal(withoutRetention.retentionRewards.missionCash,0);
+assert.ok(typical.cashAfter>withoutRetention.cashAfter,'Finite new rewards are accounted in the budget');
+for(const s of r.scenarios){
+ assert.ok(s.brainsAfter>=0&&s.cashAfter>=0);
+ assert.equal(s.requiredStudyMinutes,0);
+ const rewards=s.retentionRewards;
+ assert.equal(rewards.firstCheckpoints.length,new Set(rewards.firstCheckpoints).size);
+ assert.equal(rewards.firstCash,rewards.firstCheckpoints.reduce((sum,id)=>sum+calculateDeliveryReward(DELIVERY_CHECKPOINTS.find(p=>p.id===id).reward,{first:true}).first,0));
+ assert.ok(rewards.firstCash<=r.retention.allCheckpointFirstBonusCash);
+ assert.ok(rewards.firstBrains<=r.retention.allCheckpointFirstBonusBrains);
+ assert.ok(rewards.missionCash<=150*s.successfulRuns+.001);
+ assert.ok(rewards.missionBrains<=40*s.successfulRuns+.001);
+ assert.ok(rewards.expectedMissionCompletions<=s.successfulRuns+.001);
+}
+assert.ok(r.scenarios[9].totalHours<7,'Skipping and short farming remain explicitly possible');
+assert.deepEqual(r.scenarios[10].carPath,['pickup','ashhauler']);
+assert.equal(r.scenarios[6].phases[0].purchase,'school-5');
+console.log('PASS economy budget: actual config/reward imports, real hard eligibility, finite first bonuses, bounded missions,7–8h illustrative plan, no required study, direct school5 and early-farm/skip witnesses.');

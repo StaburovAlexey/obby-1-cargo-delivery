@@ -1,0 +1,17 @@
+{
+  "baseline": "db318a158b9e3e7dede81bee76061677e1fc5d08",
+  "unchanged": {
+    "dist/economy-config.js": "8ab77c5da2277bd9f25d53aaa569f14b49380c5c01b2d06192717f90b7a775bf",
+    "dist/progression-config.js": "53618eb715251c0feef2cf62ea62206e7ccf12ca9ba3fae9d1dfe61a8013110e",
+    "dist/vehicle-upgrades.js": "6694010402ede4bb0df4a9b25b86c0765c4a0de4912db2175a404dfbd0939ccf",
+    "dist/driving-model.js": "74b1165a2cc326b940eb1de89292741596035e58fc06c57ef4d4c292f35af3bc",
+    "dist/career-save.js": "0f11c377f130618880d4b811c67b07420b53d2019e5fbd51c80aaa911bdf107d",
+    "dist/gameplay.js": "2443ef2cff35a3f83b85627e5316da141149454e7265cca1f672eabe0f095b73",
+    "dist/route-network-config.js": "b8e01ef098d4476bff81f209154ffd680212c20fa134f870294f629e237cc448",
+    "dist/road-hazards.js": "5837e10f79699f10c72d0454250c3833be5ca452d00fd14039ce07f5b8e4bc8f",
+    "dist/vehicle-controls.css": "a2edc02dd889bfe4efeab7faa8d4ecb79a1942dc48f3f1f45c1849ef1f868581",
+    "dist/vehicle-input.js": "9bcf192299b0f5d56a0346e8eed53fc7a281bea24939690b8a2bfe99b2ffcc2e",
+    "dist/biome-weather.js": "afe9067420af420654cadce22860db13f41fb968c5969506c4a1525b516217c5",
+    "dist/index.html": "a97495bd682ff91c532b48228dfefa8741d977d8ff4002f966cd1c6e5076e5ef"
+  }
+}

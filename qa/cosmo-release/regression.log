@@ -1,0 +1,164 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> urban-route-procedural-three@1.57.0 test:cosmo
+> node tests/cosmo-vehicles.mjs && node tests/cosmo-garage.mjs && node tests/cosmo-ground-fit.mjs && node tests/cosmo-fit-review.mjs && node tests/cosmo-bridge-support.mjs && node tests/cosmo-app.mjs && node tests/cosmo-wheel-particles.mjs
+
+PASS pickup: coupe, 4 pivoted wheels, 2290 triangles, 12 primitives
+PASS citycourier: police, 4 pivoted wheels, 2382 triangles, 12 primitives
+PASS rover: jeep, 4 pivoted wheels, 2996 triangles, 12 primitives
+PASS foresthauler: van, 4 pivoted wheels, 2110 triangles, 12 primitives
+PASS van: kamaro, 4 pivoted wheels, 2444 triangles, 7 primitives
+PASS desertscout: ghini, 4 pivoted wheels, 2226 triangles, 11 primitives
+PASS snowgrip: rally, 4 pivoted wheels, 2197 triangles, 12 primitives
+PASS snowrunner: armor, 4 pivoted wheels, 2450 triangles, 12 primitives
+PASS lavacrawler: lamb, 4 pivoted wheels, 1924 triangles, 7 primitives
+PASS ashhauler: fenyr, 4 pivoted wheels, 2188 triangles, 12 primitives
+PASS all ten source palettes, +Z→-Z, uniform fit, grounding, articulation and cargo metadata
+PASS cached bytes, independent resources, late-result disposal, idempotence and bitmap cleanup
+Cosmo CPU adapter checks passed: 23207 triangles / 109 primitives. No GPU/browser verification performed.
+PASS Cosmo garage atomic replacement, actual application hook, bounded loading, preserved identities, pose/reset, rebuild, failure and late-disposal. CPU/mock DOM only.
+{"passed":true,"poses":270,"minimumClearance":0.025514019358535478,"largestLowestTireClearance":0.043593596629005305,"scope":"Actual GLB vertices and road math; no GPU"}
+PASS pickup: exact GLB, uniform fit, forward/axles, palette scope, articulation, cargo support, owned disposal
+PASS citycourier: exact GLB, uniform fit, forward/axles, palette scope, articulation, cargo support, owned disposal
+PASS rover: exact GLB, uniform fit, forward/axles, palette scope, articulation, cargo support, owned disposal
+PASS foresthauler: exact GLB, uniform fit, forward/axles, palette scope, articulation, cargo support, owned disposal
+PASS van: exact GLB, uniform fit, forward/axles, palette scope, articulation, cargo support, owned disposal
+PASS desertscout: exact GLB, uniform fit, forward/axles, palette scope, articulation, cargo support, owned disposal
+PASS snowgrip: exact GLB, uniform fit, forward/axles, palette scope, articulation, cargo support, owned disposal
+PASS snowrunner: exact GLB, uniform fit, forward/axles, palette scope, articulation, cargo support, owned disposal
+PASS lavacrawler: exact GLB, uniform fit, forward/axles, palette scope, articulation, cargo support, owned disposal
+PASS ashhauler: exact GLB, uniform fit, forward/axles, palette scope, articulation, cargo support, owned disposal
+PASS all ten actual imports; totals {"bytes":1751496,"triangles":23207,"primitives":109}
+{
+  "status": "PASS",
+  "scope": "Actual ten GLBs, CPU production support and fall poses; no browser/GPU claim",
+  "vehicles": [
+    {
+      "id": "pickup",
+      "outerHalfWidth": 1.1322277010494963,
+      "centeredMargin": 1.3677722989505037,
+      "wheelRadii": [
+        0.4762615125828202,
+        0.4762615125828202,
+        0.47626151258282,
+        0.4762615125828202
+      ]
+    },
+    {
+      "id": "citycourier",
+      "outerHalfWidth": 0.9009721809056083,
+      "centeredMargin": 1.5990278190943918,
+      "wheelRadii": [
+        0.3789859385763249,
+        0.37898592094397526,
+        0.3789859385763248,
+        0.37898592094397504
+      ]
+    },
+    {
+      "id": "rover",
+      "outerHalfWidth": 1.4763367491390014,
+      "centeredMargin": 1.0236632508609986,
+      "wheelRadii": [
+        0.6454570415668798,
+        0.6454570415668798,
+        0.6454570415668798,
+        0.6454570415668798
+      ]
+    },
+    {
+      "id": "foresthauler",
+      "outerHalfWidth": 1.1981547459792163,
+      "centeredMargin": 1.3018452540207837,
+      "wheelRadii": [
+        0.47015750665265227,
+        0.47015747878830333,
+        0.47015750665265227,
+        0.47015747878830333
+      ]
+    },
+    {
+      "id": "van",
+      "outerHalfWidth": 1.0664567447195505,
+      "centeredMargin": 1.4335432552804495,
+      "wheelRadii": [
+        0.40421123965019445,
+        0.40421123734823905,
+        0.40421123965019445,
+        0.40421123734823905
+      ]
+    },
+    {
+      "id": "desertscout",
+      "outerHalfWidth": 1.1135968452379283,
+      "centeredMargin": 1.3864031547620717,
+      "wheelRadii": [
+        0.49055731696934773,
+        0.4905573275020802,
+        0.49055731696934773,
+        0.4905573275020802
+      ]
+    },
+    {
+      "id": "snowgrip",
+      "outerHalfWidth": 1.2551399490422046,
+      "centeredMargin": 1.2448600509577954,
+      "wheelRadii": [
+        0.46121993926018645,
+        0.46121995182009523,
+        0.4612199565474162,
+        0.46121996910732493
+      ]
+    },
+    {
+      "id": "snowrunner",
+      "outerHalfWidth": 1.1574853588096963,
+      "centeredMargin": 1.3425146411903037,
+      "wheelRadii": [
+        0.48740433212595763,
+        0.48740435540910276,
+        0.5017952281540924,
+        0.5017952281540924
+      ]
+    },
+    {
+      "id": "lavacrawler",
+      "outerHalfWidth": 1.2630772458298454,
+      "centeredMargin": 1.2369227541701546,
+      "wheelRadii": [
+        0.48436736580075856,
+        0.4843673548788735,
+        0.48436736580075856,
+        0.4843673548788735
+      ]
+    },
+    {
+      "id": "ashhauler",
+      "outerHalfWidth": 1.2063258732343696,
+      "centeredMargin": 1.2936741267656304,
+      "wheelRadii": [
+        0.4744723101670232,
+        0.47447232440381865,
+        0.474472274730433,
+        0.4744723195015205
+      ]
+    }
+  ],
+  "centered": 10500,
+  "edges": 2000,
+  "approaches": 1000,
+  "longitudinalThresholds": 320,
+  "diagonals": 3000,
+  "falls": 240,
+  "deckVertices": 933372,
+  "maxTipLift": 0,
+  "maxStartLift": 0,
+  "minimumClearance": 0.0029999999999985594
+}
+PASS actual app + ten parsed GLBs: enter/park/articulation, actual tire bridge support, once-only falling return without income, ownership and reset. CPU/mock DOM only.
+PASS imported wheel dirt emitters use actual contact centers forward/reverse/yaw; same bounded pool.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

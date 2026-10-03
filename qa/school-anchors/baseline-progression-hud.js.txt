@@ -1,0 +1,90 @@
+import { SCHOOL_CONFIG, SKIN_CONFIG, schoolConfig, skinConfig } from './progression-config.js';
+import { UPGRADE_STATS, getUpgradeOffer } from './vehicle-upgrades.js';
+import { vehicleConfig } from './economy-config.js';
+
+export const brainDisplay = n => (Math.floor(Math.max(0,Number(n)||0)*10+1e-6)/10).toFixed(1).replace(/\.0$/,'').replace('.',',');
+// Match .learning-world-label in progression-ui.css when separating projections.
+export const WORLD_LABEL_DROP=.4;
+const SCHOOL_LABEL_WIDTH=120,SCHOOL_LABEL_GAP=4;
+export const schoolLabelScale = width => Math.max(.5,Math.min(1,((Number(width)||390)-40)/600));
+const descriptions={speed:'Тяга двигателя и максимальная скорость',handling:'Отклик руля и разворот корпуса',grip:'Боковое сцепление и торможение',fuel:'Больше объём бака и дальность; заправка отдельно'};
+export function updateProgressionHud(doc,{gameplay,playing,driving,upgradeMenuOpen}){
+  const s=gameplay.state,el=id=>doc.getElementById(id),brains=brainDisplay(s.brains);
+  el('brain-value').textContent=brains;
+  el('brain-hud').style.setProperty('--brain-digits',String(brains.length));
+  el('brain-hud').setAttribute('aria-label',`Мозги: ${brains}`);
+  el('upgrade-button').hidden=!playing||!driving;
+  el('upgrade-button').setAttribute('aria-expanded',String(upgradeMenuOpen));
+  el('upgrade-menu').hidden=!upgradeMenuOpen;
+  doc.body.classList.toggle('upgrade-menu-open',upgradeMenuOpen);
+  el('vehicle-funds-button').hidden=!playing||driving||!!s.seatedId||s.vehicleGrantClaimed;
+  const canBuy=playing&&!driving&&!s.seatedId&&!s.jump.airborne;
+  for(const kind of ['skin','school']){
+    const id=s[kind+'PurchaseCandidateId'],spec=kind==='skin'?skinConfig(id):schoolConfig(id),owned=kind==='skin'?gameplay.isSkinOwned(id):gameplay.isSchoolOwned(id);
+    const button=el('buy-'+kind);button.hidden=!canBuy||!spec;
+    if(spec){const label=owned?(kind==='skin'?`Выбрать ${spec.name}`:`Сесть · +${brainDisplay(spec.rate)}/сек`):`Купить ${spec.name} · ${spec.price}`;
+      el('buy-'+kind+'-label').textContent=label;button.dataset.affordable=String(owned||s.money>=spec.price);button.setAttribute('aria-label',label+(owned?'':` игровых денег`));}
+  }
+  const school=schoolConfig(s.seatedSchoolId);
+  el('study-status').hidden=!playing||!s.seatedId||!school;
+  if(school)el('study-status').textContent=`${school.name} · +${brainDisplay(school.rate)} мозга/сек`;
+  for(const [i,skin]of SKIN_CONFIG.entries()){if(gameplay.isSkinOwned(skin.id))el(`skin-label-${i+1}`).hidden=true;}
+  if(!upgradeMenuOpen||!s.selectedId)return;
+  el('upgrade-car-name').textContent=vehicleConfig(s.selectedId).name;
+  for(const stat of UPGRADE_STATS){
+    const offer=getUpgradeOffer(s.selectedId,stat.id,s.upgrades[s.selectedId]),prefix='upgrade-'+stat.id;
+    const format=x=>stat.id==='speed'?(x*3.6).toFixed(1)+' км/ч':stat.id==='fuel'?String(Number(x.toFixed(1))).replace('.',','):x.toFixed(1)+'%';
+    el(prefix+'-level').textContent=`${offer.level} / ${offer.maxLevel}`;
+    el(prefix+'-value').textContent=offer.maxed?format(offer.current):`${format(offer.current)} → ${format(offer.next)}`;
+    el(prefix+'-description').textContent=descriptions[stat.id];
+    el(prefix+'-price').textContent=offer.maxed?'МАКС':String(offer.price);
+    const button=el(prefix+'-buy');button.disabled=offer.maxed||s.brains<offer.price;
+    button.setAttribute('aria-label',offer.maxed?`${stat.name}: максимальный уровень`:`${stat.name}: уровень ${offer.nextLevel}, ${offer.price} мозгов`);
+  }
+}
+export function updateProgressionWorldLabels(doc,{gameplay,garage,playing,project,viewportWidth=390}){
+  const visible=playing&&gameplay.state.mode==='walking';
+  for(const [i,entry]of garage.classroomEntries.entries()){
+    const spec=SCHOOL_CONFIG.find(s=>s.id===entry.id),owned=gameplay.isSchoolOwned(entry.id),a=entry.labelAnchor;
+    doc.getElementById(`school-rate-${i+1}`).textContent=brainDisplay(spec.rate);
+    doc.getElementById(`school-price-${i+1}`).textContent=owned?'':String(spec.price);
+    doc.getElementById(`school-lock-${i+1}`).hidden=owned;
+    doc.getElementById(`school-dollar-${i+1}`).hidden=owned;
+    const access=doc.getElementById(`school-access-${i+1}`);
+    access.hidden=owned;
+    access.dataset.affordable=String(owned||gameplay.state.money>=spec.price);
+    project(doc.getElementById(`school-label-${i+1}`),a.x,a.y-WORLD_LABEL_DROP,a.z,visible,65);
+  }
+  // One screen-space billboard size per viewport, never derived from camera
+  // yaw, distance, neighbor gap, or whether the price row is hidden.
+  const labels=garage.classroomEntries.map((_,i)=>doc.getElementById(`school-label-${i+1}`)).filter(e=>!e.hidden);
+  const xs=labels.map(e=>parseFloat(e.style.left)).filter(Number.isFinite).sort((a,b)=>a-b);
+  let spacing=Infinity;for(let i=1;i<xs.length;i++)spacing=Math.min(spacing,xs[i]-xs[i-1]);
+  const scale=schoolLabelScale(viewportWidth);
+  for(const label of labels)label.style.setProperty('--school-scale',String(scale));
+  if(spacing<SCHOOL_LABEL_WIDTH*scale+SCHOOL_LABEL_GAP&&labels.length>1){
+    const ordered=labels.filter(e=>Number.isFinite(parseFloat(e.style.left))).sort((a,b)=>parseFloat(a.style.left)-parseFloat(b.style.left));
+    const original=ordered.map(e=>parseFloat(e.style.left)),placed=[original[0]],gap=SCHOOL_LABEL_WIDTH*scale+SCHOOL_LABEL_GAP;
+    for(let i=1;i<ordered.length;i++)placed.push(Math.max(original[i],placed[i-1]+gap));
+    const shift=(placed.at(-1)-original.at(-1))/2;
+    ordered.forEach((e,i)=>{e.style.left=`${placed[i]-shift}px`;});
+  }
+  // A fixed-size group may be near a screen edge. Shift the group, never
+  // rescale its artwork or let the price row change the billboard footprint.
+  if(labels.length){
+    const positions=labels.map(e=>parseFloat(e.style.left)).filter(Number.isFinite);
+    if(positions.length){
+      const half=SCHOOL_LABEL_WIDTH*scale/2,left=Math.min(...positions)-half,right=Math.max(...positions)+half,span=right-left;
+      if(span<=viewportWidth){
+        const margin=Math.max(0,Math.min(8,(viewportWidth-span)/2));
+        const shift=left<margin?margin-left:right>viewportWidth-margin?viewportWidth-margin-right:0;
+        if(shift)for(const e of labels){const x=parseFloat(e.style.left);if(Number.isFinite(x))e.style.left=`${x+shift}px`;}
+      }
+    }
+  }
+  for(const [i,stand]of garage.stands.entries()){
+    const skin=SKIN_CONFIG[i],owned=gameplay.isSkinOwned(skin.id);
+    doc.getElementById(`skin-price-${i+1}`).textContent=String(skin.price);
+    project(doc.getElementById(`skin-label-${i+1}`),stand.x,5.0-WORLD_LABEL_DROP,stand.z,visible&&!owned,45);
+  }
+}

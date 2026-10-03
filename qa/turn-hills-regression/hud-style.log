@@ -1,0 +1,7 @@
+PASS HUD retains named controls and ARIA/hidden state contracts
+PASS Only the top icon-only Garage action remains; info and roadside exit controls are removed
+PASS Every SVG use has a local symbol; new artwork is native code-drawn SVG
+PASS Bright action colors, white outlined jump and red fuel canister are explicit
+PASS Decoration does not steal pointers; wheel/gear preserve input hooks
+PASS Narrow, short portrait and 320px-high landscape rules retain safe-area and focus treatment
+HUD source contracts: 6 checks passed. Static source checks only, not browser layout verification.

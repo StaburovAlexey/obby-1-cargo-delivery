@@ -1,0 +1,61 @@
+{
+  "seed": 42,
+  "scope": "Visible procedural scene, excludes GLB avatars and empty wheel-particle pool; scenegraph counts not GPU benchmark",
+  "before": {
+    "triangles": 78162,
+    "batches": 98,
+    "instances": 3007
+  },
+  "dormant": {
+    "triangles": 80216,
+    "batches": 103,
+    "instances": 3027,
+    "hazards": {
+      "hazards": 25,
+      "rockCapacity": 5,
+      "instancedMeshes": 6,
+      "mergedMeshes": 2,
+      "materials": 8,
+      "geometries": 8,
+      "sharedTextures": 1,
+      "drawCalls": 5,
+      "triangles": 2054,
+      "activeInstances": 20,
+      "visibleRocks": 0,
+      "visibleWarnings": 0,
+      "disposed": false,
+      "phases": {
+        "dormant": 5,
+        "warning": 0,
+        "falling": 0,
+        "landed": 0
+      }
+    }
+  },
+  "maximum": {
+    "triangles": 80506,
+    "batches": 106,
+    "instances": 3042,
+    "hazards": {
+      "hazards": 25,
+      "rockCapacity": 5,
+      "instancedMeshes": 6,
+      "mergedMeshes": 2,
+      "materials": 8,
+      "geometries": 8,
+      "sharedTextures": 1,
+      "drawCalls": 8,
+      "triangles": 2344,
+      "activeInstances": 35,
+      "visibleRocks": 5,
+      "visibleWarnings": 5,
+      "disposed": false,
+      "phases": {
+        "dormant": 0,
+        "warning": 5,
+        "falling": 0,
+        "landed": 0
+      }
+    }
+  }
+}

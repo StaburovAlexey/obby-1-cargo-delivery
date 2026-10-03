@@ -1,0 +1,22 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> urban-route-procedural-three@1.69.0 test:settings
+> node tests/settings-help.mjs && node tests/settings-menu.mjs && node tests/localization.mjs && node tests/settings-app.mjs && node tests/vehicle-audio.mjs
+
+PASS settings help: verified gameplay copy, 23 actual-UI examples, RU/EN, no developer controls, unique IDs, responsive/scroll/input contracts. CPU only.
+PASS settings: markup/credits, callback contracts, volume/language controls, inert/focus/Escape, input isolation, repeated flows and disposal. CPU/mock DOM only.
+PASS All existing static HTML labels and accessibility prose translate and restore exactly
+PASS Real dynamic currency, purchases, classes, steering, prompts and failure phrases
+PASS All real upgrade presentations translate at every tier without changing numerical values
+PASS Dynamic Text-node replacement and attribute updates translate automatically without loops
+PASS Authors, model names, URLs, input values, numbers and explicit exclusions are preserved
+PASS Real mission and delivery renderers remain localized after repeated open/close and numeric updates
+PASS Real progression renderer and minimal fixture DOM both support RU/EN refresh
+PASS 7 localization groups: static inventory, all upgrade tiers, dynamic dialogs, accessibility, exact RU restoration and observer lifecycle.
+PASS settings real app: paused car/hazards/input/audio, exclusive modals, volume0/mute restore, RU/EN preference reload, career unaffected, production dev controls hidden.
+Vehicle audio: gesture unlock, smooth load/slip, lifecycle silence, mute, collision bounds and async cleanup passed.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

@@ -1,0 +1,12 @@
+PASS the original ten IDs, prices, base stats, upgrades and budgets are unchanged
+PASS locked reward cannot be bought, boarded, selected as money goal or granted by debug funds
+PASS all ten ordinary cars remain directly purchasable and early delivery still pays without a reward
+PASS legacy money, last-car ownership, completion counts and checkpoint claims never infer proof
+PASS no proof, first-pose teleport, late start, preview, no cargo, abort and fuel failure never pay or unlock
+PASS a complete legal final delivery unlocks for free and saves payout, proof and ownership atomically once
+PASS both legal fork choices qualify and future successful runs never repeat the unlock
+PASS off-road, bridge-gap, late teleport and stale run telemetry invalidate cargo
+PASS failed saving cannot duplicate rewards and a later flush/reload preserves the earned car
+PASS completed traversal alone never unlocks, and re-entrant final observers cannot duplicate credit
+PASS proof normalization requires complete evidence and rejects accessors without invoking them
+PASS reward-only BMW: 11 focused groups.

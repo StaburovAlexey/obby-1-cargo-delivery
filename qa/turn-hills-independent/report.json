@@ -1,0 +1,206 @@
+{
+  "generatedAt": "2026-10-13T23:17:40.489Z",
+  "scope": "Offline independent numerical audit of actual runtime. DOM and renderer are mocked; no browser/WebGL/GPU/Android verification.",
+  "runtimeHashesAtStart": {
+    "driving-model.js": "12a8e8f006daaa8962bb1bafd89e2cdf6d2575cb56f4c981f99b64f2fb77ade8",
+    "turn-assist.js": "23ed321b791750dd3669814a047869afd2e5b4a078839b456207a6cc43935a7f",
+    "route-network.js": "52b9464e7d80ac1dfcedf94448127bfbe6138999fc65387a4a78a19527aa3824",
+    "route-network-config.js": "87aed2fe101c85b01e5debc676cb203be730f1e1af587808443b740ec27e6efd",
+    "network-scene.js": "19b82c704e091b788054796c291fdd8078d01b7d1d35866acff20f507141a8ee",
+    "app.js": "ab083e3a484fdadb6abd9ed1ddced0454020abdb3ad961b5ab6945bbbacc3a02",
+    "vehicle-input.js": "0986ad9b79393b49d1ae00d8f889274a9e9b756401edee28462aae6663922515",
+    "follow-camera.js": "619bec5c16b350b5c6404127cd2d772a7aef5276091b6d2f8a2e9b5b3d6a9a25",
+    "driving-ground.js": "157ac92a62df8858ba2af419e334121966214aa59dd91b063e6e30a7d4e14c84",
+    "city-driving.js": "a33f82d66e2fa50fb281fb28e8231decb76ef216557110fd2881f4b3338f4b82",
+    "road-hazards.js": "2e5fd24fb48bd2041a935c3168a039b60403d37a216ab316288b483b4cd26ebc",
+    "economy-config.js": "42714d86b7b9970f15c91a3a005084038d10ed1ae3d7d454be2d6d2de5648643",
+    "vehicle-upgrades.js": "2db57418905282a8de86b97557bda9e69573d587057a6b41b2a4834d6ac0b495",
+    "biome-surfaces.js": "693a42f1188ef334fc0682a663fc121751fedc0e90b38c140e067c3cbe003f80"
+  },
+  "checks": [
+    {
+      "name": "Captured seven-module City34 closure is intact and weak steering remains bit-exact",
+      "passed": true,
+      "milliseconds": 2362,
+      "details": {
+        "baselineModules": 7,
+        "cases": 1400,
+        "comparedFixedSteps": 336000,
+        "steeringInputs": [
+          0,
+          0.1,
+          -0.2,
+          0.44,
+          -0.45,
+          0.6,
+          -0.6
+        ],
+        "includesReleasedThrottle": true
+      }
+    },
+    {
+      "name": "City34 baseline confirms the original full-lock wide-turn problem across every car and biome",
+      "passed": true,
+      "milliseconds": 545,
+      "details": {
+        "cases": 100,
+        "completed": 100,
+        "outside30mCorridor": 100,
+        "maximumBodyLateralExtent": 263.88232209,
+        "slowestOrCappedSeconds": 16.80833333
+      }
+    },
+    {
+      "name": "2400 full-body U-turns fit a 30 m straight from center for all cars, surfaces, speeds, gears and turn signs",
+      "passed": true,
+      "milliseconds": 9769,
+      "details": {
+        "cases": 2400,
+        "bodyHalfWidth": 2.9,
+        "bodyHalfLength": 3.6,
+        "roadHalfWidth": 15,
+        "roadMargin": 0.1,
+        "maxLateralExtent": 12.58034462,
+        "minimumWallClearance": 2.41965538,
+        "slowestSeconds": 8.55833333,
+        "maxAcceleration": 19.7116593,
+        "maxYawAcceleration": 4.8903622,
+        "maximumSlipDegrees": 6.58885718
+      }
+    },
+    {
+      "name": "Strong-turn dynamics agree at 30/60/120 Hz, jitter and bounded render stalls",
+      "passed": true,
+      "milliseconds": 10778,
+      "details": {
+        "cases": 2000,
+        "maxDifference": 1.0160761121369433e-12,
+        "maxStallAdvance": 3.7168968992454747,
+        "secondsPerSchedule": 12
+      }
+    },
+    {
+      "name": "Throttle release preserves exact coast, weak input never auto-brakes, and recovery is bounded/reset",
+      "passed": true,
+      "milliseconds": 623,
+      "details": {
+        "cases": 800
+      }
+    },
+    {
+      "name": "Strong-turn unwind settles without residual reverse drift on every vehicle and surface",
+      "passed": true,
+      "milliseconds": 1485,
+      "details": {
+        "cases": 400,
+        "maxYaw": 0.0001738398492420128,
+        "maxLateral": 0.001286087861709806,
+        "maxSlipDegrees": 0.02256197369663165
+      }
+    },
+    {
+      "name": "Four contact patches remain individually bounded and arcade forces remain explicit",
+      "passed": true,
+      "milliseconds": 128,
+      "details": {
+        "cases": 100,
+        "forceEvaluations": 24000
+      }
+    },
+    {
+      "name": "Higher profile increases amplitude while keeping all platforms level and every analytic join C1",
+      "passed": true,
+      "milliseconds": 28,
+      "details": {
+        "previousMaximum": 28,
+        "maximum": 66,
+        "maxAnalyticGrade": 0.075,
+        "maxJoinDerivativeDifference": 5.998862715022436e-13,
+        "platformSamples": 240
+      }
+    },
+    {
+      "name": "Every actual uploaded road triangle respects the 7.5% full-width cap and ground normals match it",
+      "passed": true,
+      "milliseconds": 20601,
+      "details": {
+        "triangles": 46908,
+        "maxRoadGrade": 0.075,
+        "maxGroundGrade": 0.12325665708397267,
+        "maxHeightError": 0.000003234863328316351,
+        "maxNormalError": 0.0000019048202134889143,
+        "skinnyTriangles": 8,
+        "float32GradeTolerance": 0.00005
+      }
+    },
+    {
+      "name": "Fork quantization stays bounded and does not create vehicle-support steps",
+      "passed": true,
+      "milliseconds": 1194,
+      "details": {
+        "triangles": 23752,
+        "maxGradientError": 0.003805895462773224,
+        "maxHeightError": 0.0003579775943691743,
+        "maxSupportResidual": 0.000021232908483881374,
+        "supportChecks": 1422,
+        "notes": "Bounded Float32 facet normal quantization is approximately 0.22 degrees on a sub-mm band; rendered and collision normals agree."
+      }
+    },
+    {
+      "name": "Hills retain supported tires, coherent road edges and terrain-embedded houses/barriers",
+      "passed": true,
+      "milliseconds": 2205,
+      "details": {
+        "fits": 2034,
+        "minClearance": 0.01199999999999335,
+        "maxClearance": 0.013831723927424378,
+        "maxSeamStep": 0.0000027734290384273663,
+        "scenicFeatures": 1284
+      }
+    },
+    {
+      "name": "Falling-rock warnings retain actual terrain sightlines in both directions after the height change",
+      "passed": true,
+      "milliseconds": 700,
+      "details": {
+        "seedCount": 3,
+        "rocks": 48,
+        "twoWayTerrainRays": 192,
+        "minimumTerrainClearance": 0.0906222222222226,
+        "limitations": "Terrain line of sight only; browser visual readability unverified"
+      }
+    },
+    {
+      "name": "Actual app integrates strong turns with path-based fuel/camera and retains all input/teleport safety resets",
+      "passed": true,
+      "milliseconds": 3598,
+      "details": {
+        "frames": 713,
+        "pathDistance": 64.74929740245445,
+        "expectedFuel": 2.472245900820988,
+        "resetCases": 6,
+        "biomePreviews": 5,
+        "wheelUIRangeDegrees": 135
+      }
+    }
+  ],
+  "selectedGroups": "all",
+  "runtimeHashesAtEnd": {
+    "driving-model.js": "12a8e8f006daaa8962bb1bafd89e2cdf6d2575cb56f4c981f99b64f2fb77ade8",
+    "turn-assist.js": "23ed321b791750dd3669814a047869afd2e5b4a078839b456207a6cc43935a7f",
+    "route-network.js": "52b9464e7d80ac1dfcedf94448127bfbe6138999fc65387a4a78a19527aa3824",
+    "route-network-config.js": "87aed2fe101c85b01e5debc676cb203be730f1e1af587808443b740ec27e6efd",
+    "network-scene.js": "19b82c704e091b788054796c291fdd8078d01b7d1d35866acff20f507141a8ee",
+    "app.js": "ab083e3a484fdadb6abd9ed1ddced0454020abdb3ad961b5ab6945bbbacc3a02",
+    "vehicle-input.js": "0986ad9b79393b49d1ae00d8f889274a9e9b756401edee28462aae6663922515",
+    "follow-camera.js": "619bec5c16b350b5c6404127cd2d772a7aef5276091b6d2f8a2e9b5b3d6a9a25",
+    "driving-ground.js": "157ac92a62df8858ba2af419e334121966214aa59dd91b063e6e30a7d4e14c84",
+    "city-driving.js": "a33f82d66e2fa50fb281fb28e8231decb76ef216557110fd2881f4b3338f4b82",
+    "road-hazards.js": "2e5fd24fb48bd2041a935c3168a039b60403d37a216ab316288b483b4cd26ebc",
+    "economy-config.js": "42714d86b7b9970f15c91a3a005084038d10ed1ae3d7d454be2d6d2de5648643",
+    "vehicle-upgrades.js": "2db57418905282a8de86b97557bda9e69573d587057a6b41b2a4834d6ac0b495",
+    "biome-surfaces.js": "693a42f1188ef334fc0682a663fc121751fedc0e90b38c140e067c3cbe003f80"
+  },
+  "runtimeFilesChangedDuringRun": [],
+  "passed": true
+}

@@ -1,0 +1,18 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> urban-route-procedural-three@1.70.0 test:startup
+> node tests/startup-gate.mjs && node tests/startup-app.mjs
+
+PASS startup gate: delayed assets, shader preparation, covered render + paint boundary, asset/compile/render failure and timeout never start gameplay.
+PASS actual app startup: no early simulation/input/render; waits for all vehicles + displays; rendered scene before reveal; in-game audio returns. CPU mock renderer only.
+World startup failed Error: Vehicle models incomplete
+    at eval (eval at createAppDom (file:///workspace/scratch/e6939d35b3a6/city-help-settings/tests/fixtures/app-dom.mjs:73:2), <anonymous>:833:84)
+    at async Promise.all (index 1)
+World startup failed Error: vehicle unavailable
+    at file:///workspace/scratch/e6939d35b3a6/city-help-settings/tests/startup-app.mjs:23:75
+PASS incomplete/rejected vehicle loads show retry error and keep gameplay blocked.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

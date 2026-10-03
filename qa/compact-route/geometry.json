@@ -1,0 +1,380 @@
+{
+  "status": "PASS",
+  "scope": "Offline real route geometry and bridge support. No browser/GPU/human-playtest claim.",
+  "routeLength": 15868.841887310184,
+  "canonicalEnd": 15850,
+  "stops": [
+    180,
+    440,
+    780,
+    1140,
+    1540,
+    1980,
+    2480,
+    3040,
+    3670,
+    4380,
+    5180,
+    6080,
+    7520,
+    9390,
+    11830,
+    15830
+  ],
+  "biomes": [
+    {
+      "id": "city",
+      "name": "Город",
+      "from": -17,
+      "to": 3000,
+      "color": 2286848
+    },
+    {
+      "id": "forest",
+      "name": "Лес",
+      "from": 3000,
+      "to": 5800,
+      "color": 1415982
+    },
+    {
+      "id": "desert",
+      "name": "Пустыня",
+      "from": 5800,
+      "to": 8500,
+      "color": 15907137
+    },
+    {
+      "id": "snow",
+      "name": "Снег",
+      "from": 8500,
+      "to": 11000,
+      "color": 15137023
+    },
+    {
+      "id": "volcanic",
+      "name": "Вулкан",
+      "from": 11000,
+      "to": 15850,
+      "color": 5583938
+    }
+  ],
+  "forks": [
+    {
+      "id": "forest-fork",
+      "from": 4500,
+      "to": 5000,
+      "maxGrade": 0.08250000000000002,
+      "maxCurvature": 0.0043091766118102505
+    },
+    {
+      "id": "desert-fork",
+      "from": 7820,
+      "to": 8320,
+      "maxGrade": 0.08249999999999999,
+      "maxCurvature": 0.004549734798469753
+    },
+    {
+      "id": "snow-fork",
+      "from": 9800,
+      "to": 10300,
+      "maxGrade": 0.0825,
+      "maxCurvature": 0.0043846641909970705
+    },
+    {
+      "id": "volcanic-fork",
+      "from": 12500,
+      "to": 13000,
+      "maxGrade": 0.08250161056565107,
+      "maxCurvature": 0.004549734798469753
+    }
+  ],
+  "bridgeCount": 25,
+  "maximumBridgeGrade": 0.0478726107784828,
+  "maximumBridgeCurvature": 0.001287537972782702,
+  "minServiceClearance": 168.0003598497742,
+  "minForkClearance": 158.0084581688534,
+  "minBridgeSpacing": 220.01885753154875,
+  "maxShelfGrade": 0,
+  "maxShelfHeightError": 0,
+  "checks": {
+    "bridgeSamples": 7225,
+    "bridgeSupport": 1050,
+    "serviceSamples": 1701
+  },
+  "hazards": {
+    "count": 30,
+    "moving": 20,
+    "crossing": 20,
+    "byBiome": {
+      "city": 6,
+      "forest": 6,
+      "desert": 5,
+      "snow": 5,
+      "volcanic": 8
+    },
+    "minExclusion": 0.17627788148206314,
+    "minSpacing": 0,
+    "maxMoverGrade": 0.047872589996235525,
+    "maxMoverCurve": 0.0022254473547963184
+  },
+  "hashes": {
+    "route-network.js": "572094adc2d74ac3c8407522abac15bb98db136c17f29343ede8cad5967dfc29",
+    "route-network-config.js": "b8e01ef098d4476bff81f209154ffd680212c20fa134f870294f629e237cc448",
+    "road-bridges.js": "637ab07f628992d4fa8b24d797d83d90305600beebf27a49fb2c5f5cdaf3374d",
+    "road-hazards.js": "5837e10f79699f10c72d0454250c3833be5ca452d00fd14039ce07f5b8e4bc8f",
+    "economy-config.js": "8ab77c5da2277bd9f25d53aaa569f14b49380c5c01b2d06192717f90b7a775bf"
+  },
+  "violations": [],
+  "bridges": [
+    {
+      "id": "city-bridge-1",
+      "biome": "city",
+      "from": 948,
+      "to": 972,
+      "halfWidth": 2.5,
+      "offset": -3.5,
+      "maximumApproachGrade": 0.004063724497898284,
+      "maximumApproachCurvature": 0
+    },
+    {
+      "id": "city-bridge-2",
+      "biome": "city",
+      "from": 1308,
+      "to": 1332,
+      "halfWidth": 2.5,
+      "offset": 0,
+      "maximumApproachGrade": 0.020762120706675123,
+      "maximumApproachCurvature": 0
+    },
+    {
+      "id": "city-bridge-3",
+      "biome": "city",
+      "from": 1708,
+      "to": 1732,
+      "halfWidth": 2.5,
+      "offset": 3.9,
+      "maximumApproachGrade": 0.03440233472776479,
+      "maximumApproachCurvature": 0
+    },
+    {
+      "id": "city-bridge-4",
+      "biome": "city",
+      "from": 2148,
+      "to": 2172,
+      "halfWidth": 2.5,
+      "offset": -6.5,
+      "maximumApproachGrade": 0.028439848577507313,
+      "maximumApproachCurvature": 0
+    },
+    {
+      "id": "city-bridge-5",
+      "biome": "city",
+      "from": 2648,
+      "to": 2672,
+      "halfWidth": 2.5,
+      "offset": 6.6,
+      "maximumApproachGrade": 0.006569793141487664,
+      "maximumApproachCurvature": 0
+    },
+    {
+      "id": "forest-bridge-1",
+      "biome": "forest",
+      "from": 3308,
+      "to": 3332,
+      "halfWidth": 2.5,
+      "offset": -4.7,
+      "maximumApproachGrade": 0.01857700827993808,
+      "maximumApproachCurvature": 0.0011780972450961724
+    },
+    {
+      "id": "forest-bridge-2",
+      "biome": "forest",
+      "from": 3838,
+      "to": 3862,
+      "halfWidth": 2.5,
+      "offset": 0,
+      "maximumApproachGrade": 0.016601922475731844,
+      "maximumApproachCurvature": 0.001148242928943638
+    },
+    {
+      "id": "forest-bridge-3",
+      "biome": "forest",
+      "from": 4058,
+      "to": 4082,
+      "halfWidth": 2.5,
+      "offset": 5.5,
+      "maximumApproachGrade": 0.02046050951002378,
+      "maximumApproachCurvature": 0.0007025772437917658
+    },
+    {
+      "id": "forest-bridge-4",
+      "biome": "forest",
+      "from": 5348,
+      "to": 5372,
+      "halfWidth": 2.5,
+      "offset": -6,
+      "maximumApproachGrade": 0.03098715300471147,
+      "maximumApproachCurvature": 0.001074549726041285
+    },
+    {
+      "id": "forest-bridge-5",
+      "biome": "forest",
+      "from": 5568,
+      "to": 5592,
+      "halfWidth": 2.5,
+      "offset": 4.4,
+      "maximumApproachGrade": 0.034994372861849705,
+      "maximumApproachCurvature": 0.0009153044200905788
+    },
+    {
+      "id": "desert-bridge-1",
+      "biome": "desert",
+      "from": 6248,
+      "to": 6272,
+      "halfWidth": 2.5,
+      "offset": -5.9,
+      "maximumApproachGrade": 0.010461967894054037,
+      "maximumApproachCurvature": 0.0009380599314078274
+    },
+    {
+      "id": "desert-bridge-2",
+      "biome": "desert",
+      "from": 6468,
+      "to": 6492,
+      "halfWidth": 2.5,
+      "offset": 0,
+      "maximumApproachGrade": 0.02423981887854746,
+      "maximumApproachCurvature": 0.0011327858125924734
+    },
+    {
+      "id": "desert-bridge-3",
+      "biome": "desert",
+      "from": 6688,
+      "to": 6712,
+      "halfWidth": 2.5,
+      "offset": 6,
+      "maximumApproachGrade": 0.02735842776069523,
+      "maximumApproachCurvature": 0.00045520642512839824
+    },
+    {
+      "id": "desert-bridge-4",
+      "biome": "desert",
+      "from": 6908,
+      "to": 6932,
+      "halfWidth": 2.5,
+      "offset": -4.4,
+      "maximumApproachGrade": 0.023710002767326953,
+      "maximumApproachCurvature": 0.00121203420277384
+    },
+    {
+      "id": "desert-bridge-5",
+      "biome": "desert",
+      "from": 7128,
+      "to": 7152,
+      "halfWidth": 2.5,
+      "offset": 5.1,
+      "maximumApproachGrade": 0.009609811292145679,
+      "maximumApproachCurvature": 0.0007284548711755702
+    },
+    {
+      "id": "snow-bridge-1",
+      "biome": "snow",
+      "from": 8808,
+      "to": 8832,
+      "halfWidth": 2.5,
+      "offset": -4.4,
+      "maximumApproachGrade": 0.0365983044992094,
+      "maximumApproachCurvature": 0.0009253774383083135
+    },
+    {
+      "id": "snow-bridge-2",
+      "biome": "snow",
+      "from": 9028,
+      "to": 9052,
+      "halfWidth": 2.5,
+      "offset": 0,
+      "maximumApproachGrade": 0.0478726107784828,
+      "maximumApproachCurvature": 0.000889969117077673
+    },
+    {
+      "id": "snow-bridge-3",
+      "biome": "snow",
+      "from": 9608,
+      "to": 9632,
+      "halfWidth": 2.5,
+      "offset": 3.5,
+      "maximumApproachGrade": 0.01987132335038093,
+      "maximumApproachCurvature": 0.001189997217268861
+    },
+    {
+      "id": "snow-bridge-4",
+      "biome": "snow",
+      "from": 10458,
+      "to": 10482,
+      "halfWidth": 2.5,
+      "offset": -6.3,
+      "maximumApproachGrade": 0.03508429267614684,
+      "maximumApproachCurvature": 0.0008444341798947909
+    },
+    {
+      "id": "snow-bridge-5",
+      "biome": "snow",
+      "from": 10678,
+      "to": 10702,
+      "halfWidth": 2.5,
+      "offset": 5.7,
+      "maximumApproachGrade": 0.04285714285714286,
+      "maximumApproachCurvature": 0.001287537972782702
+    },
+    {
+      "id": "volcanic-bridge-1",
+      "biome": "volcanic",
+      "from": 11308,
+      "to": 11332,
+      "halfWidth": 2.5,
+      "offset": -6.1,
+      "maximumApproachGrade": 0.031005331070605324,
+      "maximumApproachCurvature": 0.0011817333477044938
+    },
+    {
+      "id": "volcanic-bridge-2",
+      "biome": "volcanic",
+      "from": 11528,
+      "to": 11552,
+      "halfWidth": 2.5,
+      "offset": 0,
+      "maximumApproachGrade": 0.037120145666733106,
+      "maximumApproachCurvature": 0.0009018308796112501
+    },
+    {
+      "id": "volcanic-bridge-3",
+      "biome": "volcanic",
+      "from": 12168,
+      "to": 12192,
+      "halfWidth": 2.5,
+      "offset": 5.5,
+      "maximumApproachGrade": 0.0000021923373331531156,
+      "maximumApproachCurvature": 0.0010574317166742063
+    },
+    {
+      "id": "volcanic-bridge-4",
+      "biome": "volcanic",
+      "from": 13488,
+      "to": 13512,
+      "halfWidth": 2.5,
+      "offset": -5.5,
+      "maximumApproachGrade": 0.007065142198505538,
+      "maximumApproachCurvature": 0.0012289881983540793
+    },
+    {
+      "id": "volcanic-bridge-5",
+      "biome": "volcanic",
+      "from": 13168,
+      "to": 13192,
+      "halfWidth": 2.5,
+      "offset": 5.1,
+      "maximumApproachGrade": 0.00179308371380324,
+      "maximumApproachCurvature": 0.0008144498325418821
+    }
+  ]
+}

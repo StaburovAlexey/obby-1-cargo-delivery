@@ -1,0 +1,344 @@
+{
+  "status": "PASS",
+  "scope": "Offline CPU: production Three.js, actual app camera and local road/deck tangent-plane occlusion; no browser/GPU/Android rendering or performance claim.",
+  "defaultViews": [
+    {
+      "biome": "forest",
+      "viewport": "390x844",
+      "cameraHeightAbovePlane": 11.622,
+      "before": {
+        "visibleMin": 0,
+        "visibleMean": 2.4,
+        "visibleMax": 6,
+        "onScreenMean": 2.4,
+        "groundOccludedMean": 0,
+        "hazeMean": 0,
+        "meanCssSize": 8.465,
+        "meanPeakAlpha": 0.447,
+        "alphaFootprintUpperBoundPct": 0.003
+      },
+      "after": {
+        "visibleMin": 155,
+        "visibleMean": 176.15,
+        "visibleMax": 200,
+        "onScreenMean": 303.35,
+        "groundOccludedMean": 127.2,
+        "hazeMean": 1.2,
+        "meanCssSize": 19.997,
+        "meanPeakAlpha": 0.711,
+        "alphaFootprintUpperBoundPct": 1.843
+      }
+    },
+    {
+      "biome": "desert",
+      "viewport": "390x844",
+      "cameraHeightAbovePlane": 11.582,
+      "before": {
+        "visibleMin": 0,
+        "visibleMean": 0.55,
+        "visibleMax": 2,
+        "onScreenMean": 0.55,
+        "groundOccludedMean": 0,
+        "hazeMean": 0.15,
+        "meanCssSize": 2.141,
+        "meanPeakAlpha": 0.121,
+        "alphaFootprintUpperBoundPct": 0.004
+      },
+      "after": {
+        "visibleMin": 136,
+        "visibleMean": 150.5,
+        "visibleMax": 175,
+        "onScreenMean": 261.95,
+        "groundOccludedMean": 111.45,
+        "hazeMean": 10.25,
+        "meanCssSize": 7.589,
+        "meanPeakAlpha": 0.542,
+        "alphaFootprintUpperBoundPct": 1.484
+      }
+    },
+    {
+      "biome": "snow",
+      "viewport": "390x844",
+      "cameraHeightAbovePlane": 11.554,
+      "before": {
+        "visibleMin": 0,
+        "visibleMean": 1.7,
+        "visibleMax": 4,
+        "onScreenMean": 1.7,
+        "groundOccludedMean": 0,
+        "hazeMean": 0,
+        "meanCssSize": 2.823,
+        "meanPeakAlpha": 0.524,
+        "alphaFootprintUpperBoundPct": 0.002
+      },
+      "after": {
+        "visibleMin": 116,
+        "visibleMean": 144,
+        "visibleMax": 222,
+        "onScreenMean": 345.45,
+        "groundOccludedMean": 201.45,
+        "hazeMean": 20,
+        "meanCssSize": 15.968,
+        "meanPeakAlpha": 0.835,
+        "alphaFootprintUpperBoundPct": 5.973
+      }
+    },
+    {
+      "biome": "volcanic",
+      "viewport": "390x844",
+      "cameraHeightAbovePlane": 12.021,
+      "before": {
+        "visibleMin": 0,
+        "visibleMean": 1.35,
+        "visibleMax": 3,
+        "onScreenMean": 1.35,
+        "groundOccludedMean": 0,
+        "hazeMean": 0.05,
+        "meanCssSize": 3.193,
+        "meanPeakAlpha": 0.398,
+        "alphaFootprintUpperBoundPct": 0.002
+      },
+      "after": {
+        "visibleMin": 118,
+        "visibleMean": 128.9,
+        "visibleMax": 159,
+        "onScreenMean": 237.05,
+        "groundOccludedMean": 108.15,
+        "hazeMean": 8.2,
+        "meanCssSize": 7.826,
+        "meanPeakAlpha": 0.672,
+        "alphaFootprintUpperBoundPct": 1.576
+      }
+    },
+    {
+      "biome": "forest",
+      "viewport": "1440x900",
+      "cameraHeightAbovePlane": 9.962,
+      "before": {
+        "visibleMin": 1,
+        "visibleMean": 6.3,
+        "visibleMax": 11,
+        "onScreenMean": 6.3,
+        "groundOccludedMean": 0,
+        "hazeMean": 0,
+        "meanCssSize": 7.349,
+        "meanPeakAlpha": 0.441,
+        "alphaFootprintUpperBoundPct": 0.001
+      },
+      "after": {
+        "visibleMin": 124,
+        "visibleMean": 156.75,
+        "visibleMax": 185,
+        "onScreenMean": 304.85,
+        "groundOccludedMean": 148.1,
+        "hazeMean": 0.85,
+        "meanCssSize": 16.211,
+        "meanPeakAlpha": 0.708,
+        "alphaFootprintUpperBoundPct": 0.27
+      }
+    },
+    {
+      "biome": "desert",
+      "viewport": "1440x900",
+      "cameraHeightAbovePlane": 9.929,
+      "before": {
+        "visibleMin": 0,
+        "visibleMean": 2.05,
+        "visibleMax": 6,
+        "onScreenMean": 2.05,
+        "groundOccludedMean": 0,
+        "hazeMean": 0.15,
+        "meanCssSize": 2.249,
+        "meanPeakAlpha": 0.149,
+        "alphaFootprintUpperBoundPct": 0.001
+      },
+      "after": {
+        "visibleMin": 126,
+        "visibleMean": 143.4,
+        "visibleMax": 162,
+        "onScreenMean": 273.15,
+        "groundOccludedMean": 129.75,
+        "hazeMean": 8.85,
+        "meanCssSize": 6.165,
+        "meanPeakAlpha": 0.549,
+        "alphaFootprintUpperBoundPct": 0.218
+      }
+    },
+    {
+      "biome": "snow",
+      "viewport": "1440x900",
+      "cameraHeightAbovePlane": 9.905,
+      "before": {
+        "visibleMin": 1,
+        "visibleMean": 5.85,
+        "visibleMax": 10,
+        "onScreenMean": 5.85,
+        "groundOccludedMean": 0,
+        "hazeMean": 0.25,
+        "meanCssSize": 3.146,
+        "meanPeakAlpha": 0.634,
+        "alphaFootprintUpperBoundPct": 0.002
+      },
+      "after": {
+        "visibleMin": 94,
+        "visibleMean": 120.8,
+        "visibleMax": 205,
+        "onScreenMean": 347.6,
+        "groundOccludedMean": 226.8,
+        "hazeMean": 19.55,
+        "meanCssSize": 13.697,
+        "meanPeakAlpha": 0.836,
+        "alphaFootprintUpperBoundPct": 0.928
+      }
+    },
+    {
+      "biome": "volcanic",
+      "viewport": "1440x900",
+      "cameraHeightAbovePlane": 10.294,
+      "before": {
+        "visibleMin": 1,
+        "visibleMean": 4.1,
+        "visibleMax": 7,
+        "onScreenMean": 4.1,
+        "groundOccludedMean": 0,
+        "hazeMean": 0.2,
+        "meanCssSize": 2.765,
+        "meanPeakAlpha": 0.492,
+        "alphaFootprintUpperBoundPct": 0.001
+      },
+      "after": {
+        "visibleMin": 53,
+        "visibleMean": 78.55,
+        "visibleMax": 149,
+        "onScreenMean": 224.5,
+        "groundOccludedMean": 145.95,
+        "hazeMean": 9,
+        "meanCssSize": 6.899,
+        "meanPeakAlpha": 0.674,
+        "alphaFootprintUpperBoundPct": 0.231
+      }
+    }
+  ],
+  "orbitCases": 64,
+  "worstOrbitVisibleCount": 43,
+  "movingOrbitViews": [
+    {
+      "biome": "forest",
+      "viewport": "390x844",
+      "seconds": 10,
+      "yawRadiansPerSecond": 2.4,
+      "visibleMin": 128,
+      "visibleMean": 148.9
+    },
+    {
+      "biome": "desert",
+      "viewport": "390x844",
+      "seconds": 10,
+      "yawRadiansPerSecond": 2.4,
+      "visibleMin": 132,
+      "visibleMean": 151.03
+    },
+    {
+      "biome": "snow",
+      "viewport": "390x844",
+      "seconds": 10,
+      "yawRadiansPerSecond": 2.4,
+      "visibleMin": 145,
+      "visibleMean": 161.97
+    },
+    {
+      "biome": "volcanic",
+      "viewport": "390x844",
+      "seconds": 10,
+      "yawRadiansPerSecond": 2.4,
+      "visibleMin": 116,
+      "visibleMean": 135.38
+    },
+    {
+      "biome": "forest",
+      "viewport": "1440x900",
+      "seconds": 10,
+      "yawRadiansPerSecond": 2.4,
+      "visibleMin": 85,
+      "visibleMean": 109.73
+    },
+    {
+      "biome": "desert",
+      "viewport": "1440x900",
+      "seconds": 10,
+      "yawRadiansPerSecond": 2.4,
+      "visibleMin": 126,
+      "visibleMean": 146.49
+    },
+    {
+      "biome": "snow",
+      "viewport": "1440x900",
+      "seconds": 10,
+      "yawRadiansPerSecond": 2.4,
+      "visibleMin": 137,
+      "visibleMean": 157.74
+    },
+    {
+      "biome": "volcanic",
+      "viewport": "1440x900",
+      "seconds": 10,
+      "yawRadiansPerSecond": 2.4,
+      "visibleMin": 116,
+      "visibleMean": 133.2
+    }
+  ],
+  "fog": [
+    {
+      "biome": "forest",
+      "color": 9941438,
+      "near": 46,
+      "far": 220,
+      "contrastTransmission": {
+        "20m": 1,
+        "50m": 0.998,
+        "90m": 0.841,
+        "100m": 0.771,
+        "200m": 0.037
+      }
+    },
+    {
+      "biome": "desert",
+      "color": 13082988,
+      "near": 36,
+      "far": 150,
+      "contrastTransmission": {
+        "20m": 1,
+        "50m": 0.958,
+        "90m": 0.539,
+        "100m": 0.408,
+        "200m": 0
+      }
+    },
+    {
+      "biome": "snow",
+      "color": 14214636,
+      "near": 42,
+      "far": 190,
+      "contrastTransmission": {
+        "20m": 1,
+        "50m": 0.992,
+        "90m": 0.753,
+        "100m": 0.66,
+        "200m": 0
+      }
+    },
+    {
+      "biome": "volcanic",
+      "color": 9207164,
+      "near": 38,
+      "far": 170,
+      "contrastTransmission": {
+        "20m": 1,
+        "50m": 0.977,
+        "90m": 0.657,
+        "100m": 0.545,
+        "200m": 0
+      }
+    }
+  ]
+}

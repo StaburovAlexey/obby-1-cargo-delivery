@@ -1,0 +1,57 @@
+{
+  "scope": "Offline production Three.js vertices, matrices, resource identities and surface physics. No browser, GPU, mobile or human-playtest claim.",
+  "checks": [
+    {
+      "name": "All 30 hazard IDs have visible live geometry in the original eight bounded batches",
+      "passed": true,
+      "hazards": 30,
+      "moving": 30,
+      "drawCalls": 8,
+      "triangles": 1944,
+      "solidInstances": 32
+    },
+    {
+      "name": "A full movement cycle keeps every solid, both log caps and both patches on their live collision footprint",
+      "passed": true,
+      "frames": 441,
+      "movingHazards": 30,
+      "solidPoseChecks": 12348,
+      "checkedVertices": 59184,
+      "patchVertices": 1872,
+      "logCaps": 4,
+      "maxHorizontalError": 0.00048581786312817954,
+      "maxDaylight": -0.0059292891677209525,
+      "maxBurial": 0.016757222140423522
+    },
+    {
+      "name": "Injected sloped and curved ground resamples moving patch height and normals instead of reusing the initial slope",
+      "passed": true,
+      "samples": 5,
+      "vertices": 780,
+      "changedHeights": 154
+    },
+    {
+      "name": "Pause, reset, late scene creation, descriptor-only previews and disposal retain correct geometry and bounded pools",
+      "passed": true,
+      "pauseChecks": 5,
+      "lateSceneSynchronized": true,
+      "resetExact": true,
+      "disposedGeometries": 8,
+      "disposedMaterials": 8
+    },
+    {
+      "name": "Runtime CPU updates retain the same resources and no extra falling-rock pools",
+      "passed": true,
+      "frames": 150,
+      "meanMs": 5.804648680000016,
+      "p95Ms": 8.248905000000377,
+      "maximumMs": 11.826827000000776,
+      "limitation": "Shared Node CPU timing only, not GPU FPS"
+    }
+  ],
+  "generatedAt": "2026-10-14T22:34:45.183Z",
+  "runtimeHashes": {
+    "road-hazards.js": "a761848610154fbf0eba04ce4905d3b12be54a19bb897f82bf7a483a5e6ddfec",
+    "road-hazards-scene.js": "f2e78d57eb4518191f9204beadb446b3934a527e521233958b1b4967a80e2eb1"
+  }
+}

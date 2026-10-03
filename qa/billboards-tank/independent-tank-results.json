@@ -1,0 +1,85 @@
+{
+  "generated": "2026-10-13T20:54:33.466Z",
+  "scope": "Read-only production logic; no browser or GPU",
+  "results": [
+    {
+      "name": "All ten vehicles: 30 tank purchases use brains, no automatic fuel, no money/cargo/delivery mutation, max cap enforced",
+      "pass": true,
+      "detail": [
+        {
+          "id": "pickup",
+          "baseCapacity": 100,
+          "maxCapacity": 106,
+          "brainCost": 105
+        },
+        {
+          "id": "citycourier",
+          "baseCapacity": 125,
+          "maxCapacity": 132.5,
+          "brainCost": 135
+        },
+        {
+          "id": "rover",
+          "baseCapacity": 140,
+          "maxCapacity": 148.4,
+          "brainCost": 165
+        },
+        {
+          "id": "foresthauler",
+          "baseCapacity": 190,
+          "maxCapacity": 201.4,
+          "brainCost": 195
+        },
+        {
+          "id": "van",
+          "baseCapacity": 180,
+          "maxCapacity": 190.8,
+          "brainCost": 225
+        },
+        {
+          "id": "desertscout",
+          "baseCapacity": 150,
+          "maxCapacity": 159,
+          "brainCost": 255
+        },
+        {
+          "id": "snowgrip",
+          "baseCapacity": 145,
+          "maxCapacity": 153.70000000000002,
+          "brainCost": 285
+        },
+        {
+          "id": "snowrunner",
+          "baseCapacity": 185,
+          "maxCapacity": 196.10000000000002,
+          "brainCost": 315
+        },
+        {
+          "id": "lavacrawler",
+          "baseCapacity": 165,
+          "maxCapacity": 174.9,
+          "brainCost": 345
+        },
+        {
+          "id": "ashhauler",
+          "baseCapacity": 210,
+          "maxCapacity": 222.60000000000002,
+          "brainCost": 375
+        }
+      ]
+    },
+    {
+      "name": "All ten vehicles: fuel consumption unchanged; station fills upgraded capacity; garage/reset/reload retain upgrades",
+      "pass": true,
+      "detail": {
+        "vehicles": 10
+      }
+    },
+    {
+      "name": "Tank state is per vehicle; stock and older saves default to zero; bounded hostile levels cannot exceed cap",
+      "pass": true
+    }
+  ],
+  "passed": 3,
+  "failed": 0
+}

@@ -1,0 +1,165 @@
+{
+  "scope": "Actual app source, fixed-step model and instanced matrices; DOM, renderer and RAF mocked. No browser/GPU/mobile claim.",
+  "checks": [
+    {
+      "name": "Real app advances one shared mover clock before physics and renders the resulting pose",
+      "passed": true,
+      "frames": 93,
+      "appDeltaCap": 0.05
+    },
+    {
+      "name": "Menus, overview, blur and hidden-tab time freeze motion; resume never fast-forwards",
+      "passed": true,
+      "pauseModes": 5
+    },
+    {
+      "name": "Actual mover impacts in both gears invoke clean-run collision telemetry for all ten vehicles",
+      "passed": true,
+      "cases": 20,
+      "impacts": [
+        {
+          "vehicle": "pickup",
+          "gear": "D",
+          "collisionSignals": 1,
+          "cleanBonus": 0
+        },
+        {
+          "vehicle": "pickup",
+          "gear": "R",
+          "collisionSignals": 1,
+          "cleanBonus": 0
+        },
+        {
+          "vehicle": "citycourier",
+          "gear": "D",
+          "collisionSignals": 1,
+          "cleanBonus": 0
+        },
+        {
+          "vehicle": "citycourier",
+          "gear": "R",
+          "collisionSignals": 1,
+          "cleanBonus": 0
+        },
+        {
+          "vehicle": "rover",
+          "gear": "D",
+          "collisionSignals": 1,
+          "cleanBonus": 0
+        },
+        {
+          "vehicle": "rover",
+          "gear": "R",
+          "collisionSignals": 1,
+          "cleanBonus": 0
+        },
+        {
+          "vehicle": "foresthauler",
+          "gear": "D",
+          "collisionSignals": 1,
+          "cleanBonus": 0
+        },
+        {
+          "vehicle": "foresthauler",
+          "gear": "R",
+          "collisionSignals": 1,
+          "cleanBonus": 0
+        },
+        {
+          "vehicle": "van",
+          "gear": "D",
+          "collisionSignals": 1,
+          "cleanBonus": 0
+        },
+        {
+          "vehicle": "van",
+          "gear": "R",
+          "collisionSignals": 1,
+          "cleanBonus": 0
+        },
+        {
+          "vehicle": "desertscout",
+          "gear": "D",
+          "collisionSignals": 1,
+          "cleanBonus": 0
+        },
+        {
+          "vehicle": "desertscout",
+          "gear": "R",
+          "collisionSignals": 1,
+          "cleanBonus": 0
+        },
+        {
+          "vehicle": "snowgrip",
+          "gear": "D",
+          "collisionSignals": 1,
+          "cleanBonus": 0
+        },
+        {
+          "vehicle": "snowgrip",
+          "gear": "R",
+          "collisionSignals": 1,
+          "cleanBonus": 0
+        },
+        {
+          "vehicle": "snowrunner",
+          "gear": "D",
+          "collisionSignals": 1,
+          "cleanBonus": 0
+        },
+        {
+          "vehicle": "snowrunner",
+          "gear": "R",
+          "collisionSignals": 1,
+          "cleanBonus": 0
+        },
+        {
+          "vehicle": "lavacrawler",
+          "gear": "D",
+          "collisionSignals": 1,
+          "cleanBonus": 0
+        },
+        {
+          "vehicle": "lavacrawler",
+          "gear": "R",
+          "collisionSignals": 1,
+          "cleanBonus": 0
+        },
+        {
+          "vehicle": "ashhauler",
+          "gear": "D",
+          "collisionSignals": 1,
+          "cleanBonus": 0
+        },
+        {
+          "vehicle": "ashhauler",
+          "gear": "R",
+          "collisionSignals": 1,
+          "cleanBonus": 0
+        }
+      ]
+    },
+    {
+      "name": "Garage, biome travel and regeneration reset movers without deleting grounded basalt or paying rewards",
+      "passed": true,
+      "resets": [
+        "biome travel",
+        "garage",
+        "regenerate"
+      ],
+      "staticBasalt": 4
+    },
+    {
+      "name": "Graphics context loss freezes the live hazard pool",
+      "passed": true,
+      "simulatedHiddenSeconds": 600
+    }
+  ],
+  "generatedAt": "2026-10-14T18:29:27.390Z",
+  "runtimeHashes": {
+    "app.js": "cfd5fe31bfb22d960d4d831c4d00932cab7c716640cd541f22cfb9f9d050456b",
+    "road-hazards.js": "5837e10f79699f10c72d0454250c3833be5ca452d00fd14039ce07f5b8e4bc8f",
+    "road-hazards-scene.js": "f9c1ddafbf68bf1ebdd2fe4313ff77c6d3e838741a068c9aa285c97f349593d2",
+    "road-bridges.js": "637ab07f628992d4fa8b24d797d83d90305600beebf27a49fb2c5f5cdaf3374d"
+  }
+}

@@ -1,0 +1,57 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> urban-route-procedural-three@1.60.0 test:reward-bmw
+> node tests/bmw-vehicle.mjs && node tests/bmw-ground-fit.mjs && node tests/reward-pedestal.mjs && node tests/reward-car-unlock.mjs && node tests/reward-driving.mjs && node tests/reward-app.mjs && node tests/finish-line.mjs && node tests/cosmo-garage.mjs && node tests/career-route-tracker.mjs && node tests/retention-app-integration.mjs && node tests/delivery-receipt-modal.mjs && node tests/padded-wheel-input.mjs
+
+{"passed":true,"scope":"Actual BMW GLB, CPU geometry/material/resource checks; no GPU claim","triangles":6618,"primitives":16,"dimensions":[3.3808069915422116,2.439049276742363,7.999999999999998],"radius":0.5646498461978258,"reflectionTextureBytes":32768}
+{"passed":true,"poses":60,"centeredBridges":50,"edgeBridges":200,"minimumClearance":0.011981966781561937,"largestLowestTireClearance":0.012001406360031552,"scope":"Actual BMW GLB tire vertices, production ground fit and bridge support; no GPU claim"}
+{
+  "passed": true,
+  "scope": "Renderer-free production scene, rig, real BMW GLB geometry and gameplay",
+  "rotationSamples": 181,
+  "actualBMWRotationSamples": 73,
+  "walkingSamples": 42388,
+  "actualBMWDimensions": [
+    3.3808069915422116,
+    2.439049276742363,
+    7.999999999999998
+  ],
+  "actualBMWMinimumTopGap": 0.21763947017842156,
+  "actualBMWMaximumRadius": 4.061411790277487
+}
+PASS the original ten IDs, prices, base stats, upgrades and budgets are unchanged
+PASS locked reward cannot be bought, boarded, selected as money goal or granted by debug funds
+PASS all ten ordinary cars remain directly purchasable and early delivery still pays without a reward
+PASS legacy money, last-car ownership, completion counts and checkpoint claims never infer proof
+PASS no proof, first-pose teleport, late start, preview, no cargo, abort and fuel failure never pay or unlock
+PASS a complete legal final delivery unlocks for free and saves payout, proof and ownership atomically once
+PASS both legal fork choices qualify and future successful runs never repeat the unlock
+PASS off-road, bridge-gap, late teleport and stale run telemetry invalidate cargo
+PASS failed saving cannot duplicate rewards and a later flush/reload preserves the earned car
+PASS completed traversal alone never unlocks, and re-entrant final observers cannot duplicate credit
+PASS proof normalization requires complete evidence and rejects accessors without invoking them
+PASS reward-only BMW: 11 focused groups.
+{"test":"reward-driving","oldCars":10,"topSpeed":42,"maxSlip":5.891845260929529,"settled":0}
+PASS actual 11 GLBs + app: reward locked, rotation, all car enter/reset, 25 bridges both directions, failed fall no payout, finish attached. CPU/mock DOM.
+PASS Finish is 28 real route metres before the final left delivery trigger
+PASS Checker paint follows the actual road triangles with a small stable lift
+PASS The same paint construction conforms to a curved and sloped route section
+PASS All posts remain outside the full 30 m road and cloth clears cars overhead
+PASS Finish apron does not overlap bridges, hazards or the last unloading circle
+PASS Both flags and checker paint are visible on the final approach in CPU camera/occlusion checks
+PASS Bounded geometry has three draw calls, no textures and idempotent disposal
+7 finish-line checks passed. CPU only; no browser, GPU, FPS or device verification.
+PASS Cosmo garage atomic replacement, actual application hook, bounded loading, preserved identities, pose/reset, rebuild, failure and late-disposal. CPU/mock DOM only.
+PASS actual route telemetry: 25 bridges, both branches of all forks, partial/jump/repeat/test/no-cargo/new-run guards.
+PASS integrated app: retired savings launcher and existing goal persistence, mission change, driving suppression, delivery receipt and once-only saved milestone. CPU/mock only.
+PASS receipt markup and CSS: centered full-screen backdrop above every HUD, safe areas, scrolling and sticky close header.
+PASS actual app receipt: successful delivery only, once-only payout, modal exclusivity, held input resets, purchases blocked, no expiry and clean dismissal.
+PASS 48 CSS layout cases: original 112/132/185 px wheel rules, 24–32 px transparent rim, fuel clearance, pedal/HUD hit priority.
+PASS real vehicle/look handlers: rim starts, outside drags, capture and failed-capture fallback, both listener orders, independent camera/D/R fingers, actual center, wrap/dead-center/regrab.
+PASS wheel ownership is cleared on up/cancel/lost capture, reset/disable/destroy, blur/pagehide/resize, hidden tab and editable focus; stale moves never reacquire camera.
+PASS actual app: padded-button target -> steering, separate camera, upgrade/biome/career/receipt dialogs, blur/resize/pagehide/visibility, garage and fresh driving reset.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

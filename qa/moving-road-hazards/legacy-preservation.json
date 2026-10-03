@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "scope": "Exact deep equality including -0, against the pre-change 68-obstacle generator imported with the same final bridge geometry.",
+  "seeds": [
+    0,
+    1,
+    17,
+    42,
+    2026,
+    4294967295
+  ],
+  "count": 68,
+  "groundedBasalt": 16,
+  "originalModuleHash": "65b81a56194d8d1b65fda25fdf82e808e7d3f7feec42c4929a3dbc4eb87ae3d5",
+  "finalModuleHash": "94675586e77a70a2f4be26c9e6601afbde295d0056599086415d83fcc986ece9"
+}

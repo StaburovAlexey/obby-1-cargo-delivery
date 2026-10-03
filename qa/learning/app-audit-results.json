@@ -1,0 +1,121 @@
+[
+  {
+    "name": "fresh app never grants money automatically; explicit doubleclick grants exactly remaining fleet deficit once across reload",
+    "status": "PASS",
+    "details": {
+      "granted": 37900
+    }
+  },
+  {
+    "name": "actual app does not pay movement on idle, menu pauses, hidden, blur, overview, teleports or stale key input",
+    "status": "PASS",
+    "details": {
+      "movingEarned": 1.9833333333333298
+    }
+  },
+  {
+    "name": "actual app rejects visible long-frame stalls for seated study and driving",
+    "status": "PASS"
+  },
+  {
+    "name": "study in actual app uses all five rates and never earns hidden, blurred, overview or after standing",
+    "status": "PASS",
+    "details": {
+      "schools": 5
+    }
+  },
+  {
+    "name": "all five selected entrance rates remain exact at 15 FPS through high-refresh rendering",
+    "status": "PASS",
+    "details": {
+      "cases": 30,
+      "school5At15Fps": 60
+    }
+  },
+  {
+    "name": "all skin proximity buttons enforce ownership and doubleclick never duplicates spend; selected skin survives reload",
+    "status": "PASS",
+    "details": {
+      "spent": 58250
+    }
+  },
+  {
+    "name": "school purchase then sit uses distinct actions and preserves money/seat when clicked again",
+    "status": "PASS"
+  },
+  {
+    "name": "upgrade modal refreshes actual selected-car offer, maxes only paid levels and saves without resetting fuel or pose",
+    "status": "PASS",
+    "details": {
+      "spent": 420
+    }
+  },
+  {
+    "name": "upgrade modal repeated Escape/close/backdrop/tab and biome swaps remain isolated at five viewport sizes",
+    "status": "PASS",
+    "details": {
+      "viewportCases": 5,
+      "repeatedFlows": 15
+    }
+  },
+  {
+    "name": "all five shared-seat study rates and career data survive garage, fuel-empty, rebuild and reload without replay",
+    "status": "PASS",
+    "details": {
+      "entrances": 5,
+      "resetCases": 15
+    }
+  },
+  {
+    "name": "actual app pays steady motion equally at standard and high-refresh rates",
+    "status": "PASS",
+    "details": [
+      {
+        "fps": 30,
+        "earned": 9.999999999999966
+      },
+      {
+        "fps": 60,
+        "earned": 10.000000000000053
+      },
+      {
+        "fps": 90,
+        "earned": 10
+      },
+      {
+        "fps": 120,
+        "earned": 9.999999999999947
+      },
+      {
+        "fps": 144,
+        "earned": 9.999999999999947
+      },
+      {
+        "fps": 165,
+        "earned": 9.999999999999947
+      },
+      {
+        "fps": 240,
+        "earned": 9.999999999999947
+      }
+    ]
+  },
+  {
+    "name": "zero-brain modal moves keyboard focus inside even when every purchase button is disabled",
+    "status": "PASS"
+  },
+  {
+    "name": "five floating school labels keep exact rates, paid lock/price, affordability and owned-state updates",
+    "status": "PASS"
+  },
+  {
+    "name": "actual Three.js school projections retain viewport-fixed scale and exact world anchors across varied camera angles",
+    "status": "PASS",
+    "details": {
+      "projectionFrames": 375,
+      "visibleLabels": 1032,
+      "overlapPairs": 968,
+      "scope": "Actual projection/stacking math; no browser layout assertion"
+    }
+  }
+]

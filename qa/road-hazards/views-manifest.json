@@ -1,0 +1,330 @@
+{
+  "kind": "Offline source-geometry render input; not browser/WebGL",
+  "sourceSHA256": {
+    "road-hazards.js": "a06c026d664fa316eac3eb6f08eb52594080c9233cd129f063e2514ca6d8bed4",
+    "road-hazards-scene.js": "5f29e7f5d959f26ec8b756c25e00822f6a76ca8496c7008602411d4aa0fe8cfa"
+  },
+  "views": [
+    {
+      "file": "repair-static-offline.jpg",
+      "type": "repair",
+      "phase": "static",
+      "hazard": {
+        "id": "city-repair-1-1",
+        "type": "repair",
+        "biome": "city",
+        "station": 282.93795621114526,
+        "distance": 289.8448716769926,
+        "x": 5.844346675552874,
+        "z": -282.94275953476915,
+        "heading": 0.08537538840273881,
+        "width": 3.855739738047123,
+        "length": 3.5357872331514955,
+        "height": 1.2111848645610734,
+        "offset": 0.056329627109225844,
+        "groundHeight": 10.162144925884396,
+        "solid": true,
+        "series": "city-1",
+        "bypassSide": -1,
+        "edgeBlend": 0
+      },
+      "stats": {
+        "hazards": 25,
+        "rockCapacity": 5,
+        "instancedMeshes": 6,
+        "mergedMeshes": 2,
+        "materials": 8,
+        "geometries": 8,
+        "sharedTextures": 1,
+        "drawCalls": 5,
+        "triangles": 2054,
+        "activeInstances": 20,
+        "visibleRocks": 0,
+        "visibleWarnings": 0,
+        "disposed": false,
+        "phases": {
+          "dormant": 4,
+          "warning": 0,
+          "falling": 0,
+          "landed": 1
+        }
+      }
+    },
+    {
+      "file": "log-static-offline.jpg",
+      "type": "log",
+      "phase": "static",
+      "hazard": {
+        "id": "forest-log-1-1",
+        "type": "log",
+        "biome": "forest",
+        "station": 1362.6767979057577,
+        "distance": 1373.4415313787758,
+        "x": -2.311597922438107,
+        "z": -1362.5694396781744,
+        "heading": -0.01137638822635822,
+        "width": 7.213564789481461,
+        "length": 1.1216234873514623,
+        "height": 1.1216234873514623,
+        "offset": 9.437137801432982,
+        "groundHeight": 25.806250032958946,
+        "solid": true,
+        "series": "forest-1",
+        "bypassSide": -1,
+        "edgeBlend": 0
+      },
+      "stats": {
+        "hazards": 25,
+        "rockCapacity": 5,
+        "instancedMeshes": 6,
+        "mergedMeshes": 2,
+        "materials": 8,
+        "geometries": 8,
+        "sharedTextures": 1,
+        "drawCalls": 5,
+        "triangles": 2054,
+        "activeInstances": 20,
+        "visibleRocks": 0,
+        "visibleWarnings": 0,
+        "disposed": false,
+        "phases": {
+          "dormant": 4,
+          "warning": 0,
+          "falling": 0,
+          "landed": 1
+        }
+      }
+    },
+    {
+      "file": "dune-static-offline.jpg",
+      "type": "dune",
+      "phase": "static",
+      "hazard": {
+        "id": "desert-dune-1-1",
+        "type": "dune",
+        "biome": "desert",
+        "station": 2198.4860911063656,
+        "distance": 2211.4324454306625,
+        "x": 5.019390445530705,
+        "z": -2199.358857263635,
+        "heading": 0.09350288531161176,
+        "width": 7.8582777618430555,
+        "length": 17.838041954673827,
+        "height": 0.1382177780661732,
+        "offset": 9.347724274545907,
+        "groundHeight": 14.127778221476484,
+        "solid": false,
+        "series": "desert-1",
+        "bypassSide": -1,
+        "edgeBlend": 2.5
+      },
+      "stats": {
+        "hazards": 25,
+        "rockCapacity": 5,
+        "instancedMeshes": 6,
+        "mergedMeshes": 2,
+        "materials": 8,
+        "geometries": 8,
+        "sharedTextures": 1,
+        "drawCalls": 5,
+        "triangles": 2054,
+        "activeInstances": 20,
+        "visibleRocks": 0,
+        "visibleWarnings": 0,
+        "disposed": false,
+        "phases": {
+          "dormant": 4,
+          "warning": 0,
+          "falling": 0,
+          "landed": 1
+        }
+      }
+    },
+    {
+      "file": "ice-static-offline.jpg",
+      "type": "ice",
+      "phase": "static",
+      "hazard": {
+        "id": "snow-ice-1-1",
+        "type": "ice",
+        "biome": "snow",
+        "station": 3336.591878372897,
+        "distance": 3353.046239602845,
+        "x": -1.9542259945885885,
+        "z": -3337.5037665312175,
+        "heading": 0.09842357748241466,
+        "width": 8.192689007055014,
+        "length": 21.05961009580642,
+        "height": 0.035,
+        "offset": 9.279911594651638,
+        "groundHeight": 27.392711489474625,
+        "solid": false,
+        "series": "snow-1",
+        "bypassSide": -1,
+        "edgeBlend": 2.5
+      },
+      "stats": {
+        "hazards": 25,
+        "rockCapacity": 5,
+        "instancedMeshes": 6,
+        "mergedMeshes": 2,
+        "materials": 8,
+        "geometries": 8,
+        "sharedTextures": 1,
+        "drawCalls": 5,
+        "triangles": 2054,
+        "activeInstances": 20,
+        "visibleRocks": 0,
+        "visibleWarnings": 0,
+        "disposed": false,
+        "phases": {
+          "dormant": 4,
+          "warning": 0,
+          "falling": 0,
+          "landed": 1
+        }
+      }
+    },
+    {
+      "file": "rock-warning-offline.jpg",
+      "type": "rock",
+      "phase": "warning",
+      "hazard": {
+        "id": "volcanic-rock-1-1",
+        "type": "rock",
+        "biome": "volcanic",
+        "station": 4482.368333817949,
+        "distance": 4501.098342338111,
+        "x": -1.9944536715599632,
+        "z": -4482.9795579693,
+        "heading": 0.06358742327705061,
+        "width": 4.7369620821904395,
+        "length": 5.096239103702828,
+        "height": 2.25836623609066,
+        "offset": 9.618824197258801,
+        "groundHeight": 13.694677602368495,
+        "solid": true,
+        "series": "volcanic-1",
+        "bypassSide": -1,
+        "edgeBlend": 0
+      },
+      "stats": {
+        "hazards": 25,
+        "rockCapacity": 5,
+        "instancedMeshes": 6,
+        "mergedMeshes": 2,
+        "materials": 8,
+        "geometries": 8,
+        "sharedTextures": 1,
+        "drawCalls": 8,
+        "triangles": 2112,
+        "activeInstances": 23,
+        "visibleRocks": 1,
+        "visibleWarnings": 1,
+        "disposed": false,
+        "phases": {
+          "dormant": 4,
+          "warning": 0,
+          "falling": 0,
+          "landed": 1
+        }
+      }
+    },
+    {
+      "file": "rock-falling-offline.jpg",
+      "type": "rock",
+      "phase": "falling",
+      "hazard": {
+        "id": "volcanic-rock-1-1",
+        "type": "rock",
+        "biome": "volcanic",
+        "station": 4482.368333817949,
+        "distance": 4501.098342338111,
+        "x": -1.9944536715599632,
+        "z": -4482.9795579693,
+        "heading": 0.06358742327705061,
+        "width": 4.7369620821904395,
+        "length": 5.096239103702828,
+        "height": 2.25836623609066,
+        "offset": 9.618824197258801,
+        "groundHeight": 13.694677602368495,
+        "solid": true,
+        "series": "volcanic-1",
+        "bypassSide": -1,
+        "edgeBlend": 0
+      },
+      "stats": {
+        "hazards": 25,
+        "rockCapacity": 5,
+        "instancedMeshes": 6,
+        "mergedMeshes": 2,
+        "materials": 8,
+        "geometries": 8,
+        "sharedTextures": 1,
+        "drawCalls": 8,
+        "triangles": 2112,
+        "activeInstances": 23,
+        "visibleRocks": 1,
+        "visibleWarnings": 1,
+        "disposed": false,
+        "phases": {
+          "dormant": 4,
+          "warning": 0,
+          "falling": 0,
+          "landed": 1
+        }
+      }
+    },
+    {
+      "file": "rock-landed-offline.jpg",
+      "type": "rock",
+      "phase": "landed",
+      "hazard": {
+        "id": "volcanic-rock-1-1",
+        "type": "rock",
+        "biome": "volcanic",
+        "station": 4482.368333817949,
+        "distance": 4501.098342338111,
+        "x": -1.9944536715599632,
+        "z": -4482.9795579693,
+        "heading": 0.06358742327705061,
+        "width": 4.7369620821904395,
+        "length": 5.096239103702828,
+        "height": 2.25836623609066,
+        "offset": 9.618824197258801,
+        "groundHeight": 13.694677602368495,
+        "solid": true,
+        "series": "volcanic-1",
+        "bypassSide": -1,
+        "edgeBlend": 0
+      },
+      "stats": {
+        "hazards": 25,
+        "rockCapacity": 5,
+        "instancedMeshes": 6,
+        "mergedMeshes": 2,
+        "materials": 8,
+        "geometries": 8,
+        "sharedTextures": 1,
+        "drawCalls": 7,
+        "triangles": 2104,
+        "activeInstances": 22,
+        "visibleRocks": 1,
+        "visibleWarnings": 0,
+        "disposed": false,
+        "phases": {
+          "dormant": 4,
+          "warning": 0,
+          "falling": 0,
+          "landed": 1
+        }
+      }
+    }
+  ],
+  "limitations": "Actual source hazard geometry rendered offline in Blender; source-sampled road context. No browser/WebGL/GPU/mobile verification.",
+  "finalRuntimeSHA256": {
+    "road-hazards.js": "dda4e5dfe2a32c579b2b47955ad12da198c115544607fade5dee3d3fafa800db",
+    "road-hazards-scene.js": "5f29e7f5d959f26ec8b756c25e00822f6a76ca8496c7008602411d4aa0fe8cfa"
+  },
+  "finalVerification": "All exported hazard descriptors equal the final runtime exactly; post-export runtime change only bounds prediction sampling. Warning altitude remains 10m."
+}

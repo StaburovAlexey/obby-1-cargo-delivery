@@ -1,0 +1,2660 @@
+{
+  "baselineCommit": "89eec0fe33e7550154e525c128631c720d898322",
+  "measurements": {
+    "straight": [
+      {
+        "vehicle": "pickup",
+        "biome": "forest",
+        "upgrade": "stock",
+        "grade": 0,
+        "target": 8.25,
+        "timeTo95": 1.5666666666666667,
+        "settled": 8.249999999999973
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "forest",
+        "upgrade": "stock",
+        "grade": 0.025,
+        "target": 8.25,
+        "timeTo95": 1.65,
+        "settled": 8.188763026270385
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "forest",
+        "upgrade": "stock",
+        "grade": 0.05,
+        "target": 8.25,
+        "timeTo95": 1.7583333333333333,
+        "settled": 8.127829508605602
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "forest",
+        "upgrade": "stock",
+        "grade": 0.075,
+        "target": 8.25,
+        "timeTo95": 1.875,
+        "settled": 8.067425179549252
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "forest",
+        "upgrade": "max",
+        "grade": 0,
+        "target": 9.075000000000001,
+        "timeTo95": 1.5583333333333333,
+        "settled": 9.074999999999974
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "forest",
+        "upgrade": "max",
+        "grade": 0.025,
+        "target": 9.075000000000001,
+        "timeTo95": 1.6333333333333333,
+        "settled": 9.013763026270386
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "forest",
+        "upgrade": "max",
+        "grade": 0.05,
+        "target": 9.075000000000001,
+        "timeTo95": 1.7249999999999999,
+        "settled": 8.952829508605603
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "forest",
+        "upgrade": "max",
+        "grade": 0.075,
+        "target": 9.075000000000001,
+        "timeTo95": 1.825,
+        "settled": 8.892425179549253
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "desert",
+        "upgrade": "stock",
+        "grade": 0,
+        "target": 8.25,
+        "timeTo95": 1.5666666666666667,
+        "settled": 8.249999999999973
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "desert",
+        "upgrade": "stock",
+        "grade": 0.025,
+        "target": 8.25,
+        "timeTo95": 1.65,
+        "settled": 8.188763026270385
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "desert",
+        "upgrade": "stock",
+        "grade": 0.05,
+        "target": 8.25,
+        "timeTo95": 1.7583333333333333,
+        "settled": 8.127829508605602
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "desert",
+        "upgrade": "stock",
+        "grade": 0.075,
+        "target": 8.25,
+        "timeTo95": 1.875,
+        "settled": 8.067425179549252
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "desert",
+        "upgrade": "max",
+        "grade": 0,
+        "target": 9.075000000000001,
+        "timeTo95": 1.5583333333333333,
+        "settled": 9.074999999999974
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "desert",
+        "upgrade": "max",
+        "grade": 0.025,
+        "target": 9.075000000000001,
+        "timeTo95": 1.6333333333333333,
+        "settled": 9.013763026270386
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "desert",
+        "upgrade": "max",
+        "grade": 0.05,
+        "target": 9.075000000000001,
+        "timeTo95": 1.7249999999999999,
+        "settled": 8.952829508605603
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "desert",
+        "upgrade": "max",
+        "grade": 0.075,
+        "target": 9.075000000000001,
+        "timeTo95": 1.825,
+        "settled": 8.892425179549253
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "snow",
+        "upgrade": "stock",
+        "grade": 0,
+        "target": 8.25,
+        "timeTo95": 1.4916666666666667,
+        "settled": 8.249999999999973
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "snow",
+        "upgrade": "stock",
+        "grade": 0.025,
+        "target": 8.25,
+        "timeTo95": 1.5666666666666667,
+        "settled": 8.188734759129293
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "snow",
+        "upgrade": "stock",
+        "grade": 0.05,
+        "target": 8.25,
+        "timeTo95": 1.6583333333333332,
+        "settled": 8.127716598705117
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "snow",
+        "upgrade": "stock",
+        "grade": 0.075,
+        "target": 8.25,
+        "timeTo95": 1.7666666666666666,
+        "settled": 8.067171724796054
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "snow",
+        "upgrade": "max",
+        "grade": 0,
+        "target": 9.075000000000001,
+        "timeTo95": 1.4833333333333334,
+        "settled": 9.074999999999974
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "snow",
+        "upgrade": "max",
+        "grade": 0.025,
+        "target": 9.075000000000001,
+        "timeTo95": 1.5583333333333333,
+        "settled": 9.013734759129294
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "snow",
+        "upgrade": "max",
+        "grade": 0.05,
+        "target": 9.075000000000001,
+        "timeTo95": 1.6416666666666666,
+        "settled": 8.952716598705118
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "snow",
+        "upgrade": "max",
+        "grade": 0.075,
+        "target": 9.075000000000001,
+        "timeTo95": 1.7333333333333334,
+        "settled": 8.892171724796055
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0,
+        "target": 8.25,
+        "timeTo95": 1.5416666666666667,
+        "settled": 8.249999999999975
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0.025,
+        "target": 8.25,
+        "timeTo95": 1.6333333333333333,
+        "settled": 8.188756131845729
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0.05,
+        "target": 8.25,
+        "timeTo95": 1.7333333333333334,
+        "settled": 8.127801969605484
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0.075,
+        "target": 8.25,
+        "timeTo95": 1.8416666666666666,
+        "settled": 8.067363361316765
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0,
+        "target": 9.075000000000001,
+        "timeTo95": 1.5416666666666667,
+        "settled": 9.074999999999974
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0.025,
+        "target": 9.075000000000001,
+        "timeTo95": 1.6166666666666667,
+        "settled": 9.01375613184573
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0.05,
+        "target": 9.075000000000001,
+        "timeTo95": 1.7,
+        "settled": 8.952801969605485
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0.075,
+        "target": 9.075000000000001,
+        "timeTo95": 1.8,
+        "settled": 8.892363361316765
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "forest",
+        "upgrade": "stock",
+        "grade": 0,
+        "target": 9.375,
+        "timeTo95": 1.5583333333333333,
+        "settled": 9.374999999999973
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "forest",
+        "upgrade": "stock",
+        "grade": 0.025,
+        "target": 9.375,
+        "timeTo95": 1.6416666666666666,
+        "settled": 9.313763026270385
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "forest",
+        "upgrade": "stock",
+        "grade": 0.05,
+        "target": 9.375,
+        "timeTo95": 1.7249999999999999,
+        "settled": 9.252829508605602
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "forest",
+        "upgrade": "stock",
+        "grade": 0.075,
+        "target": 9.375,
+        "timeTo95": 1.825,
+        "settled": 9.192425179549252
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "forest",
+        "upgrade": "max",
+        "grade": 0,
+        "target": 10.312500000000002,
+        "timeTo95": 1.55,
+        "settled": 10.312499999999977
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "forest",
+        "upgrade": "max",
+        "grade": 0.025,
+        "target": 10.312500000000002,
+        "timeTo95": 1.625,
+        "settled": 10.251263026270387
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "forest",
+        "upgrade": "max",
+        "grade": 0.05,
+        "target": 10.312500000000002,
+        "timeTo95": 1.7,
+        "settled": 10.190329508605604
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "forest",
+        "upgrade": "max",
+        "grade": 0.075,
+        "target": 10.312500000000002,
+        "timeTo95": 1.7833333333333332,
+        "settled": 10.129925179549254
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "desert",
+        "upgrade": "stock",
+        "grade": 0,
+        "target": 9.375,
+        "timeTo95": 1.5583333333333333,
+        "settled": 9.374999999999973
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "desert",
+        "upgrade": "stock",
+        "grade": 0.025,
+        "target": 9.375,
+        "timeTo95": 1.6416666666666666,
+        "settled": 9.313763026270385
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "desert",
+        "upgrade": "stock",
+        "grade": 0.05,
+        "target": 9.375,
+        "timeTo95": 1.7249999999999999,
+        "settled": 9.252829508605602
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "desert",
+        "upgrade": "stock",
+        "grade": 0.075,
+        "target": 9.375,
+        "timeTo95": 1.825,
+        "settled": 9.192425179549252
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "desert",
+        "upgrade": "max",
+        "grade": 0,
+        "target": 10.312500000000002,
+        "timeTo95": 1.55,
+        "settled": 10.312499999999977
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "desert",
+        "upgrade": "max",
+        "grade": 0.025,
+        "target": 10.312500000000002,
+        "timeTo95": 1.625,
+        "settled": 10.251263026270387
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "desert",
+        "upgrade": "max",
+        "grade": 0.05,
+        "target": 10.312500000000002,
+        "timeTo95": 1.7,
+        "settled": 10.190329508605604
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "desert",
+        "upgrade": "max",
+        "grade": 0.075,
+        "target": 10.312500000000002,
+        "timeTo95": 1.7833333333333332,
+        "settled": 10.129925179549254
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "snow",
+        "upgrade": "stock",
+        "grade": 0,
+        "target": 9.375,
+        "timeTo95": 1.4916666666666667,
+        "settled": 9.374999999999973
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "snow",
+        "upgrade": "stock",
+        "grade": 0.025,
+        "target": 9.375,
+        "timeTo95": 1.5666666666666667,
+        "settled": 9.313734759129293
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "snow",
+        "upgrade": "stock",
+        "grade": 0.05,
+        "target": 9.375,
+        "timeTo95": 1.65,
+        "settled": 9.252716598705117
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "snow",
+        "upgrade": "stock",
+        "grade": 0.075,
+        "target": 9.375,
+        "timeTo95": 1.7416666666666667,
+        "settled": 9.192171724796054
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "snow",
+        "upgrade": "max",
+        "grade": 0,
+        "target": 10.312500000000002,
+        "timeTo95": 1.4916666666666667,
+        "settled": 10.312499999999975
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "snow",
+        "upgrade": "max",
+        "grade": 0.025,
+        "target": 10.312500000000002,
+        "timeTo95": 1.5583333333333333,
+        "settled": 10.251234759129295
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "snow",
+        "upgrade": "max",
+        "grade": 0.05,
+        "target": 10.312500000000002,
+        "timeTo95": 1.6333333333333333,
+        "settled": 10.190216598705119
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "snow",
+        "upgrade": "max",
+        "grade": 0.075,
+        "target": 10.312500000000002,
+        "timeTo95": 1.7083333333333333,
+        "settled": 10.129671724796056
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0,
+        "target": 9.375,
+        "timeTo95": 1.5416666666666667,
+        "settled": 9.374999999999975
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0.025,
+        "target": 9.375,
+        "timeTo95": 1.6166666666666667,
+        "settled": 9.313756131845729
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0.05,
+        "target": 9.375,
+        "timeTo95": 1.7,
+        "settled": 9.252801969605484
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0.075,
+        "target": 9.375,
+        "timeTo95": 1.8,
+        "settled": 9.192363361316763
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0,
+        "target": 10.312500000000002,
+        "timeTo95": 1.5416666666666667,
+        "settled": 10.312499999999975
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0.025,
+        "target": 10.312500000000002,
+        "timeTo95": 1.6083333333333334,
+        "settled": 10.25125613184573
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0.05,
+        "target": 10.312500000000002,
+        "timeTo95": 1.6833333333333333,
+        "settled": 10.190301969605486
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0.075,
+        "target": 10.312500000000002,
+        "timeTo95": 1.7666666666666666,
+        "settled": 10.129863361316767
+      },
+      {
+        "vehicle": "rover",
+        "biome": "desert",
+        "upgrade": "stock",
+        "grade": 0,
+        "target": 10.649999999999999,
+        "timeTo95": 1.5583333333333333,
+        "settled": 10.649999999999974
+      },
+      {
+        "vehicle": "rover",
+        "biome": "desert",
+        "upgrade": "stock",
+        "grade": 0.025,
+        "target": 10.649999999999999,
+        "timeTo95": 1.625,
+        "settled": 10.588763026270383
+      },
+      {
+        "vehicle": "rover",
+        "biome": "desert",
+        "upgrade": "stock",
+        "grade": 0.05,
+        "target": 10.649999999999999,
+        "timeTo95": 1.7,
+        "settled": 10.5278295086056
+      },
+      {
+        "vehicle": "rover",
+        "biome": "desert",
+        "upgrade": "stock",
+        "grade": 0.075,
+        "target": 10.649999999999999,
+        "timeTo95": 1.7833333333333332,
+        "settled": 10.46742517954925
+      },
+      {
+        "vehicle": "rover",
+        "biome": "desert",
+        "upgrade": "max",
+        "grade": 0,
+        "target": 11.715,
+        "timeTo95": 1.55,
+        "settled": 11.714999999999973
+      },
+      {
+        "vehicle": "rover",
+        "biome": "desert",
+        "upgrade": "max",
+        "grade": 0.025,
+        "target": 11.715,
+        "timeTo95": 1.6083333333333334,
+        "settled": 11.653763026270385
+      },
+      {
+        "vehicle": "rover",
+        "biome": "desert",
+        "upgrade": "max",
+        "grade": 0.05,
+        "target": 11.715,
+        "timeTo95": 1.675,
+        "settled": 11.592829508605602
+      },
+      {
+        "vehicle": "rover",
+        "biome": "desert",
+        "upgrade": "max",
+        "grade": 0.075,
+        "target": 11.715,
+        "timeTo95": 1.75,
+        "settled": 11.532425179549252
+      },
+      {
+        "vehicle": "rover",
+        "biome": "snow",
+        "upgrade": "stock",
+        "grade": 0,
+        "target": 10.649999999999999,
+        "timeTo95": 1.5,
+        "settled": 10.649999999999972
+      },
+      {
+        "vehicle": "rover",
+        "biome": "snow",
+        "upgrade": "stock",
+        "grade": 0.025,
+        "target": 10.649999999999999,
+        "timeTo95": 1.5666666666666667,
+        "settled": 10.588734759129292
+      },
+      {
+        "vehicle": "rover",
+        "biome": "snow",
+        "upgrade": "stock",
+        "grade": 0.05,
+        "target": 10.649999999999999,
+        "timeTo95": 1.6333333333333333,
+        "settled": 10.527716598705116
+      },
+      {
+        "vehicle": "rover",
+        "biome": "snow",
+        "upgrade": "stock",
+        "grade": 0.075,
+        "target": 10.649999999999999,
+        "timeTo95": 1.7166666666666666,
+        "settled": 10.467171724796053
+      },
+      {
+        "vehicle": "rover",
+        "biome": "snow",
+        "upgrade": "max",
+        "grade": 0,
+        "target": 11.715,
+        "timeTo95": 1.5,
+        "settled": 11.714999999999975
+      },
+      {
+        "vehicle": "rover",
+        "biome": "snow",
+        "upgrade": "max",
+        "grade": 0.025,
+        "target": 11.715,
+        "timeTo95": 1.5583333333333333,
+        "settled": 11.653734759129293
+      },
+      {
+        "vehicle": "rover",
+        "biome": "snow",
+        "upgrade": "max",
+        "grade": 0.05,
+        "target": 11.715,
+        "timeTo95": 1.625,
+        "settled": 11.592716598705117
+      },
+      {
+        "vehicle": "rover",
+        "biome": "snow",
+        "upgrade": "max",
+        "grade": 0.075,
+        "target": 11.715,
+        "timeTo95": 1.6916666666666667,
+        "settled": 11.532171724796054
+      },
+      {
+        "vehicle": "rover",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0,
+        "target": 10.649999999999999,
+        "timeTo95": 1.5416666666666667,
+        "settled": 10.649999999999974
+      },
+      {
+        "vehicle": "rover",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0.025,
+        "target": 10.649999999999999,
+        "timeTo95": 1.6083333333333334,
+        "settled": 10.588756131845727
+      },
+      {
+        "vehicle": "rover",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0.05,
+        "target": 10.649999999999999,
+        "timeTo95": 1.6833333333333333,
+        "settled": 10.527801969605482
+      },
+      {
+        "vehicle": "rover",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0.075,
+        "target": 10.649999999999999,
+        "timeTo95": 1.7583333333333333,
+        "settled": 10.467363361316764
+      },
+      {
+        "vehicle": "rover",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0,
+        "target": 11.715,
+        "timeTo95": 1.5333333333333332,
+        "settled": 11.714999999999975
+      },
+      {
+        "vehicle": "rover",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0.025,
+        "target": 11.715,
+        "timeTo95": 1.5916666666666666,
+        "settled": 11.653756131845729
+      },
+      {
+        "vehicle": "rover",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0.05,
+        "target": 11.715,
+        "timeTo95": 1.6583333333333332,
+        "settled": 11.592801969605484
+      },
+      {
+        "vehicle": "rover",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0.075,
+        "target": 11.715,
+        "timeTo95": 1.7333333333333334,
+        "settled": 11.532363361316765
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "desert",
+        "upgrade": "stock",
+        "grade": 0,
+        "target": 12.149999999999999,
+        "timeTo95": 1.5666666666666667,
+        "settled": 12.149999999999972
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "desert",
+        "upgrade": "stock",
+        "grade": 0.025,
+        "target": 12.149999999999999,
+        "timeTo95": 1.625,
+        "settled": 12.088763026270383
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "desert",
+        "upgrade": "stock",
+        "grade": 0.05,
+        "target": 12.149999999999999,
+        "timeTo95": 1.6833333333333333,
+        "settled": 12.0278295086056
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "desert",
+        "upgrade": "stock",
+        "grade": 0.075,
+        "target": 12.149999999999999,
+        "timeTo95": 1.7583333333333333,
+        "settled": 11.96742517954925
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "desert",
+        "upgrade": "max",
+        "grade": 0,
+        "target": 13.365,
+        "timeTo95": 1.5583333333333333,
+        "settled": 13.364999999999975
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "desert",
+        "upgrade": "max",
+        "grade": 0.025,
+        "target": 13.365,
+        "timeTo95": 1.6083333333333334,
+        "settled": 13.303763026270385
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "desert",
+        "upgrade": "max",
+        "grade": 0.05,
+        "target": 13.365,
+        "timeTo95": 1.6666666666666667,
+        "settled": 13.242829508605602
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "desert",
+        "upgrade": "max",
+        "grade": 0.075,
+        "target": 13.365,
+        "timeTo95": 1.7249999999999999,
+        "settled": 13.182425179549252
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "snow",
+        "upgrade": "stock",
+        "grade": 0,
+        "target": 12.149999999999999,
+        "timeTo95": 1.5166666666666666,
+        "settled": 12.149999999999972
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "snow",
+        "upgrade": "stock",
+        "grade": 0.025,
+        "target": 12.149999999999999,
+        "timeTo95": 1.575,
+        "settled": 12.088734759129292
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "snow",
+        "upgrade": "stock",
+        "grade": 0.05,
+        "target": 12.149999999999999,
+        "timeTo95": 1.6333333333333333,
+        "settled": 12.027716598705114
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "snow",
+        "upgrade": "stock",
+        "grade": 0.075,
+        "target": 12.149999999999999,
+        "timeTo95": 1.7083333333333333,
+        "settled": 11.967171724796053
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "snow",
+        "upgrade": "max",
+        "grade": 0,
+        "target": 13.365,
+        "timeTo95": 1.5166666666666666,
+        "settled": 13.364999999999974
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "snow",
+        "upgrade": "max",
+        "grade": 0.025,
+        "target": 13.365,
+        "timeTo95": 1.5666666666666667,
+        "settled": 13.303734759129293
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "snow",
+        "upgrade": "max",
+        "grade": 0.05,
+        "target": 13.365,
+        "timeTo95": 1.625,
+        "settled": 13.242716598705115
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "snow",
+        "upgrade": "max",
+        "grade": 0.075,
+        "target": 13.365,
+        "timeTo95": 1.6833333333333333,
+        "settled": 13.182171724796055
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0,
+        "target": 12.149999999999999,
+        "timeTo95": 1.55,
+        "settled": 12.149999999999974
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0.025,
+        "target": 12.149999999999999,
+        "timeTo95": 1.6083333333333334,
+        "settled": 12.088756131845727
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0.05,
+        "target": 12.149999999999999,
+        "timeTo95": 1.6666666666666667,
+        "settled": 12.027801969605482
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0.075,
+        "target": 12.149999999999999,
+        "timeTo95": 1.7416666666666667,
+        "settled": 11.967363361316764
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0,
+        "target": 13.365,
+        "timeTo95": 1.5416666666666667,
+        "settled": 13.364999999999974
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0.025,
+        "target": 13.365,
+        "timeTo95": 1.6,
+        "settled": 13.303756131845729
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0.05,
+        "target": 13.365,
+        "timeTo95": 1.65,
+        "settled": 13.242801969605484
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0.075,
+        "target": 13.365,
+        "timeTo95": 1.7166666666666666,
+        "settled": 13.182363361316764
+      },
+      {
+        "vehicle": "van",
+        "biome": "snow",
+        "upgrade": "stock",
+        "grade": 0,
+        "target": 13.799999999999999,
+        "timeTo95": 1.5333333333333332,
+        "settled": 13.799999999999972
+      },
+      {
+        "vehicle": "van",
+        "biome": "snow",
+        "upgrade": "stock",
+        "grade": 0.025,
+        "target": 13.799999999999999,
+        "timeTo95": 1.5833333333333333,
+        "settled": 13.738734759129292
+      },
+      {
+        "vehicle": "van",
+        "biome": "snow",
+        "upgrade": "stock",
+        "grade": 0.05,
+        "target": 13.799999999999999,
+        "timeTo95": 1.6333333333333333,
+        "settled": 13.677716598705116
+      },
+      {
+        "vehicle": "van",
+        "biome": "snow",
+        "upgrade": "stock",
+        "grade": 0.075,
+        "target": 13.799999999999999,
+        "timeTo95": 1.6916666666666667,
+        "settled": 13.617171724796053
+      },
+      {
+        "vehicle": "van",
+        "biome": "snow",
+        "upgrade": "max",
+        "grade": 0,
+        "target": 15.18,
+        "timeTo95": 1.5333333333333332,
+        "settled": 15.179999999999973
+      },
+      {
+        "vehicle": "van",
+        "biome": "snow",
+        "upgrade": "max",
+        "grade": 0.025,
+        "target": 15.18,
+        "timeTo95": 1.575,
+        "settled": 15.118734759129293
+      },
+      {
+        "vehicle": "van",
+        "biome": "snow",
+        "upgrade": "max",
+        "grade": 0.05,
+        "target": 15.18,
+        "timeTo95": 1.625,
+        "settled": 15.057716598705117
+      },
+      {
+        "vehicle": "van",
+        "biome": "snow",
+        "upgrade": "max",
+        "grade": 0.075,
+        "target": 15.18,
+        "timeTo95": 1.675,
+        "settled": 14.997171724796054
+      },
+      {
+        "vehicle": "van",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0,
+        "target": 13.799999999999999,
+        "timeTo95": 1.55,
+        "settled": 13.799999999999972
+      },
+      {
+        "vehicle": "van",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0.025,
+        "target": 13.799999999999999,
+        "timeTo95": 1.6,
+        "settled": 13.738756131845728
+      },
+      {
+        "vehicle": "van",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0.05,
+        "target": 13.799999999999999,
+        "timeTo95": 1.65,
+        "settled": 13.677801969605483
+      },
+      {
+        "vehicle": "van",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0.075,
+        "target": 13.799999999999999,
+        "timeTo95": 1.7083333333333333,
+        "settled": 13.617363361316762
+      },
+      {
+        "vehicle": "van",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0,
+        "target": 15.18,
+        "timeTo95": 1.5416666666666667,
+        "settled": 15.179999999999975
+      },
+      {
+        "vehicle": "van",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0.025,
+        "target": 15.18,
+        "timeTo95": 1.5916666666666666,
+        "settled": 15.118756131845728
+      },
+      {
+        "vehicle": "van",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0.05,
+        "target": 15.18,
+        "timeTo95": 1.6416666666666666,
+        "settled": 15.057801969605483
+      },
+      {
+        "vehicle": "van",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0.075,
+        "target": 15.18,
+        "timeTo95": 1.6916666666666667,
+        "settled": 14.997363361316765
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "snow",
+        "upgrade": "stock",
+        "grade": 0,
+        "target": 15.75,
+        "timeTo95": 1.55,
+        "settled": 15.749999999999973
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "snow",
+        "upgrade": "stock",
+        "grade": 0.025,
+        "target": 15.75,
+        "timeTo95": 1.5916666666666666,
+        "settled": 15.688734759129293
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "snow",
+        "upgrade": "stock",
+        "grade": 0.05,
+        "target": 15.75,
+        "timeTo95": 1.6416666666666666,
+        "settled": 15.627716598705115
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "snow",
+        "upgrade": "stock",
+        "grade": 0.075,
+        "target": 15.75,
+        "timeTo95": 1.6916666666666667,
+        "settled": 15.567171724796054
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "snow",
+        "upgrade": "max",
+        "grade": 0,
+        "target": 17.325000000000003,
+        "timeTo95": 1.55,
+        "settled": 17.32499999999995
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "snow",
+        "upgrade": "max",
+        "grade": 0.025,
+        "target": 17.325000000000003,
+        "timeTo95": 1.5916666666666666,
+        "settled": 17.26373475912927
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "snow",
+        "upgrade": "max",
+        "grade": 0.05,
+        "target": 17.325000000000003,
+        "timeTo95": 1.6333333333333333,
+        "settled": 17.202716598705095
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "snow",
+        "upgrade": "max",
+        "grade": 0.075,
+        "target": 17.325000000000003,
+        "timeTo95": 1.6833333333333333,
+        "settled": 17.142171724796032
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0,
+        "target": 15.75,
+        "timeTo95": 1.5583333333333333,
+        "settled": 15.749999999999973
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0.025,
+        "target": 15.75,
+        "timeTo95": 1.6083333333333334,
+        "settled": 15.688756131845729
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0.05,
+        "target": 15.75,
+        "timeTo95": 1.65,
+        "settled": 15.627801969605484
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0.075,
+        "target": 15.75,
+        "timeTo95": 1.7083333333333333,
+        "settled": 15.567363361316765
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0,
+        "target": 17.325000000000003,
+        "timeTo95": 1.5583333333333333,
+        "settled": 17.324999999999953
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0.025,
+        "target": 17.325000000000003,
+        "timeTo95": 1.6,
+        "settled": 17.263756131845707
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0.05,
+        "target": 17.325000000000003,
+        "timeTo95": 1.6416666666666666,
+        "settled": 17.20280196960546
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0.075,
+        "target": 17.325000000000003,
+        "timeTo95": 1.6916666666666667,
+        "settled": 17.14236336131674
+      },
+      {
+        "vehicle": "snowgrip",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0,
+        "target": 17.924999999999997,
+        "timeTo95": 1.575,
+        "settled": 17.924999999999947
+      },
+      {
+        "vehicle": "snowgrip",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0.025,
+        "target": 17.924999999999997,
+        "timeTo95": 1.6166666666666667,
+        "settled": 17.8637561318457
+      },
+      {
+        "vehicle": "snowgrip",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0.05,
+        "target": 17.924999999999997,
+        "timeTo95": 1.6583333333333332,
+        "settled": 17.802801969605454
+      },
+      {
+        "vehicle": "snowgrip",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0.075,
+        "target": 17.924999999999997,
+        "timeTo95": 1.7,
+        "settled": 17.742363361316734
+      },
+      {
+        "vehicle": "snowgrip",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0,
+        "target": 19.7175,
+        "timeTo95": 1.575,
+        "settled": 19.71749999999995
+      },
+      {
+        "vehicle": "snowgrip",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0.025,
+        "target": 19.7175,
+        "timeTo95": 1.6083333333333334,
+        "settled": 19.656256131845705
+      },
+      {
+        "vehicle": "snowgrip",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0.05,
+        "target": 19.7175,
+        "timeTo95": 1.65,
+        "settled": 19.59530196960546
+      },
+      {
+        "vehicle": "snowgrip",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0.075,
+        "target": 19.7175,
+        "timeTo95": 1.6916666666666667,
+        "settled": 19.534863361316738
+      },
+      {
+        "vehicle": "snowrunner",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0,
+        "target": 20.4,
+        "timeTo95": 1.5916666666666666,
+        "settled": 20.39999999999995
+      },
+      {
+        "vehicle": "snowrunner",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0.025,
+        "target": 20.4,
+        "timeTo95": 1.625,
+        "settled": 20.338756131845702
+      },
+      {
+        "vehicle": "snowrunner",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0.05,
+        "target": 20.4,
+        "timeTo95": 1.6666666666666667,
+        "settled": 20.277801969605456
+      },
+      {
+        "vehicle": "snowrunner",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "grade": 0.075,
+        "target": 20.4,
+        "timeTo95": 1.7083333333333333,
+        "settled": 20.217363361316735
+      },
+      {
+        "vehicle": "snowrunner",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0,
+        "target": 22.44,
+        "timeTo95": 1.5916666666666666,
+        "settled": 22.439999999999948
+      },
+      {
+        "vehicle": "snowrunner",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0.025,
+        "target": 22.44,
+        "timeTo95": 1.625,
+        "settled": 22.378756131845705
+      },
+      {
+        "vehicle": "snowrunner",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0.05,
+        "target": 22.44,
+        "timeTo95": 1.6583333333333332,
+        "settled": 22.31780196960546
+      },
+      {
+        "vehicle": "snowrunner",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "grade": 0.075,
+        "target": 22.44,
+        "timeTo95": 1.6916666666666667,
+        "settled": 22.25736336131674
+      }
+    ],
+    "turns": [
+      {
+        "vehicle": "pickup",
+        "biome": "city",
+        "comparison": "forest",
+        "upgrade": "stock",
+        "target": 8.25,
+        "maxSlip": 1.2601066967124634,
+        "maxLateral": 0.24161085541668115,
+        "releaseSlip": 1.2601066967124634,
+        "recoverySeconds": 0.125,
+        "finalSlip": 4.626261354856028e-15
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "forest",
+        "comparison": "forest",
+        "upgrade": "stock",
+        "target": 8.25,
+        "maxSlip": 3.590317528641284,
+        "maxLateral": 0.5139623489401601,
+        "releaseSlip": 3.590317528641284,
+        "recoverySeconds": 2.4166666666666665,
+        "finalSlip": 7.58490969999828e-10
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "city",
+        "comparison": "forest",
+        "upgrade": "max",
+        "target": 9.075000000000001,
+        "maxSlip": 1.1720224748615018,
+        "maxLateral": 0.24720798148633172,
+        "releaseSlip": 1.1720224748615018,
+        "recoverySeconds": 0.09166666666666666,
+        "finalSlip": 0
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "forest",
+        "comparison": "forest",
+        "upgrade": "max",
+        "target": 9.075000000000001,
+        "maxSlip": 3.3429476739631347,
+        "maxLateral": 0.526461407713172,
+        "releaseSlip": 3.3273508823431963,
+        "recoverySeconds": 2.125,
+        "finalSlip": 5.794883011040262e-11
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "city",
+        "comparison": "desert",
+        "upgrade": "stock",
+        "target": 8.25,
+        "maxSlip": 1.2601066967124634,
+        "maxLateral": 0.24161085541668115,
+        "releaseSlip": 1.2601066967124634,
+        "recoverySeconds": 0.125,
+        "finalSlip": 4.626261354856028e-15
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "desert",
+        "comparison": "desert",
+        "upgrade": "stock",
+        "target": 8.25,
+        "maxSlip": 4.8514579763353645,
+        "maxLateral": 0.6948676761379713,
+        "releaseSlip": 4.8514579763353645,
+        "recoverySeconds": 3.0833333333333335,
+        "finalSlip": 1.9504786666556957e-8
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "city",
+        "comparison": "desert",
+        "upgrade": "max",
+        "target": 9.075000000000001,
+        "maxSlip": 1.1720224748615018,
+        "maxLateral": 0.24720798148633172,
+        "releaseSlip": 1.1720224748615018,
+        "recoverySeconds": 0.09166666666666666,
+        "finalSlip": 0
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "desert",
+        "comparison": "desert",
+        "upgrade": "max",
+        "target": 9.075000000000001,
+        "maxSlip": 4.790346894877245,
+        "maxLateral": 0.7545193876195686,
+        "releaseSlip": 4.790346894877245,
+        "recoverySeconds": 2.75,
+        "finalSlip": 2.794317934228249e-10
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "city",
+        "comparison": "snow",
+        "upgrade": "stock",
+        "target": 8.25,
+        "maxSlip": 1.2601066967124634,
+        "maxLateral": 0.24161085541668115,
+        "releaseSlip": 1.2601066967124634,
+        "recoverySeconds": 0.125,
+        "finalSlip": 4.626261354856028e-15
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "snow",
+        "comparison": "snow",
+        "upgrade": "stock",
+        "target": 8.25,
+        "maxSlip": 6.340842200239172,
+        "maxLateral": 0.9094001151936202,
+        "releaseSlip": 6.340842200239172,
+        "recoverySeconds": 5.316666666666666,
+        "finalSlip": 0.000033169154614182894
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "city",
+        "comparison": "snow",
+        "upgrade": "max",
+        "target": 9.075000000000001,
+        "maxSlip": 1.1720224748615018,
+        "maxLateral": 0.24720798148633172,
+        "releaseSlip": 1.1720224748615018,
+        "recoverySeconds": 0.09166666666666666,
+        "finalSlip": 0
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "snow",
+        "comparison": "snow",
+        "upgrade": "max",
+        "target": 9.075000000000001,
+        "maxSlip": 6.525274491451315,
+        "maxLateral": 1.0289795450614267,
+        "releaseSlip": 6.525274491451315,
+        "recoverySeconds": 5.158333333333333,
+        "finalSlip": 0.000008130258805440119
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "city",
+        "comparison": "volcanic",
+        "upgrade": "stock",
+        "target": 8.25,
+        "maxSlip": 1.2601066967124634,
+        "maxLateral": 0.24161085541668115,
+        "releaseSlip": 1.2601066967124634,
+        "recoverySeconds": 0.125,
+        "finalSlip": 4.626261354856028e-15
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "volcanic",
+        "comparison": "volcanic",
+        "upgrade": "stock",
+        "target": 8.25,
+        "maxSlip": 7.145881587206503,
+        "maxLateral": 1.026660158252118,
+        "releaseSlip": 7.145881587206503,
+        "recoverySeconds": 9.708333333333334,
+        "finalSlip": 0.003845674176017067
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "city",
+        "comparison": "volcanic",
+        "upgrade": "max",
+        "target": 9.075000000000001,
+        "maxSlip": 1.1720224748615018,
+        "maxLateral": 0.24720798148633172,
+        "releaseSlip": 1.1720224748615018,
+        "recoverySeconds": 0.09166666666666666,
+        "finalSlip": 0
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "volcanic",
+        "comparison": "volcanic",
+        "upgrade": "max",
+        "target": 9.075000000000001,
+        "maxSlip": 7.525551224348327,
+        "maxLateral": 1.1889050999823991,
+        "releaseSlip": 7.525551224348327,
+        "recoverySeconds": 8.85,
+        "finalSlip": 0.003400463723265436
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "city",
+        "comparison": "forest",
+        "upgrade": "stock",
+        "target": 9.375,
+        "maxSlip": 1.113909655132562,
+        "maxLateral": 0.24272360525855063,
+        "releaseSlip": 1.113909655132562,
+        "recoverySeconds": 0.06666666666666667,
+        "finalSlip": 4.071109992273303e-15
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "forest",
+        "comparison": "forest",
+        "upgrade": "stock",
+        "target": 9.375,
+        "maxSlip": 3.289999202383401,
+        "maxLateral": 0.5353570361187656,
+        "releaseSlip": 3.2485185795589606,
+        "recoverySeconds": 2.0666666666666664,
+        "finalSlip": 3.405619212203026e-11
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "city",
+        "comparison": "forest",
+        "upgrade": "max",
+        "target": 10.312500000000002,
+        "maxSlip": 1.0333430374501256,
+        "maxLateral": 0.24770006205072548,
+        "releaseSlip": 1.0333430374501256,
+        "recoverySeconds": 0.03333333333333333,
+        "finalSlip": 7.40201816776964e-15
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "forest",
+        "comparison": "forest",
+        "upgrade": "max",
+        "target": 10.312500000000002,
+        "maxSlip": 3.059247290529516,
+        "maxLateral": 0.5477110363809228,
+        "releaseSlip": 2.8734314268865786,
+        "recoverySeconds": 1.825,
+        "finalSlip": 1.8603738994994357e-12
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "city",
+        "comparison": "desert",
+        "upgrade": "stock",
+        "target": 9.375,
+        "maxSlip": 1.113909655132562,
+        "maxLateral": 0.24272360525855063,
+        "releaseSlip": 1.113909655132562,
+        "recoverySeconds": 0.06666666666666667,
+        "finalSlip": 4.071109992273303e-15
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "desert",
+        "comparison": "desert",
+        "upgrade": "stock",
+        "target": 9.375,
+        "maxSlip": 4.777133121394185,
+        "maxLateral": 0.7773668407922578,
+        "releaseSlip": 4.777133121394185,
+        "recoverySeconds": 2.683333333333333,
+        "finalSlip": 1.8080070883018559e-10
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "city",
+        "comparison": "desert",
+        "upgrade": "max",
+        "target": 10.312500000000002,
+        "maxSlip": 1.0333430374501256,
+        "maxLateral": 0.24770006205072548,
+        "releaseSlip": 1.0333430374501256,
+        "recoverySeconds": 0.03333333333333333,
+        "finalSlip": 7.40201816776964e-15
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "desert",
+        "comparison": "desert",
+        "upgrade": "max",
+        "target": 10.312500000000002,
+        "maxSlip": 4.596455415225491,
+        "maxLateral": 0.8226308783105076,
+        "releaseSlip": 4.596455415225491,
+        "recoverySeconds": 2.3583333333333334,
+        "finalSlip": 1.0710226820884814e-10
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "city",
+        "comparison": "snow",
+        "upgrade": "stock",
+        "target": 9.375,
+        "maxSlip": 1.113909655132562,
+        "maxLateral": 0.24272360525855063,
+        "releaseSlip": 1.113909655132562,
+        "recoverySeconds": 0.06666666666666667,
+        "finalSlip": 4.071109992273303e-15
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "snow",
+        "comparison": "snow",
+        "upgrade": "stock",
+        "target": 9.375,
+        "maxSlip": 6.545198480003836,
+        "maxLateral": 1.0662620283692923,
+        "releaseSlip": 6.545198480003836,
+        "recoverySeconds": 5.108333333333333,
+        "finalSlip": 0.000005573174277425858
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "city",
+        "comparison": "snow",
+        "upgrade": "max",
+        "target": 10.312500000000002,
+        "maxSlip": 1.0333430374501256,
+        "maxLateral": 0.24770006205072548,
+        "releaseSlip": 1.0333430374501256,
+        "recoverySeconds": 0.03333333333333333,
+        "finalSlip": 7.40201816776964e-15
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "snow",
+        "comparison": "snow",
+        "upgrade": "max",
+        "target": 10.312500000000002,
+        "maxSlip": 6.608304722185078,
+        "maxLateral": 1.1836792742213977,
+        "releaseSlip": 6.608304722185078,
+        "recoverySeconds": 4.591666666666667,
+        "finalSlip": 2.0811710680716493e-7
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "city",
+        "comparison": "volcanic",
+        "upgrade": "stock",
+        "target": 9.375,
+        "maxSlip": 1.113909655132562,
+        "maxLateral": 0.24272360525855063,
+        "releaseSlip": 1.113909655132562,
+        "recoverySeconds": 0.06666666666666667,
+        "finalSlip": 4.071109992273303e-15
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "volcanic",
+        "comparison": "volcanic",
+        "upgrade": "stock",
+        "target": 9.375,
+        "maxSlip": 7.5702342639813445,
+        "maxLateral": 1.2355054914914507,
+        "releaseSlip": 7.5702342639813445,
+        "recoverySeconds": 8.658333333333333,
+        "finalSlip": 0.003019941398455542
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "city",
+        "comparison": "volcanic",
+        "upgrade": "max",
+        "target": 10.312500000000002,
+        "maxSlip": 1.0333430374501256,
+        "maxLateral": 0.24770006205072548,
+        "releaseSlip": 1.0333430374501256,
+        "recoverySeconds": 0.03333333333333333,
+        "finalSlip": 7.40201816776964e-15
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "volcanic",
+        "comparison": "volcanic",
+        "upgrade": "max",
+        "target": 10.312500000000002,
+        "maxSlip": 7.826091355386666,
+        "maxLateral": 1.4043847479422413,
+        "releaseSlip": 7.826091355386666,
+        "recoverySeconds": 7.808333333333334,
+        "finalSlip": 0.0010685337609689645
+      },
+      {
+        "vehicle": "rover",
+        "biome": "forest",
+        "comparison": "desert",
+        "upgrade": "stock",
+        "target": 10.649999999999999,
+        "maxSlip": 0.8549741331457152,
+        "maxLateral": 0.21163227824458897,
+        "releaseSlip": 0.8549741331457152,
+        "recoverySeconds": 0.008333333333333333,
+        "finalSlip": 0
+      },
+      {
+        "vehicle": "rover",
+        "biome": "desert",
+        "comparison": "desert",
+        "upgrade": "stock",
+        "target": 10.649999999999999,
+        "maxSlip": 4.419393042072977,
+        "maxLateral": 0.8169292302973683,
+        "releaseSlip": 4.418846557223919,
+        "recoverySeconds": 2.2416666666666667,
+        "finalSlip": 4.314325366224842e-11
+      },
+      {
+        "vehicle": "rover",
+        "biome": "forest",
+        "comparison": "desert",
+        "upgrade": "max",
+        "target": 11.715,
+        "maxSlip": 0.7909522498931795,
+        "maxLateral": 0.2153790793066772,
+        "releaseSlip": 0.7909522498931795,
+        "recoverySeconds": 0.008333333333333333,
+        "finalSlip": 2.9321374784298746e-14
+      },
+      {
+        "vehicle": "rover",
+        "biome": "desert",
+        "comparison": "desert",
+        "upgrade": "max",
+        "target": 11.715,
+        "maxSlip": 4.171975539631975,
+        "maxLateral": 0.8483681705692945,
+        "releaseSlip": 4.109642417041254,
+        "recoverySeconds": 1.9416666666666667,
+        "finalSlip": 2.65847131377642e-12
+      },
+      {
+        "vehicle": "rover",
+        "biome": "forest",
+        "comparison": "snow",
+        "upgrade": "stock",
+        "target": 10.649999999999999,
+        "maxSlip": 0.8549741331457152,
+        "maxLateral": 0.21163227824458897,
+        "releaseSlip": 0.8549741331457152,
+        "recoverySeconds": 0.008333333333333333,
+        "finalSlip": 0
+      },
+      {
+        "vehicle": "rover",
+        "biome": "snow",
+        "comparison": "snow",
+        "upgrade": "stock",
+        "target": 10.649999999999999,
+        "maxSlip": 6.012346798585856,
+        "maxLateral": 1.111850728339911,
+        "releaseSlip": 6.012346798585856,
+        "recoverySeconds": 3.8666666666666667,
+        "finalSlip": 3.289506568057203e-8
+      },
+      {
+        "vehicle": "rover",
+        "biome": "forest",
+        "comparison": "snow",
+        "upgrade": "max",
+        "target": 11.715,
+        "maxSlip": 0.7909522498931795,
+        "maxLateral": 0.2153790793066772,
+        "releaseSlip": 0.7909522498931795,
+        "recoverySeconds": 0.008333333333333333,
+        "finalSlip": 2.9321374784298746e-14
+      },
+      {
+        "vehicle": "rover",
+        "biome": "snow",
+        "comparison": "snow",
+        "upgrade": "max",
+        "target": 11.715,
+        "maxSlip": 5.894596880812614,
+        "maxLateral": 1.1987151389785806,
+        "releaseSlip": 5.894596880812614,
+        "recoverySeconds": 3.3666666666666667,
+        "finalSlip": 6.522972039551113e-9
+      },
+      {
+        "vehicle": "rover",
+        "biome": "forest",
+        "comparison": "volcanic",
+        "upgrade": "stock",
+        "target": 10.649999999999999,
+        "maxSlip": 0.8549741331457152,
+        "maxLateral": 0.21163227824458897,
+        "releaseSlip": 0.8549741331457152,
+        "recoverySeconds": 0.008333333333333333,
+        "finalSlip": 0
+      },
+      {
+        "vehicle": "rover",
+        "biome": "volcanic",
+        "comparison": "volcanic",
+        "upgrade": "stock",
+        "target": 10.649999999999999,
+        "maxSlip": 7.463172399886884,
+        "maxLateral": 1.3823209312729579,
+        "releaseSlip": 7.463172399886884,
+        "recoverySeconds": 6.841666666666667,
+        "finalSlip": 0.0001640771969339325
+      },
+      {
+        "vehicle": "rover",
+        "biome": "forest",
+        "comparison": "volcanic",
+        "upgrade": "max",
+        "target": 11.715,
+        "maxSlip": 0.7909522498931795,
+        "maxLateral": 0.2153790793066772,
+        "releaseSlip": 0.7909522498931795,
+        "recoverySeconds": 0.008333333333333333,
+        "finalSlip": 2.9321374784298746e-14
+      },
+      {
+        "vehicle": "rover",
+        "biome": "volcanic",
+        "comparison": "volcanic",
+        "upgrade": "max",
+        "target": 11.715,
+        "maxSlip": 7.53893640707266,
+        "maxLateral": 1.5352937843792804,
+        "releaseSlip": 7.53893640707266,
+        "recoverySeconds": 6.075,
+        "finalSlip": 0.00001732358243694223
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "forest",
+        "comparison": "desert",
+        "upgrade": "stock",
+        "target": 12.149999999999999,
+        "maxSlip": 0.7376014672172267,
+        "maxLateral": 0.20831729202201732,
+        "releaseSlip": 0.7376014672172267,
+        "recoverySeconds": 0.008333333333333333,
+        "finalSlip": 2.5130308594279645e-14
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "desert",
+        "comparison": "desert",
+        "upgrade": "stock",
+        "target": 12.149999999999999,
+        "maxSlip": 4.12096735655797,
+        "maxLateral": 0.8692636655457657,
+        "releaseSlip": 4.032768016442463,
+        "recoverySeconds": 1.875,
+        "finalSlip": 1.3570366640911008e-12
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "forest",
+        "comparison": "desert",
+        "upgrade": "max",
+        "target": 13.365,
+        "maxSlip": 0.6809334719163587,
+        "maxLateral": 0.2115594723359031,
+        "releaseSlip": 0.6809334719163587,
+        "recoverySeconds": 0.008333333333333333,
+        "finalSlip": 2.2845735085708765e-14
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "desert",
+        "comparison": "desert",
+        "upgrade": "max",
+        "target": 13.365,
+        "maxSlip": 3.874523021687956,
+        "maxLateral": 0.8991149086124333,
+        "releaseSlip": 3.5949995396792853,
+        "recoverySeconds": 1.6,
+        "finalSlip": 1.7515063565710034e-13
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "forest",
+        "comparison": "snow",
+        "upgrade": "stock",
+        "target": 12.149999999999999,
+        "maxSlip": 0.7376014672172267,
+        "maxLateral": 0.20831729202201732,
+        "releaseSlip": 0.7376014672172267,
+        "recoverySeconds": 0.008333333333333333,
+        "finalSlip": 2.5130308594279645e-14
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "snow",
+        "comparison": "snow",
+        "upgrade": "stock",
+        "target": 12.149999999999999,
+        "maxSlip": 5.835896098413135,
+        "maxLateral": 1.2309856443931384,
+        "releaseSlip": 5.835896098413135,
+        "recoverySeconds": 3.2666666666666666,
+        "finalSlip": 4.181348279306875e-9
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "forest",
+        "comparison": "snow",
+        "upgrade": "max",
+        "target": 13.365,
+        "maxSlip": 0.6809334719163587,
+        "maxLateral": 0.2115594723359031,
+        "releaseSlip": 0.6809334719163587,
+        "recoverySeconds": 0.008333333333333333,
+        "finalSlip": 2.2845735085708765e-14
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "snow",
+        "comparison": "snow",
+        "upgrade": "max",
+        "target": 13.365,
+        "maxSlip": 5.597582597444455,
+        "maxLateral": 1.298536986670701,
+        "releaseSlip": 5.597582597444455,
+        "recoverySeconds": 2.775,
+        "finalSlip": 1.8626889339881215e-10
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "forest",
+        "comparison": "volcanic",
+        "upgrade": "stock",
+        "target": 12.149999999999999,
+        "maxSlip": 0.7376014672172267,
+        "maxLateral": 0.20831729202201732,
+        "releaseSlip": 0.7376014672172267,
+        "recoverySeconds": 0.008333333333333333,
+        "finalSlip": 2.5130308594279645e-14
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "volcanic",
+        "comparison": "volcanic",
+        "upgrade": "stock",
+        "target": 12.149999999999999,
+        "maxSlip": 7.496878942605077,
+        "maxLateral": 1.583501858487951,
+        "releaseSlip": 7.496878942605077,
+        "recoverySeconds": 5.883333333333333,
+        "finalSlip": 0.00000795195154922815
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "forest",
+        "comparison": "volcanic",
+        "upgrade": "max",
+        "target": 13.365,
+        "maxSlip": 0.6809334719163587,
+        "maxLateral": 0.2115594723359031,
+        "releaseSlip": 0.6809334719163587,
+        "recoverySeconds": 0.008333333333333333,
+        "finalSlip": 2.2845735085708765e-14
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "volcanic",
+        "comparison": "volcanic",
+        "upgrade": "max",
+        "target": 13.365,
+        "maxSlip": 7.455627584658231,
+        "maxLateral": 1.731531249111558,
+        "releaseSlip": 7.455627584658231,
+        "recoverySeconds": 5.158333333333333,
+        "finalSlip": 9.245795211872684e-7
+      },
+      {
+        "vehicle": "van",
+        "biome": "desert",
+        "comparison": "snow",
+        "upgrade": "stock",
+        "target": 13.799999999999999,
+        "maxSlip": 0.5212284314871206,
+        "maxLateral": 0.1671986945972712,
+        "releaseSlip": 0.5212284314871206,
+        "recoverySeconds": 0.008333333333333333,
+        "finalSlip": 2.2125597784094034e-14
+      },
+      {
+        "vehicle": "van",
+        "biome": "snow",
+        "comparison": "snow",
+        "upgrade": "stock",
+        "target": 13.799999999999999,
+        "maxSlip": 5.3666733746190545,
+        "maxLateral": 1.285643422103381,
+        "releaseSlip": 5.3666733746190545,
+        "recoverySeconds": 2.591666666666667,
+        "finalSlip": 3.5843468410232335e-11
+      },
+      {
+        "vehicle": "van",
+        "biome": "desert",
+        "comparison": "snow",
+        "upgrade": "max",
+        "target": 15.18,
+        "maxSlip": 0.4800953807891815,
+        "maxLateral": 0.1694179070152071,
+        "releaseSlip": 0.4800953807891815,
+        "recoverySeconds": 0.008333333333333333,
+        "finalSlip": 2.0114179803721846e-14
+      },
+      {
+        "vehicle": "van",
+        "biome": "snow",
+        "comparison": "snow",
+        "upgrade": "max",
+        "target": 15.18,
+        "maxSlip": 5.017826926425169,
+        "maxLateral": 1.3223282312346063,
+        "releaseSlip": 4.997325193952832,
+        "recoverySeconds": 2.1416666666666666,
+        "finalSlip": 1.5186205751809997e-12
+      },
+      {
+        "vehicle": "van",
+        "biome": "desert",
+        "comparison": "volcanic",
+        "upgrade": "stock",
+        "target": 13.799999999999999,
+        "maxSlip": 0.5212284314871206,
+        "maxLateral": 0.1671986945972712,
+        "releaseSlip": 0.5212284314871206,
+        "recoverySeconds": 0.008333333333333333,
+        "finalSlip": 2.2125597784094034e-14
+      },
+      {
+        "vehicle": "van",
+        "biome": "volcanic",
+        "comparison": "volcanic",
+        "upgrade": "stock",
+        "target": 13.799999999999999,
+        "maxSlip": 6.766761065780355,
+        "maxLateral": 1.6222245179622035,
+        "releaseSlip": 6.766761065780355,
+        "recoverySeconds": 4.408333333333333,
+        "finalSlip": 1.4889980806430019e-7
+      },
+      {
+        "vehicle": "van",
+        "biome": "desert",
+        "comparison": "volcanic",
+        "upgrade": "max",
+        "target": 15.18,
+        "maxSlip": 0.4800953807891815,
+        "maxLateral": 0.1694179070152071,
+        "releaseSlip": 0.4800953807891815,
+        "recoverySeconds": 0.008333333333333333,
+        "finalSlip": 2.0114179803721846e-14
+      },
+      {
+        "vehicle": "van",
+        "biome": "volcanic",
+        "comparison": "volcanic",
+        "upgrade": "max",
+        "target": 15.18,
+        "maxSlip": 6.556234859588666,
+        "maxLateral": 1.7284512341543552,
+        "releaseSlip": 6.556234859588666,
+        "recoverySeconds": 3.7666666666666666,
+        "finalSlip": 1.1559434753217412e-8
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "desert",
+        "comparison": "snow",
+        "upgrade": "stock",
+        "target": 15.75,
+        "maxSlip": 0.44084978437906297,
+        "maxLateral": 0.1614170011747209,
+        "releaseSlip": 0.44084978437906297,
+        "recoverySeconds": 0.008333333333333333,
+        "finalSlip": 1.4539678543833222e-14
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "snow",
+        "comparison": "snow",
+        "upgrade": "stock",
+        "target": 15.75,
+        "maxSlip": 4.910695307875337,
+        "maxLateral": 1.342966809362081,
+        "releaseSlip": 4.870768762984418,
+        "recoverySeconds": 2.0416666666666665,
+        "finalSlip": 1.2116398786527688e-12
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "desert",
+        "comparison": "snow",
+        "upgrade": "max",
+        "target": 17.325000000000003,
+        "maxSlip": 0.40539003637395826,
+        "maxLateral": 0.1632890170861021,
+        "releaseSlip": 0.40539003637395826,
+        "recoverySeconds": 0.008333333333333333,
+        "finalSlip": 1.3217889585302932e-14
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "snow",
+        "comparison": "snow",
+        "upgrade": "max",
+        "target": 17.325000000000003,
+        "maxSlip": 4.56851541370294,
+        "maxLateral": 1.3745451255637287,
+        "releaseSlip": 4.373271229684831,
+        "recoverySeconds": 1.625,
+        "finalSlip": 1.87987762990975e-13
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "desert",
+        "comparison": "volcanic",
+        "upgrade": "stock",
+        "target": 15.75,
+        "maxSlip": 0.44084978437906297,
+        "maxLateral": 0.1614170011747209,
+        "releaseSlip": 0.44084978437906297,
+        "recoverySeconds": 0.008333333333333333,
+        "finalSlip": 1.4539678543833222e-14
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "volcanic",
+        "comparison": "volcanic",
+        "upgrade": "stock",
+        "target": 15.75,
+        "maxSlip": 6.44615475573223,
+        "maxLateral": 1.7634669753386776,
+        "releaseSlip": 6.44615475573223,
+        "recoverySeconds": 3.6083333333333334,
+        "finalSlip": 5.191379299916947e-9
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "desert",
+        "comparison": "volcanic",
+        "upgrade": "max",
+        "target": 17.325000000000003,
+        "maxSlip": 0.40539003637395826,
+        "maxLateral": 0.1632890170861021,
+        "releaseSlip": 0.40539003637395826,
+        "recoverySeconds": 0.008333333333333333,
+        "finalSlip": 1.3217889585302932e-14
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "volcanic",
+        "comparison": "volcanic",
+        "upgrade": "max",
+        "target": 17.325000000000003,
+        "maxSlip": 6.121315406284612,
+        "maxLateral": 1.8417614019911683,
+        "releaseSlip": 6.121315406284612,
+        "recoverySeconds": 3.025,
+        "finalSlip": 1.0808121448462362e-10
+      },
+      {
+        "vehicle": "snowgrip",
+        "biome": "snow",
+        "comparison": "volcanic",
+        "upgrade": "stock",
+        "target": 17.924999999999997,
+        "maxSlip": 0.18692133517476325,
+        "maxLateral": 0.07796103606776938,
+        "releaseSlip": 0.01788126351013539,
+        "recoverySeconds": 0.008333333333333333,
+        "finalSlip": 4.258483255516012e-15
+      },
+      {
+        "vehicle": "snowgrip",
+        "biome": "volcanic",
+        "comparison": "volcanic",
+        "upgrade": "stock",
+        "target": 17.924999999999997,
+        "maxSlip": 5.830299381391913,
+        "maxLateral": 1.8152265330275537,
+        "releaseSlip": 5.830299381391913,
+        "recoverySeconds": 2.7916666666666665,
+        "finalSlip": 7.198256196240556e-11
+      },
+      {
+        "vehicle": "snowgrip",
+        "biome": "snow",
+        "comparison": "volcanic",
+        "upgrade": "max",
+        "target": 19.7175,
+        "maxSlip": 0.17025255599751996,
+        "maxLateral": 0.07811148660103279,
+        "releaseSlip": 0.016026938134619206,
+        "recoverySeconds": 0.008333333333333333,
+        "finalSlip": 3.87134841410547e-15
+      },
+      {
+        "vehicle": "snowgrip",
+        "biome": "volcanic",
+        "comparison": "volcanic",
+        "upgrade": "max",
+        "target": 19.7175,
+        "maxSlip": 5.399146066621112,
+        "maxLateral": 1.8491975545940944,
+        "releaseSlip": 5.382090015258882,
+        "recoverySeconds": 2.2666666666666666,
+        "finalSlip": 3.427433795954701e-12
+      },
+      {
+        "vehicle": "snowrunner",
+        "biome": "snow",
+        "comparison": "volcanic",
+        "upgrade": "stock",
+        "target": 20.4,
+        "maxSlip": 0.15788011282925327,
+        "maxLateral": 0.07494324862997903,
+        "releaseSlip": 0.00005459363510452184,
+        "recoverySeconds": 0.008333333333333333,
+        "finalSlip": 0
+      },
+      {
+        "vehicle": "snowrunner",
+        "biome": "volcanic",
+        "comparison": "volcanic",
+        "upgrade": "stock",
+        "target": 20.4,
+        "maxSlip": 5.261701355352367,
+        "maxLateral": 1.8648488280371307,
+        "releaseSlip": 5.2249833825077685,
+        "recoverySeconds": 2.1416666666666666,
+        "finalSlip": 1.2772109779680952e-12
+      },
+      {
+        "vehicle": "snowrunner",
+        "biome": "snow",
+        "comparison": "volcanic",
+        "upgrade": "max",
+        "target": 22.44,
+        "maxSlip": 0.1320424625527838,
+        "maxLateral": 0.06894811858747524,
+        "releaseSlip": 0.00038978514027497514,
+        "recoverySeconds": 0.008333333333333333,
+        "finalSlip": 0
+      },
+      {
+        "vehicle": "snowrunner",
+        "biome": "volcanic",
+        "comparison": "volcanic",
+        "upgrade": "max",
+        "target": 22.44,
+        "maxSlip": 4.576065484063728,
+        "maxLateral": 1.7852679192620418,
+        "releaseSlip": 4.326517037344804,
+        "recoverySeconds": 1.5333333333333332,
+        "finalSlip": 1.587442621764324e-13
+      }
+    ],
+    "fuelChecks": [
+      {
+        "vehicle": "pickup",
+        "biome": "forest",
+        "upgrade": "stock",
+        "burn": 6.896551724137936
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "forest",
+        "upgrade": "max",
+        "burn": 6.896551724137936
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "desert",
+        "upgrade": "stock",
+        "burn": 10.34482758620689
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "desert",
+        "upgrade": "max",
+        "burn": 10.34482758620689
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "snow",
+        "upgrade": "stock",
+        "burn": 13.793103448275858
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "snow",
+        "upgrade": "max",
+        "burn": 13.793103448275858
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "burn": 17.241379310344826
+      },
+      {
+        "vehicle": "pickup",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "burn": 17.241379310344826
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "forest",
+        "upgrade": "stock",
+        "burn": 7
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "forest",
+        "upgrade": "max",
+        "burn": 7
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "desert",
+        "upgrade": "stock",
+        "burn": 10.5
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "desert",
+        "upgrade": "max",
+        "burn": 10.5
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "snow",
+        "upgrade": "stock",
+        "burn": 14
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "snow",
+        "upgrade": "max",
+        "burn": 14
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "burn": 17.5
+      },
+      {
+        "vehicle": "citycourier",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "burn": 17.5
+      },
+      {
+        "vehicle": "rover",
+        "biome": "desert",
+        "upgrade": "stock",
+        "burn": 6.9090909090909065
+      },
+      {
+        "vehicle": "rover",
+        "biome": "desert",
+        "upgrade": "max",
+        "burn": 6.9090909090909065
+      },
+      {
+        "vehicle": "rover",
+        "biome": "snow",
+        "upgrade": "stock",
+        "burn": 10.363636363636374
+      },
+      {
+        "vehicle": "rover",
+        "biome": "snow",
+        "upgrade": "max",
+        "burn": 10.363636363636374
+      },
+      {
+        "vehicle": "rover",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "burn": 13.818181818181813
+      },
+      {
+        "vehicle": "rover",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "burn": 13.818181818181813
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "desert",
+        "upgrade": "stock",
+        "burn": 7.027027027027032
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "desert",
+        "upgrade": "max",
+        "burn": 7.027027027027032
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "snow",
+        "upgrade": "stock",
+        "burn": 10.540540540540547
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "snow",
+        "upgrade": "max",
+        "burn": 10.540540540540547
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "burn": 14.054054054054063
+      },
+      {
+        "vehicle": "foresthauler",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "burn": 14.054054054054063
+      },
+      {
+        "vehicle": "van",
+        "biome": "snow",
+        "upgrade": "stock",
+        "burn": 7
+      },
+      {
+        "vehicle": "van",
+        "biome": "snow",
+        "upgrade": "max",
+        "burn": 7
+      },
+      {
+        "vehicle": "van",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "burn": 10.5
+      },
+      {
+        "vehicle": "van",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "burn": 10.5
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "snow",
+        "upgrade": "stock",
+        "burn": 7.111111111111086
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "snow",
+        "upgrade": "max",
+        "burn": 7.111111111111086
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "burn": 10.666666666666686
+      },
+      {
+        "vehicle": "desertscout",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "burn": 10.666666666666686
+      },
+      {
+        "vehicle": "snowgrip",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "burn": 7.222222222222172
+      },
+      {
+        "vehicle": "snowgrip",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "burn": 7.222222222222172
+      },
+      {
+        "vehicle": "snowrunner",
+        "biome": "volcanic",
+        "upgrade": "stock",
+        "burn": 6.285714285714334
+      },
+      {
+        "vehicle": "snowrunner",
+        "biome": "volcanic",
+        "upgrade": "max",
+        "burn": 6.285714285714334
+      }
+    ]
+  },
+  "coverage": {
+    "supportedForceSamples": 480,
+    "supportedTrajectories": 60,
+    "fuelChecks": 40,
+    "futurePairs": 20,
+    "straightRuns": 160,
+    "turnRuns": 80,
+    "gpuValidation": false
+  }
+}

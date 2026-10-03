@@ -1,0 +1,53 @@
+{
+  "generatedAt": "2026-10-14T18:29:32.340Z",
+  "scope": "Offline production solver, independent polygon SAT and actual Three.js geometry. No browser, GPU, mobile or human-playtest claim.",
+  "checks": [
+    {
+      "name": "OBB contacts agree with independent polygon SAT and never collide with empty AABB corners",
+      "passed": true,
+      "comparisons": 15120,
+      "emptyAabbCornersRejected": 826
+    },
+    {
+      "name": "Soft patches preserve full base profiles, blend over 2.5m and leave all other asphalt untouched",
+      "passed": true,
+      "profiles": 20,
+      "edgeBlendMetres": 2.5
+    },
+    {
+      "name": "All 80 stock/max dune-and-ice D/R crossings leave the patch and regain their exact base surface",
+      "passed": true,
+      "cases": 80
+    },
+    {
+      "name": "Swept solver stops both gears at thin logs even at 40m/s, without corner tunnelling",
+      "passed": true,
+      "cases": 6,
+      "logThicknessMetres": 1.25,
+      "sweepStepMetres": 0.12
+    },
+    {
+      "name": "Static hazards leave a wide side corridor through every local approach",
+      "passed": true,
+      "bodySamples": 1890,
+      "vehicleWidth": 3.1,
+      "vehicleLength": 5.76,
+      "minimumFreeCorridorMetres": 8
+    },
+    {
+      "name": "All static render footprints equal their physics bounds and grounded basalt remains visible",
+      "passed": true,
+      "solids": 8,
+      "vertices": 1132,
+      "maximumDaylight": -0.005996864453223338,
+      "maximumBurial": 0.01465748510332432,
+      "maximumHazards": 112,
+      "maximumRocks": 24
+    }
+  ],
+  "runtimeHashes": {
+    "road-hazards.js": "5837e10f79699f10c72d0454250c3833be5ca452d00fd14039ce07f5b8e4bc8f",
+    "road-hazards-scene.js": "f9c1ddafbf68bf1ebdd2fe4313ff77c6d3e838741a068c9aa285c97f349593d2",
+    "driving-model.js": "74b1165a2cc326b940eb1de89292741596035e58fc06c57ef4d4c292f35af3bc"
+  }
+}

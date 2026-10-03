@@ -1,0 +1,355 @@
+/* Actual tow-confiscator control styling and CSS gear knob; layout adapted to this viewer. */
+.vehicle-controls {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  container-type: size;
+  --steering-size: clamp(120px, min(35cqw, 40cqh), 185px);
+  --control-bottom: calc(env(safe-area-inset-bottom, 0px) + 10cqh + 18px);
+}
+.vehicle-controls,
+.vehicle-controls * {
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.vehicle-controls img {
+  -webkit-user-drag: none;
+}
+.vehicle-controls {
+  overscroll-behavior: none;
+}
+.steering-wheel {
+  position: absolute;
+  left: max(16px, env(safe-area-inset-left));
+  bottom: var(--control-bottom);
+  width: var(--steering-size);
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  filter: drop-shadow(0 7px 10px #000b);
+  pointer-events: auto;
+  touch-action: none;
+  cursor: grab;
+  transform: rotate(var(--steering-angle, 0deg));
+  transition: none;
+}
+.steering-wheel.is-returning {
+  transition: transform 260ms cubic-bezier(0.22, 0.8, 0.3, 1);
+}
+.steering-wheel:active {
+  cursor: grabbing;
+}
+.steering-wheel-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.gear-control {
+  --gear-size: clamp(72px, min(19cqw, 26cqh), 108px);
+  position: absolute;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: var(--control-bottom);
+  width: var(--gear-size);
+  cursor: pointer;
+  aspect-ratio: 457 / 512;
+  filter: drop-shadow(0 7px 10px #000b);
+  pointer-events: auto;
+  touch-action: none;
+}
+.gear-panel-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.gear-position {
+  position: absolute;
+  z-index: 3;
+  right: 8%;
+  width: 34%;
+  height: 26%;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  color: #34383d;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(var(--gear-size) * 0.28);
+  line-height: 1;
+  font-weight: 900;
+  text-shadow:
+    0 1px #fff,
+    0 2px 2px #0005;
+  pointer-events: auto;
+  cursor: pointer;
+}
+.gear-position-d {
+  top: 9%;
+}
+.gear-position-r {
+  bottom: 14%;
+}
+.gear-position.is-active {
+  color: #40ff00;
+  text-shadow:
+    0 0 9px #3bff00,
+    0 1px #fff8;
+}
+.gear-track {
+  position: absolute;
+  z-index: 2;
+  left: 32%;
+  top: 2%;
+  width: 25%;
+  height: 63%;
+  --gear-travel: clamp(17px, 3.6cqw, 30px);
+  pointer-events: none;
+}
+.gear-handle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 82%;
+  height: 66%;
+  border-radius: 11px 11px 15px 15px;
+  background: linear-gradient(
+    90deg,
+    #171a1e 0%,
+    #363b41 30%,
+    #555b61 50%,
+    #272c31 76%,
+    #121519 100%
+  );
+  box-shadow:
+    0 5px 8px #000c,
+    inset 2px 0 2px #ffffff1f,
+    inset -2px 0 3px #0008;
+  transform: translate(-50%, -50%)
+    translateY(
+      calc(
+        var(--gear-progress, -1) * var(--gear-travel) - var(--gear-lift, 0px)
+      )
+    );
+  transition: transform 220ms cubic-bezier(0.22, 0.8, 0.3, 1);
+}
+.gear-control[data-gear="R"] .gear-handle {
+  --gear-lift: 7px;
+}
+.gear-handle::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -37%;
+  width: 225%;
+  height: 52%;
+  border-radius: 16px 16px 13px 13px;
+  clip-path: polygon(
+    14% 0,
+    86% 0,
+    100% 28%,
+    94% 88%,
+    82% 100%,
+    18% 100%,
+    6% 88%,
+    0 28%
+  );
+  background:
+    radial-gradient(
+      ellipse at 50% 20%,
+      #f8f9fa 0%,
+      #d5d8db 25%,
+      transparent 58%
+    ),
+    linear-gradient(180deg, #dfe2e4 0%, #9ea4a9 48%, #565c62 100%);
+  box-shadow:
+    0 5px 7px #000b,
+    inset 0 2px 2px #fff,
+    inset 0 -3px 4px #30353a;
+  transform: translateX(-50%);
+}
+.gear-handle::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -30%;
+  width: 152%;
+  height: 30%;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #ffffff80, #2f343a26);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.gear-control.is-snapping .gear-handle {
+  transition-duration: 220ms;
+}
+
+@container (min-aspect-ratio: 1/1) {
+  .gear-control {
+    --gear-size: clamp(64px, 18cqh, 84px);
+  }
+  .gear-track {
+    --gear-travel: calc(var(--gear-size) * 0.29);
+  }
+  .gear-control[data-gear="R"] .gear-handle {
+    --gear-lift: 5px;
+  }
+}
+
+@container (max-width: 420px) {
+  .vehicle-controls {
+    --steering-size: min(140px, 40cqh);
+  }
+  .gear-control {
+    transform: scale(0.86);
+    transform-origin: bottom right;
+  }
+}
+
+.drive-readout {
+  position: absolute;
+  left: 50%;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
+  transform: translateX(-50%);
+  text-align: center;
+  pointer-events: none;
+  color: #263e32;
+  font-size: 11px;
+  white-space: nowrap;
+}
+.drive-speed {
+  display: inline-flex;
+  gap: 7px;
+  align-items: baseline;
+  padding: 7px 16px;
+  background: #ffffede0;
+  border: 1px solid #fff9;
+  border-radius: 30px;
+  box-shadow: 0 4px 20px #18332122;
+  font-weight: 700;
+}
+.drive-speed strong {
+  font-size: 24px;
+  font-variant-numeric: tabular-nums;
+}
+.drive-speed small {
+  font-size: 9px;
+  color: #7b876e;
+}
+.drive-readout p {
+  margin: 8px 0 0;
+  font-size: 10px;
+  text-shadow: 0 1px 5px #fff;
+}
+.drive-tip {
+  position: absolute;
+  bottom: calc(var(--control-bottom) + var(--steering-size) + 14px);
+  left: max(18px, env(safe-area-inset-left));
+  max-width: 220px;
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.5;
+  padding: 8px 11px;
+  border-radius: 10px;
+  background: #fffdebdd;
+  box-shadow: 0 4px 20px #18332111;
+}
+.drive-gear-note {
+  position: absolute;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: calc(var(--control-bottom) - 26px);
+  font-size: 10px;
+  color: #38513e;
+  font-weight: 750;
+}
+.drive-reset {
+  position: absolute;
+  right: 20px;
+  top: 87px;
+  pointer-events: auto;
+  border: 1px solid #fff9;
+  background: #ffffedc9;
+  border-radius: 9px;
+  padding: 9px 12px;
+  color: #425a44;
+  font-size: 10px;
+  backdrop-filter: blur(12px);
+}
+.top-actions {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  pointer-events: auto;
+}
+.mode-button {
+  border: 1px solid #fff9;
+  border-radius: 20px;
+  padding: 10px 14px;
+  background: #263e32;
+  color: #ffffed;
+  font-size: 11px;
+  font-weight: 650;
+}
+body.is-driving .seed-card,
+body.is-driving .bottom-ui {
+  display: none;
+}
+body.is-driving canvas {
+  touch-action: none;
+}
+@media (max-width: 600px) {
+  .drive-tip {
+    font-size: 10px;
+    max-width: 165px;
+  }
+  .drive-reset {
+    top: 73px;
+    right: 18px;
+    font-size: 9px;
+  }
+  .mode-button {
+    font-size: 10px;
+    padding: 9px 11px;
+  }
+  .drive-readout p {
+    font-size: 8px;
+    max-width: 280px;
+    white-space: normal;
+    line-height: 1.5;
+  }
+  .drive-readout {
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 15px);
+  }
+  .drive-speed strong {
+    font-size: 21px;
+  }
+  .drive-speed {
+    padding: 5px 13px;
+  }
+}
+@media (max-height: 500px) {
+  .vehicle-controls {
+    --control-bottom: calc(env(safe-area-inset-bottom, 0px) + 25px);
+    --steering-size: min(130px, 35cqh);
+  }
+  .drive-tip {
+    display: none;
+  }
+  .drive-readout {
+    bottom: 12px;
+  }
+  .drive-readout p {
+    display: none;
+  }
+}

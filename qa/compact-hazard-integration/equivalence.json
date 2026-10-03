@@ -1,0 +1,12 @@
+{
+  "generatedAt": "2026-10-14T12:28:27.657Z",
+  "passed": true,
+  "seeds": 263,
+  "seedScope": "0–255,2026,2027,4294967295,two strings,null,undefined",
+  "count": 90,
+  "moving": 10,
+  "fullDescriptorAndSeedPhaseEquivalence": true,
+  "candidateHash": "00c9f66ee5469692e1dbc2ae24b1a0a12ff978d2585dfb6952f5768650e90948",
+  "runtimeHash": "be34d3363cb379ebf21f3adfd38f190b176d9f6b1c23ea1b9cdfa59fd80daa89",
+  "seed42DescriptorHash": "137bc204c8b853866b5c0ca7eba2d9dbcd243160cb5f79db8562e435aa2680a5"
+}

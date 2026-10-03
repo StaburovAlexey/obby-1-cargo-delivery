@@ -1,0 +1,7 @@
+PASS Longer sequential route keeps 30m lanes and eleven stable paired checkpoints on common edges
+PASS Actual fuel and delivery ring vertices follow ground and clear the full road boundary
+PASS Garage apron, parking, school and road launch remain at their original flat height
+PASS Four-wheel fit uses one chassis edge history in both directions over every fork and grade
+PASS All vehicle terrain callbacks and preview destinations use canonical progress rather than world Z
+PASS City turn reaches a true perpendicular direction while shops and the finite road remain procedural
+Network world integration: 6/6 groups passed. Node/Three geometry, not WebGL.

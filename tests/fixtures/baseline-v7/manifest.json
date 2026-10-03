@@ -1,0 +1,67 @@
+{
+  "commit": "4d3283d6d1242b82addf1bd7f1231c30d2b3d38f",
+  "provenance": "Exact published v7 source, extracted with git show before five-biome update",
+  "files": [
+    {
+      "file": "dist/scene.js",
+      "sha256": "e0cf1be5816ee202b629efa5de8b4d769b32c83e774294898075835c14aea995",
+      "bytes": 22514
+    },
+    {
+      "file": "dist/road-layout.js",
+      "sha256": "e85bfc19fb6e5e46adfb6baaa3fd8782f0e150632ead5870151e947a1433c25a",
+      "bytes": 10587
+    },
+    {
+      "file": "dist/building-material.js",
+      "sha256": "ce732fe146e568ae41b213bcbacc29840ec9a40b9b4951a268a578d6b7e06e14",
+      "bytes": 13517
+    },
+    {
+      "file": "dist/ground-material.js",
+      "sha256": "fcd381cf4dd458287bd86ccc92f7c0b40422aa2a54dd5e4374425155b866e8a3",
+      "bytes": 1403
+    },
+    {
+      "file": "dist/square-stud-texture.js",
+      "sha256": "45a8d0ec3542094b2256b76823ff4810a81440620147b8418dd496a105c08ce3",
+      "bytes": 5035
+    },
+    {
+      "file": "dist/driving-model.js",
+      "sha256": "12a85b6a6878bd7f3825f33817f92b58b6e770f36e051a04766c12ca78a63c7d",
+      "bytes": 7794,
+      "protected": true
+    },
+    {
+      "file": "dist/vehicle-input.js",
+      "sha256": "0986ad9b79393b49d1ae00d8f889274a9e9b756401edee28462aae6663922515",
+      "bytes": 6231,
+      "protected": true
+    },
+    {
+      "file": "dist/vehicle-rig.js",
+      "sha256": "11c527c5aced8eeac2b748c8dfa1a413eab132de88ca28e9437f603fb7945b72",
+      "bytes": 12289,
+      "protected": true
+    },
+    {
+      "file": "dist/vehicle-controls.css",
+      "sha256": "9a1e4907f3d1de76930f783637dbb8b4d6b43e361a136d148f85a1f2dd40d111",
+      "bytes": 7238,
+      "protected": true
+    },
+    {
+      "file": "dist/assets/vehicle-steering.png",
+      "sha256": "9d621c041d6970238a9ab944fb1ed0adebcc5695cba8423300b3e2eecf747f37",
+      "bytes": 262215,
+      "protected": true
+    },
+    {
+      "file": "dist/assets/vehicle-gear-panel-cropped.webp",
+      "sha256": "4dce13699479fc1b67b64cd7dd867a82f969ea6c8b032cc9f3e1eff4cb7469a1",
+      "bytes": 17262,
+      "protected": true
+    }
+  ]
+}

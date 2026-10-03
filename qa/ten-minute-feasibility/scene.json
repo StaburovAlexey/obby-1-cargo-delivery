@@ -1,0 +1,25 @@
+{
+  "scope": "Offline actual Three.js scene construction and100 mover updates; no GPU/browser claim",
+  "hazardCount": 90,
+  "movers": 10,
+  "rocks": 12,
+  "stats": {
+    "hazards": 90,
+    "movers": 10,
+    "rockCapacity": 12,
+    "instancedMeshes": 6,
+    "mergedMeshes": 2,
+    "materials": 8,
+    "geometries": 8,
+    "sharedTextures": 1,
+    "drawCalls": 8,
+    "triangles": 6804,
+    "activeInstances": 117,
+    "visibleRocks": 12,
+    "visibleWarnings": 0,
+    "disposed": false,
+    "phases": {
+      "landed": 12
+    }
+  }
+}

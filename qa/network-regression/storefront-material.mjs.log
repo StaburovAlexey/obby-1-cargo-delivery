@@ -1,0 +1,79 @@
+PASS One deterministic bounded atlas preserves original upper-facade/checker pixels
+PASS Five shop styles bake directly from the same metric CPU sampler
+PASS Padded atlas UVs cannot reach another slot through mip level four
+PASS World-metric groundfloor width, height, mirroring and grade anchors stay stable
+PASS Actual Three material patches one opaque instanced shader and disposes its atlas once
+PASS Actual scene assigns grade metadata to every residence using one shared material
+{
+  "audit": "Node/actual Three.js + CPU atlas/projection, not WebGL",
+  "checks": [
+    {
+      "name": "One deterministic bounded atlas preserves original upper-facade/checker pixels",
+      "details": {
+        "width": 1024,
+        "height": 512,
+        "baseBytes": 2097152,
+        "fullMipChainBytes": 2796204,
+        "originalPixelsPreserved": 49152,
+        "sha256": "173d499fecc66b98c208556813c63b97b3534711ce3674ec9bc187f5cd8a92b4"
+      }
+    },
+    {
+      "name": "Five shop styles bake directly from the same metric CPU sampler",
+      "details": {
+        "styles": [
+          "CAFE",
+          "MARKET",
+          "BOOKS",
+          "BAKERY",
+          "BLOOMS"
+        ],
+        "physicalWidth": 4.8,
+        "physicalHeight": 3.1,
+        "checksums": [
+          "3752170da2d291229793ebecb514b9beedf8ca41594ff8263c10cc501e397d4f",
+          "d2c7b8b91a06741f2a95d14c7c0e3fb6e743fcc6963bb7004d8b21626abceed0",
+          "62648bf0d54c13811419894742782e047fdac4b76754acfddf90693cdf65e33f",
+          "89489ba25b08debf273b950637be5f724743f533ba081ccccd67d0858c801059",
+          "94343e653be490555ec66436943462ed93d84d5a8fadb05c40106e31b1bd8808"
+        ]
+      }
+    },
+    {
+      "name": "Padded atlas UVs cannot reach another slot through mip level four",
+      "details": {
+        "bilinearFootprints": 1000,
+        "maxLod": 4,
+        "shopGutterPixels": 16,
+        "clampedMaxDerivativeTexels": 16
+      }
+    },
+    {
+      "name": "World-metric groundfloor width, height, mirroring and grade anchors stay stable",
+      "details": {
+        "groundfloorPoints": 160,
+        "faces": 4,
+        "physicalDoorWidth": 0.96,
+        "belowGradePlinth": 0.5,
+        "roofAndUpperFloorUnchanged": true
+      }
+    },
+    {
+      "name": "Actual Three material patches one opaque instanced shader and disposes its atlas once",
+      "details": {
+        "threeRevision": "186",
+        "opaque": true,
+        "textures": "one building atlas + existing shared checker",
+        "glslCompile": "Not run; no WebGL available"
+      }
+    },
+    {
+      "name": "Actual scene assigns grade metadata to every residence using one shared material",
+      "details": {
+        "residences": 224,
+        "sharedMaterials": 1,
+        "stylesUsed": 5
+      }
+    }
+  ]
+}

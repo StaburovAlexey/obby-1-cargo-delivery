@@ -1,0 +1,3 @@
+PASS all 17 original IDs, platforms and selection markers use one centered rear-wall row
+PASS actual 17 frozen GLBs including accessories: display gap >= 1.529 m, platform gap 0.500 m, side clearance 14.500 m, rear clearance 3.500 m
+PASS 68 lateral approaches across all 17 markers, both directions and both collision sizes; cooldown, stationary/moving debounce and departure/re-entry

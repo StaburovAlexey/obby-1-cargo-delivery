@@ -1,0 +1,357 @@
+{
+  "baseline": "3f53dc9c685a5a514c02ea790887b86ba7061253",
+  "changedExistingRuntime": [
+    {
+      "file": "dist/driving-model.js",
+      "before": "652cc1898c935babc89ed641b085facaba58c514a508493942ca98fa2caa3b2b",
+      "after": "12a8e8f006daaa8962bb1bafd89e2cdf6d2575cb56f4c981f99b64f2fb77ade8"
+    },
+    {
+      "file": "dist/route-network-config.js",
+      "before": "aeedff2941f42134ee5518233be894a5f6e5c41ac8031fad13a2f90922251178",
+      "after": "87aed2fe101c85b01e5debc676cb203be730f1e1af587808443b740ec27e6efd"
+    },
+    {
+      "file": "dist/route-network.js",
+      "before": "8a632393eae8ce62152e430687ff6fcb78607b6fba0352e63945094b42342bcd",
+      "after": "52b9464e7d80ac1dfcedf94448127bfbe6138999fc65387a4a78a19527aa3824"
+    }
+  ],
+  "newRuntime": [
+    "dist/turn-assist.js"
+  ],
+  "unchangedCount": 66,
+  "unchangedRuntime": [
+    {
+      "file": "dist/app.js",
+      "before": "ab083e3a484fdadb6abd9ed1ddced0454020abdb3ad961b5ab6945bbbacc3a02",
+      "after": "ab083e3a484fdadb6abd9ed1ddced0454020abdb3ad961b5ab6945bbbacc3a02"
+    },
+    {
+      "file": "dist/assets/bacon.glb",
+      "before": "eb78b0d387d323905bc0151d4a533a07acf61cea6d98de417c105079750a6415",
+      "after": "eb78b0d387d323905bc0151d4a533a07acf61cea6d98de417c105079750a6415"
+    },
+    {
+      "file": "dist/assets/characters/Obby_Jandel.glb",
+      "before": "76a11e1ac5215ea8ab58db384cf8dbaca83bf90217afc2e9a3c9cf6466157095",
+      "after": "76a11e1ac5215ea8ab58db384cf8dbaca83bf90217afc2e9a3c9cf6466157095"
+    },
+    {
+      "file": "dist/assets/characters/Obby_Jeff_The_Killer.glb",
+      "before": "ce20af73f26dd3c81746b9a01496e8b0bf1d77409e5034252b375f7c5e808231",
+      "after": "ce20af73f26dd3c81746b9a01496e8b0bf1d77409e5034252b375f7c5e808231"
+    },
+    {
+      "file": "dist/assets/characters/Obby_KreekCraft.glb",
+      "before": "ef26b7bb55a2a1f655dacdc6d8821ba584451c0650f6eb9b7e4d14b39bf29de7",
+      "after": "ef26b7bb55a2a1f655dacdc6d8821ba584451c0650f6eb9b7e4d14b39bf29de7"
+    },
+    {
+      "file": "dist/assets/characters/Obby_Pirate.glb",
+      "before": "8dbc5eb3408eb4be098377cf402ede65ff1bf8ff64a8991449c0bb9c6253ae1f",
+      "after": "8dbc5eb3408eb4be098377cf402ede65ff1bf8ff64a8991449c0bb9c6253ae1f"
+    },
+    {
+      "file": "dist/assets/characters/Obby_Robux_Man.glb",
+      "before": "f15829276986d2857434f6e159a59ba5869c4ff490ff8c5fe76234cf5efe4000",
+      "after": "f15829276986d2857434f6e159a59ba5869c4ff490ff8c5fe76234cf5efe4000"
+    },
+    {
+      "file": "dist/assets/characters/Obby_Spider-Man.glb",
+      "before": "1f5a5e52b0f591060efc06a127682884b403036560e8f1d4a79f108f80df5e82",
+      "after": "1f5a5e52b0f591060efc06a127682884b403036560e8f1d4a79f108f80df5e82"
+    },
+    {
+      "file": "dist/assets/characters/Obby_Spyder_Sammy.glb",
+      "before": "6451e12435bee6077e90953eb8155ee002c05bb2aad3da97425d54faffd49c8e",
+      "after": "6451e12435bee6077e90953eb8155ee002c05bb2aad3da97425d54faffd49c8e"
+    },
+    {
+      "file": "dist/assets/characters/Obby_dancing_NPC_girl.glb",
+      "before": "4eeeee6877bf5502f23cd06299dd23a6307d8ee4c1d57c2eb075b7c453fbcd90",
+      "after": "4eeeee6877bf5502f23cd06299dd23a6307d8ee4c1d57c2eb075b7c453fbcd90"
+    },
+    {
+      "file": "dist/assets/characters/Obby_pack1.glb",
+      "before": "ceb7a729d38d976318fc5768142be42387c7e753b329ac025b58d24a9e73b95c",
+      "after": "ceb7a729d38d976318fc5768142be42387c7e753b329ac025b58d24a9e73b95c"
+    },
+    {
+      "file": "dist/assets/characters/Obby_pack2.glb",
+      "before": "727b6dca8907df22120bb1bc2e8e9e1538f346e64103cb2ed3b16ff0873be4f1",
+      "after": "727b6dca8907df22120bb1bc2e8e9e1538f346e64103cb2ed3b16ff0873be4f1"
+    },
+    {
+      "file": "dist/assets/characters/Obby_pack3.glb",
+      "before": "6bc5c996700cf7d63187245deb6a3c7a8453143db47e0e1d4b8ae5c3634fecc4",
+      "after": "6bc5c996700cf7d63187245deb6a3c7a8453143db47e0e1d4b8ae5c3634fecc4"
+    },
+    {
+      "file": "dist/assets/characters/Obby_pack4.glb",
+      "before": "b21927e282545cb160359adab6cd8af93cc9de64b2a87eda8febb9566b985fd1",
+      "after": "b21927e282545cb160359adab6cd8af93cc9de64b2a87eda8febb9566b985fd1"
+    },
+    {
+      "file": "dist/assets/characters/Obby_pack5.glb",
+      "before": "e0e6f596b5d0f1f86494f2a4c6b06b910c8224a5ae8bb153ab38c514b3e3399e",
+      "after": "e0e6f596b5d0f1f86494f2a4c6b06b910c8224a5ae8bb153ab38c514b3e3399e"
+    },
+    {
+      "file": "dist/assets/characters/Obby_pack6.glb",
+      "before": "3305f8032e8e9352fb042c9abb30b2101a379ad42188a696b905245d22580076",
+      "after": "3305f8032e8e9352fb042c9abb30b2101a379ad42188a696b905245d22580076"
+    },
+    {
+      "file": "dist/assets/characters/Obby_pack7.glb",
+      "before": "5f6b06c9c1a2ea62913066c599d31a1eb6f8aabfa268620eeb814363f61fc538",
+      "after": "5f6b06c9c1a2ea62913066c599d31a1eb6f8aabfa268620eeb814363f61fc538"
+    },
+    {
+      "file": "dist/assets/characters/Obby_pack9.glb",
+      "before": "baab2654c98b9198df8a8a66f1c61377426d7e0037a74b876762a471aa1798a1",
+      "after": "baab2654c98b9198df8a8a66f1c61377426d7e0037a74b876762a471aa1798a1"
+    },
+    {
+      "file": "dist/assets/characters/README.txt",
+      "before": "5ddc68f12a16ab27fce93201f5e6e56bff994d4808c734118729f966d83c7479",
+      "after": "5ddc68f12a16ab27fce93201f5e6e56bff994d4808c734118729f966d83c7479"
+    },
+    {
+      "file": "dist/assets/hud-gear-panel.svg",
+      "before": "b5b04a67ad6209eb760eab7d63a39e5fac9224c5b311f65746017ee95628e4e5",
+      "after": "b5b04a67ad6209eb760eab7d63a39e5fac9224c5b311f65746017ee95628e4e5"
+    },
+    {
+      "file": "dist/assets/hud-steering.svg",
+      "before": "9d5495ac975c53029cce76e91e1378b5cec3d44253d2700395f3539f3b5856eb",
+      "after": "9d5495ac975c53029cce76e91e1378b5cec3d44253d2700395f3539f3b5856eb"
+    },
+    {
+      "file": "dist/assets/vehicle-gear-panel-cropped.webp",
+      "before": "4dce13699479fc1b67b64cd7dd867a82f969ea6c8b032cc9f3e1eff4cb7469a1",
+      "after": "4dce13699479fc1b67b64cd7dd867a82f969ea6c8b032cc9f3e1eff4cb7469a1"
+    },
+    {
+      "file": "dist/assets/vehicle-steering.png",
+      "before": "9d621c041d6970238a9ab944fb1ed0adebcc5695cba8423300b3e2eecf747f37",
+      "after": "9d621c041d6970238a9ab944fb1ed0adebcc5695cba8423300b3e2eecf747f37"
+    },
+    {
+      "file": "dist/biome-surfaces.js",
+      "before": "693a42f1188ef334fc0682a663fc121751fedc0e90b38c140e067c3cbe003f80",
+      "after": "693a42f1188ef334fc0682a663fc121751fedc0e90b38c140e067c3cbe003f80"
+    },
+    {
+      "file": "dist/biome-travel.js",
+      "before": "604c1c2e90abab4bf6526c324b4ae09eb6d647cdbbcf2da61d22eff78a12ed73",
+      "after": "604c1c2e90abab4bf6526c324b4ae09eb6d647cdbbcf2da61d22eff78a12ed73"
+    },
+    {
+      "file": "dist/building-material.js",
+      "before": "de80b6b72afb2489a2a47baa11570c2190b8c6f54b372748748c1b790a0fe042",
+      "after": "de80b6b72afb2489a2a47baa11570c2190b8c6f54b372748748c1b790a0fe042"
+    },
+    {
+      "file": "dist/career-save.js",
+      "before": "4fa790a8017f0fb64372e55219e50b9220df9d557db1fcdb67db4977a60f958d",
+      "after": "4fa790a8017f0fb64372e55219e50b9220df9d557db1fcdb67db4977a60f958d"
+    },
+    {
+      "file": "dist/character-catalog.js",
+      "before": "1ceed0f70e0604f1ab4343ee09184e9bb6c0b33767ff5415c0427363440707f6",
+      "after": "1ceed0f70e0604f1ab4343ee09184e9bb6c0b33767ff5415c0427363440707f6"
+    },
+    {
+      "file": "dist/character-seat-calibration.js",
+      "before": "2d09cbf7f2b2581bed84f81ae41b790c2877e979f017360a04561b8e3443d51d",
+      "after": "2d09cbf7f2b2581bed84f81ae41b790c2877e979f017360a04561b8e3443d51d"
+    },
+    {
+      "file": "dist/character-seat-pose.js",
+      "before": "aef6693f7fa229e6a4a2c8c5c3c31d56213820a109275a09d5fd755bd3fdcb73",
+      "after": "aef6693f7fa229e6a4a2c8c5c3c31d56213820a109275a09d5fd755bd3fdcb73"
+    },
+    {
+      "file": "dist/character-support.js",
+      "before": "35b780187ae42ed5fc2a34035c9bf5c7b5603d1304c7e6e658a5a2e531211528",
+      "after": "35b780187ae42ed5fc2a34035c9bf5c7b5603d1304c7e6e658a5a2e531211528"
+    },
+    {
+      "file": "dist/character.js",
+      "before": "a01741ec0ebc1920817f48e150bf64ea501105586faa5973e4e1933714b259a8",
+      "after": "a01741ec0ebc1920817f48e150bf64ea501105586faa5973e4e1933714b259a8"
+    },
+    {
+      "file": "dist/city-driving.js",
+      "before": "a33f82d66e2fa50fb281fb28e8231decb76ef216557110fd2881f4b3338f4b82",
+      "after": "a33f82d66e2fa50fb281fb28e8231decb76ef216557110fd2881f4b3338f4b82"
+    },
+    {
+      "file": "dist/driving-ground.js",
+      "before": "157ac92a62df8858ba2af419e334121966214aa59dd91b063e6e30a7d4e14c84",
+      "after": "157ac92a62df8858ba2af419e334121966214aa59dd91b063e6e30a7d4e14c84"
+    },
+    {
+      "file": "dist/economy-config.js",
+      "before": "42714d86b7b9970f15c91a3a005084038d10ed1ae3d7d454be2d6d2de5648643",
+      "after": "42714d86b7b9970f15c91a3a005084038d10ed1ae3d7d454be2d6d2de5648643"
+    },
+    {
+      "file": "dist/follow-camera.js",
+      "before": "619bec5c16b350b5c6404127cd2d772a7aef5276091b6d2f8a2e9b5b3d6a9a25",
+      "after": "619bec5c16b350b5c6404127cd2d772a7aef5276091b6d2f8a2e9b5b3d6a9a25"
+    },
+    {
+      "file": "dist/gameplay.js",
+      "before": "99abbe4fa1e5d51c8a4eac1618e8f1f9e7be357eac58c70f2e97c793f0a3e5e2",
+      "after": "99abbe4fa1e5d51c8a4eac1618e8f1f9e7be357eac58c70f2e97c793f0a3e5e2"
+    },
+    {
+      "file": "dist/garage-scene.js",
+      "before": "13d4a7fc38bc53ae02e26e9a04b98a8f05e391843b389a693b39237d21a6b95b",
+      "after": "13d4a7fc38bc53ae02e26e9a04b98a8f05e391843b389a693b39237d21a6b95b"
+    },
+    {
+      "file": "dist/ground-material.js",
+      "before": "3855969200dfbd2f567e965f3e3e621bcd64e137034506eedf420f22374ed103",
+      "after": "3855969200dfbd2f567e965f3e3e621bcd64e137034506eedf420f22374ed103"
+    },
+    {
+      "file": "dist/index.html",
+      "before": "1e1faf4f9fcd9189cbf76c5ce22f4433518d9730ab56bbcaa6acc3e463b2c61f",
+      "after": "1e1faf4f9fcd9189cbf76c5ce22f4433518d9730ab56bbcaa6acc3e463b2c61f"
+    },
+    {
+      "file": "dist/jump-input.js",
+      "before": "7b6f4a074658f15691c0e1e2f39cad9acf6a66264d8d7854d78f6f303c445832",
+      "after": "7b6f4a074658f15691c0e1e2f39cad9acf6a66264d8d7854d78f6f303c445832"
+    },
+    {
+      "file": "dist/look-input.js",
+      "before": "73c8fbee12a361fa230c9070cd96671da01f8ebba5e8d698368987b6aa9869ec",
+      "after": "73c8fbee12a361fa230c9070cd96671da01f8ebba5e8d698368987b6aa9869ec"
+    },
+    {
+      "file": "dist/network-scene.js",
+      "before": "19b82c704e091b788054796c291fdd8078d01b7d1d35866acff20f507141a8ee",
+      "after": "19b82c704e091b788054796c291fdd8078d01b7d1d35866acff20f507141a8ee"
+    },
+    {
+      "file": "dist/progression-config.js",
+      "before": "df64aa258949320085fb65cdaafe845bac66a2d65017fd19cfa3fb134b05af8e",
+      "after": "df64aa258949320085fb65cdaafe845bac66a2d65017fd19cfa3fb134b05af8e"
+    },
+    {
+      "file": "dist/progression-hud.js",
+      "before": "be62a7f48a7678c9cb6311701f0ee1259eb9d3949dbce855791ee7a314ffa0bb",
+      "after": "be62a7f48a7678c9cb6311701f0ee1259eb9d3949dbce855791ee7a314ffa0bb"
+    },
+    {
+      "file": "dist/progression-ui.css",
+      "before": "243ead708d80513538118389f08c6bee9a9f1226d543e262104245e792167fa1",
+      "after": "243ead708d80513538118389f08c6bee9a9f1226d543e262104245e792167fa1"
+    },
+    {
+      "file": "dist/road-hazards-scene.js",
+      "before": "647728fdc6de18c30ace00a57ce2b255afc266ac6f6284302126f3ff9968f817",
+      "after": "647728fdc6de18c30ace00a57ce2b255afc266ac6f6284302126f3ff9968f817"
+    },
+    {
+      "file": "dist/road-hazards.js",
+      "before": "2e5fd24fb48bd2041a935c3168a039b60403d37a216ab316288b483b4cd26ebc",
+      "after": "2e5fd24fb48bd2041a935c3168a039b60403d37a216ab316288b483b4cd26ebc"
+    },
+    {
+      "file": "dist/road-layout.js",
+      "before": "4705972cf548ff56a004b63a5d85ba41f67caf2b1fe16572c908abd3d10b8685",
+      "after": "4705972cf548ff56a004b63a5d85ba41f67caf2b1fe16572c908abd3d10b8685"
+    },
+    {
+      "file": "dist/road-material.js",
+      "before": "90a81ae425b987e980c8d94b73ce5311f4121632ae99e4f7dfaaafab8f48067a",
+      "after": "90a81ae425b987e980c8d94b73ce5311f4121632ae99e4f7dfaaafab8f48067a"
+    },
+    {
+      "file": "dist/scene.js",
+      "before": "169df363d212808a50b43cd9106ab1a4b8f7b35a04009bdf50acf695cb50290a",
+      "after": "169df363d212808a50b43cd9106ab1a4b8f7b35a04009bdf50acf695cb50290a"
+    },
+    {
+      "file": "dist/square-stud-texture.js",
+      "before": "8dcbe950316893d74bcb5b0f103b7e8bd972e6ef82e968239f6ee0c4442e367b",
+      "after": "8dcbe950316893d74bcb5b0f103b7e8bd972e6ef82e968239f6ee0c4442e367b"
+    },
+    {
+      "file": "dist/style.css",
+      "before": "21a3a1be3dff82df534db21532b165f1ee651b395a1250e82697f674b59e6c35",
+      "after": "21a3a1be3dff82df534db21532b165f1ee651b395a1250e82697f674b59e6c35"
+    },
+    {
+      "file": "dist/vehicle-controls.css",
+      "before": "9e542bb89d0a321ae10c425dc9486afd0b5814bb85bacb70ee1601d1d1b3bbcb",
+      "after": "9e542bb89d0a321ae10c425dc9486afd0b5814bb85bacb70ee1601d1d1b3bbcb"
+    },
+    {
+      "file": "dist/vehicle-input.js",
+      "before": "0986ad9b79393b49d1ae00d8f889274a9e9b756401edee28462aae6663922515",
+      "after": "0986ad9b79393b49d1ae00d8f889274a9e9b756401edee28462aae6663922515"
+    },
+    {
+      "file": "dist/vehicle-rig.js",
+      "before": "11c527c5aced8eeac2b748c8dfa1a413eab132de88ca28e9437f603fb7945b72",
+      "after": "11c527c5aced8eeac2b748c8dfa1a413eab132de88ca28e9437f603fb7945b72"
+    },
+    {
+      "file": "dist/vehicle-upgrades.js",
+      "before": "2db57418905282a8de86b97557bda9e69573d587057a6b41b2a4834d6ac0b495",
+      "after": "2db57418905282a8de86b97557bda9e69573d587057a6b41b2a4834d6ac0b495"
+    },
+    {
+      "file": "dist/vendor/BufferGeometryUtils.js",
+      "before": "6d4f4f989a5f7e810522aaa36292205e3674878eed9810563417bd13ab9ba4f2",
+      "after": "6d4f4f989a5f7e810522aaa36292205e3674878eed9810563417bd13ab9ba4f2"
+    },
+    {
+      "file": "dist/vendor/GLTFLoader.js",
+      "before": "ea6945bc119f46237fab6a9228c3566fe66fff200512b3b96b1a6a32e89cb706",
+      "after": "ea6945bc119f46237fab6a9228c3566fe66fff200512b3b96b1a6a32e89cb706"
+    },
+    {
+      "file": "dist/vendor/OrbitControls.js",
+      "before": "3d79d07ecb686b4e5d93232eedab255331c1beef711e13164eaa1f68655a5f2b",
+      "after": "3d79d07ecb686b4e5d93232eedab255331c1beef711e13164eaa1f68655a5f2b"
+    },
+    {
+      "file": "dist/vendor/SkeletonUtils.js",
+      "before": "eedd768765d6553f8082953ab3882e2c86dacc2eb7d180a312d1d52e86bb35c5",
+      "after": "eedd768765d6553f8082953ab3882e2c86dacc2eb7d180a312d1d52e86bb35c5"
+    },
+    {
+      "file": "dist/vendor/THREE-LICENSE.txt",
+      "before": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc",
+      "after": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+    },
+    {
+      "file": "dist/vendor/three.core.js",
+      "before": "9edde002b066a9a05676a6127f67735b62baf399bdea529f2f7e31657da769e6",
+      "after": "9edde002b066a9a05676a6127f67735b62baf399bdea529f2f7e31657da769e6"
+    },
+    {
+      "file": "dist/vendor/three.module.js",
+      "before": "9052042d676cb0fdc1ddfefe193053f34b7ac0513a616fdac4535d49987812ea",
+      "after": "9052042d676cb0fdc1ddfefe193053f34b7ac0513a616fdac4535d49987812ea"
+    },
+    {
+      "file": "dist/walk-input.js",
+      "before": "0f575e0a4a58c8a5f7f74edd78e941c5ab0304ecab18ff25d6c2a3b103850af7",
+      "after": "0f575e0a4a58c8a5f7f74edd78e941c5ab0304ecab18ff25d6c2a3b103850af7"
+    },
+    {
+      "file": "dist/wheel-particles.js",
+      "before": "4393a9ef61623d0a7a6d89934cc4acb984b7a768a954fdc8649ed5c8f070f743",
+      "after": "4393a9ef61623d0a7a6d89934cc4acb984b7a768a954fdc8649ed5c8f070f743"
+    }
+  ],
+  "pricesPayoutsSaveAndControlsPreserved": true
+}

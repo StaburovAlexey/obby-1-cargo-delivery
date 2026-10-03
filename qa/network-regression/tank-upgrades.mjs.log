@@ -1,0 +1,10 @@
+PASS Tank is a fourth capped +2% stat; all forty capacities and ranges preserve base consumption: {"offers":40,"adjacentRangeComparisons":9}
+PASS Old three-stat saves migrate with tank level zero and preserve the other stats and currency
+PASS Thirty purchases spend brains only, never grant fuel, retain live runs, reject repeats, and survive reload: {"purchases":30,"totalBrains":2400}
+PASS Every car and tank level uses effective spawn, station refill and garage-reset capacity: {"combinations":40}
+PASS Fuel zero wins before coincident refuelling and deliveries at all forty effective capacities
+PASS Two hundred biome previews preserve tank upgrades, consume normally, refill fully and never pay cargo: {"combinations":200}
+PASS Four hundred actual D/R car-level-biome runs burn only displacement times base consumption: {"combinations":400,"totalMovement":13243.537795167862}
+PASS Eighty real no-refill D/R journeys exhaust at the full advertised stock and upgraded range: {"journeys":80,"largestFrameOvershootM":1.3898431586812876}
+PASS Failed persistence cannot double-spend the tank cap, refill fuel or erase existing upgrades
+Tank upgrades: 9 groups passed; 40 capacity variants, 200 biome previews, 400 real-motion accounting runs and 80 full-range D/R journeys. Renderer-free; no browser claim.

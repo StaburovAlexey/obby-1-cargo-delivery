@@ -1,0 +1,44 @@
+{
+  "passed": true,
+  "scope": "Input-only production physics and gameplay, no obstacle simulation. First three checkpoint turns and fuel boundary only; no browser, full-route or human-play claim.",
+  "checks": [
+    {
+      "target": 2,
+      "upgrade": "stock",
+      "outcome": "delivery",
+      "seconds": 40.95,
+      "travelXZ": 439.72505218696335,
+      "finalProgress": 435.6381099414097,
+      "maxOffset": 8.362874124424465,
+      "refills": [
+        "fuel-checkpoint-01"
+      ]
+    },
+    {
+      "target": 3,
+      "upgrade": "stock",
+      "outcome": "empty",
+      "seconds": 68.15,
+      "travelXZ": 738.9092717919946,
+      "finalProgress": 733.3083379119369,
+      "maxOffset": 8.368651349754844,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02"
+      ]
+    },
+    {
+      "target": 3,
+      "upgrade": "max10",
+      "outcome": "delivery",
+      "seconds": 65.55,
+      "travelXZ": 781.3719123508042,
+      "finalProgress": 775.839700020316,
+      "maxOffset": 8.369952434329614,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02"
+      ]
+    }
+  ]
+}

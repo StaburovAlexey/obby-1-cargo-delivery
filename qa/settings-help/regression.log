@@ -1,0 +1,44 @@
+=== integer-fuel-hud ===
+  3146 presentation cases, including 138 fractional capacity/language combinations
+PASS All 121 stock/upgraded tanks show integer current/max in RU and EN without mutating fuel or career
+PASS 100 → 99 → 9 preserves the same nodes and slot widths; identical integers avoid text rewrites
+PASS Real app buy/refill/empty/re-entry and language switching retain fractional accounting
+  80 viewport/safe-area/digit calculations; no browser rendering claim
+PASS Stable grid slots, fixed canister and 3/4-digit text fit narrow portrait/landscape safe areas (static CSS arithmetic)
+Integer fuel HUD: 4 groups passed; CPU/DOM mocks and static CSS arithmetic only.
+=== compact-fuel-hud ===
+PASS only top icon can return to the garage; removed controls have no fixture nodes
+PASS fuel HUD is integer current/capacity from the real remaining state with no false zero
+PASS mouse/touch canvas interactions, E/F/Escape/Space and direct exit requests cannot disembark
+PASS real D/R travel drains the same capacity while idle does not; refill restores current/max
+PASS empty tank and sole top Garage atomically restore walking in the hangar with full tanks
+PASS fuel left and live speed right share one nowrap row with identical 44px centers
+PASS shared bottom row clears wheel and D/R across portrait, landscape and asymmetric safe areas
+Compact fuel/no-exit: 7 checks passed; Node and static layout arithmetic, not browser rendering.
+=== career-modal-input ===
+PASS actual app closed-by-default dialogs, one modal, blocked walk/jump/rewards/background purchase, release/overview/driving resets. CPU/mock only.
+=== retention-app-integration ===
+PASS integrated app: retired savings launcher and existing goal persistence, mission change, driving suppression, delivery receipt and once-only saved milestone. CPU/mock only.
+=== reverse-pedal-app ===
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+true !== false
+
+    at neutral (file:///workspace/scratch/e6939d35b3a6/city-help-settings/tests/reverse-pedal-app.mjs:7:27)
+    at file:///workspace/scratch/e6939d35b3a6/city-help-settings/tests/reverse-pedal-app.mjs:12:33
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: true,
+  expected: false,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

@@ -1,0 +1,16 @@
+{
+  "generatedAt": "2026-10-14T12:42:09.481Z",
+  "hashes": {
+    "road-bridges.js": "637ab07f628992d4fa8b24d797d83d90305600beebf27a49fb2c5f5cdaf3374d",
+    "route-network.js": "572094adc2d74ac3c8407522abac15bb98db136c17f29343ede8cad5967dfc29",
+    "route-network-config.js": "1054da2409117aaf893766f27f1db34c6bb040c4c3e7424aad34d586c6b41f6f",
+    "economy-config.js": "8ab77c5da2277bd9f25d53aaa569f14b49380c5c01b2d06192717f90b7a775bf",
+    "gameplay.js": "2443ef2cff35a3f83b85627e5316da141149454e7265cca1f672eabe0f095b73",
+    "career-missions.js": "551340b29d59c5bcfe3724feb372bc60cc463bf8602f2d51f924b40744b24cce",
+    "career-route-tracker.js": "55398b1b04d3443e19dce4c3bdf4df635ec8271ce581f6c16fdab3460d250d71",
+    "career-save.js": "0f11c377f130618880d4b811c67b07420b53d2019e5fbd51c80aaa911bdf107d",
+    "driving-model.js": "74b1165a2cc326b940eb1de89292741596035e58fc06c57ef4d4c292f35af3bc",
+    "vehicle-upgrades.js": "6694010402ede4bb0df4a9b25b86c0765c4a0de4912db2175a404dfbd0939ccf",
+    "road-hazards-scene.js": "f9c1ddafbf68bf1ebdd2fe4313ff77c6d3e838741a068c9aa285c97f349593d2"
+  }
+}

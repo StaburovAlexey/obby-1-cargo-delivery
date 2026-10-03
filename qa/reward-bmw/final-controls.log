@@ -1,0 +1,4 @@
+PASS 48 CSS layout cases: original 112/132/185 px wheel rules, 24–32 px transparent rim, fuel clearance, pedal/HUD hit priority.
+PASS real vehicle/look handlers: rim starts, outside drags, capture and failed-capture fallback, both listener orders, independent camera/D/R fingers, actual center, wrap/dead-center/regrab.
+PASS wheel ownership is cleared on up/cancel/lost capture, reset/disable/destroy, blur/pagehide/resize, hidden tab and editable focus; stale moves never reacquire camera.
+PASS actual app: padded-button target -> steering, separate camera, upgrade/biome/career/receipt dialogs, blur/resize/pagehide/visibility, garage and fresh driving reset.

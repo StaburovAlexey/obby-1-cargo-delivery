@@ -1,0 +1,23 @@
+PASS Four explicit contact patches have balanced straight engine thrust and yaw torque
+PASS Tire point velocity and torque use the signed rigid-body cross products
+PASS All four passive tires oppose slip and stay within individual friction circles
+PASS Semi-implicit integration obeys F/m and torque/inertia instead of setting geometric yaw
+PASS Mirrored steering gives mirrored lateral forces, paths, and yaw
+PASS UI steering remains normalized while actual road rack angle limits high-speed demand
+PASS Every vehicle reaches its 11 / 17 / 24 m/s governed speed without overshoot: [{"maxSpeed":11,"timeTo90":1.767},{"maxSpeed":17,"timeTo90":2.233},{"maxSpeed":24,"timeTo90":3.25}]
+PASS Maximum steering smoothly slows into a tight controlled arc across vehicle tiers: [{"maxSpeed":11,"maxSlipDegrees":0.49,"maxYaw":0.906},{"maxSpeed":17,"maxSlipDegrees":0.25,"maxYaw":0.907},{"maxSpeed":24,"maxSlipDegrees":0.17,"maxYaw":0.907}]
+PASS D/R selection brakes through a low-speed interlock before reverse acceleration: [{"startGear":"D","crossedAt":1.05,"minimumSpeed":0.0509},{"startGear":"R","crossedAt":1.05,"minimumSpeed":0.0509}]
+PASS Forward and reverse steer in opposite yaw directions without unstable reverse oscillation
+PASS Flat release coasts, reaches rest, and stops all wheel/body motion after settling
+PASS A true ground gradient changes acceleration, coasting, and gentle-slope rollback: {"uphillAfterCoast":2.6275371694779333,"flatAfterCoast":3.793374025918132,"downhillAfterCoast":4.9609557556095645,"rollbackSpeed":-0.8562525545456067}
+PASS 30 / 60 / 120 Hz rendering produces equivalent rigid-body state and path sums: {"totalDistance":53.1504763607478}
+PASS Long frame stalls are bounded, fractional frames accumulate, invalid frames cannot replay distance
+PASS Unsigned actual path counts lateral skid even when forward wheel rolling is zero
+PASS Head-on contacts remove inward normal motion with no bounce or wheel spinning through a wall
+PASS Oblique contacts preserve along-wall velocity and generate an off-center contact torque: {"tangentSpeed":-6.023655224945454,"contactYawRate":1.2925407153290045}
+PASS Near-parallel contact stays stable inside the real conservative road envelope: {"poses":5,"frames":1800,"maxYaw":0.00007908856316521741}
+PASS Adaptive swept collision samples cannot tunnel through a thin barrier at 24 m/s
+PASS Invalid confined contacts cannot create projection teleports or heading snaps
+PASS Pause and reset clear all velocities, accumulator residue, and suspension springs
+
+21 original planar vehicle dynamics checks passed.

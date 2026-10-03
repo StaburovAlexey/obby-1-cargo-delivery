@@ -1,0 +1,12 @@
+PASS expanded 90m hangar has compact 20-desk left wing in five columns and four rows
+PASS pure occupancy resolver is stable for empty, partial, full, duplicate and unknown IDs
+  555 entrance/occupancy combinations
+PASS every entrance uses the same lexical pool across empty, partial, old-column, random and full occupancy masks
+PASS all 17 owned avatars use every free seat through every entrance and stand beside class (1700 cycles)
+PASS a full twenty-seat room emits one notice per entrance without teleport or spam and rearms after departure
+PASS no direct per-desk seating, airborne seating, landing-frame seating, or idle activation
+PASS entry, stand exit and spawn are safe for largest grounded and jumping footprint
+PASS geometry has20 tabletops, full roof over left wing and preserved cars/stands/fuel
+PASS car fuel-empty resets class interaction without losing selected avatar
+PASS native keyboard repeat after seating cannot immediately stand or keep moving
+Classroom entry: 10 checks passed; Node/Three only.

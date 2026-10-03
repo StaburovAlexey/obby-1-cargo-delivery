@@ -1,0 +1,111 @@
+{
+  "generatedAt": "2026-10-14T07:32:08.653Z",
+  "scope": "Offline independent numerical audit of actual runtime. DOM and renderer are mocked; no browser/WebGL/GPU/Android verification.",
+  "runtimeHashesAtStart": {
+    "driving-model.js": "1305522d5c58be5856160616811d2d585913fe68da1ebc95843b51c81a1c4597",
+    "route-network.js": "52b9464e7d80ac1dfcedf94448127bfbe6138999fc65387a4a78a19527aa3824",
+    "route-network-config.js": "87aed2fe101c85b01e5debc676cb203be730f1e1af587808443b740ec27e6efd",
+    "network-scene.js": "69d7566c344179935e2d0e16287d2446669868d06babec9a9c8cb121cb66f2d8",
+    "app.js": "6e77e15dc47e4de66f1eab5c62ae67901d8074b2af0cc263d62f8dadd4a1a9e9",
+    "vehicle-input.js": "0986ad9b79393b49d1ae00d8f889274a9e9b756401edee28462aae6663922515",
+    "follow-camera.js": "619bec5c16b350b5c6404127cd2d772a7aef5276091b6d2f8a2e9b5b3d6a9a25",
+    "driving-ground.js": "157ac92a62df8858ba2af419e334121966214aa59dd91b063e6e30a7d4e14c84",
+    "city-driving.js": "a33f82d66e2fa50fb281fb28e8231decb76ef216557110fd2881f4b3338f4b82",
+    "road-hazards.js": "2e5fd24fb48bd2041a935c3168a039b60403d37a216ab316288b483b4cd26ebc",
+    "economy-config.js": "4bb8c90c49b7307098925112bcea49ded333c90f231d7e4c393c972b89a56919",
+    "vehicle-upgrades.js": "2db57418905282a8de86b97557bda9e69573d587057a6b41b2a4834d6ac0b495",
+    "biome-surfaces.js": "bdfb379a882970335e787a0c45c90c37527888155492834f83d6936282c06d7d"
+  },
+  "checks": [
+    {
+      "name": "Four contact patches remain individually bounded and sum to total forces",
+      "passed": true,
+      "milliseconds": 138,
+      "details": {
+        "cases": 100,
+        "forceEvaluations": 24000
+      }
+    },
+    {
+      "name": "Higher profile increases amplitude while keeping all platforms level and every analytic join C1",
+      "passed": true,
+      "milliseconds": 22,
+      "details": {
+        "previousMaximum": 28,
+        "maximum": 66,
+        "maxAnalyticGrade": 0.075,
+        "maxJoinDerivativeDifference": 5.998862715022436e-13,
+        "platformSamples": 240
+      }
+    },
+    {
+      "name": "Every actual uploaded road triangle respects the 7.5% full-width cap and ground normals match it",
+      "passed": true,
+      "milliseconds": 18283,
+      "details": {
+        "triangles": 46590,
+        "maxRoadGrade": 0.075,
+        "maxGroundGrade": 0.12325665708397267,
+        "maxHeightError": 0.000005246140986514547,
+        "maxNormalError": 0.000021255846168436743,
+        "skinnyTriangles": 8,
+        "float32GradeTolerance": 0.00005
+      }
+    },
+    {
+      "name": "Fork quantization stays bounded and does not create vehicle-support steps",
+      "passed": true,
+      "milliseconds": 1043,
+      "details": {
+        "triangles": 23752,
+        "maxGradientError": 0.003805895462773224,
+        "maxHeightError": 0.0003579775943691743,
+        "maxSupportResidual": 0.000021232908483881374,
+        "supportChecks": 1422,
+        "notes": "Bounded Float32 facet normal quantization is approximately 0.22 degrees on a sub-mm band; rendered and collision normals agree."
+      }
+    },
+    {
+      "name": "Hills retain supported tires, coherent road edges and terrain-embedded houses/barriers",
+      "passed": true,
+      "milliseconds": 1773,
+      "details": {
+        "fits": 2034,
+        "minClearance": 0.01199999999999335,
+        "maxClearance": 0.013831723927424378,
+        "maxSeamStep": 0.0000027734290384273663,
+        "scenicFeatures": 1214
+      }
+    },
+    {
+      "name": "Falling-rock warnings retain actual terrain sightlines in both directions after the height change",
+      "passed": true,
+      "milliseconds": 685,
+      "details": {
+        "seedCount": 3,
+        "rocks": 48,
+        "twoWayTerrainRays": 192,
+        "minimumTerrainClearance": 0.0906222222222226,
+        "limitations": "Terrain line of sight only; browser visual readability unverified"
+      }
+    }
+  ],
+  "selectedGroups": "all",
+  "runtimeHashesAtEnd": {
+    "driving-model.js": "1305522d5c58be5856160616811d2d585913fe68da1ebc95843b51c81a1c4597",
+    "route-network.js": "52b9464e7d80ac1dfcedf94448127bfbe6138999fc65387a4a78a19527aa3824",
+    "route-network-config.js": "87aed2fe101c85b01e5debc676cb203be730f1e1af587808443b740ec27e6efd",
+    "network-scene.js": "69d7566c344179935e2d0e16287d2446669868d06babec9a9c8cb121cb66f2d8",
+    "app.js": "6e77e15dc47e4de66f1eab5c62ae67901d8074b2af0cc263d62f8dadd4a1a9e9",
+    "vehicle-input.js": "0986ad9b79393b49d1ae00d8f889274a9e9b756401edee28462aae6663922515",
+    "follow-camera.js": "619bec5c16b350b5c6404127cd2d772a7aef5276091b6d2f8a2e9b5b3d6a9a25",
+    "driving-ground.js": "157ac92a62df8858ba2af419e334121966214aa59dd91b063e6e30a7d4e14c84",
+    "city-driving.js": "a33f82d66e2fa50fb281fb28e8231decb76ef216557110fd2881f4b3338f4b82",
+    "road-hazards.js": "2e5fd24fb48bd2041a935c3168a039b60403d37a216ab316288b483b4cd26ebc",
+    "economy-config.js": "4bb8c90c49b7307098925112bcea49ded333c90f231d7e4c393c972b89a56919",
+    "vehicle-upgrades.js": "2db57418905282a8de86b97557bda9e69573d587057a6b41b2a4834d6ac0b495",
+    "biome-surfaces.js": "bdfb379a882970335e787a0c45c90c37527888155492834f83d6936282c06d7d"
+  },
+  "runtimeFilesChangedDuringRun": [],
+  "passed": true
+}

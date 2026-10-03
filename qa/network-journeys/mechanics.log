@@ -1,0 +1,25 @@
+PASS Full route primary stock
+PASS Full route primary max
+PASS Full route alternate stock
+PASS Full route alternate max
+PASS First reward 120 FPS
+PASS First reward 60 FPS
+PASS First reward 20 FPS
+PASS First reward 10 FPS
+PASS Fixed-step journey frame-rate agreement
+PASS forest-fork primary D
+PASS forest-fork primary R
+PASS forest-fork alternate D
+PASS forest-fork alternate R
+PASS desert-fork primary D
+PASS desert-fork primary R
+PASS desert-fork alternate D
+PASS desert-fork alternate R
+PASS snow-fork primary D
+PASS snow-fork primary R
+PASS snow-fork alternate D
+PASS snow-fork alternate R
+PASS volcanic-fork primary D
+PASS volcanic-fork primary R
+PASS volcanic-fork alternate D
+PASS volcanic-fork alternate R

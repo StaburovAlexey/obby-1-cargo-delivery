@@ -1,0 +1,200 @@
+{
+  "commit": "b4756d2a980b2dfc8f07beaef104b7666a383ba1",
+  "provenance": "File bytes extracted with git show from published Site v5. Runtime hashes computed independently from that unchanged source, using sceneSnapshot in tests/square-studs.mjs. Includes every named scene node, geometry index and attribute, instance transform/color/name, and collision obstacle; excludes material resources.",
+  "files": [
+    {
+      "file": "dist/app.js",
+      "bytes": 11230,
+      "sha256": "6ebb364024b4b902fe60cf557f8d1d16f3c3eb66c61aa91a7d97f0f1a5932523",
+      "protected": true
+    },
+    {
+      "file": "dist/assets/vehicle-gear-panel-cropped.webp",
+      "bytes": 17262,
+      "sha256": "4dce13699479fc1b67b64cd7dd867a82f969ea6c8b032cc9f3e1eff4cb7469a1",
+      "protected": true
+    },
+    {
+      "file": "dist/assets/vehicle-steering.png",
+      "bytes": 262215,
+      "sha256": "9d621c041d6970238a9ab944fb1ed0adebcc5695cba8423300b3e2eecf747f37",
+      "protected": true
+    },
+    {
+      "file": "dist/building-material.js",
+      "bytes": 13538,
+      "sha256": "cd5c16f193861bc9b3bbe13a8bb12ebe454f9577ad5d1e853e021156b97a630c",
+      "protected": false
+    },
+    {
+      "file": "dist/city-driving.js",
+      "bytes": 6500,
+      "sha256": "447be29682cf1f7bcf3c0b3dc389b82ad64b6030d75b48cc85b95afa953aa866",
+      "protected": true
+    },
+    {
+      "file": "dist/driving-model.js",
+      "bytes": 7794,
+      "sha256": "12a85b6a6878bd7f3825f33817f92b58b6e770f36e051a04766c12ca78a63c7d",
+      "protected": true
+    },
+    {
+      "file": "dist/ground-material.js",
+      "bytes": 1206,
+      "sha256": "2da098270df690bcb1fbbb1f9da26dece0ce853714b3b056d3d317b5bc386269",
+      "protected": false
+    },
+    {
+      "file": "dist/index.html",
+      "bytes": 7996,
+      "sha256": "86a15b9a1c05403dbdac816e046edc2e08db8b9d5782a8832a58b0c6a59a2517",
+      "protected": true
+    },
+    {
+      "file": "dist/road-layout.js",
+      "bytes": 10551,
+      "sha256": "bddb4dbaedac6f610bc113284dbe9d554a6b751b8c5c6ebf962156ec696e52a9",
+      "protected": true
+    },
+    {
+      "file": "dist/scene.js",
+      "bytes": 33345,
+      "sha256": "89b87fcd0d3d60085ff6d6d1b9893b22fe9e6a0714c2505b0d5ce416207d7006",
+      "protected": true
+    },
+    {
+      "file": "dist/style.css",
+      "bytes": 7568,
+      "sha256": "e6a2d8d6fe54d6c32f89890db3db43405fe93782de6b661c3a67d2f57706aab6",
+      "protected": true
+    },
+    {
+      "file": "dist/vehicle-controls.css",
+      "bytes": 7238,
+      "sha256": "9a1e4907f3d1de76930f783637dbb8b4d6b43e361a136d148f85a1f2dd40d111",
+      "protected": true
+    },
+    {
+      "file": "dist/vehicle-input.js",
+      "bytes": 6231,
+      "sha256": "0986ad9b79393b49d1ae00d8f889274a9e9b756401edee28462aae6663922515",
+      "protected": true
+    },
+    {
+      "file": "dist/vehicle-rig.js",
+      "bytes": 12289,
+      "sha256": "11c527c5aced8eeac2b748c8dfa1a413eab132de88ca28e9437f603fb7945b72",
+      "protected": true
+    },
+    {
+      "file": "dist/vendor/OrbitControls.js",
+      "bytes": 40755,
+      "sha256": "3d79d07ecb686b4e5d93232eedab255331c1beef711e13164eaa1f68655a5f2b",
+      "protected": true
+    },
+    {
+      "file": "dist/vendor/THREE-LICENSE.txt",
+      "bytes": 1081,
+      "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc",
+      "protected": true
+    },
+    {
+      "file": "dist/vendor/three.core.js",
+      "bytes": 1458113,
+      "sha256": "9edde002b066a9a05676a6127f67735b62baf399bdea529f2f7e31657da769e6",
+      "protected": true
+    },
+    {
+      "file": "dist/vendor/three.module.js",
+      "bytes": 662772,
+      "sha256": "9052042d676cb0fdc1ddfefe193053f34b7ac0513a616fdac4535d49987812ea",
+      "protected": true
+    }
+  ],
+  "seeds": [
+    {
+      "seed": 0,
+      "objects": 38,
+      "triangles": 25418,
+      "instances": 1056,
+      "meshBatches": 25,
+      "obstacleCount": 81,
+      "hierarchySha256": "fb205380a5aab5f1efb1be1a765a2deedee77801b21c9278ad95e92e9d5a2fc7",
+      "geometrySha256": "8be3b3eaa51b4a3ac08e3f0a78f7f3444849404e5a6885de980b0386cf8367a8",
+      "instancesSha256": "1a2e1dc593bdc97b92d5a757446182419657c374c0f79abfc0e59f2429a651f0",
+      "collisionsSha256": "5892015dbd53167c5c9488daaa87edd9734abeed3472c0af361bbdda69c08bbe"
+    },
+    {
+      "seed": 1,
+      "objects": 38,
+      "triangles": 25418,
+      "instances": 1056,
+      "meshBatches": 25,
+      "obstacleCount": 81,
+      "hierarchySha256": "fb205380a5aab5f1efb1be1a765a2deedee77801b21c9278ad95e92e9d5a2fc7",
+      "geometrySha256": "8be3b3eaa51b4a3ac08e3f0a78f7f3444849404e5a6885de980b0386cf8367a8",
+      "instancesSha256": "1a2e1dc593bdc97b92d5a757446182419657c374c0f79abfc0e59f2429a651f0",
+      "collisionsSha256": "5892015dbd53167c5c9488daaa87edd9734abeed3472c0af361bbdda69c08bbe"
+    },
+    {
+      "seed": 17,
+      "objects": 38,
+      "triangles": 25418,
+      "instances": 1056,
+      "meshBatches": 25,
+      "obstacleCount": 81,
+      "hierarchySha256": "fb205380a5aab5f1efb1be1a765a2deedee77801b21c9278ad95e92e9d5a2fc7",
+      "geometrySha256": "8be3b3eaa51b4a3ac08e3f0a78f7f3444849404e5a6885de980b0386cf8367a8",
+      "instancesSha256": "88257a980547ed0ef123c0adeb3aa3930d6b834247fec2128d4199cafb5acaf6",
+      "collisionsSha256": "a5e6da5cfe53dc68eb4c3929ab48e635c8de0a71a81c672cc6f143712cf199c7"
+    },
+    {
+      "seed": 42,
+      "objects": 38,
+      "triangles": 25418,
+      "instances": 1056,
+      "meshBatches": 25,
+      "obstacleCount": 81,
+      "hierarchySha256": "fb205380a5aab5f1efb1be1a765a2deedee77801b21c9278ad95e92e9d5a2fc7",
+      "geometrySha256": "8be3b3eaa51b4a3ac08e3f0a78f7f3444849404e5a6885de980b0386cf8367a8",
+      "instancesSha256": "1f03c78f018265273ef45d8489914fbef4dba4b656b6679969445d233412c3d3",
+      "collisionsSha256": "ebcda545189ac83e22041374234b2808874949675342e99a790e9a55c72aa3b1"
+    },
+    {
+      "seed": 2026,
+      "objects": 38,
+      "triangles": 25418,
+      "instances": 1056,
+      "meshBatches": 25,
+      "obstacleCount": 81,
+      "hierarchySha256": "fb205380a5aab5f1efb1be1a765a2deedee77801b21c9278ad95e92e9d5a2fc7",
+      "geometrySha256": "8be3b3eaa51b4a3ac08e3f0a78f7f3444849404e5a6885de980b0386cf8367a8",
+      "instancesSha256": "967805c337f9a1602d503cf646c07c34406696f7285e8a04ef5f90daef765fdd",
+      "collisionsSha256": "66bb822ad527946c8fbfa02e54ad0f1650ed744dea7cac7d7282a462212d874e"
+    },
+    {
+      "seed": 2027,
+      "objects": 38,
+      "triangles": 25418,
+      "instances": 1056,
+      "meshBatches": 25,
+      "obstacleCount": 81,
+      "hierarchySha256": "fb205380a5aab5f1efb1be1a765a2deedee77801b21c9278ad95e92e9d5a2fc7",
+      "geometrySha256": "8be3b3eaa51b4a3ac08e3f0a78f7f3444849404e5a6885de980b0386cf8367a8",
+      "instancesSha256": "a1e54042b60c5765ba158c72d62470222c6148b55ff7b382cd67fb2ef5d6e2f2",
+      "collisionsSha256": "b60f328e5b1becea953f455afebf1d2fa3a90bd34ee0d2929af7f4140ce0464c"
+    },
+    {
+      "seed": 4294967295,
+      "objects": 38,
+      "triangles": 25418,
+      "instances": 1056,
+      "meshBatches": 25,
+      "obstacleCount": 81,
+      "hierarchySha256": "fb205380a5aab5f1efb1be1a765a2deedee77801b21c9278ad95e92e9d5a2fc7",
+      "geometrySha256": "8be3b3eaa51b4a3ac08e3f0a78f7f3444849404e5a6885de980b0386cf8367a8",
+      "instancesSha256": "e48024d37d97ac56c1ea6a0aab8c1bf4b7dbe1fa83f12b33d06d0874e336e705",
+      "collisionsSha256": "6f032c8bb410d7e8a38266b1f4a6d489c0a03dbb53048629f11ce46fd975c34d"
+    }
+  ]
+}

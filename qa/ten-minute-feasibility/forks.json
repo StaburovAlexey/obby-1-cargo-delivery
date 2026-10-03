@@ -1,0 +1,46 @@
+[
+  {
+    "id": "forest-fork",
+    "span": 500,
+    "offset": 25,
+    "mainMaximumCurvature": 0.00430917661181025,
+    "alternateMaximumCurvature": 0.0043091766118102505,
+    "mainPeakGrade": 0.0825,
+    "alternatePeakGrade": 0.06375,
+    "minimumMidpointMedianWidth": 20,
+    "distinctInteriorLength": 157.46752720988115
+  },
+  {
+    "id": "desert-fork",
+    "span": 500,
+    "offset": 25,
+    "mainMaximumCurvature": 0.004549734798469752,
+    "alternateMaximumCurvature": 0.004549734798469753,
+    "mainPeakGrade": 0.0825,
+    "alternatePeakGrade": 0.06375,
+    "minimumMidpointMedianWidth": 20,
+    "distinctInteriorLength": 157.46752720988115
+  },
+  {
+    "id": "snow-fork",
+    "span": 500,
+    "offset": 25,
+    "mainMaximumCurvature": 0.00438466419099707,
+    "alternateMaximumCurvature": 0.0043846641909970705,
+    "mainPeakGrade": 0.0825,
+    "alternatePeakGrade": 0.06375,
+    "minimumMidpointMedianWidth": 20,
+    "distinctInteriorLength": 157.46752720988297
+  },
+  {
+    "id": "volcanic-fork",
+    "span": 500,
+    "offset": 25,
+    "mainMaximumCurvature": 0.004549734798469753,
+    "alternateMaximumCurvature": 0.004549734798469752,
+    "mainPeakGrade": 0.0825,
+    "alternatePeakGrade": 0.06375,
+    "minimumMidpointMedianWidth": 20,
+    "distinctInteriorLength": 157.46752720988297
+  }
+]

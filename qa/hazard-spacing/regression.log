@@ -1,0 +1,125 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> urban-route-procedural-three@1.52.0 test:compact-route
+> node tests/compact-route-contracts.mjs && node tests/compact-route-geometry.mjs && node tests/compact-route-scene.mjs && node tests/moving-road-hazards.mjs && node tests/compact-static-hazards.mjs && node tests/moving-road-hazards-app.mjs && node tests/career-route-tracker.mjs && node tests/retention-payout-independent.mjs && node tests/retention-app-integration.mjs
+
+{"passed":true,"routeLength":15868.841887310184,"bridges":25,"centeredSupports":75,"finalGap":4004.524656358093,"unchangedPayouts":16,"savePreserved":true,"scope":"Production data and geometry; actual fuel boundaries are covered by separate journey tests"}
+{
+  "status": "PASS",
+  "scope": "Offline real route geometry and bridge support. No browser/GPU/human-playtest claim.",
+  "routeLength": 15868.841887310184,
+  "canonicalEnd": 15850,
+  "stops": [
+    180,
+    440,
+    780,
+    1140,
+    1540,
+    1980,
+    2480,
+    3040,
+    3670,
+    4380,
+    5180,
+    6080,
+    7520,
+    9390,
+    11830,
+    15830
+  ],
+  "forks": [
+    {
+      "id": "forest-fork",
+      "from": 4500,
+      "to": 5000,
+      "maxGrade": 0.0825,
+      "maxCurvature": 0.0043091766118102505
+    },
+    {
+      "id": "desert-fork",
+      "from": 7820,
+      "to": 8320,
+      "maxGrade": 0.0825,
+      "maxCurvature": 0.004549734798469753
+    },
+    {
+      "id": "snow-fork",
+      "from": 9800,
+      "to": 10300,
+      "maxGrade": 0.0825,
+      "maxCurvature": 0.0043846641909970705
+    },
+    {
+      "id": "volcanic-fork",
+      "from": 12500,
+      "to": 13000,
+      "maxGrade": 0.08250161056565107,
+      "maxCurvature": 0.004549734798469753
+    }
+  ],
+  "bridgeCount": 25,
+  "maximumBridgeGrade": 0.0478726107784828,
+  "maximumBridgeCurvature": 0.001258650902880526,
+  "minServiceClearance": 168.0003598497742,
+  "minForkClearance": 158.0084581688534,
+  "minBridgeSpacing": 220.01885753154875,
+  "maxShelfGrade": 0,
+  "maxShelfHeightError": 0,
+  "checks": {
+    "bridgeSamples": 7225,
+    "bridgeSupport": 1050,
+    "serviceSamples": 1701
+  },
+  "hazards": {
+    "count": 26,
+    "moving": 10,
+    "crossing": 5,
+    "byBiome": {
+      "city": 6,
+      "forest": 6,
+      "desert": 4,
+      "snow": 4,
+      "volcanic": 6
+    },
+    "minExclusion": 0.17627788148206314,
+    "minSpacing": 60,
+    "maxMoverGrade": 0.04592221848153002,
+    "maxMoverCurve": 0.0012643720116636036
+  },
+  "hashes": {
+    "route-network.js": "572094adc2d74ac3c8407522abac15bb98db136c17f29343ede8cad5967dfc29",
+    "route-network-config.js": "1054da2409117aaf893766f27f1db34c6bb040c4c3e7424aad34d586c6b41f6f",
+    "road-bridges.js": "637ab07f628992d4fa8b24d797d83d90305600beebf27a49fb2c5f5cdaf3374d",
+    "road-hazards.js": "3fbac6c50a055d07709fe289c70b2099a70d87515e8d5f2ad0ae6e8605b7a4c2",
+    "economy-config.js": "8ab77c5da2277bd9f25d53aaa569f14b49380c5c01b2d06192717f90b7a775bf"
+  },
+  "violations": []
+}
+PASS world scene {"seed":42,"instances":83,"triangles":50542,"drawCalls":8,"bridges":25,"bridgeWidths":[5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],"buildings":314,"retainedBuildings":314,"roadWidth":30,"roadsideProps":0,"continuousHouseRows":true,"alignedFacadeRows":true,"facadeSetback":1.1360530505714008,"routeLength":15868.841887310184,"longitudinalLength":15867,"roadMeshStep":6,"roadBranches":5,"forks":4,"loops":4,"sequentialBiomes":true,"biomes":5,"biomeIds":["city","forest","desert","snow","volcanic"],"buildingHeightScale":2,"buildingWidthScale":3,"originalBuildingFrontage":6,"buildingFrontage":18,"minimumActualFrontage":17.986360718690744,"maximumActualFrontage":18.037958540372315,"barriers":551,"routeEndHeight":20.000085489471573,"maximumElevation":49.39900588989258,"sharedMaterialPattern":"grass-checker","flushCurbs":true,"studs":false,"texturedRoad":true,"embeddedRoadMarkings":true,"nonOverlappingGround":true,"nonOverlappingResidences":true,"texturedBuildings":true,"buildingBodyTriangles":3768,"importedModels":0,"externalTextures":0,"proceduralBuildingMaterial":true,"roofStuds":0,"roadUnion":true,"mergedMetricPrisms":true,"omittedJunctionSections":180,"deckRays":75,"sideGapRays":150,"finiteMeshValues":2135012,"roadPairs":83055,"terrainPairs":250503,"maxSelfOverlap":0.001244945451617241,"maxGroundOverlap":0,"maxForkOverlap":0,"sharedForkVertexChecks":3448,"maximumSharedForkHeightGap":0,"maximumRoadTriangleGrade":0.11519350328673815,"maximumMidpointHeightError":0.0018087156529063009}
+PASS hazard scene {"hazards":26,"movers":10,"rockCapacity":4,"instancedMeshes":6,"mergedMeshes":2,"materials":8,"geometries":8,"sharedTextures":1,"drawCalls":8,"triangles":1824,"activeInstances":30,"visibleRocks":4,"visibleWarnings":0,"disposed":false,"phases":{"landed":4},"frames":900,"moverMatrixChecks":9000,"maximumPositionError":0.0004878409417869989,"minimumFreePassage":13.101257916795095}
+PASS 32 seeds preserve the varied 26 hazards, 10 movers and every packing safeguard {"seeds":32,"count":26,"static":16,"moving":10,"centerCrossing":5,"byBiome":{"city":6,"forest":6,"desert":4,"snow":4,"volcanic":6},"byType":{"repair":4,"log":4,"dune":2,"ice":2,"rock":4,"barrier":4,"boulder":6},"minimumExclusion":100.17627788148206,"minimumSpacing":180,"minimumStaticSpacing":70,"maximumSpeed":0.9193548387096774}
+PASS Independent perimeter, complete mover envelopes and two-way approach samples stay safe {"seeds":7,"perimeterSamples":14112,"approachSamples":7042,"minimumRoadMargin":2.0915806872075624,"minimumProjectedExclusion":102.56844195865233,"maximumGrade":0.04592221848153002,"maximumCurvature":0.0012643717465440304}
+PASS Live poses and collisions track the same bounded road-local sweep at every tested frame {"frames":900,"moverFrames":9000,"minimumLargestPassage":13.101257916795095,"maximumStep":0.04596762218982686,"centerLaneObstructions":5}
+PASS Capped visible time, invalid inputs, pause, reset and replay preserve bounded pool identities {"resets":101,"maxDelta":0.1,"staticBasalt":4}
+PASS Two new instanced pools show exact live collision footprints and terrain-conforming heights {"checkedVertices":13104,"maxDaylight":-0.005992245304376809,"maxBurial":0.007319249122179627,"stats":{"hazards":26,"movers":10,"rockCapacity":4,"instancedMeshes":6,"mergedMeshes":2,"materials":8,"geometries":8,"sharedTextures":1,"drawCalls":8,"triangles":1824,"activeInstances":30,"visibleRocks":4,"visibleWarnings":0,"disposed":false,"phases":{"landed":4}}}
+PASS Runtime and scene CPU work stays pooled with no growing geometry or external clock {"frames":150,"meanMs":1.166761279999943,"p95Ms":1.4495279999973718,"maximumMs":1.5905019999991055,"limitation":"Shared CPU Node timing only; no GPU FPS claim"}
+node:internal/crypto/hash:113
+  this[kHandle] = new _Hash(algorithm, xofLen, algorithmId, getHashCache());
+                  ^
+
+Error: Digest method not supported
+    at new Hash (node:internal/crypto/hash:113:19)
+    at createHash (node:crypto:146:10)
+    at file:///workspace/scratch/e6939d35b3a6/city-halved/tests/moving-road-hazards.mjs:111:157
+    at Array.map (<anonymous>)
+    at file:///workspace/scratch/e6939d35b3a6/city-halved/tests/moving-road-hazards.mjs:111:147
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.19.0
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

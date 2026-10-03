@@ -1,0 +1,98 @@
+{
+  "commit": "198e7f2f96494bc7c1db57a75d95d6921ae310ce",
+  "provenance": "File bytes independently extracted using git show from published Site v6. Protects the square-stud material implementation and original vehicle dynamics, rig, input, controls, artwork, and vendors. Scene geometry, road layout, camera, and labels intentionally change in the wider-road update.",
+  "files": [
+    {
+      "file": "dist/building-material.js",
+      "bytes": 13517,
+      "sha256": "ce732fe146e568ae41b213bcbacc29840ec9a40b9b4951a268a578d6b7e06e14",
+      "protected": true
+    },
+    {
+      "file": "dist/ground-material.js",
+      "bytes": 1403,
+      "sha256": "fcd381cf4dd458287bd86ccc92f7c0b40422aa2a54dd5e4374425155b866e8a3",
+      "protected": true
+    },
+    {
+      "file": "dist/square-stud-texture.js",
+      "bytes": 5035,
+      "sha256": "45a8d0ec3542094b2256b76823ff4810a81440620147b8418dd496a105c08ce3",
+      "protected": true
+    },
+    {
+      "file": "dist/city-driving.js",
+      "bytes": 6500,
+      "sha256": "447be29682cf1f7bcf3c0b3dc389b82ad64b6030d75b48cc85b95afa953aa866",
+      "protected": true
+    },
+    {
+      "file": "dist/driving-model.js",
+      "bytes": 7794,
+      "sha256": "12a85b6a6878bd7f3825f33817f92b58b6e770f36e051a04766c12ca78a63c7d",
+      "protected": true
+    },
+    {
+      "file": "dist/vehicle-rig.js",
+      "bytes": 12289,
+      "sha256": "11c527c5aced8eeac2b748c8dfa1a413eab132de88ca28e9437f603fb7945b72",
+      "protected": true
+    },
+    {
+      "file": "dist/vehicle-input.js",
+      "bytes": 6231,
+      "sha256": "0986ad9b79393b49d1ae00d8f889274a9e9b756401edee28462aae6663922515",
+      "protected": true
+    },
+    {
+      "file": "dist/vehicle-controls.css",
+      "bytes": 7238,
+      "sha256": "9a1e4907f3d1de76930f783637dbb8b4d6b43e361a136d148f85a1f2dd40d111",
+      "protected": true
+    },
+    {
+      "file": "dist/assets/vehicle-steering.png",
+      "bytes": 262215,
+      "sha256": "9d621c041d6970238a9ab944fb1ed0adebcc5695cba8423300b3e2eecf747f37",
+      "protected": true
+    },
+    {
+      "file": "dist/assets/vehicle-gear-panel-cropped.webp",
+      "bytes": 17262,
+      "sha256": "4dce13699479fc1b67b64cd7dd867a82f969ea6c8b032cc9f3e1eff4cb7469a1",
+      "protected": true
+    },
+    {
+      "file": "dist/vendor/OrbitControls.js",
+      "bytes": 40755,
+      "sha256": "3d79d07ecb686b4e5d93232eedab255331c1beef711e13164eaa1f68655a5f2b",
+      "protected": true
+    },
+    {
+      "file": "dist/vendor/THREE-LICENSE.txt",
+      "bytes": 1081,
+      "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc",
+      "protected": true
+    },
+    {
+      "file": "dist/vendor/three.core.js",
+      "bytes": 1458113,
+      "sha256": "9edde002b066a9a05676a6127f67735b62baf399bdea529f2f7e31657da769e6",
+      "protected": true
+    },
+    {
+      "file": "dist/vendor/three.module.js",
+      "bytes": 662772,
+      "sha256": "9052042d676cb0fdc1ddfefe193053f34b7ac0513a616fdac4535d49987812ea",
+      "protected": true
+    }
+  ],
+  "seed42": {
+    "triangles": 25418,
+    "instances": 1056,
+    "meshBatches": 25,
+    "buildings": 8,
+    "roadWidth": 10,
+    "routeLength": 155
+  }
+}

@@ -1,0 +1,10 @@
+PASS Pinned source configuration and city mesh adaptations are explicit
+PASS Exact deadzone, nonlinear steering response, and exponential response
+PASS Stationary start, held-wheel acceleration, release coast, and full stop
+PASS Forward/reverse changes slew through zero and preserve held steering
+PASS Maximum-turn speed limit is symmetric at 82 percent
+PASS Frame delta cap and nonpositive frame safeguards
+PASS Thousands of no-contact frames match the actual source updateVehicle
+PASS Tiny subthreshold source travel is retained for wheel animation
+PASS Bicycle turning circles and reverse yaw have the source signs
+Historical v25 Tow baseline: 9/9

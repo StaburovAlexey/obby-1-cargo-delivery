@@ -1,0 +1,692 @@
+{
+  "units": {
+    "speed": "m/s",
+    "radius": "m",
+    "lateralExtent": "m from corridor center incl conservative body",
+    "time": "s"
+  },
+  "bodyHalfWidth": 2.9,
+  "bodyHalfLength": 3.6,
+  "rows": [
+    {
+      "vehicle": "ashhauler",
+      "level": "stock",
+      "biome": "city",
+      "startFraction": 0,
+      "initialSpeed": 0,
+      "turn180Seconds": 8.65000000000015,
+      "turn180BodyLateralExtent": 189.69972127821194,
+      "steadyFullWheelRadius": 112.4187059756947,
+      "at90": {
+        "time": 3.5583333333333234,
+        "x": 75.60903208895998,
+        "z": -35.19479386801802,
+        "speed": 34.67678107453937,
+        "radius": 112.37915142142214
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "stock",
+      "biome": "city",
+      "startFraction": 0.25,
+      "initialSpeed": 8.673,
+      "turn180Seconds": 9.241666666666783,
+      "turn180BodyLateralExtent": 211.07452127944427,
+      "steadyFullWheelRadius": 112.41870597569454,
+      "at90": {
+        "time": 4.141666666666662,
+        "x": 96.86401064805257,
+        "z": -61.767121714580675,
+        "speed": 34.6800510551243,
+        "radius": 112.41822460721924
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "stock",
+      "biome": "city",
+      "startFraction": 0.5,
+      "initialSpeed": 17.346,
+      "turn180Seconds": 9.87500000000008,
+      "turn180BodyLateralExtent": 223.82854295473706,
+      "steadyFullWheelRadius": 112.41870597569432,
+      "at90": {
+        "time": 4.783333333333361,
+        "x": 109.8115993321227,
+        "z": -91.39871074914736,
+        "speed": 34.68009097401776,
+        "radius": 112.41870146845511
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "stock",
+      "biome": "city",
+      "startFraction": 1,
+      "initialSpeed": 34.692,
+      "turn180Seconds": 10.308333333333389,
+      "turn180BodyLateralExtent": 227.89563330624176,
+      "steadyFullWheelRadius": 112.41870597569415,
+      "at90": {
+        "time": 5.216666666666716,
+        "x": 113.79042320372369,
+        "z": -115.4332720587099,
+        "speed": 34.68009135133601,
+        "radius": 112.418705975786
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "stock",
+      "biome": "forest",
+      "startFraction": 0,
+      "initialSpeed": 0,
+      "turn180Seconds": 8.65000000000015,
+      "turn180BodyLateralExtent": 189.57671072711935,
+      "steadyFullWheelRadius": 112.56942230212202,
+      "at90": {
+        "time": 3.54999999999999,
+        "x": 75.28478984727296,
+        "z": -34.99036877991633,
+        "speed": 34.674552360178005,
+        "radius": 112.52679675222551
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "stock",
+      "biome": "forest",
+      "startFraction": 0.25,
+      "initialSpeed": 8.673,
+      "turn180Seconds": 9.241666666666783,
+      "turn180BodyLateralExtent": 211.193446300295,
+      "steadyFullWheelRadius": 112.56942230212196,
+      "at90": {
+        "time": 4.141666666666662,
+        "x": 96.77347507016084,
+        "z": -61.697061571585536,
+        "speed": 34.67803301930661,
+        "radius": 112.56891939440769
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "stock",
+      "biome": "forest",
+      "startFraction": 0.5,
+      "initialSpeed": 17.346,
+      "turn180Seconds": 9.883333333333413,
+      "turn180BodyLateralExtent": 224.095986425257,
+      "steadyFullWheelRadius": 112.56942230212194,
+      "at90": {
+        "time": 4.7916666666666945,
+        "x": 109.94305881225651,
+        "z": -91.54278552286993,
+        "speed": 34.67807421511152,
+        "radius": 112.56941779567585
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "stock",
+      "biome": "forest",
+      "startFraction": 1,
+      "initialSpeed": 34.692,
+      "turn180Seconds": 10.325000000000054,
+      "turn180BodyLateralExtent": 228.19704235194652,
+      "steadyFullWheelRadius": 112.56942230212204,
+      "at90": {
+        "time": 5.225000000000049,
+        "x": 113.81937963394262,
+        "z": -115.75202494192419,
+        "speed": 34.67807458760739,
+        "radius": 112.56942230224078
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "stock",
+      "biome": "desert",
+      "startFraction": 0,
+      "initialSpeed": 0,
+      "turn180Seconds": 8.65000000000015,
+      "turn180BodyLateralExtent": 189.5142218622124,
+      "steadyFullWheelRadius": 112.75790073394435,
+      "at90": {
+        "time": 3.5416666666666567,
+        "x": 74.94588109847994,
+        "z": -34.80844063977326,
+        "speed": 34.67185306042269,
+        "radius": 112.7119362368896
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "stock",
+      "biome": "desert",
+      "startFraction": 0.25,
+      "initialSpeed": 8.673,
+      "turn180Seconds": 9.258333333333448,
+      "turn180BodyLateralExtent": 211.41430992099083,
+      "steadyFullWheelRadius": 112.75790073394414,
+      "at90": {
+        "time": 4.149999999999996,
+        "x": 96.94974235118043,
+        "z": -61.70682892375893,
+        "speed": 34.67554977840925,
+        "radius": 112.75739460258886
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "stock",
+      "biome": "desert",
+      "startFraction": 0.5,
+      "initialSpeed": 17.346,
+      "turn180Seconds": 9.900000000000079,
+      "turn180BodyLateralExtent": 224.4479328612249,
+      "steadyFullWheelRadius": 112.7579007339439,
+      "at90": {
+        "time": 4.7916666666666945,
+        "x": 109.73485837137177,
+        "z": -91.77652794915608,
+        "speed": 34.67559057139308,
+        "radius": 112.75789607438405
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "stock",
+      "biome": "desert",
+      "startFraction": 1,
+      "initialSpeed": 34.692,
+      "turn180Seconds": 10.350000000000053,
+      "turn180BodyLateralExtent": 228.57401737184668,
+      "steadyFullWheelRadius": 112.75790073394373,
+      "at90": {
+        "time": 5.241666666666717,
+        "x": 114.07318328980031,
+        "z": -116.14753345926283,
+        "speed": 34.67559095044762,
+        "radius": 112.7579007341141
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "stock",
+      "biome": "snow",
+      "startFraction": 0,
+      "initialSpeed": 0,
+      "turn180Seconds": 8.675000000000148,
+      "turn180BodyLateralExtent": 190.42165626662663,
+      "steadyFullWheelRadius": 113.52992258953861,
+      "at90": {
+        "time": 3.52499999999999,
+        "x": 74.59760251535938,
+        "z": -34.91356095682539,
+        "speed": 34.6620843709926,
+        "radius": 113.48033026582716
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "stock",
+      "biome": "snow",
+      "startFraction": 0.25,
+      "initialSpeed": 8.673,
+      "turn180Seconds": 9.316666666666778,
+      "turn180BodyLateralExtent": 212.95281614245485,
+      "steadyFullWheelRadius": 113.52992258953908,
+      "at90": {
+        "time": 4.174999999999997,
+        "x": 97.36192578415151,
+        "z": -62.62012589378691,
+        "speed": 34.66582152745146,
+        "radius": 113.52944580461026
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "stock",
+      "biome": "snow",
+      "startFraction": 0.5,
+      "initialSpeed": 17.346,
+      "turn180Seconds": 9.983333333333407,
+      "turn180BodyLateralExtent": 226.04333128861603,
+      "steadyFullWheelRadius": 113.52992258953957,
+      "at90": {
+        "time": 4.833333333333363,
+        "x": 110.22895326601771,
+        "z": -93.15018777500933,
+        "speed": 34.665857499413775,
+        "radius": 113.5299184065586
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "stock",
+      "biome": "snow",
+      "startFraction": 1,
+      "initialSpeed": 34.692,
+      "turn180Seconds": 10.433333333333382,
+      "turn180BodyLateralExtent": 230.1201640470753,
+      "steadyFullWheelRadius": 113.52992258953984,
+      "at90": {
+        "time": 5.291666666666719,
+        "x": 114.4911464624401,
+        "z": -117.7654686013895,
+        "speed": 34.66585781782727,
+        "radius": 113.5299225898775
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "stock",
+      "biome": "volcanic",
+      "startFraction": 0,
+      "initialSpeed": 0,
+      "turn180Seconds": 8.783333333333475,
+      "turn180BodyLateralExtent": 197.07100939244611,
+      "steadyFullWheelRadius": 116.8522147334071,
+      "at90": {
+        "time": 3.59999999999999,
+        "x": 78.54427251090416,
+        "z": -36.441278048562154,
+        "speed": 35.384594925620654,
+        "radius": 116.81738907115778
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "stock",
+      "biome": "volcanic",
+      "startFraction": 0.25,
+      "initialSpeed": 8.85,
+      "turn180Seconds": 9.40833333333344,
+      "turn180BodyLateralExtent": 219.54232138746312,
+      "steadyFullWheelRadius": 116.85221473340745,
+      "at90": {
+        "time": 4.225,
+        "x": 101.1231049959663,
+        "z": -64.51327546718974,
+        "speed": 35.38740731590999,
+        "radius": 116.85185362782322
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "stock",
+      "biome": "volcanic",
+      "startFraction": 0.5,
+      "initialSpeed": 17.7,
+      "turn180Seconds": 10.058333333333403,
+      "turn180BodyLateralExtent": 232.6418286599187,
+      "steadyFullWheelRadius": 116.85221473340799,
+      "at90": {
+        "time": 4.875000000000032,
+        "x": 114.17962374477094,
+        "z": -95.31104566339238,
+        "speed": 35.38743652350359,
+        "radius": 116.85221146803131
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "stock",
+      "biome": "volcanic",
+      "startFraction": 1,
+      "initialSpeed": 35.4,
+      "turn180Seconds": 10.500000000000044,
+      "turn180BodyLateralExtent": 236.7594390518962,
+      "steadyFullWheelRadius": 116.85221473340833,
+      "at90": {
+        "time": 5.316666666666721,
+        "x": 118.3289388188062,
+        "z": -120.02717249687808,
+        "speed": 35.38743679003772,
+        "radius": 116.85221473349432
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "max",
+      "biome": "city",
+      "startFraction": 0,
+      "initialSpeed": 0,
+      "turn180Seconds": 9.083333333333458,
+      "turn180BodyLateralExtent": 212.58424768344167,
+      "steadyFullWheelRadius": 125.44018933491823,
+      "at90": {
+        "time": 3.716666666666656,
+        "x": 85.37305421511398,
+        "z": -39.74572425090191,
+        "speed": 36.761074146700366,
+        "radius": 125.41830140993312
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "max",
+      "biome": "city",
+      "startFraction": 0.25,
+      "initialSpeed": 9.19338,
+      "turn180Seconds": 9.733333333333421,
+      "turn180BodyLateralExtent": 236.34457313460788,
+      "steadyFullWheelRadius": 125.44018933491816,
+      "at90": {
+        "time": 4.375000000000007,
+        "x": 109.26612056790648,
+        "z": -70.21062607720403,
+        "speed": 36.76287571774901,
+        "radius": 125.43999185080949
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "max",
+      "biome": "city",
+      "startFraction": 0.5,
+      "initialSpeed": 18.38676,
+      "turn180Seconds": 10.40000000000005,
+      "turn180BodyLateralExtent": 249.77359643051713,
+      "steadyFullWheelRadius": 125.44018933491823,
+      "at90": {
+        "time": 5.041666666666707,
+        "x": 122.84038246159682,
+        "z": -102.75481030417642,
+        "speed": 36.762891982644824,
+        "radius": 125.44018765821352
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "max",
+      "biome": "city",
+      "startFraction": 1,
+      "initialSpeed": 36.77352,
+      "turn180Seconds": 10.841666666666692,
+      "turn180BodyLateralExtent": 253.92246385034446,
+      "steadyFullWheelRadius": 125.44018933491823,
+      "at90": {
+        "time": 5.475000000000062,
+        "x": 126.7473531457587,
+        "z": -128.42196542713808,
+        "speed": 36.76289212192409,
+        "radius": 125.44018933494647
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "max",
+      "biome": "forest",
+      "startFraction": 0,
+      "initialSpeed": 0,
+      "turn180Seconds": 9.075000000000125,
+      "turn180BodyLateralExtent": 212.46570256035685,
+      "steadyFullWheelRadius": 125.60966598116335,
+      "at90": {
+        "time": 3.708333333333323,
+        "x": 85.03177245510297,
+        "z": -39.51261685784724,
+        "speed": 36.75914675463951,
+        "radius": 125.5860906609379
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "max",
+      "biome": "forest",
+      "startFraction": 0.25,
+      "initialSpeed": 9.19338,
+      "turn180Seconds": 9.741666666666754,
+      "turn180BodyLateralExtent": 236.50097733398883,
+      "steadyFullWheelRadius": 125.60966598116332,
+      "at90": {
+        "time": 4.375000000000007,
+        "x": 109.1804488279469,
+        "z": -70.14161365853118,
+        "speed": 36.76106449245572,
+        "radius": 125.6094602549104
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "max",
+      "biome": "forest",
+      "startFraction": 0.5,
+      "initialSpeed": 18.38676,
+      "turn180Seconds": 10.408333333333383,
+      "turn180BodyLateralExtent": 250.07981104942206,
+      "steadyFullWheelRadius": 125.60966598116298,
+      "at90": {
+        "time": 5.041666666666707,
+        "x": 122.67697809469406,
+        "z": -102.91743806012084,
+        "speed": 36.761081234261425,
+        "radius": 125.60966425120256
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "max",
+      "biome": "forest",
+      "startFraction": 1,
+      "initialSpeed": 36.77352,
+      "turn180Seconds": 10.858333333333357,
+      "turn180BodyLateralExtent": 254.2613427108515,
+      "steadyFullWheelRadius": 125.60966598116232,
+      "at90": {
+        "time": 5.491666666666729,
+        "x": 127.08965604264237,
+        "z": -128.75616226875175,
+        "speed": 36.76108137624095,
+        "radius": 125.60966598119934
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "max",
+      "biome": "desert",
+      "startFraction": 0,
+      "initialSpeed": 0,
+      "turn180Seconds": 9.083333333333458,
+      "turn180BodyLateralExtent": 212.422040710781,
+      "steadyFullWheelRadius": 125.8215890183242,
+      "at90": {
+        "time": 3.6999999999999895,
+        "x": 84.68842204367702,
+        "z": -39.30629515933155,
+        "speed": 36.75680086851845,
+        "radius": 125.7962295383704
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "max",
+      "biome": "desert",
+      "startFraction": 0.25,
+      "initialSpeed": 9.19338,
+      "turn180Seconds": 9.750000000000087,
+      "turn180BodyLateralExtent": 236.76826546119733,
+      "steadyFullWheelRadius": 125.82158901832372,
+      "at90": {
+        "time": 4.375000000000007,
+        "x": 109.06991139122418,
+        "z": -70.15986629217178,
+        "speed": 36.758833266557794,
+        "radius": 125.82137538401324
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "max",
+      "biome": "desert",
+      "startFraction": 0.5,
+      "initialSpeed": 18.38676,
+      "turn180Seconds": 10.433333333333382,
+      "turn180BodyLateralExtent": 250.4795213825914,
+      "steadyFullWheelRadius": 125.8215890183227,
+      "at90": {
+        "time": 5.050000000000041,
+        "x": 122.76649868038612,
+        "z": -103.16749433605987,
+        "speed": 36.75885039576885,
+        "radius": 125.82158729326525
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "max",
+      "biome": "desert",
+      "startFraction": 1,
+      "initialSpeed": 36.77352,
+      "turn180Seconds": 10.875000000000023,
+      "turn180BodyLateralExtent": 254.68520190170585,
+      "steadyFullWheelRadius": 125.82158901832204,
+      "at90": {
+        "time": 5.500000000000063,
+        "x": 127.05890664752278,
+        "z": -129.17815665402023,
+        "speed": 36.75885053521382,
+        "radius": 125.82158901836821
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "max",
+      "biome": "snow",
+      "startFraction": 0,
+      "initialSpeed": 0,
+      "turn180Seconds": 9.108333333333457,
+      "turn180BodyLateralExtent": 213.4450400550492,
+      "steadyFullWheelRadius": 126.68944943908318,
+      "at90": {
+        "time": 3.691666666666656,
+        "x": 84.63642598613096,
+        "z": -39.375514872506244,
+        "speed": 36.74809345570766,
+        "radius": 126.66304484104343
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "max",
+      "biome": "snow",
+      "startFraction": 0.25,
+      "initialSpeed": 9.19338,
+      "turn180Seconds": 9.81666666666675,
+      "turn180BodyLateralExtent": 238.49372539867866,
+      "steadyFullWheelRadius": 126.6894494390832,
+      "at90": {
+        "time": 4.400000000000008,
+        "x": 109.50990617900356,
+        "z": -71.1349558466904,
+        "speed": 36.750081788702126,
+        "radius": 126.68924909698299
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "max",
+      "biome": "snow",
+      "startFraction": 0.5,
+      "initialSpeed": 18.38676,
+      "turn180Seconds": 10.508333333333377,
+      "turn180BodyLateralExtent": 252.2651540978918,
+      "steadyFullWheelRadius": 126.68944943908323,
+      "at90": {
+        "time": 5.091666666666709,
+        "x": 123.30127855975549,
+        "z": -104.62881574715705,
+        "speed": 36.75009687515495,
+        "radius": 126.68944789994087
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "max",
+      "biome": "snow",
+      "startFraction": 1,
+      "initialSpeed": 36.77352,
+      "turn180Seconds": 10.966666666666685,
+      "turn180BodyLateralExtent": 256.42259984317843,
+      "steadyFullWheelRadius": 126.68944943908323,
+      "at90": {
+        "time": 5.5500000000000655,
+        "x": 127.52779564216979,
+        "z": -130.89094375332013,
+        "speed": 36.75009699196233,
+        "radius": 126.68944943917799
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "max",
+      "biome": "volcanic",
+      "startFraction": 0,
+      "initialSpeed": 0,
+      "turn180Seconds": 9.225000000000117,
+      "turn180BodyLateralExtent": 220.95849923080604,
+      "steadyFullWheelRadius": 130.42164319040282,
+      "at90": {
+        "time": 3.766666666666656,
+        "x": 88.85345348132228,
+        "z": -41.21265646576175,
+        "speed": 37.511280794324165,
+        "radius": 130.40297507266536
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "max",
+      "biome": "volcanic",
+      "startFraction": 0.25,
+      "initialSpeed": 9.381,
+      "turn180Seconds": 9.916666666666744,
+      "turn180BodyLateralExtent": 245.91845212533016,
+      "steadyFullWheelRadius": 130.42164319040282,
+      "at90": {
+        "time": 4.458333333333345,
+        "x": 113.82800011757875,
+        "z": -73.39648186708519,
+        "speed": 37.512780984089325,
+        "radius": 130.42149514651572
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "max",
+      "biome": "volcanic",
+      "startFraction": 0.5,
+      "initialSpeed": 18.762,
+      "turn180Seconds": 10.600000000000039,
+      "turn180BodyLateralExtent": 259.68656350067204,
+      "steadyFullWheelRadius": 130.42164319040282,
+      "at90": {
+        "time": 5.133333333333378,
+        "x": 127.51082693670186,
+        "z": -107.1856454413865,
+        "speed": 37.512792878722905,
+        "radius": 130.42164197661472
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "level": "max",
+      "biome": "volcanic",
+      "startFraction": 1,
+      "initialSpeed": 37.524,
+      "turn180Seconds": 11.04166666666668,
+      "turn180BodyLateralExtent": 263.882322085328,
+      "steadyFullWheelRadius": 130.42164319040282,
+      "at90": {
+        "time": 5.5833333333334005,
+        "x": 131.91453274022774,
+        "z": -133.56228243110937,
+        "speed": 37.5127929770537,
+        "radius": 130.42164319043212
+      }
+    }
+  ]
+}

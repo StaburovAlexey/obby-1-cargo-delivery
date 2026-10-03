@@ -1,0 +1,1149 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> urban-route-procedural-three@1.29.0 test
+> node tests/tow-baseline.mjs && node tests/vehicle-dynamics.mjs && node tests/physics-app-integration.mjs && node tests/vehicle-rig.mjs && node tests/driving.mjs && node tests/sequential-route.mjs && node tests/economy-session.mjs && node tests/economy-integration.mjs && node tests/economy-progression.mjs && node tests/economy-ui.mjs && node tests/compact-fuel-hud.mjs && node tests/hud-style.mjs && node tests/bare-currency-hud.mjs && node tests/follow-camera.mjs && node tests/jump-integration.mjs && node tests/twenty-desks.mjs && node tests/character-row.mjs && node tests/seated-arm-axes.mjs && node tests/depth-surfaces.mjs && node tests/storefront-material.mjs && node tests/wide-house-rows.mjs && node tests/aligned-house-rows.mjs && node tests/ten-vehicle-catalog.mjs && node tests/biome-surface-dynamics.mjs && node tests/biome-preview-integration.mjs && node tests/biome-road-shader.mjs && node tests/ordered-biome-tiers.mjs && node tests/learning-career.mjs && node tests/vehicle-upgrades.mjs && node tests/five-training-zones.mjs && node tests/progression-independent-state.mjs && node tests/progression-independent-app.mjs && node tests/progression-hud.mjs
+
+PASS Pinned source configuration and city mesh adaptations are explicit
+PASS Exact deadzone, nonlinear steering response, and exponential response
+PASS Stationary start, held-wheel acceleration, release coast, and full stop
+PASS Forward/reverse changes slew through zero and preserve held steering
+PASS Maximum-turn speed limit is symmetric at 82 percent
+PASS Frame delta cap and nonpositive frame safeguards
+PASS Thousands of no-contact frames match the actual source updateVehicle
+PASS Tiny subthreshold source travel is retained for wheel animation
+PASS Bicycle turning circles and reverse yaw have the source signs
+Historical v25 Tow baseline: 9/9
+PASS Four explicit contact patches have balanced straight engine thrust and yaw torque
+PASS Tire point velocity and torque use the signed rigid-body cross products
+PASS All four passive tires oppose slip and stay within individual friction circles
+PASS Semi-implicit integration obeys F/m and torque/inertia instead of setting geometric yaw
+PASS Mirrored steering gives mirrored lateral forces, paths, and yaw
+PASS UI steering remains normalized while actual road rack angle limits high-speed demand
+PASS Every vehicle reaches its 11 / 17 / 24 m/s governed speed without overshoot: [{"maxSpeed":11,"timeTo90":1.767},{"maxSpeed":17,"timeTo90":2.233},{"maxSpeed":24,"timeTo90":3.25}]
+PASS Maximum steering produces small controlled slip across all vehicle tiers: [{"maxSpeed":11,"maxSlipDegrees":4.3,"maxYaw":0.621},{"maxSpeed":17,"maxSlipDegrees":1.91,"maxYaw":0.524},{"maxSpeed":24,"maxSlipDegrees":0.8,"maxYaw":0.415}]
+PASS D/R selection brakes through a low-speed interlock before reverse acceleration: [{"startGear":"D","crossedAt":1.05,"minimumSpeed":0.0509},{"startGear":"R","crossedAt":1.05,"minimumSpeed":0.0509}]
+PASS Forward and reverse steer in opposite yaw directions without unstable reverse oscillation
+PASS Flat release coasts, reaches rest, and stops all wheel/body motion after settling
+PASS A true ground gradient changes acceleration, coasting, and gentle-slope rollback: {"uphillAfterCoast":2.6275371694779333,"flatAfterCoast":3.793374025918132,"downhillAfterCoast":4.9609557556095645,"rollbackSpeed":-0.8562525545456067}
+PASS 30 / 60 / 120 Hz rendering produces equivalent rigid-body state and path sums: {"totalDistance":69.6116669638635}
+PASS Long frame stalls are bounded, fractional frames accumulate, invalid frames cannot replay distance
+PASS Unsigned actual path counts lateral skid even when forward wheel rolling is zero
+PASS Head-on contacts remove inward normal motion with no bounce or wheel spinning through a wall
+PASS Oblique contacts preserve along-wall velocity and generate an off-center contact torque: {"tangentSpeed":-6.023655224945454,"contactYawRate":1.2925407153290045}
+PASS Near-parallel contact stays stable inside the real conservative road envelope: {"poses":5,"frames":1800,"maxYaw":0.00007908856316521741}
+PASS Adaptive swept collision samples cannot tunnel through a thin barrier at 24 m/s
+PASS Invalid confined contacts cannot create projection teleports or heading snaps
+PASS Pause and reset clear all velocities, accumulator residue, and suspension springs
+
+21 original planar vehicle dynamics checks passed.
+PASS Actual app driving, reversing and fuel agree at 30, 60 and 120 Hz
+PASS A long render stall advances only the bounded physics budget and leaves no catch-up debt
+PASS Road gradient matches the rendered height convention and influences actual driving
+PASS Lateral sliding consumes true path fuel and camera distance without inventing wheel travel
+PASS Zero-duration app frames never repeat previous path, fuel use or camera distance
+PASS Held wheel plus a second-pointer gear change brakes before rolling in reverse
+PASS A real off-centre road contact changes planar momentum without a teleport
+PASS Blur, resize and hidden-tab safety resets clear every planar momentum channel
+PASS Overview pause, garage return and re-entry clear stale forces, spin and teleport distance
+PASS Empty fuel with sideways/angular momentum returns safely and cannot pay a coincident delivery
+PASS All ten vehicle configurations retain finite dynamics and their own fuel accounting
+Planar app integration: 11/11 checks passed.
+PASS ground-level local pivot and four axle/side records
+PASS zero pose preserves every original instance's world shape and color
+PASS front steering rotates tire, hub and center around each tire pivot
+PASS all wheels roll forward about -X and reverse about +X
+PASS steering is applied outside rolling and long rotations remain bounded
+PASS absolute pose accepts arrays and Three objects without rotating around the world origin
+PASS visual suspension leans and bobs all body parts without moving grounded wheels
+PASS body articulation retains omitted fields and never compounds across repeated poses
+PASS invalid pose input is rejected atomically
+PASS dynamic instance uploads and bounds include all articulated vertices
+PASS reset restores source alignment after repeated forward and reverse motion
+PASS dispose restores static representation exactly and never disposes city resources
+PASS independent regenerated cities preserve geometry and dispose cleanly across seeds
+PASS missing or malformed source truck fails without partial mutation
+Vehicle rig: 14 checks passed.
+PASS Retained Tow UI/view configuration and city mesh adaptations are explicit
+PASS Exact deadzone, nonlinear steering response, and exponential response
+PASS Collision solver uses source 0.15 m combined translation/rotation steps
+PASS Thin obstacles block head-on travel without tunneling inside the road corridor
+PASS Confined-corner corrections cannot teleport or preserve a blocked yaw
+PASS Road projection follows the curved generated centerline at all elevations
+PASS Four-wheel fit stays finite and supported across route heights, curves, shoulders
+PASS Uphill and cross-slope body orientation agrees with wheel contacts
+PASS City obstacle collection excludes the moving truck and visual-only details
+PASS Rendered wide road and edge markings are physically flush with the sampler
+PASS Tire vertices stay above actual uphill, downhill and level-branch road triangles
+PASS Ground pose and moving wheel rig remain coherent without scene-resource growth
+PASS Input starts in D with zero throttle and no invented keyboard driving
+PASS 135-degree wheel gesture starts throttle and release clears/coasts input
+PASS Angular wrap and center-disc crossing cannot cause steering jumps
+PASS Regrab continues from both rendered wheel and image rotations
+PASS Only the captured pointer moves/releases; cancel and capture-loss reset
+PASS D/R panel, labels, handle, and second pointer each toggle exactly once
+PASS Documented non-primary first-grab safety adaptation works
+PASS Resize, blur, hidden tab, disable, repeated reset, and destroy release input
+PASS Touch guard suppresses browser gestures without cancelling control clicks
+PASS Integrated input release coasts; safety reset clears rigid-body velocities and visual springs
+PASS Selected vehicle follows with the requested unrestricted fixed-radius camera
+PASS Application mode switches keep regeneration locked in a car; top Garage clears held throttle
+PASS Hidden-tab timing reset prevents a catch-up leap on resume
+Driving: 25/25 checks passed.
+PASS Every route path visits all five long biomes in order and cannot take a fork shortcut
+PASS Arc distance is measured on the actual 3D centerline from the unchanged road spawn
+PASS Rendered two-metre road triangles agree with continuous ground height, normals and metric UVs
+PASS Actual transformed houses and barrier tiers stay outside every road edge and seal both sides
+PASS All eight paired 4.4 m checkpoint rings and parked truck footprints clear the actual barriers
+PASS Real garage delivery/fuel rings and 4.85 m outer glows fit the route and follow its ground
+PASS Whole-body edge collisions slide continuously without teleportation, including safe route ends
+PASS Terrain and wheel frames stay continuous through every grade station and road edge
+PASS Deterministic seeded geometry preserves full boundary coverage and compact mesh budgets
+{
+  "passed": true,
+  "limitations": "Offline Node with actual Three.js geometry; no browser, WebGL, screenshot, mobile or FPS verification.",
+  "checks": [
+    {
+      "name": "Every route path visits all five long biomes in order and cannot take a fork shortcut",
+      "passed": true,
+      "milliseconds": 29,
+      "details": {
+        "paths": [
+          [
+            "city",
+            "forest",
+            "desert",
+            "snow",
+            "volcanic"
+          ]
+        ],
+        "samples": 7231,
+        "maximumPlanSlope": 0.13068181818181818,
+        "maximumGrade": 0.11652542372881357
+      }
+    },
+    {
+      "name": "Arc distance is measured on the actual 3D centerline from the unchanged road spawn",
+      "passed": true,
+      "milliseconds": 57,
+      "details": {
+        "routeMetres": 5420.068896139144,
+        "lastCheckpointMetres": 5100,
+        "remainingMetres": 320.0688961391443,
+        "maximumRoundTripError": 9.094947017729282e-13,
+        "maxCheckpointError": 2.437527655274607e-7
+      }
+    },
+    {
+      "name": "Rendered two-metre road triangles agree with continuous ground height, normals and metric UVs",
+      "passed": true,
+      "milliseconds": 557,
+      "details": {
+        "raySamples": 2562,
+        "roadVertices": 5428,
+        "roadTriangles": 5426,
+        "terrainVertices": 16337,
+        "maxHeightError": 0.0009854016189826398,
+        "maxNormalError": 0.0018130255495516123,
+        "supportAllowance": 0.012
+      }
+    },
+    {
+      "name": "Actual transformed houses and barrier tiers stay outside every road edge and seal both sides",
+      "passed": true,
+      "milliseconds": 155,
+      "details": {
+        "actualRoadsideCuboids": 1956,
+        "houses": 102,
+        "largeBarrierGroups": 507,
+        "sliceSamples": 172273,
+        "minimumRoadClearance": 0.03100499018390579,
+        "maximumBoundaryGap": 0.2728086851292346
+      }
+    },
+    {
+      "name": "All eight paired 4.4 m checkpoint rings and parked truck footprints clear the actual barriers",
+      "passed": true,
+      "milliseconds": 4,
+      "details": {
+        "pairedStops": 8,
+        "ringChecks": 16,
+        "minimumRingToActualBarrierClearance": 2.5696862590430642,
+        "locations": [
+          {
+            "distance": 180,
+            "side": -1,
+            "x": 0.9339648504187892,
+            "z": -173.2789335492976,
+            "biome": "city"
+          },
+          {
+            "distance": 180,
+            "side": 1,
+            "x": 16.93294867298396,
+            "z": -173.09860982568378,
+            "biome": "city"
+          },
+          {
+            "distance": 420,
+            "side": -1,
+            "x": -17.350384240542688,
+            "z": -411.3286198327889,
+            "biome": "city"
+          },
+          {
+            "distance": 420,
+            "side": 1,
+            "x": -1.4317277855799784,
+            "z": -412.9399474434485,
+            "biome": "city"
+          },
+          {
+            "distance": 750,
+            "side": -1,
+            "x": -5.031327979638577,
+            "z": -741.9921440046309,
+            "biome": "city"
+          },
+          {
+            "distance": 750,
+            "side": 1,
+            "x": 10.851792328502434,
+            "z": -740.0617323187156,
+            "biome": "city"
+          },
+          {
+            "distance": 1200,
+            "side": -1,
+            "x": -16.772830161013747,
+            "z": -1188.761635035573,
+            "biome": "forest"
+          },
+          {
+            "distance": 1200,
+            "side": 1,
+            "x": -0.8142390812028246,
+            "z": -1189.9120135590942,
+            "biome": "forest"
+          },
+          {
+            "distance": 1850,
+            "side": -1,
+            "x": 5.755798830291461,
+            "z": -1838.0488953144609,
+            "biome": "forest"
+          },
+          {
+            "distance": 1850,
+            "side": 1,
+            "x": 21.75480015298379,
+            "z": -1837.8701310101683,
+            "biome": "forest"
+          },
+          {
+            "distance": 2700,
+            "side": -1,
+            "x": -7.713990330367029,
+            "z": -2686.946658773998,
+            "biome": "desert"
+          },
+          {
+            "distance": 2700,
+            "side": 1,
+            "x": 8.221253936966434,
+            "z": -2685.508607961121,
+            "biome": "desert"
+          },
+          {
+            "distance": 3800,
+            "side": -1,
+            "x": -13.474274231538294,
+            "z": -3783.4626159120858,
+            "biome": "snow"
+          },
+          {
+            "distance": 3800,
+            "side": 1,
+            "x": 2.4656203391205036,
+            "z": -3782.077061482884,
+            "biome": "snow"
+          },
+          {
+            "distance": 5100,
+            "side": -1,
+            "x": -0.12735913656817033,
+            "z": -5080.290313740356,
+            "biome": "volcanic"
+          },
+          {
+            "distance": 5100,
+            "side": 1,
+            "x": 15.8719643143226,
+            "z": -5080.143177362202,
+            "biome": "volcanic"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Real garage delivery/fuel rings and 4.85 m outer glows fit the route and follow its ground",
+      "passed": true,
+      "milliseconds": 20,
+      "details": {
+        "realCheckpoints": 16,
+        "ringAndGlowVertices": 3136,
+        "minimumGlowToBarrierClearance": 2.119686259043065,
+        "maxGroundError": 9.521894566572042e-7,
+        "unchangedHangarEntranceZ": 26
+      }
+    },
+    {
+      "name": "Whole-body edge collisions slide continuously without teleportation, including safe route ends",
+      "passed": true,
+      "milliseconds": 460,
+      "details": {
+        "slideFrames": 5280,
+        "maximumFrameDisplacement": 0.12000000000027576,
+        "minimumForwardSlideProgress": 24.00230141603825
+      }
+    },
+    {
+      "name": "Terrain and wheel frames stay continuous through every grade station and road edge",
+      "passed": true,
+      "milliseconds": 22,
+      "details": {
+        "wheelPoses": 2856,
+        "maximumTwoMillimetreHeightStep": 0.00022513061449558336,
+        "maximumNormalStepRadians": 0.0000039756789554746805
+      }
+    },
+    {
+      "name": "Deterministic seeded geometry preserves full boundary coverage and compact mesh budgets",
+      "passed": true,
+      "milliseconds": 1784,
+      "details": {
+        "measurements": [
+          {
+            "seed": 0,
+            "triangles": 57570,
+            "instances": 2039,
+            "drawCalls": 10,
+            "minimumClearance": 0.03100499018390579,
+            "milliseconds": 304
+          },
+          {
+            "seed": 1,
+            "triangles": 57570,
+            "instances": 2039,
+            "drawCalls": 10,
+            "minimumClearance": 0.03100499018390579,
+            "milliseconds": 269
+          },
+          {
+            "seed": 17,
+            "triangles": 57570,
+            "instances": 2039,
+            "drawCalls": 10,
+            "minimumClearance": 0.03100499018390579,
+            "milliseconds": 253
+          },
+          {
+            "seed": 42,
+            "triangles": 57570,
+            "instances": 2039,
+            "drawCalls": 10,
+            "minimumClearance": 0.03100499018390579,
+            "milliseconds": 236
+          },
+          {
+            "seed": 2026,
+            "triangles": 57570,
+            "instances": 2039,
+            "drawCalls": 10,
+            "minimumClearance": 0.03100499018390579,
+            "milliseconds": 242
+          },
+          {
+            "seed": 2027,
+            "triangles": 57570,
+            "instances": 2039,
+            "drawCalls": 10,
+            "minimumClearance": 0.03100499018390579,
+            "milliseconds": 231
+          },
+          {
+            "seed": 4294967295,
+            "triangles": 57570,
+            "instances": 2039,
+            "drawCalls": 10,
+            "minimumClearance": 0.03100499018390579,
+            "milliseconds": 246
+          }
+        ],
+        "trianglesPerRouteMetre": 10.621636201157628
+      }
+    }
+  ]
+}
+PASS new career starts on foot with only free pickup, zero money and real full capacities
+PASS locked vehicles never board or drain; walking approach prompts once without spending
+PASS purchase checks exact funds, proximity, ownership and explicit action for each paid vehicle
+PASS insufficient money, seated, jumping and driving cannot purchase
+PASS purchase candidate clears on departure, jump, sit, driving and garage teleport
+PASS owned cars still auto-board after approach and create unique stable loaded runs
+PASS forward and reverse both consume per-car fuel; idle, invalid distance and zero travel do not
+PASS real driving model actual D/R displacement drains fuel and parked collision does not
+PASS all eight delivery rewards pay exactly once per loaded run then reset on foot
+PASS overlapping deliveries and same-circle repeated frames never double-credit
+PASS no payout on foot, missing cargo, top garage abort, or rebuilt session
+PASS empty fuel beats coincident delivery and refuel atomically for every car
+PASS refuel fills true capacity, preserves loaded cargo and guards events until departure
+PASS garage reset clears session interaction state and preserves every chosen character and career
+PASS valid local save restores career only, never pending cargo, fuel, position or payout
+PASS save whitelist drops unknown IDs, duplicates, extra runtime fields and malformed numeric types
+PASS corrupt, wrong-version and hostile prototype records safely start fresh without pollution
+PASS blocked reads/writes and throwing localStorage getter never crash and warn once
+PASS failed writes retain atomic purchase and delivery in this session and recover gracefully
+PASS free-seat occupancy, seated guard, standing and classroom rearm stay intact
+PASS ballistic jump and grounded character-stand interactions stay intact
+Economy/session: 21 checks passed. Pure Node; no browser or real payments.
+PASS fresh career starts walking with zero money, only the free pickup, and no cargo
+PASS walking to locked car shows its price and cannot buy or board automatically
+PASS explicit double purchase debits once; walking away and back boards the owned car
+PASS both paid vehicles debit their configured prices once and persist separate ownership
+PASS stale purchase click, insufficient money and airborne state cannot buy
+PASS each owned car shows its actual fuel capacity, speed and single loaded crate
+PASS refuel preserves cargo, run, wallet and camera while filling the selected tank
+PASS delivery pays exactly once, persists and returns walking with all controls released
+PASS fuel zero wins over coincident delivery and leaves no money or cargo
+PASS purchase button releases its walking/look controls without acquiring another pointer
+PASS pending enter event cannot replay entry or reset a newly rotated camera
+PASS reload preserves earned career and selected character without restoring or paying cargo
+PASS corrupt and wrong-version saves safely reset and show a persistent reset badge
+PASS unavailable storage warning survives startup, ordinary frames and regeneration
+PASS write failure badge survives purchase/delivery toasts and preserves this-session state
+Economy integration: 15/15 checks passed (renderer-free app fixture).
+PASS pickup → delivery-checkpoint-04: earned 720, 3 refills, 2908 real app frames
+PASS citycourier → delivery-checkpoint-05: earned 1110, 4 refills, 4982 real app frames
+PASS rover → delivery-checkpoint-06: earned 1620, 5 refills, 5318 real app frames
+PASS foresthauler → delivery-checkpoint-08: earned 3060, 7 refills, 15181 real app frames
+PASS van → delivery-checkpoint-08: earned 3060, 7 refills, 9506 real app frames
+PASS desertscout → delivery-checkpoint-08: earned 3060, 7 refills, 8315 real app frames
+PASS snowgrip → delivery-checkpoint-08: earned 3060, 7 refills, 5351 real app frames
+PASS snowrunner → delivery-checkpoint-08: earned 3060, 7 refills, 4684 real app frames
+PASS lavacrawler → delivery-checkpoint-08: earned 3060, 7 refills, 3362 real app frames
+PASS ashhauler → delivery-checkpoint-08: earned 3060, 7 refills, 2947 real app frames
+PASS pickup → delivery-checkpoint-05: fuel gap enforced; no payout, 4 refills, 5153 real app frames
+PASS rover → delivery-checkpoint-07: fuel gap enforced; no payout, 6 refills, 9557 real app frames
+{
+  "passed": true,
+  "rendererFree": true,
+  "checks": [
+    {
+      "passed": true,
+      "id": "pickup",
+      "target": "delivery-checkpoint-04",
+      "succeeds": true,
+      "frames": 2908,
+      "seconds": 145.4,
+      "maxDistance": 1196,
+      "totalTravel": 1199,
+      "money": 720,
+      "refills": 3,
+      "biomes": [
+        "city",
+        "forest"
+      ],
+      "blocked": 0,
+      "maxStep": 0.5541395219863213
+    },
+    {
+      "passed": true,
+      "id": "citycourier",
+      "target": "delivery-checkpoint-05",
+      "succeeds": true,
+      "frames": 4982,
+      "seconds": 249.10000000000002,
+      "maxDistance": 1846,
+      "totalTravel": 1847,
+      "money": 1110,
+      "refills": 4,
+      "biomes": [
+        "city",
+        "forest"
+      ],
+      "blocked": 0,
+      "maxStep": 0.6291389042145563
+    },
+    {
+      "passed": true,
+      "id": "rover",
+      "target": "delivery-checkpoint-06",
+      "succeeds": true,
+      "frames": 5318,
+      "seconds": 265.90000000000003,
+      "maxDistance": 2695,
+      "totalTravel": 2696,
+      "money": 1620,
+      "refills": 5,
+      "biomes": [
+        "city",
+        "forest",
+        "desert"
+      ],
+      "blocked": 0,
+      "maxStep": 0.7176132739297361
+    },
+    {
+      "passed": true,
+      "id": "foresthauler",
+      "target": "delivery-checkpoint-08",
+      "succeeds": true,
+      "frames": 15181,
+      "seconds": 759.0500000000001,
+      "maxDistance": 5095,
+      "totalTravel": 5095,
+      "money": 3060,
+      "refills": 7,
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "blocked": 0,
+      "maxStep": 0.817612663894475
+    },
+    {
+      "passed": true,
+      "id": "van",
+      "target": "delivery-checkpoint-08",
+      "succeeds": true,
+      "frames": 9506,
+      "seconds": 475.3,
+      "maxDistance": 5096,
+      "totalTravel": 5095,
+      "money": 3060,
+      "refills": 7,
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "blocked": 0,
+      "maxStep": 0.9234320067085399
+    },
+    {
+      "passed": true,
+      "id": "desertscout",
+      "target": "delivery-checkpoint-08",
+      "succeeds": true,
+      "frames": 8315,
+      "seconds": 415.75,
+      "maxDistance": 5095,
+      "totalTravel": 5095,
+      "money": 3060,
+      "refills": 7,
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "blocked": 0,
+      "maxStep": 1.0534315488522497
+    },
+    {
+      "passed": true,
+      "id": "snowgrip",
+      "target": "delivery-checkpoint-08",
+      "succeeds": true,
+      "frames": 5351,
+      "seconds": 267.55,
+      "maxDistance": 5095,
+      "totalTravel": 5095,
+      "money": 3060,
+      "refills": 7,
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "blocked": 0,
+      "maxStep": 1.1988115982378647
+    },
+    {
+      "passed": true,
+      "id": "snowrunner",
+      "target": "delivery-checkpoint-08",
+      "succeeds": true,
+      "frames": 4684,
+      "seconds": 234.20000000000002,
+      "maxDistance": 5095,
+      "totalTravel": 5095,
+      "money": 3060,
+      "refills": 7,
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "blocked": 0,
+      "maxStep": 1.3638107480495536
+    },
+    {
+      "passed": true,
+      "id": "lavacrawler",
+      "target": "delivery-checkpoint-08",
+      "succeeds": true,
+      "frames": 3362,
+      "seconds": 168.10000000000002,
+      "maxDistance": 5095,
+      "totalTravel": 5094,
+      "money": 3060,
+      "refills": 7,
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "blocked": 0,
+      "maxStep": 1.554154336517903
+    },
+    {
+      "passed": true,
+      "id": "ashhauler",
+      "target": "delivery-checkpoint-08",
+      "succeeds": true,
+      "frames": 2947,
+      "seconds": 147.35,
+      "maxDistance": 5095,
+      "totalTravel": 5094,
+      "money": 3060,
+      "refills": 7,
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "blocked": 0,
+      "maxStep": 1.7741524229626968
+    },
+    {
+      "passed": true,
+      "id": "pickup",
+      "target": "delivery-checkpoint-05",
+      "succeeds": false,
+      "frames": 5153,
+      "seconds": 257.65000000000003,
+      "maxDistance": 1726,
+      "totalTravel": 1725,
+      "money": 0,
+      "refills": 4,
+      "biomes": [
+        "city",
+        "forest"
+      ],
+      "blocked": 0,
+      "maxStep": 0.5541395219863213
+    },
+    {
+      "passed": true,
+      "id": "rover",
+      "target": "delivery-checkpoint-07",
+      "succeeds": false,
+      "frames": 9557,
+      "seconds": 477.85,
+      "maxDistance": 3705,
+      "totalTravel": 3702,
+      "money": 0,
+      "refills": 6,
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow"
+      ],
+      "blocked": 0,
+      "maxStep": 0.7176132739297361
+    }
+  ]
+}
+PASS Every increasingly distant checkpoint is paired left delivery/right fuel at the same route arc station
+PASS All prices and rewards use the same native dollar icon; buy is explicit and footer retains one fuel/speed row
+PASS All ten tiers increase speed/range; original three capacities and every D/R direction remain valid
+PASS Initial progression requires upgrades and prices need only a few successful farthest-tier runs
+PASS Character poses, base checker and input/camera modules are byte-identical to v21
+{"seed":42,"procedural":{"triangles":78162,"batches":98,"instances":3007},"city":{"seed":42,"instances":2039,"triangles":57570,"drawCalls":10,"buildings":102,"roadWidth":30,"roadsideProps":0,"continuousHouseRows":true,"alignedFacadeRows":true,"facadeSetback":0.09672453311248161,"maxFacadeChordError":0.06572453311248161,"rampRise":11,"routeLength":5420.068896139144,"longitudinalLength":5423,"roadMeshStep":2,"roadBranches":1,"forks":0,"loops":0,"sequentialBiomes":true,"biomes":5,"biomeIds":["city","forest","desert","snow","volcanic"],"retainedBuildings":102,"buildingHeightScale":2,"buildingWidthScale":3,"originalBuildingFrontage":5.996753246753247,"buildingFrontage":17.99025974025974,"housesPerSide":51,"cityHouseEnd":894.2532467532468,"barriers":507,"routeEndHeight":5,"maximumElevation":32,"sharedMaterialPattern":"grass-checker","flushCurbs":true,"studs":false,"texturedRoad":true,"embeddedRoadMarkings":true,"nonOverlappingGround":true,"nonOverlappingResidences":true,"texturedBuildings":true,"buildingBodyTriangles":1224,"importedModels":0,"externalTextures":0,"proceduralBuildingMaterial":true,"roofStuds":0},"deliveryPoints":8,"fuelStations":8,"characterDisplayTriangles":100014,"activeBaconTriangles":3817,"walkingSceneTriangles":181993,"note":"Static scene traversal, not GPU draw calls or FPS. No browser used."}
+PASS Scene metrics include all visible procedural vehicles and checkpoints, with no geometric studs
+Economy UI/geometry: 6 checks passed. Node/static only.
+PASS only top icon can return to the garage; removed controls have no fixture nodes
+PASS fuel HUD is integer current/capacity from the real remaining state with no false zero
+PASS mouse/touch canvas interactions, E/F/Escape/Space and direct exit requests cannot disembark
+PASS real D/R travel drains the same capacity while idle does not; refill restores current/max
+PASS empty tank and sole top Garage atomically restore walking in the hangar with full tanks
+PASS fuel left and live speed right share one nowrap row with identical 44px centers
+PASS shared bottom row clears wheel and D/R across portrait, landscape and asymmetric safe areas
+Compact fuel/no-exit: 7 checks passed; Node and static layout arithmetic, not browser rendering.
+PASS HUD retains named controls and ARIA/hidden state contracts
+PASS Only the top icon-only Garage action remains; info and roadside exit controls are removed
+PASS Every SVG use has a local symbol; new artwork is native code-drawn SVG
+PASS Bright action colors, white outlined jump and red fuel canister are explicit
+PASS Decoration does not steal pointers; wheel/gear preserve input hooks
+PASS Narrow, short portrait and 320px-high landscape rules retain safe-area and focus treatment
+HUD source contracts: 6 checks passed. Static source checks only, not browser layout verification.
+PASS Wallet and all eight delivery labels contain exactly the money icon and amount
+PASS Every unpaid car label contains only its currency icon and price
+PASS A purchased car label disappears immediately and stays hidden through the next projection
+PASS Restored ownership suppresses all ten car labels in walking and driving modes
+PASS Wallet and delivery currency have no card, padding, border, or box shadow
+PASS Wallet icon and top-left circles share the same responsive height
+PASS Save failure remains functional in a separate initially hidden element
+Checked 64 static width/digit combinations; actual glyph layout is not browser-tested.
+PASS Full balances scale in the remaining safe header width without abbreviation
+Bare currency HUD: 8 source-contract and renderer-free app checks passed. No browser, Android, or WebGL layout verification.
+PASS default offsets preserve the original walking/car height and rear distance at every heading
+PASS walking yaw/pitch persist while moving, turning, parked, or after a long idle
+PASS manual orbit is free through many revolutions, with only the declared elevation clamp
+PASS driving keeps world yaw through car turns until six actual metres after release
+PASS forward and reverse both count positive actual distance, including a D/R combination
+PASS held look never credits travel; every new touch cancels return and resets the distance budget
+PASS stopping freezes return even after it has started; no parked or blocked time is counted
+PASS the 180-degree boundary uses the short arc, without a nearly full-circle return
+PASS threshold crossing plus exponential return matches exactly at 30/60/120 FPS
+PASS teleport/fuel resets clear held look and old distance without counting the position jump
+PASS non-reset mode changes preserve manual world yaw, while changing the fixed follow radius
+PASS actual force-based driving triggers return after six metres in D and R
+PASS holding the real vehicle against a wall never falsely unlocks camera return
+PASS look can only start on the canvas; HUD, right mouse, and unowned pointers remain separate
+PASS joystick, look and jump can be held simultaneously and released independently
+PASS original wheel and D/R controls work while a secondary finger orbits
+PASS window/canvas up, cancellation and lost capture release exactly once, including reentrant loss
+PASS blur, hidden, resize and pagehide cancel held look and allow a fresh gesture
+PASS disabled/destroyed look is inert and restores canvas touch-action without leaking listeners
+PASS pointer-capture failure still permits look and release through the window fallback
+PASS gesture acquisition adopts the rendered orbit and viewport scale without modifying the camera or target
+PASS portrait walking: zero-delta mouse/touch cannot snap a lagged target; the first quarter-pixel drag stays tiny
+PASS portrait driving: zero-delta mouse/touch cannot snap a lagged target; the first quarter-pixel drag stays tiny
+PASS landscape walking: zero-delta mouse/touch cannot snap a lagged target; the first quarter-pixel drag stays tiny
+PASS landscape driving: zero-delta mouse/touch cannot snap a lagged target; the first quarter-pixel drag stays tiny
+PASS seating, standing, character changes, recenter, teleport and reset keep the next tap at the rendered pose
+PASS holding a walking joystick or original car wheel does not turn a secondary look tap into a camera jump
+
+27 camera and multitouch checks passed (Node, real Three.js, mocked DOM; no browser launch).
+PASS garage is 3m from road, threshold faces it, all solids remain outside route
+  Jump peaks: [ 1.4544444444444442, 1.4544444444444458, 1.454444444444443 ]
+PASS jump arc is ballistic and frame-rate independent at30/60/120fps
+PASS jump never bypasses entrance, cars, displays or desk collisions
+PASS airborne entry, model changes and seats are suppressed including landing frame
+PASS button and Space cause real world elevation once, and landing restores ground
+PASS seated must stand first, driving cannot jump, garage reset clears vertical state
+PASS three concurrent walking/look/jump pointers have separate ownership
+PASS driving return uses actual displacement, waits6m, reverse works and teleports reset it
+Jump/camera integration: 8 checks passed. No browser/WebGL test.
+PASS expanded 90m hangar has compact 20-desk left wing in five columns and four rows
+PASS pure occupancy resolver is stable for empty, partial, full, duplicate and unknown IDs
+  555 entrance/occupancy combinations
+PASS every entrance uses the same lexical pool across empty, partial, old-column, random and full occupancy masks
+PASS all 17 owned avatars use every free seat through every entrance and stand beside class (1700 cycles)
+PASS a full twenty-seat room emits one notice per entrance without teleport or spam and rearms after departure
+PASS no direct per-desk seating, airborne seating, landing-frame seating, or idle activation
+PASS entry, stand exit and spawn are safe for largest grounded and jumping footprint
+PASS geometry has20 tabletops, full roof over left wing and preserved cars/stands/fuel
+PASS car fuel-empty resets class interaction without losing selected avatar
+PASS native keyboard repeat after seating cannot immediately stand or keep moving
+Classroom entry: 10 checks passed; Node/Three only.
+PASS all 17 original IDs, platforms and selection markers use one centered rear-wall row
+PASS actual 17 frozen GLBs including accessories: display gap >= 1.529 m, platform gap 0.500 m, side clearance 14.500 m, rear clearance 3.500 m
+PASS 68 lateral approaches across all 17 markers, both directions and both collision sizes; cooldown, stationary/moving debounce and departure/re-entry
+PASS bacon: source-bind wrist 4.48/6.84 degrees, zero added axial roll, mirrored hand directions, unchanged legs, steady idle
+PASS pack1: source-bind wrist 24.64/25.89 degrees, zero added axial roll, mirrored hand directions, unchanged legs, steady idle
+PASS pack2: source-bind wrist 20.52/21.13 degrees, zero added axial roll, mirrored hand directions, unchanged legs, steady idle
+PASS pack3: source-bind wrist 17.70/18.79 degrees, zero added axial roll, mirrored hand directions, unchanged legs, steady idle
+PASS pack4: source-bind wrist 24.37/25.63 degrees, zero added axial roll, mirrored hand directions, unchanged legs, steady idle
+PASS pack5: source-bind wrist 24.87/26.11 degrees, zero added axial roll, mirrored hand directions, unchanged legs, steady idle
+PASS pack6: source-bind wrist 20.35/21.51 degrees, zero added axial roll, mirrored hand directions, unchanged legs, steady idle
+PASS pack7: source-bind wrist 21.49/22.61 degrees, zero added axial roll, mirrored hand directions, unchanged legs, steady idle
+PASS pack9: source-bind wrist 9.90/13.59 degrees, zero added axial roll, mirrored hand directions, unchanged legs, steady idle
+PASS pirate: source-bind wrist 37.78/39.08 degrees, zero added axial roll, mirrored hand directions, unchanged legs, steady idle
+PASS robux-man: source-bind wrist 28.17/28.58 degrees, zero added axial roll, mirrored hand directions, unchanged legs, steady idle
+PASS jeff-the-killer: source-bind wrist 16.98/18.27 degrees, zero added axial roll, mirrored hand directions, unchanged legs, steady idle
+PASS spider-man: source-bind wrist 25.92/27.01 degrees, zero added axial roll, mirrored hand directions, unchanged legs, steady idle
+PASS spyder-sammy: source-bind wrist 0.74/4.98 degrees, zero added axial roll, mirrored hand directions, unchanged legs, steady idle
+PASS kreekcraft: source-bind wrist 25.71/26.17 degrees, zero added axial roll, mirrored hand directions, unchanged legs, steady idle
+PASS jandel: source-bind wrist 20.70/21.31 degrees, zero added axial roll, mirrored hand directions, unchanged legs, steady idle
+PASS dancing-npc-girl: source-bind wrist 26.76/27.38 degrees, zero added axial roll, mirrored hand directions, unchanged legs, steady idle
+PASS Actual road and terrain top triangles have no shared horizontal area
+PASS Every road edge has an exact three-dimensional terrain seam vertex
+PASS Paint has no depth-competing mesh, offset material or transparent layer
+PASS Actual residences have no overlapping exterior faces or meaningful volume at any city join across seven seeds
+PASS Actual cuboid rows cover the city endpoints and each intervening station without a traversable gap
+PASS Height, support and route source stay byte-identical
+PASS Storefront atlas is opaque, padded, metric and bound once across every actual residence
+PASS Road and terrain seam share all five shader surfaces without changing the drivable width
+PASS Actual meshes retain instanced cuboids and a compact rendering budget
+Report: /workspace/scratch/e6939d35b3a6/city-biome-scene/depth-review/depth-current-report.json
+PASS One deterministic bounded atlas preserves original upper-facade/checker pixels
+PASS Five shop styles bake directly from the same metric CPU sampler
+PASS Padded atlas UVs cannot reach another slot through mip level four
+PASS World-metric groundfloor width, height, mirroring and grade anchors stay stable
+PASS Actual Three material patches one opaque instanced shader and disposes its atlas once
+PASS Actual scene assigns grade metadata to every residence using one shared material
+{
+  "audit": "Node/actual Three.js + CPU atlas/projection, not WebGL",
+  "checks": [
+    {
+      "name": "One deterministic bounded atlas preserves original upper-facade/checker pixels",
+      "details": {
+        "width": 1024,
+        "height": 512,
+        "baseBytes": 2097152,
+        "fullMipChainBytes": 2796204,
+        "originalPixelsPreserved": 49152,
+        "sha256": "173d499fecc66b98c208556813c63b97b3534711ce3674ec9bc187f5cd8a92b4"
+      }
+    },
+    {
+      "name": "Five shop styles bake directly from the same metric CPU sampler",
+      "details": {
+        "styles": [
+          "CAFE",
+          "MARKET",
+          "BOOKS",
+          "BAKERY",
+          "BLOOMS"
+        ],
+        "physicalWidth": 4.8,
+        "physicalHeight": 3.1,
+        "checksums": [
+          "3752170da2d291229793ebecb514b9beedf8ca41594ff8263c10cc501e397d4f",
+          "d2c7b8b91a06741f2a95d14c7c0e3fb6e743fcc6963bb7004d8b21626abceed0",
+          "62648bf0d54c13811419894742782e047fdac4b76754acfddf90693cdf65e33f",
+          "89489ba25b08debf273b950637be5f724743f533ba081ccccd67d0858c801059",
+          "94343e653be490555ec66436943462ed93d84d5a8fadb05c40106e31b1bd8808"
+        ]
+      }
+    },
+    {
+      "name": "Padded atlas UVs cannot reach another slot through mip level four",
+      "details": {
+        "bilinearFootprints": 1000,
+        "maxLod": 4,
+        "shopGutterPixels": 16,
+        "clampedMaxDerivativeTexels": 16
+      }
+    },
+    {
+      "name": "World-metric groundfloor width, height, mirroring and grade anchors stay stable",
+      "details": {
+        "groundfloorPoints": 160,
+        "faces": 4,
+        "physicalDoorWidth": 0.96,
+        "belowGradePlinth": 0.5,
+        "roofAndUpperFloorUnchanged": true
+      }
+    },
+    {
+      "name": "Actual Three material patches one opaque instanced shader and disposes its atlas once",
+      "details": {
+        "threeRevision": "186",
+        "opaque": true,
+        "textures": "one building atlas + existing shared checker",
+        "glslCompile": "Not run; no WebGL available"
+      }
+    },
+    {
+      "name": "Actual scene assigns grade metadata to every residence using one shared material",
+      "details": {
+        "residences": 102,
+        "sharedMaterials": 1,
+        "stylesUsed": 5
+      }
+    }
+  ]
+}
+PASS Every retained house is exactly 3x the v24 frontage with unchanged height/depth/style across seven seeds
+PASS Actual cuboid faces form two continuous rows without meaningful overlap or an escape gap
+PASS Every city/forest transition station is bounded and the shoulder is narrower than each actual wheel span
+PASS All real checkpoint glows, parked vehicles and hangar walls clear the widened rows
+PASS Metric storefronts, road, terrain and unrelated controls stay unchanged
+Report: /workspace/scratch/e6939d35b3a6/city-biome-scene/wide-house-review/wide-house-report.json
+PASS Actual facade endpoints align at every seam, with no lateral staircase across seven seeds
+PASS Every city turn and grade has a narrow clear shoulder and buried base
+PASS No overlapping residential volumes or same-facing coplanar exterior faces
+PASS All route barriers clear the road and both city/forest transitions remain sealed
+PASS Original 3x frontage, level heights, depths, colors and shops are preserved economically
+PASS Sheared transformed face normals match inverse transpose without changing standard materials
+PASS All unrelated runtime, economy, planar physics, road and terrain bytes stay unchanged
+Report: /workspace/scratch/e6939d35b3a6/city-biome-scene/aligned-house-review/aligned-house-report.json
+PASS ten immutable vehicles form five specialty pairs in the strict purchased-performance ladder
+PASS version-1 career migrates to schema 2 with old money, selected skin and every original purchase
+PASS all ten right-wall bays are occupied by independent paired procedural rigs
+  Smallest rendered car-to-car gap: 1.010 m
+PASS all ten rendered cars fit their bays and clear neighboring cars, classroom and rear character row
+  16836 on-foot collision samples
+PASS walking and jumping routes stay clear for both collision sizes, all ten cars and classroom
+PASS nine locked cars require an explicit buy, reject repeat charges and preserve all old career fields
+PASS every vehicle can start a loaded run and all ten fuel tanks reset together
+PASS all ten rigs articulate independently and model/reset returns every car to its own parking pose
+PASS ten variants share original primitive geometry, add only two batches per car, and do not mutate city resources
+PASS disposing ten cars releases shared resources once and leaves original truck intact
+Ten-vehicle catalog: 10 checks passed; {"vehicles":10,"occupiedBays":10,"sharedVehicleGeometries":2,"sourceGeometries":51,"materials":22,"drawCalls":100,"instances":1051,"triangles":22140}. Node/Three only.
+PASS All ten vehicles have bounded explicit tire packages for the actual five sequential biomes
+PASS Ordered specialist pairs improve together and retain usable earlier terrain
+PASS Every transition is continuous, monotone, lane-independent, and shares the exact 48m blend
+PASS Fifty car/surface combinations accelerate, reach bounded speed and keep each tire inside its friction circle: {"combinations":50}
+PASS Unsupported tiers brake poorly; snow retains longer coasting for every tier: [{"car":"pickup","cityCoast":2.24,"snowCoast":4.68},{"car":"citycourier","cityCoast":2.24,"snowCoast":4.68},{"car":"rover","cityCoast":2.24,"snowCoast":4.68},{"car":"foresthauler","cityCoast":2.24,"snowCoast":4.68},{"car":"van","cityCoast":2.24,"snowCoast":4.68},{"car":"desertscout","cityCoast":2.24,"snowCoast":4.68},{"car":"snowgrip","cityCoast":2.24,"snowCoast":3.15},{"car":"snowrunner","cityCoast":2.24,"snowCoast":3.15},{"car":"lavacrawler","cityCoast":2.24,"snowCoast":3.15},{"car":"ashhauler","cityCoast":2.24,"snowCoast":3.15}]
+PASS All fifty combinations retain D/R brake interlocks, stable held turns and controllable slide recovery: {"maxSlipDegrees":9.52,"maxYaw":0.59}
+PASS Snow gives a longer lateral slide that settles without artificial energy gain
+PASS Volcano vibration is mild, solely cosmetic, distance driven and fully cleared by pause/reset
+PASS Pause/reset and finite surface sanitization cannot replay distance, retain drift or destabilize forces
+PASS Real boundary crossings are fixed-step deterministic at 30/60/120Hz without impulses
+
+10 biome dynamics groups passed: 50 car/surface combinations. No browser/GPU claim.
+PASS five preview destinations are inside the intended biome and reject unknown or occupied points
+PASS every configured car has finite five-biome dynamics across the full30m road and smooth boundaries
+PASS volcanic vibration is strictly cosmetic and adds no displacement, speed, tire motion or fuel distance
+PASS preview control is driving-only and hidden/stale actions cannot board a locked car or enter test mode
+PASS opening the menu releases both pointers, freezes physics/fuel/camera and blocks new driving input
+PASS Escape, close, backdrop and pointer cancellation do not teleport or invalidate cargo
+PASS invalid and occupied preview destinations leave position, payable cargo and career unchanged
+PASS all configured cars travel to all5biomes with current fuel/career preserved and complete motion reset
+PASS repeated previews and delivery circles cannot pay; overview and same-car re-entry cannot restore cargo
+PASS refueling and expired transient notices retain the test warning; zero fuel returns safely without payout
+PASS reload migrates old three-car saves to schema 2 without restoring preview session state
+PASS all configured purchases debit once and all ten ownership IDs survive a schema-2 save
+PASS returning to the garage creates a fresh legitimate run that can pay exactly once
+PASS unavailable storage does not turn test travel into a payout or erase career state
+PASS resize, blur and context loss cannot reactivate controls behind the biome modal
+PASS particles use one fixed instanced pool, stay cosmetic and never emit while stationary or in the city
+PASS actual app emits only after movement and clears particles on teleport, garage return and rebuild
+PASS modal markup and layout explicitly fit short portrait/landscape viewports without leaving fixed content offscreen
+{
+  "passed": true,
+  "checks": 18,
+  "failures": 0,
+  "environment": "Node actual Three.js + mock DOM/renderer; no browser, GPU, device or touch-hardware validation",
+  "reports": [
+    {
+      "name": "five preview destinations are inside the intended biome and reject unknown or occupied points",
+      "passed": true
+    },
+    {
+      "name": "every configured car has finite five-biome dynamics across the full30m road and smooth boundaries",
+      "passed": true,
+      "vehicleCount": 10,
+      "combinations": 50
+    },
+    {
+      "name": "volcanic vibration is strictly cosmetic and adds no displacement, speed, tire motion or fuel distance",
+      "passed": true
+    },
+    {
+      "name": "preview control is driving-only and hidden/stale actions cannot board a locked car or enter test mode",
+      "passed": true
+    },
+    {
+      "name": "opening the menu releases both pointers, freezes physics/fuel/camera and blocks new driving input",
+      "passed": true
+    },
+    {
+      "name": "Escape, close, backdrop and pointer cancellation do not teleport or invalidate cargo",
+      "passed": true
+    },
+    {
+      "name": "invalid and occupied preview destinations leave position, payable cargo and career unchanged",
+      "passed": true
+    },
+    {
+      "name": "all configured cars travel to all5biomes with current fuel/career preserved and complete motion reset",
+      "passed": true,
+      "vehicles": [
+        "pickup",
+        "citycourier",
+        "rover",
+        "foresthauler",
+        "van",
+        "desertscout",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "tested": 50
+    },
+    {
+      "name": "repeated previews and delivery circles cannot pay; overview and same-car re-entry cannot restore cargo",
+      "passed": true
+    },
+    {
+      "name": "refueling and expired transient notices retain the test warning; zero fuel returns safely without payout",
+      "passed": true
+    },
+    {
+      "name": "reload migrates old three-car saves to schema 2 without restoring preview session state",
+      "passed": true
+    },
+    {
+      "name": "all configured purchases debit once and all ten ownership IDs survive a schema-2 save",
+      "passed": true
+    },
+    {
+      "name": "returning to the garage creates a fresh legitimate run that can pay exactly once",
+      "passed": true
+    },
+    {
+      "name": "unavailable storage does not turn test travel into a payout or erase career state",
+      "passed": true
+    },
+    {
+      "name": "resize, blur and context loss cannot reactivate controls behind the biome modal",
+      "passed": true,
+      "rendererFreeViewportCases": 5
+    },
+    {
+      "name": "particles use one fixed instanced pool, stay cosmetic and never emit while stationary or in the city",
+      "passed": true,
+      "capacity": 96,
+      "maximumObserved": 32,
+      "stressFrames": 2000
+    },
+    {
+      "name": "actual app emits only after movement and clears particles on teleport, garage return and rebuild",
+      "passed": true
+    },
+    {
+      "name": "modal markup and layout explicitly fit short portrait/landscape viewports without leaving fixed content offscreen",
+      "passed": true
+    }
+  ]
+}
+PASS Road and terrain geometry match the frozen v26 source with no added triangles or road width
+PASS One opaque standard road material uses five palettes and the exact shared LEGO tile without geometry layers
+PASS Exact v26 grass checker pixels, metric UVs and mip policy are reused in all five road colors: {"sharedTileBytes":65536,"addedGeometry":0}
+PASS Five logical biomes cover full road width with continuous linear-light palette blends
+PASS Actual road and fringe shader uniforms share the dynamic sampler bounds and cheap metric pattern
+PASS Road paint remains embedded; the pre-existing terrain fringe gets no paint and preserves outside terrain
+PASS Existing terrain vertices accurately locate the material-only seam without altering terrain extent: {"existingTerrainVertices":16337,"seamVertices":5449,"unchangedOutsideVertices":10888}
+PASS Independent road-material instances preserve legacy city-color override and deterministic shader setup
+
+8 biome road material/geometry groups passed. Shader-source and CPU checks only, no WebGL/GPU claim.
+PASS All 50 explicit profiles preserve ordered IDs, strict stock progression and original pickup/city baseline
+PASS 50-combination launch, terminal, common-speed braking, turn response and slip measurements: {"combinations":50,"minimumTerminalMps":1.869999999999997}
+PASS Own biome is fastest; all earlier terrain is good; every later tier is objectively poor: {"maximumNextLaunchRatio":0.38028962521379617,"maximumNextSpeedRatio":0.41999999999999926,"minimumNextBrakeRatio":2.4561646120311273,"minimumNextSlideRatio":6.14135677137724}
+PASS Both gears retain controlled held turns, recovery and gradual brake-before-reverse across all 50 profiles: {"maxSlipDegrees":9.521229464636027,"maxVelocityStep":0.22722409020630388}
+PASS Every profile can recover uphill and reverse at the actual route maximum grade: {"gradePercent":11.652542372881356,"minimumSpeed20sMps":1.5887024775686127,"maxRollbackRecoveryS":1.7666666666666666}
+PASS 30/60/120 Hz, long stalls and invalid frame durations agree for all 50 profiles: {"maximumStateDifference":1.1368683772161603e-13,"combinations":50}
+PASS All cars cross every 48 m transition in D and R without freezing or velocity impulses: {"count":80,"maximumVelocityStepMps":0.155}
+
+7 ordered biome groups passed; all 50 combinations measured. No browser/GPU claim.
+PASS five schools and sixteen paid skins have finite strictly increasing prices/rates
+PASS new careers receive only free items and no automatic grant
+PASS schema 1 migrates old money, vehicles, selected skin and deliveries without free paid items
+PASS version 2 whitelists and bounds all progression fields without unlocking unowned cars or skins
+PASS root and nested accessors, inherited values and prototype keys never execute or pollute
+PASS unknown future versions and corrupt storage reset safely without partial restoration
+PASS one brain per real moving second is frame-rate independent in forward and reverse
+PASS idle, contact jitter, hidden/inactive, invalid, teleported and offline time award zero
+PASS learning starts only when seated, uses every school rate and stops on stand immediately
+PASS movement-to-stand clears seated earnings before the same frame tick
+PASS all five paid rates follow the entrance even when every former seat in its column is occupied
+PASS only twenty occupied desks make an owned entrance full, and failed seating earns or spends nothing
+PASS locked entrance requires a separate purchase even when its original column is occupied
+PASS study requires an existing desk and an owned valid entrance independently
+PASS standing, movement, garage return and fuel-empty clear entrance state while keeping all earned currency and purchases
+PASS school access purchases are explicit, money-only, atomic, permanent and proximity guarded
+PASS all paid skins require Buy then Select; locked stands never spend or emit character selection
+PASS insufficient, remote, airborne and seated skin/school buys preserve currency
+PASS per-car upgrades spend brains only, enforce driving/ownership and respect caps
+PASS exact earned upgrade price remains buyable without one extra frame at high refresh rates
+PASS one-time vehicle grant is exact, only explicit, respects old ownership/money and persists
+PASS grant never removes money and a zero grant still consumes the one-time claim
+PASS fractional brains save in batches and flush, reload creates no offline/position/cargo reward
+PASS storage failures do not rollback or double-spend purchases, and warn only once
+PASS brain upper bound remains finite with capped saving and no overrun
+Learning career: 25 checks passed; renderer-free.
+PASS All offers are explicit, bounded, affordable-scale and descriptor-safe
+PASS 100 base/max car-biome combinations improve real launch, speed, rack response, braking and lateral recovery: {"combinations":100,"maxSpeedMps":37.523999999999894}
+PASS Every stock next car beats the previous fully upgraded car in its target and every earlier biome: {"comparisons":29,"minimumSpeedAdvantage":0.05008152806894928,"minimumLaunchAdvantage":0.04606257052124052,"minimumBrakeImprovement":0.016232070999992576,"minimumSlideImprovement":0.010687314655435376}
+PASS Each upgrade acts only through physical forces and applies live without reset, teleport or range change
+PASS Maximum upgrades retain finite stable D/R turns, recovery, gradual gear interlocks and maximum-grade progress: {"maxSlipDegrees":9.476629154655182,"maxYawRadS":0.5899167818126847,"maxVelocityStepMps":0.23852909818931198,"maximumGradePercent":11.652542372881356,"minGradeSpeedMps":1.7009024775886707}
+PASS Max-upgrade 30/60/120Hz timing, stalls, malformed upgrade callbacks and high-speed wall sweeps are safe
+PASS Actual movement time is refresh-independent and cannot replay idle or wall-contact earnings: [{"fps":30,"movingSeconds":5.983333333333323,"distance":46.911576165357765,"emptyFrames":0},{"fps":60,"movingSeconds":5.983333333333317,"distance":46.911576165357765,"emptyFrames":0},{"fps":120,"movingSeconds":5.98333333333342,"distance":46.911576165357765,"emptyFrames":0},{"fps":144,"movingSeconds":5.98333333333342,"distance":46.911576165357765,"emptyFrames":144},{"fps":240,"movingSeconds":5.98333333333342,"distance":46.911576165357765,"emptyFrames":720}]
+PASS Maximum upgrades cross all biome boundaries without discontinuities, including reverse
+
+8 upgrade groups passed; 100 measured combinations. No browser/GPU claim.
+PASS five immutable school entries have unique IDs, colors, anchors and safe shared exit
+PASS all twenty stable desk IDs share one pool with original desk and seat poses
+PASS five numbered colored entrances remain without colored lanes or furniture partitions
+  65620 collision-safe route/marker samples, grounded and jumping
+PASS all seventeen characters reach every entry via a clear rear aisle, including airborne Jandel
+PASS all 340 calibrated furniture parts and forty collision solids stay unchanged
+PASS spawn, shell, board, stands, ten parked vehicles and checkpoints match Site28
+PASS five-school scene adds bounded resources and disposes every shared resource exactly once
+Five training entrances: 7 checks passed; Node/Three only, no browser.
+PASS fresh career and old-save migration preserve owned vehicles, money and selected paid skin {"skins":17}
+PASS one-time grant equals only missing fleet deficit, survives all buys and reloads {"cases":183}
+PASS all paid school purchases reject duplicates, enforce proximity and funds, retain access after reload {"spent":12500}
+PASS all sixteen paid skins remain locked until proximity purchase; old selection and reload retained {"spent":58250}
+PASS study rates follow all five entrances across shared seats, pauses, standing and a full room 
+PASS upgrade purchases are bounded, recalculate prices, spend only brains, and preserve per-car levels on reload {"spent":7200}
+PASS actual motion earns exactly one brain per second across low, normal and high-refresh frame rates [{"fps":30,"brains":10},{"fps":60,"brains":10},{"fps":90,"brains":10},{"fps":120,"brains":10},{"fps":144,"brains":10},{"fps":165,"brains":10},{"fps":240,"brains":10}]
+PASS idle, stationary wall pressure, rejected long frames and unrealistic teleport distances cannot earn 
+PASS each isolated upgrade causes a measured physical effect for all cars on supported biomes {"combinations":30}
+PASS next stock car stays above maxed previous car on supported terrain across actual acceleration, top speed, rack, yaw, grip and brakes {"comparisons":29}
+PASS persistent storage failure retries are bounded while recovery flush retains all earned brains [{"failure":"false","attempts":5},{"failure":"throw","attempts":5}]
+11/11 groups passed
+PASS fresh app never grants money automatically; explicit doubleclick grants exactly remaining fleet deficit once across reload {"granted":37900}
+PASS actual app does not pay movement on idle, menu pauses, hidden, blur, overview, teleports or stale key input {"movingEarned":1.9833333333333298}
+PASS actual app rejects visible long-frame stalls for seated study and driving ""
+PASS study in actual app uses all five rates and never earns hidden, blurred, overview or after standing {"schools":5}
+PASS all five selected entrance rates remain exact at 15 FPS through high-refresh rendering {"cases":30,"school5At15Fps":60}
+PASS all skin proximity buttons enforce ownership and doubleclick never duplicates spend; selected skin survives reload {"spent":58250}
+PASS school purchase then sit uses distinct actions and preserves money/seat when clicked again ""
+PASS upgrade modal refreshes actual selected-car offer, maxes only paid levels and saves without resetting fuel or pose {"spent":315}
+PASS upgrade modal repeated Escape/close/backdrop/tab and biome swaps remain isolated at five viewport sizes {"viewportCases":5,"repeatedFlows":15}
+PASS all five shared-seat study rates and career data survive garage, fuel-empty, rebuild and reload without replay {"entrances":5,"resetCases":15}
+PASS actual app pays steady motion equally at standard and high-refresh rates [{"fps":30,"earned":9.999999999999966},{"fps":60,"earned":10.000000000000053},{"fps":90,"earned":10},{"fps":120,"earned":9.999999999999947},{"fps":144,"earned":9.999999999999947},{"fps":165,"earned":9.999999999999947},{"fps":240,"earned":9.999999999999947}]
+PASS zero-brain modal moves keyboard focus inside even when every purchase button is disabled ""
+PASS five floating school labels keep exact rates, paid lock/price, affordability and owned-state updates ""
+PASS actual Three.js school projections retain horizontal separation across varied camera angles and five viewport sizes {"projectionFrames":375,"visibleLabels":1032,"maximumEdgeClippingPx":108.58045121798452,"scope":"Projection math and authored 120px boxes; no browser layout assertion"}
+14/14 groups passed. Node actual Three.js + mock DOM only.
+PASS Every progression SVG reference resolves to one local code-native symbol
+PASS Five schools use book-brain, rate-brain, lock and money symbols; all 17 skins have price anchors
+PASS Brain balance displays bounded career values without rounding up or abbreviating
+PASS Fresh school labels hide the entire free access row and retain paid prices, rates and affordability
+PASS School purchase refreshes action immediately and floating ownership on the next app frame
+PASS Insufficient school funds keep price and lock visible without purchasing or seating
+PASS Restored school ownership hides every access row while all five rate signs remain available
+PASS All 17 skin labels track prices; a purchase changes its label and explicit Select action
+PASS Purchase prompts hide while airborne, seated, driving, absent, or outside play mode
+PASS Upgrade dialog opens only in a car and presents the actual per-vehicle offers
+PASS Buying upgrades immediately refreshes brains, level, next price, maximum and disabled states
+PASS Upgrade keyboard focus, dismissal, menu exclusion and touch-event containment remain wired
+PASS Real app camera projection separates visible school labels in frontal and oblique views
+PASS Dense projected school labels spread uniformly and reset cleanly when the view changes
+PASS School teaching symbol and rate grow 20–25 percent within a 120px label
+PASS School and skin world labels hide in driving and overview and show only in walking projections
+PASS HUD and touch controls retain transparent currency, safe areas, minimum targets and scrolling
+Checked 14 source-derived narrow track budgets. Font shaping and CSS layout are not browser-tested.
+PASS Narrow upgrade values can wrap; static track budgets fit 320–600px with minimum touch widths
+Narrow MAX specimen budget: 79.171875px of 85px; explicit padding and cascade.
+PASS Narrow MAX button resets UA padding and overrides the stronger desktop font selector
+Progression HUD: 19 checks passed. Actual app fixture + SVG/CSS source contracts only; no browser, Android, GPU or touchscreen claims.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

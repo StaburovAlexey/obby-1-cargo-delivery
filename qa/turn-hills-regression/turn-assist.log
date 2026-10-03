@@ -1,0 +1,19 @@
+PASS Published City34 numerical baseline dependency closure is unchanged
+PASS Zero through 60% steering and released throttle remain bit-exact baseline dynamics
+PASS All ten cars turn 180° inside the full-body 30 m corridor in all biomes, upgrades, gears and signs
+PASS 30/60/120 FPS, jitter and clamped 350 ms stalls integrate the same bounded trajectory
+PASS Four tire forces remain intact and explicit arcade corrections are finite and bounded
+PASS Assisted forward/reverse turns unwind without persistent slide or straight-line auto-braking
+PASS Gear changes brake through zero and pause/reset remove assist momentum and timers
+{
+  "caseCount": 2000,
+  "worstHullExtent": 12.580344622553739,
+  "minimumBarrierClearance": 2.4196553774462615,
+  "maximumYawAcceleration": 3.999999999999919,
+  "maximumAcceleration": 19.711659298698216,
+  "maximumSlip": 0.3301101586082773,
+  "turn180Seconds": [
+    3.4499999999999904,
+    8.566666666666821
+  ]
+}

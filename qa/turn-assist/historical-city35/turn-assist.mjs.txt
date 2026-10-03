@@ -1,0 +1,207 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import crypto from 'node:crypto';
+import { createDrivingModel, evaluateVehicleForces, VEHICLE_DYNAMICS, VEHICLE_WHEELS } from '../dist/driving-model.js';
+import { TURN_ASSIST, turnAssistIntent, addTurnAssistForces } from '../dist/turn-assist.js';
+import { VEHICLE_CONFIG } from '../dist/economy-config.js';
+import { surfaceForBiome } from '../dist/biome-surfaces.js';
+import { createDrivingModel as baselineModel } from '../qa/turn-assist/baseline-v34/driving-model.js';
+
+const dt = 1 / 120;
+const biomes = ['city', 'forest', 'desert', 'snow', 'volcanic'];
+const maximumUpgrades = { speed: 3, handling: 3, grip: 3, fuel: 3 };
+const report = { scope: 'Centered car aligned with a clear straight 30 m corridor; no edge, obstacle or curved-road guarantee.',
+  body: { halfWidth: 2.9, halfLength: 3.6 }, fixedStep: dt,
+  assist: TURN_ASSIST, cases: [], checks: [] };
+const physicalKeys = ['x', 'z', 'heading', 'velocityX', 'velocityZ', 'angularVelocity', 'speed', 'linearSpeed',
+  'frontWheelAngle', 'wheelSpin', 'gear', 'steering', 'active', 'moving', 'blocked', 'travel', 'pathDistance', 'movingSeconds'];
+const finiteState = state => {
+  for (const [key, value] of Object.entries(state)) if (typeof value === 'number') assert.ok(Number.isFinite(value), key);
+  for (const [key, value] of Object.entries(state.turnAssist || {})) assert.ok(Number.isFinite(value), `assist ${key}`);
+};
+const params = (spec, biome, maxed) => ({ x: 0, z: 0, heading: 0, vehicleId: spec.id, maxSpeed: spec.maxSpeed,
+  getUpgrades: () => maxed ? maximumUpgrades : undefined, groundSurface: () => surfaceForBiome(biome, spec.id) });
+function check(name, fn) { fn(); report.checks.push(name); console.log(`PASS ${name}`); }
+
+check('Published City34 numerical baseline dependency closure is unchanged', () => {
+  const base = new URL('../qa/turn-assist/baseline-v34/', import.meta.url);
+  for (const line of fs.readFileSync(new URL('SHA256SUMS', base), 'utf8').trim().split('\n')) {
+    const [hash, name] = line.split('  ');
+    assert.equal(crypto.createHash('sha256').update(fs.readFileSync(new URL(name, base))).digest('hex'), hash, name);
+  }
+});
+
+check('Zero through 60% steering and released throttle remain bit-exact baseline dynamics', () => {
+  for (const spec of VEHICLE_CONFIG) for (const biome of biomes) for (const maxed of [false, true]) {
+    for (const steering of [-.60, -.3, 0, .3, .60]) {
+      const a = createDrivingModel(params(spec, biome, maxed)), b = baselineModel(params(spec, biome, maxed));
+      for (const model of [a, b]) { model.state.velocityZ = -spec.maxSpeed * .65; model.setInput({ steering, active: true }); }
+      for (let i = 0; i < 120; i++) {
+        a.step(dt); b.step(dt);
+        for (const key of physicalKeys) assert.equal(a.state[key], b.state[key], `${spec.id}/${biome}/${steering}/${key}`);
+        assert.equal(a.state.turnAssist.strength, 0);
+        assert.equal(a.state.turnAssist.forceX, 0); assert.equal(a.state.turnAssist.forceZ, 0);
+        assert.equal(a.state.turnAssist.torque, 0); assert.equal(a.state.turnAssist.brakeAcceleration, 0);
+      }
+    }
+    // Release from an actually assisted turn, retaining its physical momentum.
+    const a = createDrivingModel(params(spec, biome, maxed)), b = baselineModel(params(spec, biome, maxed));
+    a.setInput({ steering: 1, active: true });
+    for (let i = 0; i < 180; i++) a.step(dt);
+    for (const key of physicalKeys) b.state[key] = a.state[key];
+    a.setInput({ steering: 1, active: false }); b.setInput({ steering: 1, active: false });
+    for (let i = 0; i < 120; i++) {
+      a.step(dt); b.step(dt);
+      for (const key of physicalKeys) assert.equal(a.state[key], b.state[key], `released ${spec.id}/${biome}/${key}`);
+      assert.equal(a.state.turnAssist.strength, 0);
+    }
+  }
+});
+
+function runTurn({ spec, biome, maxed, direction, steering, initialSpeed, framePattern = [dt], duration }) {
+  let maximumHullExtent = 2.9, contacts = 0;
+  const contact = (x, z, heading) => {
+    const extent = Math.abs(x) + 2.9 * Math.abs(Math.cos(heading)) + 3.6 * Math.abs(Math.sin(heading));
+    maximumHullExtent = Math.max(maximumHullExtent, extent);
+    if (extent >= 15) { contacts++; return { normalX: -Math.sign(x), normalZ: 0, depth: extent - 15 }; }
+  };
+  const m = createDrivingModel({ ...params(spec, biome, maxed), contact });
+  m.setGear(direction === 1 ? 'D' : 'R'); m.state.velocityZ = -direction * initialSpeed;
+  m.setInput({ steering, active: true });
+  let time = 0, maximumAcceleration = 0, maximumYawAcceleration = 0, maximumSlip = 0;
+  let brakeObserved = false, maximumHeadingBeforeSafeSpeed = 0, ended = false;
+  let previous = [m.state.velocityX, m.state.velocityZ, m.state.angularVelocity];
+  for (let i = 0; time < (duration ?? 60) - 1e-8; i++) {
+    const requestedDelta = Math.min(framePattern[i % framePattern.length], (duration ?? 60) - time);
+    const acceptedDelta = Math.min(requestedDelta, VEHICLE_DYNAMICS.maxFrameDelta);
+    m.step(requestedDelta); time += acceptedDelta;
+    const s = m.state;
+    finiteState(s);
+    maximumAcceleration = Math.max(maximumAcceleration, Math.hypot(s.velocityX - previous[0], s.velocityZ - previous[1]) / acceptedDelta);
+    maximumYawAcceleration = Math.max(maximumYawAcceleration, Math.abs(s.angularVelocity - previous[2]) / acceptedDelta);
+    previous = [s.velocityX, s.velocityZ, s.angularVelocity];
+    maximumSlip = Math.max(maximumSlip, Math.abs(s.velocityX * Math.cos(s.heading) - s.velocityZ * Math.sin(s.heading)));
+    brakeObserved ||= s.turnAssist?.brakeAcceleration > .01;
+    if (s.turnAssist && s.linearSpeed > s.turnAssist.targetSpeed + TURN_ASSIST.turnGateEnd) {
+      maximumHeadingBeforeSafeSpeed = Math.max(maximumHeadingBeforeSafeSpeed, Math.abs(s.heading));
+    }
+    if (Math.abs(s.heading) >= Math.PI) { ended = true; if (!duration) break; }
+  }
+  return { vehicle: spec.id, biome, upgrades: maxed ? 'max' : 'stock', gear: direction === 1 ? 'D' : 'R', steering,
+    initialSpeed, turn180Seconds: time, maximumHullExtent, contacts, ended, maximumAcceleration, maximumYawAcceleration,
+    maximumSlip, brakeObserved, maximumHeadingBeforeSafeSpeed,
+    finalRadius: m.state.linearSpeed / Math.max(1e-10, Math.abs(m.state.angularVelocity)), state: m.state };
+}
+
+check('All ten cars turn 180° inside the full-body 30 m corridor in all biomes, upgrades, gears and signs', () => {
+  for (const spec of VEHICLE_CONFIG) for (const biome of biomes) for (const maxed of [false, true]) {
+    const localTop = spec.maxSpeed * (maxed ? 1.06 : 1) * surfaceForBiome(biome, spec.id).speedFactor;
+    // Include full catalog speed even on unsupported terrain: an entry from a
+    // faster biome must brake safely rather than relying on local speed caps.
+    const starts = [0, localTop * .25, localTop * .5, localTop, spec.maxSpeed * (maxed ? 1.06 : 1)];
+    for (const direction of [-1, 1]) for (const steering of [-1, 1]) for (const initialSpeed of starts) {
+      const row = runTurn({ spec, biome, maxed, direction, steering, initialSpeed });
+      const name = `${spec.id}/${biome}/${row.upgrades}/${row.gear}/${steering}/${initialSpeed}`;
+      assert.ok(row.ended, `180° timeout: ${name}`);
+      assert.equal(row.contacts, 0, `barrier touched: ${name}`);
+      assert.ok(row.maximumHullExtent < 14, `less than 1 m safety margin: ${name}: ${row.maximumHullExtent}`);
+      assert.ok(row.finalRadius < 5.5, `radius: ${name}: ${row.finalRadius}`);
+      assert.ok(row.maximumYawAcceleration <= TURN_ASSIST.maximumYawAcceleration + 1e-7, `yaw acceleration: ${name}`);
+      assert.ok(row.maximumAcceleration < 25, `acceleration: ${name}`);
+      assert.ok(row.maximumSlip < .5, `excess slide: ${name}`);
+      if (initialSpeed > 12) assert.ok(row.maximumHeadingBeforeSafeSpeed < .025, `yaw before braking: ${name}`);
+      if (initialSpeed > 10) assert.ok(row.brakeObserved, `missing automatic brake: ${name}`);
+      delete row.state; report.cases.push(row);
+    }
+  }
+});
+
+check('30/60/120 FPS, jitter and clamped 350 ms stalls integrate the same bounded trajectory', () => {
+  const patterns = [[1 / 120], [1 / 60], [1 / 30], [.005, .019, .027, .009, .025, .015], [.35, .025, .025, .05]];
+  for (const spec of [VEHICLE_CONFIG[0], VEHICLE_CONFIG[5], VEHICLE_CONFIG.at(-1)]) for (const biome of biomes) {
+    const args = { spec, biome, maxed: true, direction: 1, steering: 1, initialSpeed: spec.maxSpeed * 1.06, duration: 12 };
+    const reference = runTurn({ ...args, framePattern: patterns[0] });
+    for (const framePattern of patterns.slice(1)) {
+      const actual = runTurn({ ...args, framePattern });
+      assert.equal(actual.contacts, 0);
+      for (const key of ['x', 'z', 'heading', 'velocityX', 'velocityZ', 'angularVelocity', 'frontWheelAngle']) {
+        assert.ok(Math.abs(actual.state[key] - reference.state[key]) < 1e-8, `${spec.id}/${biome}/${framePattern}/${key}`);
+      }
+      assert.ok(actual.maximumHullExtent < 14);
+    }
+  }
+});
+
+check('Four tire forces remain intact and explicit arcade corrections are finite and bounded', () => {
+  assert.equal(VEHICLE_WHEELS.length, 4);
+  for (const spec of VEHICLE_CONFIG) for (const biome of biomes) for (const steering of [-1, -.600001, .6, 1]) {
+    const state = { heading: .7, velocityX: 10, velocityZ: -30, angularVelocity: 2,
+      frontWheelAngle: .3, steering, gear: 'D', active: true };
+    const surface = surfaceForBiome(biome, spec.id);
+    const base = evaluateVehicleForces(state, { surface, maxSpeed: spec.maxSpeed });
+    const intent = turnAssistIntent({ steering, active: true, linearSpeed: Math.hypot(10, 30),
+      maximumSpeed: spec.maxSpeed, handling: spec.handling, friction: surface.frictionFactor });
+    const assisted = addTurnAssistForces(state, base, intent, VEHICLE_DYNAMICS);
+    assert.equal(assisted.tires, base.tires);
+    assert.equal(assisted.tires.length, 4);
+    for (const tire of assisted.tires) assert.ok(Math.hypot(tire.longitudinalForce, tire.lateralForce) <= tire.grip + 1e-7);
+    for (const value of Object.values(assisted.assist)) assert.ok(Number.isFinite(value));
+    assert.ok(Math.hypot(assisted.assist.forceX, assisted.assist.forceZ) <= VEHICLE_DYNAMICS.mass *
+      (TURN_ASSIST.maximumBrakeAcceleration + TURN_ASSIST.maximumExtraLateralAcceleration) + 1e-7);
+    assert.ok(Math.abs(assisted.assist.torque) <= VEHICLE_DYNAMICS.yawInertia * TURN_ASSIST.maximumExtraYawAcceleration + 1e-7);
+  }
+});
+
+check('Assisted forward/reverse turns unwind without persistent slide or straight-line auto-braking', () => {
+  let worstSlip = 0, worstYaw = 0;
+  for (const spec of VEHICLE_CONFIG) for (const biome of biomes) for (const maxed of [false, true]) {
+    for (const gear of ['D', 'R']) for (const steering of [.8, 1]) {
+      const m = createDrivingModel(params(spec, biome, maxed));
+      m.setGear(gear); m.setInput({ active: true, steering });
+      for (let i = 0; i < 960; i++) m.step(dt);
+      m.setInput({ active: true, steering: 0 });
+      for (let i = 0; i < 480; i++) {
+        m.step(dt); finiteState(m.state);
+        assert.equal(m.state.turnAssist.brakeAcceleration, 0, 'unwind must not brake');
+      }
+      const s = m.state;
+      const lateral = Math.abs(s.velocityX * Math.cos(s.heading) - s.velocityZ * Math.sin(s.heading));
+      const slip = Math.atan2(lateral, Math.max(.2, Math.abs(s.speed)));
+      worstSlip = Math.max(worstSlip, slip); worstYaw = Math.max(worstYaw, Math.abs(s.angularVelocity));
+      assert.ok(slip < .003, `${spec.id}/${biome}/${maxed}/${gear}/${steering} unwind slip ${slip}`);
+      assert.ok(Math.abs(s.angularVelocity) < .004, `${spec.id}/${biome}/${maxed}/${gear}/${steering} unwind yaw`);
+    }
+  }
+  report.recovery = { cases: 400, worstSlipRadians: worstSlip, worstYawRadiansPerSecond: worstYaw };
+});
+
+check('Gear changes brake through zero and pause/reset remove assist momentum and timers', () => {
+  for (const startGear of ['D', 'R']) {
+    const m = createDrivingModel(params(VEHICLE_CONFIG.at(-1), 'snow', true));
+    m.setGear(startGear); m.setInput({ steering: 0, active: true });
+    for (let i = 0; i < 480; i++) m.step(dt);
+    const sign = startGear === 'D' ? 1 : -1;
+    m.setGear(startGear === 'D' ? 'R' : 'D'); m.setInput({ steering: 1, active: true });
+    let minimum = Infinity, reversed = false;
+    for (let i = 0; i < 2400; i++) {
+      m.step(dt); finiteState(m.state);
+      minimum = Math.min(minimum, m.state.linearSpeed);
+      if (m.state.speed * sign < -.3) { reversed = true; break; }
+    }
+    assert.ok(reversed); assert.ok(minimum < .15);
+    m.pause(); assert.equal(m.state.turnAssist.strength, 0); assert.equal(m.state.linearSpeed, 0);
+    assert.equal(m.state.pathDistance, 0); assert.equal(m.state.travel, 0);
+    m.reset(); assert.equal(m.state.turnAssist.strength, 0); assert.equal(m.state.heading, 0);
+  }
+});
+
+report.summary = { caseCount: report.cases.length,
+  worstHullExtent: Math.max(...report.cases.map(row => row.maximumHullExtent)),
+  minimumBarrierClearance: 15 - Math.max(...report.cases.map(row => row.maximumHullExtent)),
+  maximumYawAcceleration: Math.max(...report.cases.map(row => row.maximumYawAcceleration)),
+  maximumAcceleration: Math.max(...report.cases.map(row => row.maximumAcceleration)),
+  maximumSlip: Math.max(...report.cases.map(row => row.maximumSlip)),
+  turn180Seconds: [Math.min(...report.cases.map(row => row.turn180Seconds)), Math.max(...report.cases.map(row => row.turn180Seconds))] };
+fs.mkdirSync(new URL('../qa/turn-assist/', import.meta.url), { recursive: true });
+fs.writeFileSync(new URL('../qa/turn-assist/turn-assist-results.json', import.meta.url), `${JSON.stringify(report, null, 2)}\n`);
+console.log(JSON.stringify(report.summary, null, 2));

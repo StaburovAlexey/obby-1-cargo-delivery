@@ -1,0 +1,16 @@
+PASS fresh career starts walking with zero money, only the free pickup, and no cargo
+PASS walking to locked car shows its price and cannot buy or board automatically
+PASS explicit double purchase debits once; walking away and back boards the owned car
+PASS both paid vehicles debit their configured prices once and persist separate ownership
+PASS stale purchase click, insufficient money and airborne state cannot buy
+PASS each owned car shows its actual fuel capacity, speed and single loaded crate
+PASS refuel preserves cargo, run, wallet and camera while filling the selected tank
+PASS delivery pays exactly once, persists and returns walking with all controls released
+PASS fuel zero wins over coincident delivery and leaves no money or cargo
+PASS purchase button releases its walking/look controls without acquiring another pointer
+PASS pending enter event cannot replay entry or reset a newly rotated camera
+PASS reload preserves earned career and selected character without restoring or paying cargo
+PASS corrupt and wrong-version saves safely reset and show a persistent reset badge
+PASS unavailable storage warning survives startup, ordinary frames and regeneration
+PASS write failure badge survives purchase/delivery toasts and preserves this-session state
+Economy integration: 15/15 checks passed (renderer-free app fixture).

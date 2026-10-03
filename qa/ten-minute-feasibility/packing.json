@@ -1,0 +1,70 @@
+{
+  "scope": "Isolated 13.57 km geometry; exact existing220m spacing, 160m service-deck,150m fork-deck and60m approaches with .065grade/.0013curvature. No production files changed.",
+  "routeLength": 13588.948828488023,
+  "maximumPacking": 26,
+  "rows": [
+    {
+      "biome": "city",
+      "maximumSafePacking": 5,
+      "maximumPackingCenters": [
+        960,
+        1320,
+        1720,
+        2160,
+        2660
+      ],
+      "candidateCount": 46
+    },
+    {
+      "biome": "forest",
+      "maximumSafePacking": 5,
+      "maximumPackingCenters": [
+        3320,
+        3850,
+        4070,
+        5360,
+        5580
+      ],
+      "candidateCount": 80
+    },
+    {
+      "biome": "desert",
+      "maximumSafePacking": 5,
+      "maximumPackingCenters": [
+        6260,
+        6480,
+        6700,
+        6920,
+        7950
+      ],
+      "candidateCount": 80
+    },
+    {
+      "biome": "snow",
+      "maximumSafePacking": 5,
+      "maximumPackingCenters": [
+        8820,
+        9040,
+        9260,
+        10470,
+        10690
+      ],
+      "candidateCount": 91
+    },
+    {
+      "biome": "volcanic",
+      "maximumSafePacking": 6,
+      "maximumPackingCenters": [
+        11320,
+        11540,
+        12520,
+        12740,
+        12960,
+        13180
+      ],
+      "candidateCount": 123
+    }
+  ],
+  "authoredBridges": 25,
+  "violations": []
+}

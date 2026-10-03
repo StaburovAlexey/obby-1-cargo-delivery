@@ -1,0 +1,9 @@
+Route network: 8/8 groups passed. {"length":10829.072000445114,"nodes":14,"edges":17,"forks":4,"roadTriangles":16510,"groundTriangles":30398,"boundarySegments":16512}
+- all16 graph paths visit ordered biome gates and equal physical length
+- unchangedspawn/apron, 30m road and continuous height support
+- true90degree turns, boundedgrade/radius and no nonlocal crossings
+- physical arc inverse and numerical path length agree
+- shared union triangles point upward with exact visibleheight/normal
+- forward/reverse history chooses both arms without distant branch flips
+- full footprint catches median tips even when all corners are onroad
+- safe common checkpoints and smooth fork joins

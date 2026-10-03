@@ -1,0 +1,512 @@
+{
+  "scope": "Captured from the measured pre-price-update runtime. Physical car stats and upgrade benefits must stay identical.",
+  "vehicles": [
+    {
+      "id": "pickup",
+      "name": "Пикап",
+      "capacity": 100,
+      "range": 290,
+      "maxSpeed": 11,
+      "acceleration": 6.111111111111111,
+      "specialty": "city",
+      "progressionOrder": 1,
+      "pairRole": "standard",
+      "handling": 0.5,
+      "grip": 0.5,
+      "consumption": 0.3448275862068966
+    },
+    {
+      "id": "citycourier",
+      "name": "Городской курьер",
+      "capacity": 140,
+      "range": 400,
+      "maxSpeed": 12.5,
+      "acceleration": 6.9,
+      "specialty": "city",
+      "progressionOrder": 2,
+      "pairRole": "advanced",
+      "handling": 0.56,
+      "grip": 0.56,
+      "consumption": 0.35
+    },
+    {
+      "id": "rover",
+      "name": "Внедорожник",
+      "capacity": 190,
+      "range": 550,
+      "maxSpeed": 14.2,
+      "acceleration": 7.8,
+      "specialty": "forest",
+      "progressionOrder": 3,
+      "pairRole": "standard",
+      "handling": 0.6272000000000001,
+      "grip": 0.6272000000000001,
+      "consumption": 0.34545454545454546
+    },
+    {
+      "id": "foresthauler",
+      "name": "Лесовоз",
+      "capacity": 260,
+      "range": 740,
+      "maxSpeed": 16.2,
+      "acceleration": 8.8,
+      "specialty": "forest",
+      "progressionOrder": 4,
+      "pairRole": "advanced",
+      "handling": 0.7024640000000002,
+      "grip": 0.7024640000000002,
+      "consumption": 0.35135135135135137
+    },
+    {
+      "id": "van",
+      "name": "Фургон",
+      "capacity": 350,
+      "range": 1000,
+      "maxSpeed": 18.4,
+      "acceleration": 10,
+      "specialty": "desert",
+      "progressionOrder": 5,
+      "pairRole": "standard",
+      "handling": 0.7867596800000003,
+      "grip": 0.7867596800000003,
+      "consumption": 0.35
+    },
+    {
+      "id": "desertscout",
+      "name": "Песчаный разведчик",
+      "capacity": 480,
+      "range": 1350,
+      "maxSpeed": 21,
+      "acceleration": 11.3,
+      "specialty": "desert",
+      "progressionOrder": 6,
+      "pairRole": "advanced",
+      "handling": 0.8811708416000004,
+      "grip": 0.8811708416000004,
+      "consumption": 0.35555555555555557
+    },
+    {
+      "id": "snowgrip",
+      "name": "Ледовый вездеход",
+      "capacity": 650,
+      "range": 1800,
+      "maxSpeed": 23.9,
+      "acceleration": 12.8,
+      "specialty": "snow",
+      "progressionOrder": 7,
+      "pairRole": "standard",
+      "handling": 0.9869113425920005,
+      "grip": 0.9869113425920005,
+      "consumption": 0.3611111111111111
+    },
+    {
+      "id": "snowrunner",
+      "name": "Полярный экспресс",
+      "capacity": 880,
+      "range": 2800,
+      "maxSpeed": 27.2,
+      "acceleration": 14.5,
+      "specialty": "snow",
+      "progressionOrder": 8,
+      "pairRole": "advanced",
+      "handling": 1.1053407037030407,
+      "grip": 1.1053407037030407,
+      "consumption": 0.3142857142857143
+    },
+    {
+      "id": "lavacrawler",
+      "name": "Лавовый тягач",
+      "capacity": 1190,
+      "range": 3700,
+      "maxSpeed": 31,
+      "acceleration": 16.4,
+      "specialty": "volcanic",
+      "progressionOrder": 9,
+      "pairRole": "standard",
+      "handling": 1.2379815881474057,
+      "grip": 1.2379815881474057,
+      "consumption": 0.3216216216216216
+    },
+    {
+      "id": "ashhauler",
+      "name": "Пепельный караван",
+      "capacity": 1610,
+      "range": 4900,
+      "maxSpeed": 35.4,
+      "acceleration": 18.6,
+      "specialty": "volcanic",
+      "progressionOrder": 10,
+      "pairRole": "advanced",
+      "handling": 1.3865393787250946,
+      "grip": 1.3865393787250946,
+      "consumption": 0.32857142857142857
+    }
+  ],
+  "levels": [
+    {},
+    {
+      "speed": 3,
+      "handling": 3,
+      "grip": 3,
+      "fuel": 10
+    },
+    {
+      "speed": 10,
+      "handling": 10,
+      "grip": 10,
+      "fuel": 10
+    }
+  ],
+  "performances": [
+    {
+      "id": "pickup",
+      "values": [
+        {
+          "maxSpeed": 11,
+          "acceleration": 6.111111111111111,
+          "handling": 0.5,
+          "steeringResponseSeconds": 0.44,
+          "grip": 0.5,
+          "range": 290,
+          "capacity": 100,
+          "consumption": 0.3448275862068966
+        },
+        {
+          "maxSpeed": 11.33,
+          "acceleration": 6.294444444444444,
+          "handling": 0.515,
+          "steeringResponseSeconds": 0.42718446601941745,
+          "grip": 0.515,
+          "range": 377,
+          "capacity": 130,
+          "consumption": 0.3448275862068966
+        },
+        {
+          "maxSpeed": 12.100000000000001,
+          "acceleration": 6.722222222222222,
+          "handling": 0.55,
+          "steeringResponseSeconds": 0.39999999999999997,
+          "grip": 0.55,
+          "range": 377,
+          "capacity": 130,
+          "consumption": 0.3448275862068966
+        }
+      ]
+    },
+    {
+      "id": "citycourier",
+      "values": [
+        {
+          "maxSpeed": 12.5,
+          "acceleration": 6.9,
+          "handling": 0.56,
+          "steeringResponseSeconds": 0.39285714285714285,
+          "grip": 0.56,
+          "range": 400,
+          "capacity": 140,
+          "consumption": 0.35
+        },
+        {
+          "maxSpeed": 12.875,
+          "acceleration": 7.107,
+          "handling": 0.5768000000000001,
+          "steeringResponseSeconds": 0.38141470180305126,
+          "grip": 0.5768000000000001,
+          "range": 520,
+          "capacity": 182,
+          "consumption": 0.35
+        },
+        {
+          "maxSpeed": 13.750000000000002,
+          "acceleration": 7.590000000000001,
+          "handling": 0.6160000000000001,
+          "steeringResponseSeconds": 0.3571428571428571,
+          "grip": 0.6160000000000001,
+          "range": 520,
+          "capacity": 182,
+          "consumption": 0.35
+        }
+      ]
+    },
+    {
+      "id": "rover",
+      "values": [
+        {
+          "maxSpeed": 14.2,
+          "acceleration": 7.8,
+          "handling": 0.6272000000000001,
+          "steeringResponseSeconds": 0.35076530612244894,
+          "grip": 0.6272000000000001,
+          "range": 550,
+          "capacity": 190,
+          "consumption": 0.34545454545454546
+        },
+        {
+          "maxSpeed": 14.626,
+          "acceleration": 8.034,
+          "handling": 0.6460160000000001,
+          "steeringResponseSeconds": 0.34054884089558146,
+          "grip": 0.6460160000000001,
+          "range": 715,
+          "capacity": 247,
+          "consumption": 0.34545454545454546
+        },
+        {
+          "maxSpeed": 15.620000000000001,
+          "acceleration": 8.58,
+          "handling": 0.6899200000000002,
+          "steeringResponseSeconds": 0.31887755102040805,
+          "grip": 0.6899200000000002,
+          "range": 715,
+          "capacity": 247,
+          "consumption": 0.34545454545454546
+        }
+      ]
+    },
+    {
+      "id": "foresthauler",
+      "values": [
+        {
+          "maxSpeed": 16.2,
+          "acceleration": 8.8,
+          "handling": 0.7024640000000002,
+          "steeringResponseSeconds": 0.3131833090379008,
+          "grip": 0.7024640000000002,
+          "range": 740,
+          "capacity": 260,
+          "consumption": 0.35135135135135137
+        },
+        {
+          "maxSpeed": 16.686,
+          "acceleration": 9.064000000000002,
+          "handling": 0.7235379200000003,
+          "steeringResponseSeconds": 0.30406146508534054,
+          "grip": 0.7235379200000003,
+          "range": 962,
+          "capacity": 338,
+          "consumption": 0.35135135135135137
+        },
+        {
+          "maxSpeed": 17.82,
+          "acceleration": 9.680000000000001,
+          "handling": 0.7727104000000002,
+          "steeringResponseSeconds": 0.2847120991253643,
+          "grip": 0.7727104000000002,
+          "range": 962,
+          "capacity": 338,
+          "consumption": 0.35135135135135137
+        }
+      ]
+    },
+    {
+      "id": "van",
+      "values": [
+        {
+          "maxSpeed": 18.4,
+          "acceleration": 10,
+          "handling": 0.7867596800000003,
+          "steeringResponseSeconds": 0.27962795449812566,
+          "grip": 0.7867596800000003,
+          "range": 1000,
+          "capacity": 350,
+          "consumption": 0.35
+        },
+        {
+          "maxSpeed": 18.951999999999998,
+          "acceleration": 10.3,
+          "handling": 0.8103624704000003,
+          "steeringResponseSeconds": 0.2714834509690541,
+          "grip": 0.8103624704000003,
+          "range": 1300,
+          "capacity": 455,
+          "consumption": 0.35
+        },
+        {
+          "maxSpeed": 20.24,
+          "acceleration": 11,
+          "handling": 0.8654356480000004,
+          "steeringResponseSeconds": 0.2542072313619324,
+          "grip": 0.8654356480000004,
+          "range": 1300,
+          "capacity": 455,
+          "consumption": 0.35
+        }
+      ]
+    },
+    {
+      "id": "desertscout",
+      "values": [
+        {
+          "maxSpeed": 21,
+          "acceleration": 11.3,
+          "handling": 0.8811708416000004,
+          "steeringResponseSeconds": 0.24966781651618364,
+          "grip": 0.8811708416000004,
+          "range": 1350,
+          "capacity": 480,
+          "consumption": 0.35555555555555557
+        },
+        {
+          "maxSpeed": 21.63,
+          "acceleration": 11.639000000000001,
+          "handling": 0.9076059668480004,
+          "steeringResponseSeconds": 0.2423959383652268,
+          "grip": 0.9076059668480004,
+          "range": 1755,
+          "capacity": 624,
+          "consumption": 0.35555555555555557
+        },
+        {
+          "maxSpeed": 23.1,
+          "acceleration": 12.430000000000001,
+          "handling": 0.9692879257600004,
+          "steeringResponseSeconds": 0.22697074228743966,
+          "grip": 0.9692879257600004,
+          "range": 1755,
+          "capacity": 624,
+          "consumption": 0.35555555555555557
+        }
+      ]
+    },
+    {
+      "id": "snowgrip",
+      "values": [
+        {
+          "maxSpeed": 23.9,
+          "acceleration": 12.8,
+          "handling": 0.9869113425920005,
+          "steeringResponseSeconds": 0.22291769331802108,
+          "grip": 0.9869113425920005,
+          "range": 1800,
+          "capacity": 650,
+          "consumption": 0.3611111111111111
+        },
+        {
+          "maxSpeed": 24.617,
+          "acceleration": 13.184000000000001,
+          "handling": 1.0165186828697605,
+          "steeringResponseSeconds": 0.2164249449689525,
+          "grip": 1.0165186828697605,
+          "range": 2340,
+          "capacity": 845,
+          "consumption": 0.3611111111111111
+        },
+        {
+          "maxSpeed": 26.29,
+          "acceleration": 14.080000000000002,
+          "handling": 1.0856024768512007,
+          "steeringResponseSeconds": 0.20265244847092823,
+          "grip": 1.0856024768512007,
+          "range": 2340,
+          "capacity": 845,
+          "consumption": 0.3611111111111111
+        }
+      ]
+    },
+    {
+      "id": "snowrunner",
+      "values": [
+        {
+          "maxSpeed": 27.2,
+          "acceleration": 14.5,
+          "handling": 1.1053407037030407,
+          "steeringResponseSeconds": 0.1990336547482331,
+          "grip": 1.1053407037030407,
+          "range": 2800,
+          "capacity": 880,
+          "consumption": 0.3142857142857143
+        },
+        {
+          "maxSpeed": 28.016,
+          "acceleration": 14.935,
+          "handling": 1.138500924814132,
+          "steeringResponseSeconds": 0.19323655800799328,
+          "grip": 1.138500924814132,
+          "range": 3640,
+          "capacity": 1144,
+          "consumption": 0.3142857142857143
+        },
+        {
+          "maxSpeed": 29.92,
+          "acceleration": 15.950000000000001,
+          "handling": 1.2158747740733449,
+          "steeringResponseSeconds": 0.18093968613475733,
+          "grip": 1.2158747740733449,
+          "range": 3640,
+          "capacity": 1144,
+          "consumption": 0.3142857142857143
+        }
+      ]
+    },
+    {
+      "id": "lavacrawler",
+      "values": [
+        {
+          "maxSpeed": 31,
+          "acceleration": 16.4,
+          "handling": 1.2379815881474057,
+          "steeringResponseSeconds": 0.17770862031092238,
+          "grip": 1.2379815881474057,
+          "range": 3700,
+          "capacity": 1190,
+          "consumption": 0.3216216216216216
+        },
+        {
+          "maxSpeed": 31.93,
+          "acceleration": 16.892,
+          "handling": 1.275121035791828,
+          "steeringResponseSeconds": 0.17253264107856542,
+          "grip": 1.275121035791828,
+          "range": 4810,
+          "capacity": 1547,
+          "consumption": 0.3216216216216216
+        },
+        {
+          "maxSpeed": 34.1,
+          "acceleration": 18.04,
+          "handling": 1.3617797469621464,
+          "steeringResponseSeconds": 0.1615532911917476,
+          "grip": 1.3617797469621464,
+          "range": 4810,
+          "capacity": 1547,
+          "consumption": 0.3216216216216216
+        }
+      ]
+    },
+    {
+      "id": "ashhauler",
+      "values": [
+        {
+          "maxSpeed": 35.4,
+          "acceleration": 18.6,
+          "handling": 1.3865393787250946,
+          "steeringResponseSeconds": 0.15866841099189496,
+          "grip": 1.3865393787250946,
+          "range": 4900,
+          "capacity": 1610,
+          "consumption": 0.32857142857142857
+        },
+        {
+          "maxSpeed": 36.461999999999996,
+          "acceleration": 19.158,
+          "handling": 1.4281355600868475,
+          "steeringResponseSeconds": 0.1540470009630048,
+          "grip": 1.4281355600868475,
+          "range": 6370,
+          "capacity": 2093,
+          "consumption": 0.32857142857142857
+        },
+        {
+          "maxSpeed": 38.940000000000005,
+          "acceleration": 20.460000000000004,
+          "handling": 1.5251933165976042,
+          "steeringResponseSeconds": 0.14424400999263176,
+          "grip": 1.5251933165976042,
+          "range": 6370,
+          "capacity": 2093,
+          "consumption": 0.32857142857142857
+        }
+      ]
+    }
+  ]
+}

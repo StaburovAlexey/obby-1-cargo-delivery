@@ -1,0 +1,41 @@
+{
+  "generatedAt": "2026-10-13T21:18:41.617985+00:00",
+  "aggregate": {
+    "command": "npm test",
+    "exitCode": 0,
+    "passLines": 431
+  },
+  "routes": {
+    "stockSuccesses": 10,
+    "expectedFuelGapReturns": 2,
+    "maxUpgradeSuccesses": 10
+  },
+  "independent": {
+    "passed": true,
+    "impactCases": 600,
+    "warningProjectionCases": 5400,
+    "seedCases": 1000
+  },
+  "unchangedCore": [
+    "driving-model.js",
+    "gameplay.js",
+    "economy-config.js",
+    "career-save.js",
+    "road-layout.js",
+    "scene.js",
+    "character.js"
+  ],
+  "sourceSHA256": {
+    "dist/app.js": "7941dc2b1467d056ae3fc96b9c7fbbb9c0b8ecb81623dc2ab9def796cdfa80e9",
+    "dist/road-hazards.js": "dda4e5dfe2a32c579b2b47955ad12da198c115544607fade5dee3d3fafa800db",
+    "dist/road-hazards-scene.js": "5f29e7f5d959f26ec8b756c25e00822f6a76ca8496c7008602411d4aa0fe8cfa",
+    "dist/progression-ui.css": "8a0d41cc6792ce13c1fbc6fc7e9b265a43d7653887e887520c762c3c3be72658",
+    "dist/index.html": "156ea013d4d644353292c7afe8301919405438429f85a2baed746c597ec972b8",
+    "tests/fixtures/app-dom.mjs": "0bb89a11ab9d4a4be271e8232969592070f25015195c5bb0b7ae38c1f1ee3f08"
+  },
+  "limitations": [
+    "No browser/WebGL/Android/touch-hardware validation",
+    "Scenegraph counts are not a GPU benchmark",
+    "Offline renders use source geometry and diagnostic lighting"
+  ]
+}

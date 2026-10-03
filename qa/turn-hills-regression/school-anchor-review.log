@@ -1,0 +1,11 @@
+PASS School UI, controls, characters and shared assets stay unchanged through the authorized route expansion and strong-turn assist
+PASS 120 by 128 composition remains bottom-centered and camera-facing; inner bob is retained without X/Y lag
+PASS Actual app frames match independent anchor and depth oracle for full 360-degree yaw, four pitches/distances and eight viewports
+PASS Front/back projection order reverses; side-on anchors coincide and nearest label reverses across a 180-degree orbit
+PASS Near-camera and partially offscreen anchors are never clamped or spread; beyond-frustum, near-plane and distance culling remain intact
+PASS Live ready-character follow camera retains exact projected school positions during repeated full turns
+PASS School ownership changes preserve identical projected anchors, block size and depth order; all rates/access rows survive reload
+PASS Actual school button denies insufficient funds, buys once, seats separately and retains five rates on the shared 20-seat pool
+PASS Car and skin label coordinates/culling retain their production projection contract across cameras
+PASS Regression witness: Site32 artificially spread coincident side-on anchors; current code preserves them with depth ordering
+10/10 independent review groups passed. Renderer-free only.

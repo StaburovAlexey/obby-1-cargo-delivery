@@ -1,0 +1,206 @@
+{
+  "passed": true,
+  "commands": [
+    {
+      "command": "node tests/tow-baseline.mjs",
+      "exit": 0,
+      "seconds": 0.48
+    },
+    {
+      "command": "node tests/vehicle-dynamics.mjs",
+      "exit": 0,
+      "seconds": 0.68
+    },
+    {
+      "command": "node tests/physics-app-integration.mjs",
+      "exit": 0,
+      "seconds": 41.21
+    },
+    {
+      "command": "node tests/vehicle-rig.mjs",
+      "exit": 0,
+      "seconds": 9.85
+    },
+    {
+      "command": "node tests/driving.mjs",
+      "exit": 0,
+      "seconds": 27.69
+    },
+    {
+      "command": "node tests/route-network.mjs",
+      "exit": 0,
+      "seconds": 7.28
+    },
+    {
+      "command": "node tests/network-scene.mjs",
+      "exit": 0,
+      "seconds": 2.95
+    },
+    {
+      "command": "node tests/sequential-route.mjs",
+      "exit": 0,
+      "seconds": 2.36
+    },
+    {
+      "command": "node tests/economy-session.mjs",
+      "exit": 0,
+      "seconds": 0.52
+    },
+    {
+      "command": "node tests/economy-integration.mjs",
+      "exit": 0,
+      "seconds": 34.85
+    },
+    {
+      "command": "node tests/economy-progression.mjs",
+      "exit": 0,
+      "seconds": 107.97
+    },
+    {
+      "command": "node tests/economy-ui.mjs",
+      "exit": 0,
+      "seconds": 2.19
+    },
+    {
+      "command": "node tests/compact-fuel-hud.mjs",
+      "exit": 0,
+      "seconds": 2.15
+    },
+    {
+      "command": "node tests/hud-style.mjs",
+      "exit": 0,
+      "seconds": 0.06
+    },
+    {
+      "command": "node tests/bare-currency-hud.mjs",
+      "exit": 0,
+      "seconds": 8.93
+    },
+    {
+      "command": "node tests/follow-camera.mjs",
+      "exit": 0,
+      "seconds": 12.72
+    },
+    {
+      "command": "node tests/jump-integration.mjs",
+      "exit": 0,
+      "seconds": 2.68
+    },
+    {
+      "command": "node tests/twenty-desks.mjs",
+      "exit": 0,
+      "seconds": 5.35
+    },
+    {
+      "command": "node tests/character-row.mjs",
+      "exit": 0,
+      "seconds": 2.73
+    },
+    {
+      "command": "node tests/seated-arm-axes.mjs",
+      "exit": 0,
+      "seconds": 0.47
+    },
+    {
+      "command": "node tests/storefront-material.mjs",
+      "exit": 0,
+      "seconds": 3.36
+    },
+    {
+      "command": "node tests/ten-vehicle-catalog.mjs",
+      "exit": 0,
+      "seconds": 2.33
+    },
+    {
+      "command": "node tests/biome-surface-dynamics.mjs",
+      "exit": 0,
+      "seconds": 2.45
+    },
+    {
+      "command": "node tests/biome-preview-integration.mjs",
+      "exit": 0,
+      "seconds": 35.26
+    },
+    {
+      "command": "node tests/biome-road-shader.mjs",
+      "exit": 0,
+      "seconds": 2.07
+    },
+    {
+      "command": "node tests/ordered-biome-tiers.mjs",
+      "exit": 0,
+      "seconds": 5.21
+    },
+    {
+      "command": "node tests/learning-career.mjs",
+      "exit": 0,
+      "seconds": 0.63
+    },
+    {
+      "command": "node tests/vehicle-upgrades.mjs",
+      "exit": 0,
+      "seconds": 5.93
+    },
+    {
+      "command": "node tests/five-training-zones.mjs",
+      "exit": 0,
+      "seconds": 0.87
+    },
+    {
+      "command": "node tests/progression-independent-state.mjs",
+      "exit": 0,
+      "seconds": 2.01
+    },
+    {
+      "command": "node tests/progression-independent-app.mjs",
+      "exit": 0,
+      "seconds": 109.78
+    },
+    {
+      "command": "node tests/progression-hud.mjs",
+      "exit": 0,
+      "seconds": 23.6
+    },
+    {
+      "command": "node tests/tank-upgrades.mjs",
+      "exit": 0,
+      "seconds": 3.83
+    },
+    {
+      "command": "node tests/road-hazards.mjs",
+      "exit": 0,
+      "seconds": 22.13
+    },
+    {
+      "command": "node tests/road-hazards-scene.mjs",
+      "exit": 0,
+      "seconds": 3.35
+    },
+    {
+      "command": "node tests/road-hazards-app.mjs",
+      "exit": 0,
+      "seconds": 15.78
+    },
+    {
+      "command": "node tests/school-anchor-review.mjs",
+      "exit": 0,
+      "seconds": 46.37
+    },
+    {
+      "command": "node tests/network-hazards.mjs",
+      "exit": 0,
+      "seconds": 4.54
+    },
+    {
+      "command": "node tests/network-independent.mjs",
+      "exit": 0,
+      "seconds": 34.72
+    }
+  ],
+  "finalAttributeOnlyRecheck": [
+    "route-network.mjs",
+    "network-scene.mjs",
+    "biome-road-shader.mjs"
+  ],
+  "note": "39 current npm-test commands executed as isolated Node processes with three workers, all exit0. Final attribute-only rendering edits rechecked graph, renderer and shader. No browser/WebGL or GPU measurements."
+}

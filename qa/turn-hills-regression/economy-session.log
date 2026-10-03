@@ -1,0 +1,22 @@
+PASS new career starts on foot with only free pickup, zero money and real full capacities
+PASS locked vehicles never board or drain; walking approach prompts once without spending
+PASS purchase checks exact funds, proximity, ownership and explicit action for each paid vehicle
+PASS insufficient money, seated, jumping and driving cannot purchase
+PASS purchase candidate clears on departure, jump, sit, driving and garage teleport
+PASS owned cars still auto-board after approach and create unique stable loaded runs
+PASS forward and reverse both consume per-car fuel; idle, invalid distance and zero travel do not
+PASS real driving model actual D/R displacement drains fuel and parked collision does not
+PASS all eleven delivery rewards pay exactly once per loaded run then reset on foot
+PASS overlapping deliveries and same-circle repeated frames never double-credit
+PASS no payout on foot, missing cargo, top garage abort, or rebuilt session
+PASS empty fuel beats coincident delivery and refuel atomically for every car
+PASS refuel fills true capacity, preserves loaded cargo and guards events until departure
+PASS garage reset clears session interaction state and preserves every chosen character and career
+PASS valid local save restores career only, never pending cargo, fuel, position or payout
+PASS save whitelist drops unknown IDs, duplicates, extra runtime fields and malformed numeric types
+PASS corrupt, wrong-version and hostile prototype records safely start fresh without pollution
+PASS blocked reads/writes and throwing localStorage getter never crash and warn once
+PASS failed writes retain atomic purchase and delivery in this session and recover gracefully
+PASS free-seat occupancy, seated guard, standing and classroom rearm stay intact
+PASS ballistic jump and grounded character-stand interactions stay intact
+Economy/session: 21 checks passed. Pure Node; no browser or real payments.

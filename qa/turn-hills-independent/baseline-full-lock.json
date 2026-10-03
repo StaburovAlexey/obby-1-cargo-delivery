@@ -1,0 +1,2802 @@
+[
+  {
+    "vehicle": "pickup",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 11,
+    "completed": true,
+    "seconds": 5.31666667,
+    "maxBodyLateralExtent": 38.9469624,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 2.79166667,
+      "speed": 10.98343143,
+      "x": 19.26988064,
+      "z": -19.02065541
+    },
+    "maxAcceleration": 6.81841958,
+    "maxYawAcceleration": 1.90368891,
+    "maxSlipDegrees": 4.29980698,
+    "end": {
+      "x": 35.45173431,
+      "z": 0.00940295,
+      "heading": -3.14302343,
+      "speed": 10.98343906
+    }
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 4.62,
+    "completed": true,
+    "seconds": 10.13333333,
+    "maxBodyLateralExtent": 31.77902804,
+    "brakeSeconds": 0.00833333,
+    "at90": {
+      "seconds": 5.31666667,
+      "speed": 4.59262046,
+      "x": 14.96948218,
+      "z": -15.64652197
+    },
+    "maxAcceleration": 1.49676422,
+    "maxYawAcceleration": 0.4757332,
+    "maxSlipDegrees": 3.32506053,
+    "end": {
+      "x": 28.3470355,
+      "z": -0.88852563,
+      "heading": -3.14162768,
+      "speed": 4.59262039
+    }
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 3.41,
+    "completed": true,
+    "seconds": 11.875,
+    "maxBodyLateralExtent": 27.94260843,
+    "brakeSeconds": 0.00833333,
+    "at90": {
+      "seconds": 6.25,
+      "speed": 3.38802138,
+      "x": 12.9849981,
+      "z": -13.57507423
+    },
+    "maxAcceleration": 0.94630359,
+    "maxYawAcceleration": 0.32837182,
+    "maxSlipDegrees": 3.91395549,
+    "end": {
+      "x": 24.46086178,
+      "z": -0.82076681,
+      "heading": -3.14374604,
+      "speed": 3.38802106
+    }
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 2.53,
+    "completed": true,
+    "seconds": 14.39166667,
+    "maxBodyLateralExtent": 25.36610307,
+    "brakeSeconds": 0.00833333,
+    "at90": {
+      "seconds": 7.64166667,
+      "speed": 2.50858227,
+      "x": 11.48424786,
+      "z": -12.62414975
+    },
+    "maxAcceleration": 0.5839552,
+    "maxYawAcceleration": 0.19591004,
+    "maxSlipDegrees": 4.00837155,
+    "end": {
+      "x": 21.91040606,
+      "z": -1.50330448,
+      "heading": -3.14290672,
+      "speed": 2.50857602
+    }
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 1.87,
+    "completed": true,
+    "seconds": 16.80833333,
+    "maxBodyLateralExtent": 22.8705105,
+    "brakeSeconds": 0.00833333,
+    "at90": {
+      "seconds": 8.775,
+      "speed": 1.86890632,
+      "x": 10.63934893,
+      "z": -9.8721799
+    },
+    "maxAcceleration": 0.40255655,
+    "maxYawAcceleration": 0.19320684,
+    "maxSlipDegrees": 6.46592081,
+    "end": {
+      "x": 19.14849768,
+      "z": 0.62800518,
+      "heading": -3.14311874,
+      "speed": 1.8689063
+    }
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 11.66,
+    "completed": true,
+    "seconds": 5.36666667,
+    "maxBodyLateralExtent": 41.4961262,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 2.80833333,
+      "speed": 11.64333711,
+      "x": 20.56648265,
+      "z": -20.31462818
+    },
+    "maxAcceleration": 7.14023536,
+    "maxYawAcceleration": 1.99714184,
+    "maxSlipDegrees": 3.99772471,
+    "end": {
+      "x": 38.03299929,
+      "z": 0.04497975,
+      "heading": -3.1446463,
+      "speed": 11.64334222
+    }
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 4.8972,
+    "completed": true,
+    "seconds": 9.81666667,
+    "maxBodyLateralExtent": 32.54179186,
+    "brakeSeconds": 0.00833333,
+    "at90": {
+      "seconds": 5.14166667,
+      "speed": 4.86790825,
+      "x": 15.35463173,
+      "z": -16.03772191
+    },
+    "maxAcceleration": 1.63636887,
+    "maxYawAcceleration": 0.52003653,
+    "maxSlipDegrees": 3.22705051,
+    "end": {
+      "x": 29.12045427,
+      "z": -0.864883,
+      "heading": -3.14345637,
+      "speed": 4.86790819
+    }
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 3.6146,
+    "completed": true,
+    "seconds": 11.43333333,
+    "maxBodyLateralExtent": 28.45928116,
+    "brakeSeconds": 0.00833333,
+    "at90": {
+      "seconds": 6.00833333,
+      "speed": 3.59081213,
+      "x": 13.2274862,
+      "z": -13.84502207
+    },
+    "maxAcceleration": 1.0402254,
+    "maxYawAcceleration": 0.36086241,
+    "maxSlipDegrees": 3.81960649,
+    "end": {
+      "x": 24.98840767,
+      "z": -0.83704122,
+      "heading": -3.14282833,
+      "speed": 3.59081185
+    }
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 2.6818,
+    "completed": true,
+    "seconds": 13.78333333,
+    "maxBodyLateralExtent": 25.69817477,
+    "brakeSeconds": 0.00833333,
+    "at90": {
+      "seconds": 7.31666667,
+      "speed": 2.65849947,
+      "x": 11.65899123,
+      "z": -12.8025487
+    },
+    "maxAcceleration": 0.64553811,
+    "maxYawAcceleration": 0.21638395,
+    "maxSlipDegrees": 3.93341556,
+    "end": {
+      "x": 22.24997115,
+      "z": -1.51395319,
+      "heading": -3.14278692,
+      "speed": 2.65849352
+    }
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 1.9822,
+    "completed": true,
+    "seconds": 16.03333333,
+    "maxBodyLateralExtent": 23.08637872,
+    "brakeSeconds": 0.00833333,
+    "at90": {
+      "seconds": 8.36666667,
+      "speed": 1.98044617,
+      "x": 10.74283535,
+      "z": -9.98781368
+    },
+    "maxAcceleration": 0.44665309,
+    "maxYawAcceleration": 0.21438841,
+    "maxSlipDegrees": 6.37806228,
+    "end": {
+      "x": 19.37331189,
+      "z": 0.61225679,
+      "heading": -3.14199823,
+      "speed": 1.98044615
+    }
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 12.5,
+    "completed": true,
+    "seconds": 5.45833333,
+    "maxBodyLateralExtent": 44.99151,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 2.85,
+      "speed": 12.4807885,
+      "x": 22.27527369,
+      "z": -22.25586479
+    },
+    "maxAcceleration": 7.50721087,
+    "maxYawAcceleration": 1.99546999,
+    "maxSlipDegrees": 3.58817987,
+    "end": {
+      "x": 41.57716385,
+      "z": -0.19017538,
+      "heading": -3.14223296,
+      "speed": 12.48079196
+    }
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 5.25,
+    "completed": true,
+    "seconds": 9.725,
+    "maxBodyLateralExtent": 34.34036049,
+    "brakeSeconds": 0.00833333,
+    "at90": {
+      "seconds": 5.09166667,
+      "speed": 5.21767179,
+      "x": 16.20553345,
+      "z": -17.13399608
+    },
+    "maxAcceleration": 1.76865716,
+    "maxYawAcceleration": 0.53472054,
+    "maxSlipDegrees": 2.90032298,
+    "end": {
+      "x": 30.95925187,
+      "z": -1.13131495,
+      "heading": -3.14170247,
+      "speed": 5.21767172
+    }
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 3.875,
+    "completed": true,
+    "seconds": 11.21666667,
+    "maxBodyLateralExtent": 29.70448887,
+    "brakeSeconds": 0.00833333,
+    "at90": {
+      "seconds": 5.89166667,
+      "speed": 3.84807105,
+      "x": 13.80539265,
+      "z": -14.65727534
+    },
+    "maxAcceleration": 1.1366296,
+    "maxYawAcceleration": 0.37527355,
+    "maxSlipDegrees": 3.48161066,
+    "end": {
+      "x": 26.27177476,
+      "z": -1.06545289,
+      "heading": -3.14376042,
+      "speed": 3.84807071
+    }
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 2.875,
+    "completed": true,
+    "seconds": 13.375,
+    "maxBodyLateralExtent": 26.54685067,
+    "brakeSeconds": 0.00833333,
+    "at90": {
+      "seconds": 7.1,
+      "speed": 2.84865382,
+      "x": 12.01702725,
+      "z": -13.43144462
+    },
+    "maxAcceleration": 0.71322123,
+    "maxYawAcceleration": 0.22759379,
+    "maxSlipDegrees": 3.6258998,
+    "end": {
+      "x": 23.13624458,
+      "z": -1.79785675,
+      "heading": -3.14223631,
+      "speed": 2.84864645
+    }
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 2.125,
+    "completed": true,
+    "seconds": 15.41666667,
+    "maxBodyLateralExtent": 23.63436846,
+    "brakeSeconds": 0.00833333,
+    "at90": {
+      "seconds": 8.05833333,
+      "speed": 2.12115108,
+      "x": 11.00643241,
+      "z": -10.38893725
+    },
+    "maxAcceleration": 0.47579057,
+    "maxYawAcceleration": 0.2278123,
+    "maxSlipDegrees": 6.01133751,
+    "end": {
+      "x": 19.95418911,
+      "z": 0.44898389,
+      "heading": -3.14213816,
+      "speed": 2.12115105
+    }
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 13.25,
+    "completed": true,
+    "seconds": 5.55,
+    "maxBodyLateralExtent": 48.30246984,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 2.88333333,
+      "speed": 13.23113505,
+      "x": 23.89857843,
+      "z": -23.93150714
+    },
+    "maxAcceleration": 7.80687799,
+    "maxYawAcceleration": 2.07841739,
+    "maxSlipDegrees": 3.31398168,
+    "end": {
+      "x": 44.91803467,
+      "z": -0.12966323,
+      "heading": -3.14461255,
+      "speed": 13.23113724
+    }
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 5.565,
+    "completed": true,
+    "seconds": 9.44166667,
+    "maxBodyLateralExtent": 35.26049024,
+    "brakeSeconds": 0.00833333,
+    "at90": {
+      "seconds": 4.94166667,
+      "speed": 5.53069915,
+      "x": 16.69791401,
+      "z": -17.60247024
+    },
+    "maxAcceleration": 1.9285486,
+    "maxYawAcceleration": 0.58302359,
+    "maxSlipDegrees": 2.8072865,
+    "end": {
+      "x": 31.89106544,
+      "z": -1.12589044,
+      "heading": -3.14216282,
+      "speed": 5.53069909
+    }
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 4.1075,
+    "completed": true,
+    "seconds": 10.825,
+    "maxBodyLateralExtent": 30.32905436,
+    "brakeSeconds": 0.00833333,
+    "at90": {
+      "seconds": 5.68333333,
+      "speed": 4.07860255,
+      "x": 14.12506206,
+      "z": -14.98039082
+    },
+    "maxAcceleration": 1.24629489,
+    "maxYawAcceleration": 0.4113696,
+    "maxSlipDegrees": 3.38872706,
+    "end": {
+      "x": 26.90768255,
+      "z": -1.08650624,
+      "heading": -3.14251008,
+      "speed": 4.07860226
+    }
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 3.0475,
+    "completed": true,
+    "seconds": 12.84166667,
+    "maxBodyLateralExtent": 26.95080453,
+    "brakeSeconds": 0.00833333,
+    "at90": {
+      "seconds": 6.80833333,
+      "speed": 3.01901118,
+      "x": 12.21723992,
+      "z": -13.64707256
+    },
+    "maxAcceleration": 0.78665006,
+    "maxYawAcceleration": 0.2508453,
+    "maxSlipDegrees": 3.5494761,
+    "end": {
+      "x": 23.54776472,
+      "z": -1.79586811,
+      "heading": -3.14322773,
+      "speed": 3.01900424
+    }
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 2.2525,
+    "completed": true,
+    "seconds": 14.74166667,
+    "maxBodyLateralExtent": 23.89646863,
+    "brakeSeconds": 0.00833333,
+    "at90": {
+      "seconds": 7.7,
+      "speed": 2.24779,
+      "x": 11.14109541,
+      "z": -10.52748552
+    },
+    "maxAcceleration": 0.52691237,
+    "maxYawAcceleration": 0.25234627,
+    "maxSlipDegrees": 5.91779124,
+    "end": {
+      "x": 20.22394535,
+      "z": 0.4539798,
+      "heading": -3.1431334,
+      "speed": 2.24778998
+    }
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 13.916,
+    "completed": true,
+    "seconds": 5.65,
+    "maxBodyLateralExtent": 51.429939,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 2.93333333,
+      "speed": 13.89551797,
+      "x": 25.50196639,
+      "z": -25.6219181
+    },
+    "maxAcceleration": 8.04531004,
+    "maxYawAcceleration": 2.07306556,
+    "maxSlipDegrees": 3.0482,
+    "end": {
+      "x": 48.07482418,
+      "z": -0.22740779,
+      "heading": -3.14579431,
+      "speed": 13.89551943
+    }
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 14.2,
+    "completed": true,
+    "seconds": 5.7,
+    "maxBodyLateralExtent": 52.84411444,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 2.96666667,
+      "speed": 14.17364477,
+      "x": 26.21861903,
+      "z": -26.51296077
+    },
+    "maxAcceleration": 8.12989875,
+    "maxYawAcceleration": 1.99736451,
+    "maxSlipDegrees": 2.82731204,
+    "end": {
+      "x": 49.51455294,
+      "z": -0.53481076,
+      "heading": -3.14275025,
+      "speed": 14.17364582
+    }
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 5.964,
+    "completed": true,
+    "seconds": 10.33333333,
+    "maxBodyLateralExtent": 40.73191868,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 5.4,
+      "speed": 5.92676589,
+      "x": 19.2173198,
+      "z": -21.00636438
+    },
+    "maxAcceleration": 1.8862469,
+    "maxYawAcceleration": 0.49874475,
+    "maxSlipDegrees": 2.04817898,
+    "end": {
+      "x": 37.47226528,
+      "z": -2.03662709,
+      "heading": -3.14159419,
+      "speed": 5.92676582
+    }
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 4.402,
+    "completed": true,
+    "seconds": 11.58333333,
+    "maxBodyLateralExtent": 34.16242812,
+    "brakeSeconds": 0.00833333,
+    "at90": {
+      "seconds": 6.08333333,
+      "speed": 4.36909983,
+      "x": 15.83994495,
+      "z": -17.57773284
+    },
+    "maxAcceleration": 1.24907833,
+    "maxYawAcceleration": 0.35788689,
+    "maxSlipDegrees": 2.54902974,
+    "end": {
+      "x": 30.85740478,
+      "z": -2.01078408,
+      "heading": -3.14358087,
+      "speed": 4.36909925
+    }
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 3.266,
+    "completed": true,
+    "seconds": 13.425,
+    "maxBodyLateralExtent": 29.64282609,
+    "brakeSeconds": 0.00833333,
+    "at90": {
+      "seconds": 7.14166667,
+      "speed": 3.23424681,
+      "x": 13.33119209,
+      "z": -15.76692827
+    },
+    "maxAcceleration": 0.80883986,
+    "maxYawAcceleration": 0.22170832,
+    "maxSlipDegrees": 2.72886038,
+    "end": {
+      "x": 26.36313265,
+      "z": -2.92710524,
+      "heading": -3.14305627,
+      "speed": 3.23423269
+    }
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 14.75096,
+    "completed": true,
+    "seconds": 5.76666667,
+    "maxBodyLateralExtent": 55.55115963,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 2.99166667,
+      "speed": 14.73117278,
+      "x": 27.62672814,
+      "z": -27.69386971
+    },
+    "maxAcceleration": 8.321096,
+    "maxYawAcceleration": 2.14477032,
+    "maxSlipDegrees": 2.80082319,
+    "end": {
+      "x": 52.23250314,
+      "z": -0.30197267,
+      "heading": -3.14223607,
+      "speed": 14.73117362
+    }
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 15.052,
+    "completed": true,
+    "seconds": 5.83333333,
+    "maxBodyLateralExtent": 57.14179667,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 3.025,
+      "speed": 15.02672556,
+      "x": 28.38903904,
+      "z": -28.67512608
+    },
+    "maxAcceleration": 8.40097525,
+    "maxYawAcceleration": 2.06814052,
+    "maxSlipDegrees": 2.59517124,
+    "end": {
+      "x": 53.83970681,
+      "z": -0.46063382,
+      "heading": -3.1450532,
+      "speed": 15.02672616
+    }
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 6.32184,
+    "completed": true,
+    "seconds": 10.08333333,
+    "maxBodyLateralExtent": 42.03563622,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 5.25833333,
+      "speed": 6.28286786,
+      "x": 19.86658697,
+      "z": -21.6679867
+    },
+    "maxAcceleration": 2.04707102,
+    "maxYawAcceleration": 0.54121896,
+    "maxSlipDegrees": 1.97297067,
+    "end": {
+      "x": 38.78600258,
+      "z": -2.00326799,
+      "heading": -3.14338934,
+      "speed": 6.28286781
+    }
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 4.66612,
+    "completed": true,
+    "seconds": 11.23333333,
+    "maxBodyLateralExtent": 35.04968404,
+    "brakeSeconds": 0.00833333,
+    "at90": {
+      "seconds": 5.89166667,
+      "speed": 4.63130855,
+      "x": 16.27982966,
+      "z": -18.03421553
+    },
+    "maxAcceleration": 1.36314556,
+    "maxYawAcceleration": 0.3904217,
+    "maxSlipDegrees": 2.46879684,
+    "end": {
+      "x": 31.75473213,
+      "z": -2.02131635,
+      "heading": -3.14321285,
+      "speed": 4.63130808
+    }
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 3.46196,
+    "completed": true,
+    "seconds": 12.94166667,
+    "maxBodyLateralExtent": 30.22037604,
+    "brakeSeconds": 0.00833333,
+    "at90": {
+      "seconds": 6.875,
+      "speed": 3.42794526,
+      "x": 13.61642873,
+      "z": -16.0733754
+    },
+    "maxAcceleration": 0.88820868,
+    "maxYawAcceleration": 0.24323872,
+    "maxSlipDegrees": 2.65876996,
+    "end": {
+      "x": 26.94819054,
+      "z": -2.93140992,
+      "heading": -3.14361095,
+      "speed": 3.42793232
+    }
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 15.876,
+    "completed": true,
+    "seconds": 5.96666667,
+    "maxBodyLateralExtent": 61.53005981,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 3.08333333,
+      "speed": 15.85473834,
+      "x": 30.54026562,
+      "z": -30.90209549
+    },
+    "maxAcceleration": 8.6427658,
+    "maxYawAcceleration": 2.11140833,
+    "maxSlipDegrees": 2.45563823,
+    "end": {
+      "x": 58.25209366,
+      "z": -0.47928481,
+      "heading": -3.14354803,
+      "speed": 15.85473876
+    }
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 16.2,
+    "completed": true,
+    "seconds": 6.04166667,
+    "maxBodyLateralExtent": 63.37900992,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 3.125,
+      "speed": 16.17352433,
+      "x": 31.49028562,
+      "z": -32.01883231
+    },
+    "maxAcceleration": 8.71572234,
+    "maxYawAcceleration": 2.03188636,
+    "maxSlipDegrees": 2.26409825,
+    "end": {
+      "x": 60.11721526,
+      "z": -0.65381319,
+      "heading": -3.1459218,
+      "speed": 16.17352459
+    }
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 6.804,
+    "completed": true,
+    "seconds": 10.15833333,
+    "maxBodyLateralExtent": 45.30789388,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 5.29166667,
+      "speed": 6.76331312,
+      "x": 21.44914463,
+      "z": -23.55697564
+    },
+    "maxAcceleration": 2.18510795,
+    "maxYawAcceleration": 0.54736455,
+    "maxSlipDegrees": 1.72197507,
+    "end": {
+      "x": 42.09537538,
+      "z": -2.30793227,
+      "heading": -3.14395095,
+      "speed": 6.76331307
+    }
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 5.022,
+    "completed": true,
+    "seconds": 11.18333333,
+    "maxBodyLateralExtent": 37.31402972,
+    "brakeSeconds": 0.00833333,
+    "at90": {
+      "seconds": 5.86666667,
+      "speed": 4.98491551,
+      "x": 17.36476106,
+      "z": -19.41575441
+    },
+    "maxAcceleration": 1.47211985,
+    "maxYawAcceleration": 0.39951977,
+    "maxSlipDegrees": 2.18731231,
+    "end": {
+      "x": 34.05875286,
+      "z": -2.36355342,
+      "heading": -3.14206137,
+      "speed": 4.98491508
+    }
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 3.726,
+    "completed": true,
+    "seconds": 12.725,
+    "maxBodyLateralExtent": 31.76015677,
+    "brakeSeconds": 0.00833333,
+    "at90": {
+      "seconds": 6.75833333,
+      "speed": 3.68952785,
+      "x": 14.29735502,
+      "z": -17.11822773
+    },
+    "maxAcceleration": 0.97179211,
+    "maxYawAcceleration": 0.25225192,
+    "maxSlipDegrees": 2.38759815,
+    "end": {
+      "x": 28.5270024,
+      "z": -3.32497714,
+      "heading": -3.14255577,
+      "speed": 3.68951443
+    }
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 16.82856,
+    "completed": true,
+    "seconds": 6.13333333,
+    "maxBodyLateralExtent": 66.91718406,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 3.16666667,
+      "speed": 16.80837453,
+      "x": 33.33683342,
+      "z": -33.60119385
+    },
+    "maxAcceleration": 8.88536449,
+    "maxYawAcceleration": 2.17464761,
+    "maxSlipDegrees": 2.24356576,
+    "end": {
+      "x": 63.66889576,
+      "z": -0.48250553,
+      "heading": -3.142855,
+      "speed": 16.80837475
+    }
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 17.172,
+    "completed": true,
+    "seconds": 6.21666667,
+    "maxBodyLateralExtent": 68.99721285,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 3.20833333,
+      "speed": 17.14700639,
+      "x": 34.35040037,
+      "z": -34.83519439
+    },
+    "maxAcceleration": 8.95315803,
+    "maxYawAcceleration": 2.08963455,
+    "maxSlipDegrees": 2.06666818,
+    "end": {
+      "x": 65.76294612,
+      "z": -0.62829943,
+      "heading": -3.14589514,
+      "speed": 17.14700652
+    }
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 7.21224,
+    "completed": true,
+    "seconds": 9.93333333,
+    "maxBodyLateralExtent": 46.89198885,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 5.16666667,
+      "speed": 7.16989804,
+      "x": 22.2411904,
+      "z": -24.35750418
+    },
+    "maxAcceleration": 2.36520579,
+    "maxYawAcceleration": 0.59247199,
+    "maxSlipDegrees": 1.65443417,
+    "end": {
+      "x": 43.68953629,
+      "z": -2.30485163,
+      "heading": -3.1439878,
+      "speed": 7.16989801
+    }
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 5.32332,
+    "completed": true,
+    "seconds": 10.875,
+    "maxBodyLateralExtent": 38.39481897,
+    "brakeSeconds": 0.00833333,
+    "at90": {
+      "seconds": 5.7,
+      "speed": 5.28431397,
+      "x": 17.91722092,
+      "z": -19.96843247
+    },
+    "maxAcceleration": 1.60209821,
+    "maxYawAcceleration": 0.43469197,
+    "maxSlipDegrees": 2.11253544,
+    "end": {
+      "x": 35.14931944,
+      "z": -2.37522797,
+      "heading": -3.14163822,
+      "speed": 5.28431363
+    }
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 3.94956,
+    "completed": true,
+    "seconds": 12.3,
+    "maxBodyLateralExtent": 32.46723808,
+    "brakeSeconds": 0.00833333,
+    "at90": {
+      "seconds": 6.525,
+      "speed": 3.91067625,
+      "x": 14.65677845,
+      "z": -17.49037709
+    },
+    "maxAcceleration": 1.06421524,
+    "maxYawAcceleration": 0.27601986,
+    "maxSlipDegrees": 2.31981524,
+    "end": {
+      "x": 29.24160886,
+      "z": -3.32628206,
+      "heading": -3.14325901,
+      "speed": 3.9106643
+    }
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 18.032,
+    "completed": true,
+    "seconds": 6.375,
+    "maxBodyLateralExtent": 74.22014835,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 3.28333333,
+      "speed": 18.01110378,
+      "x": 36.97470231,
+      "z": -37.45640331
+    },
+    "maxAcceleration": 9.14775188,
+    "maxYawAcceleration": 2.12881784,
+    "maxSlipDegrees": 1.96823285,
+    "end": {
+      "x": 71.00577254,
+      "z": -0.63740713,
+      "heading": -3.14417727,
+      "speed": 18.01110387
+    }
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 18.032,
+    "completed": true,
+    "seconds": 6.38333333,
+    "maxBodyLateralExtent": 74.27750528,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 3.29166667,
+      "speed": 18.00646791,
+      "x": 36.97135027,
+      "z": -37.61587806
+    },
+    "maxAcceleration": 9.13569377,
+    "maxYawAcceleration": 2.06475333,
+    "maxSlipDegrees": 1.8740879,
+    "end": {
+      "x": 71.07212961,
+      "z": -0.86348932,
+      "heading": -3.1430668,
+      "speed": 18.00646797
+    }
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 18.4,
+    "completed": true,
+    "seconds": 6.475,
+    "maxBodyLateralExtent": 76.69215613,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 3.33333333,
+      "speed": 18.36897764,
+      "x": 38.02014508,
+      "z": -39.06386091
+    },
+    "maxAcceleration": 9.19366057,
+    "maxYawAcceleration": 1.97235339,
+    "maxSlipDegrees": 1.68951107,
+    "end": {
+      "x": 73.50401505,
+      "z": -1.12713448,
+      "heading": -3.14421897,
+      "speed": 18.36897766
+    }
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 7.728,
+    "completed": true,
+    "seconds": 11.24166667,
+    "maxBodyLateralExtent": 56.25270561,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 5.84166667,
+      "speed": 7.68766074,
+      "x": 26.67003806,
+      "z": -29.85614004
+    },
+    "maxAcceleration": 2.23522034,
+    "maxYawAcceleration": 0.48831229,
+    "maxSlipDegrees": 1.15437464,
+    "end": {
+      "x": 53.14215877,
+      "z": -3.46663247,
+      "heading": -3.14262302,
+      "speed": 7.68766072
+    }
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 5.704,
+    "completed": true,
+    "seconds": 12.05,
+    "maxBodyLateralExtent": 44.94224309,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 6.30833333,
+      "speed": 5.66578244,
+      "x": 20.89676521,
+      "z": -24.08783328
+    },
+    "maxAcceleration": 1.54902481,
+    "maxYawAcceleration": 0.36361502,
+    "maxSlipDegrees": 1.51550053,
+    "end": {
+      "x": 41.7999986,
+      "z": -3.56723234,
+      "heading": -3.14187523,
+      "speed": 5.66578213
+    }
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 19.11392,
+    "completed": true,
+    "seconds": 6.59166667,
+    "maxBodyLateralExtent": 81.19292363,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 3.38333333,
+      "speed": 19.09436488,
+      "x": 40.44742243,
+      "z": -40.94833039
+    },
+    "maxAcceleration": 9.35692918,
+    "maxYawAcceleration": 2.18387943,
+    "maxSlipDegrees": 1.78968663,
+    "end": {
+      "x": 78.0024948,
+      "z": -0.56941899,
+      "heading": -3.14523482,
+      "speed": 19.09436493
+    }
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 19.11392,
+    "completed": true,
+    "seconds": 6.6,
+    "maxBodyLateralExtent": 81.25805994,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 3.39166667,
+      "speed": 19.09008346,
+      "x": 40.45100148,
+      "z": -41.1113413
+    },
+    "maxAcceleration": 9.34494373,
+    "maxYawAcceleration": 2.11516356,
+    "maxSlipDegrees": 1.70390628,
+    "end": {
+      "x": 78.07609119,
+      "z": -0.79744912,
+      "heading": -3.14417054,
+      "speed": 19.09008349
+    }
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 19.504,
+    "completed": true,
+    "seconds": 6.69166667,
+    "maxBodyLateralExtent": 83.9741553,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 3.44166667,
+      "speed": 19.47514935,
+      "x": 41.73435918,
+      "z": -42.70603867
+    },
+    "maxAcceleration": 9.3977136,
+    "maxYawAcceleration": 2.01877652,
+    "maxSlipDegrees": 1.53480778,
+    "end": {
+      "x": 80.81274594,
+      "z": -1.2044473,
+      "heading": -3.14160204,
+      "speed": 19.47514935
+    }
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 8.19168,
+    "completed": true,
+    "seconds": 11.04166667,
+    "maxBodyLateralExtent": 58.49349333,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 5.725,
+      "speed": 8.15004585,
+      "x": 27.76847426,
+      "z": -30.98372677
+    },
+    "maxAcceleration": 2.40926356,
+    "maxYawAcceleration": 0.52640571,
+    "maxSlipDegrees": 1.10442258,
+    "end": {
+      "x": 55.39073685,
+      "z": -3.4418466,
+      "heading": -3.14340798,
+      "speed": 8.15004584
+    }
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 6.04624,
+    "completed": true,
+    "seconds": 11.775,
+    "maxBodyLateralExtent": 46.47703436,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 6.15,
+      "speed": 6.00638189,
+      "x": 21.6382984,
+      "z": -24.86795683
+    },
+    "maxAcceleration": 1.67792143,
+    "maxYawAcceleration": 0.39370452,
+    "maxSlipDegrees": 1.45695334,
+    "end": {
+      "x": 43.34269629,
+      "z": -3.56006507,
+      "heading": -3.14238819,
+      "speed": 6.00638166
+    }
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 20.58,
+    "completed": true,
+    "seconds": 6.90833333,
+    "maxBodyLateralExtent": 91.35221329,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 3.54166667,
+      "speed": 20.56019016,
+      "x": 45.54804904,
+      "z": -46.25502725
+    },
+    "maxAcceleration": 9.59446439,
+    "maxYawAcceleration": 2.12109873,
+    "maxSlipDegrees": 1.5431224,
+    "end": {
+      "x": 88.19619763,
+      "z": -0.81773643,
+      "heading": -3.14450323,
+      "speed": 20.56019017
+    }
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 20.58,
+    "completed": true,
+    "seconds": 6.91666667,
+    "maxBodyLateralExtent": 91.43323782,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 3.55,
+      "speed": 20.5561478,
+      "x": 45.55207252,
+      "z": -46.43316198
+    },
+    "maxAcceleration": 9.58189474,
+    "maxYawAcceleration": 2.05216924,
+    "maxSlipDegrees": 1.46289744,
+    "end": {
+      "x": 88.28555476,
+      "z": -1.07249534,
+      "heading": -3.14319089,
+      "speed": 20.55614781
+    }
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 21,
+    "completed": true,
+    "seconds": 7.025,
+    "maxBodyLateralExtent": 94.59441224,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 3.6,
+      "speed": 20.9715189,
+      "x": 46.93891981,
+      "z": -48.26515607
+    },
+    "maxAcceleration": 9.62734499,
+    "maxYawAcceleration": 1.95942821,
+    "maxSlipDegrees": 1.30800823,
+    "end": {
+      "x": 91.46252366,
+      "z": -1.38442843,
+      "heading": -3.14338858,
+      "speed": 20.97151889
+    }
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 8.82,
+    "completed": true,
+    "seconds": 11.28333333,
+    "maxBodyLateralExtent": 64.14219121,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 5.84166667,
+      "speed": 8.77831345,
+      "x": 30.48313632,
+      "z": -34.11073878
+    },
+    "maxAcceleration": 2.53417323,
+    "maxYawAcceleration": 0.52460372,
+    "maxSlipDegrees": 0.94436704,
+    "end": {
+      "x": 61.06752244,
+      "z": -3.8762991,
+      "heading": -3.14194764,
+      "speed": 8.77831344
+    }
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 6.51,
+    "completed": true,
+    "seconds": 11.91666667,
+    "maxBodyLateralExtent": 50.39762616,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 6.21666667,
+      "speed": 6.46950012,
+      "x": 23.50734481,
+      "z": -27.13222866
+    },
+    "maxAcceleration": 1.78293875,
+    "maxYawAcceleration": 0.3964337,
+    "maxSlipDegrees": 1.26338026,
+    "end": {
+      "x": 47.2950576,
+      "z": -3.97243988,
+      "heading": -3.14205068,
+      "speed": 6.46949997
+    }
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 21.8148,
+    "completed": true,
+    "seconds": 7.175,
+    "maxBodyLateralExtent": 100.45911979,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 3.66666667,
+      "speed": 21.79649929,
+      "x": 50.05300492,
+      "z": -50.80899607
+    },
+    "maxAcceleration": 9.76998939,
+    "maxYawAcceleration": 2.16124336,
+    "maxSlipDegrees": 1.39723123,
+    "end": {
+      "x": 97.32480836,
+      "z": -0.77949922,
+      "heading": -3.14455696,
+      "speed": 21.7964993
+    }
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 21.8148,
+    "completed": true,
+    "seconds": 7.18333333,
+    "maxBodyLateralExtent": 100.55103687,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 3.675,
+      "speed": 21.79279868,
+      "x": 50.06444173,
+      "z": -50.99224869
+    },
+    "maxAcceleration": 9.75744666,
+    "maxYawAcceleration": 2.09728967,
+    "maxSlipDegrees": 1.32447069,
+    "end": {
+      "x": 97.42458739,
+      "z": -1.03975824,
+      "heading": -3.14325172,
+      "speed": 21.79279868
+    }
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 22.26,
+    "completed": true,
+    "seconds": 7.3,
+    "maxBodyLateralExtent": 104.10590626,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 3.73333333,
+      "speed": 22.23380425,
+      "x": 51.73316355,
+      "z": -53.01746949
+    },
+    "maxAcceleration": 9.79797673,
+    "maxYawAcceleration": 1.99638172,
+    "maxSlipDegrees": 1.18340234,
+    "end": {
+      "x": 100.99410833,
+      "z": -1.35164043,
+      "heading": -3.14340604,
+      "speed": 22.23380425
+    }
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 9.3492,
+    "completed": true,
+    "seconds": 11.10833333,
+    "maxBodyLateralExtent": 66.86226858,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 5.74166667,
+      "speed": 9.30634944,
+      "x": 31.84995166,
+      "z": -35.47596028
+    },
+    "maxAcceleration": 2.72552486,
+    "maxYawAcceleration": 0.5642745,
+    "maxSlipDegrees": 0.90146597,
+    "end": {
+      "x": 63.7945648,
+      "z": -3.83856559,
+      "heading": -3.14298789,
+      "speed": 9.30634944
+    }
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 6.9006,
+    "completed": true,
+    "seconds": 11.675,
+    "maxBodyLateralExtent": 52.26542286,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 6.08333333,
+      "speed": 6.85855026,
+      "x": 24.46084,
+      "z": -28.07793383
+    },
+    "maxAcceleration": 1.92637156,
+    "maxYawAcceleration": 0.42820229,
+    "maxSlipDegrees": 1.21150056,
+    "end": {
+      "x": 49.17009595,
+      "z": -3.9593829,
+      "heading": -3.14265881,
+      "speed": 6.85855016
+    }
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 23.422,
+    "completed": true,
+    "seconds": 7.54166667,
+    "maxBodyLateralExtent": 113.17879454,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 3.85,
+      "speed": 23.40388519,
+      "x": 56.39516685,
+      "z": -57.39075083
+    },
+    "maxAcceleration": 9.9591051,
+    "maxYawAcceleration": 2.09250737,
+    "maxSlipDegrees": 1.20389481,
+    "end": {
+      "x": 110.07435881,
+      "z": -1.09584093,
+      "heading": -3.14265168,
+      "speed": 23.40388519
+    }
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 23.422,
+    "completed": true,
+    "seconds": 7.55833333,
+    "maxBodyLateralExtent": 113.29193728,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 3.85833333,
+      "speed": 23.4004204,
+      "x": 56.40685854,
+      "z": -57.59168173
+    },
+    "maxAcceleration": 9.94592817,
+    "maxYawAcceleration": 2.03060445,
+    "maxSlipDegrees": 1.13607268,
+    "end": {
+      "x": 110.19051825,
+      "z": -1.19468161,
+      "heading": -3.14461922,
+      "speed": 23.40042039
+    }
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 23.422,
+    "completed": true,
+    "seconds": 7.56666667,
+    "maxBodyLateralExtent": 113.43377792,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 3.86666667,
+      "speed": 23.39615166,
+      "x": 56.37356172,
+      "z": -57.84345192
+    },
+    "maxAcceleration": 9.92953469,
+    "maxYawAcceleration": 1.9534187,
+    "maxSlipDegrees": 1.05151389,
+    "end": {
+      "x": 110.34276743,
+      "z": -1.60964897,
+      "heading": -3.14177702,
+      "speed": 23.39615165
+    }
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 23.9,
+    "completed": true,
+    "seconds": 7.74166667,
+    "maxBodyLateralExtent": 118.02145543,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 3.96666667,
+      "speed": 23.85824548,
+      "x": 58.46127971,
+      "z": -60.95030367
+    },
+    "maxAcceleration": 9.91300261,
+    "maxYawAcceleration": 1.69583632,
+    "maxSlipDegrees": 0.6724471,
+    "end": {
+      "x": 114.96299808,
+      "z": -2.75432617,
+      "heading": -3.14174614,
+      "speed": 23.85824547
+    }
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 10.038,
+    "completed": true,
+    "seconds": 12.96666667,
+    "maxBodyLateralExtent": 83.19361489,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 6.68333333,
+      "speed": 10.00084072,
+      "x": 39.60990535,
+      "z": -44.65828735
+    },
+    "maxAcceleration": 2.50272551,
+    "maxYawAcceleration": 0.45019805,
+    "maxSlipDegrees": 0.96913087,
+    "end": {
+      "x": 80.19225584,
+      "z": -5.25844348,
+      "heading": -3.14348973,
+      "speed": 10.00084072
+    }
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 24.82732,
+    "completed": true,
+    "seconds": 7.86666667,
+    "maxBodyLateralExtent": 124.99783066,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 4.00833333,
+      "speed": 24.8107641,
+      "x": 62.37253008,
+      "z": -63.29184856
+    },
+    "maxAcceleration": 10.10434303,
+    "maxYawAcceleration": 2.13262581,
+    "maxSlipDegrees": 1.08632935,
+    "end": {
+      "x": 121.91003587,
+      "z": -0.98475904,
+      "heading": -3.14393,
+      "speed": 24.8107641
+    }
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 24.82732,
+    "completed": true,
+    "seconds": 7.875,
+    "maxBodyLateralExtent": 125.12592275,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 4.01666667,
+      "speed": 24.80761379,
+      "x": 62.39196317,
+      "z": -63.50004773
+    },
+    "maxAcceleration": 10.09116183,
+    "maxYawAcceleration": 2.06069291,
+    "maxSlipDegrees": 1.02505083,
+    "end": {
+      "x": 122.04537903,
+      "z": -1.2889044,
+      "heading": -3.1423349,
+      "speed": 24.80761379
+    }
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 24.82732,
+    "completed": true,
+    "seconds": 7.89166667,
+    "maxBodyLateralExtent": 125.28649143,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 4.025,
+      "speed": 24.80373146,
+      "x": 62.36537696,
+      "z": -63.7609157
+    },
+    "maxAcceleration": 10.0747573,
+    "maxYawAcceleration": 1.9895488,
+    "maxSlipDegrees": 0.9486515,
+    "end": {
+      "x": 122.21147649,
+      "z": -1.51307893,
+      "heading": -3.14289364,
+      "speed": 24.80373146
+    }
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 25.334,
+    "completed": true,
+    "seconds": 8.075,
+    "maxBodyLateralExtent": 130.44656652,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 4.125,
+      "speed": 25.29597372,
+      "x": 64.62599461,
+      "z": -67.154005
+    },
+    "maxAcceleration": 10.05366455,
+    "maxYawAcceleration": 1.72437114,
+    "maxSlipDegrees": 0.60596053,
+    "end": {
+      "x": 127.40229821,
+      "z": -2.70462414,
+      "heading": -3.1420591,
+      "speed": 25.29597371
+    }
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 10.64028,
+    "completed": true,
+    "seconds": 12.8,
+    "maxBodyLateralExtent": 87.05046672,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 6.59166667,
+      "speed": 10.60225148,
+      "x": 41.54592969,
+      "z": -46.59013096
+    },
+    "maxAcceleration": 2.68276887,
+    "maxYawAcceleration": 0.48274969,
+    "maxSlipDegrees": 0.9264958,
+    "end": {
+      "x": 84.05276338,
+      "z": -5.29988311,
+      "heading": -3.14226456,
+      "speed": 10.60225148
+    }
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 26.656,
+    "completed": true,
+    "seconds": 8.30833333,
+    "maxBodyLateralExtent": 141.49738683,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 4.225,
+      "speed": 26.63989103,
+      "x": 70.54725081,
+      "z": -71.7702839
+    },
+    "maxAcceleration": 10.25821858,
+    "maxYawAcceleration": 2.05665581,
+    "maxSlipDegrees": 0.93048066,
+    "end": {
+      "x": 138.43250804,
+      "z": -1.20869143,
+      "heading": -3.14386341,
+      "speed": 26.63989103
+    }
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 26.656,
+    "completed": true,
+    "seconds": 8.31666667,
+    "maxBodyLateralExtent": 141.65442853,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 4.23333333,
+      "speed": 26.6369638,
+      "x": 70.56630194,
+      "z": -72.00033128
+    },
+    "maxAcceleration": 10.2443367,
+    "maxYawAcceleration": 1.98912021,
+    "maxSlipDegrees": 0.87360484,
+    "end": {
+      "x": 138.59670748,
+      "z": -1.5572483,
+      "heading": -3.14197335,
+      "speed": 26.6369638
+    }
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 26.656,
+    "completed": true,
+    "seconds": 8.33333333,
+    "maxBodyLateralExtent": 141.85106,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 4.24166667,
+      "speed": 26.63335844,
+      "x": 70.5354718,
+      "z": -72.28828308
+    },
+    "maxAcceleration": 10.22705776,
+    "maxYawAcceleration": 1.9185951,
+    "maxSlipDegrees": 0.80270559,
+    "end": {
+      "x": 138.79904832,
+      "z": -1.82539943,
+      "heading": -3.14202555,
+      "speed": 26.63335844
+    }
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 27.2,
+    "completed": true,
+    "seconds": 8.54166667,
+    "maxBodyLateralExtent": 147.85474107,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 4.35833333,
+      "speed": 27.16403809,
+      "x": 73.42204912,
+      "z": -76.13989015
+    },
+    "maxAcceleration": 10.19721739,
+    "maxYawAcceleration": 1.66127082,
+    "maxSlipDegrees": 0.48731659,
+    "end": {
+      "x": 144.82818673,
+      "z": -2.86405831,
+      "heading": -3.14424661,
+      "speed": 27.16403809
+    }
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 11.424,
+    "completed": true,
+    "seconds": 13.21666667,
+    "maxBodyLateralExtent": 96.31802301,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 6.8,
+      "speed": 11.38693433,
+      "x": 46.10316336,
+      "z": -51.567525
+    },
+    "maxAcceleration": 2.78576994,
+    "maxYawAcceleration": 0.47658615,
+    "maxSlipDegrees": 0.99678128,
+    "end": {
+      "x": 93.33700334,
+      "z": -5.76920525,
+      "heading": -3.14204972,
+      "speed": 11.38693433
+    }
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 28.25536,
+    "completed": true,
+    "seconds": 8.69166667,
+    "maxBodyLateralExtent": 156.82867476,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 4.41666667,
+      "speed": 28.24077137,
+      "x": 78.35912038,
+      "z": -79.42042477
+    },
+    "maxAcceleration": 10.3766869,
+    "maxYawAcceleration": 2.08100839,
+    "maxSlipDegrees": 0.83724151,
+    "end": {
+      "x": 153.77875026,
+      "z": -1.14902538,
+      "heading": -3.14399954,
+      "speed": 28.24077137
+    }
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 28.25536,
+    "completed": true,
+    "seconds": 8.7,
+    "maxBodyLateralExtent": 157.00600497,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 4.425,
+      "speed": 28.23812396,
+      "x": 78.38605109,
+      "z": -79.66050799
+    },
+    "maxAcceleration": 10.36278288,
+    "maxYawAcceleration": 2.02061407,
+    "maxSlipDegrees": 0.78601395,
+    "end": {
+      "x": 153.96291072,
+      "z": -1.51467127,
+      "heading": -3.14207382,
+      "speed": 28.23812396
+    }
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 28.25536,
+    "completed": true,
+    "seconds": 8.71666667,
+    "maxBodyLateralExtent": 157.22799296,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 4.43333333,
+      "speed": 28.23486213,
+      "x": 78.36170444,
+      "z": -79.9610648
+    },
+    "maxAcceleration": 10.34547205,
+    "maxYawAcceleration": 1.94112299,
+    "maxSlipDegrees": 0.72215644,
+    "end": {
+      "x": 154.19023647,
+      "z": -1.79418333,
+      "heading": -3.14197071,
+      "speed": 28.23486213
+    }
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 28.832,
+    "completed": true,
+    "seconds": 8.93333333,
+    "maxBodyLateralExtent": 163.97803515,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 4.55,
+      "speed": 28.79946712,
+      "x": 81.47666813,
+      "z": -84.18631681
+    },
+    "maxAcceleration": 10.31160497,
+    "maxYawAcceleration": 1.68245394,
+    "maxSlipDegrees": 0.4379775,
+    "end": {
+      "x": 160.96440776,
+      "z": -2.9233793,
+      "heading": -3.14282437,
+      "speed": 28.79946712
+    }
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 12.10944,
+    "completed": true,
+    "seconds": 13.075,
+    "maxBodyLateralExtent": 100.96565352,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 6.71666667,
+      "speed": 12.0716089,
+      "x": 48.41811106,
+      "z": -53.8919753
+    },
+    "maxAcceleration": 2.98149578,
+    "maxYawAcceleration": 0.51009405,
+    "maxSlipDegrees": 0.95090869,
+    "end": {
+      "x": 97.98849928,
+      "z": -5.7395444,
+      "heading": -3.14245674,
+      "speed": 12.0716089
+    }
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 30.38,
+    "completed": true,
+    "seconds": 9.21666667,
+    "maxBodyLateralExtent": 178.69381327,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 4.675,
+      "speed": 30.36600723,
+      "x": 89.11527689,
+      "z": -90.59581911
+    },
+    "maxAcceleration": 10.50215094,
+    "maxYawAcceleration": 1.99964703,
+    "maxSlipDegrees": 0.71070697,
+    "end": {
+      "x": 175.66584798,
+      "z": -1.56723636,
+      "heading": -3.1418347,
+      "speed": 30.36600723
+    }
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 30.38,
+    "completed": true,
+    "seconds": 9.23333333,
+    "maxBodyLateralExtent": 178.911283,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 4.68333333,
+      "speed": 30.3635647,
+      "x": 89.14052716,
+      "z": -90.86390219
+    },
+    "maxAcceleration": 10.48747024,
+    "maxYawAcceleration": 1.93967024,
+    "maxSlipDegrees": 0.66338522,
+    "end": {
+      "x": 175.88645833,
+      "z": -1.74065577,
+      "heading": -3.14247118,
+      "speed": 30.3635647
+    }
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 30.38,
+    "completed": true,
+    "seconds": 9.25,
+    "maxBodyLateralExtent": 179.18352698,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 4.7,
+      "speed": 30.36055669,
+      "x": 89.36268751,
+      "z": -91.19594374
+    },
+    "maxAcceleration": 10.46919154,
+    "maxYawAcceleration": 1.86557098,
+    "maxSlipDegrees": 0.60440628,
+    "end": {
+      "x": 176.16419869,
+      "z": -2.08275768,
+      "heading": -3.14183453,
+      "speed": 30.36055669
+    }
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 30.38,
+    "completed": true,
+    "seconds": 9.325,
+    "maxBodyLateralExtent": 180.30105206,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 4.74166667,
+      "speed": 30.34877176,
+      "x": 89.47633963,
+      "z": -92.55873944
+    },
+    "maxAcceleration": 10.39523877,
+    "maxYawAcceleration": 1.63648985,
+    "maxSlipDegrees": 0.36511574,
+    "end": {
+      "x": 177.3005117,
+      "z": -3.26179193,
+      "heading": -3.14166504,
+      "speed": 30.34877176
+    }
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 31,
+    "completed": true,
+    "seconds": 9.38333333,
+    "maxBodyLateralExtent": 185.47699356,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 4.75833333,
+      "speed": 30.98516423,
+      "x": 92.50337776,
+      "z": -94.1435599
+    },
+    "maxAcceleration": 10.5278787,
+    "maxYawAcceleration": 1.94115373,
+    "maxSlipDegrees": 0.65865538,
+    "end": {
+      "x": 182.45426394,
+      "z": -1.66469595,
+      "heading": -3.14286153,
+      "speed": 30.98516423
+    }
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 32.2028,
+    "completed": true,
+    "seconds": 9.675,
+    "maxBodyLateralExtent": 198.63220101,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 4.9,
+      "speed": 32.19022704,
+      "x": 99.21242816,
+      "z": -100.54422696
+    },
+    "maxAcceleration": 10.59743961,
+    "maxYawAcceleration": 2.02927301,
+    "maxSlipDegrees": 0.63800652,
+    "end": {
+      "x": 195.61319122,
+      "z": -1.29019187,
+      "heading": -3.14426578,
+      "speed": 32.19022704
+    }
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 32.2028,
+    "completed": true,
+    "seconds": 9.68333333,
+    "maxBodyLateralExtent": 198.87719075,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 4.90833333,
+      "speed": 32.18802711,
+      "x": 99.24538227,
+      "z": -100.82599483
+    },
+    "maxAcceleration": 10.5827292,
+    "maxYawAcceleration": 1.95759053,
+    "maxSlipDegrees": 0.59549349,
+    "end": {
+      "x": 195.86484731,
+      "z": -1.74325632,
+      "heading": -3.1419762,
+      "speed": 32.18802711
+    }
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 32.2028,
+    "completed": true,
+    "seconds": 9.70833333,
+    "maxBodyLateralExtent": 199.18373893,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 4.91666667,
+      "speed": 32.1853168,
+      "x": 99.22035943,
+      "z": -101.1783644
+    },
+    "maxAcceleration": 10.56441038,
+    "maxYawAcceleration": 1.89059139,
+    "maxSlipDegrees": 0.54250841,
+    "end": {
+      "x": 196.17341914,
+      "z": -1.83904764,
+      "heading": -3.14391561,
+      "speed": 32.1853168
+    }
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 32.2028,
+    "completed": true,
+    "seconds": 9.78333333,
+    "maxBodyLateralExtent": 200.44157041,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 4.96666667,
+      "speed": 32.17468476,
+      "x": 99.63945408,
+      "z": -102.60764416
+    },
+    "maxAcceleration": 10.49025964,
+    "maxYawAcceleration": 1.65406284,
+    "maxSlipDegrees": 0.32754228,
+    "end": {
+      "x": 197.44963015,
+      "z": -3.09527806,
+      "heading": -3.14296066,
+      "speed": 32.17468476
+    }
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 32.86,
+    "completed": true,
+    "seconds": 9.85,
+    "maxBodyLateralExtent": 206.25495231,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 4.99166667,
+      "speed": 32.8466813,
+      "x": 103.11237132,
+      "z": -104.50960879
+    },
+    "maxAcceleration": 10.61991858,
+    "maxYawAcceleration": 1.96782411,
+    "maxSlipDegrees": 0.5910781,
+    "end": {
+      "x": 203.24198878,
+      "z": -1.47591604,
+      "heading": -3.14421759,
+      "speed": 32.8466813
+    }
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 34.692,
+    "completed": true,
+    "seconds": 10.30833333,
+    "maxBodyLateralExtent": 227.89563331,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 5.21666667,
+      "speed": 34.68009135,
+      "x": 113.7904232,
+      "z": -115.43327206
+    },
+    "maxAcceleration": 10.69847224,
+    "maxYawAcceleration": 1.94029449,
+    "maxSlipDegrees": 0.53600957,
+    "end": {
+      "x": 224.89487323,
+      "z": -1.72277769,
+      "heading": -3.14251055,
+      "speed": 34.68009135
+    }
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 34.692,
+    "completed": true,
+    "seconds": 10.325,
+    "maxBodyLateralExtent": 228.19704235,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 5.225,
+      "speed": 34.67807459,
+      "x": 113.81937963,
+      "z": -115.75202494
+    },
+    "maxAcceleration": 10.68290573,
+    "maxYawAcceleration": 1.8741869,
+    "maxSlipDegrees": 0.49692157,
+    "end": {
+      "x": 225.19960004,
+      "z": -1.97158903,
+      "heading": -3.1424492,
+      "speed": 34.67807459
+    }
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 34.692,
+    "completed": true,
+    "seconds": 10.35,
+    "maxBodyLateralExtent": 228.57401737,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 5.24166667,
+      "speed": 34.67559095,
+      "x": 114.07318329,
+      "z": -116.14753346
+    },
+    "maxAcceleration": 10.66352132,
+    "maxYawAcceleration": 1.80678331,
+    "maxSlipDegrees": 0.44821385,
+    "end": {
+      "x": 225.5792152,
+      "z": -2.13683032,
+      "heading": -3.14365995,
+      "speed": 34.67559095
+    }
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 34.692,
+    "completed": true,
+    "seconds": 10.43333333,
+    "maxBodyLateralExtent": 230.12016405,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 5.29166667,
+      "speed": 34.66585782,
+      "x": 114.49114646,
+      "z": -117.7654686
+    },
+    "maxAcceleration": 10.58506292,
+    "maxYawAcceleration": 1.57919305,
+    "maxSlipDegrees": 0.25389616,
+    "end": {
+      "x": 227.14205788,
+      "z": -3.45466183,
+      "heading": -3.14285264,
+      "speed": 34.66585782
+    }
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 35.4,
+    "completed": true,
+    "seconds": 10.5,
+    "maxBodyLateralExtent": 236.75943905,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 5.31666667,
+      "speed": 35.38743679,
+      "x": 118.32893882,
+      "z": -120.0271725
+    },
+    "maxAcceleration": 10.71670189,
+    "maxYawAcceleration": 1.88178943,
+    "maxSlipDegrees": 0.49455011,
+    "end": {
+      "x": 233.76369817,
+      "z": -1.8991512,
+      "heading": -3.14269022,
+      "speed": 35.38743679
+    }
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 36.77352,
+    "completed": true,
+    "seconds": 10.84166667,
+    "maxBodyLateralExtent": 253.92246385,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 5.475,
+      "speed": 36.76289212,
+      "x": 126.74735315,
+      "z": -128.42196543
+    },
+    "maxAcceleration": 10.77413793,
+    "maxYawAcceleration": 1.95659524,
+    "maxSlipDegrees": 0.48027166,
+    "end": {
+      "x": 250.92937652,
+      "z": -1.48558142,
+      "heading": -3.14396638,
+      "speed": 36.76289212
+    }
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 36.77352,
+    "completed": true,
+    "seconds": 10.85833333,
+    "maxBodyLateralExtent": 254.26134271,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 5.49166667,
+      "speed": 36.76108138,
+      "x": 127.08965604,
+      "z": -128.75616227
+    },
+    "maxAcceleration": 10.75854122,
+    "maxYawAcceleration": 1.89768963,
+    "maxSlipDegrees": 0.44522857,
+    "end": {
+      "x": 251.27165518,
+      "z": -1.7572945,
+      "heading": -3.14372607,
+      "speed": 36.76108138
+    }
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 36.77352,
+    "completed": true,
+    "seconds": 10.875,
+    "maxBodyLateralExtent": 254.6852019,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 5.5,
+      "speed": 36.75885054,
+      "x": 127.05890665,
+      "z": -129.17815665
+    },
+    "maxAcceleration": 10.73911695,
+    "maxYawAcceleration": 1.81980131,
+    "maxSlipDegrees": 0.40156155,
+    "end": {
+      "x": 251.70111112,
+      "z": -2.24879327,
+      "heading": -3.14221455,
+      "speed": 36.75885054
+    }
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 36.77352,
+    "completed": true,
+    "seconds": 10.96666667,
+    "maxBodyLateralExtent": 256.42259984,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 5.55,
+      "speed": 36.75009699,
+      "x": 127.52779564,
+      "z": -130.89094375
+    },
+    "maxAcceleration": 10.66047178,
+    "maxYawAcceleration": 1.59689173,
+    "maxSlipDegrees": 0.22684889,
+    "end": {
+      "x": 253.45194441,
+      "z": -3.38139425,
+      "heading": -3.1429571,
+      "speed": 36.75009699
+    }
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "startFraction": 1,
+    "initialSpeed": 37.524,
+    "completed": true,
+    "seconds": 11.04166667,
+    "maxBodyLateralExtent": 263.88232209,
+    "brakeSeconds": null,
+    "at90": {
+      "seconds": 5.58333333,
+      "speed": 37.51279298,
+      "x": 131.91453274,
+      "z": -133.56228243
+    },
+    "maxAcceleration": 10.78969154,
+    "maxYawAcceleration": 1.90017281,
+    "maxSlipDegrees": 0.44300315,
+    "end": {
+      "x": 260.89573941,
+      "z": -1.82325786,
+      "heading": -3.14282364,
+      "speed": 37.51279298
+    }
+  }
+]

@@ -1,0 +1,105 @@
+[
+  {
+    "name": "fresh career and old-save migration preserve owned vehicles, money and selected paid skin",
+    "status": "PASS",
+    "details": {
+      "skins": 17
+    }
+  },
+  {
+    "name": "one-time grant equals only missing fleet deficit, survives all buys and reloads",
+    "status": "PASS",
+    "details": {
+      "cases": 183
+    }
+  },
+  {
+    "name": "all paid school purchases reject duplicates, enforce proximity and funds, retain access after reload",
+    "status": "PASS",
+    "details": {
+      "spent": 12500
+    }
+  },
+  {
+    "name": "all sixteen paid skins remain locked until proximity purchase; old selection and reload retained",
+    "status": "PASS",
+    "details": {
+      "spent": 58250
+    }
+  },
+  {
+    "name": "study rates follow all five entrances across shared seats, pauses, standing and a full room",
+    "status": "PASS"
+  },
+  {
+    "name": "upgrade purchases are bounded, recalculate prices, spend only brains, and preserve per-car levels on reload",
+    "status": "PASS",
+    "details": {
+      "spent": 9600
+    }
+  },
+  {
+    "name": "actual motion earns exactly one brain per second across low, normal and high-refresh frame rates",
+    "status": "PASS",
+    "details": [
+      {
+        "fps": 30,
+        "brains": 10
+      },
+      {
+        "fps": 60,
+        "brains": 10
+      },
+      {
+        "fps": 90,
+        "brains": 10
+      },
+      {
+        "fps": 120,
+        "brains": 10
+      },
+      {
+        "fps": 144,
+        "brains": 10
+      },
+      {
+        "fps": 165,
+        "brains": 10
+      },
+      {
+        "fps": 240,
+        "brains": 10
+      }
+    ]
+  },
+  {
+    "name": "idle, stationary wall pressure, rejected long frames and unrealistic teleport distances cannot earn",
+    "status": "PASS"
+  },
+  {
+    "name": "each isolated upgrade causes a measured physical effect for all cars on supported biomes",
+    "status": "FAIL",
+    "error": "foresthauler/forest engine"
+  },
+  {
+    "name": "next stock car stays above maxed previous car on supported terrain across actual acceleration, top speed, rack, yaw, grip and brakes",
+    "status": "PASS",
+    "details": {
+      "comparisons": 29
+    }
+  },
+  {
+    "name": "persistent storage failure retries are bounded while recovery flush retains all earned brains",
+    "status": "PASS",
+    "details": [
+      {
+        "failure": "false",
+        "attempts": 5
+      },
+      {
+        "failure": "throw",
+        "attempts": 5
+      }
+    ]
+  }
+]

@@ -1,0 +1,475 @@
+{
+  "capturedAt": "2026-10-13T23:08:27.299Z",
+  "scope": "City34 runtime before pronounced hills; offline numerical measurements, not a gameplay screenshot.",
+  "profile": [
+    [
+      -17,
+      0
+    ],
+    [
+      120,
+      0
+    ],
+    [
+      450,
+      10
+    ],
+    [
+      850,
+      2
+    ],
+    [
+      1200,
+      14
+    ],
+    [
+      1650,
+      0
+    ],
+    [
+      2000,
+      0
+    ],
+    [
+      2350,
+      14
+    ],
+    [
+      2770,
+      0
+    ],
+    [
+      3290,
+      0
+    ],
+    [
+      3600,
+      10
+    ],
+    [
+      4000,
+      10
+    ],
+    [
+      4450,
+      28
+    ],
+    [
+      4960,
+      10
+    ],
+    [
+      6000,
+      10
+    ],
+    [
+      6200,
+      10
+    ],
+    [
+      6600,
+      26
+    ],
+    [
+      7040,
+      10
+    ],
+    [
+      7680,
+      10
+    ],
+    [
+      8030,
+      22
+    ],
+    [
+      8380,
+      12
+    ],
+    [
+      9680,
+      12
+    ],
+    [
+      10050,
+      25
+    ],
+    [
+      10500,
+      8
+    ],
+    [
+      10800,
+      8
+    ]
+  ],
+  "networkConfig": {
+    "start": -17,
+    "end": 10800,
+    "spawn": 0,
+    "halfWidth": 15,
+    "shoulderWidth": 110,
+    "meshStep": 2,
+    "roadSurfaceOffset": 0.008,
+    "truckHalfWidth": 2.9,
+    "truckHalfLength": 3.6,
+    "roadMargin": 0.1
+  },
+  "turns": [
+    [
+      900,
+      1700,
+      0,
+      1.5707963267948966
+    ],
+    [
+      2000,
+      2700,
+      1.5707963267948966,
+      0
+    ],
+    [
+      4000,
+      4800,
+      0,
+      -1.5707963267948966
+    ],
+    [
+      6200,
+      7000,
+      -1.5707963267948966,
+      0
+    ],
+    [
+      9850,
+      10650,
+      0,
+      1.5707963267948966
+    ]
+  ],
+  "forks": [
+    {
+      "id": "forest-fork",
+      "biome": "forest",
+      "from": 2780,
+      "to": 3280,
+      "offset": 24
+    },
+    {
+      "id": "desert-fork",
+      "biome": "desert",
+      "from": 4980,
+      "to": 5980,
+      "offset": 50
+    },
+    {
+      "id": "snow-fork",
+      "biome": "snow",
+      "from": 7060,
+      "to": 7660,
+      "offset": 32
+    },
+    {
+      "id": "volcanic-fork",
+      "biome": "volcanic",
+      "from": 8660,
+      "to": 9660,
+      "offset": 50
+    }
+  ],
+  "checkpoints": [
+    180,
+    440,
+    780,
+    1220,
+    1800,
+    2580,
+    3480,
+    4730,
+    6170,
+    7870,
+    9870
+  ],
+  "previews": [
+    {
+      "id": "city",
+      "progress": 80
+    },
+    {
+      "id": "forest",
+      "progress": 2140
+    },
+    {
+      "id": "desert",
+      "progress": 4140
+    },
+    {
+      "id": "snow",
+      "progress": 6340
+    },
+    {
+      "id": "volcanic",
+      "progress": 8540
+    }
+  ],
+  "stats": {
+    "minimum": 0,
+    "maximum": 28,
+    "totalAscent": 105,
+    "totalDescent": 97,
+    "maximumGrade": 0.075
+  },
+  "routeLength": 10829.072000445114,
+  "checkpointsWithArc": [
+    {
+      "id": "checkpoint-01",
+      "progress": 180,
+      "distance": 180.00282417426246,
+      "reward": 110
+    },
+    {
+      "id": "checkpoint-02",
+      "progress": 440,
+      "distance": 440.21632098589953,
+      "reward": 260
+    },
+    {
+      "id": "checkpoint-03",
+      "progress": 780,
+      "distance": 780.3293132006197,
+      "reward": 470
+    },
+    {
+      "id": "checkpoint-04",
+      "progress": 1220,
+      "distance": 1220.6242376947482,
+      "reward": 730
+    },
+    {
+      "id": "checkpoint-05",
+      "progress": 1800,
+      "distance": 1800.9351481402832,
+      "reward": 1080
+    },
+    {
+      "id": "checkpoint-06",
+      "progress": 2580,
+      "distance": 2581.539838100352,
+      "reward": 1550
+    },
+    {
+      "id": "checkpoint-07",
+      "progress": 3480,
+      "distance": 3485.3712195604385,
+      "reward": 2090
+    },
+    {
+      "id": "checkpoint-08",
+      "progress": 4730,
+      "distance": 4736.220987494396,
+      "reward": 2840
+    },
+    {
+      "id": "checkpoint-09",
+      "progress": 6170,
+      "distance": 6184.046467623946,
+      "reward": 3710
+    },
+    {
+      "id": "checkpoint-10",
+      "progress": 7870,
+      "distance": 7890.3148003410815,
+      "reward": 4730
+    },
+    {
+      "id": "checkpoint-11",
+      "progress": 9870,
+      "distance": 9898.461524002516,
+      "reward": 5940
+    }
+  ],
+  "meshPlan": {
+    "road": "f9c7ed9cbca578a24c9eccca610b4db6fe0e7c2c088e19f974beb7fc35a6efa5",
+    "ground": "08a6b0671aa67f468b573c31ae3ea54ccb406021f9969c13f22ed18b0a227b1a"
+  },
+  "networkGraph": [
+    {
+      "id": "city--17-2000",
+      "from": "start",
+      "to": "node-2000",
+      "progressFrom": -17,
+      "progressTo": 2000,
+      "branch": "main",
+      "biome": "city",
+      "forkId": null
+    },
+    {
+      "id": "forest-2000-2780",
+      "from": "node-2000",
+      "to": "node-2780",
+      "progressFrom": 2000,
+      "progressTo": 2780,
+      "branch": "main",
+      "biome": "forest",
+      "forkId": null
+    },
+    {
+      "id": "forest-fork-main",
+      "from": "node-2780",
+      "to": "node-3280",
+      "progressFrom": 2780,
+      "progressTo": 3280,
+      "branch": "main",
+      "biome": "forest",
+      "forkId": "forest-fork"
+    },
+    {
+      "id": "forest-fork-alternate",
+      "from": "node-2780",
+      "to": "node-3280",
+      "progressFrom": 2780,
+      "progressTo": 3280,
+      "branch": "alternate",
+      "biome": "forest",
+      "forkId": "forest-fork"
+    },
+    {
+      "id": "forest-3280-4000",
+      "from": "node-3280",
+      "to": "node-4000",
+      "progressFrom": 3280,
+      "progressTo": 4000,
+      "branch": "main",
+      "biome": "forest",
+      "forkId": null
+    },
+    {
+      "id": "desert-4000-4980",
+      "from": "node-4000",
+      "to": "node-4980",
+      "progressFrom": 4000,
+      "progressTo": 4980,
+      "branch": "main",
+      "biome": "desert",
+      "forkId": null
+    },
+    {
+      "id": "desert-fork-main",
+      "from": "node-4980",
+      "to": "node-5980",
+      "progressFrom": 4980,
+      "progressTo": 5980,
+      "branch": "main",
+      "biome": "desert",
+      "forkId": "desert-fork"
+    },
+    {
+      "id": "desert-fork-alternate",
+      "from": "node-4980",
+      "to": "node-5980",
+      "progressFrom": 4980,
+      "progressTo": 5980,
+      "branch": "alternate",
+      "biome": "desert",
+      "forkId": "desert-fork"
+    },
+    {
+      "id": "desert-5980-6200",
+      "from": "node-5980",
+      "to": "node-6200",
+      "progressFrom": 5980,
+      "progressTo": 6200,
+      "branch": "main",
+      "biome": "desert",
+      "forkId": null
+    },
+    {
+      "id": "snow-6200-7060",
+      "from": "node-6200",
+      "to": "node-7060",
+      "progressFrom": 6200,
+      "progressTo": 7060,
+      "branch": "main",
+      "biome": "snow",
+      "forkId": null
+    },
+    {
+      "id": "snow-fork-main",
+      "from": "node-7060",
+      "to": "node-7660",
+      "progressFrom": 7060,
+      "progressTo": 7660,
+      "branch": "main",
+      "biome": "snow",
+      "forkId": "snow-fork"
+    },
+    {
+      "id": "snow-fork-alternate",
+      "from": "node-7060",
+      "to": "node-7660",
+      "progressFrom": 7060,
+      "progressTo": 7660,
+      "branch": "alternate",
+      "biome": "snow",
+      "forkId": "snow-fork"
+    },
+    {
+      "id": "snow-7660-8400",
+      "from": "node-7660",
+      "to": "node-8400",
+      "progressFrom": 7660,
+      "progressTo": 8400,
+      "branch": "main",
+      "biome": "snow",
+      "forkId": null
+    },
+    {
+      "id": "volcanic-8400-8660",
+      "from": "node-8400",
+      "to": "node-8660",
+      "progressFrom": 8400,
+      "progressTo": 8660,
+      "branch": "main",
+      "biome": "volcanic",
+      "forkId": null
+    },
+    {
+      "id": "volcanic-fork-main",
+      "from": "node-8660",
+      "to": "node-9660",
+      "progressFrom": 8660,
+      "progressTo": 9660,
+      "branch": "main",
+      "biome": "volcanic",
+      "forkId": "volcanic-fork"
+    },
+    {
+      "id": "volcanic-fork-alternate",
+      "from": "node-8660",
+      "to": "node-9660",
+      "progressFrom": 8660,
+      "progressTo": 9660,
+      "branch": "alternate",
+      "biome": "volcanic",
+      "forkId": "volcanic-fork"
+    },
+    {
+      "id": "volcanic-9660-10800",
+      "from": "node-9660",
+      "to": "finish",
+      "progressFrom": 9660,
+      "progressTo": 10800,
+      "branch": "main",
+      "biome": "volcanic",
+      "forkId": null
+    }
+  ],
+  "sourceHashes": {
+    "route-network-config.js": "aeedff2941f42134ee5518233be894a5f6e5c41ac8031fad13a2f90922251178",
+    "route-network.js": "8a632393eae8ce62152e430687ff6fcb78607b6fba0352e63945094b42342bcd",
+    "network-scene.js": "19b82c704e091b788054796c291fdd8078d01b7d1d35866acff20f507141a8ee",
+    "road-hazards.js": "2e5fd24fb48bd2041a935c3168a039b60403d37a216ab316288b483b4cd26ebc",
+    "economy-config.js": "42714d86b7b9970f15c91a3a005084038d10ed1ae3d7d454be2d6d2de5648643",
+    "career-save.js": "4fa790a8017f0fb64372e55219e50b9220df9d557db1fcdb67db4977a60f958d"
+  }
+}

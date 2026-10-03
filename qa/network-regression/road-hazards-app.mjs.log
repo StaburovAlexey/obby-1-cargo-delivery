@@ -1,0 +1,6 @@
+PASS 100 real app biome transitions preserve ownership, fuel and reward protection for stock/max cars
+PASS Hazard contact participates in actual swept solver, fuel and D/R for all ten cars
+PASS Rock simulation pauses for menus, blur, hidden, overview and context loss; resets do not farm
+PASS Soft patches modify only their finite footprints and are wired into all actual car models
+PASS Fuel zero, ordinary abort and regeneration clear pooled hazard state without payout
+Hazard app integration: 5/5 checks passed

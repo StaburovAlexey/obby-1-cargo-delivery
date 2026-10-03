@@ -1,0 +1,56 @@
+{
+  "commit": "7f1f32551db2423127517085cacbe62425ed7cdf",
+  "provenance": "Source fixtures and hashes extracted byte-for-byte with git show from published v3; no generated test output used.",
+  "files": [
+    {
+      "file": "dist/scene.js",
+      "bytes": 37520,
+      "sha256": "52dd298e14ddb0f181e6f74b719e9163cacd52712572b2b3fe04fa67f2815aa0"
+    },
+    {
+      "file": "dist/building-material.js",
+      "bytes": 4181,
+      "sha256": "a45f88e237b0a854ad05184983ccf401beb22ace81fd680d5c78864ebbcee297"
+    },
+    {
+      "file": "dist/app.js",
+      "bytes": 11228,
+      "sha256": "9d8a7fbede11cfd1beb9880ea10ca3bfa4a94728f48f59065364abcdcc39a386"
+    },
+    {
+      "file": "dist/city-driving.js",
+      "bytes": 7195,
+      "sha256": "6fc92d4e133d45b66207f9089ab009ce628e97968b75a6f565a1a9cfa17722cd"
+    },
+    {
+      "file": "dist/driving-model.js",
+      "bytes": 7794,
+      "sha256": "12a85b6a6878bd7f3825f33817f92b58b6e770f36e051a04766c12ca78a63c7d"
+    },
+    {
+      "file": "dist/vehicle-rig.js",
+      "bytes": 12289,
+      "sha256": "11c527c5aced8eeac2b748c8dfa1a413eab132de88ca28e9437f603fb7945b72"
+    },
+    {
+      "file": "dist/vehicle-input.js",
+      "bytes": 6231,
+      "sha256": "0986ad9b79393b49d1ae00d8f889274a9e9b756401edee28462aae6663922515"
+    },
+    {
+      "file": "dist/vehicle-controls.css",
+      "bytes": 7238,
+      "sha256": "9a1e4907f3d1de76930f783637dbb8b4d6b43e361a136d148f85a1f2dd40d111"
+    },
+    {
+      "file": "dist/assets/vehicle-steering.png",
+      "bytes": 262215,
+      "sha256": "9d621c041d6970238a9ab944fb1ed0adebcc5695cba8423300b3e2eecf747f37"
+    },
+    {
+      "file": "dist/assets/vehicle-gear-panel-cropped.webp",
+      "bytes": 17262,
+      "sha256": "4dce13699479fc1b67b64cd7dd867a82f969ea6c8b032cc9f3e1eff4cb7469a1"
+    }
+  ]
+}

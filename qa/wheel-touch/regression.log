@@ -1,0 +1,53 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> urban-route-procedural-three@1.55.0 test:wheel-touch
+> node tests/padded-wheel-input.mjs && node tests/wheel-pedal.mjs && node tests/wheel-pedal-app.mjs && node tests/reverse-pedal.mjs && node tests/reverse-pedal-app.mjs && node tests/delivery-receipt-modal.mjs
+
+PASS 48 CSS layout cases: original 112/132/185 px wheel rules, 24–32 px transparent rim, fuel clearance, pedal/HUD hit priority.
+PASS real vehicle/look handlers: rim starts, outside drags, capture and failed-capture fallback, both listener orders, independent camera/D/R fingers, actual center, wrap/dead-center/regrab.
+PASS wheel ownership is cleared on up/cancel/lost capture, reset/disable/destroy, blur/pagehide/resize, hidden tab and editable focus; stale moves never reacquire camera.
+PASS actual app: padded-button target -> steering, separate camera, upgrade/biome/career/receipt dialogs, blur/resize/pagehide/visibility, garage and fresh driving reset.
+PASS initial legacy coast sample omits speedDemand; setGear is a no-op
+PASS original angular helper wraps correctly and ignores dead center/nonfinite coordinates
+PASS wheel alone rotates ±135 degrees without throttle; release returns to center
+PASS angular wrap and dead-center traversal never jump the steering
+PASS regrab uses the rendered returning angle plus any image transform
+PASS DOMMatrix rendered-angle path and invalid serialized transform fallback remain safe
+PASS gas alone accelerates forward while its click and wheel do not latch throttle
+PASS wheel and pedal have independent captures in both start orders and both release orders
+PASS third camera finger works concurrently in every start order without control cross-talk
+PASS capture failure uses window move/release; capture release errors are harmless
+PASS cancel and capture loss release only their own control
+PASS blur, pagehide, resize, hidden tab and editable focus reset both pointers and keyboard
+PASS disable blocks both controls and keyboard; re-enable is neutral and repeat cannot restart
+PASS W/up/Space give forward gas; A/D/arrows steer with independent release and opposing keys
+PASS keyboard reverse keys, shortcuts, editable fields and secondary mouse buttons are untouched
+PASS mixed keyboard/touch preserves the other axis without latent throttle after pedal release
+PASS synthetic clicks do not drive; gesture protections and destroy remove all owned listeners
+PASS actual production model receives forward throttle and release exactly matches legacy coast
+PASS HTML retains walking stick and exposes described wheel/pedal with no gear or drive stick
+PASS CSS separates hit targets, keeps fuel/speed row and supports focus/reduced motion
+PASS static visual footprints keep wheel/pedal apart, above fuel/speed and below top actions
+Wheel and gas pedal: 21 checks passed. Fake DOM, production model and static layout only; browser rendering/physical touch unverified.
+PASS actual app wheel + pedal + third camera pointer, all safety resets, keyboard, upgrade pause, garage walking and balances. Offline mock renderer.
+PASS reverse ownership, arbitration, cancellation, keyboard suppression and camera independence
+PASS pickup forward → brake → reverse → coast → reverse steering → forward
+PASS citycourier forward → brake → reverse → coast → reverse steering → forward
+PASS rover forward → brake → reverse → coast → reverse steering → forward
+PASS foresthauler forward → brake → reverse → coast → reverse steering → forward
+PASS van forward → brake → reverse → coast → reverse steering → forward
+PASS desertscout forward → brake → reverse → coast → reverse steering → forward
+PASS snowgrip forward → brake → reverse → coast → reverse steering → forward
+PASS snowrunner forward → brake → reverse → coast → reverse steering → forward
+PASS lavacrawler forward → brake → reverse → coast → reverse steering → forward
+PASS ashhauler forward → brake → reverse → coast → reverse steering → forward
+Reverse pedal: production input and all ten vehicle models verified; no browser/touch claim.
+PASS small reverse footprint below gas across 10 portrait/landscape sizes × 4 safe-area configurations
+PASS actual app reverse press/release, upgrade/biome menus, blur, bridge fall, garage reset; offline mocked renderer.
+PASS receipt markup and CSS: centered full-screen backdrop above every HUD, safe areas, scrolling and sticky close header.
+PASS actual app receipt: successful delivery only, once-only payout, modal exclusivity, held input resets, purchases blocked, no expiry and clean dismissal.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

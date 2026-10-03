@@ -1,0 +1,57 @@
+{
+  "checks": [
+    {
+      "name": "exact baseline furniture, poses, collisions, entrances; only 15 lane paint instances removed",
+      "status": "PASS",
+      "details": {
+        "desks": 20,
+        "furnitureParts": 340,
+        "collisionSolids": 40,
+        "removedLanePaint": 15,
+        "preservedShellParts": 468,
+        "furnitureHash": "f89ade88797c9a749f18f04127d3f5a4010b36ca8811b177b878dcb30ecb1635"
+      }
+    },
+    {
+      "name": "stable shared resolver and all five entrances select every one of 20 sole-free seats",
+      "status": "PASS",
+      "details": {
+        "cases": 164,
+        "entrySeatCombinations": 100
+      }
+    },
+    {
+      "name": "prefix, alternate and legacy-column occupied masks use the shared first free desk; full never earns",
+      "status": "PASS",
+      "details": {
+        "cases": 65,
+        "masksPerEntrance": 13
+      }
+    },
+    {
+      "name": "all 17 avatars sit through every entrance in every shared seat, then exit safely without automatic reseating",
+      "status": "PASS",
+      "details": {
+        "cycles": 1700
+      }
+    },
+    {
+      "name": "paid access remains explicit, exact, one-time and persistent even when the shared classroom is full",
+      "status": "PASS"
+    },
+    {
+      "name": "stand, movement, jump after standing, garage, fuel exhaustion and rebuild clear study tier and preserve brains",
+      "status": "PASS"
+    },
+    {
+      "name": "actual app keeps exact prices, lock/dollar/brain icons, tier HUD, explicit Buy then Sit and shared seat",
+      "status": "PASS"
+    },
+    {
+      "name": "owned vehicle labels remain hidden; unowned labels contain only the money icon and exact price",
+      "status": "PASS"
+    }
+  ],
+  "passed": 8,
+  "total": 8
+}

@@ -1,0 +1,259 @@
+{
+  "passed": true,
+  "results": [
+    {
+      "command": "node tests/tow-baseline.mjs",
+      "exit": 0,
+      "seconds": 0.57,
+      "passLines": 9
+    },
+    {
+      "command": "node tests/vehicle-dynamics.mjs",
+      "exit": 0,
+      "seconds": 0.61,
+      "passLines": 21
+    },
+    {
+      "command": "node tests/physics-app-integration.mjs",
+      "exit": 0,
+      "seconds": 43.16,
+      "passLines": 11
+    },
+    {
+      "command": "node tests/vehicle-rig.mjs",
+      "exit": 0,
+      "seconds": 9.78,
+      "passLines": 14
+    },
+    {
+      "command": "node tests/driving.mjs",
+      "exit": 0,
+      "seconds": 26.9,
+      "passLines": 25
+    },
+    {
+      "command": "node tests/route-network.mjs",
+      "exit": 0,
+      "seconds": 8.12,
+      "passLines": 0
+    },
+    {
+      "command": "node tests/network-scene.mjs",
+      "exit": 0,
+      "seconds": 3.08,
+      "passLines": 8
+    },
+    {
+      "command": "node tests/sequential-route.mjs",
+      "exit": 0,
+      "seconds": 2.76,
+      "passLines": 6
+    },
+    {
+      "command": "node tests/economy-session.mjs",
+      "exit": 0,
+      "seconds": 0.52,
+      "passLines": 21
+    },
+    {
+      "command": "node tests/economy-integration.mjs",
+      "exit": 0,
+      "seconds": 35.04,
+      "passLines": 15
+    },
+    {
+      "command": "node tests/economy-progression.mjs",
+      "exit": 0,
+      "seconds": 111.49,
+      "passLines": 30
+    },
+    {
+      "command": "node tests/economy-ui.mjs",
+      "exit": 0,
+      "seconds": 2.34,
+      "passLines": 6
+    },
+    {
+      "command": "node tests/compact-fuel-hud.mjs",
+      "exit": 0,
+      "seconds": 2.45,
+      "passLines": 7
+    },
+    {
+      "command": "node tests/hud-style.mjs",
+      "exit": 0,
+      "seconds": 0.07,
+      "passLines": 6
+    },
+    {
+      "command": "node tests/bare-currency-hud.mjs",
+      "exit": 0,
+      "seconds": 9.0,
+      "passLines": 11
+    },
+    {
+      "command": "node tests/follow-camera.mjs",
+      "exit": 0,
+      "seconds": 12.94,
+      "passLines": 27
+    },
+    {
+      "command": "node tests/jump-integration.mjs",
+      "exit": 0,
+      "seconds": 2.5,
+      "passLines": 8
+    },
+    {
+      "command": "node tests/twenty-desks.mjs",
+      "exit": 0,
+      "seconds": 5.58,
+      "passLines": 10
+    },
+    {
+      "command": "node tests/character-row.mjs",
+      "exit": 0,
+      "seconds": 2.75,
+      "passLines": 3
+    },
+    {
+      "command": "node tests/seated-arm-axes.mjs",
+      "exit": 0,
+      "seconds": 0.49,
+      "passLines": 17
+    },
+    {
+      "command": "node tests/storefront-material.mjs",
+      "exit": 0,
+      "seconds": 3.32,
+      "passLines": 6
+    },
+    {
+      "command": "node tests/ten-vehicle-catalog.mjs",
+      "exit": 0,
+      "seconds": 2.46,
+      "passLines": 10
+    },
+    {
+      "command": "node tests/biome-surface-dynamics.mjs",
+      "exit": 0,
+      "seconds": 2.47,
+      "passLines": 10
+    },
+    {
+      "command": "node tests/biome-preview-integration.mjs",
+      "exit": 0,
+      "seconds": 39.02,
+      "passLines": 18
+    },
+    {
+      "command": "node tests/biome-road-shader.mjs",
+      "exit": 0,
+      "seconds": 2.29,
+      "passLines": 9
+    },
+    {
+      "command": "node tests/ordered-biome-tiers.mjs",
+      "exit": 0,
+      "seconds": 5.93,
+      "passLines": 7
+    },
+    {
+      "command": "node tests/learning-career.mjs",
+      "exit": 0,
+      "seconds": 0.56,
+      "passLines": 25
+    },
+    {
+      "command": "node tests/vehicle-upgrades.mjs",
+      "exit": 0,
+      "seconds": 7.78,
+      "passLines": 8
+    },
+    {
+      "command": "node tests/five-training-zones.mjs",
+      "exit": 0,
+      "seconds": 0.99,
+      "passLines": 7
+    },
+    {
+      "command": "node tests/progression-independent-state.mjs",
+      "exit": 0,
+      "seconds": 2.33,
+      "passLines": 11
+    },
+    {
+      "command": "node tests/progression-independent-app.mjs",
+      "exit": 0,
+      "seconds": 118.26,
+      "passLines": 14
+    },
+    {
+      "command": "node tests/progression-hud.mjs",
+      "exit": 0,
+      "seconds": 24.33,
+      "passLines": 21
+    },
+    {
+      "command": "node tests/tank-upgrades.mjs",
+      "exit": 0,
+      "seconds": 4.09,
+      "passLines": 9
+    },
+    {
+      "command": "node tests/road-hazards.mjs",
+      "exit": 0,
+      "seconds": 21.56,
+      "passLines": 11
+    },
+    {
+      "command": "node tests/road-hazards-scene.mjs",
+      "exit": 0,
+      "seconds": 3.08,
+      "passLines": 8
+    },
+    {
+      "command": "node tests/road-hazards-app.mjs",
+      "exit": 0,
+      "seconds": 14.98,
+      "passLines": 5
+    },
+    {
+      "command": "node tests/school-anchor-review.mjs",
+      "exit": 0,
+      "seconds": 51.5,
+      "passLines": 10
+    },
+    {
+      "command": "node tests/network-hazards.mjs",
+      "exit": 0,
+      "seconds": 4.97,
+      "passLines": 7
+    },
+    {
+      "command": "node tests/network-independent.mjs",
+      "exit": 0,
+      "seconds": 43.75,
+      "passLines": 9
+    },
+    {
+      "command": "node tests/turn-assist.mjs",
+      "exit": 0,
+      "seconds": 10.31,
+      "passLines": 7
+    },
+    {
+      "command": "node tests/route-hills.mjs",
+      "exit": 0,
+      "seconds": 27.4,
+      "passLines": 9
+    }
+  ],
+  "independentAudit": {
+    "command": "node tests/turn-hills-independent.mjs",
+    "report": "qa/turn-hills-independent/report.json",
+    "passed": true,
+    "groups": 13,
+    "runtimeFilesChangedDuringRun": []
+  },
+  "totalSuites": 42
+}

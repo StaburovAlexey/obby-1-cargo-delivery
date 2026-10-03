@@ -1,0 +1,7 @@
+PASS Captured seven-module City34 closure is intact and weak steering remains bit-exact {"baselineModules":7,"cases":1000,"comparedFixedSteps":240000,"steeringInputs":[0,0.1,-0.2,0.44,-0.45],"includesReleasedThrottle":true}
+PASS City34 baseline confirms the original full-lock wide-turn problem across every car and biome {"cases":100,"completed":100,"outside30mCorridor":100,"maximumBodyLateralExtent":263.88232209,"slowestOrCappedSeconds":16.80833333}
+PASS 2400 full-body U-turns fit a 30 m straight from center for all cars, surfaces, speeds, gears and turn signs {"cases":2400,"bodyHalfWidth":2.9,"bodyHalfLength":3.6,"roadHalfWidth":15,"roadMargin":0.1,"maxLateralExtent":12.58034462,"minimumWallClearance":2.41965538,"slowestSeconds":8.55833333,"maxAcceleration":19.7116593,"maxYawAcceleration":4.8903622,"maximumSlipDegrees":6.58885718}
+PASS Strong-turn dynamics agree at 30/60/120 Hz, jitter and bounded render stalls {"cases":2000,"maxDifference":1.0160761121369433e-12,"maxStallAdvance":3.7168968992454747,"secondsPerSchedule":12}
+PASS Assist releases immediately, preserves coasting forces, and leaves no hidden state after pause/reset {"cases":800}
+PASS Four contact patches remain individually bounded and arcade forces remain explicit {"cases":100,"forceEvaluations":24000}
+PASS Higher profile increases amplitude while keeping all platforms level and every analytic join C1 {"previousMaximum":28,"maximum":66,"maxAnalyticGrade":0.075,"maxJoinDerivativeDifference":5.998862715022436e-13,"platformSamples":240}

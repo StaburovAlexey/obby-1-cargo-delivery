@@ -1,0 +1,13 @@
+PASS Wallet and all eight delivery labels contain exactly the money icon and amount
+PASS Every unpaid car label contains only its currency icon and price
+PASS Every unpaid skin label contains only its currency icon and price, without an owned caption
+PASS A purchased skin label disappears immediately, stays hidden after projection and survives reload
+PASS Restored ownership suppresses all seventeen skin prices through walking, driving and garage reset
+PASS A purchased car label disappears immediately and stays hidden through the next projection
+PASS Restored ownership suppresses all ten car labels in walking and driving modes
+PASS Wallet and delivery currency have no card, padding, border, or box shadow
+PASS Wallet icon and top-left circles share the same responsive height
+PASS Save failure remains functional in a separate initially hidden element
+Checked 64 static width/digit combinations; actual glyph layout is not browser-tested.
+PASS Full balances scale in the remaining safe header width without abbreviation
+Bare currency HUD: 11 source-contract and renderer-free app checks passed. No browser, Android, or WebGL layout verification.

@@ -1,0 +1,12 @@
+PASS All ten vehicles have bounded explicit tire packages for the actual five sequential biomes
+PASS Ordered specialist pairs improve together and retain usable earlier terrain
+PASS Every transition is continuous, monotone, lane-independent, and shares the exact 48m blend
+PASS Fifty car/surface combinations accelerate, reach bounded speed and keep each tire inside its friction circle: {"combinations":50}
+PASS Unsupported tiers brake poorly; snow retains longer coasting for every tier: [{"car":"pickup","cityCoast":2.24,"snowCoast":4.68},{"car":"citycourier","cityCoast":2.24,"snowCoast":4.68},{"car":"rover","cityCoast":2.24,"snowCoast":4.68},{"car":"foresthauler","cityCoast":2.24,"snowCoast":4.68},{"car":"van","cityCoast":2.24,"snowCoast":4.68},{"car":"desertscout","cityCoast":2.24,"snowCoast":4.68},{"car":"snowgrip","cityCoast":2.24,"snowCoast":3.15},{"car":"snowrunner","cityCoast":2.24,"snowCoast":3.15},{"car":"lavacrawler","cityCoast":2.24,"snowCoast":3.15},{"car":"ashhauler","cityCoast":2.24,"snowCoast":3.15}]
+PASS All fifty combinations retain D/R brake interlocks, stable held turns and controllable slide recovery: {"maxSlipDegrees":10.66,"maxYaw":0.893}
+PASS Snow gives a longer lateral slide that settles without artificial energy gain
+PASS Volcano vibration is mild, solely cosmetic, distance driven and fully cleared by pause/reset
+PASS Pause/reset and finite surface sanitization cannot replay distance, retain drift or destabilize forces
+PASS Canonical surface boundary crossings are fixed-step deterministic at 30/60/120Hz without impulses
+
+10 biome dynamics groups passed: 50 car/surface combinations. No browser/GPU claim.

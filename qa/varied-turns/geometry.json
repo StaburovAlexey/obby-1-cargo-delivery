@@ -1,0 +1,48 @@
+{
+  "scope": "Offline analytic and actual road-mesh geometry; no browser or human driving claim.",
+  "turnCount": 26,
+  "biomes": [
+    {
+      "id": "city",
+      "turns": 7,
+      "reversals": 5,
+      "headingChangeDegrees": 122
+    },
+    {
+      "id": "forest",
+      "turns": 4,
+      "reversals": 3,
+      "headingChangeDegrees": 74
+    },
+    {
+      "id": "desert",
+      "turns": 4,
+      "reversals": 2,
+      "headingChangeDegrees": 78
+    },
+    {
+      "id": "snow",
+      "turns": 4,
+      "reversals": 2,
+      "headingChangeDegrees": 70
+    },
+    {
+      "id": "volcanic",
+      "turns": 7,
+      "reversals": 6,
+      "headingChangeDegrees": 192
+    }
+  ],
+  "samples": 7926,
+  "bridgeSamples": 7225,
+  "seams": 52,
+  "passed": true,
+  "routeLength": 15868.841887310184,
+  "firstTurnStart": 80,
+  "maxCurve": 0.004549188697146761,
+  "maxBridgeCurve": 0.001287537972782702,
+  "maxBridgeGrade": 0.0478726107784828,
+  "maxDerivativeError": 5.149850765471333e-7,
+  "starterShortcut": 331.00178806570517,
+  "configHash": "b8e01ef098d4476bff81f209154ffd680212c20fa134f870294f629e237cc448"
+}

@@ -1,0 +1,11 @@
+{
+  "finding": "Centerline grade limit did not initially constrain the inside edge of the final curved descent",
+  "firstObservedAt": "2026-10-13T23:09:36Z",
+  "originalActualRoadMaximumGrade": 0.07832092370837201,
+  "originalRoadTrianglesOver7_52Percent": 53,
+  "worstTriangle": 15979,
+  "worstProgressRange": [10268, 10270],
+  "resolution": "The hills author raised the final descent landing from 30 to 32 metres; independently rescanned the complete actual rendered Float32 road",
+  "correctedActualRoadMaximumGrade": 0.075,
+  "status": "corrected"
+}

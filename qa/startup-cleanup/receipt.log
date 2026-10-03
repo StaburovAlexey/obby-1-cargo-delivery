@@ -1,0 +1,2 @@
+PASS receipt markup and CSS: centered full-screen backdrop above every HUD, safe areas, scrolling and sticky close header.
+PASS actual app receipt: successful delivery only, once-only payout, modal exclusivity, held input resets, purchases blocked, no expiry and clean dismissal.

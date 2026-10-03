@@ -1,0 +1,5 @@
+PASS actual app pickup stock primary: 110 earned, 0 refills, 340 frames
+PASS actual app ashhauler stock primary: 5940 earned, 10 refills, 5713 frames
+PASS actual app ashhauler max primary: 5940 earned, 10 refills, 5390 frames
+PASS actual app ashhauler stock alternate: 5940 earned, 10 refills, 5713 frames
+PASS actual app ashhauler max alternate: 5940 earned, 10 refills, 5390 frames

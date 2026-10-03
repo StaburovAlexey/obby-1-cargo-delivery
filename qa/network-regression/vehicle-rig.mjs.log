@@ -1,0 +1,15 @@
+PASS ground-level local pivot and four axle/side records
+PASS zero pose preserves every original instance's world shape and color
+PASS front steering rotates tire, hub and center around each tire pivot
+PASS all wheels roll forward about -X and reverse about +X
+PASS steering is applied outside rolling and long rotations remain bounded
+PASS absolute pose accepts arrays and Three objects without rotating around the world origin
+PASS visual suspension leans and bobs all body parts without moving grounded wheels
+PASS body articulation retains omitted fields and never compounds across repeated poses
+PASS invalid pose input is rejected atomically
+PASS dynamic instance uploads and bounds include all articulated vertices
+PASS reset restores source alignment after repeated forward and reverse motion
+PASS dispose restores static representation exactly and never disposes city resources
+PASS independent regenerated cities preserve geometry and dispose cleanly across seeds
+PASS missing or malformed source truck fails without partial mutation
+Vehicle rig: 14 checks passed.

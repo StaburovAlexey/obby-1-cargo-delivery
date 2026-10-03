@@ -1,0 +1,78 @@
+{
+  "passed": true,
+  "completedAt": "2026-10-13T18:50:57.754Z",
+  "publishedBaseline": "40822be4a04aa6d17607f3db78987b3c3c82dbca",
+  "originalTextureBaseline": "fde8f22e0bf500514490ad486484c105517cbdcc",
+  "runtime": {
+    "fileCount": 60,
+    "changedFiles": [
+      "biome-surfaces.js",
+      "road-material.js"
+    ],
+    "unchangedFiles": 58,
+    "sourceHashes": {
+      "biome-surfaces.js": "9b903c817ead641d23f5972cb3ca5a210226232f370a7e515638c55d0f67f599",
+      "road-material.js": "e69320053610c346f84dad755c29444d2fcfb2d89da9449fdc2626f8a38d79de",
+      "driving-model.js": "0c9cf5582f2ccd558266e4f09a7f668b2fd4789545e3ae006d4c446aeecee907"
+    },
+    "manifestSha256": "38b94aa58e134f264f8971673bb079bf7d4968d4184bb9b2c2b055d19cb09c5c",
+    "protectedCode": "Economy, IDs, prices, saved careers, app flow, scene, houses, geometry, route, particles and force solver are byte-identical to published27."
+  },
+  "texture": {
+    "pass": true,
+    "geometryCases": 7,
+    "meshes": 70,
+    "uvVertices": 76104,
+    "textureHash": "2faeeaee2175ad9e7f2fe89deabc5e24600eb75f0ad41bbfd0ff88769c9379b6",
+    "texturePixels": 16384,
+    "palettePixelComparisons": 81920,
+    "maxLinearColorDifference": 0,
+    "checks": "Geometry, matrices, indices, normals, UVs, instances and colors unchanged from published27; tile byte-identical to v26; sampler ordering and sRGB hardware-decoding path checked; linear pixel math identical for all five palettes.",
+    "limitation": "Node/actual Three only, no GLSL compilation, browser/WebGL rendering, screenshots or GPU/device performance."
+  },
+  "dynamics": {
+    "combinations": 50,
+    "forwardReverseTurnAndInterlockCases": 100,
+    "edgeImpactCases": 100,
+    "worstLocalGradeStarts": 100,
+    "global1165PercentGradeStarts": 100,
+    "minGlobalUphillSpeed": 1.5887024775685201,
+    "boundaryCrossingsAt30_60_120Hz": 240,
+    "frictionCircleSamples": 6400,
+    "maxControlledSlipDegrees": 9.521229464636027,
+    "maxYawRadiansPerSecond": 0.5571571658282899,
+    "laterTierSpeedFactor": [
+      0.16000000000000011,
+      0.42000000000000054
+    ],
+    "laterTierAccelerationRatio": [
+      0.21912763963743256,
+      0.3527399160161367
+    ],
+    "laterTierBrakeDistanceRatio": [
+      2.728315764399096,
+      6.057716652504693
+    ],
+    "laterTierLateralSlideRatio": [
+      3.3910368457774402,
+      10.552264880683438
+    ],
+    "earlierTierMinimumSpeedFactor": 0.8999999999999974,
+    "earlierTierMinimumAccelerationRatio": 0.8612739517698319,
+    "earlierTierMaximumBrakeRatio": 1.097085500167101,
+    "earlierTierMaximumSlideRatio": 1.559611295807675
+  },
+  "regressions": {
+    "previewRewardsSavesParticlesGroups": 18,
+    "catalogGroups": 10,
+    "roadMaterialGroups": 8,
+    "routeControllerAlgebraCases": 2450,
+    "routeControllerMaximumError": 1.6653345369377348e-16,
+    "routeControllerReview": "Only a corrected inverse of the existing forward steering rack. No runtime edits, state injection or weaker route/fuel/payout/zero-contact assertions."
+  },
+  "defects": [],
+  "limitations": [
+    "Node, actual Three.js meshes, actual fixed-step physics, and synthetic app DOM/renderer only.",
+    "No browser launch, GLSL compilation, WebGL screenshot, interactive playtest, GPU/device performance or publication was performed."
+  ]
+}

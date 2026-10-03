@@ -1,0 +1,23 @@
+{
+  "scope": "Analytic lower bound for any continuous in-road final-leg path; sampled centreline lengths are not a physical driver test.",
+  "from": 26080,
+  "to": 32380,
+  "routeEnd": 32400,
+  "runout": 20,
+  "minimumLegalXZ": 6267.638055098077,
+  "tank9Range": 6223,
+  "tank10Range": 6370,
+  "tank9FailureMargin": 44.63805509807662,
+  "paths": [
+    {
+      "branch": "main",
+      "centrelineXZ": 6304.427807503322,
+      "nominalFuel10Reserve": 65.57219249667833
+    },
+    {
+      "branch": "alternate",
+      "centrelineXZ": 6304.427807503322,
+      "nominalFuel10Reserve": 65.57219249667833
+    }
+  ]
+}

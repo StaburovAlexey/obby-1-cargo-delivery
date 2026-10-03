@@ -1,0 +1,102 @@
+{
+  "scope": "Offline Node and actual Three.js matrices. No browser/GPU, visibility, Android, or human difficulty claim.",
+  "checks": [
+    {
+      "name": "32 seeds preserve 30 varied hazards, 20 eight-second movers and every packing safeguard",
+      "passed": true,
+      "seeds": 32,
+      "count": 30,
+      "static": 10,
+      "moving": 20,
+      "centerCrossing": 20,
+      "byBiome": {
+        "city": 6,
+        "forest": 6,
+        "desert": 5,
+        "snow": 5,
+        "volcanic": 8
+      },
+      "byType": {
+        "repair": 2,
+        "log": 2,
+        "dune": 1,
+        "ice": 1,
+        "rock": 4,
+        "barrier": 8,
+        "boulder": 12
+      },
+      "minimumExclusion": 100.17627788148206,
+      "minimumSpacing": 180,
+      "minimumStaticSpacing": 65,
+      "maximumSpeed": 3.9749999999999996
+    },
+    {
+      "name": "Independent perimeter, complete mover envelopes and two-way approach samples stay safe",
+      "passed": true,
+      "seeds": 7,
+      "perimeterSamples": 22680,
+      "approachSamples": 12712,
+      "minimumRoadMargin": 2.091580687207122,
+      "minimumProjectedExclusion": 102.40190857945163,
+      "maximumGrade": 0.047872589996235525,
+      "maximumCurvature": 0.0022254473547963184
+    },
+    {
+      "name": "Live poses and collisions track the same bounded road-local sweep at every tested frame",
+      "passed": true,
+      "frames": 900,
+      "moverFrames": 18000,
+      "minimumLargestPassage": 13.100239322550182,
+      "maximumStep": 0.19874738923791924,
+      "centerLaneObstructions": 20
+    },
+    {
+      "name": "Capped visible time, invalid inputs, pause, reset and replay preserve bounded pool identities",
+      "passed": true,
+      "resets": 101,
+      "maxDelta": 0.1,
+      "staticBasalt": 4
+    },
+    {
+      "name": "Two new instanced pools show exact live collision footprints and terrain-conforming heights",
+      "passed": true,
+      "checkedVertices": 26208,
+      "maxDaylight": -0.005994119984674029,
+      "maxBurial": 0.007895577459350989,
+      "stats": {
+        "hazards": 30,
+        "movers": 20,
+        "rockCapacity": 4,
+        "instancedMeshes": 6,
+        "mergedMeshes": 2,
+        "materials": 8,
+        "geometries": 8,
+        "sharedTextures": 1,
+        "drawCalls": 8,
+        "triangles": 1944,
+        "activeInstances": 32,
+        "visibleRocks": 4,
+        "visibleWarnings": 0,
+        "disposed": false,
+        "phases": {
+          "landed": 4
+        }
+      }
+    },
+    {
+      "name": "Runtime and scene CPU work stays pooled with no growing geometry or external clock",
+      "passed": true,
+      "frames": 150,
+      "meanMs": 6.598354086666805,
+      "p95Ms": 8.931756000005407,
+      "maximumMs": 13.273911999996926,
+      "limitation": "Shared CPU Node timing only; no GPU FPS claim"
+    }
+  ],
+  "generatedAt": "2026-10-14T18:29:19.796Z",
+  "runtimeHashes": {
+    "road-hazards.js": "5837e10f79699f10c72d0454250c3833be5ca452d00fd14039ce07f5b8e4bc8f",
+    "road-hazards-scene.js": "f9c1ddafbf68bf1ebdd2fe4313ff77c6d3e838741a068c9aa285c97f349593d2",
+    "road-bridges.js": "637ab07f628992d4fa8b24d797d83d90305600beebf27a49fb2c5f5cdaf3374d"
+  }
+}

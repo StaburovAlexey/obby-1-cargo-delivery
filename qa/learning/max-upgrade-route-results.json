@@ -1,0 +1,208 @@
+{
+  "passed": true,
+  "rendererFree": true,
+  "checks": [
+    {
+      "passed": true,
+      "id": "pickup",
+      "target": "delivery-checkpoint-04",
+      "succeeds": true,
+      "frames": 2736,
+      "seconds": 136.8,
+      "maxDistance": 1196,
+      "totalTravel": 1199,
+      "money": 720,
+      "refills": 3,
+      "biomes": [
+        "city",
+        "forest"
+      ],
+      "blocked": 0,
+      "maxStep": 0.5871392589793022
+    },
+    {
+      "passed": true,
+      "id": "citycourier",
+      "target": "delivery-checkpoint-05",
+      "succeeds": true,
+      "frames": 4694,
+      "seconds": 234.70000000000002,
+      "maxDistance": 1845,
+      "totalTravel": 1847,
+      "money": 1110,
+      "refills": 4,
+      "biomes": [
+        "city",
+        "forest"
+      ],
+      "blocked": 0,
+      "maxStep": 0.666638571981366
+    },
+    {
+      "passed": true,
+      "id": "rover",
+      "target": "delivery-checkpoint-06",
+      "succeeds": true,
+      "frames": 5010,
+      "seconds": 250.5,
+      "maxDistance": 2695,
+      "totalTravel": 2696,
+      "money": 1620,
+      "refills": 5,
+      "biomes": [
+        "city",
+        "forest",
+        "desert"
+      ],
+      "blocked": 0,
+      "maxStep": 0.7602130391545914
+    },
+    {
+      "passed": true,
+      "id": "foresthauler",
+      "target": "delivery-checkpoint-08",
+      "succeeds": true,
+      "frames": 14316,
+      "seconds": 715.8000000000001,
+      "maxDistance": 5095,
+      "totalTravel": 5095,
+      "money": 3060,
+      "refills": 7,
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "blocked": 0,
+      "maxStep": 0.866212358689147
+    },
+    {
+      "passed": true,
+      "id": "van",
+      "target": "delivery-checkpoint-08",
+      "succeeds": true,
+      "frames": 8961,
+      "seconds": 448.05,
+      "maxDistance": 5095,
+      "totalTravel": 5095,
+      "money": 3060,
+      "refills": 7,
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "blocked": 0,
+      "maxStep": 0.9786318255410311
+    },
+    {
+      "passed": true,
+      "id": "desertscout",
+      "target": "delivery-checkpoint-08",
+      "succeeds": true,
+      "frames": 7838,
+      "seconds": 391.90000000000003,
+      "maxDistance": 5095,
+      "totalTravel": 5095,
+      "money": 3060,
+      "refills": 7,
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "blocked": 0,
+      "maxStep": 1.1164312894918038
+    },
+    {
+      "passed": true,
+      "id": "snowgrip",
+      "target": "delivery-checkpoint-08",
+      "succeeds": true,
+      "frames": 5040,
+      "seconds": 252,
+      "maxDistance": 5096,
+      "totalTravel": 5095,
+      "money": 3060,
+      "refills": 7,
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "blocked": 0,
+      "maxStep": 1.2705112359017998
+    },
+    {
+      "passed": true,
+      "id": "snowrunner",
+      "target": "delivery-checkpoint-08",
+      "succeeds": true,
+      "frames": 4410,
+      "seconds": 220.5,
+      "maxDistance": 5095,
+      "totalTravel": 5095,
+      "money": 3060,
+      "refills": 7,
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "blocked": 0,
+      "maxStep": 1.4454102513208984
+    },
+    {
+      "passed": true,
+      "id": "lavacrawler",
+      "target": "delivery-checkpoint-08",
+      "succeeds": true,
+      "frames": 3173,
+      "seconds": 158.65,
+      "maxDistance": 5095,
+      "totalTravel": 5094,
+      "money": 3060,
+      "refills": 7,
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "blocked": 0,
+      "maxStep": 1.6471535209584045
+    },
+    {
+      "passed": true,
+      "id": "ashhauler",
+      "target": "delivery-checkpoint-08",
+      "succeeds": true,
+      "frames": 2781,
+      "seconds": 139.05,
+      "maxDistance": 5094,
+      "totalTravel": 5093,
+      "money": 3060,
+      "refills": 7,
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "blocked": 0,
+      "maxStep": 1.880351381278557
+    }
+  ]
+}

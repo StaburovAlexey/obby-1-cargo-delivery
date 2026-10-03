@@ -1,0 +1,8 @@
+PASS Metadata tracks exact route edges and uses true arc instead of world-Z progression: {"count":68,"positionsWithWorldZDifferentFromProgress":60,"rockCapacity":16}
+PASS All actual preview, checkpoint and junction stations are protected across both alternatives: {"protectedStations":24,"minimumWholeFootprintGapMetres":109.99517080464672}
+PASS Both arms have seeded side changes, angled logs, bounded groups and unequal quiet gaps: {"forkArmGroups":14,"patterns":["single","staggered-pair","offset-group","gentle-slalom","angled-logs"],"maximumCityQuietGapMetres":384.8335105732165}
+PASS Every rock has a 180m gentle two-way approach and wakes only on its own route edge: {"twoWayApproaches":480,"minimumWarningRangeMetres":160,"warningSeconds":4.5,"fallSeconds":1.2,"maxTestSpeed":37.524}
+PASS Maximum-speed passes in both gears cannot make falling rocks land inside the driver: {"passes":4,"deferredFrames":105}
+PASS 120 stock/max catalog D/R oblique impacts cannot tunnel through thin angled fork logs: {"cases":120,"maxFrameDisplacementMetres":0.36247562267932765,"maximumSweepMetres":0.12}
+PASS Physics and renderer pools remain bounded, frozen descriptors survive resets, and economy is untouched: {"staticDescriptors":68,"rockPool":16,"resets":100}
+7 graph hazard checks passed. Offline only.

@@ -1,0 +1,119 @@
+=== padded-wheel-input ===
+PASS 48 CSS layout cases: original 112/132/185 px wheel rules, 24–32 px transparent rim, fuel clearance, pedal/HUD hit priority.
+PASS real vehicle/look handlers: rim starts, outside drags, capture and failed-capture fallback, both listener orders, independent camera/D/R fingers, actual center, wrap/dead-center/regrab.
+PASS wheel ownership is cleared on up/cancel/lost capture, reset/disable/destroy, blur/pagehide/resize, hidden tab and editable focus; stale moves never reacquire camera.
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+1 !== undefined
+
+    at idle (file:///workspace/scratch/e6939d35b3a6/city-help-settings/tests/padded-wheel-input.mjs:222:24)
+    at file:///workspace/scratch/e6939d35b3a6/city-help-settings/tests/padded-wheel-input.mjs:228:12
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 1,
+  expected: undefined,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
+RESULT padded-wheel-input 1
+=== wheel-pedal ===
+PASS initial legacy coast sample omits speedDemand; setGear is a no-op
+PASS original angular helper wraps correctly and ignores dead center/nonfinite coordinates
+PASS wheel alone rotates ±135 degrees without throttle; release returns to center
+PASS angular wrap and dead-center traversal never jump the steering
+PASS regrab uses the rendered returning angle plus any image transform
+PASS DOMMatrix rendered-angle path and invalid serialized transform fallback remain safe
+PASS gas alone accelerates forward while its click and wheel do not latch throttle
+PASS wheel and pedal have independent captures in both start orders and both release orders
+PASS third camera finger works concurrently in every start order without control cross-talk
+PASS capture failure uses window move/release; capture release errors are harmless
+PASS cancel and capture loss release only their own control
+PASS blur, pagehide, resize, hidden tab and editable focus reset both pointers and keyboard
+PASS disable blocks both controls and keyboard; re-enable is neutral and repeat cannot restart
+PASS W/up/Space give forward gas; A/D/arrows steer with independent release and opposing keys
+PASS keyboard reverse keys, shortcuts, editable fields and secondary mouse buttons are untouched
+PASS mixed keyboard/touch preserves the other axis without latent throttle after pedal release
+PASS synthetic clicks do not drive; gesture protections and destroy remove all owned listeners
+PASS actual production model receives forward throttle and release exactly matches legacy coast
+PASS HTML retains walking stick and exposes described wheel/pedal with no gear or drive stick
+PASS CSS separates hit targets, keeps fuel/speed row and supports focus/reduced motion
+PASS static visual footprints keep wheel/pedal apart, above fuel/speed and below top actions
+Wheel and gas pedal: 21 checks passed. Fake DOM, production model and static layout only; browser rendering/physical touch unverified.
+RESULT wheel-pedal 0
+=== wheel-pedal-app ===
+PASS actual app wheel + pedal + third camera pointer, all safety resets, keyboard, upgrade pause, garage walking and balances. Offline mock renderer.
+RESULT wheel-pedal-app 0
+=== reverse-pedal ===
+PASS reverse ownership, arbitration, cancellation, keyboard suppression and camera independence
+PASS pickup forward → brake → reverse → coast → reverse steering → forward
+PASS citycourier forward → brake → reverse → coast → reverse steering → forward
+PASS rover forward → brake → reverse → coast → reverse steering → forward
+PASS foresthauler forward → brake → reverse → coast → reverse steering → forward
+PASS van forward → brake → reverse → coast → reverse steering → forward
+PASS desertscout forward → brake → reverse → coast → reverse steering → forward
+PASS snowgrip forward → brake → reverse → coast → reverse steering → forward
+PASS snowrunner forward → brake → reverse → coast → reverse steering → forward
+PASS lavacrawler forward → brake → reverse → coast → reverse steering → forward
+PASS ashhauler forward → brake → reverse → coast → reverse steering → forward
+PASS bmwreward forward → brake → reverse → coast → reverse steering → forward
+Reverse pedal: production input and all ten vehicle models verified; no browser/touch claim.
+PASS small reverse footprint below gas across 10 portrait/landscape sizes × 4 safe-area configurations
+RESULT reverse-pedal 0
+=== delivery-receipt-modal ===
+PASS receipt markup and CSS: centered full-screen backdrop above every HUD, safe areas, scrolling and sticky close header.
+PASS actual app receipt: successful delivery only, once-only payout, modal exclusivity, held input resets, purchases blocked, no expiry and clean dismissal.
+RESULT delivery-receipt-modal 0
+=== reward-app ===
+PASS actual 11 GLBs + app: reward locked, rotation, all car enter/reset, 25 bridges both directions, failed fall no payout, finish attached. CPU/mock DOM.
+RESULT reward-app 0
+=== reward-car-unlock ===
+PASS the original ten IDs, prices, base stats, upgrades and budgets are unchanged
+PASS locked reward cannot be bought, boarded, selected as money goal or granted by debug funds
+PASS all ten ordinary cars remain directly purchasable and early delivery still pays without a reward
+PASS legacy money, last-car ownership, completion counts and checkpoint claims never infer proof
+PASS no proof, first-pose teleport, late start, preview, no cargo, abort and fuel failure never pay or unlock
+PASS a complete legal final delivery unlocks for free and saves payout, proof and ownership atomically once
+PASS both legal fork choices qualify and future successful runs never repeat the unlock
+PASS off-road, bridge-gap, late teleport and stale run telemetry invalidate cargo
+PASS failed saving cannot duplicate rewards and a later flush/reload preserves the earned car
+PASS completed traversal alone never unlocks, and re-entrant final observers cannot duplicate credit
+PASS proof normalization requires complete evidence and rejects accessors without invoking them
+PASS reward-only BMW: 11 focused groups.
+RESULT reward-car-unlock 0
+=== reward-developer-mode ===
+PASS explicit developer BMW: session-only access, no cargo/proof/payout/brains, repeated enter/failure, no save writes and unchanged normal reward lock.
+RESULT reward-developer-mode 0
+=== tank-upgrades ===
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+10 !== 3
+
+    at file:///workspace/scratch/e6939d35b3a6/city-help-settings/tests/tank-upgrades.mjs:26:88
+    at check (file:///workspace/scratch/e6939d35b3a6/city-help-settings/tests/tank-upgrades.mjs:12:38)
+    at file:///workspace/scratch/e6939d35b3a6/city-help-settings/tests/tank-upgrades.mjs:24:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 10,
+  expected: 3,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
+RESULT tank-upgrades 1

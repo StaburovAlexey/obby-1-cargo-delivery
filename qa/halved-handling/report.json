@@ -1,0 +1,710 @@
+{
+  "scope": "Node actual production solver, no browser/WebGL/Android verification",
+  "cars": 10,
+  "levels": 4,
+  "profiles": 200,
+  "stabilityCases": 400,
+  "frames": 480000,
+  "rows": [
+    {
+      "car": "pickup",
+      "biome": "city",
+      "before": {
+        "rack": 0.09758233445113834,
+        "brakeDistance": 0.12033664257447718,
+        "slide": 0.020489366166000833
+      },
+      "after": {
+        "rack": 0.05156041328624471,
+        "brakeDistance": 0.23280688387857218,
+        "slide": 0.04541142152889721
+      }
+    },
+    {
+      "car": "pickup",
+      "biome": "forest",
+      "before": {
+        "rack": 0.09758233445113834,
+        "brakeDistance": 0.2973267286078993,
+        "slide": 0.1463649254468975
+      },
+      "after": {
+        "rack": 0.05156041328624471,
+        "brakeDistance": 0.599919285819837,
+        "slide": 0.2938377241078889
+      }
+    },
+    {
+      "car": "pickup",
+      "biome": "desert",
+      "before": {
+        "rack": 0.09758233445113834,
+        "brakeDistance": 0.37952682541825666,
+        "slide": 0.21415519859891385
+      },
+      "after": {
+        "rack": 0.05156041328624471,
+        "brakeDistance": 0.7642548562500018,
+        "slide": 0.42058646625246365
+      }
+    },
+    {
+      "car": "pickup",
+      "biome": "snow",
+      "before": {
+        "rack": 0.09758233445113834,
+        "brakeDistance": 0.4650868274691362,
+        "slide": 0.3794905548840968
+      },
+      "after": {
+        "rack": 0.05156041328624471,
+        "brakeDistance": 0.9353635468749992,
+        "slide": 0.7467700113657971
+      }
+    },
+    {
+      "car": "pickup",
+      "biome": "volcanic",
+      "before": {
+        "rack": 0.09758233445113834,
+        "brakeDistance": 0.5590446741898152,
+        "slide": 0.2787821480366006
+      },
+      "after": {
+        "rack": 0.05156041328624471,
+        "brakeDistance": 1.1238356796875006,
+        "slide": 0.5481890938932861
+      }
+    },
+    {
+      "car": "citycourier",
+      "biome": "city",
+      "before": {
+        "rack": 0.10447255473724062,
+        "brakeDistance": 0.11181772371716114,
+        "slide": 0.01865002245793712
+      },
+      "after": {
+        "rack": 0.05543766803197854,
+        "brakeDistance": 0.2169180135802531,
+        "slide": 0.04171358862295227
+      }
+    },
+    {
+      "car": "citycourier",
+      "biome": "forest",
+      "before": {
+        "rack": 0.10447255473724062,
+        "brakeDistance": 0.2746427359919714,
+        "slide": 0.1352610397138474
+      },
+      "after": {
+        "rack": 0.05543766803197854,
+        "brakeDistance": 0.5550002377884997,
+        "slide": 0.2724580889618602
+      }
+    },
+    {
+      "car": "citycourier",
+      "biome": "desert",
+      "before": {
+        "rack": 0.10447255473724062,
+        "brakeDistance": 0.35117398099464125,
+        "slide": 0.19815712158633048
+      },
+      "after": {
+        "rack": 0.05543766803197854,
+        "brakeDistance": 0.7076080738386015,
+        "slide": 0.3908282558777916
+      }
+    },
+    {
+      "car": "citycourier",
+      "biome": "snow",
+      "before": {
+        "rack": 0.10447255473724062,
+        "brakeDistance": 0.4303771910260803,
+        "slide": 0.35180704291641596
+      },
+      "after": {
+        "rack": 0.05543766803197854,
+        "brakeDistance": 0.8660028012499996,
+        "slide": 0.692978174997769
+      }
+    },
+    {
+      "car": "citycourier",
+      "biome": "volcanic",
+      "before": {
+        "rack": 0.10447255473724062,
+        "brakeDistance": 0.5174181749999978,
+        "slide": 0.25813988579664815
+      },
+      "after": {
+        "rack": 0.05543766803197854,
+        "brakeDistance": 1.040002069687496,
+        "slide": 0.5067439590491107
+      }
+    },
+    {
+      "car": "rover",
+      "biome": "city",
+      "before": {
+        "rack": 0.1117746205677217,
+        "brakeDistance": 0.1033155440126432,
+        "slide": 0.017161359801420417
+      },
+      "after": {
+        "rack": 0.05958570180416842,
+        "brakeDistance": 0.2018555052712827,
+        "slide": 0.03871559156319648
+      }
+    },
+    {
+      "car": "rover",
+      "biome": "forest",
+      "before": {
+        "rack": 0.1117746205677217,
+        "brakeDistance": 0.1023929851288301,
+        "slide": 0.01877092490335852
+      },
+      "after": {
+        "rack": 0.05958570180416842,
+        "brakeDistance": 0.19854903110388378,
+        "slide": 0.04222089550784869
+      }
+    },
+    {
+      "car": "rover",
+      "biome": "desert",
+      "before": {
+        "rack": 0.1117746205677217,
+        "brakeDistance": 0.296834820833336,
+        "slide": 0.1463649254468975
+      },
+      "after": {
+        "rack": 0.05958570180416842,
+        "brakeDistance": 0.5993150045546844,
+        "slide": 0.2938377241078889
+      }
+    },
+    {
+      "car": "rover",
+      "biome": "snow",
+      "before": {
+        "rack": 0.1117746205677217,
+        "brakeDistance": 0.37955785416666643,
+        "slide": 0.2253288417258268
+      },
+      "after": {
+        "rack": 0.05958570180416842,
+        "brakeDistance": 0.7642548562500018,
+        "slide": 0.4470917559150911
+      }
+    },
+    {
+      "car": "rover",
+      "biome": "volcanic",
+      "before": {
+        "rack": 0.1117746205677217,
+        "brakeDistance": 0.46511656875000185,
+        "slide": 0.3632425494878675
+      },
+      "after": {
+        "rack": 0.05958570180416842,
+        "brakeDistance": 0.9353635468749992,
+        "slide": 0.7100929996938576
+      }
+    },
+    {
+      "car": "foresthauler",
+      "biome": "city",
+      "before": {
+        "rack": 0.11950145448523622,
+        "brakeDistance": 0.09583058495754493,
+        "slide": 0.015567239257341159
+      },
+      "after": {
+        "rack": 0.06402007037948736,
+        "brakeDistance": 0.18818169742000457,
+        "slide": 0.03549896754810411
+      }
+    },
+    {
+      "car": "foresthauler",
+      "biome": "forest",
+      "before": {
+        "rack": 0.11950145448523622,
+        "brakeDistance": 0.09502819223924597,
+        "slide": 0.017029061944330515
+      },
+      "after": {
+        "rack": 0.06402007037948736,
+        "brakeDistance": 0.1846882700027841,
+        "slide": 0.03875410485617836
+      }
+    },
+    {
+      "car": "foresthauler",
+      "biome": "desert",
+      "before": {
+        "rack": 0.11950145448523622,
+        "brakeDistance": 0.2746591355889869,
+        "slide": 0.1352610397138474
+      },
+      "after": {
+        "rack": 0.06402007037948736,
+        "brakeDistance": 0.5549549117300465,
+        "slide": 0.2724580889618602
+      }
+    },
+    {
+      "car": "foresthauler",
+      "biome": "snow",
+      "before": {
+        "rack": 0.11950145448523622,
+        "brakeDistance": 0.35120255596138783,
+        "slide": 0.20862408585509162
+      },
+      "after": {
+        "rack": 0.06402007037948736,
+        "brakeDistance": 0.7076062029488046,
+        "slide": 0.4146013052377173
+      }
+    },
+    {
+      "car": "foresthauler",
+      "biome": "volcanic",
+      "before": {
+        "rack": 0.11950145448523622,
+        "brakeDistance": 0.4304014317499991,
+        "slide": 0.3369141640881368
+      },
+      "after": {
+        "rack": 0.06402007037948736,
+        "brakeDistance": 0.8660028012499996,
+        "slide": 0.6574271410661365
+      }
+    },
+    {
+      "car": "van",
+      "biome": "city",
+      "before": {
+        "rack": 0.12766442217773952,
+        "brakeDistance": 0.08880008113771964,
+        "slide": 0.014090639290929907
+      },
+      "after": {
+        "rack": 0.06875666892375623,
+        "brakeDistance": 0.17524328735236772,
+        "slide": 0.032510425559224565
+      }
+    },
+    {
+      "car": "van",
+      "biome": "forest",
+      "before": {
+        "rack": 0.12766442217773952,
+        "brakeDistance": 0.08809572523608544,
+        "slide": 0.015619348707800462
+      },
+      "after": {
+        "rack": 0.06875666892375623,
+        "brakeDistance": 0.1721478913244514,
+        "slide": 0.035947636578201436
+      }
+    },
+    {
+      "car": "van",
+      "biome": "desert",
+      "before": {
+        "rack": 0.12766442217773952,
+        "brakeDistance": 0.08759482312858324,
+        "slide": 0.01765948295691122
+      },
+      "after": {
+        "rack": 0.06875666892375623,
+        "brakeDistance": 0.17031354748837657,
+        "slide": 0.04018874297190944
+      }
+    },
+    {
+      "car": "van",
+      "biome": "snow",
+      "before": {
+        "rack": 0.12766442217773952,
+        "brakeDistance": 0.29688650000000116,
+        "slide": 0.15451961930657387
+      },
+      "after": {
+        "rack": 0.06875666892375623,
+        "brakeDistance": 0.5993114223467959,
+        "slide": 0.30923387246307876
+      }
+    },
+    {
+      "car": "van",
+      "biome": "volcanic",
+      "before": {
+        "rack": 0.12766442217773952,
+        "brakeDistance": 0.379576018749999,
+        "slide": 0.2152127494213245
+      },
+      "after": {
+        "rack": 0.06875666892375623,
+        "brakeDistance": 0.7642548562500018,
+        "slide": 0.4265413905419695
+      }
+    },
+    {
+      "car": "desertscout",
+      "biome": "city",
+      "before": {
+        "rack": 0.13627294260519954,
+        "brakeDistance": 0.08218410059600778,
+        "slide": 0.012722930644618824
+      },
+      "after": {
+        "rack": 0.07381163538389696,
+        "brakeDistance": 0.1630088773051135,
+        "slide": 0.029786597602262654
+      }
+    },
+    {
+      "car": "desertscout",
+      "biome": "forest",
+      "before": {
+        "rack": 0.13627294260519954,
+        "brakeDistance": 0.08158153599731754,
+        "slide": 0.014109823802702426
+      },
+      "after": {
+        "rack": 0.07381163538389696,
+        "brakeDistance": 0.16026779341714636,
+        "slide": 0.03294169407709324
+      }
+    },
+    {
+      "car": "desertscout",
+      "biome": "desert",
+      "before": {
+        "rack": 0.13627294260519954,
+        "brakeDistance": 0.08072798390387526,
+        "slide": 0.015985721973935663
+      },
+      "after": {
+        "rack": 0.07381163538389696,
+        "brakeDistance": 0.1586979825734236,
+        "slide": 0.03685851414097807
+      }
+    },
+    {
+      "car": "desertscout",
+      "biome": "snow",
+      "before": {
+        "rack": 0.13627294260519954,
+        "brakeDistance": 0.2746827424999996,
+        "slide": 0.14289195247399777
+      },
+      "after": {
+        "rack": 0.07381163538389696,
+        "brakeDistance": 0.5549480930765327,
+        "slide": 0.286546865408152
+      }
+    },
+    {
+      "car": "desertscout",
+      "biome": "volcanic",
+      "before": {
+        "rack": 0.13627294260519954,
+        "brakeDistance": 0.3512011827499979,
+        "slide": 0.1991128305863863
+      },
+      "after": {
+        "rack": 0.07381163538389696,
+        "brakeDistance": 0.7076023032500007,
+        "slide": 0.39629520201377644
+      }
+    },
+    {
+      "car": "snowgrip",
+      "biome": "city",
+      "before": {
+        "rack": 0.14533405718180334,
+        "brakeDistance": 0.07608833372208856,
+        "slide": 0.011456113276366642
+      },
+      "after": {
+        "rack": 0.07920123184728425,
+        "brakeDistance": 0.1515258645303419,
+        "slide": 0.027263015552867254
+      }
+    },
+    {
+      "car": "snowgrip",
+      "biome": "forest",
+      "before": {
+        "rack": 0.14533405718180334,
+        "brakeDistance": 0.07552363532191464,
+        "slide": 0.01271163215373372
+      },
+      "after": {
+        "rack": 0.07920123184728425,
+        "brakeDistance": 0.14906621081328986,
+        "slide": 0.030156719130983722
+      }
+    },
+    {
+      "car": "snowgrip",
+      "biome": "desert",
+      "before": {
+        "rack": 0.14533405718180334,
+        "brakeDistance": 0.07471072091978037,
+        "slide": 0.014631094785946264
+      },
+      "after": {
+        "rack": 0.07920123184728425,
+        "brakeDistance": 0.1476658235906374,
+        "slide": 0.03416248539309108
+      }
+    },
+    {
+      "car": "snowgrip",
+      "biome": "snow",
+      "before": {
+        "rack": 0.14533405718180334,
+        "brakeDistance": 0.07706165093238049,
+        "slide": 0.023954583704890453
+      },
+      "after": {
+        "rack": 0.07920123184728425,
+        "brakeDistance": 0.15476224809954253,
+        "slide": 0.052694195243173425
+      }
+    },
+    {
+      "car": "snowgrip",
+      "biome": "volcanic",
+      "before": {
+        "rack": 0.14533405718180334,
+        "brakeDistance": 0.29688650000000116,
+        "slide": 0.14711364484154776
+      },
+      "after": {
+        "rack": 0.07920123184728425,
+        "brakeDistance": 0.5993095187499993,
+        "slide": 0.29612245972594997
+      }
+    },
+    {
+      "car": "snowrunner",
+      "biome": "city",
+      "before": {
+        "rack": 0.15485195936260657,
+        "brakeDistance": 0.07040669917600084,
+        "slide": 0.010282771008740976
+      },
+      "after": {
+        "rack": 0.08494170113013855,
+        "brakeDistance": 0.140686966082745,
+        "slide": 0.02492504334678225
+      }
+    },
+    {
+      "car": "snowrunner",
+      "biome": "forest",
+      "before": {
+        "rack": 0.15485195936260657,
+        "brakeDistance": 0.06992995116624101,
+        "slide": 0.011416591751177485
+      },
+      "after": {
+        "rack": 0.08494170113013855,
+        "brakeDistance": 0.13844513613819487,
+        "slide": 0.02757655690337768
+      }
+    },
+    {
+      "car": "snowrunner",
+      "biome": "desert",
+      "before": {
+        "rack": 0.15485195936260657,
+        "brakeDistance": 0.06958128749326065,
+        "slide": 0.013180526538714155
+      },
+      "after": {
+        "rack": 0.08494170113013855,
+        "brakeDistance": 0.13724461556746625,
+        "slide": 0.0312747204553967
+      }
+    },
+    {
+      "car": "snowrunner",
+      "biome": "snow",
+      "before": {
+        "rack": 0.15485195936260657,
+        "brakeDistance": 0.07123540230011827,
+        "slide": 0.02181747271460477
+      },
+      "after": {
+        "rack": 0.08494170113013855,
+        "brakeDistance": 0.1435099802437243,
+        "slide": 0.04844911058053469
+      }
+    },
+    {
+      "car": "snowrunner",
+      "biome": "volcanic",
+      "before": {
+        "rack": 0.15485195936260657,
+        "brakeDistance": 0.2746827424999996,
+        "slide": 0.13597137391681868
+      },
+      "after": {
+        "rack": 0.08494170113013855,
+        "brakeDistance": 0.5549277549999996,
+        "slide": 0.27427444016723146
+      }
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "city",
+      "before": {
+        "rack": 0.16482748769723166,
+        "brakeDistance": 0.06504611666714055,
+        "slide": 0.009196029390384108
+      },
+      "after": {
+        "rack": 0.0910490957648654,
+        "brakeDistance": 0.13045041420563308,
+        "slide": 0.022759104808336428
+      }
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "forest",
+      "before": {
+        "rack": 0.16482748769723166,
+        "brakeDistance": 0.06464961085140253,
+        "slide": 0.010217118209161935
+      },
+      "after": {
+        "rack": 0.0910490957648654,
+        "brakeDistance": 0.12900176043168443,
+        "slide": 0.025186224286326775
+      }
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "desert",
+      "before": {
+        "rack": 0.16482748769723166,
+        "brakeDistance": 0.06435936490600369,
+        "slide": 0.011836915860760078
+      },
+      "after": {
+        "rack": 0.0910490957648654,
+        "brakeDistance": 0.1274349969693791,
+        "slide": 0.02859913178963991
+      }
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "snow",
+      "before": {
+        "rack": 0.16482748769723166,
+        "brakeDistance": 0.06572084964308189,
+        "slide": 0.02008764651387862
+      },
+      "after": {
+        "rack": 0.0910490957648654,
+        "brakeDistance": 0.13290649488619088,
+        "slide": 0.04501164157868609
+      }
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "volcanic",
+      "before": {
+        "rack": 0.16482748769723166,
+        "brakeDistance": 0.0649664849360505,
+        "slide": 0.009416934258251963
+      },
+      "after": {
+        "rack": 0.0910490957648654,
+        "brakeDistance": 0.1301010418999624,
+        "slide": 0.023523162824179433
+      }
+    },
+    {
+      "car": "ashhauler",
+      "biome": "city",
+      "before": {
+        "rack": 0.17525758753821194,
+        "brakeDistance": 0.0600679311515826,
+        "slide": 0.008189516546762254
+      },
+      "after": {
+        "rack": 0.09753907652982607,
+        "brakeDistance": 0.12087482673396366,
+        "slide": 0.020752607871314943
+      }
+    },
+    {
+      "car": "ashhauler",
+      "biome": "forest",
+      "before": {
+        "rack": 0.17525758753821194,
+        "brakeDistance": 0.05969899694984804,
+        "slide": 0.009106181544114689
+      },
+      "after": {
+        "rack": 0.09753907652982607,
+        "brakeDistance": 0.11962093755212777,
+        "slide": 0.022971825639938714
+      }
+    },
+    {
+      "car": "ashhauler",
+      "biome": "desert",
+      "before": {
+        "rack": 0.17525758753821194,
+        "brakeDistance": 0.05942895656759006,
+        "slide": 0.010592406169732671
+      },
+      "after": {
+        "rack": 0.09753907652982607,
+        "brakeDistance": 0.11870081539193578,
+        "slide": 0.02612022130597258
+      }
+    },
+    {
+      "car": "ashhauler",
+      "biome": "snow",
+      "before": {
+        "rack": 0.17525758753821194,
+        "brakeDistance": 0.06069554914827968,
+        "slide": 0.01823511286997581
+      },
+      "after": {
+        "rack": 0.09753907652982607,
+        "brakeDistance": 0.12345073222251024,
+        "slide": 0.04132890945897638
+      }
+    },
+    {
+      "car": "ashhauler",
+      "biome": "volcanic",
+      "before": {
+        "rack": 0.17525758753821194,
+        "brakeDistance": 0.05999847795319724,
+        "slide": 0.008370074815743145
+      },
+      "after": {
+        "rack": 0.09753907652982607,
+        "brakeDistance": 0.12058366375676322,
+        "slide": 0.021436366808228025
+      }
+    }
+  ]
+}

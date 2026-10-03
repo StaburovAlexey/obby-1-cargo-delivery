@@ -1,0 +1,86 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> urban-route-procedural-three@1.58.0 test:parked-display
+> node tests/parked-cosmo-scale.mjs && node tests/parked-display-app.mjs && node tests/hidden-cargo.mjs && node tests/hangar-purchase-ui.mjs && node tests/delivery-receipt-modal.mjs
+
+{
+  "passed": true,
+  "scope": "CPU actual GLB geometry and production gameplay/app with mock DOM; no browser/GPU claim",
+  "vehicles": [
+    {
+      "id": "pickup",
+      "height": 2.930843546595172,
+      "width": 3.9538520432611044,
+      "length": 8.639999999999997
+    },
+    {
+      "id": "rover",
+      "height": 3.9471463695887024,
+      "width": 4.429010247417004,
+      "length": 8.64
+    },
+    {
+      "id": "van",
+      "height": 2.4134178748456026,
+      "width": 3.5641289143802766,
+      "length": 8.64
+    },
+    {
+      "id": "citycourier",
+      "height": 2.523490725885277,
+      "width": 3.3918203203080637,
+      "length": 8.64
+    },
+    {
+      "id": "foresthauler",
+      "height": 3.400198016041373,
+      "width": 3.6730783897051396,
+      "length": 8.64
+    },
+    {
+      "id": "desertscout",
+      "height": 2.4891624486290067,
+      "width": 3.545898297360189,
+      "length": 8.64
+    },
+    {
+      "id": "snowgrip",
+      "height": 3.4880435820888605,
+      "width": 4.242324486496386,
+      "length": 8.639999999999997
+    },
+    {
+      "id": "snowrunner",
+      "height": 3.297354105179872,
+      "width": 4.149532847370317,
+      "length": 8.64
+    },
+    {
+      "id": "lavacrawler",
+      "height": 2.484070491406054,
+      "width": 3.866636491127892,
+      "length": 8.639999999999997
+    },
+    {
+      "id": "ashhauler",
+      "height": 2.3030194590874253,
+      "width": 3.9392336498302853,
+      "length": 8.64
+    }
+  ],
+  "walkSamples": 29572,
+  "asyncModes": 2,
+  "smallestGap": 0.6040713330666492
+}
+PASS actual application: all ten parked cars 1.5×, selected driving car 1×, unchanged wheel metadata, hidden box with loaded cargo, return/rebuild restore display scale.
+PASS all ten cars retain loaded cargo without a visible box; successful delivery still pays once.
+{"passed":true,"labels":87,"flows":3,"viewports":5,"safeInsets":[0,20],"scope":"Actual application handlers and structural CSS arithmetic, not browser layout/GPU"}
+PASS receipt markup and CSS: centered full-screen backdrop above every HUD, safe areas, scrolling and sticky close header.
+PASS actual app receipt: successful delivery only, once-only payout, modal exclusivity, held input resets, purchases blocked, no expiry and clean dismissal.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
+PASS Cosmo garage atomic replacement, actual application hook, bounded loading, preserved identities, pose/reset, rebuild, failure and late-disposal. CPU/mock DOM only.
+PASS actual app + ten parsed GLBs: enter/park/articulation, actual tire bridge support, once-only falling return without income, ownership and reset. CPU/mock DOM only.

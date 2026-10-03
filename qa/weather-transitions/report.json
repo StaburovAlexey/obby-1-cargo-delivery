@@ -1,0 +1,608 @@
+{
+  "scope": "Offline CPU: production Three.js, actual shader-derived alpha and real app camera/projected road. No browser, GPU, Android or frame-rate claim.",
+  "settings": {
+    "distance": 180,
+    "seconds": 0.7
+  },
+  "boundaries": [
+    {
+      "boundary": 3000,
+      "from": "city",
+      "to": "forest",
+      "samples": [
+        {
+          "direction": 1,
+          "progress": 2910,
+          "forest": 0,
+          "desert": 0,
+          "snow": 0,
+          "volcanic": 0,
+          "fogFar": 1600
+        },
+        {
+          "direction": 1,
+          "progress": 2955,
+          "forest": 0.15625,
+          "desert": 0,
+          "snow": 0,
+          "volcanic": 0,
+          "fogFar": 1384.375
+        },
+        {
+          "direction": 1,
+          "progress": 3000,
+          "forest": 0.5,
+          "desert": 0,
+          "snow": 0,
+          "volcanic": 0,
+          "fogFar": 910
+        },
+        {
+          "direction": 1,
+          "progress": 3045,
+          "forest": 0.84375,
+          "desert": 0,
+          "snow": 0,
+          "volcanic": 0,
+          "fogFar": 435.625
+        },
+        {
+          "direction": 1,
+          "progress": 3090,
+          "forest": 1,
+          "desert": 0,
+          "snow": 0,
+          "volcanic": 0,
+          "fogFar": 220
+        },
+        {
+          "direction": -1,
+          "progress": 3090,
+          "forest": 0.5238095238095238,
+          "desert": 0,
+          "snow": 0,
+          "volcanic": 0,
+          "fogFar": 877.1428571428571
+        },
+        {
+          "direction": -1,
+          "progress": 3045,
+          "forest": 0.84375,
+          "desert": 0,
+          "snow": 0,
+          "volcanic": 0,
+          "fogFar": 435.625
+        },
+        {
+          "direction": -1,
+          "progress": 3000,
+          "forest": 0.5,
+          "desert": 0,
+          "snow": 0,
+          "volcanic": 0,
+          "fogFar": 910
+        },
+        {
+          "direction": -1,
+          "progress": 2955,
+          "forest": 0.15625,
+          "desert": 0,
+          "snow": 0,
+          "volcanic": 0,
+          "fogFar": 1384.375
+        },
+        {
+          "direction": -1,
+          "progress": 2910,
+          "forest": 0,
+          "desert": 0,
+          "snow": 0,
+          "volcanic": 0,
+          "fogFar": 1600
+        }
+      ]
+    },
+    {
+      "boundary": 5800,
+      "from": "forest",
+      "to": "desert",
+      "samples": [
+        {
+          "direction": 1,
+          "progress": 5710,
+          "forest": 0.02380952380952381,
+          "desert": 0,
+          "snow": 0,
+          "volcanic": 0,
+          "fogFar": 1567.142857142857
+        },
+        {
+          "direction": 1,
+          "progress": 5755,
+          "forest": 0.84375,
+          "desert": 0.15625,
+          "snow": 0,
+          "volcanic": 0,
+          "fogFar": 209.0625
+        },
+        {
+          "direction": 1,
+          "progress": 5800,
+          "forest": 0.5,
+          "desert": 0.5,
+          "snow": 0,
+          "volcanic": 0,
+          "fogFar": 185
+        },
+        {
+          "direction": 1,
+          "progress": 5845,
+          "forest": 0.15625,
+          "desert": 0.84375,
+          "snow": 0,
+          "volcanic": 0,
+          "fogFar": 160.9375
+        },
+        {
+          "direction": 1,
+          "progress": 5890,
+          "forest": 0,
+          "desert": 1,
+          "snow": 0,
+          "volcanic": 0,
+          "fogFar": 150
+        },
+        {
+          "direction": -1,
+          "progress": 5890,
+          "forest": 0.47619047619047616,
+          "desert": 0.5238095238095238,
+          "snow": 0,
+          "volcanic": 0,
+          "fogFar": 183.33333333333331
+        },
+        {
+          "direction": -1,
+          "progress": 5845,
+          "forest": 0.15625,
+          "desert": 0.84375,
+          "snow": 0,
+          "volcanic": 0,
+          "fogFar": 160.9375
+        },
+        {
+          "direction": -1,
+          "progress": 5800,
+          "forest": 0.5,
+          "desert": 0.5,
+          "snow": 0,
+          "volcanic": 0,
+          "fogFar": 185
+        },
+        {
+          "direction": -1,
+          "progress": 5755,
+          "forest": 0.84375,
+          "desert": 0.15625,
+          "snow": 0,
+          "volcanic": 0,
+          "fogFar": 209.0625
+        },
+        {
+          "direction": -1,
+          "progress": 5710,
+          "forest": 1,
+          "desert": 0,
+          "snow": 0,
+          "volcanic": 0,
+          "fogFar": 220
+        }
+      ]
+    },
+    {
+      "boundary": 8500,
+      "from": "desert",
+      "to": "snow",
+      "samples": [
+        {
+          "direction": 1,
+          "progress": 8410,
+          "forest": 0,
+          "desert": 0.02380952380952381,
+          "snow": 0,
+          "volcanic": 0,
+          "fogFar": 1565.4761904761906
+        },
+        {
+          "direction": 1,
+          "progress": 8455,
+          "forest": 0,
+          "desert": 0.84375,
+          "snow": 0.15625,
+          "volcanic": 0,
+          "fogFar": 156.25
+        },
+        {
+          "direction": 1,
+          "progress": 8500,
+          "forest": 0,
+          "desert": 0.5,
+          "snow": 0.5,
+          "volcanic": 0,
+          "fogFar": 170
+        },
+        {
+          "direction": 1,
+          "progress": 8545,
+          "forest": 0,
+          "desert": 0.15625,
+          "snow": 0.84375,
+          "volcanic": 0,
+          "fogFar": 183.75
+        },
+        {
+          "direction": 1,
+          "progress": 8590,
+          "forest": 0,
+          "desert": 0,
+          "snow": 1,
+          "volcanic": 0,
+          "fogFar": 190
+        },
+        {
+          "direction": -1,
+          "progress": 8590,
+          "forest": 0,
+          "desert": 0.47619047619047616,
+          "snow": 0.5238095238095238,
+          "volcanic": 0,
+          "fogFar": 170.95238095238096
+        },
+        {
+          "direction": -1,
+          "progress": 8545,
+          "forest": 0,
+          "desert": 0.15625,
+          "snow": 0.84375,
+          "volcanic": 0,
+          "fogFar": 183.75
+        },
+        {
+          "direction": -1,
+          "progress": 8500,
+          "forest": 0,
+          "desert": 0.5,
+          "snow": 0.5,
+          "volcanic": 0,
+          "fogFar": 170
+        },
+        {
+          "direction": -1,
+          "progress": 8455,
+          "forest": 0,
+          "desert": 0.84375,
+          "snow": 0.15625,
+          "volcanic": 0,
+          "fogFar": 156.25
+        },
+        {
+          "direction": -1,
+          "progress": 8410,
+          "forest": 0,
+          "desert": 1,
+          "snow": 0,
+          "volcanic": 0,
+          "fogFar": 150
+        }
+      ]
+    },
+    {
+      "boundary": 11000,
+      "from": "snow",
+      "to": "volcanic",
+      "samples": [
+        {
+          "direction": 1,
+          "progress": 10910,
+          "forest": 0,
+          "desert": 0,
+          "snow": 0.02380952380952381,
+          "volcanic": 0,
+          "fogFar": 1566.4285714285716
+        },
+        {
+          "direction": 1,
+          "progress": 10955,
+          "forest": 0,
+          "desert": 0,
+          "snow": 0.84375,
+          "volcanic": 0.15625,
+          "fogFar": 186.875
+        },
+        {
+          "direction": 1,
+          "progress": 11000,
+          "forest": 0,
+          "desert": 0,
+          "snow": 0.5,
+          "volcanic": 0.5,
+          "fogFar": 180
+        },
+        {
+          "direction": 1,
+          "progress": 11045,
+          "forest": 0,
+          "desert": 0,
+          "snow": 0.15625,
+          "volcanic": 0.84375,
+          "fogFar": 173.125
+        },
+        {
+          "direction": 1,
+          "progress": 11090,
+          "forest": 0,
+          "desert": 0,
+          "snow": 0,
+          "volcanic": 1,
+          "fogFar": 170
+        },
+        {
+          "direction": -1,
+          "progress": 11090,
+          "forest": 0,
+          "desert": 0,
+          "snow": 0.47619047619047616,
+          "volcanic": 0.5238095238095238,
+          "fogFar": 179.52380952380952
+        },
+        {
+          "direction": -1,
+          "progress": 11045,
+          "forest": 0,
+          "desert": 0,
+          "snow": 0.15625,
+          "volcanic": 0.84375,
+          "fogFar": 173.125
+        },
+        {
+          "direction": -1,
+          "progress": 11000,
+          "forest": 0,
+          "desert": 0,
+          "snow": 0.5,
+          "volcanic": 0.5,
+          "fogFar": 180
+        },
+        {
+          "direction": -1,
+          "progress": 10955,
+          "forest": 0,
+          "desert": 0,
+          "snow": 0.84375,
+          "volcanic": 0.15625,
+          "fogFar": 186.875
+        },
+        {
+          "direction": -1,
+          "progress": 10910,
+          "forest": 0,
+          "desert": 0,
+          "snow": 1,
+          "volcanic": 0,
+          "fogFar": 190
+        }
+      ]
+    }
+  ],
+  "projection": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "boundary": 3000,
+      "layers": [
+        {
+          "kind": "forest",
+          "weight": 0.5,
+          "visibleParticles": 157,
+          "hazeSprites": 7,
+          "alphaSum": 55.252496122214836,
+          "groundOccluded": 148
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "boundary": 5800,
+      "layers": [
+        {
+          "kind": "forest",
+          "weight": 0.5,
+          "visibleParticles": 149,
+          "hazeSprites": 3,
+          "alphaSum": 50.6427758727525,
+          "groundOccluded": 137
+        },
+        {
+          "kind": "desert",
+          "weight": 0.5,
+          "visibleParticles": 156,
+          "hazeSprites": 8,
+          "alphaSum": 40.430218082294395,
+          "groundOccluded": 127
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "boundary": 8500,
+      "layers": [
+        {
+          "kind": "desert",
+          "weight": 0.5,
+          "visibleParticles": 99,
+          "hazeSprites": 4,
+          "alphaSum": 25.67042536442255,
+          "groundOccluded": 138
+        },
+        {
+          "kind": "snow",
+          "weight": 0.5,
+          "visibleParticles": 223,
+          "hazeSprites": 7,
+          "alphaSum": 94.31008638048803,
+          "groundOccluded": 124
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "boundary": 11000,
+      "layers": [
+        {
+          "kind": "snow",
+          "weight": 0.5,
+          "visibleParticles": 275,
+          "hazeSprites": 6,
+          "alphaSum": 118.08203705820652,
+          "groundOccluded": 134
+        },
+        {
+          "kind": "volcanic",
+          "weight": 0.5,
+          "visibleParticles": 268,
+          "hazeSprites": 9,
+          "alphaSum": 94.89443852322346,
+          "groundOccluded": 114
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "boundary": 3000,
+      "layers": [
+        {
+          "kind": "forest",
+          "weight": 0.5,
+          "visibleParticles": 129,
+          "hazeSprites": 4,
+          "alphaSum": 42.57749953794629,
+          "groundOccluded": 181
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "boundary": 5800,
+      "layers": [
+        {
+          "kind": "forest",
+          "weight": 0.5,
+          "visibleParticles": 138,
+          "hazeSprites": 1,
+          "alphaSum": 47.312814312884704,
+          "groundOccluded": 163
+        },
+        {
+          "kind": "desert",
+          "weight": 0.5,
+          "visibleParticles": 139,
+          "hazeSprites": 4,
+          "alphaSum": 37.108603150705996,
+          "groundOccluded": 151
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "boundary": 8500,
+      "layers": [
+        {
+          "kind": "desert",
+          "weight": 0.5,
+          "visibleParticles": 177,
+          "hazeSprites": 6,
+          "alphaSum": 49.83749986652388,
+          "groundOccluded": 122
+        },
+        {
+          "kind": "snow",
+          "weight": 0.5,
+          "visibleParticles": 242,
+          "hazeSprites": 1,
+          "alphaSum": 102.33720608606268,
+          "groundOccluded": 150
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "boundary": 11000,
+      "layers": [
+        {
+          "kind": "snow",
+          "weight": 0.5,
+          "visibleParticles": 310,
+          "hazeSprites": 2,
+          "alphaSum": 134.3222619228189,
+          "groundOccluded": 167
+        },
+        {
+          "kind": "volcanic",
+          "weight": 0.5,
+          "visibleParticles": 355,
+          "hazeSprites": 9,
+          "alphaSum": 127.32982947280352,
+          "groundOccluded": 157
+        }
+      ]
+    }
+  ],
+  "stress": {
+    "checks": 1440,
+    "maxWeightStep": 0.023809523809523836,
+    "residentLayers": 2,
+    "maxSlots": 1536,
+    "teleports": 120,
+    "nonClearHandoverMinimum": 0.4999999999999998,
+    "geometryDisposals": 2,
+    "materialDisposals": 2
+  },
+  "app": [
+    "biome modal freezes/resumes",
+    "upgrades modal freezes/resumes",
+    "career modal freezes/resumes",
+    "blur/hidden resume keeps previous weather",
+    "preview teleport crossfades",
+    "fall retains weather until immediate hangar clear"
+  ],
+  "trajectories": {
+    "frames": 600,
+    "layers": 2,
+    "recycled": 56374,
+    "maxSurvivorStep": 0.4657217244349955,
+    "maxBirthFadeStep": 0.08299039326741026
+  }
+}

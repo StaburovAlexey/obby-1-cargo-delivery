@@ -1,0 +1,232 @@
+{
+  "scope": "CPU geometry and input-only production tire solver. No browser/GPU/mobile claim. Segment drivability excludes fuel budgets and obstacles, which have separate integration audits.",
+  "baseline": {
+    "length": 10830.787649846368,
+    "roadTriangles": 16510,
+    "groundTriangles": 30398
+  },
+  "stats": {
+    "length": 32456.961569853796,
+    "nodes": 14,
+    "edges": 17,
+    "forks": 4,
+    "roadTriangles": 13182,
+    "groundTriangles": 24644,
+    "boundarySegments": 13184
+  },
+  "checks": [
+    {
+      "probes": 16362,
+      "maxGrade": 0.09981408690516615,
+      "minHeight": 0,
+      "maxHeight": 229.99996229668082,
+      "maxCenterError": 0.008619809220462571,
+      "flatGates": 16
+    }
+  ],
+  "drives": [
+    {
+      "vehicle": "pickup",
+      "upgraded": false,
+      "branch": "main",
+      "fork": "city-hills",
+      "seconds": 215.8,
+      "maxOffset": 0.005760020374840221,
+      "maxStalled": 0,
+      "postSpawnPoseMutations": 0,
+      "fuelInjected": 0
+    },
+    {
+      "vehicle": "foresthauler",
+      "upgraded": false,
+      "branch": "main",
+      "fork": "forest-fork",
+      "seconds": 116.4,
+      "maxOffset": 0.011709318794151725,
+      "maxStalled": 0,
+      "postSpawnPoseMutations": 0,
+      "fuelInjected": 0
+    },
+    {
+      "vehicle": "desertscout",
+      "upgraded": false,
+      "branch": "main",
+      "fork": "desert-fork",
+      "seconds": 133,
+      "maxOffset": 0.010097278865546547,
+      "maxStalled": 0,
+      "postSpawnPoseMutations": 0,
+      "fuelInjected": 0
+    },
+    {
+      "vehicle": "snowrunner",
+      "upgraded": false,
+      "branch": "main",
+      "fork": "snow-fork",
+      "seconds": 95.5,
+      "maxOffset": 0.0231455764676269,
+      "maxStalled": 0,
+      "postSpawnPoseMutations": 0,
+      "fuelInjected": 0
+    },
+    {
+      "vehicle": "ashhauler",
+      "upgraded": false,
+      "branch": "main",
+      "fork": "volcanic-fork",
+      "seconds": 78.60000000000001,
+      "maxOffset": 0.009297270936239626,
+      "maxStalled": 0,
+      "postSpawnPoseMutations": 0,
+      "fuelInjected": 0
+    },
+    {
+      "vehicle": "foresthauler",
+      "upgraded": false,
+      "branch": "alternate",
+      "fork": "forest-fork",
+      "seconds": 116.4,
+      "maxOffset": 0.01004338862116461,
+      "maxStalled": 0,
+      "postSpawnPoseMutations": 0,
+      "fuelInjected": 0
+    },
+    {
+      "vehicle": "desertscout",
+      "upgraded": false,
+      "branch": "alternate",
+      "fork": "desert-fork",
+      "seconds": 133,
+      "maxOffset": 0.006945820630207924,
+      "maxStalled": 0,
+      "postSpawnPoseMutations": 0,
+      "fuelInjected": 0
+    },
+    {
+      "vehicle": "snowrunner",
+      "upgraded": false,
+      "branch": "alternate",
+      "fork": "snow-fork",
+      "seconds": 95.5,
+      "maxOffset": 0.019774315030184668,
+      "maxStalled": 0,
+      "postSpawnPoseMutations": 0,
+      "fuelInjected": 0
+    },
+    {
+      "vehicle": "ashhauler",
+      "upgraded": false,
+      "branch": "alternate",
+      "fork": "volcanic-fork",
+      "seconds": 78.60000000000001,
+      "maxOffset": 0.006727776635907548,
+      "maxStalled": 0,
+      "postSpawnPoseMutations": 0,
+      "fuelInjected": 0
+    },
+    {
+      "vehicle": "pickup",
+      "upgraded": true,
+      "branch": "main",
+      "fork": "city-hills",
+      "seconds": 196.60000000000002,
+      "maxOffset": 0.005602776956746516,
+      "maxStalled": 0,
+      "postSpawnPoseMutations": 0,
+      "fuelInjected": 0
+    },
+    {
+      "vehicle": "foresthauler",
+      "upgraded": true,
+      "branch": "main",
+      "fork": "forest-fork",
+      "seconds": 105.9,
+      "maxOffset": 0.010890700729851847,
+      "maxStalled": 0,
+      "postSpawnPoseMutations": 0,
+      "fuelInjected": 0
+    },
+    {
+      "vehicle": "desertscout",
+      "upgraded": true,
+      "branch": "main",
+      "fork": "desert-fork",
+      "seconds": 121,
+      "maxOffset": 0.009545154547902794,
+      "maxStalled": 0,
+      "postSpawnPoseMutations": 0,
+      "fuelInjected": 0
+    },
+    {
+      "vehicle": "snowrunner",
+      "upgraded": true,
+      "branch": "main",
+      "fork": "snow-fork",
+      "seconds": 86.9,
+      "maxOffset": 0.02504944013169335,
+      "maxStalled": 0,
+      "postSpawnPoseMutations": 0,
+      "fuelInjected": 0
+    },
+    {
+      "vehicle": "ashhauler",
+      "upgraded": true,
+      "branch": "main",
+      "fork": "volcanic-fork",
+      "seconds": 71.5,
+      "maxOffset": 0.01090211221500028,
+      "maxStalled": 0,
+      "postSpawnPoseMutations": 0,
+      "fuelInjected": 0
+    },
+    {
+      "vehicle": "foresthauler",
+      "upgraded": true,
+      "branch": "alternate",
+      "fork": "forest-fork",
+      "seconds": 105.9,
+      "maxOffset": 0.009198842109965234,
+      "maxStalled": 0,
+      "postSpawnPoseMutations": 0,
+      "fuelInjected": 0
+    },
+    {
+      "vehicle": "desertscout",
+      "upgraded": true,
+      "branch": "alternate",
+      "fork": "desert-fork",
+      "seconds": 121,
+      "maxOffset": 0.006420722426034305,
+      "maxStalled": 0,
+      "postSpawnPoseMutations": 0,
+      "fuelInjected": 0
+    },
+    {
+      "vehicle": "snowrunner",
+      "upgraded": true,
+      "branch": "alternate",
+      "fork": "snow-fork",
+      "seconds": 86.9,
+      "maxOffset": 0.02213251330578883,
+      "maxStalled": 0,
+      "postSpawnPoseMutations": 0,
+      "fuelInjected": 0
+    },
+    {
+      "vehicle": "ashhauler",
+      "upgraded": true,
+      "branch": "alternate",
+      "fork": "volcanic-fork",
+      "seconds": 71.5,
+      "maxOffset": 0.008473918931659847,
+      "maxStalled": 0,
+      "postSpawnPoseMutations": 0,
+      "fuelInjected": 0
+    }
+  ],
+  "sourceHashes": {
+    "route-network.js": "785d2b7ff4a1ff956ee44f065fc88cfbf8e3e09eed6988a8c3f2040395b7da3c",
+    "route-network-config.js": "e9fd175e4c926f382496d82e53de85d99a125dddc19eae4d9122b112edbed739"
+  },
+  "passed": true
+}

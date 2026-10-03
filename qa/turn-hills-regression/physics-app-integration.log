@@ -1,0 +1,12 @@
+PASS Actual app driving, reversing and fuel agree at 30, 60 and 120 Hz
+PASS A long render stall advances only the bounded physics budget and leaves no catch-up debt
+PASS Road gradient matches the rendered height convention and influences actual driving
+PASS Lateral sliding consumes true path fuel and camera distance without inventing wheel travel
+PASS Zero-duration app frames never repeat previous path, fuel use or camera distance
+PASS Held wheel plus a second-pointer gear change brakes before rolling in reverse
+PASS A real off-centre road contact changes planar momentum without a teleport
+PASS Blur, resize and hidden-tab safety resets clear every planar momentum channel
+PASS Overview pause, garage return and re-entry clear stale forces, spin and teleport distance
+PASS Empty fuel with sideways/angular momentum returns safely and cannot pay a coincident delivery
+PASS All ten vehicle configurations retain finite dynamics and their own fuel accounting
+Planar app integration: 11/11 checks passed.

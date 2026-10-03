@@ -1,0 +1,4002 @@
+[
+  {
+    "vehicle": "pickup",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -4.841054179960441e-9,
+    "lateral": 5.679364534216802e-9,
+    "slipDegrees": 2.958215355260706e-8
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -3.3050957738271944e-8,
+    "lateral": 3.878530518974799e-8,
+    "slipDegrees": 2.020220060332456e-7
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 4.953739595747994e-9,
+    "lateral": -1.0734913402643542e-8,
+    "slipDegrees": 5.591503324237373e-8
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 3.382127198977389e-8,
+    "lateral": -7.329617535134503e-8,
+    "slipDegrees": 3.8177965984809137e-7
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -3.9731377775913257e-7,
+    "lateral": -0.0000026225320972628197,
+    "slipDegrees": 0.00003252381462637337
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -4.633419454412686e-7,
+    "lateral": -0.0000025417782918424336,
+    "slipDegrees": 0.00003152233306839782
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 0.000001202288298255531,
+    "lateral": -0.000006212023436980019,
+    "slipDegrees": 0.00007703955213984074
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 0.000001214903791372259,
+    "lateral": -0.000006170124124960097,
+    "slipDegrees": 0.00007651993429219987
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -0.000005327449793598765,
+    "lateral": -0.00003720605173085367,
+    "slipDegrees": 0.00062514655249742
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -0.000003832590013535321,
+    "lateral": -0.0000211448602209785,
+    "slipDegrees": 0.0003552818949331373
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 0.000013251145383868756,
+    "lateral": -0.00007313462473856891,
+    "slipDegrees": 0.0012288285477860567
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 0.000008270152484371345,
+    "lateral": -0.000044910287718913366,
+    "slipDegrees": 0.0007545952994478313
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -0.0000804375523456541,
+    "lateral": -0.0005228226461007068,
+    "slipDegrees": 0.011840130860797896
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -0.000031197251889079344,
+    "lateral": -0.0001482503085231679,
+    "slipDegrees": 0.0033573585178935748
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 0.00013820717069544123,
+    "lateral": -0.0008438164123858449,
+    "slipDegrees": 0.019109533140007365
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 0.000049488384428539354,
+    "lateral": -0.0002983744550337786,
+    "slipDegrees": 0.006757153002631953
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -0.000018234231877833607,
+    "lateral": -0.00006325181157107451,
+    "slipDegrees": 0.001938000994570928
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -0.000008859787616710158,
+    "lateral": -0.00002268021963108824,
+    "slipDegrees": 0.0006949095589952239
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 0.00002667329835231191,
+    "lateral": -0.00011322934721824662,
+    "slipDegrees": 0.003469285415217138
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 0.000012976874905508687,
+    "lateral": -0.000055104122105825715,
+    "slipDegrees": 0.0016883602462859969
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -1.6872622864487812e-9,
+    "lateral": 1.9813235496712878e-9,
+    "slipDegrees": 9.735978078689005e-9
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -1.1786504769705232e-8,
+    "lateral": 1.3844283497377319e-8,
+    "slipDegrees": 6.802932689363197e-8
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 1.726429182895978e-9,
+    "lateral": -3.738911402706435e-9,
+    "slipDegrees": 1.8372546709950438e-8
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 1.2060502123093627e-8,
+    "lateral": -2.6120761553727334e-8,
+    "slipDegrees": 1.2835462784926619e-7
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -1.6337659687780019e-7,
+    "lateral": -0.000001185960173621936,
+    "slipDegrees": 0.000013875380698223077
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -1.9113771783226888e-7,
+    "lateral": -0.000001148714837251319,
+    "slipDegrees": 0.000013439622388751408
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 5.851806783927818e-7,
+    "lateral": -0.0000030406281448236427,
+    "slipDegrees": 0.000035574443269452016
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 5.708263506498909e-7,
+    "lateral": -0.000002923407189436844,
+    "slipDegrees": 0.00003420299579333925
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -0.000002903146177261396,
+    "lateral": -0.000022427800135949028,
+    "slipDegrees": 0.00035550774526461193
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -0.0000020327230014835494,
+    "lateral": -0.000012390151040361785,
+    "slipDegrees": 0.00019639887385933068
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 0.000008372936352984697,
+    "lateral": -0.00004651843292391433,
+    "slipDegrees": 0.0007373733979842077
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 0.000004900411959784863,
+    "lateral": -0.000026876871087641585,
+    "slipDegrees": 0.0004260309014035864
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -0.000057923492550197624,
+    "lateral": -0.00041093480740750365,
+    "slipDegrees": 0.008779487723616659
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -0.000021294955505709853,
+    "lateral": -0.00011240069055644397,
+    "slipDegrees": 0.0024014039932813624
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 0.00010873643001425331,
+    "lateral": -0.0006738618289774401,
+    "slipDegrees": 0.014396837492526286
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 0.000036086577720469994,
+    "lateral": -0.00022121247717327153,
+    "slipDegrees": 0.004726132227224397
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -0.000011826261052063428,
+    "lateral": -0.00004462545040900823,
+    "slipDegrees": 0.0012899051428662477
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -0.000005475685173738019,
+    "lateral": -0.000015596912404602925,
+    "slipDegrees": 0.00045083102735930347
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 0.000018601348758410257,
+    "lateral": -0.00007973252704779332,
+    "slipDegrees": 0.002304680304035564
+  },
+  {
+    "vehicle": "pickup",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 0.000008451371512572814,
+    "lateral": -0.00003626249876520493,
+    "slipDegrees": 0.0010481728147497288
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -1.2300928550191406e-9,
+    "lateral": 1.4131424919128222e-9,
+    "slipDegrees": 6.477369854139621e-9
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -8.78287363795411e-9,
+    "lateral": 1.009250061301259e-8,
+    "slipDegrees": 4.626079849885337e-8
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 1.2601300898826076e-9,
+    "lateral": -2.761063377931805e-9,
+    "slipDegrees": 1.2655785808470388e-8
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 8.997645478006065e-9,
+    "lateral": -1.9715722165969396e-8,
+    "slipDegrees": 9.037057325016898e-8
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -1.2055473267661785e-7,
+    "lateral": -9.812852145296702e-7,
+    "slipDegrees": 0.00001070923876831772
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -1.4354276370834246e-7,
+    "lateral": -9.58689250429856e-7,
+    "slipDegrees": 0.000010462639422388253
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 4.945927223866559e-7,
+    "lateral": -0.000002668356149593265,
+    "slipDegrees": 0.000029121057281716694
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 4.747484493515728e-7,
+    "lateral": -0.0000025263028691213663,
+    "slipDegrees": 0.00002757076498811585
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -0.0000023856441896078946,
+    "lateral": -0.000020895102401441434,
+    "slipDegrees": 0.00030895514442121384
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -0.0000016826934191234342,
+    "lateral": -0.000011498645221763582,
+    "slipDegrees": 0.00017001905755653898
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 0.000007833738060385694,
+    "lateral": -0.000045201822830964744,
+    "slipDegrees": 0.0006683544988688381
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 0.000004450728853817758,
+    "lateral": -0.000025372033406911854,
+    "slipDegrees": 0.00037515108313631185
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -0.000053529570907199264,
+    "lateral": -0.0004220693503377282,
+    "slipDegrees": 0.008411406088445374
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -0.00001952449683878633,
+    "lateral": -0.00011529132179532997,
+    "slipDegrees": 0.0022976369392284186
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 0.00010836211023577421,
+    "lateral": -0.0007000000215260371,
+    "slipDegrees": 0.013950277202770717
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 0.000034923408052399986,
+    "lateral": -0.00022290923364565174,
+    "slipDegrees": 0.004442350745560685
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -0.000010530101105345922,
+    "lateral": -0.00004399343022357116,
+    "slipDegrees": 0.001186182534069882
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -0.0000048500195281126815,
+    "lateral": -0.000015481478383150282,
+    "slipDegrees": 0.0004174227670336203
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 0.00001758860882175143,
+    "lateral": -0.00007839510191461063,
+    "slipDegrees": 0.0021137451686043286
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 0.000007810308594846125,
+    "lateral": -0.0000347787611646444,
+    "slipDegrees": 0.0009377299998865278
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -3.9164596081203533e-10,
+    "lateral": 4.504379091940791e-10,
+    "slipDegrees": 1.947788597748615e-9
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -2.8706758743225976e-9,
+    "lateral": 3.3023930257058964e-9,
+    "slipDegrees": 1.4280300433827943e-8
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 4.0118112232268984e-10,
+    "lateral": -8.784306615439164e-10,
+    "slipDegrees": 3.798519600637051e-9
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 2.9406748500173268e-9,
+    "lateral": -6.439237143496257e-9,
+    "slipDegrees": 2.784473012146115e-8
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -4.4748307433594286e-8,
+    "lateral": -4.0545704799166415e-7,
+    "slipDegrees": 0.000004174479577635253
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -5.3886453201836324e-8,
+    "lateral": -3.960718881756975e-7,
+    "slipDegrees": 0.0000040778531320325025
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 2.2181418725720353e-7,
+    "lateral": -0.0000012011832850600257,
+    "slipDegrees": 0.000012367068397586996
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 2.092756471999609e-7,
+    "lateral": -0.000001120657658670865,
+    "slipDegrees": 0.00001153799975678472
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -0.000001213134299037418,
+    "lateral": -0.000011804431004014404,
+    "slipDegrees": 0.00016466076208063597
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -8.357988535063885e-7,
+    "lateral": -0.000006307998841936779,
+    "slipDegrees": 0.00008799067947619142
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 0.000004727626343174481,
+    "lateral": -0.00002739369775128786,
+    "slipDegrees": 0.00038211643952363244
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 0.000002530480550299588,
+    "lateral": -0.00001453160000775,
+    "slipDegrees": 0.00020270221839420157
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -0.000037480964360092345,
+    "lateral": -0.00032352533061308364,
+    "slipDegrees": 0.006082571312053768
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -0.000012999451447522838,
+    "lateral": -0.00008529749145114174,
+    "slipDegrees": 0.0016036706473078017
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 0.00008444126964238965,
+    "lateral": -0.0005522884584820975,
+    "slipDegrees": 0.010383526781959923
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 0.000025277661714196355,
+    "lateral": -0.00016365704674936588,
+    "slipDegrees": 0.003076901766795764
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -0.0000065780423160341695,
+    "lateral": -0.000029785385637026707,
+    "slipDegrees": 0.0007576368002561699
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -0.0000028916726417913388,
+    "lateral": -0.00001019397489820939,
+    "slipDegrees": 0.0002592993310916229
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 0.000011976206850462692,
+    "lateral": -0.00005380707540747487,
+    "slipDegrees": 0.001368665187330033
+  },
+  {
+    "vehicle": "citycourier",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 0.000004969188867747314,
+    "lateral": -0.00002232235756371992,
+    "slipDegrees": 0.000567803280214195
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -2.7345438797394805e-10,
+    "lateral": 3.0825564323322396e-10,
+    "slipDegrees": 1.2691688169363846e-9
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -2.041296524877441e-9,
+    "lateral": 2.3016588635016433e-9,
+    "slipDegrees": 9.476569352304286e-9
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 2.8041758348638386e-10,
+    "lateral": -6.199831759090557e-10,
+    "slipDegrees": 2.55263230826806e-9
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 2.093354283840443e-9,
+    "lateral": -4.628476713008922e-9,
+    "slipDegrees": 1.905672557564104e-8
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -2.843720051523685e-10,
+    "lateral": 2.958291389631995e-10,
+    "slipDegrees": 1.1936455786792968e-9
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -2.136571243891146e-9,
+    "lateral": 2.223354389485621e-9,
+    "slipDegrees": 8.971085467294996e-9
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 2.9292979812443463e-10,
+    "lateral": -6.687130849059031e-10,
+    "slipDegrees": 2.698200793412999e-9
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 2.2009424718383813e-9,
+    "lateral": -5.024639593287361e-9,
+    "slipDegrees": 2.0274083281096294e-8
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -1.1325087626572748e-7,
+    "lateral": -0.0000016974031858962846,
+    "slipDegrees": 0.000016306848823667044
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -1.2476710611170195e-7,
+    "lateral": -0.0000013672549876719842,
+    "slipDegrees": 0.000013135138207092821
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 7.821256614963474e-7,
+    "lateral": -0.000004946472750511077,
+    "slipDegrees": 0.00004752046101399701
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 6.326925314942636e-7,
+    "lateral": -0.000003967051446895908,
+    "slipDegrees": 0.0000381112298532155
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -0.0000032109699877717096,
+    "lateral": -0.00004125953147349204,
+    "slipDegrees": 0.0005370279517427011
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -0.000001850865984759577,
+    "lateral": -0.00001761723092075229,
+    "slipDegrees": 0.00022930327082289973
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 0.000013985438213493957,
+    "lateral": -0.00009340978670757671,
+    "slipDegrees": 0.001215807951349563
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 0.000005996790812564239,
+    "lateral": -0.00003969961273009304,
+    "slipDegrees": 0.0005167242850514339
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -0.00007503726307457194,
+    "lateral": -0.0007826686805048055,
+    "slipDegrees": 0.0137304384877095
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -0.000022313666177016696,
+    "lateral": -0.00017719904675228548,
+    "slipDegrees": 0.003108621424060282
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 0.0001738398492420128,
+    "lateral": -0.001286087861709806,
+    "slipDegrees": 0.02256197369663165
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 0.00004399944351415253,
+    "lateral": -0.00032139102671280284,
+    "slipDegrees": 0.005638196418922979
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -7.898835083960143e-11,
+    "lateral": 8.916156701843647e-11,
+    "slipDegrees": 3.4632209129518664e-10
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -6.072585349665637e-10,
+    "lateral": 6.856204493033147e-10,
+    "slipDegrees": 2.6631044446177093e-9
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 8.099335516282545e-11,
+    "lateral": -1.7893775350330543e-10,
+    "slipDegrees": 6.950314927783353e-10
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 6.226966892030189e-10,
+    "lateral": -1.3757670558334212e-9,
+    "slipDegrees": 5.343789598156901e-9
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -8.21025285736319e-11,
+    "lateral": 8.555378627761456e-11,
+    "slipDegrees": 3.2566255413782375e-10
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -6.355902512301853e-10,
+    "lateral": 6.624909509866939e-10,
+    "slipDegrees": 2.5217991790779717e-9
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 8.456509895845196e-11,
+    "lateral": -1.92889260119955e-10,
+    "slipDegrees": 7.342376283987485e-10
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 6.546788887352818e-10,
+    "lateral": -1.4933378977843859e-9,
+    "slipDegrees": 5.684452513025559e-9
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -3.831350185459674e-8,
+    "lateral": -6.849077549553328e-7,
+    "slipDegrees": 0.00000620742180693888
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -4.6164329442682855e-8,
+    "lateral": -5.761007897397974e-7,
+    "slipDegrees": 0.0000052212895200476706
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 3.341612020498928e-7,
+    "lateral": -0.000002115971108995751,
+    "slipDegrees": 0.00001917736340365578
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 2.945096203685474e-7,
+    "lateral": -0.0000018532653438541047,
+    "slipDegrees": 0.000016796427129448713
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -0.0000016656741161591703,
+    "lateral": -0.00002437755431655697,
+    "slipDegrees": 0.0002993345641207273
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -9.413139610435159e-7,
+    "lateral": -0.00001002852691911471,
+    "slipDegrees": 0.00012314134271270287
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 0.000008935744792776352,
+    "lateral": -0.00005989373289871924,
+    "slipDegrees": 0.0007354414717207499
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 0.0000035953699994834767,
+    "lateral": -0.00002395265973076377,
+    "slipDegrees": 0.0002941172422679937
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -0.000054444126911469875,
+    "lateral": -0.0006244073829617669,
+    "slipDegrees": 0.0103340038046748
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -0.000015517196073990788,
+    "lateral": -0.00013781808415236352,
+    "slipDegrees": 0.0022809029011225624
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 0.00014198082226085808,
+    "lateral": -0.001063825569296517,
+    "slipDegrees": 0.017606418138402788
+  },
+  {
+    "vehicle": "rover",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 0.000033782520290024385,
+    "lateral": -0.00025031395036698156,
+    "slipDegrees": 0.004142720595216328
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -5.3284732763071414e-11,
+    "lateral": 5.855049778347166e-11,
+    "slipDegrees": 2.1130623167342544e-10
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -4.276067766281681e-10,
+    "lateral": 4.699858280332592e-10,
+    "slipDegrees": 1.6961673863652368e-9
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 5.4710887809998507e-11,
+    "lateral": -1.2250467307239887e-10,
+    "slipDegrees": 4.421141034723386e-10
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 4.3908661670066524e-10,
+    "lateral": -9.832410441390493e-10,
+    "slipDegrees": 3.5484930045363533e-9
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -5.5002942654131025e-11,
+    "lateral": 5.5433879708743916e-11,
+    "slipDegrees": 1.960573244328158e-10
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -4.47499116998431e-10,
+    "lateral": 4.5110093438438525e-10,
+    "slipDegrees": 1.5954521688364456e-9
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 5.674300848580179e-11,
+    "lateral": -1.3137135823626522e-10,
+    "slipDegrees": 4.646313255547966e-10
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 4.6169294512599576e-10,
+    "lateral": -1.0689520379969508e-9,
+    "slipDegrees": 3.780665812026476e-9
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -1.9277905135674493e-8,
+    "lateral": -4.180351709237584e-7,
+    "slipDegrees": 0.0000035202312922553523
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -3.1599924929790045e-8,
+    "lateral": -4.610090904577646e-7,
+    "slipDegrees": 0.0000038821121274692945
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 2.1096397892097168e-7,
+    "lateral": -0.0000013874668498559117,
+    "slipDegrees": 0.00001168371585301898
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 2.446364003475612e-7,
+    "lateral": -0.0000016000529976523126,
+    "slipDegrees": 0.000013473888669499375
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -0.0000012751478508881708,
+    "lateral": -0.00002210110123590514,
+    "slipDegrees": 0.00025215050741345335
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -7.426672304696689e-7,
+    "lateral": -0.000009032671454356489,
+    "slipDegrees": 0.00010305335968472615
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 0.000008306216464038642,
+    "lateral": -0.00005787147170333018,
+    "slipDegrees": 0.0006602531149099202
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 0.00000325734024942918,
+    "lateral": -0.000022574101179895223,
+    "slipDegrees": 0.0002575469483996179
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -0.00005054995491014209,
+    "lateral": -0.0006565667071074532,
+    "slipDegrees": 0.010096216153605059
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -0.000014433149813825395,
+    "lateral": -0.00014575533927141393,
+    "slipDegrees": 0.0022413220150415236
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 0.00014722668614777998,
+    "lateral": -0.0011518704071402652,
+    "slipDegrees": 0.017712644417526437
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 0.0000343267362409342,
+    "lateral": -0.00026556103322339375,
+    "slipDegrees": 0.004083608828021789
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -1.3618392989420334e-11,
+    "lateral": 1.4987122654019913e-11,
+    "slipDegrees": 5.102630361331968e-11
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -1.1491252814004113e-10,
+    "lateral": 1.2651568681576464e-10,
+    "slipDegrees": 4.307473124253684e-10
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 1.3981449424092528e-11,
+    "lateral": -3.128342029867781e-11,
+    "slipDegrees": 1.0650992451406183e-10
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 1.1798695246433946e-10,
+    "lateral": -2.639932716874682e-10,
+    "slipDegrees": 8.988165593204408e-10
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -1.4042864811200216e-11,
+    "lateral": 1.41824330057716e-11,
+    "slipDegrees": 4.732086456459466e-11
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -1.2025537096706314e-10,
+    "lateral": 1.2147705064080583e-10,
+    "slipDegrees": 4.053204837759504e-10
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 1.4485265578969866e-11,
+    "lateral": -3.3507419061606925e-11,
+    "slipDegrees": 1.1180028412934755e-10
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 1.240558751194537e-10,
+    "lateral": -2.8694291387409976e-10,
+    "slipDegrees": 9.574141142903282e-10
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -4.0458044910127505e-9,
+    "lateral": -1.135984495914677e-7,
+    "slipDegrees": 9.024536773574426e-7
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -1.0159775025798068e-8,
+    "lateral": -1.7648583083840208e-7,
+    "slipDegrees": 0.0000014020471785489457
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 7.233405733242229e-8,
+    "lateral": -4.757410621003544e-7,
+    "slipDegrees": 0.000003779402544117335
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 1.0724212300615221e-7,
+    "lateral": -7.027023114503095e-7,
+    "slipDegrees": 0.000005582441326855067
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -5.92765742789462e-7,
+    "lateral": -0.00001227870299369549,
+    "slipDegrees": 0.0001321577280008579
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -3.4817433989233967e-7,
+    "lateral": -0.000004839464327943688,
+    "slipDegrees": 0.0000520879630046778
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 0.00000513034150563273,
+    "lateral": -0.000035808316526164674,
+    "slipDegrees": 0.00038541088141306844
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 0.0000018860172954360727,
+    "lateral": -0.00001312134117537056,
+    "slipDegrees": 0.00014122718704611108
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -0.00003550369791232416,
+    "lateral": -0.0005127616212676767,
+    "slipDegrees": 0.007438569592292291
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -0.000009858470489704325,
+    "lateral": -0.00011227930124912966,
+    "slipDegrees": 0.0016288219761601947
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 0.00011962334372379201,
+    "lateral": -0.0009454034411386925,
+    "slipDegrees": 0.01371485114678019
+  },
+  {
+    "vehicle": "foresthauler",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 0.000026629253425360736,
+    "lateral": -0.00020845814378445127,
+    "slipDegrees": 0.003024076584133977
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -8.732009139386266e-12,
+    "lateral": 9.35784782996052e-12,
+    "slipDegrees": 2.9734105937464896e-11
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -7.78755594666719e-11,
+    "lateral": 8.348965963023147e-11,
+    "slipDegrees": 2.652858461956068e-10
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 8.97696760880628e-12,
+    "lateral": -2.0342838524811668e-11,
+    "slipDegrees": 6.463837913120072e-11
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 8.006580234579618e-11,
+    "lateral": -1.8143531121950218e-10,
+    "slipDegrees": 5.765051760899952e-10
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -8.986117186673887e-12,
+    "lateral": 8.817835350782843e-12,
+    "slipDegrees": 2.801824296158117e-11
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -8.01111705876075e-11,
+    "lateral": 7.860556650030048e-11,
+    "slipDegrees": 2.497667802315963e-10
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 9.282787789603767e-12,
+    "lateral": -2.1721291432186263e-11,
+    "slipDegrees": 6.901834710107919e-11
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 8.276060909997537e-11,
+    "lateral": -1.936379945277622e-10,
+    "slipDegrees": 6.152788086231697e-10
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -9.324191978678865e-12,
+    "lateral": 7.990053063622327e-12,
+    "slipDegrees": 2.4880245179563613e-11
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -8.446240735509713e-11,
+    "lateral": 7.242828559128611e-11,
+    "slipDegrees": 2.2553587049749223e-10
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 9.69824700023057e-12,
+    "lateral": -2.3700152951278142e-11,
+    "slipDegrees": 7.379996248677853e-11
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 8.785657676606839e-11,
+    "lateral": -2.1471624478408557e-10,
+    "slipDegrees": 6.686091723690678e-10
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -5.1607599530095985e-9,
+    "lateral": -3.399851344898508e-7,
+    "slipDegrees": 0.00000252066711574217
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -2.5156389930703023e-8,
+    "lateral": -7.183900034846147e-7,
+    "slipDegrees": 0.000005326182598501493
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 1.7403198524312726e-7,
+    "lateral": -0.0000013236458658028027,
+    "slipDegrees": 0.000009813577897290142
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 3.919842112666057e-7,
+    "lateral": -0.0000029732671769089336,
+    "slipDegrees": 0.000022043964715660457
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -0.00000165592655516579,
+    "lateral": -0.00004713456773242086,
+    "slipDegrees": 0.0004734593101942853
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -8.295983079270028e-7,
+    "lateral": -0.0000146819701836165,
+    "slipDegrees": 0.00014747808479694167
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 0.000015818320439820284,
+    "lateral": -0.00012679236383278392,
+    "slipDegrees": 0.0012736093210349692
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 0.0000048161583111098125,
+    "lateral": -0.00003846295778764386,
+    "slipDegrees": 0.0003863543706596813
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -1.9849909674442853e-12,
+    "lateral": 2.1316282072803006e-12,
+    "slipDegrees": 6.389759290438932e-12
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -1.875258796431827e-11,
+    "lateral": 2.013678113144124e-11,
+    "slipDegrees": 6.036228691794787e-11
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 2.0401863333358204e-12,
+    "lateral": -4.622080496119452e-12,
+    "slipDegrees": 1.3855128063880535e-11
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 1.927822663774161e-11,
+    "lateral": -4.3659298398779356e-11,
+    "slipDegrees": 1.3087370443151635e-10
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -2.042790160451031e-12,
+    "lateral": 2.0090595853616833e-12,
+    "slipDegrees": 6.022348210042332e-12
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -1.9289822107942203e-11,
+    "lateral": 1.8971491044794675e-11,
+    "slipDegrees": 5.6869195451042835e-11
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 2.1098287266884463e-12,
+    "lateral": -4.931166586175095e-12,
+    "slipDegrees": 1.4781643354891552e-11
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 1.9925717189175714e-11,
+    "lateral": -4.6563641831198765e-11,
+    "slipDegrees": 1.3957979839040955e-10
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -2.1171397683027224e-12,
+    "lateral": 1.822542117224657e-12,
+    "slipDegrees": 5.353979435932006e-12
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -2.0337276665760522e-11,
+    "lateral": 1.751043754438797e-11,
+    "slipDegrees": 5.143972772826339e-11
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 2.2017793560878126e-12,
+    "lateral": -5.375255796025158e-12,
+    "slipDegrees": 1.5790586526928322e-11
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 2.115112482658003e-11,
+    "lateral": -5.163514060768648e-11,
+    "slipDegrees": 1.51686536407659e-10
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -4.253060973659355e-10,
+    "lateral": -8.626931791155812e-8,
+    "slipDegrees": 6.034010675272617e-7
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -6.816774798805608e-9,
+    "lateral": -2.8456193401638075e-7,
+    "slipDegrees": 0.000001990337677586732
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 4.225313731058627e-8,
+    "lateral": -3.2107873293441003e-7,
+    "slipDegrees": 0.0000022457491797804046
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 1.8442740132864983e-7,
+    "lateral": -0.0000013995206056272025,
+    "slipDegrees": 0.000009788795536065948
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -7.1315862433445e-7,
+    "lateral": -0.000026762014502246245,
+    "slipDegrees": 0.00025360398447808605
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -3.885112915899731e-7,
+    "lateral": -0.000008185390664827707,
+    "slipDegrees": 0.00007756694871031243
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 0.00000936842133078475,
+    "lateral": -0.00007522667032011654,
+    "slipDegrees": 0.0007128679781910684
+  },
+  {
+    "vehicle": "van",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 0.000002937112685426498,
+    "lateral": -0.000023530678678884698,
+    "slipDegrees": 0.00022298299748759593
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -1.2171421597782077e-12,
+    "lateral": 1.270095140171179e-12,
+    "slipDegrees": 3.536011726813335e-12
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -1.2310148068096618e-11,
+    "lateral": 1.2803980098397005e-11,
+    "slipDegrees": 3.5647195486274276e-11
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 1.253359524002606e-12,
+    "lateral": -2.8830271503466065e-12,
+    "slipDegrees": 8.026499347695542e-12
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 1.2674854729792318e-11,
+    "lateral": -2.9091395958857902e-11,
+    "slipDegrees": 8.099252651141095e-11
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -1.2526934401165146e-12,
+    "lateral": 1.1812772982011666e-12,
+    "slipDegrees": 3.2887382228346816e-12
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -1.2661442275952816e-11,
+    "lateral": 1.2001066806988092e-11,
+    "slipDegrees": 3.341182629314483e-11
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 1.2962000992289252e-12,
+    "lateral": -3.078426402680634e-12,
+    "slipDegrees": 8.570501265065923e-12
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 1.310237003397655e-11,
+    "lateral": -3.111644275577419e-11,
+    "slipDegrees": 8.663039847092446e-11
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -1.2964752562849102e-12,
+    "lateral": 1.0551559626037488e-12,
+    "slipDegrees": 2.878857615831524e-12
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -1.3346154976967653e-11,
+    "lateral": 1.0887291068684135e-11,
+    "slipDegrees": 2.970477295803968e-11
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 1.3512443222575894e-12,
+    "lateral": -3.3590907833058736e-12,
+    "slipDegrees": 9.164848068484819e-12
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 1.3910398977569545e-11,
+    "lateral": -3.4563463202630373e-11,
+    "slipDegrees": 9.430259925538886e-11
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": 1.0743355151734398e-10,
+    "lateral": -4.036072720481343e-8,
+    "slipDegrees": 2.6218817632045463e-7
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -2.9440687625265752e-9,
+    "lateral": -2.161626690977414e-7,
+    "slipDegrees": 0.0000014042200562981653
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 1.1757434421514609e-8,
+    "lateral": -9.265152267623478e-8,
+    "slipDegrees": 6.0187552148607e-7
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 1.5360137324131302e-7,
+    "lateral": -0.0000012095307706516678,
+    "slipDegrees": 0.000007857264927704572
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -3.8181098407937215e-7,
+    "lateral": -0.000020488231645687804,
+    "slipDegrees": 0.0001803209333937086
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -2.765244597040883e-7,
+    "lateral": -0.0000071361525648683255,
+    "slipDegrees": 0.0000628066802116356
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 0.000006629957557937324,
+    "lateral": -0.00005528631417694996,
+    "slipDegrees": 0.00048658565646218343
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 0.000002646819670832907,
+    "lateral": -0.000022017647458127954,
+    "slipDegrees": 0.0001937816391525283
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -2.4375095133146654e-13,
+    "lateral": 2.540190280342358e-13,
+    "slipDegrees": 6.671720227335524e-13
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -2.631074409933753e-12,
+    "lateral": 2.7462476737127872e-12,
+    "slipDegrees": 7.212973330495321e-12
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 2.513213160637405e-13,
+    "lateral": -5.737632591262809e-13,
+    "slipDegrees": 1.5069689746538544e-12
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 2.709249220255269e-12,
+    "lateral": -6.206590796864475e-12,
+    "slipDegrees": 1.630150663482626e-11
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -2.5091428767113303e-13,
+    "lateral": 2.4158453015843406e-13,
+    "slipDegrees": 6.345132602722144e-13
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -2.7070330552146857e-12,
+    "lateral": 2.5792701308091637e-12,
+    "slipDegrees": 6.774409366100722e-12
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 2.5947774056602216e-13,
+    "lateral": -6.163958232718869e-13,
+    "slipDegrees": 1.6189419217053968e-12
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 2.8013138459729218e-12,
+    "lateral": -6.6560090772327385e-12,
+    "slipDegrees": 1.748189555754901e-11
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -2.592675281056998e-13,
+    "lateral": 2.1316282072803006e-13,
+    "slipDegrees": 5.486673541161891e-13
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -2.8532188559823402e-12,
+    "lateral": 2.3581137043038325e-12,
+    "slipDegrees": 6.069674346517916e-12
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 2.7031632792004177e-13,
+    "lateral": -6.714628852932947e-13,
+    "slipDegrees": 1.728302165787617e-12
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 2.9737402573612042e-12,
+    "lateral": -7.407408020299044e-12,
+    "slipDegrees": 1.906632202676333e-11
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": 2.727736916235918e-10,
+    "lateral": -1.4097607747842744e-8,
+    "slipDegrees": 8.639601048723611e-8
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -7.284783469503691e-12,
+    "lateral": -7.69052617144439e-8,
+    "slipDegrees": 4.713079302635505e-7
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 5.751011276853837e-9,
+    "lateral": -4.52608293066703e-8,
+    "slipDegrees": 2.7737720810231353e-7
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 6.865579496486128e-8,
+    "lateral": -5.402868810122641e-7,
+    "slipDegrees": 0.000003311106216793956
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -9.059320721656591e-8,
+    "lateral": -0.000008522306770064603,
+    "slipDegrees": 0.00007076083847631684
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -1.1017433493773885e-7,
+    "lateral": -0.0000037410705737705996,
+    "slipDegrees": 0.00003106216803074844
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 0.0000031680010676453702,
+    "lateral": -0.000026431484275502015,
+    "slipDegrees": 0.0002194610003787587
+  },
+  {
+    "vehicle": "desertscout",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 0.0000015649885361093907,
+    "lateral": -0.000013036913038000364,
+    "slipDegrees": 0.00010824569459867214
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -1.4210776804077124e-13,
+    "lateral": 1.438849039914203e-13,
+    "slipDegrees": 3.5197682734845443e-13
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -1.6566624766486032e-12,
+    "lateral": 1.6502355038028327e-12,
+    "slipDegrees": 4.03690065707499e-12
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 1.467651626730639e-13,
+    "lateral": -3.446132268436486e-13,
+    "slipDegrees": 8.430062285826291e-13
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 1.7083829944870284e-12,
+    "lateral": -3.97193389289896e-12,
+    "slipDegrees": 9.716372469601765e-12
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -1.467197529525313e-13,
+    "lateral": 1.3145040611561853e-13,
+    "slipDegrees": 3.215590807264377e-13
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -1.7046990902732366e-12,
+    "lateral": 1.5631940186722204e-12,
+    "slipDegrees": 3.823974645466669e-12
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 1.5189526365078287e-13,
+    "lateral": -3.659295089164516e-13,
+    "slipDegrees": 8.951509545965271e-13
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 1.7665406383067457e-12,
+    "lateral": -4.245492846166599e-12,
+    "slipDegrees": 1.0385567686099666e-11
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -1.5179438184763262e-13,
+    "lateral": 1.1901590823981678e-13,
+    "slipDegrees": 2.9114133233403193e-13
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -1.7668546844629967e-12,
+    "lateral": 1.3873346915715956e-12,
+    "slipDegrees": 3.3937768048372027e-12
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 1.5890829585941075e-13,
+    "lateral": -4.014566457044566e-13,
+    "slipDegrees": 9.820588226697148e-13
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 1.8447966644053593e-12,
+    "lateral": -4.6558312760680565e-12,
+    "slipDegrees": 1.138935872768237e-11
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -1.774438780571372e-13,
+    "lateral": 2.6645352591003757e-14,
+    "slipDegrees": 6.387727599715775e-14
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -2.100866831377618e-12,
+    "lateral": 3.12194714524594e-13,
+    "slipDegrees": 7.48432959706068e-13
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 1.932842006255793e-13,
+    "lateral": -5.897504706808832e-13,
+    "slipDegrees": 1.4138170423450271e-12
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 2.2894956058225443e-12,
+    "lateral": -6.9828587356823846e-12,
+    "slipDegrees": 1.6740199187959107e-11
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": 1.740043875786644e-9,
+    "lateral": -7.048572170376133e-8,
+    "slipDegrees": 4.023247942462302e-7
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "yaw": 3.739306746620045e-9,
+    "lateral": -3.9673451635025003e-7,
+    "slipDegrees": 0.0000022645238942306345
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 2.05379440188618e-8,
+    "lateral": -1.8624448688830952e-7,
+    "slipDegrees": 0.0000010630631557489083
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 2.95521748298244e-7,
+    "lateral": -0.000002677430554598459,
+    "slipDegrees": 0.00001528252539846692
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -2.5023447872939406e-14,
+    "lateral": 2.842170943040401e-14,
+    "slipDegrees": 6.559083657739384e-14
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -3.1190267585248974e-13,
+    "lateral": 3.1441516057384433e-13,
+    "slipDegrees": 7.25604314665569e-13
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 2.5843230830039415e-14,
+    "lateral": -5.861977570020827e-14,
+    "slipDegrees": 1.3528110045740072e-13
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 3.2151337328699694e-13,
+    "lateral": -7.425171588693047e-13,
+    "slipDegrees": 1.7135740595313064e-12
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -2.560963150572937e-14,
+    "lateral": 2.4868995751603507e-14,
+    "slipDegrees": 5.739198265926583e-14
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -3.197777140881173e-13,
+    "lateral": 2.4868995751603507e-13,
+    "slipDegrees": 5.739242949518777e-13
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 2.6369783084462015e-14,
+    "lateral": -6.394884621840902e-14,
+    "slipDegrees": 1.475793840013935e-13
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 3.3109609063348015e-13,
+    "lateral": -8.29558643999917e-13,
+    "slipDegrees": 1.9144475020327583e-12
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -2.639399159622225e-14,
+    "lateral": 2.3092638912203256e-14,
+    "slipDegrees": 5.329255576018834e-14
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -3.3144533005304925e-13,
+    "lateral": 2.255973186038318e-13,
+    "slipDegrees": 5.206312186182877e-13
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 2.763068744441087e-14,
+    "lateral": -6.572520305780927e-14,
+    "slipDegrees": 1.5167881257124412e-13
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 3.4596589672997636e-13,
+    "lateral": -8.970602038971265e-13,
+    "slipDegrees": 2.0702265359096223e-12
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -3.095539228042354e-14,
+    "lateral": 8.881784197001252e-15,
+    "slipDegrees": 2.0087193690074587e-14
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -3.9424332277459965e-13,
+    "lateral": 5.4289905904170155e-14,
+    "slipDegrees": 1.2278369426333188e-13
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 3.393004188779651e-14,
+    "lateral": -9.947598300641403e-14,
+    "slipDegrees": 2.2497656936756283e-13
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 4.297517031159729e-13,
+    "lateral": -1.29440902441047e-12,
+    "slipDegrees": 2.9274746655049643e-12
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": 1.1652511670147237e-9,
+    "lateral": -2.6136119712916184e-8,
+    "slipDegrees": 1.4073785810853916e-7
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "yaw": 3.918286654378246e-9,
+    "lateral": -1.556494151344623e-7,
+    "slipDegrees": 8.381444288513406e-7
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 1.1069663634858398e-8,
+    "lateral": -1.0023776081391489e-7,
+    "slipDegrees": 5.397605940413438e-7
+  },
+  {
+    "vehicle": "snowgrip",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 1.5067640407172117e-7,
+    "lateral": -0.0000013638744809085779,
+    "slipDegrees": 0.000007344221415173994
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -1.322587812409811e-14,
+    "lateral": 1.2434497875801753e-14,
+    "slipDegrees": 2.6727361970596953e-14
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -1.8881574695486576e-13,
+    "lateral": 1.7763568394002505e-13,
+    "slipDegrees": 3.8182267097408173e-13
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 1.3891282407820635e-14,
+    "lateral": -4.263256414560601e-14,
+    "slipDegrees": 9.163666962372665e-14
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 1.9465898178533332e-13,
+    "lateral": -4.618527782440651e-13,
+    "slipDegrees": 9.92738960098204e-13
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -1.4010149289140418e-14,
+    "lateral": 5.329070518200751e-15,
+    "slipDegrees": 1.145458382869913e-14
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -1.9378897128210907e-13,
+    "lateral": 1.6697754290362354e-13,
+    "slipDegrees": 3.5891329735554505e-13
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 1.4477656217087807e-14,
+    "lateral": -3.907985046680551e-14,
+    "slipDegrees": 8.400028142094167e-14
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 2.0115044730179423e-13,
+    "lateral": -4.902744876744691e-13,
+    "slipDegrees": 1.0538305498971754e-12
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -1.455337008031484e-14,
+    "lateral": 3.552713678800501e-15,
+    "slipDegrees": 7.636389279749849e-15
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -2.0099307626117416e-13,
+    "lateral": 1.5631940186722204e-13,
+    "slipDegrees": 3.3600386962345037e-13
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 1.544503316798438e-14,
+    "lateral": -4.618527782440651e-14,
+    "slipDegrees": 9.92730606505828e-14
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 2.10085109109605e-13,
+    "lateral": -5.240252676230739e-13,
+    "slipDegrees": 1.1263766271432074e-12
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -1.7032576742714326e-14,
+    "lateral": -5.329070518200751e-15,
+    "slipDegrees": 1.1225492023099448e-14
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -2.383584246739878e-13,
+    "lateral": 4.463096558993129e-14,
+    "slipDegrees": 9.401410038700272e-14
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 1.887692837760214e-14,
+    "lateral": -6.217248937900877e-14,
+    "slipDegrees": 1.3096407362355486e-13
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 2.605174373007114e-13,
+    "lateral": -7.778222510523847e-13,
+    "slipDegrees": 1.6384646679587102e-12
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": 1.2449308231238562e-9,
+    "lateral": -1.9734528899917336e-8,
+    "slipDegrees": 9.897640088868843e-8
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "yaw": 5.106598288173587e-9,
+    "lateral": -1.3274773547067298e-7,
+    "slipDegrees": 6.657861999504339e-7
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 1.0466775857378166e-8,
+    "lateral": -9.803387679419018e-8,
+    "slipDegrees": 4.916783187390184e-7
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 1.4872168389225028e-7,
+    "lateral": -0.000001392474898942453,
+    "slipDegrees": 0.000006983851967388412
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -2.4568452915418536e-15,
+    "lateral": 5.329070518200751e-15,
+    "slipDegrees": 1.0806211024435284e-14
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -3.164583707640003e-14,
+    "lateral": 5.1514348342607263e-14,
+    "slipDegrees": 1.0446094377064702e-13
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 2.181775073297011e-15,
+    "lateral": -3.552713678800501e-15,
+    "slipDegrees": 7.204140683625942e-15
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 3.1810732961200185e-14,
+    "lateral": -5.5067062021407764e-14,
+    "slipDegrees": 1.1166514845986429e-13
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -2.258730157533099e-15,
+    "lateral": 5.329070518200751e-15,
+    "slipDegrees": 1.0806211137950996e-14
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -3.136772723699386e-14,
+    "lateral": 4.618527782440651e-14,
+    "slipDegrees": 9.365463573872575e-14
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 2.923495963832457e-15,
+    "lateral": -3.552713678800501e-15,
+    "slipDegrees": 7.204140759396481e-15
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 3.273941264837803e-14,
+    "lateral": -5.684341886080802e-14,
+    "slipDegrees": 1.1526724581400324e-13
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -2.325137607937271e-15,
+    "lateral": 3.552713678800501e-15,
+    "slipDegrees": 7.204140812499343e-15
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -3.462267355506059e-14,
+    "lateral": 5.861977570020827e-14,
+    "slipDegrees": 1.188693213452297e-13
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 2.149722941017078e-15,
+    "lateral": -1.7763568394002505e-15,
+    "slipDegrees": 3.602070406684559e-15
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 3.476395232148287e-14,
+    "lateral": -5.684341886080802e-14,
+    "slipDegrees": 1.1526722252219154e-13
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -3.0383320989203892e-15,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -4.1217996589487186e-14,
+    "lateral": 6.483702463810914e-14,
+    "slipDegrees": 1.288469185917813e-13
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 3.1713782893625773e-15,
+    "lateral": -3.552713678800501e-15,
+    "slipDegrees": 7.060057871097909e-15
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 4.210327788585624e-14,
+    "lateral": -6.927791673660977e-14,
+    "slipDegrees": 1.3767205182783195e-13
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": 6.481951681638222e-10,
+    "lateral": -6.286631881735616e-9,
+    "slipDegrees": 2.9745217604354553e-8
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "yaw": 3.0682177269270443e-9,
+    "lateral": -4.792364372008251e-8,
+    "slipDegrees": 2.2675260000997106e-7
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 5.537202742993434e-9,
+    "lateral": -5.176850792487642e-8,
+    "slipDegrees": 2.449428414610894e-7
+  },
+  {
+    "vehicle": "snowrunner",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 7.611600115432187e-8,
+    "lateral": -7.116128628581464e-7,
+    "slipDegrees": 0.000003367024028929774
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -1.0946066193073573e-15,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -1.7686326182856724e-14,
+    "lateral": 3.197442310920451e-14,
+    "slipDegrees": 6.030341258214787e-14
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 8.151130506769974e-16,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 1.7761046267759267e-14,
+    "lateral": -2.842170943040401e-14,
+    "slipDegrees": 5.360303421026432e-14
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -2.2151316816177863e-15,
+    "lateral": 1.7763568394002505e-15,
+    "slipDegrees": 3.350157908997682e-15
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -1.8660216385296808e-14,
+    "lateral": 3.019806626980426e-14,
+    "slipDegrees": 5.695322102157596e-14
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 8.121711401366259e-16,
+    "lateral": -5.329070518200751e-15,
+    "slipDegrees": 1.0050473727983984e-14
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 1.889911549478863e-14,
+    "lateral": -3.375077994860476e-14,
+    "slipDegrees": 6.36536009230773e-14
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -7.179501479824438e-16,
+    "lateral": 3.552713678800501e-15,
+    "slipDegrees": 6.700315867347088e-15
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -1.978287015721505e-14,
+    "lateral": 3.197442310920451e-14,
+    "slipDegrees": 6.030339808678733e-14
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 8.007244286573547e-16,
+    "lateral": -1.7763568394002505e-15,
+    "slipDegrees": 3.350157934038509e-15
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 1.970906313192106e-14,
+    "lateral": -3.375077994860476e-14,
+    "slipDegrees": 6.365358784627176e-14
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -2.434032536997788e-15,
+    "lateral": 1.7763568394002505e-15,
+    "slipDegrees": 3.3501578690616243e-15
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -2.3365423638730448e-14,
+    "lateral": 3.730349362740526e-14,
+    "slipDegrees": 7.035382964232519e-14
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 2.3656924345077287e-15,
+    "lateral": -5.329070518200751e-15,
+    "slipDegrees": 1.0050473608538325e-14
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 2.3654670297861588e-14,
+    "lateral": -3.8191672047105385e-14,
+    "slipDegrees": 7.202892174599877e-14
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -5.823647514361624e-16,
+    "lateral": -1.7763568394002505e-15,
+    "slipDegrees": 3.283154725977203e-15
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -1.836625441564808e-14,
+    "lateral": 3.019806626980426e-14,
+    "slipDegrees": 5.581415612694456e-14
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 2.3452651183370008e-15,
+    "lateral": -1.7763568394002505e-15,
+    "slipDegrees": 3.2831547262623574e-15
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 1.8394641327154557e-14,
+    "lateral": -3.197442310920451e-14,
+    "slipDegrees": 5.909734269704091e-14
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -6.85024230527973e-16,
+    "lateral": 1.7763568394002505e-15,
+    "slipDegrees": 3.1605262926239754e-15
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -4.657035739477481e-15,
+    "lateral": 8.881784197001252e-15,
+    "slipDegrees": 1.5802784577890242e-14
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 6.785548133993467e-16,
+    "lateral": -1.7763568394002505e-15,
+    "slipDegrees": 3.1605262928554686e-15
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 3.885454376609501e-15,
+    "lateral": -5.329070518200751e-15,
+    "slipDegrees": 9.481670876932443e-15
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -4.3075672931583087e-16,
+    "lateral": -1.7763568394002505e-15,
+    "slipDegrees": 3.160526323599444e-15
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -4.3892342791112446e-15,
+    "lateral": 7.105427357601002e-15,
+    "slipDegrees": 1.2642227208453779e-14
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 6.265953203733121e-16,
+    "lateral": 1.7763568394002505e-15,
+    "slipDegrees": 3.1605263238648496e-15
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 4.376568511048656e-15,
+    "lateral": -8.881784197001252e-15,
+    "slipDegrees": 1.5802784241826106e-14
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -5.574059218779542e-16,
+    "lateral": 3.552713678800501e-15,
+    "slipDegrees": 6.321052691543221e-15
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -4.446446384453594e-15,
+    "lateral": 7.105427357601002e-15,
+    "slipDegrees": 1.26422247011863e-14
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 5.879717361709823e-16,
+    "lateral": 3.552713678800501e-15,
+    "slipDegrees": 6.321052692132586e-15
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 4.343663610191595e-15,
+    "lateral": -7.105427357601002e-15,
+    "slipDegrees": 1.2642224883817885e-14
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -5.233290009251245e-16,
+    "lateral": -3.552713678800501e-15,
+    "slipDegrees": 6.321052578206804e-15
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -1.1739783323869926e-15,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 8.036333083768136e-16,
+    "lateral": -3.552713678800501e-15,
+    "slipDegrees": 6.321052578945404e-15
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 1.2558334488819665e-15,
+    "lateral": -1.7763568394002505e-15,
+    "slipDegrees": 3.1605502790097713e-15
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -5.92204631100173e-16,
+    "lateral": -3.552713678800501e-15,
+    "slipDegrees": 6.1946315506121355e-15
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -4.713327563255516e-15,
+    "lateral": 8.881784197001252e-15,
+    "slipDegrees": 1.5486728199200715e-14
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 8.088911638429929e-16,
+    "lateral": -3.552713678800501e-15,
+    "slipDegrees": 6.1946315510682754e-15
+  },
+  {
+    "vehicle": "lavacrawler",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 4.370099132260186e-15,
+    "lateral": -5.329070518200751e-15,
+    "slipDegrees": 9.292037051774077e-15
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -6.58576167182887e-16,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -3.678946736263853e-16,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 6.45368827410209e-16,
+    "lateral": -3.552713678800501e-15,
+    "slipDegrees": 5.867508245381667e-15
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "stock",
+    "biome": "city",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 3.5999918552320557e-16,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -6.962114250411751e-16,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -3.806863697585926e-16,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 4.4265081573447004e-16,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "stock",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 3.0492717172171735e-16,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -6.575014170435327e-16,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -5.853538155169012e-16,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 6.112222638282544e-16,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "stock",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 5.680528399603824e-16,
+    "lateral": -3.552713678800501e-15,
+    "slipDegrees": 5.867568620358063e-15
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -7.316224479628988e-16,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -4.1427726071886217e-16,
+    "lateral": 1.7763568394002505e-15,
+    "slipDegrees": 2.9337786110330764e-15
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 6.722631532098777e-16,
+    "lateral": 3.552713678800501e-15,
+    "slipDegrees": 5.867508239923329e-15
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "stock",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 4.0260032513924407e-16,
+    "lateral": -1.7763568394002505e-15,
+    "slipDegrees": 2.933778643728815e-15
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -4.277616304974728e-16,
+    "lateral": 3.552713678800501e-15,
+    "slipDegrees": 5.750158095637157e-15
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -3.290123642882177e-16,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 6.571827389298894e-16,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "stock",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 3.4098500972777885e-16,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -3.458981572156095e-16,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -1.0964797470670339e-16,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 4.1976340049764493e-16,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "max",
+    "biome": "city",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 2.1740534359543835e-16,
+    "lateral": -8.881784197001252e-16,
+    "slipDegrees": 1.3838611336620865e-15
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -3.4373542395963873e-16,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -2.2885052891947406e-16,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 6.600302280382173e-16,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "max",
+    "biome": "forest",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 3.2661894600198895e-16,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -7.570362478856778e-16,
+    "lateral": -3.552713678800501e-15,
+    "slipDegrees": 5.5353852179542986e-15
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -5.223397499248112e-16,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 6.332041580673513e-16,
+    "lateral": -3.552713678800501e-15,
+    "slipDegrees": 5.535385218341649e-15
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "max",
+    "biome": "desert",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 4.120083972172635e-16,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -6.225173943408404e-16,
+    "lateral": 3.552713678800501e-15,
+    "slipDegrees": 5.535385127869918e-15
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -8.041856681007606e-16,
+    "lateral": 3.552713678800501e-15,
+    "slipDegrees": 5.535432811521449e-15
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 6.506569103788123e-16,
+    "lateral": 3.552713678800501e-15,
+    "slipDegrees": 5.535385128364359e-15
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "max",
+    "biome": "snow",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 8.019183115591815e-16,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 0.8,
+    "yaw": -1.505150746656879e-16,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "D",
+    "steering": 1,
+    "yaw": -3.5408094010497585e-16,
+    "lateral": 0,
+    "slipDegrees": 0
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 0.8,
+    "yaw": 4.4175001722945653e-16,
+    "lateral": 3.552713678800501e-15,
+    "slipDegrees": 5.4246774444473044e-15
+  },
+  {
+    "vehicle": "ashhauler",
+    "upgrade": "max",
+    "biome": "volcanic",
+    "gear": "R",
+    "steering": 1,
+    "yaw": 3.0770208983922533e-16,
+    "lateral": 1.7763568394002505e-15,
+    "slipDegrees": 2.712367695220216e-15
+  }
+]

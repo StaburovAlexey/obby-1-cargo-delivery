@@ -1,0 +1,24 @@
+PASS Every progression SVG reference resolves to one local code-native symbol
+PASS Five schools use book-brain, rate-brain, lock and money symbols; all 17 skins have price anchors
+PASS Brain balance displays bounded career values without rounding up or abbreviating
+PASS Fresh school labels hide the entire free access row and retain paid prices, rates and affordability
+PASS School purchase refreshes action immediately and floating ownership on the next app frame
+PASS Insufficient school funds keep price and lock visible without purchasing or seating
+PASS Restored school ownership hides every access row while all five rate signs remain available
+PASS Only unowned skins show prices; buying hides the label and preserves an explicit Select action
+PASS Purchase prompts hide while airborne, seated, driving, absent, or outside play mode
+PASS Upgrade dialog opens only in a car and presents the actual per-vehicle offers
+PASS Buying upgrades immediately refreshes brains, level, next price, maximum and disabled states
+PASS Upgrade keyboard focus, dismissal, menu exclusion and touch-event containment remain wired
+PASS Real app school labels retain exact world-anchor projection and depth order in frontal and oblique views
+PASS School scale depends only on viewport width across gaps, view directions, visible counts and ownership
+PASS School and skin projections lower existing world anchors by exactly 0.4 metres
+PASS School teaching symbol and rate grow 20–25 percent within a 120px label
+PASS Fixed-height school billboards reserve the price slot and bob book, rate and access together
+PASS School and skin world labels hide in driving and overview and show only in walking projections
+PASS HUD and touch controls retain transparent currency, safe areas, minimum targets and scrolling
+Checked 14 source-derived narrow track budgets. Font shaping and CSS layout are not browser-tested.
+PASS Narrow upgrade values can wrap; static track budgets fit 320–600px with minimum touch widths
+Narrow MAX specimen budget: 79.171875px of 85px; explicit padding and cascade.
+PASS Narrow MAX button resets UA padding and overrides the stronger desktop font selector
+Progression HUD: 21 checks passed. Actual app fixture + SVG/CSS source contracts only; no browser, Android, GPU or touchscreen claims.

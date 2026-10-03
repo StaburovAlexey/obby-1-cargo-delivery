@@ -1,0 +1,55 @@
+PASS Actual app driving, reversing and fuel agree at 30, 60 and 120 Hz
+PASS A long render stall advances only the bounded physics budget and leaves no catch-up debt
+PASS Road gradient matches the rendered height convention and influences actual driving
+PASS Lateral sliding consumes true path fuel and camera distance without inventing wheel travel
+PASS Zero-duration app frames never repeat previous path, fuel use or camera distance
+FAIL Held wheel plus a second-pointer gear change brakes before rolling in reverse: AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert.ok(startingSpeed>1)
+
+    at file:///tmp/city-baseline-70/tests/physics-app-integration.mjs:155:64
+    at check (file:///tmp/city-baseline-70/tests/physics-app-integration.mjs:44:25)
+    at file:///tmp/city-baseline-70/tests/physics-app-integration.mjs:152:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+PASS A real off-centre road contact changes planar momentum without a teleport
+FAIL Blur, resize and hidden-tab safety resets clear every planar momentum channel: AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert.ok(s.linearSpeed>0)
+
+    at file:///tmp/city-baseline-70/tests/physics-app-integration.mjs:197:12
+    at check (file:///tmp/city-baseline-70/tests/physics-app-integration.mjs:44:25)
+    at file:///tmp/city-baseline-70/tests/physics-app-integration.mjs:193:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+FAIL Overview pause, garage return and re-entry clear stale forces, spin and teleport distance: AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+true !== false
+
+    at file:///tmp/city-baseline-70/tests/physics-app-integration.mjs:210:55
+    at check (file:///tmp/city-baseline-70/tests/physics-app-integration.mjs:44:25)
+    at file:///tmp/city-baseline-70/tests/physics-app-integration.mjs:207:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+FAIL Empty fuel with sideways/angular momentum returns safely and cannot pay a coincident delivery: AssertionError [ERR_ASSERTION]: The "string" argument must be of type string. Received type undefined (undefined)
+    at file:///tmp/city-baseline-70/tests/physics-app-integration.mjs:234:10
+    at check (file:///tmp/city-baseline-70/tests/physics-app-integration.mjs:44:25)
+    at file:///tmp/city-baseline-70/tests/physics-app-integration.mjs:225:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+FAIL All ten vehicle configurations retain finite dynamics and their own fuel accounting: AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+false !== true
+
+    at make (file:///tmp/city-baseline-70/tests/physics-app-integration.mjs:37:10)
+    at file:///tmp/city-baseline-70/tests/physics-app-integration.mjs:240:15
+    at check (file:///tmp/city-baseline-70/tests/physics-app-integration.mjs:44:25)
+    at file:///tmp/city-baseline-70/tests/physics-app-integration.mjs:237:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+Planar app integration: 6/11 checks passed.

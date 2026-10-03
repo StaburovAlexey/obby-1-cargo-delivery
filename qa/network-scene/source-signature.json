@@ -1,0 +1,14 @@
+{
+  "generatedAt": "2026-10-13T22:28:11.350Z",
+  "sourceSHA256": {
+    "network-scene.js": "19b82c704e091b788054796c291fdd8078d01b7d1d35866acff20f507141a8ee",
+    "route-network.js": "8a632393eae8ce62152e430687ff6fcb78607b6fba0352e63945094b42342bcd",
+    "route-network-config.js": "aeedff2941f42134ee5518233be894a5f6e5c41ac8031fad13a2f90922251178",
+    "road-material.js": "90a81ae425b987e980c8d94b73ce5311f4121632ae99e4f7dfaaafab8f48067a"
+  },
+  "geometryOnlySHA256": {
+    "road": "e4e1f71ae8251f92c6f6f33ca1f48a8c0c0faa8c71be1342f231223b11bc0574",
+    "ground": "ba34c27867d7b7ecadacc4fa83bb2be63a854ca872f78226daaf7574d9ad319c"
+  },
+  "note": "Final fringe correction changed attributes only; positions/indices match the corrected-barrier montage geometry exactly. Driving-height view exported after final shader fix and includes actual seeded log meshes."
+}

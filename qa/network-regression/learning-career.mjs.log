@@ -1,0 +1,26 @@
+PASS five schools and sixteen paid skins have finite strictly increasing prices/rates
+PASS new careers receive only free items and no automatic grant
+PASS schema 1 migrates old money, vehicles, selected skin and deliveries without free paid items
+PASS version 2 whitelists and bounds all progression fields without unlocking unowned cars or skins
+PASS root and nested accessors, inherited values and prototype keys never execute or pollute
+PASS unknown future versions and corrupt storage reset safely without partial restoration
+PASS one brain per real moving second is frame-rate independent in forward and reverse
+PASS idle, contact jitter, hidden/inactive, invalid, teleported and offline time award zero
+PASS learning starts only when seated, uses every school rate and stops on stand immediately
+PASS movement-to-stand clears seated earnings before the same frame tick
+PASS all five paid rates follow the entrance even when every former seat in its column is occupied
+PASS only twenty occupied desks make an owned entrance full, and failed seating earns or spends nothing
+PASS locked entrance requires a separate purchase even when its original column is occupied
+PASS study requires an existing desk and an owned valid entrance independently
+PASS standing, movement, garage return and fuel-empty clear entrance state while keeping all earned currency and purchases
+PASS school access purchases are explicit, money-only, atomic, permanent and proximity guarded
+PASS all paid skins require Buy then Select; locked stands never spend or emit character selection
+PASS insufficient, remote, airborne and seated skin/school buys preserve currency
+PASS per-car upgrades spend brains only, enforce driving/ownership and respect caps
+PASS exact earned upgrade price remains buyable without one extra frame at high refresh rates
+PASS one-time vehicle grant is exact, only explicit, respects old ownership/money and persists
+PASS grant never removes money and a zero grant still consumes the one-time claim
+PASS fractional brains save in batches and flush, reload creates no offline/position/cargo reward
+PASS storage failures do not rollback or double-spend purchases, and warn only once
+PASS brain upper bound remains finite with capped saving and no overrun
+Learning career: 25 checks passed; renderer-free.

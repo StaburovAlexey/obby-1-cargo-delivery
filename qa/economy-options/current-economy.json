@@ -1,0 +1,339 @@
+{
+  "auditedAt": "2026-10-14T10:49:18.326Z",
+  "scope": "Read-only runtime source audit; only this QA report was written.",
+  "vehicles": [
+    {
+      "order": 1,
+      "id": "pickup",
+      "name": "Пикап",
+      "price": 0,
+      "upgradePricesPerStat": [
+        20,
+        35,
+        50,
+        65,
+        80,
+        95,
+        110,
+        125,
+        140,
+        155
+      ],
+      "totalPerStat": 875,
+      "totalAllFour": 3500
+    },
+    {
+      "order": 2,
+      "id": "citycourier",
+      "name": "Городской курьер",
+      "price": 900,
+      "upgradePricesPerStat": [
+        25,
+        45,
+        65,
+        85,
+        105,
+        125,
+        145,
+        165,
+        185,
+        205
+      ],
+      "totalPerStat": 1150,
+      "totalAllFour": 4600
+    },
+    {
+      "order": 3,
+      "id": "rover",
+      "name": "Внедорожник",
+      "price": 2400,
+      "upgradePricesPerStat": [
+        30,
+        55,
+        80,
+        105,
+        130,
+        155,
+        180,
+        205,
+        230,
+        255
+      ],
+      "totalPerStat": 1425,
+      "totalAllFour": 5700
+    },
+    {
+      "order": 4,
+      "id": "foresthauler",
+      "name": "Лесовоз",
+      "price": 4800,
+      "upgradePricesPerStat": [
+        35,
+        65,
+        95,
+        125,
+        155,
+        185,
+        215,
+        245,
+        275,
+        305
+      ],
+      "totalPerStat": 1700,
+      "totalAllFour": 6800
+    },
+    {
+      "order": 5,
+      "id": "van",
+      "name": "Фургон",
+      "price": 8500,
+      "upgradePricesPerStat": [
+        40,
+        75,
+        110,
+        145,
+        180,
+        215,
+        250,
+        285,
+        320,
+        355
+      ],
+      "totalPerStat": 1975,
+      "totalAllFour": 7900
+    },
+    {
+      "order": 6,
+      "id": "desertscout",
+      "name": "Песчаный разведчик",
+      "price": 14000,
+      "upgradePricesPerStat": [
+        45,
+        85,
+        125,
+        165,
+        205,
+        245,
+        285,
+        325,
+        365,
+        405
+      ],
+      "totalPerStat": 2250,
+      "totalAllFour": 9000
+    },
+    {
+      "order": 7,
+      "id": "snowgrip",
+      "name": "Ледовый вездеход",
+      "price": 22000,
+      "upgradePricesPerStat": [
+        50,
+        95,
+        140,
+        185,
+        230,
+        275,
+        320,
+        365,
+        410,
+        455
+      ],
+      "totalPerStat": 2525,
+      "totalAllFour": 10100
+    },
+    {
+      "order": 8,
+      "id": "snowrunner",
+      "name": "Полярный экспресс",
+      "price": 33000,
+      "upgradePricesPerStat": [
+        55,
+        105,
+        155,
+        205,
+        255,
+        305,
+        355,
+        405,
+        455,
+        505
+      ],
+      "totalPerStat": 2800,
+      "totalAllFour": 11200
+    },
+    {
+      "order": 9,
+      "id": "lavacrawler",
+      "name": "Лавовый тягач",
+      "price": 48000,
+      "upgradePricesPerStat": [
+        60,
+        115,
+        170,
+        225,
+        280,
+        335,
+        390,
+        445,
+        500,
+        555
+      ],
+      "totalPerStat": 3075,
+      "totalAllFour": 12300
+    },
+    {
+      "order": 10,
+      "id": "ashhauler",
+      "name": "Пепельный караван",
+      "price": 68000,
+      "upgradePricesPerStat": [
+        65,
+        125,
+        185,
+        245,
+        305,
+        365,
+        425,
+        485,
+        545,
+        605
+      ],
+      "totalPerStat": 3350,
+      "totalAllFour": 13400
+    }
+  ],
+  "school": [
+    {
+      "id": "school-1",
+      "name": "Класс 1",
+      "price": 0,
+      "rate": 1.5
+    },
+    {
+      "id": "school-2",
+      "name": "Класс 2",
+      "price": 500,
+      "rate": 2
+    },
+    {
+      "id": "school-3",
+      "name": "Класс 3",
+      "price": 1500,
+      "rate": 3
+    },
+    {
+      "id": "school-4",
+      "name": "Класс 4",
+      "price": 3500,
+      "rate": 4.5
+    },
+    {
+      "id": "school-5",
+      "name": "Класс 5",
+      "price": 7000,
+      "rate": 6
+    }
+  ],
+  "drivingRate": 1,
+  "checkpoints": [
+    {
+      "id": "checkpoint-01",
+      "progress": 180,
+      "distance": 180,
+      "reward": 110
+    },
+    {
+      "id": "checkpoint-02",
+      "progress": 440,
+      "distance": 440.22386686103613,
+      "reward": 260
+    },
+    {
+      "id": "checkpoint-03",
+      "progress": 780,
+      "distance": 780.3143839547089,
+      "reward": 470
+    },
+    {
+      "id": "checkpoint-04",
+      "progress": 1220,
+      "distance": 1221.0623579703652,
+      "reward": 730
+    },
+    {
+      "id": "checkpoint-05",
+      "progress": 1800,
+      "distance": 1801.7283247506437,
+      "reward": 1080
+    },
+    {
+      "id": "checkpoint-06",
+      "progress": 2580,
+      "distance": 2582.780665980322,
+      "reward": 1550
+    },
+    {
+      "id": "checkpoint-07",
+      "progress": 3630,
+      "distance": 3634.427051889352,
+      "reward": 2180
+    },
+    {
+      "id": "checkpoint-08",
+      "progress": 5030,
+      "distance": 5036.827249776232,
+      "reward": 3020
+    },
+    {
+      "id": "checkpoint-09",
+      "progress": 6800,
+      "distance": 6809.300111166587,
+      "reward": 4090
+    },
+    {
+      "id": "checkpoint-10",
+      "progress": 8900,
+      "distance": 8911.28682929925,
+      "reward": 5350
+    },
+    {
+      "id": "checkpoint-11",
+      "progress": 11280,
+      "distance": 11300.793385887171,
+      "reward": 6780
+    },
+    {
+      "id": "checkpoint-12",
+      "progress": 14080,
+      "distance": 14103.017105148787,
+      "reward": 8460
+    },
+    {
+      "id": "checkpoint-13",
+      "progress": 17480,
+      "distance": 17514.4498274394,
+      "reward": 10510
+    },
+    {
+      "id": "checkpoint-14",
+      "progress": 21480,
+      "distance": 21516.720079987303,
+      "reward": 12910
+    },
+    {
+      "id": "checkpoint-15",
+      "progress": 26080,
+      "distance": 26127.91398296168,
+      "reward": 15680
+    },
+    {
+      "id": "checkpoint-16",
+      "progress": 32380,
+      "distance": 32436.961569853796,
+      "reward": 19460
+    }
+  ],
+  "startingGrant": 201600,
+  "totalAllCarUpgrades": 84500
+}

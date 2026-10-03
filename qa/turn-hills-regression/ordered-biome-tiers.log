@@ -1,0 +1,9 @@
+PASS All 50 explicit profiles preserve ordered IDs, strict stock progression and original pickup/city baseline
+PASS 50-combination launch, terminal, common-speed braking, turn response and slip measurements: {"combinations":50,"minimumTerminalMps":1.869999999999997}
+PASS Own biome is fastest; all earlier terrain is good; every later tier is objectively poor: {"maximumNextLaunchRatio":0.38028962521379617,"maximumNextSpeedRatio":0.41999999999999926,"minimumNextBrakeRatio":2.4561646120311273,"minimumNextSlideRatio":6.14135677137724}
+PASS Both gears retain controlled held turns, recovery and gradual brake-before-reverse across all 50 profiles: {"maxSlipDegrees":10.66404484126511,"maxVelocityStep":0.22722085193122274}
+PASS Every profile can recover uphill and reverse at the actual route maximum grade: {"gradePercent":7.5,"minimumSpeed20sMps":1.6873633613128676,"maxRollbackRecoveryS":1.1916666666666667}
+PASS 30/60/120 Hz, long stalls and invalid frame durations agree for all 50 profiles: {"maximumStateDifference":2.2737367544323206e-13,"combinations":50}
+PASS All cars cross every 48 m transition in D and R without freezing or velocity impulses: {"count":80,"maximumVelocityStepMps":0.155}
+
+7 ordered biome groups passed; all 50 combinations measured. No browser/GPU claim.

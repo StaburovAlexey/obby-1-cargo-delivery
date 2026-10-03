@@ -1,0 +1,9 @@
+{
+  "commit": "89eec0fe33e7550154e525c128631c720d898322",
+  "sha256": {
+    "economy-config.js": "9920510201a0b051efe78c5c507e1101bb40be4cc8b28490c6ba5973e3cc2734",
+    "vehicle-upgrades.js": "6ba02ae4e0483f4dfefc9d6f953ffb0e2a0462da8be0adcc9519ce6c3c616a28",
+    "gameplay.js": "efeb4eef0b243324cb96d0cecf878813911ddfe56035d70da15924ea7bed9849",
+    "career-save.js": "4fa790a8017f0fb64372e55219e50b9220df9d557db1fcdb67db4977a60f958d"
+  }
+}

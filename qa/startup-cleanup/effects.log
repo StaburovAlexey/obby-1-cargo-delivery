@@ -1,0 +1,25 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> urban-route-procedural-three@1.70.0 test:vehicle-effects
+> node tests/vehicle-audio.mjs && node tests/brake-lights.mjs && node tests/vehicle-effects-telemetry.mjs && node tests/vehicle-effects-app.mjs
+
+Vehicle audio: gesture unlock, smooth load/slip, lifecycle silence, mute, collision bounds and async cleanup passed.
+PASS coupe: 68 rear brake faces, 0 other rear lamp faces retained, front/body/rig/resource isolation
+PASS police: 56 rear brake faces, 0 other rear lamp faces retained, front/body/rig/resource isolation
+PASS jeep: 20 rear brake faces, 20 other rear lamp faces retained, front/body/rig/resource isolation
+PASS van: 72 rear brake faces, 0 other rear lamp faces retained, front/body/rig/resource isolation
+PASS kamaro: 150 rear brake faces, 0 other rear lamp faces retained, front/body/rig/resource isolation
+PASS ghini: 56 rear brake faces, 0 other rear lamp faces retained, front/body/rig/resource isolation
+PASS rally: 20 rear brake faces, 0 other rear lamp faces retained, front/body/rig/resource isolation
+PASS armor: 52 rear brake faces, 52 other rear lamp faces retained, front/body/rig/resource isolation
+PASS lamb: 24 rear brake faces, 0 other rear lamp faces retained, front/body/rig/resource isolation
+PASS fenyr: 56 rear brake faces, 4 other rear lamp faces retained, front/body/rig/resource isolation
+PASS bmw-g80-m3: 28 rear brake faces, 0 other rear lamp faces retained, front/body/rig/resource isolation
+PASS all 11 real GLBs: red brakes on/off/partial/clamped, independent materials, reset and disposal. CPU-only verification.
+PASS 11-car effects telemetry leaves 9900 physical states bit-identical, real reverse braking/collision speed and resets. { brakeFrames: 102, impacts: 22 }
+PASS actual app audio/brake integration: selected car only, genuine reverse braking, modal/blur/garage silence, mute persistence, no extra engines.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

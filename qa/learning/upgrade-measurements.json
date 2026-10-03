@@ -1,0 +1,302 @@
+[
+  {
+    "car": "pickup",
+    "biome": "city",
+    "stockTop": 10.999999999999973,
+    "maxTop": 11.659999999999973,
+    "rackGain": 1.0466988341655987,
+    "yawGain": 1.0489396786576834,
+    "slideReduction": 0.0685947101533344,
+    "brakeReduction": 0.055672159222608486
+  },
+  {
+    "car": "citycourier",
+    "biome": "city",
+    "stockTop": 12.499999999999973,
+    "maxTop": 13.249999999999973,
+    "rackGain": 1.0457278763387683,
+    "yawGain": 1.0480082312245673,
+    "slideReduction": 0.0698080055464797,
+    "brakeReduction": 0.05644992330280152
+  },
+  {
+    "car": "rover",
+    "biome": "city",
+    "stockTop": 13.915999999999972,
+    "maxTop": 14.750959999999973,
+    "rackGain": 1.0446954508340098,
+    "yawGain": 1.0470204603055295,
+    "slideReduction": 0.0709787627253402,
+    "brakeReduction": 0.0573720540426792
+  },
+  {
+    "car": "rover",
+    "biome": "forest",
+    "stockTop": 14.199999999999974,
+    "maxTop": 15.051999999999973,
+    "rackGain": 1.0446942733306166,
+    "yawGain": 1.0471621611175645,
+    "slideReduction": 0.07090661229445094,
+    "brakeReduction": 0.05678296743093747
+  },
+  {
+    "car": "foresthauler",
+    "biome": "city",
+    "stockTop": 15.875999999999975,
+    "maxTop": 16.828559999999946,
+    "rackGain": 1.0435951224294375,
+    "yawGain": 1.0459370768788356,
+    "slideReduction": 0.07247889255230522,
+    "brakeReduction": 0.058242611196140714
+  },
+  {
+    "car": "foresthauler",
+    "biome": "forest",
+    "stockTop": 16.19999999999995,
+    "maxTop": 17.17199999999995,
+    "rackGain": 1.0435935069306042,
+    "yawGain": 1.0460942154956594,
+    "slideReduction": 0.07239845168349057,
+    "brakeReduction": 0.05777086515598262
+  },
+  {
+    "car": "van",
+    "biome": "city",
+    "stockTop": 18.031999999999947,
+    "maxTop": 19.113919999999947,
+    "rackGain": 1.0424241347754288,
+    "yawGain": 1.0447686960105496,
+    "slideReduction": 0.07416934533207109,
+    "brakeReduction": 0.05841790304129124
+  },
+  {
+    "car": "van",
+    "biome": "forest",
+    "stockTop": 18.031999999999947,
+    "maxTop": 19.113919999999947,
+    "rackGain": 1.042425309306364,
+    "yawGain": 1.04496433529185,
+    "slideReduction": 0.07384790787564499,
+    "brakeReduction": 0.058441670513598165
+  },
+  {
+    "car": "van",
+    "biome": "desert",
+    "stockTop": 18.39999999999995,
+    "maxTop": 19.503999999999948,
+    "rackGain": 1.0424225984191624,
+    "yawGain": 1.045150231133565,
+    "slideReduction": 0.07242235392272411,
+    "brakeReduction": 0.058449466877110945
+  },
+  {
+    "car": "desertscout",
+    "biome": "city",
+    "stockTop": 20.579999999999945,
+    "maxTop": 21.81479999999995,
+    "rackGain": 1.0411811379336982,
+    "yawGain": 1.0435134957471937,
+    "slideReduction": 0.07608334215279244,
+    "brakeReduction": 0.058156646352280794
+  },
+  {
+    "car": "desertscout",
+    "biome": "forest",
+    "stockTop": 20.579999999999945,
+    "maxTop": 21.81479999999995,
+    "rackGain": 1.0411824682382098,
+    "yawGain": 1.0437282427740382,
+    "slideReduction": 0.07571939565762131,
+    "brakeReduction": 0.058173559153570475
+  },
+  {
+    "car": "desertscout",
+    "biome": "desert",
+    "stockTop": 20.999999999999947,
+    "maxTop": 22.25999999999995,
+    "rackGain": 1.0411789328343013,
+    "yawGain": 1.0439334517499648,
+    "slideReduction": 0.07410989903021814,
+    "brakeReduction": 0.05317376593309053
+  },
+  {
+    "car": "snowgrip",
+    "biome": "city",
+    "stockTop": 23.421999999999944,
+    "maxTop": 24.827319999999947,
+    "rackGain": 1.0398615547162817,
+    "yawGain": 1.0421658153460958,
+    "slideReduction": 0.07826205728213109,
+    "brakeReduction": 0.05922562552629007
+  },
+  {
+    "car": "snowgrip",
+    "biome": "forest",
+    "stockTop": 23.421999999999944,
+    "maxTop": 24.827319999999947,
+    "rackGain": 1.0398630698119835,
+    "yawGain": 1.0424000500762254,
+    "slideReduction": 0.07784758636910705,
+    "brakeReduction": 0.05855228611440011
+  },
+  {
+    "car": "snowgrip",
+    "biome": "desert",
+    "stockTop": 23.421999999999947,
+    "maxTop": 24.82731999999995,
+    "rackGain": 1.039863945241365,
+    "yawGain": 1.0426519632201035,
+    "slideReduction": 0.07575670782434563,
+    "brakeReduction": 0.053013470438804666
+  },
+  {
+    "car": "snowgrip",
+    "biome": "snow",
+    "stockTop": 23.89999999999995,
+    "maxTop": 25.33399999999995,
+    "rackGain": 1.039853505757641,
+    "yawGain": 1.0433395613327545,
+    "slideReduction": 0.06818608766448864,
+    "brakeReduction": 0.06028120593097264
+  },
+  {
+    "car": "snowrunner",
+    "biome": "city",
+    "stockTop": 26.655999999999946,
+    "maxTop": 28.255359999999946,
+    "rackGain": 1.038462402402309,
+    "yawGain": 1.0407223605657119,
+    "slideReduction": 0.08075715702569375,
+    "brakeReduction": 0.061518488807937866
+  },
+  {
+    "car": "snowrunner",
+    "biome": "forest",
+    "stockTop": 26.655999999999946,
+    "maxTop": 28.255359999999946,
+    "rackGain": 1.038464135736691,
+    "yawGain": 1.0409761549767442,
+    "slideReduction": 0.08028204269282135,
+    "brakeReduction": 0.06083504474375534
+  },
+  {
+    "car": "snowrunner",
+    "biome": "desert",
+    "stockTop": 26.65599999999995,
+    "maxTop": 28.255359999999946,
+    "rackGain": 1.0384651444872957,
+    "yawGain": 1.0412513256568214,
+    "slideReduction": 0.07789358748870812,
+    "brakeReduction": 0.06033501693501253
+  },
+  {
+    "car": "snowrunner",
+    "biome": "snow",
+    "stockTop": 27.19999999999995,
+    "maxTop": 28.83199999999995,
+    "rackGain": 1.0384525417758002,
+    "yawGain": 1.0420128806657056,
+    "slideReduction": 0.06935864891892063,
+    "brakeReduction": 0.06223248569125328
+  },
+  {
+    "car": "lavacrawler",
+    "biome": "city",
+    "stockTop": 30.379999999999946,
+    "maxTop": 32.20279999999989,
+    "rackGain": 1.036980862900165,
+    "yawGain": 1.0391802361240157,
+    "slideReduction": 0.08363437881351499,
+    "brakeReduction": 0.0609248086481623
+  },
+  {
+    "car": "lavacrawler",
+    "biome": "forest",
+    "stockTop": 30.379999999999946,
+    "maxTop": 32.20279999999989,
+    "rackGain": 1.0369828527654863,
+    "yawGain": 1.0394533144662488,
+    "slideReduction": 0.08308566393484307,
+    "brakeReduction": 0.06091290093192936
+  },
+  {
+    "car": "lavacrawler",
+    "biome": "desert",
+    "stockTop": 30.379999999999946,
+    "maxTop": 32.20279999999989,
+    "rackGain": 1.0369840218461395,
+    "yawGain": 1.0397519520170022,
+    "slideReduction": 0.08033817091293227,
+    "brakeReduction": 0.06090586678902388
+  },
+  {
+    "car": "lavacrawler",
+    "biome": "snow",
+    "stockTop": 30.379999999999946,
+    "maxTop": 32.20279999999989,
+    "rackGain": 1.036977815655257,
+    "yawGain": 1.0406203281029989,
+    "slideReduction": 0.07048841102053038,
+    "brakeReduction": 0.06092690764939235
+  },
+  {
+    "car": "lavacrawler",
+    "biome": "volcanic",
+    "stockTop": 30.999999999999947,
+    "maxTop": 32.8599999999999,
+    "rackGain": 1.0369722167136701,
+    "yawGain": 1.0392791268864308,
+    "slideReduction": 0.08494628578320762,
+    "brakeReduction": 0.06090094282607639
+  },
+  {
+    "car": "ashhauler",
+    "biome": "city",
+    "stockTop": 34.691999999999894,
+    "maxTop": 36.7735199999999,
+    "rackGain": 1.0354113017060285,
+    "yawGain": 1.0375344368981207,
+    "slideReduction": 0.0869786841079152,
+    "brakeReduction": 0.06126472648046488
+  },
+  {
+    "car": "ashhauler",
+    "biome": "forest",
+    "stockTop": 34.6919999999999,
+    "maxTop": 36.7735199999999,
+    "rackGain": 1.0354135964878346,
+    "yawGain": 1.0378261423417336,
+    "slideReduction": 0.086339506367754,
+    "brakeReduction": 0.06053835343262293
+  },
+  {
+    "car": "ashhauler",
+    "biome": "desert",
+    "stockTop": 34.691999999999894,
+    "maxTop": 36.7735199999999,
+    "rackGain": 1.0354149602781872,
+    "yawGain": 1.0381480531457332,
+    "slideReduction": 0.0831537784463825,
+    "brakeReduction": 0.06000790803204403
+  },
+  {
+    "car": "ashhauler",
+    "biome": "snow",
+    "stockTop": 34.6919999999999,
+    "maxTop": 36.7735199999999,
+    "rackGain": 1.0354079914192933,
+    "yawGain": 1.039099960320729,
+    "slideReduction": 0.07193376083812386,
+    "brakeReduction": 0.062411628569478905
+  },
+  {
+    "car": "ashhauler",
+    "biome": "volcanic",
+    "stockTop": 35.39999999999989,
+    "maxTop": 37.523999999999894,
+    "rackGain": 1.0354001283815342,
+    "yawGain": 1.037638537378569,
+    "slideReduction": 0.08851422134167863,
+    "brakeReduction": 0.061053741754373836
+  }
+]

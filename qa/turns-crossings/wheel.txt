@@ -1,0 +1,14 @@
+PASS actual CSS declarations: 48 portrait/landscape/safe-area cases; 2× target and explicit collision caps, fuel, D/R, biome and HUD clearance.
+320×480: 224px / requested 224px
+320×568: 248px / requested 264px (fit cap)
+360×640: 264px / requested 264px
+375×667: 264px / requested 264px
+390×844: 264px / requested 264px
+500×700: 264px / requested 264px
+540×960: 370px / requested 370px
+760×600: 370px / requested 370px
+844×390: 202px / requested 224px (fit cap)
+568×320: 132px / requested 184px (fit cap)
+501×320: 132px / requested 184px (fit cap)
+1366×768: 370px / requested 370px
+PASS real angular input at 224/264/370 px: ±135° sensitivity, image-only regrab, gas/reverse/camera pointers, dead center/wrap, resize cancellation and regrab. No browser or GPU rendering claim.

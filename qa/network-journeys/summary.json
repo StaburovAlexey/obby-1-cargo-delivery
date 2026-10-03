@@ -1,0 +1,605 @@
+{
+  "passed": true,
+  "verifiedChecks": 100,
+  "coreJourneys": 70,
+  "appJourneys": 5,
+  "mechanicsChecks": 25,
+  "routeLength": 10829.072000445114,
+  "firstReward": {
+    "passed": true,
+    "id": "pickup",
+    "upgrade": "stock",
+    "branch": "primary",
+    "target": "delivery-checkpoint-01",
+    "targetIndex": 0,
+    "expect": "delivery",
+    "outcome": "delivery",
+    "dt": 0.05,
+    "frames": 340,
+    "seconds": 17,
+    "actualTravel": 176.228,
+    "finalProgress": 175.618,
+    "finalDistance": 175.62,
+    "money": 110,
+    "refills": 0,
+    "stationIds": [],
+    "biomes": [
+      "city"
+    ],
+    "edges": [
+      "city--17-2000"
+    ],
+    "forks": [],
+    "gaps": [
+      {
+        "from": "spawn",
+        "to": "delivery-checkpoint-01",
+        "travel": 176.228,
+        "range": 520
+      }
+    ],
+    "maxStep": 0.55,
+    "maxOffset": 8.155,
+    "minClearance": 0.012,
+    "heightRange": [
+      -0.03,
+      0.337
+    ],
+    "blocked": 0
+  },
+  "vehicles": [
+    {
+      "id": "pickup",
+      "name": "Пикап",
+      "price": 0,
+      "capacity": 100,
+      "consumption": 0.19230769230769232,
+      "stock": {
+        "range": 520,
+        "lastCheckpoint": 4,
+        "lastCheckpointProgress": 1220,
+        "measuredFinalGap": [
+          431.322,
+          431.871
+        ],
+        "branches": [
+          "primary",
+          "alternate"
+        ],
+        "nextCheckpoint": 5,
+        "emptyAtProgress": [
+          1740.821,
+          1740.885
+        ]
+      },
+      "max": {
+        "range": 551.2,
+        "lastCheckpoint": 4,
+        "lastCheckpointProgress": 1220,
+        "measuredFinalGap": [
+          431.273,
+          432.441
+        ],
+        "branches": [
+          "primary",
+          "alternate"
+        ],
+        "nextCheckpoint": 5,
+        "emptyAtProgress": [
+          1772.362,
+          1772.429
+        ]
+      }
+    },
+    {
+      "id": "citycourier",
+      "name": "Городской курьер",
+      "price": 900,
+      "capacity": 125,
+      "consumption": 0.17857142857142858,
+      "stock": {
+        "range": 700,
+        "lastCheckpoint": 5,
+        "lastCheckpointProgress": 1800,
+        "measuredFinalGap": [
+          575.211,
+          575.211
+        ],
+        "branches": [
+          "primary",
+          "alternate"
+        ],
+        "nextCheckpoint": 6,
+        "emptyAtProgress": [
+          2502.602,
+          2503.163
+        ]
+      },
+      "max": {
+        "range": 742,
+        "lastCheckpoint": 5,
+        "lastCheckpointProgress": 1800,
+        "measuredFinalGap": [
+          575.621,
+          576.284
+        ],
+        "branches": [
+          "primary",
+          "alternate"
+        ],
+        "nextCheckpoint": 6,
+        "emptyAtProgress": [
+          2543.757,
+          2544.358
+        ]
+      }
+    },
+    {
+      "id": "rover",
+      "name": "Внедорожник",
+      "price": 1200,
+      "capacity": 140,
+      "consumption": 0.14,
+      "stock": {
+        "range": 1000,
+        "lastCheckpoint": 7,
+        "lastCheckpointProgress": 3480,
+        "measuredFinalGap": [
+          895.841,
+          895.843
+        ],
+        "branches": [
+          "primary",
+          "alternate"
+        ],
+        "nextCheckpoint": 8,
+        "emptyAtProgress": [
+          4483.551,
+          4483.906
+        ]
+      },
+      "max": {
+        "range": 1060,
+        "lastCheckpoint": 7,
+        "lastCheckpointProgress": 3480,
+        "measuredFinalGap": [
+          896.187,
+          896.949
+        ],
+        "branches": [
+          "primary",
+          "alternate"
+        ],
+        "nextCheckpoint": 8,
+        "emptyAtProgress": [
+          4542.572,
+          4543.586
+        ]
+      }
+    },
+    {
+      "id": "foresthauler",
+      "name": "Лесовоз",
+      "price": 3200,
+      "capacity": 190,
+      "consumption": 0.13380281690140844,
+      "stock": {
+        "range": 1420,
+        "lastCheckpoint": 8,
+        "lastCheckpointProgress": 4730,
+        "measuredFinalGap": [
+          1243.322,
+          1243.753
+        ],
+        "branches": [
+          "primary",
+          "alternate"
+        ],
+        "nextCheckpoint": 9,
+        "emptyAtProgress": [
+          6145.366,
+          6145.445
+        ]
+      },
+      "max": {
+        "range": 1505.2,
+        "lastCheckpoint": 9,
+        "lastCheckpointProgress": 6170,
+        "measuredFinalGap": [
+          1440.502,
+          1441.232
+        ],
+        "branches": [
+          "primary",
+          "alternate"
+        ],
+        "nextCheckpoint": 10,
+        "emptyAtProgress": [
+          7673.405,
+          7673.493
+        ]
+      }
+    },
+    {
+      "id": "van",
+      "name": "Фургон",
+      "price": 3600,
+      "capacity": 180,
+      "consumption": 0.1,
+      "stock": {
+        "range": 1800,
+        "lastCheckpoint": 10,
+        "lastCheckpointProgress": 7870,
+        "measuredFinalGap": [
+          1698.62,
+          1698.684
+        ],
+        "branches": [
+          "primary",
+          "alternate"
+        ],
+        "nextCheckpoint": 11,
+        "emptyAtProgress": [
+          9665.874,
+          9666.03
+        ]
+      },
+      "max": {
+        "range": 1908,
+        "lastCheckpoint": 10,
+        "lastCheckpointProgress": 7870,
+        "measuredFinalGap": [
+          1698.935,
+          1699.968
+        ],
+        "branches": [
+          "primary",
+          "alternate"
+        ],
+        "nextCheckpoint": 11,
+        "emptyAtProgress": [
+          9773.352,
+          9774.083
+        ]
+      }
+    },
+    {
+      "id": "desertscout",
+      "name": "Песчаный разведчик",
+      "price": 4800,
+      "capacity": 150,
+      "consumption": 0.06666666666666667,
+      "stock": {
+        "range": 2250,
+        "lastCheckpoint": 11,
+        "lastCheckpointProgress": 9870,
+        "measuredFinalGap": [
+          2000.538,
+          2000.922
+        ],
+        "branches": [
+          "primary",
+          "alternate"
+        ],
+        "nextCheckpoint": null,
+        "emptyAtProgress": null
+      },
+      "max": {
+        "range": 2385,
+        "lastCheckpoint": 11,
+        "lastCheckpointProgress": 9870,
+        "measuredFinalGap": [
+          2000.64,
+          2000.711
+        ],
+        "branches": [
+          "primary",
+          "alternate"
+        ],
+        "nextCheckpoint": null,
+        "emptyAtProgress": null
+      }
+    },
+    {
+      "id": "snowgrip",
+      "name": "Ледовый вездеход",
+      "price": 5200,
+      "capacity": 145,
+      "consumption": 0.05178571428571429,
+      "stock": {
+        "range": 2800,
+        "lastCheckpoint": 11,
+        "lastCheckpointProgress": 9870,
+        "measuredFinalGap": [
+          2000.624,
+          2001.972
+        ],
+        "branches": [
+          "primary",
+          "alternate"
+        ],
+        "nextCheckpoint": null,
+        "emptyAtProgress": null
+      },
+      "max": {
+        "range": 2968,
+        "lastCheckpoint": 11,
+        "lastCheckpointProgress": 9870,
+        "measuredFinalGap": [
+          2000.491,
+          2001.699
+        ],
+        "branches": [
+          "primary",
+          "alternate"
+        ],
+        "nextCheckpoint": null,
+        "emptyAtProgress": null
+      }
+    },
+    {
+      "id": "snowrunner",
+      "name": "Полярный экспресс",
+      "price": 5600,
+      "capacity": 185,
+      "consumption": 0.05285714285714286,
+      "stock": {
+        "range": 3500,
+        "lastCheckpoint": 11,
+        "lastCheckpointProgress": 9870,
+        "measuredFinalGap": [
+          2000.58,
+          2002.661
+        ],
+        "branches": [
+          "primary",
+          "alternate"
+        ],
+        "nextCheckpoint": null,
+        "emptyAtProgress": null
+      },
+      "max": {
+        "range": 3710,
+        "lastCheckpoint": 11,
+        "lastCheckpointProgress": 9870,
+        "measuredFinalGap": [
+          2001.525,
+          2001.69
+        ],
+        "branches": [
+          "primary",
+          "alternate"
+        ],
+        "nextCheckpoint": null,
+        "emptyAtProgress": null
+      }
+    },
+    {
+      "id": "lavacrawler",
+      "name": "Лавовый тягач",
+      "price": 6200,
+      "capacity": 165,
+      "consumption": 0.0375,
+      "stock": {
+        "range": 4400,
+        "lastCheckpoint": 11,
+        "lastCheckpointProgress": 9870,
+        "measuredFinalGap": [
+          2000.895,
+          2003.942
+        ],
+        "branches": [
+          "primary",
+          "alternate"
+        ],
+        "nextCheckpoint": null,
+        "emptyAtProgress": null
+      },
+      "max": {
+        "range": 4664,
+        "lastCheckpoint": 11,
+        "lastCheckpointProgress": 9870,
+        "measuredFinalGap": [
+          2001.654,
+          2003.283
+        ],
+        "branches": [
+          "primary",
+          "alternate"
+        ],
+        "nextCheckpoint": null,
+        "emptyAtProgress": null
+      }
+    },
+    {
+      "id": "ashhauler",
+      "name": "Пепельный караван",
+      "price": 7200,
+      "capacity": 210,
+      "consumption": 0.038181818181818185,
+      "stock": {
+        "range": 5500,
+        "lastCheckpoint": 11,
+        "lastCheckpointProgress": 9870,
+        "measuredFinalGap": [
+          2001.47,
+          2003.225
+        ],
+        "branches": [
+          "primary",
+          "alternate"
+        ],
+        "nextCheckpoint": null,
+        "emptyAtProgress": null
+      },
+      "max": {
+        "range": 5830,
+        "lastCheckpoint": 11,
+        "lastCheckpointProgress": 9870,
+        "measuredFinalGap": [
+          2000.262,
+          2000.269
+        ],
+        "branches": [
+          "primary",
+          "alternate"
+        ],
+        "nextCheckpoint": null,
+        "emptyAtProgress": null
+      }
+    }
+  ],
+  "gaps": [
+    {
+      "checkpoint": 1,
+      "progress": 180,
+      "trueArcDistance": 180.00282417426246,
+      "reward": 110,
+      "centerlineGap": 180.00282417426246,
+      "measuredServiceGap": [
+        176.157,
+        176.572
+      ]
+    },
+    {
+      "checkpoint": 2,
+      "progress": 440,
+      "trueArcDistance": 440.21632098589953,
+      "reward": 260,
+      "centerlineGap": 260.21349681163707,
+      "measuredServiceGap": [
+        254.299,
+        256.765
+      ]
+    },
+    {
+      "checkpoint": 3,
+      "progress": 780,
+      "trueArcDistance": 780.3293132006197,
+      "reward": 470,
+      "centerlineGap": 340.1129922147202,
+      "measuredServiceGap": [
+        333.561,
+        337.031
+      ]
+    },
+    {
+      "checkpoint": 4,
+      "progress": 1220,
+      "trueArcDistance": 1220.6242376947482,
+      "reward": 730,
+      "centerlineGap": 440.2949244941285,
+      "measuredServiceGap": [
+        434.979,
+        439.756
+      ]
+    },
+    {
+      "checkpoint": 5,
+      "progress": 1800,
+      "trueArcDistance": 1800.9351481402832,
+      "reward": 1080,
+      "centerlineGap": 580.310910445535,
+      "measuredServiceGap": [
+        576.411,
+        580.317
+      ]
+    },
+    {
+      "checkpoint": 6,
+      "progress": 2580,
+      "trueArcDistance": 2581.539838100352,
+      "reward": 1550,
+      "centerlineGap": 780.6046899600688,
+      "measuredServiceGap": [
+        771.395,
+        775.445
+      ]
+    },
+    {
+      "checkpoint": 7,
+      "progress": 3480,
+      "trueArcDistance": 3485.3712195604385,
+      "reward": 2090,
+      "centerlineGap": 903.8313814600865,
+      "measuredServiceGap": [
+        896.753,
+        898.481
+      ]
+    },
+    {
+      "checkpoint": 8,
+      "progress": 4730,
+      "trueArcDistance": 4736.220987494396,
+      "reward": 2840,
+      "centerlineGap": 1250.849767933957,
+      "measuredServiceGap": [
+        1242.865,
+        1245.804
+      ]
+    },
+    {
+      "checkpoint": 9,
+      "progress": 6170,
+      "trueArcDistance": 6184.046467623946,
+      "reward": 3710,
+      "centerlineGap": 1447.8254801295507,
+      "measuredServiceGap": [
+        1441.975,
+        1443.717
+      ]
+    },
+    {
+      "checkpoint": 10,
+      "progress": 7870,
+      "trueArcDistance": 7890.3148003410815,
+      "reward": 4730,
+      "centerlineGap": 1706.2683327171353,
+      "measuredServiceGap": [
+        1699.38,
+        1702.113
+      ]
+    },
+    {
+      "checkpoint": 11,
+      "progress": 9870,
+      "trueArcDistance": 9898.461524002516,
+      "reward": 5940,
+      "centerlineGap": 2008.1467236614344,
+      "measuredServiceGap": [
+        2000.262,
+        2003.225
+      ]
+    }
+  ],
+  "sourceHashes": {
+    "route-network.js": "c6f064aabb2ae1baeeaf3cfd260a3dfad8ceeda8e98b30b8104b7c88be5faba7",
+    "route-network-config.js": "aeedff2941f42134ee5518233be894a5f6e5c41ac8031fad13a2f90922251178",
+    "road-layout.js": "4705972cf548ff56a004b63a5d85ba41f67caf2b1fe16572c908abd3d10b8685",
+    "driving-ground.js": "157ac92a62df8858ba2af419e334121966214aa59dd91b063e6e30a7d4e14c84",
+    "driving-model.js": "652cc1898c935babc89ed641b085facaba58c514a508493942ca98fa2caa3b2b",
+    "city-driving.js": "a33f82d66e2fa50fb281fb28e8231decb76ef216557110fd2881f4b3338f4b82",
+    "gameplay.js": "99abbe4fa1e5d51c8a4eac1618e8f1f9e7be357eac58c70f2e97c793f0a3e5e2",
+    "economy-config.js": "42714d86b7b9970f15c91a3a005084038d10ed1ae3d7d454be2d6d2de5648643",
+    "vehicle-upgrades.js": "2db57418905282a8de86b97557bda9e69573d587057a6b41b2a4834d6ac0b495",
+    "biome-surfaces.js": "693a42f1188ef334fc0682a663fc121751fedc0e90b38c140e067c3cbe003f80",
+    "road-hazards.js": "2e5fd24fb48bd2041a935c3168a039b60403d37a216ab316288b483b4cd26ebc",
+    "garage-scene.js": "13d4a7fc38bc53ae02e26e9a04b98a8f05e391843b389a693b39237d21a6b95b",
+    "app.js": "ab083e3a484fdadb6abd9ed1ddced0454020abdb3ad961b5ab6945bbbacc3a02",
+    "network-scene.js": "19b82c704e091b788054796c291fdd8078d01b7d1d35866acff20f507141a8ee",
+    "road-hazards-scene.js": "647728fdc6de18c30ace00a57ce2b255afc266ac6f6284302126f3ff9968f817",
+    "wheel-particles.js": "4393a9ef61623d0a7a6d89934cc4acb984b7a768a954fdc8649ed5c8f070f743"
+  },
+  "limitations": [
+    "Renderer-free Node fixtures with actual Three.js, not browser/GPU/mobile validation.",
+    "Steering controller follows a safe center corridor and protected checkpoint approaches. It does not prove arbitrary user inputs cannot collide.",
+    "Fuel uses production horizontal contact-resolved travel; checkpoint distances are shared 3D graph arc distances.",
+    "The farthest checkpoint is measured for the tested driving path and frame schedules, not a proof that no fuel-minimizing path can differ by a few metres."
+  ],
+  "finalAppValidation": {
+    "passed": true,
+    "checks": 5,
+    "freshPickupOnly": true,
+    "frozenRuntime": true
+  }
+}

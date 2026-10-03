@@ -1,0 +1,51 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> urban-route-procedural-three@1.70.0 test:cosmo
+> node tests/cosmo-vehicles.mjs && node tests/cosmo-garage.mjs && node tests/cosmo-ground-fit.mjs && node tests/cosmo-fit-review.mjs && node tests/cosmo-bridge-support.mjs && node tests/cosmo-app.mjs && node tests/cosmo-wheel-particles.mjs
+
+PASS pickup: coupe, 4 pivoted wheels, 2290 triangles, 12 primitives
+PASS citycourier: police, 4 pivoted wheels, 2382 triangles, 12 primitives
+PASS rover: jeep, 4 pivoted wheels, 2996 triangles, 12 primitives
+PASS foresthauler: van, 4 pivoted wheels, 2110 triangles, 12 primitives
+PASS van: kamaro, 4 pivoted wheels, 2444 triangles, 7 primitives
+PASS desertscout: ghini, 4 pivoted wheels, 2226 triangles, 11 primitives
+PASS snowgrip: rally, 4 pivoted wheels, 2197 triangles, 12 primitives
+PASS snowrunner: armor, 4 pivoted wheels, 2450 triangles, 12 primitives
+PASS lavacrawler: lamb, 4 pivoted wheels, 1924 triangles, 7 primitives
+PASS ashhauler: fenyr, 4 pivoted wheels, 2188 triangles, 12 primitives
+PASS all ten source palettes, +Z→-Z, uniform fit, grounding, articulation and cargo metadata
+PASS cached bytes, independent resources, late-result disposal, idempotence and bitmap cleanup
+Cosmo CPU adapter checks passed: 23207 triangles / 109 primitives. No GPU/browser verification performed.
+PASS Cosmo GLB-only garage, actual application hook, bounded loading, stable identities, pose/reset, rebuild, explicit failures and late-disposal. CPU/mock DOM only.
+{"passed":true,"poses":540,"minimumClearance":0.03218948476843053,"largestLowestTireClearance":0.059386457369480894,"scope":"Actual GLB vertices and road math; no GPU"}
+PASS pickup: exact GLB, uniform fit, forward/axles, palette scope, articulation, cargo support, owned disposal
+PASS citycourier: exact GLB, uniform fit, forward/axles, palette scope, articulation, cargo support, owned disposal
+PASS rover: exact GLB, uniform fit, forward/axles, palette scope, articulation, cargo support, owned disposal
+PASS foresthauler: exact GLB, uniform fit, forward/axles, palette scope, articulation, cargo support, owned disposal
+PASS van: exact GLB, uniform fit, forward/axles, palette scope, articulation, cargo support, owned disposal
+PASS desertscout: exact GLB, uniform fit, forward/axles, palette scope, articulation, cargo support, owned disposal
+PASS snowgrip: exact GLB, uniform fit, forward/axles, palette scope, articulation, cargo support, owned disposal
+PASS snowrunner: exact GLB, uniform fit, forward/axles, palette scope, articulation, cargo support, owned disposal
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+1948 !== 1924
+
+    at file:///workspace/scratch/e6939d35b3a6/city-help-settings/tests/cosmo-fit-review.mjs:34:10 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 1948,
+  expected: 1924,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

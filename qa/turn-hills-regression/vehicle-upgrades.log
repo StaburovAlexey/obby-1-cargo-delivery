@@ -1,0 +1,10 @@
+PASS All offers are explicit, bounded, affordable-scale and descriptor-safe
+PASS 100 base/max car-biome combinations improve real launch, speed, rack response, braking and lateral recovery: {"combinations":100,"maxSpeedMps":37.523999999999894}
+PASS Every stock next car beats the previous fully upgraded car in its target and every earlier biome: {"comparisons":29,"minimumSpeedAdvantage":0.05008152806894928,"minimumLaunchAdvantage":0.04606257052124052,"minimumBrakeImprovement":0.016232070999992576,"minimumSlideImprovement":0.010687314655435376}
+PASS Driving upgrades act through physical forces; tank upgrades extend range without changing consumption
+PASS Maximum upgrades retain finite stable D/R turns, recovery, gradual gear interlocks and maximum-grade progress: {"maxSlipDegrees":10.82111762025646,"maxYawRadS":0.9104865524282225,"maxVelocityStepMps":0.2385290981893116,"maximumGradePercent":7.5,"minGradeSpeedMps":1.7995633613156603}
+PASS Max-upgrade 30/60/120Hz timing, stalls, malformed upgrade callbacks and high-speed wall sweeps are safe
+PASS Actual movement time is refresh-independent and cannot replay idle or wall-contact earnings: [{"fps":30,"movingSeconds":5.983333333333323,"distance":46.911576165357765,"emptyFrames":0},{"fps":60,"movingSeconds":5.983333333333317,"distance":46.911576165357765,"emptyFrames":0},{"fps":120,"movingSeconds":5.98333333333342,"distance":46.911576165357765,"emptyFrames":0},{"fps":144,"movingSeconds":5.98333333333342,"distance":46.911576165357765,"emptyFrames":144},{"fps":240,"movingSeconds":5.98333333333342,"distance":46.911576165357765,"emptyFrames":720}]
+PASS Maximum upgrades cross all biome boundaries without discontinuities, including reverse
+
+8 upgrade groups passed; 100 measured combinations. No browser/GPU claim.

@@ -1,0 +1,7 @@
+PASS OBB contacts agree with independent polygon SAT and never collide with empty AABB corners: {"comparisons":11880,"emptyAabbCornersRejected":848}
+PASS Soft patches preserve full base profiles, blend over 2.5m and leave all other asphalt untouched: {"profiles":40,"edgeBlendMetres":2.5}
+PASS All 80 stock/max dune-and-ice D/R crossings leave the patch and regain their exact base surface: {"cases":80}
+PASS Swept solver stops both gears at thin logs even at 40m/s, without corner tunnelling: {"cases":6,"logThicknessMetres":1.25,"sweepStepMetres":0.12}
+PASS Static hazards leave a wide side corridor through every local approach: {"bodySamples":3024,"vehicleWidth":3.1,"vehicleLength":5.76,"minimumFreeCorridorMetres":8}
+PASS All static render footprints equal their physics bounds and grounded basalt remains visible: {"solids":12,"vertices":1688,"maximumDaylight":-0.005994173842388761,"maximumBurial":0.007072100179949636,"maximumHazards":112,"maximumRocks":24}
+6 compact static-hazard groups passed.

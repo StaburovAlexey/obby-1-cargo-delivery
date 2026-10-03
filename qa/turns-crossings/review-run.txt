@@ -1,0 +1,14 @@
+PASS Route length, bridge identities and progression are preserved
+PASS Alternating city turns have valid derivatives, offsets and no nonlocal road overlaps
+PASS More movers preserve clear intervals, exclusions and bidirectional terrain sightlines
+PASS Terrain cannot hide the top of a mover from either 100 metre approach
+PASS Every actual cycle travels for eight seconds each way with dwell counted separately
+PASS All ten actual rendered vehicle widths have an immediate clear escape corridor
+PASS Real Three.js instance transforms match live colliders without pool growth
+PASS App menus, tab visibility, blur and overview freeze movers and bound resume time
+{
+  "passed": true,
+  "checks": 8,
+  "failures": [],
+  "changedDuringRun": []
+}

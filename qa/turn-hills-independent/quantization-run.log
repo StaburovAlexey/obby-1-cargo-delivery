@@ -1,0 +1,2 @@
+PASS Fork quantization stays bounded and does not create vehicle-support steps {"triangles":23752,"maxGradientError":0.003805895462773224,"maxHeightError":0.0003579775943691743,"maxSupportResidual":0.000021232908483881374,"supportChecks":1422,"notes":"Bounded Float32 facet normal quantization is approximately 0.22 degrees on a sub-mm band; rendered and collision normals agree."}
+1/1 groups passed; runtime changed: none

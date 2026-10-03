@@ -1,0 +1,117 @@
+PASS five preview destinations are inside the intended biome and reject unknown or occupied points
+PASS every configured car has finite five-biome dynamics across the full30m road and smooth boundaries
+PASS volcanic vibration is strictly cosmetic and adds no displacement, speed, tire motion or fuel distance
+PASS preview control is driving-only and hidden/stale actions cannot board a locked car or enter test mode
+PASS opening the menu releases both pointers, freezes physics/fuel/camera and blocks new driving input
+PASS Escape, close, backdrop and pointer cancellation do not teleport or invalidate cargo
+PASS invalid and occupied preview destinations leave position, payable cargo and career unchanged
+PASS all configured cars travel to all5biomes with current fuel/career preserved and complete motion reset
+PASS repeated previews and delivery circles cannot pay; overview and same-car re-entry cannot restore cargo
+PASS refueling and expired transient notices retain the test warning; zero fuel returns safely without payout
+PASS reload migrates old three-car saves to schema 2 without restoring preview session state
+PASS all configured purchases debit once and all ten ownership IDs survive a schema-2 save
+PASS returning to the garage creates a fresh legitimate run that can pay exactly once
+PASS unavailable storage does not turn test travel into a payout or erase career state
+PASS resize, blur and context loss cannot reactivate controls behind the biome modal
+PASS particles use one fixed instanced pool, stay cosmetic and never emit while stationary or in the city
+PASS actual app emits only after movement and clears particles on teleport, garage return and rebuild
+PASS modal markup and layout explicitly fit short portrait/landscape viewports without leaving fixed content offscreen
+{
+  "passed": true,
+  "checks": 18,
+  "failures": 0,
+  "environment": "Node actual Three.js + mock DOM/renderer; no browser, GPU, device or touch-hardware validation",
+  "reports": [
+    {
+      "name": "five preview destinations are inside the intended biome and reject unknown or occupied points",
+      "passed": true
+    },
+    {
+      "name": "every configured car has finite five-biome dynamics across the full30m road and smooth boundaries",
+      "passed": true,
+      "vehicleCount": 10,
+      "combinations": 50
+    },
+    {
+      "name": "volcanic vibration is strictly cosmetic and adds no displacement, speed, tire motion or fuel distance",
+      "passed": true
+    },
+    {
+      "name": "preview control is driving-only and hidden/stale actions cannot board a locked car or enter test mode",
+      "passed": true
+    },
+    {
+      "name": "opening the menu releases both pointers, freezes physics/fuel/camera and blocks new driving input",
+      "passed": true
+    },
+    {
+      "name": "Escape, close, backdrop and pointer cancellation do not teleport or invalidate cargo",
+      "passed": true
+    },
+    {
+      "name": "invalid and occupied preview destinations leave position, payable cargo and career unchanged",
+      "passed": true
+    },
+    {
+      "name": "all configured cars travel to all5biomes with current fuel/career preserved and complete motion reset",
+      "passed": true,
+      "vehicles": [
+        "pickup",
+        "citycourier",
+        "rover",
+        "foresthauler",
+        "van",
+        "desertscout",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "tested": 50
+    },
+    {
+      "name": "repeated previews and delivery circles cannot pay; overview and same-car re-entry cannot restore cargo",
+      "passed": true
+    },
+    {
+      "name": "refueling and expired transient notices retain the test warning; zero fuel returns safely without payout",
+      "passed": true
+    },
+    {
+      "name": "reload migrates old three-car saves to schema 2 without restoring preview session state",
+      "passed": true
+    },
+    {
+      "name": "all configured purchases debit once and all ten ownership IDs survive a schema-2 save",
+      "passed": true
+    },
+    {
+      "name": "returning to the garage creates a fresh legitimate run that can pay exactly once",
+      "passed": true
+    },
+    {
+      "name": "unavailable storage does not turn test travel into a payout or erase career state",
+      "passed": true
+    },
+    {
+      "name": "resize, blur and context loss cannot reactivate controls behind the biome modal",
+      "passed": true,
+      "rendererFreeViewportCases": 5
+    },
+    {
+      "name": "particles use one fixed instanced pool, stay cosmetic and never emit while stationary or in the city",
+      "passed": true,
+      "capacity": 96,
+      "maximumObserved": 32,
+      "stressFrames": 2000
+    },
+    {
+      "name": "actual app emits only after movement and clears particles on teleport, garage return and rebuild",
+      "passed": true
+    },
+    {
+      "name": "modal markup and layout explicitly fit short portrait/landscape viewports without leaving fixed content offscreen",
+      "passed": true
+    }
+  ]
+}

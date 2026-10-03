@@ -1,0 +1,38 @@
+{
+  "kind": "Actual final Three.js geometry, rendered offline in Blender; not browser/WebGL",
+  "sourceSHA256": {
+    "network-scene.js": "19b82c704e091b788054796c291fdd8078d01b7d1d35866acff20f507141a8ee",
+    "route-network.js": "52b9464e7d80ac1dfcedf94448127bfbe6138999fc65387a4a78a19527aa3824",
+    "route-network-config.js": "87aed2fe101c85b01e5debc676cb203be730f1e1af587808443b740ec27e6efd",
+    "road-material.js": "90a81ae425b987e980c8d94b73ce5311f4121632ae99e4f7dfaaafab8f48067a"
+  },
+  "scenes": [
+    {
+      "id": "desert-hill",
+      "q": 5480,
+      "center": [
+        -31.897847041050454,
+        60,
+        -3547.378640275569
+      ],
+      "radius": 650,
+      "camera": [
+        -220,
+        -650,
+        180
+      ],
+      "target": [
+        0,
+        0,
+        -8
+      ],
+      "projection": "ORTHO",
+      "ortho": 1350,
+      "resolution": [
+        1600,
+        600
+      ],
+      "label": "Actual desert road rises from 40m to a 60m crest and falls to 42m; shared symmetric fork surface"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "maxTipLift": 0,
+  "maxLift": 0.04240368780390469,
+  "cornerCases": 288,
+  "cornerMinimum": 0.0027448129706209605,
+  "cornerFailures": [],
+  "cases": 200,
+  "directionCounts": {
+    "front": 50,
+    "rear": 50,
+    "left": 50,
+    "right": 50
+  },
+  "minDeckClearance": 0.002737400581943706,
+  "failures": [],
+  "scope": "Production THREE math and actual truck mesh; offline only"
+}

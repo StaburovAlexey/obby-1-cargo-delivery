@@ -1,0 +1,9 @@
+# Complete: labeled snapshot career budget
+
+The concise finding is approximately **4 hours** at unchanged prices for one voluntary seven-car path. Scaling every trip ±5% gives **3.83–4.22 hours**. This does not establish a 7–8-hour human average. Optional all-ten ownership is about4.5 hours in the same assumptions; a tested expert skip witness is about1.64 hours to first finish. Human behavior remains assumed.
+
+Read `README.md` for the concrete purchase/build path, upfront full-max option, optional expert skipping, bounded sensitivities and recommendation to try the approved route before adding repetitive price grind. `budget-results.json` and `test-model.mjs` cover15 scenarios and256 optional ordered subsets. All checks passed. No prices, rewards, schools, upgrade rules or runtime files were edited by this analysis.
+
+The timing inputs are the prior integrated-runtime snapshot with `route-network.js` hash `c7aa548439ff88f00ab09120e97d2bcf318815870a56efba88caba4218284080`. Exact current-runtime timing compatibility is **not** claimed. The final source is `572094adc2d74ac3c8407522abac15bb98db136c17f29343ede8cad5967dfc29`; fresh final reference witnesses reproduce primary max631.45s /tank-only685.30s, with alternate631.40s. Intermediate acquisition rows were not rerun after final fork-tip relief, so the budget stays an explicitly labeled snapshot. The final witness reports live in `qa/current-route-calibration/final-witness/`; the verifier confirmed both final witness reports complete/passed with no drift at12:33UTC, including tank9 failure and starter invariants, plus17,500 support probes. Publication remains owned by the parent task.
+
+The older13.59km inputs and never-run draft are retained only as superseded provenance. No new analysis or artifact writes are pending from this worker. Publication is owned by the parent task and is not blocked by this budget.

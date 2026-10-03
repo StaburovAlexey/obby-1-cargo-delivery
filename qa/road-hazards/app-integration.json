@@ -1,0 +1,256 @@
+{
+  "rendererFree": true,
+  "checks": [
+    {
+      "name": "100 real app biome transitions preserve ownership, fuel and reward protection for stock/max cars",
+      "passed": true,
+      "details": {
+        "cases": 100
+      }
+    },
+    {
+      "name": "Hazard contact participates in actual swept solver, fuel and D/R for all ten cars",
+      "passed": true,
+      "details": [
+        {
+          "id": "pickup",
+          "reverse": false,
+          "blocked": 74,
+          "maxStep": 0.582096578471976
+        },
+        {
+          "id": "pickup",
+          "reverse": true,
+          "blocked": 77,
+          "maxStep": 0.5909548488540395
+        },
+        {
+          "id": "citycourier",
+          "reverse": false,
+          "blocked": 76,
+          "maxStep": 0.6615965784719151
+        },
+        {
+          "id": "citycourier",
+          "reverse": true,
+          "blocked": 79,
+          "maxStep": 0.6702315294352275
+        },
+        {
+          "id": "rover",
+          "reverse": false,
+          "blocked": 76,
+          "maxStep": 0.7501073385384416
+        },
+        {
+          "id": "rover",
+          "reverse": true,
+          "blocked": 79,
+          "maxStep": 0.7519833208061755
+        },
+        {
+          "id": "foresthauler",
+          "reverse": false,
+          "blocked": 78,
+          "maxStep": 0.8559109671762144
+        },
+        {
+          "id": "foresthauler",
+          "reverse": true,
+          "blocked": 80,
+          "maxStep": 0.8577979753123373
+        },
+        {
+          "id": "van",
+          "reverse": false,
+          "blocked": 77,
+          "maxStep": 0.9722982731295815
+        },
+        {
+          "id": "van",
+          "reverse": true,
+          "blocked": 80,
+          "maxStep": 0.9741940952691266
+        },
+        {
+          "id": "desertscout",
+          "reverse": false,
+          "blocked": 78,
+          "maxStep": 1.109850815336472
+        },
+        {
+          "id": "desertscout",
+          "reverse": true,
+          "blocked": 80,
+          "maxStep": 1.1117531461269436
+        },
+        {
+          "id": "snowgrip",
+          "reverse": false,
+          "blocked": 78,
+          "maxStep": 1.263277331614745
+        },
+        {
+          "id": "snowgrip",
+          "reverse": true,
+          "blocked": 80,
+          "maxStep": 1.2651848011059883
+        },
+        {
+          "id": "snowrunner",
+          "reverse": false,
+          "blocked": 77,
+          "maxStep": 1.4378690435540875
+        },
+        {
+          "id": "snowrunner",
+          "reverse": true,
+          "blocked": 79,
+          "maxStep": 1.4397789810411155
+        },
+        {
+          "id": "lavacrawler",
+          "reverse": false,
+          "blocked": 76,
+          "maxStep": 1.6389146732013273
+        },
+        {
+          "id": "lavacrawler",
+          "reverse": true,
+          "blocked": 78,
+          "maxStep": 1.6408276362906804
+        },
+        {
+          "id": "ashhauler",
+          "reverse": false,
+          "blocked": 77,
+          "maxStep": 1.8717069131146218
+        },
+        {
+          "id": "ashhauler",
+          "reverse": true,
+          "blocked": 79,
+          "maxStep": 1.8736198762036338
+        }
+      ]
+    },
+    {
+      "name": "Rock simulation pauses for menus, blur, hidden, overview and context loss; resets do not farm",
+      "passed": true,
+      "details": {
+        "warningSeconds": 4.5,
+        "fallSeconds": 1.2
+      }
+    },
+    {
+      "name": "Soft patches modify only their finite footprints and are wired into all actual car models",
+      "passed": true,
+      "details": [
+        {
+          "id": "pickup",
+          "type": "dune",
+          "gripRatio": 0.95
+        },
+        {
+          "id": "pickup",
+          "type": "ice",
+          "gripRatio": 0.62
+        },
+        {
+          "id": "citycourier",
+          "type": "dune",
+          "gripRatio": 0.95
+        },
+        {
+          "id": "citycourier",
+          "type": "ice",
+          "gripRatio": 0.62
+        },
+        {
+          "id": "rover",
+          "type": "dune",
+          "gripRatio": 0.95
+        },
+        {
+          "id": "rover",
+          "type": "ice",
+          "gripRatio": 0.62
+        },
+        {
+          "id": "foresthauler",
+          "type": "dune",
+          "gripRatio": 0.95
+        },
+        {
+          "id": "foresthauler",
+          "type": "ice",
+          "gripRatio": 0.62
+        },
+        {
+          "id": "van",
+          "type": "dune",
+          "gripRatio": 0.9499999999999998
+        },
+        {
+          "id": "van",
+          "type": "ice",
+          "gripRatio": 0.62
+        },
+        {
+          "id": "desertscout",
+          "type": "dune",
+          "gripRatio": 0.95
+        },
+        {
+          "id": "desertscout",
+          "type": "ice",
+          "gripRatio": 0.62
+        },
+        {
+          "id": "snowgrip",
+          "type": "dune",
+          "gripRatio": 0.9499999999999998
+        },
+        {
+          "id": "snowgrip",
+          "type": "ice",
+          "gripRatio": 0.62
+        },
+        {
+          "id": "snowrunner",
+          "type": "dune",
+          "gripRatio": 0.95
+        },
+        {
+          "id": "snowrunner",
+          "type": "ice",
+          "gripRatio": 0.62
+        },
+        {
+          "id": "lavacrawler",
+          "type": "dune",
+          "gripRatio": 0.95
+        },
+        {
+          "id": "lavacrawler",
+          "type": "ice",
+          "gripRatio": 0.62
+        },
+        {
+          "id": "ashhauler",
+          "type": "dune",
+          "gripRatio": 0.95
+        },
+        {
+          "id": "ashhauler",
+          "type": "ice",
+          "gripRatio": 0.62
+        }
+      ]
+    },
+    {
+      "name": "Fuel zero, ordinary abort and regeneration clear pooled hazard state without payout",
+      "passed": true
+    }
+  ]
+}

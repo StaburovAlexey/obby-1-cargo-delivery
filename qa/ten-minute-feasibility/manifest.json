@@ -1,0 +1,11 @@
+{
+  "generatedAt": "2026-10-14T12:13:56.419Z",
+  "candidateRoot": "/workspace/scratch/e6939d35b3a6/city-ten-minute-candidate",
+  "candidateRuntimeFiles": {
+    "route-network-config.js": "7b3542dc2e057b59ceb6e5858bd32bc33f524bcb2e2be6beba924b1162b7ec18",
+    "economy-config.js": "bb5d41f9e54843bc373630fb32c29c74f91bcc66475569e7f494d1d4fb2177b6",
+    "road-bridges.js": "a717a3019e8cb8d04d45324a959ba84a85e1d11fb43f8fc919508e1643046384",
+    "road-hazards.js": "00c9f66ee5469692e1dbc2ae24b1a0a12ff978d2585dfb6952f5768650e90948"
+  },
+  "productionFilesEditedByThisStudy": false
+}

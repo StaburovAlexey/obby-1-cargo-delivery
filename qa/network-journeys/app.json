@@ -1,0 +1,150 @@
+{
+  "passed": true,
+  "sourceHashes": {
+    "route-network.js": "52b9464e7d80ac1dfcedf94448127bfbe6138999fc65387a4a78a19527aa3824",
+    "route-network-config.js": "87aed2fe101c85b01e5debc676cb203be730f1e1af587808443b740ec27e6efd",
+    "road-layout.js": "4705972cf548ff56a004b63a5d85ba41f67caf2b1fe16572c908abd3d10b8685",
+    "driving-ground.js": "157ac92a62df8858ba2af419e334121966214aa59dd91b063e6e30a7d4e14c84",
+    "driving-model.js": "12a8e8f006daaa8962bb1bafd89e2cdf6d2575cb56f4c981f99b64f2fb77ade8",
+    "city-driving.js": "a33f82d66e2fa50fb281fb28e8231decb76ef216557110fd2881f4b3338f4b82",
+    "gameplay.js": "99abbe4fa1e5d51c8a4eac1618e8f1f9e7be357eac58c70f2e97c793f0a3e5e2",
+    "economy-config.js": "42714d86b7b9970f15c91a3a005084038d10ed1ae3d7d454be2d6d2de5648643",
+    "vehicle-upgrades.js": "2db57418905282a8de86b97557bda9e69573d587057a6b41b2a4834d6ac0b495",
+    "biome-surfaces.js": "693a42f1188ef334fc0682a663fc121751fedc0e90b38c140e067c3cbe003f80",
+    "road-hazards.js": "2e5fd24fb48bd2041a935c3168a039b60403d37a216ab316288b483b4cd26ebc",
+    "garage-scene.js": "13d4a7fc38bc53ae02e26e9a04b98a8f05e391843b389a693b39237d21a6b95b",
+    "app.js": "ab083e3a484fdadb6abd9ed1ddced0454020abdb3ad961b5ab6945bbbacc3a02",
+    "network-scene.js": "19b82c704e091b788054796c291fdd8078d01b7d1d35866acff20f507141a8ee",
+    "road-hazards-scene.js": "647728fdc6de18c30ace00a57ce2b255afc266ac6f6284302126f3ff9968f817",
+    "wheel-particles.js": "4393a9ef61623d0a7a6d89934cc4acb984b7a768a954fdc8649ed5c8f070f743"
+  },
+  "checks": [
+    {
+      "passed": true,
+      "id": "pickup",
+      "branch": "primary",
+      "upgrade": "stock",
+      "frames": 340,
+      "frameMilliseconds": 66.66666666666667,
+      "physicsFrameCap": 0.05,
+      "maxProgress": 175.14,
+      "actualTravel": 175.75,
+      "refills": 0,
+      "money": 110,
+      "biomes": [
+        "city"
+      ],
+      "forks": [],
+      "rendererFree": true
+    },
+    {
+      "passed": true,
+      "id": "ashhauler",
+      "branch": "primary",
+      "upgrade": "stock",
+      "frames": 5794,
+      "frameMilliseconds": 100,
+      "physicsFrameCap": 0.05,
+      "maxProgress": 9865.264,
+      "actualTravel": 9901.076,
+      "refills": 10,
+      "money": 5940,
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "forks": [
+        "forest-fork",
+        "desert-fork",
+        "snow-fork",
+        "volcanic-fork"
+      ],
+      "rendererFree": true
+    },
+    {
+      "passed": true,
+      "id": "ashhauler",
+      "branch": "primary",
+      "upgrade": "max",
+      "frames": 5504,
+      "frameMilliseconds": 100,
+      "physicsFrameCap": 0.05,
+      "maxProgress": 9864.369,
+      "actualTravel": 9899.971,
+      "refills": 10,
+      "money": 5940,
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "forks": [
+        "forest-fork",
+        "desert-fork",
+        "snow-fork",
+        "volcanic-fork"
+      ],
+      "rendererFree": true
+    },
+    {
+      "passed": true,
+      "id": "ashhauler",
+      "branch": "alternate",
+      "upgrade": "stock",
+      "frames": 5794,
+      "frameMilliseconds": 100,
+      "physicsFrameCap": 0.05,
+      "maxProgress": 9865.262,
+      "actualTravel": 9901.076,
+      "refills": 10,
+      "money": 5940,
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "forks": [
+        "forest-fork",
+        "desert-fork",
+        "snow-fork",
+        "volcanic-fork"
+      ],
+      "rendererFree": true
+    },
+    {
+      "passed": true,
+      "id": "ashhauler",
+      "branch": "alternate",
+      "upgrade": "max",
+      "frames": 5504,
+      "frameMilliseconds": 100,
+      "physicsFrameCap": 0.05,
+      "maxProgress": 9864.366,
+      "actualTravel": 9899.971,
+      "refills": 10,
+      "money": 5940,
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "forks": [
+        "forest-fork",
+        "desert-fork",
+        "snow-fork",
+        "volcanic-fork"
+      ],
+      "rendererFree": true
+    }
+  ],
+  "failures": []
+}

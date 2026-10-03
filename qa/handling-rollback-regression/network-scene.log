@@ -1,0 +1,8 @@
+PASS Finite graph union rendered directly, with opaque up-facing metric road and unchanged start
+PASS Road union has no self-overlap and terrain never covers asphalt
+PASS Every road/terrain boundary shares the same actual Float32 height with no riser or daylight
+PASS Height queries agree with actual road triangles including curved grades and both branches
+PASS Uninterrupted physical 18m city storefront rows have exact shared cuts and no overlaps
+PASS All massive biome envelopes clear actual asphalt including fork islands and rejoin mouths
+PASS Existing square/stud/storefront shader uses metric faces; graph paint uses explicit progress
+PASS Original procedural truck remains compatible with its unchanged animation rig

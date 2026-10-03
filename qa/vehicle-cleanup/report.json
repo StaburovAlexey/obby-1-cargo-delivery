@@ -1,0 +1,40 @@
+{
+  "scope": "CPU-only source, Three.js scenegraph, real GLB parsing and mocked DOM checks; no browser, GPU, screenshot or mobile-performance verification",
+  "changes": [
+    "Removed unused procedural city delivery truck and all generated garage vehicle bodies and wheels",
+    "Replaced geometry-dependent vehicle rig with a transform-only root and retained calibrated contact records",
+    "Replaced permanently hidden car cargo crate meshes with non-rendering cargo anchors",
+    "Required vehicle import failures reject ready with AggregateError and vehicle IDs; failed adapters are disposed",
+    "Retained ten Cosmo GLBs, reward BMW GLB, imported articulation, gameplay identifiers, pricing, state and physics"
+  ],
+  "baselineComparison": {
+    "reference": "Recovered unchanged HEAD 476a30",
+    "verified": [
+      "Every nonvehicle city and garage mesh has identical geometry bytes, world transform, visibility and material color",
+      "Nonvehicle city feature records are identical",
+      "Vehicle IDs, configuration records, parking records, price anchors and default collision footprints are identical",
+      "No changes to GLB assets, Cosmo/BMW adapters, economy config, gameplay, career-save or driving-model files"
+    ],
+    "cityAllocatedBefore": {"meshObjects": 8, "triangles": 50590, "instances": 83},
+    "cityAllocatedAfter": {"meshObjects": 6, "triangles": 49162, "instances": 0},
+    "garageAllocatedBeforeImports": {"meshObjects": 169, "triangles": 29844, "instances": 1203},
+    "garageAllocatedAfterBeforeImports": {"meshObjects": 136, "triangles": 18672, "instances": 679},
+    "note": "These are allocated scenegraph resources, including previously hidden geometry, not measured GPU draw calls or frame-rate changes."
+  },
+  "passed": [
+    "node tests/vehicle-rig.mjs: 8 transform/calibration/atomicity/reset/disposal checks",
+    "node tests/cosmo-garage.mjs: bounded loads, identities, late disposal, explicit import/articulation failure propagation",
+    "node tests/vehicle-cleanup.mjs: all eleven real GLBs, manifest hashes, mesh-free pending roots, collision metadata, steering/spin/park, hidden logical cargo, currency/config stability and rebuild disposal",
+    "node tests/reward-app.mjs: all eleven real GLBs and current application, reward locked/unlocked, all vehicle enter/reset, 25 bridges both directions, falling return without payout",
+    "node tests/reward-pedestal.mjs: 181 pose samples, 73 actual BMW rotation samples and 44208 walking samples",
+    "Syntax checks for modified JavaScript and git diff --check"
+  ],
+  "legacySuiteResults": {
+    "driving": "15/25; updated geometry-free rig/ground checks pass; older uphill, input, gear and application assumptions still fail",
+    "network-scene": "6/9; no-truck check passes; route-length, 15-bridge and 2000m city assumptions are historical",
+    "ten-vehicle-catalog": "5/10; cleanup geometry/rig/disposal checks pass; old ten-ID, checkpoint migration, aisle and locked reward purchase/run assumptions fail",
+    "garage-scene": "7/12; cleanup geometry/rig/disposal checks pass; older bay spacing, 11 stations, service locations, 220m fuel gaps and 55-draw allocation ceiling fail",
+    "cosmo-fit-review": "Clean baseline reproduces exact 1948 !== 1924 triangle assertion at line 34; model geometry and expectation untouched",
+    "hidden-cargo": "Old all-owned fixture attempts to enter the locked reward BMW; current vehicle-cleanup test covers hidden cargo with an earned-reward career"
+  }
+}

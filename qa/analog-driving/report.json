@@ -1,0 +1,3056 @@
+{
+  "scope": "Actual production physics in Node; no browser, WebGL, touch-device or deployment claim",
+  "carCount": 10,
+  "biomeCount": 5,
+  "passed": [
+    {
+      "name": "Catalog, upgrade and surface handling/grip remain exactly halved; other stats unchanged",
+      "profiles": 50,
+      "upgradeProfiles": 40
+    },
+    {
+      "name": "All 300 signed 25/50/100% demands converge to proportional terrain-adjusted speed caps",
+      "cases": 300
+    },
+    {
+      "name": "Lowering demand brakes through tire forces; centered/released demand stops all 100 directions/profiles",
+      "cases": 100
+    },
+    {
+      "name": "Both reversal directions brake through a near-zero interlock without instant velocity flips",
+      "cases": 100,
+      "maximumStepChange": 0.18446232119187767
+    },
+    {
+      "name": "Canceling an in-progress reversal resumes the currently moving direction immediately",
+      "cases": 100
+    },
+    {
+      "name": "Side-only stick steers the wheels without moving or rotating a stationary vehicle",
+      "cases": 100
+    },
+    {
+      "name": "Legacy full-power and gear callers retain the same straight-line force response",
+      "cases": 100
+    },
+    {
+      "name": "Slope, yaw, release and changing directions stay finite on all car/biome profiles",
+      "cases": 100,
+      "maximumYaw": 1.21588844014083
+    },
+    {
+      "name": "Sanitized input, pauses, resets and frame rates preserve finite deterministic behavior",
+      "frameRates": [
+        30,
+        60,
+        120
+      ]
+    }
+  ],
+  "failures": [],
+  "targetMatrix": [
+    {
+      "car": "pickup",
+      "biome": "city",
+      "demand": -1,
+      "target": -11,
+      "speed": -10.999999999999973,
+      "peak": 10.999999999999973
+    },
+    {
+      "car": "pickup",
+      "biome": "city",
+      "demand": -0.5,
+      "target": -5.5,
+      "speed": -5.499999999999987,
+      "peak": 5.499999999999987
+    },
+    {
+      "car": "pickup",
+      "biome": "city",
+      "demand": -0.25,
+      "target": -2.75,
+      "speed": -2.749999999999994,
+      "peak": 2.749999999999994
+    },
+    {
+      "car": "pickup",
+      "biome": "city",
+      "demand": 0.25,
+      "target": 2.75,
+      "speed": 2.749999999999994,
+      "peak": 2.749999999999994
+    },
+    {
+      "car": "pickup",
+      "biome": "city",
+      "demand": 0.5,
+      "target": 5.5,
+      "speed": 5.499999999999987,
+      "peak": 5.499999999999987
+    },
+    {
+      "car": "pickup",
+      "biome": "city",
+      "demand": 1,
+      "target": 11,
+      "speed": 10.999999999999973,
+      "peak": 10.999999999999973
+    },
+    {
+      "car": "pickup",
+      "biome": "forest",
+      "demand": -1,
+      "target": -4.62,
+      "speed": -4.619999999999987,
+      "peak": 4.619999999999987
+    },
+    {
+      "car": "pickup",
+      "biome": "forest",
+      "demand": -0.5,
+      "target": -2.31,
+      "speed": -2.3099999999999934,
+      "peak": 2.3099999999999934
+    },
+    {
+      "car": "pickup",
+      "biome": "forest",
+      "demand": -0.25,
+      "target": -1.155,
+      "speed": -1.154999999999997,
+      "peak": 1.154999999999997
+    },
+    {
+      "car": "pickup",
+      "biome": "forest",
+      "demand": 0.25,
+      "target": 1.155,
+      "speed": 1.154999999999997,
+      "peak": 1.154999999999997
+    },
+    {
+      "car": "pickup",
+      "biome": "forest",
+      "demand": 0.5,
+      "target": 2.31,
+      "speed": 2.3099999999999934,
+      "peak": 2.3099999999999934
+    },
+    {
+      "car": "pickup",
+      "biome": "forest",
+      "demand": 1,
+      "target": 4.62,
+      "speed": 4.619999999999987,
+      "peak": 4.619999999999987
+    },
+    {
+      "car": "pickup",
+      "biome": "desert",
+      "demand": -1,
+      "target": -3.41,
+      "speed": -3.4099999999999935,
+      "peak": 3.4099999999999935
+    },
+    {
+      "car": "pickup",
+      "biome": "desert",
+      "demand": -0.5,
+      "target": -1.705,
+      "speed": -1.7049999999999967,
+      "peak": 1.7049999999999967
+    },
+    {
+      "car": "pickup",
+      "biome": "desert",
+      "demand": -0.25,
+      "target": -0.8525,
+      "speed": -0.8524999999999985,
+      "peak": 0.8524999999999985
+    },
+    {
+      "car": "pickup",
+      "biome": "desert",
+      "demand": 0.25,
+      "target": 0.8525,
+      "speed": 0.8524999999999985,
+      "peak": 0.8524999999999985
+    },
+    {
+      "car": "pickup",
+      "biome": "desert",
+      "demand": 0.5,
+      "target": 1.705,
+      "speed": 1.7049999999999967,
+      "peak": 1.7049999999999967
+    },
+    {
+      "car": "pickup",
+      "biome": "desert",
+      "demand": 1,
+      "target": 3.41,
+      "speed": 3.4099999999999935,
+      "peak": 3.4099999999999935
+    },
+    {
+      "car": "pickup",
+      "biome": "snow",
+      "demand": -1,
+      "target": -2.5300000000000002,
+      "speed": -2.5299999999999936,
+      "peak": 2.5299999999999936
+    },
+    {
+      "car": "pickup",
+      "biome": "snow",
+      "demand": -0.5,
+      "target": -1.2650000000000001,
+      "speed": -1.2649999999999968,
+      "peak": 1.2649999999999968
+    },
+    {
+      "car": "pickup",
+      "biome": "snow",
+      "demand": -0.25,
+      "target": -0.6325000000000001,
+      "speed": -0.6324999999999985,
+      "peak": 0.6324999999999985
+    },
+    {
+      "car": "pickup",
+      "biome": "snow",
+      "demand": 0.25,
+      "target": 0.6325000000000001,
+      "speed": 0.6324999999999985,
+      "peak": 0.6324999999999985
+    },
+    {
+      "car": "pickup",
+      "biome": "snow",
+      "demand": 0.5,
+      "target": 1.2650000000000001,
+      "speed": 1.2649999999999968,
+      "peak": 1.2649999999999968
+    },
+    {
+      "car": "pickup",
+      "biome": "snow",
+      "demand": 1,
+      "target": 2.5300000000000002,
+      "speed": 2.5299999999999936,
+      "peak": 2.5299999999999936
+    },
+    {
+      "car": "pickup",
+      "biome": "volcanic",
+      "demand": -1,
+      "target": -1.87,
+      "speed": -1.869999999999997,
+      "peak": 1.869999999999997
+    },
+    {
+      "car": "pickup",
+      "biome": "volcanic",
+      "demand": -0.5,
+      "target": -0.935,
+      "speed": -0.9349999999999985,
+      "peak": 0.9349999999999985
+    },
+    {
+      "car": "pickup",
+      "biome": "volcanic",
+      "demand": -0.25,
+      "target": -0.4675,
+      "speed": -0.46749999999999925,
+      "peak": 0.46749999999999925
+    },
+    {
+      "car": "pickup",
+      "biome": "volcanic",
+      "demand": 0.25,
+      "target": 0.4675,
+      "speed": 0.46749999999999925,
+      "peak": 0.46749999999999925
+    },
+    {
+      "car": "pickup",
+      "biome": "volcanic",
+      "demand": 0.5,
+      "target": 0.935,
+      "speed": 0.9349999999999985,
+      "peak": 0.9349999999999985
+    },
+    {
+      "car": "pickup",
+      "biome": "volcanic",
+      "demand": 1,
+      "target": 1.87,
+      "speed": 1.869999999999997,
+      "peak": 1.869999999999997
+    },
+    {
+      "car": "citycourier",
+      "biome": "city",
+      "demand": -1,
+      "target": -12.5,
+      "speed": -12.499999999999973,
+      "peak": 12.499999999999973
+    },
+    {
+      "car": "citycourier",
+      "biome": "city",
+      "demand": -0.5,
+      "target": -6.25,
+      "speed": -6.249999999999987,
+      "peak": 6.249999999999987
+    },
+    {
+      "car": "citycourier",
+      "biome": "city",
+      "demand": -0.25,
+      "target": -3.125,
+      "speed": -3.124999999999994,
+      "peak": 3.124999999999994
+    },
+    {
+      "car": "citycourier",
+      "biome": "city",
+      "demand": 0.25,
+      "target": 3.125,
+      "speed": 3.124999999999994,
+      "peak": 3.124999999999994
+    },
+    {
+      "car": "citycourier",
+      "biome": "city",
+      "demand": 0.5,
+      "target": 6.25,
+      "speed": 6.249999999999987,
+      "peak": 6.249999999999987
+    },
+    {
+      "car": "citycourier",
+      "biome": "city",
+      "demand": 1,
+      "target": 12.5,
+      "speed": 12.499999999999973,
+      "peak": 12.499999999999973
+    },
+    {
+      "car": "citycourier",
+      "biome": "forest",
+      "demand": -1,
+      "target": -5.25,
+      "speed": -5.249999999999988,
+      "peak": 5.249999999999988
+    },
+    {
+      "car": "citycourier",
+      "biome": "forest",
+      "demand": -0.5,
+      "target": -2.625,
+      "speed": -2.624999999999994,
+      "peak": 2.624999999999994
+    },
+    {
+      "car": "citycourier",
+      "biome": "forest",
+      "demand": -0.25,
+      "target": -1.3125,
+      "speed": -1.312499999999997,
+      "peak": 1.312499999999997
+    },
+    {
+      "car": "citycourier",
+      "biome": "forest",
+      "demand": 0.25,
+      "target": 1.3125,
+      "speed": 1.312499999999997,
+      "peak": 1.312499999999997
+    },
+    {
+      "car": "citycourier",
+      "biome": "forest",
+      "demand": 0.5,
+      "target": 2.625,
+      "speed": 2.624999999999994,
+      "peak": 2.624999999999994
+    },
+    {
+      "car": "citycourier",
+      "biome": "forest",
+      "demand": 1,
+      "target": 5.25,
+      "speed": 5.249999999999988,
+      "peak": 5.249999999999988
+    },
+    {
+      "car": "citycourier",
+      "biome": "desert",
+      "demand": -1,
+      "target": -3.875,
+      "speed": -3.874999999999994,
+      "peak": 3.874999999999994
+    },
+    {
+      "car": "citycourier",
+      "biome": "desert",
+      "demand": -0.5,
+      "target": -1.9375,
+      "speed": -1.937499999999997,
+      "peak": 1.937499999999997
+    },
+    {
+      "car": "citycourier",
+      "biome": "desert",
+      "demand": -0.25,
+      "target": -0.96875,
+      "speed": -0.9687499999999983,
+      "peak": 0.9687499999999983
+    },
+    {
+      "car": "citycourier",
+      "biome": "desert",
+      "demand": 0.25,
+      "target": 0.96875,
+      "speed": 0.9687499999999983,
+      "peak": 0.9687499999999983
+    },
+    {
+      "car": "citycourier",
+      "biome": "desert",
+      "demand": 0.5,
+      "target": 1.9375,
+      "speed": 1.937499999999997,
+      "peak": 1.937499999999997
+    },
+    {
+      "car": "citycourier",
+      "biome": "desert",
+      "demand": 1,
+      "target": 3.875,
+      "speed": 3.874999999999994,
+      "peak": 3.874999999999994
+    },
+    {
+      "car": "citycourier",
+      "biome": "snow",
+      "demand": -1,
+      "target": -2.875,
+      "speed": -2.874999999999994,
+      "peak": 2.874999999999994
+    },
+    {
+      "car": "citycourier",
+      "biome": "snow",
+      "demand": -0.5,
+      "target": -1.4375,
+      "speed": -1.437499999999997,
+      "peak": 1.437499999999997
+    },
+    {
+      "car": "citycourier",
+      "biome": "snow",
+      "demand": -0.25,
+      "target": -0.71875,
+      "speed": -0.7187499999999983,
+      "peak": 0.7187499999999983
+    },
+    {
+      "car": "citycourier",
+      "biome": "snow",
+      "demand": 0.25,
+      "target": 0.71875,
+      "speed": 0.7187499999999983,
+      "peak": 0.7187499999999983
+    },
+    {
+      "car": "citycourier",
+      "biome": "snow",
+      "demand": 0.5,
+      "target": 1.4375,
+      "speed": 1.437499999999997,
+      "peak": 1.437499999999997
+    },
+    {
+      "car": "citycourier",
+      "biome": "snow",
+      "demand": 1,
+      "target": 2.875,
+      "speed": 2.874999999999994,
+      "peak": 2.874999999999994
+    },
+    {
+      "car": "citycourier",
+      "biome": "volcanic",
+      "demand": -1,
+      "target": -2.125,
+      "speed": -2.1249999999999933,
+      "peak": 2.1249999999999933
+    },
+    {
+      "car": "citycourier",
+      "biome": "volcanic",
+      "demand": -0.5,
+      "target": -1.0625,
+      "speed": -1.062499999999997,
+      "peak": 1.062499999999997
+    },
+    {
+      "car": "citycourier",
+      "biome": "volcanic",
+      "demand": -0.25,
+      "target": -0.53125,
+      "speed": -0.5312499999999983,
+      "peak": 0.5312499999999983
+    },
+    {
+      "car": "citycourier",
+      "biome": "volcanic",
+      "demand": 0.25,
+      "target": 0.53125,
+      "speed": 0.5312499999999983,
+      "peak": 0.5312499999999983
+    },
+    {
+      "car": "citycourier",
+      "biome": "volcanic",
+      "demand": 0.5,
+      "target": 1.0625,
+      "speed": 1.062499999999997,
+      "peak": 1.062499999999997
+    },
+    {
+      "car": "citycourier",
+      "biome": "volcanic",
+      "demand": 1,
+      "target": 2.125,
+      "speed": 2.1249999999999933,
+      "peak": 2.1249999999999933
+    },
+    {
+      "car": "rover",
+      "biome": "city",
+      "demand": -1,
+      "target": -13.915999999999999,
+      "speed": -13.915999999999972,
+      "peak": 13.915999999999972
+    },
+    {
+      "car": "rover",
+      "biome": "city",
+      "demand": -0.5,
+      "target": -6.957999999999999,
+      "speed": -6.957999999999986,
+      "peak": 6.957999999999986
+    },
+    {
+      "car": "rover",
+      "biome": "city",
+      "demand": -0.25,
+      "target": -3.4789999999999996,
+      "speed": -3.478999999999993,
+      "peak": 3.478999999999993
+    },
+    {
+      "car": "rover",
+      "biome": "city",
+      "demand": 0.25,
+      "target": 3.4789999999999996,
+      "speed": 3.478999999999993,
+      "peak": 3.478999999999993
+    },
+    {
+      "car": "rover",
+      "biome": "city",
+      "demand": 0.5,
+      "target": 6.957999999999999,
+      "speed": 6.957999999999986,
+      "peak": 6.957999999999986
+    },
+    {
+      "car": "rover",
+      "biome": "city",
+      "demand": 1,
+      "target": 13.915999999999999,
+      "speed": 13.915999999999972,
+      "peak": 13.915999999999972
+    },
+    {
+      "car": "rover",
+      "biome": "forest",
+      "demand": -1,
+      "target": -14.2,
+      "speed": -14.199999999999974,
+      "peak": 14.199999999999974
+    },
+    {
+      "car": "rover",
+      "biome": "forest",
+      "demand": -0.5,
+      "target": -7.1,
+      "speed": -7.099999999999987,
+      "peak": 7.099999999999987
+    },
+    {
+      "car": "rover",
+      "biome": "forest",
+      "demand": -0.25,
+      "target": -3.55,
+      "speed": -3.5499999999999936,
+      "peak": 3.5499999999999936
+    },
+    {
+      "car": "rover",
+      "biome": "forest",
+      "demand": 0.25,
+      "target": 3.55,
+      "speed": 3.5499999999999936,
+      "peak": 3.5499999999999936
+    },
+    {
+      "car": "rover",
+      "biome": "forest",
+      "demand": 0.5,
+      "target": 7.1,
+      "speed": 7.099999999999987,
+      "peak": 7.099999999999987
+    },
+    {
+      "car": "rover",
+      "biome": "forest",
+      "demand": 1,
+      "target": 14.2,
+      "speed": 14.199999999999974,
+      "peak": 14.199999999999974
+    },
+    {
+      "car": "rover",
+      "biome": "desert",
+      "demand": -1,
+      "target": -5.9639999999999995,
+      "speed": -5.963999999999986,
+      "peak": 5.963999999999986
+    },
+    {
+      "car": "rover",
+      "biome": "desert",
+      "demand": -0.5,
+      "target": -2.9819999999999998,
+      "speed": -2.9819999999999935,
+      "peak": 2.9819999999999935
+    },
+    {
+      "car": "rover",
+      "biome": "desert",
+      "demand": -0.25,
+      "target": -1.4909999999999999,
+      "speed": -1.4909999999999966,
+      "peak": 1.4909999999999966
+    },
+    {
+      "car": "rover",
+      "biome": "desert",
+      "demand": 0.25,
+      "target": 1.4909999999999999,
+      "speed": 1.4909999999999966,
+      "peak": 1.4909999999999966
+    },
+    {
+      "car": "rover",
+      "biome": "desert",
+      "demand": 0.5,
+      "target": 2.9819999999999998,
+      "speed": 2.9819999999999935,
+      "peak": 2.9819999999999935
+    },
+    {
+      "car": "rover",
+      "biome": "desert",
+      "demand": 1,
+      "target": 5.9639999999999995,
+      "speed": 5.963999999999986,
+      "peak": 5.963999999999986
+    },
+    {
+      "car": "rover",
+      "biome": "snow",
+      "demand": -1,
+      "target": -4.402,
+      "speed": -4.401999999999987,
+      "peak": 4.401999999999987
+    },
+    {
+      "car": "rover",
+      "biome": "snow",
+      "demand": -0.5,
+      "target": -2.201,
+      "speed": -2.2009999999999934,
+      "peak": 2.2009999999999934
+    },
+    {
+      "car": "rover",
+      "biome": "snow",
+      "demand": -0.25,
+      "target": -1.1005,
+      "speed": -1.1004999999999967,
+      "peak": 1.1004999999999967
+    },
+    {
+      "car": "rover",
+      "biome": "snow",
+      "demand": 0.25,
+      "target": 1.1005,
+      "speed": 1.1004999999999967,
+      "peak": 1.1004999999999967
+    },
+    {
+      "car": "rover",
+      "biome": "snow",
+      "demand": 0.5,
+      "target": 2.201,
+      "speed": 2.2009999999999934,
+      "peak": 2.2009999999999934
+    },
+    {
+      "car": "rover",
+      "biome": "snow",
+      "demand": 1,
+      "target": 4.402,
+      "speed": 4.401999999999987,
+      "peak": 4.401999999999987
+    },
+    {
+      "car": "rover",
+      "biome": "volcanic",
+      "demand": -1,
+      "target": -3.266,
+      "speed": -3.265999999999994,
+      "peak": 3.265999999999994
+    },
+    {
+      "car": "rover",
+      "biome": "volcanic",
+      "demand": -0.5,
+      "target": -1.633,
+      "speed": -1.632999999999997,
+      "peak": 1.632999999999997
+    },
+    {
+      "car": "rover",
+      "biome": "volcanic",
+      "demand": -0.25,
+      "target": -0.8165,
+      "speed": -0.8164999999999984,
+      "peak": 0.8164999999999984
+    },
+    {
+      "car": "rover",
+      "biome": "volcanic",
+      "demand": 0.25,
+      "target": 0.8165,
+      "speed": 0.8164999999999984,
+      "peak": 0.8164999999999984
+    },
+    {
+      "car": "rover",
+      "biome": "volcanic",
+      "demand": 0.5,
+      "target": 1.633,
+      "speed": 1.632999999999997,
+      "peak": 1.632999999999997
+    },
+    {
+      "car": "rover",
+      "biome": "volcanic",
+      "demand": 1,
+      "target": 3.266,
+      "speed": 3.265999999999994,
+      "peak": 3.265999999999994
+    },
+    {
+      "car": "foresthauler",
+      "biome": "city",
+      "demand": -1,
+      "target": -15.876,
+      "speed": -15.875999999999975,
+      "peak": 15.875999999999975
+    },
+    {
+      "car": "foresthauler",
+      "biome": "city",
+      "demand": -0.5,
+      "target": -7.938,
+      "speed": -7.937999999999987,
+      "peak": 7.937999999999987
+    },
+    {
+      "car": "foresthauler",
+      "biome": "city",
+      "demand": -0.25,
+      "target": -3.969,
+      "speed": -3.968999999999993,
+      "peak": 3.968999999999993
+    },
+    {
+      "car": "foresthauler",
+      "biome": "city",
+      "demand": 0.25,
+      "target": 3.969,
+      "speed": 3.968999999999993,
+      "peak": 3.968999999999993
+    },
+    {
+      "car": "foresthauler",
+      "biome": "city",
+      "demand": 0.5,
+      "target": 7.938,
+      "speed": 7.937999999999987,
+      "peak": 7.937999999999987
+    },
+    {
+      "car": "foresthauler",
+      "biome": "city",
+      "demand": 1,
+      "target": 15.876,
+      "speed": 15.875999999999975,
+      "peak": 15.875999999999975
+    },
+    {
+      "car": "foresthauler",
+      "biome": "forest",
+      "demand": -1,
+      "target": -16.2,
+      "speed": -16.19999999999995,
+      "peak": 16.19999999999995
+    },
+    {
+      "car": "foresthauler",
+      "biome": "forest",
+      "demand": -0.5,
+      "target": -8.1,
+      "speed": -8.099999999999975,
+      "peak": 8.099999999999975
+    },
+    {
+      "car": "foresthauler",
+      "biome": "forest",
+      "demand": -0.25,
+      "target": -4.05,
+      "speed": -4.0499999999999865,
+      "peak": 4.0499999999999865
+    },
+    {
+      "car": "foresthauler",
+      "biome": "forest",
+      "demand": 0.25,
+      "target": 4.05,
+      "speed": 4.0499999999999865,
+      "peak": 4.0499999999999865
+    },
+    {
+      "car": "foresthauler",
+      "biome": "forest",
+      "demand": 0.5,
+      "target": 8.1,
+      "speed": 8.099999999999975,
+      "peak": 8.099999999999975
+    },
+    {
+      "car": "foresthauler",
+      "biome": "forest",
+      "demand": 1,
+      "target": 16.2,
+      "speed": 16.19999999999995,
+      "peak": 16.19999999999995
+    },
+    {
+      "car": "foresthauler",
+      "biome": "desert",
+      "demand": -1,
+      "target": -6.803999999999999,
+      "speed": -6.803999999999987,
+      "peak": 6.803999999999987
+    },
+    {
+      "car": "foresthauler",
+      "biome": "desert",
+      "demand": -0.5,
+      "target": -3.4019999999999997,
+      "speed": -3.401999999999993,
+      "peak": 3.401999999999993
+    },
+    {
+      "car": "foresthauler",
+      "biome": "desert",
+      "demand": -0.25,
+      "target": -1.7009999999999998,
+      "speed": -1.7009999999999967,
+      "peak": 1.7009999999999967
+    },
+    {
+      "car": "foresthauler",
+      "biome": "desert",
+      "demand": 0.25,
+      "target": 1.7009999999999998,
+      "speed": 1.7009999999999967,
+      "peak": 1.7009999999999967
+    },
+    {
+      "car": "foresthauler",
+      "biome": "desert",
+      "demand": 0.5,
+      "target": 3.4019999999999997,
+      "speed": 3.401999999999993,
+      "peak": 3.401999999999993
+    },
+    {
+      "car": "foresthauler",
+      "biome": "desert",
+      "demand": 1,
+      "target": 6.803999999999999,
+      "speed": 6.803999999999987,
+      "peak": 6.803999999999987
+    },
+    {
+      "car": "foresthauler",
+      "biome": "snow",
+      "demand": -1,
+      "target": -5.021999999999999,
+      "speed": -5.021999999999987,
+      "peak": 5.021999999999987
+    },
+    {
+      "car": "foresthauler",
+      "biome": "snow",
+      "demand": -0.5,
+      "target": -2.5109999999999997,
+      "speed": -2.5109999999999935,
+      "peak": 2.5109999999999935
+    },
+    {
+      "car": "foresthauler",
+      "biome": "snow",
+      "demand": -0.25,
+      "target": -1.2554999999999998,
+      "speed": -1.2554999999999965,
+      "peak": 1.2554999999999965
+    },
+    {
+      "car": "foresthauler",
+      "biome": "snow",
+      "demand": 0.25,
+      "target": 1.2554999999999998,
+      "speed": 1.2554999999999965,
+      "peak": 1.2554999999999965
+    },
+    {
+      "car": "foresthauler",
+      "biome": "snow",
+      "demand": 0.5,
+      "target": 2.5109999999999997,
+      "speed": 2.5109999999999935,
+      "peak": 2.5109999999999935
+    },
+    {
+      "car": "foresthauler",
+      "biome": "snow",
+      "demand": 1,
+      "target": 5.021999999999999,
+      "speed": 5.021999999999987,
+      "peak": 5.021999999999987
+    },
+    {
+      "car": "foresthauler",
+      "biome": "volcanic",
+      "demand": -1,
+      "target": -3.726,
+      "speed": -3.7259999999999938,
+      "peak": 3.7259999999999938
+    },
+    {
+      "car": "foresthauler",
+      "biome": "volcanic",
+      "demand": -0.5,
+      "target": -1.863,
+      "speed": -1.8629999999999969,
+      "peak": 1.8629999999999969
+    },
+    {
+      "car": "foresthauler",
+      "biome": "volcanic",
+      "demand": -0.25,
+      "target": -0.9315,
+      "speed": -0.9314999999999984,
+      "peak": 0.9314999999999984
+    },
+    {
+      "car": "foresthauler",
+      "biome": "volcanic",
+      "demand": 0.25,
+      "target": 0.9315,
+      "speed": 0.9314999999999984,
+      "peak": 0.9314999999999984
+    },
+    {
+      "car": "foresthauler",
+      "biome": "volcanic",
+      "demand": 0.5,
+      "target": 1.863,
+      "speed": 1.8629999999999969,
+      "peak": 1.8629999999999969
+    },
+    {
+      "car": "foresthauler",
+      "biome": "volcanic",
+      "demand": 1,
+      "target": 3.726,
+      "speed": 3.7259999999999938,
+      "peak": 3.7259999999999938
+    },
+    {
+      "car": "van",
+      "biome": "city",
+      "demand": -1,
+      "target": -18.032,
+      "speed": -18.031999999999947,
+      "peak": 18.031999999999947
+    },
+    {
+      "car": "van",
+      "biome": "city",
+      "demand": -0.5,
+      "target": -9.016,
+      "speed": -9.015999999999973,
+      "peak": 9.015999999999973
+    },
+    {
+      "car": "van",
+      "biome": "city",
+      "demand": -0.25,
+      "target": -4.508,
+      "speed": -4.507999999999987,
+      "peak": 4.507999999999987
+    },
+    {
+      "car": "van",
+      "biome": "city",
+      "demand": 0.25,
+      "target": 4.508,
+      "speed": 4.507999999999987,
+      "peak": 4.507999999999987
+    },
+    {
+      "car": "van",
+      "biome": "city",
+      "demand": 0.5,
+      "target": 9.016,
+      "speed": 9.015999999999973,
+      "peak": 9.015999999999973
+    },
+    {
+      "car": "van",
+      "biome": "city",
+      "demand": 1,
+      "target": 18.032,
+      "speed": 18.031999999999947,
+      "peak": 18.031999999999947
+    },
+    {
+      "car": "van",
+      "biome": "forest",
+      "demand": -1,
+      "target": -18.032,
+      "speed": -18.031999999999947,
+      "peak": 18.031999999999947
+    },
+    {
+      "car": "van",
+      "biome": "forest",
+      "demand": -0.5,
+      "target": -9.016,
+      "speed": -9.015999999999973,
+      "peak": 9.015999999999973
+    },
+    {
+      "car": "van",
+      "biome": "forest",
+      "demand": -0.25,
+      "target": -4.508,
+      "speed": -4.507999999999987,
+      "peak": 4.507999999999987
+    },
+    {
+      "car": "van",
+      "biome": "forest",
+      "demand": 0.25,
+      "target": 4.508,
+      "speed": 4.507999999999987,
+      "peak": 4.507999999999987
+    },
+    {
+      "car": "van",
+      "biome": "forest",
+      "demand": 0.5,
+      "target": 9.016,
+      "speed": 9.015999999999973,
+      "peak": 9.015999999999973
+    },
+    {
+      "car": "van",
+      "biome": "forest",
+      "demand": 1,
+      "target": 18.032,
+      "speed": 18.031999999999947,
+      "peak": 18.031999999999947
+    },
+    {
+      "car": "van",
+      "biome": "desert",
+      "demand": -1,
+      "target": -18.4,
+      "speed": -18.39999999999995,
+      "peak": 18.39999999999995
+    },
+    {
+      "car": "van",
+      "biome": "desert",
+      "demand": -0.5,
+      "target": -9.2,
+      "speed": -9.199999999999974,
+      "peak": 9.199999999999974
+    },
+    {
+      "car": "van",
+      "biome": "desert",
+      "demand": -0.25,
+      "target": -4.6,
+      "speed": -4.599999999999987,
+      "peak": 4.599999999999987
+    },
+    {
+      "car": "van",
+      "biome": "desert",
+      "demand": 0.25,
+      "target": 4.6,
+      "speed": 4.599999999999987,
+      "peak": 4.599999999999987
+    },
+    {
+      "car": "van",
+      "biome": "desert",
+      "demand": 0.5,
+      "target": 9.2,
+      "speed": 9.199999999999974,
+      "peak": 9.199999999999974
+    },
+    {
+      "car": "van",
+      "biome": "desert",
+      "demand": 1,
+      "target": 18.4,
+      "speed": 18.39999999999995,
+      "peak": 18.39999999999995
+    },
+    {
+      "car": "van",
+      "biome": "snow",
+      "demand": -1,
+      "target": -7.727999999999999,
+      "speed": -7.7279999999999855,
+      "peak": 7.7279999999999855
+    },
+    {
+      "car": "van",
+      "biome": "snow",
+      "demand": -0.5,
+      "target": -3.8639999999999994,
+      "speed": -3.8639999999999928,
+      "peak": 3.8639999999999928
+    },
+    {
+      "car": "van",
+      "biome": "snow",
+      "demand": -0.25,
+      "target": -1.9319999999999997,
+      "speed": -1.9319999999999964,
+      "peak": 1.9319999999999964
+    },
+    {
+      "car": "van",
+      "biome": "snow",
+      "demand": 0.25,
+      "target": 1.9319999999999997,
+      "speed": 1.9319999999999964,
+      "peak": 1.9319999999999964
+    },
+    {
+      "car": "van",
+      "biome": "snow",
+      "demand": 0.5,
+      "target": 3.8639999999999994,
+      "speed": 3.8639999999999928,
+      "peak": 3.8639999999999928
+    },
+    {
+      "car": "van",
+      "biome": "snow",
+      "demand": 1,
+      "target": 7.727999999999999,
+      "speed": 7.7279999999999855,
+      "peak": 7.7279999999999855
+    },
+    {
+      "car": "van",
+      "biome": "volcanic",
+      "demand": -1,
+      "target": -5.704,
+      "speed": -5.703999999999986,
+      "peak": 5.703999999999986
+    },
+    {
+      "car": "van",
+      "biome": "volcanic",
+      "demand": -0.5,
+      "target": -2.852,
+      "speed": -2.8519999999999937,
+      "peak": 2.8519999999999937
+    },
+    {
+      "car": "van",
+      "biome": "volcanic",
+      "demand": -0.25,
+      "target": -1.426,
+      "speed": -1.4259999999999968,
+      "peak": 1.4259999999999968
+    },
+    {
+      "car": "van",
+      "biome": "volcanic",
+      "demand": 0.25,
+      "target": 1.426,
+      "speed": 1.4259999999999968,
+      "peak": 1.4259999999999968
+    },
+    {
+      "car": "van",
+      "biome": "volcanic",
+      "demand": 0.5,
+      "target": 2.852,
+      "speed": 2.8519999999999937,
+      "peak": 2.8519999999999937
+    },
+    {
+      "car": "van",
+      "biome": "volcanic",
+      "demand": 1,
+      "target": 5.704,
+      "speed": 5.703999999999986,
+      "peak": 5.703999999999986
+    },
+    {
+      "car": "desertscout",
+      "biome": "city",
+      "demand": -1,
+      "target": -20.58,
+      "speed": -20.579999999999945,
+      "peak": 20.579999999999945
+    },
+    {
+      "car": "desertscout",
+      "biome": "city",
+      "demand": -0.5,
+      "target": -10.29,
+      "speed": -10.289999999999973,
+      "peak": 10.289999999999973
+    },
+    {
+      "car": "desertscout",
+      "biome": "city",
+      "demand": -0.25,
+      "target": -5.145,
+      "speed": -5.144999999999986,
+      "peak": 5.144999999999986
+    },
+    {
+      "car": "desertscout",
+      "biome": "city",
+      "demand": 0.25,
+      "target": 5.145,
+      "speed": 5.144999999999986,
+      "peak": 5.144999999999986
+    },
+    {
+      "car": "desertscout",
+      "biome": "city",
+      "demand": 0.5,
+      "target": 10.29,
+      "speed": 10.289999999999973,
+      "peak": 10.289999999999973
+    },
+    {
+      "car": "desertscout",
+      "biome": "city",
+      "demand": 1,
+      "target": 20.58,
+      "speed": 20.579999999999945,
+      "peak": 20.579999999999945
+    },
+    {
+      "car": "desertscout",
+      "biome": "forest",
+      "demand": -1,
+      "target": -20.58,
+      "speed": -20.579999999999945,
+      "peak": 20.579999999999945
+    },
+    {
+      "car": "desertscout",
+      "biome": "forest",
+      "demand": -0.5,
+      "target": -10.29,
+      "speed": -10.289999999999974,
+      "peak": 10.289999999999974
+    },
+    {
+      "car": "desertscout",
+      "biome": "forest",
+      "demand": -0.25,
+      "target": -5.145,
+      "speed": -5.144999999999986,
+      "peak": 5.144999999999986
+    },
+    {
+      "car": "desertscout",
+      "biome": "forest",
+      "demand": 0.25,
+      "target": 5.145,
+      "speed": 5.144999999999986,
+      "peak": 5.144999999999986
+    },
+    {
+      "car": "desertscout",
+      "biome": "forest",
+      "demand": 0.5,
+      "target": 10.29,
+      "speed": 10.289999999999974,
+      "peak": 10.289999999999974
+    },
+    {
+      "car": "desertscout",
+      "biome": "forest",
+      "demand": 1,
+      "target": 20.58,
+      "speed": 20.579999999999945,
+      "peak": 20.579999999999945
+    },
+    {
+      "car": "desertscout",
+      "biome": "desert",
+      "demand": -1,
+      "target": -21,
+      "speed": -20.999999999999947,
+      "peak": 20.999999999999947
+    },
+    {
+      "car": "desertscout",
+      "biome": "desert",
+      "demand": -0.5,
+      "target": -10.5,
+      "speed": -10.499999999999975,
+      "peak": 10.499999999999975
+    },
+    {
+      "car": "desertscout",
+      "biome": "desert",
+      "demand": -0.25,
+      "target": -5.25,
+      "speed": -5.249999999999988,
+      "peak": 5.249999999999988
+    },
+    {
+      "car": "desertscout",
+      "biome": "desert",
+      "demand": 0.25,
+      "target": 5.25,
+      "speed": 5.249999999999988,
+      "peak": 5.249999999999988
+    },
+    {
+      "car": "desertscout",
+      "biome": "desert",
+      "demand": 0.5,
+      "target": 10.5,
+      "speed": 10.499999999999975,
+      "peak": 10.499999999999975
+    },
+    {
+      "car": "desertscout",
+      "biome": "desert",
+      "demand": 1,
+      "target": 21,
+      "speed": 20.999999999999947,
+      "peak": 20.999999999999947
+    },
+    {
+      "car": "desertscout",
+      "biome": "snow",
+      "demand": -1,
+      "target": -8.82,
+      "speed": -8.819999999999974,
+      "peak": 8.819999999999974
+    },
+    {
+      "car": "desertscout",
+      "biome": "snow",
+      "demand": -0.5,
+      "target": -4.41,
+      "speed": -4.409999999999987,
+      "peak": 4.409999999999987
+    },
+    {
+      "car": "desertscout",
+      "biome": "snow",
+      "demand": -0.25,
+      "target": -2.205,
+      "speed": -2.204999999999994,
+      "peak": 2.204999999999994
+    },
+    {
+      "car": "desertscout",
+      "biome": "snow",
+      "demand": 0.25,
+      "target": 2.205,
+      "speed": 2.204999999999994,
+      "peak": 2.204999999999994
+    },
+    {
+      "car": "desertscout",
+      "biome": "snow",
+      "demand": 0.5,
+      "target": 4.41,
+      "speed": 4.409999999999987,
+      "peak": 4.409999999999987
+    },
+    {
+      "car": "desertscout",
+      "biome": "snow",
+      "demand": 1,
+      "target": 8.82,
+      "speed": 8.819999999999974,
+      "peak": 8.819999999999974
+    },
+    {
+      "car": "desertscout",
+      "biome": "volcanic",
+      "demand": -1,
+      "target": -6.51,
+      "speed": -6.509999999999987,
+      "peak": 6.509999999999987
+    },
+    {
+      "car": "desertscout",
+      "biome": "volcanic",
+      "demand": -0.5,
+      "target": -3.255,
+      "speed": -3.2549999999999932,
+      "peak": 3.2549999999999932
+    },
+    {
+      "car": "desertscout",
+      "biome": "volcanic",
+      "demand": -0.25,
+      "target": -1.6275,
+      "speed": -1.6274999999999968,
+      "peak": 1.6274999999999968
+    },
+    {
+      "car": "desertscout",
+      "biome": "volcanic",
+      "demand": 0.25,
+      "target": 1.6275,
+      "speed": 1.6274999999999968,
+      "peak": 1.6274999999999968
+    },
+    {
+      "car": "desertscout",
+      "biome": "volcanic",
+      "demand": 0.5,
+      "target": 3.255,
+      "speed": 3.2549999999999932,
+      "peak": 3.2549999999999932
+    },
+    {
+      "car": "desertscout",
+      "biome": "volcanic",
+      "demand": 1,
+      "target": 6.51,
+      "speed": 6.509999999999987,
+      "peak": 6.509999999999987
+    },
+    {
+      "car": "snowgrip",
+      "biome": "city",
+      "demand": -1,
+      "target": -23.421999999999997,
+      "speed": -23.421999999999944,
+      "peak": 23.421999999999944
+    },
+    {
+      "car": "snowgrip",
+      "biome": "city",
+      "demand": -0.5,
+      "target": -11.710999999999999,
+      "speed": -11.710999999999972,
+      "peak": 11.710999999999972
+    },
+    {
+      "car": "snowgrip",
+      "biome": "city",
+      "demand": -0.25,
+      "target": -5.855499999999999,
+      "speed": -5.855499999999986,
+      "peak": 5.855499999999986
+    },
+    {
+      "car": "snowgrip",
+      "biome": "city",
+      "demand": 0.25,
+      "target": 5.855499999999999,
+      "speed": 5.855499999999986,
+      "peak": 5.855499999999986
+    },
+    {
+      "car": "snowgrip",
+      "biome": "city",
+      "demand": 0.5,
+      "target": 11.710999999999999,
+      "speed": 11.710999999999972,
+      "peak": 11.710999999999972
+    },
+    {
+      "car": "snowgrip",
+      "biome": "city",
+      "demand": 1,
+      "target": 23.421999999999997,
+      "speed": 23.421999999999944,
+      "peak": 23.421999999999944
+    },
+    {
+      "car": "snowgrip",
+      "biome": "forest",
+      "demand": -1,
+      "target": -23.421999999999997,
+      "speed": -23.421999999999944,
+      "peak": 23.421999999999944
+    },
+    {
+      "car": "snowgrip",
+      "biome": "forest",
+      "demand": -0.5,
+      "target": -11.710999999999999,
+      "speed": -11.710999999999972,
+      "peak": 11.710999999999972
+    },
+    {
+      "car": "snowgrip",
+      "biome": "forest",
+      "demand": -0.25,
+      "target": -5.855499999999999,
+      "speed": -5.855499999999987,
+      "peak": 5.855499999999987
+    },
+    {
+      "car": "snowgrip",
+      "biome": "forest",
+      "demand": 0.25,
+      "target": 5.855499999999999,
+      "speed": 5.855499999999987,
+      "peak": 5.855499999999987
+    },
+    {
+      "car": "snowgrip",
+      "biome": "forest",
+      "demand": 0.5,
+      "target": 11.710999999999999,
+      "speed": 11.710999999999972,
+      "peak": 11.710999999999972
+    },
+    {
+      "car": "snowgrip",
+      "biome": "forest",
+      "demand": 1,
+      "target": 23.421999999999997,
+      "speed": 23.421999999999944,
+      "peak": 23.421999999999944
+    },
+    {
+      "car": "snowgrip",
+      "biome": "desert",
+      "demand": -1,
+      "target": -23.421999999999997,
+      "speed": -23.421999999999947,
+      "peak": 23.421999999999947
+    },
+    {
+      "car": "snowgrip",
+      "biome": "desert",
+      "demand": -0.5,
+      "target": -11.710999999999999,
+      "speed": -11.710999999999974,
+      "peak": 11.710999999999974
+    },
+    {
+      "car": "snowgrip",
+      "biome": "desert",
+      "demand": -0.25,
+      "target": -5.855499999999999,
+      "speed": -5.855499999999987,
+      "peak": 5.855499999999987
+    },
+    {
+      "car": "snowgrip",
+      "biome": "desert",
+      "demand": 0.25,
+      "target": 5.855499999999999,
+      "speed": 5.855499999999987,
+      "peak": 5.855499999999987
+    },
+    {
+      "car": "snowgrip",
+      "biome": "desert",
+      "demand": 0.5,
+      "target": 11.710999999999999,
+      "speed": 11.710999999999974,
+      "peak": 11.710999999999974
+    },
+    {
+      "car": "snowgrip",
+      "biome": "desert",
+      "demand": 1,
+      "target": 23.421999999999997,
+      "speed": 23.421999999999947,
+      "peak": 23.421999999999947
+    },
+    {
+      "car": "snowgrip",
+      "biome": "snow",
+      "demand": -1,
+      "target": -23.9,
+      "speed": -23.89999999999995,
+      "peak": 23.89999999999995
+    },
+    {
+      "car": "snowgrip",
+      "biome": "snow",
+      "demand": -0.5,
+      "target": -11.95,
+      "speed": -11.949999999999974,
+      "peak": 11.949999999999974
+    },
+    {
+      "car": "snowgrip",
+      "biome": "snow",
+      "demand": -0.25,
+      "target": -5.975,
+      "speed": -5.974999999999987,
+      "peak": 5.974999999999987
+    },
+    {
+      "car": "snowgrip",
+      "biome": "snow",
+      "demand": 0.25,
+      "target": 5.975,
+      "speed": 5.974999999999987,
+      "peak": 5.974999999999987
+    },
+    {
+      "car": "snowgrip",
+      "biome": "snow",
+      "demand": 0.5,
+      "target": 11.95,
+      "speed": 11.949999999999974,
+      "peak": 11.949999999999974
+    },
+    {
+      "car": "snowgrip",
+      "biome": "snow",
+      "demand": 1,
+      "target": 23.9,
+      "speed": 23.89999999999995,
+      "peak": 23.89999999999995
+    },
+    {
+      "car": "snowgrip",
+      "biome": "volcanic",
+      "demand": -1,
+      "target": -10.037999999999998,
+      "speed": -10.037999999999972,
+      "peak": 10.037999999999972
+    },
+    {
+      "car": "snowgrip",
+      "biome": "volcanic",
+      "demand": -0.5,
+      "target": -5.018999999999999,
+      "speed": -5.018999999999986,
+      "peak": 5.018999999999986
+    },
+    {
+      "car": "snowgrip",
+      "biome": "volcanic",
+      "demand": -0.25,
+      "target": -2.5094999999999996,
+      "speed": -2.5094999999999934,
+      "peak": 2.5094999999999934
+    },
+    {
+      "car": "snowgrip",
+      "biome": "volcanic",
+      "demand": 0.25,
+      "target": 2.5094999999999996,
+      "speed": 2.5094999999999934,
+      "peak": 2.5094999999999934
+    },
+    {
+      "car": "snowgrip",
+      "biome": "volcanic",
+      "demand": 0.5,
+      "target": 5.018999999999999,
+      "speed": 5.018999999999986,
+      "peak": 5.018999999999986
+    },
+    {
+      "car": "snowgrip",
+      "biome": "volcanic",
+      "demand": 1,
+      "target": 10.037999999999998,
+      "speed": 10.037999999999972,
+      "peak": 10.037999999999972
+    },
+    {
+      "car": "snowrunner",
+      "biome": "city",
+      "demand": -1,
+      "target": -26.656,
+      "speed": -26.655999999999946,
+      "peak": 26.655999999999946
+    },
+    {
+      "car": "snowrunner",
+      "biome": "city",
+      "demand": -0.5,
+      "target": -13.328,
+      "speed": -13.327999999999973,
+      "peak": 13.327999999999973
+    },
+    {
+      "car": "snowrunner",
+      "biome": "city",
+      "demand": -0.25,
+      "target": -6.664,
+      "speed": -6.663999999999987,
+      "peak": 6.663999999999987
+    },
+    {
+      "car": "snowrunner",
+      "biome": "city",
+      "demand": 0.25,
+      "target": 6.664,
+      "speed": 6.663999999999987,
+      "peak": 6.663999999999987
+    },
+    {
+      "car": "snowrunner",
+      "biome": "city",
+      "demand": 0.5,
+      "target": 13.328,
+      "speed": 13.327999999999973,
+      "peak": 13.327999999999973
+    },
+    {
+      "car": "snowrunner",
+      "biome": "city",
+      "demand": 1,
+      "target": 26.656,
+      "speed": 26.655999999999946,
+      "peak": 26.655999999999946
+    },
+    {
+      "car": "snowrunner",
+      "biome": "forest",
+      "demand": -1,
+      "target": -26.656,
+      "speed": -26.655999999999946,
+      "peak": 26.655999999999946
+    },
+    {
+      "car": "snowrunner",
+      "biome": "forest",
+      "demand": -0.5,
+      "target": -13.328,
+      "speed": -13.327999999999975,
+      "peak": 13.327999999999975
+    },
+    {
+      "car": "snowrunner",
+      "biome": "forest",
+      "demand": -0.25,
+      "target": -6.664,
+      "speed": -6.663999999999986,
+      "peak": 6.663999999999986
+    },
+    {
+      "car": "snowrunner",
+      "biome": "forest",
+      "demand": 0.25,
+      "target": 6.664,
+      "speed": 6.663999999999986,
+      "peak": 6.663999999999986
+    },
+    {
+      "car": "snowrunner",
+      "biome": "forest",
+      "demand": 0.5,
+      "target": 13.328,
+      "speed": 13.327999999999975,
+      "peak": 13.327999999999975
+    },
+    {
+      "car": "snowrunner",
+      "biome": "forest",
+      "demand": 1,
+      "target": 26.656,
+      "speed": 26.655999999999946,
+      "peak": 26.655999999999946
+    },
+    {
+      "car": "snowrunner",
+      "biome": "desert",
+      "demand": -1,
+      "target": -26.656,
+      "speed": -26.65599999999995,
+      "peak": 26.65599999999995
+    },
+    {
+      "car": "snowrunner",
+      "biome": "desert",
+      "demand": -0.5,
+      "target": -13.328,
+      "speed": -13.327999999999973,
+      "peak": 13.327999999999973
+    },
+    {
+      "car": "snowrunner",
+      "biome": "desert",
+      "demand": -0.25,
+      "target": -6.664,
+      "speed": -6.663999999999986,
+      "peak": 6.663999999999986
+    },
+    {
+      "car": "snowrunner",
+      "biome": "desert",
+      "demand": 0.25,
+      "target": 6.664,
+      "speed": 6.663999999999986,
+      "peak": 6.663999999999986
+    },
+    {
+      "car": "snowrunner",
+      "biome": "desert",
+      "demand": 0.5,
+      "target": 13.328,
+      "speed": 13.327999999999973,
+      "peak": 13.327999999999973
+    },
+    {
+      "car": "snowrunner",
+      "biome": "desert",
+      "demand": 1,
+      "target": 26.656,
+      "speed": 26.65599999999995,
+      "peak": 26.65599999999995
+    },
+    {
+      "car": "snowrunner",
+      "biome": "snow",
+      "demand": -1,
+      "target": -27.2,
+      "speed": -27.19999999999995,
+      "peak": 27.19999999999995
+    },
+    {
+      "car": "snowrunner",
+      "biome": "snow",
+      "demand": -0.5,
+      "target": -13.6,
+      "speed": -13.599999999999973,
+      "peak": 13.599999999999973
+    },
+    {
+      "car": "snowrunner",
+      "biome": "snow",
+      "demand": -0.25,
+      "target": -6.8,
+      "speed": -6.799999999999987,
+      "peak": 6.799999999999987
+    },
+    {
+      "car": "snowrunner",
+      "biome": "snow",
+      "demand": 0.25,
+      "target": 6.8,
+      "speed": 6.799999999999987,
+      "peak": 6.799999999999987
+    },
+    {
+      "car": "snowrunner",
+      "biome": "snow",
+      "demand": 0.5,
+      "target": 13.6,
+      "speed": 13.599999999999973,
+      "peak": 13.599999999999973
+    },
+    {
+      "car": "snowrunner",
+      "biome": "snow",
+      "demand": 1,
+      "target": 27.2,
+      "speed": 27.19999999999995,
+      "peak": 27.19999999999995
+    },
+    {
+      "car": "snowrunner",
+      "biome": "volcanic",
+      "demand": -1,
+      "target": -11.424,
+      "speed": -11.423999999999973,
+      "peak": 11.423999999999973
+    },
+    {
+      "car": "snowrunner",
+      "biome": "volcanic",
+      "demand": -0.5,
+      "target": -5.712,
+      "speed": -5.711999999999987,
+      "peak": 5.711999999999987
+    },
+    {
+      "car": "snowrunner",
+      "biome": "volcanic",
+      "demand": -0.25,
+      "target": -2.856,
+      "speed": -2.8559999999999937,
+      "peak": 2.8559999999999937
+    },
+    {
+      "car": "snowrunner",
+      "biome": "volcanic",
+      "demand": 0.25,
+      "target": 2.856,
+      "speed": 2.8559999999999937,
+      "peak": 2.8559999999999937
+    },
+    {
+      "car": "snowrunner",
+      "biome": "volcanic",
+      "demand": 0.5,
+      "target": 5.712,
+      "speed": 5.711999999999987,
+      "peak": 5.711999999999987
+    },
+    {
+      "car": "snowrunner",
+      "biome": "volcanic",
+      "demand": 1,
+      "target": 11.424,
+      "speed": 11.423999999999973,
+      "peak": 11.423999999999973
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "city",
+      "demand": -1,
+      "target": -30.38,
+      "speed": -30.379999999999946,
+      "peak": 30.379999999999946
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "city",
+      "demand": -0.5,
+      "target": -15.19,
+      "speed": -15.189999999999975,
+      "peak": 15.189999999999975
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "city",
+      "demand": -0.25,
+      "target": -7.595,
+      "speed": -7.594999999999986,
+      "peak": 7.594999999999986
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "city",
+      "demand": 0.25,
+      "target": 7.595,
+      "speed": 7.594999999999986,
+      "peak": 7.594999999999986
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "city",
+      "demand": 0.5,
+      "target": 15.19,
+      "speed": 15.189999999999975,
+      "peak": 15.189999999999975
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "city",
+      "demand": 1,
+      "target": 30.38,
+      "speed": 30.379999999999946,
+      "peak": 30.379999999999946
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "forest",
+      "demand": -1,
+      "target": -30.38,
+      "speed": -30.379999999999946,
+      "peak": 30.379999999999946
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "forest",
+      "demand": -0.5,
+      "target": -15.19,
+      "speed": -15.189999999999973,
+      "peak": 15.189999999999973
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "forest",
+      "demand": -0.25,
+      "target": -7.595,
+      "speed": -7.594999999999987,
+      "peak": 7.594999999999987
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "forest",
+      "demand": 0.25,
+      "target": 7.595,
+      "speed": 7.594999999999987,
+      "peak": 7.594999999999987
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "forest",
+      "demand": 0.5,
+      "target": 15.19,
+      "speed": 15.189999999999973,
+      "peak": 15.189999999999973
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "forest",
+      "demand": 1,
+      "target": 30.38,
+      "speed": 30.379999999999946,
+      "peak": 30.379999999999946
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "desert",
+      "demand": -1,
+      "target": -30.38,
+      "speed": -30.379999999999946,
+      "peak": 30.379999999999946
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "desert",
+      "demand": -0.5,
+      "target": -15.19,
+      "speed": -15.189999999999973,
+      "peak": 15.189999999999973
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "desert",
+      "demand": -0.25,
+      "target": -7.595,
+      "speed": -7.594999999999986,
+      "peak": 7.594999999999986
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "desert",
+      "demand": 0.25,
+      "target": 7.595,
+      "speed": 7.594999999999986,
+      "peak": 7.594999999999986
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "desert",
+      "demand": 0.5,
+      "target": 15.19,
+      "speed": 15.189999999999973,
+      "peak": 15.189999999999973
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "desert",
+      "demand": 1,
+      "target": 30.38,
+      "speed": 30.379999999999946,
+      "peak": 30.379999999999946
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "snow",
+      "demand": -1,
+      "target": -30.38,
+      "speed": -30.379999999999946,
+      "peak": 30.379999999999946
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "snow",
+      "demand": -0.5,
+      "target": -15.19,
+      "speed": -15.189999999999973,
+      "peak": 15.189999999999973
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "snow",
+      "demand": -0.25,
+      "target": -7.595,
+      "speed": -7.594999999999986,
+      "peak": 7.594999999999986
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "snow",
+      "demand": 0.25,
+      "target": 7.595,
+      "speed": 7.594999999999986,
+      "peak": 7.594999999999986
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "snow",
+      "demand": 0.5,
+      "target": 15.19,
+      "speed": 15.189999999999973,
+      "peak": 15.189999999999973
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "snow",
+      "demand": 1,
+      "target": 30.38,
+      "speed": 30.379999999999946,
+      "peak": 30.379999999999946
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "volcanic",
+      "demand": -1,
+      "target": -31,
+      "speed": -30.999999999999947,
+      "peak": 30.999999999999947
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "volcanic",
+      "demand": -0.5,
+      "target": -15.5,
+      "speed": -15.499999999999973,
+      "peak": 15.499999999999973
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "volcanic",
+      "demand": -0.25,
+      "target": -7.75,
+      "speed": -7.749999999999987,
+      "peak": 7.749999999999987
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "volcanic",
+      "demand": 0.25,
+      "target": 7.75,
+      "speed": 7.749999999999987,
+      "peak": 7.749999999999987
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "volcanic",
+      "demand": 0.5,
+      "target": 15.5,
+      "speed": 15.499999999999973,
+      "peak": 15.499999999999973
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "volcanic",
+      "demand": 1,
+      "target": 31,
+      "speed": 30.999999999999947,
+      "peak": 30.999999999999947
+    },
+    {
+      "car": "ashhauler",
+      "biome": "city",
+      "demand": -1,
+      "target": -34.692,
+      "speed": -34.691999999999894,
+      "peak": 34.691999999999894
+    },
+    {
+      "car": "ashhauler",
+      "biome": "city",
+      "demand": -0.5,
+      "target": -17.346,
+      "speed": -17.34599999999995,
+      "peak": 17.34599999999995
+    },
+    {
+      "car": "ashhauler",
+      "biome": "city",
+      "demand": -0.25,
+      "target": -8.673,
+      "speed": -8.672999999999975,
+      "peak": 8.672999999999975
+    },
+    {
+      "car": "ashhauler",
+      "biome": "city",
+      "demand": 0.25,
+      "target": 8.673,
+      "speed": 8.672999999999975,
+      "peak": 8.672999999999975
+    },
+    {
+      "car": "ashhauler",
+      "biome": "city",
+      "demand": 0.5,
+      "target": 17.346,
+      "speed": 17.34599999999995,
+      "peak": 17.34599999999995
+    },
+    {
+      "car": "ashhauler",
+      "biome": "city",
+      "demand": 1,
+      "target": 34.692,
+      "speed": 34.691999999999894,
+      "peak": 34.691999999999894
+    },
+    {
+      "car": "ashhauler",
+      "biome": "forest",
+      "demand": -1,
+      "target": -34.692,
+      "speed": -34.6919999999999,
+      "peak": 34.6919999999999
+    },
+    {
+      "car": "ashhauler",
+      "biome": "forest",
+      "demand": -0.5,
+      "target": -17.346,
+      "speed": -17.345999999999947,
+      "peak": 17.345999999999947
+    },
+    {
+      "car": "ashhauler",
+      "biome": "forest",
+      "demand": -0.25,
+      "target": -8.673,
+      "speed": -8.672999999999975,
+      "peak": 8.672999999999975
+    },
+    {
+      "car": "ashhauler",
+      "biome": "forest",
+      "demand": 0.25,
+      "target": 8.673,
+      "speed": 8.672999999999975,
+      "peak": 8.672999999999975
+    },
+    {
+      "car": "ashhauler",
+      "biome": "forest",
+      "demand": 0.5,
+      "target": 17.346,
+      "speed": 17.345999999999947,
+      "peak": 17.345999999999947
+    },
+    {
+      "car": "ashhauler",
+      "biome": "forest",
+      "demand": 1,
+      "target": 34.692,
+      "speed": 34.6919999999999,
+      "peak": 34.6919999999999
+    },
+    {
+      "car": "ashhauler",
+      "biome": "desert",
+      "demand": -1,
+      "target": -34.692,
+      "speed": -34.691999999999894,
+      "peak": 34.691999999999894
+    },
+    {
+      "car": "ashhauler",
+      "biome": "desert",
+      "demand": -0.5,
+      "target": -17.346,
+      "speed": -17.345999999999947,
+      "peak": 17.345999999999947
+    },
+    {
+      "car": "ashhauler",
+      "biome": "desert",
+      "demand": -0.25,
+      "target": -8.673,
+      "speed": -8.672999999999973,
+      "peak": 8.672999999999973
+    },
+    {
+      "car": "ashhauler",
+      "biome": "desert",
+      "demand": 0.25,
+      "target": 8.673,
+      "speed": 8.672999999999973,
+      "peak": 8.672999999999973
+    },
+    {
+      "car": "ashhauler",
+      "biome": "desert",
+      "demand": 0.5,
+      "target": 17.346,
+      "speed": 17.345999999999947,
+      "peak": 17.345999999999947
+    },
+    {
+      "car": "ashhauler",
+      "biome": "desert",
+      "demand": 1,
+      "target": 34.692,
+      "speed": 34.691999999999894,
+      "peak": 34.691999999999894
+    },
+    {
+      "car": "ashhauler",
+      "biome": "snow",
+      "demand": -1,
+      "target": -34.692,
+      "speed": -34.6919999999999,
+      "peak": 34.6919999999999
+    },
+    {
+      "car": "ashhauler",
+      "biome": "snow",
+      "demand": -0.5,
+      "target": -17.346,
+      "speed": -17.34599999999995,
+      "peak": 17.34599999999995
+    },
+    {
+      "car": "ashhauler",
+      "biome": "snow",
+      "demand": -0.25,
+      "target": -8.673,
+      "speed": -8.672999999999973,
+      "peak": 8.672999999999973
+    },
+    {
+      "car": "ashhauler",
+      "biome": "snow",
+      "demand": 0.25,
+      "target": 8.673,
+      "speed": 8.672999999999973,
+      "peak": 8.672999999999973
+    },
+    {
+      "car": "ashhauler",
+      "biome": "snow",
+      "demand": 0.5,
+      "target": 17.346,
+      "speed": 17.34599999999995,
+      "peak": 17.34599999999995
+    },
+    {
+      "car": "ashhauler",
+      "biome": "snow",
+      "demand": 1,
+      "target": 34.692,
+      "speed": 34.6919999999999,
+      "peak": 34.6919999999999
+    },
+    {
+      "car": "ashhauler",
+      "biome": "volcanic",
+      "demand": -1,
+      "target": -35.4,
+      "speed": -35.39999999999989,
+      "peak": 35.39999999999989
+    },
+    {
+      "car": "ashhauler",
+      "biome": "volcanic",
+      "demand": -0.5,
+      "target": -17.7,
+      "speed": -17.699999999999946,
+      "peak": 17.699999999999946
+    },
+    {
+      "car": "ashhauler",
+      "biome": "volcanic",
+      "demand": -0.25,
+      "target": -8.85,
+      "speed": -8.849999999999973,
+      "peak": 8.849999999999973
+    },
+    {
+      "car": "ashhauler",
+      "biome": "volcanic",
+      "demand": 0.25,
+      "target": 8.85,
+      "speed": 8.849999999999973,
+      "peak": 8.849999999999973
+    },
+    {
+      "car": "ashhauler",
+      "biome": "volcanic",
+      "demand": 0.5,
+      "target": 17.7,
+      "speed": 17.699999999999946,
+      "peak": 17.699999999999946
+    },
+    {
+      "car": "ashhauler",
+      "biome": "volcanic",
+      "demand": 1,
+      "target": 35.4,
+      "speed": 35.39999999999989,
+      "peak": 35.39999999999989
+    }
+  ],
+  "transitions": [
+    {
+      "car": "pickup",
+      "biome": "city",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.6666666666666666
+    },
+    {
+      "car": "pickup",
+      "biome": "city",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.6666666666666666
+    },
+    {
+      "car": "pickup",
+      "biome": "forest",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.6666666666666666
+    },
+    {
+      "car": "pickup",
+      "biome": "forest",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.6666666666666666
+    },
+    {
+      "car": "pickup",
+      "biome": "desert",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.6166666666666667
+    },
+    {
+      "car": "pickup",
+      "biome": "desert",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.6166666666666667
+    },
+    {
+      "car": "pickup",
+      "biome": "snow",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.5666666666666667
+    },
+    {
+      "car": "pickup",
+      "biome": "snow",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.5666666666666667
+    },
+    {
+      "car": "pickup",
+      "biome": "volcanic",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.48333333333333334
+    },
+    {
+      "car": "pickup",
+      "biome": "volcanic",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.48333333333333334
+    },
+    {
+      "car": "citycourier",
+      "biome": "city",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.6916666666666667
+    },
+    {
+      "car": "citycourier",
+      "biome": "city",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.6916666666666667
+    },
+    {
+      "car": "citycourier",
+      "biome": "forest",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.7
+    },
+    {
+      "car": "citycourier",
+      "biome": "forest",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.7
+    },
+    {
+      "car": "citycourier",
+      "biome": "desert",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.65
+    },
+    {
+      "car": "citycourier",
+      "biome": "desert",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.65
+    },
+    {
+      "car": "citycourier",
+      "biome": "snow",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.5916666666666667
+    },
+    {
+      "car": "citycourier",
+      "biome": "snow",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.5916666666666667
+    },
+    {
+      "car": "citycourier",
+      "biome": "volcanic",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.5083333333333333
+    },
+    {
+      "car": "citycourier",
+      "biome": "volcanic",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.5083333333333333
+    },
+    {
+      "car": "rover",
+      "biome": "city",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.7
+    },
+    {
+      "car": "rover",
+      "biome": "city",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.7
+    },
+    {
+      "car": "rover",
+      "biome": "forest",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.7
+    },
+    {
+      "car": "rover",
+      "biome": "forest",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.7
+    },
+    {
+      "car": "rover",
+      "biome": "desert",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.8333333333333334
+    },
+    {
+      "car": "rover",
+      "biome": "desert",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.8333333333333334
+    },
+    {
+      "car": "rover",
+      "biome": "snow",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.7833333333333333
+    },
+    {
+      "car": "rover",
+      "biome": "snow",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.7833333333333333
+    },
+    {
+      "car": "rover",
+      "biome": "volcanic",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.7
+    },
+    {
+      "car": "rover",
+      "biome": "volcanic",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.7
+    },
+    {
+      "car": "foresthauler",
+      "biome": "city",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.725
+    },
+    {
+      "car": "foresthauler",
+      "biome": "city",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.725
+    },
+    {
+      "car": "foresthauler",
+      "biome": "forest",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.725
+    },
+    {
+      "car": "foresthauler",
+      "biome": "forest",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.725
+    },
+    {
+      "car": "foresthauler",
+      "biome": "desert",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.8833333333333333
+    },
+    {
+      "car": "foresthauler",
+      "biome": "desert",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.8833333333333333
+    },
+    {
+      "car": "foresthauler",
+      "biome": "snow",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.825
+    },
+    {
+      "car": "foresthauler",
+      "biome": "snow",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.825
+    },
+    {
+      "car": "foresthauler",
+      "biome": "volcanic",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.7333333333333333
+    },
+    {
+      "car": "foresthauler",
+      "biome": "volcanic",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.7333333333333333
+    },
+    {
+      "car": "van",
+      "biome": "city",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.75
+    },
+    {
+      "car": "van",
+      "biome": "city",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.75
+    },
+    {
+      "car": "van",
+      "biome": "forest",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.7333333333333333
+    },
+    {
+      "car": "van",
+      "biome": "forest",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.7333333333333333
+    },
+    {
+      "car": "van",
+      "biome": "desert",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.7333333333333333
+    },
+    {
+      "car": "van",
+      "biome": "desert",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.7333333333333333
+    },
+    {
+      "car": "van",
+      "biome": "snow",
+      "sign": -1,
+      "releaseStoppedSeconds": 1.075
+    },
+    {
+      "car": "van",
+      "biome": "snow",
+      "sign": 1,
+      "releaseStoppedSeconds": 1.075
+    },
+    {
+      "car": "van",
+      "biome": "volcanic",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.9916666666666667
+    },
+    {
+      "car": "van",
+      "biome": "volcanic",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.9916666666666667
+    },
+    {
+      "car": "desertscout",
+      "biome": "city",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.775
+    },
+    {
+      "car": "desertscout",
+      "biome": "city",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.775
+    },
+    {
+      "car": "desertscout",
+      "biome": "forest",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.7583333333333333
+    },
+    {
+      "car": "desertscout",
+      "biome": "forest",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.7583333333333333
+    },
+    {
+      "car": "desertscout",
+      "biome": "desert",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.7666666666666666
+    },
+    {
+      "car": "desertscout",
+      "biome": "desert",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.7666666666666666
+    },
+    {
+      "car": "desertscout",
+      "biome": "snow",
+      "sign": -1,
+      "releaseStoppedSeconds": 1.1333333333333333
+    },
+    {
+      "car": "desertscout",
+      "biome": "snow",
+      "sign": 1,
+      "releaseStoppedSeconds": 1.1333333333333333
+    },
+    {
+      "car": "desertscout",
+      "biome": "volcanic",
+      "sign": -1,
+      "releaseStoppedSeconds": 1.05
+    },
+    {
+      "car": "desertscout",
+      "biome": "volcanic",
+      "sign": 1,
+      "releaseStoppedSeconds": 1.05
+    },
+    {
+      "car": "snowgrip",
+      "biome": "city",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.8
+    },
+    {
+      "car": "snowgrip",
+      "biome": "city",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.8
+    },
+    {
+      "car": "snowgrip",
+      "biome": "forest",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.7916666666666666
+    },
+    {
+      "car": "snowgrip",
+      "biome": "forest",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.7916666666666666
+    },
+    {
+      "car": "snowgrip",
+      "biome": "desert",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.7833333333333333
+    },
+    {
+      "car": "snowgrip",
+      "biome": "desert",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.7833333333333333
+    },
+    {
+      "car": "snowgrip",
+      "biome": "snow",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.8583333333333333
+    },
+    {
+      "car": "snowgrip",
+      "biome": "snow",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.8583333333333333
+    },
+    {
+      "car": "snowgrip",
+      "biome": "volcanic",
+      "sign": -1,
+      "releaseStoppedSeconds": 1.3666666666666667
+    },
+    {
+      "car": "snowgrip",
+      "biome": "volcanic",
+      "sign": 1,
+      "releaseStoppedSeconds": 1.3666666666666667
+    },
+    {
+      "car": "snowrunner",
+      "biome": "city",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.8333333333333334
+    },
+    {
+      "car": "snowrunner",
+      "biome": "city",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.8333333333333334
+    },
+    {
+      "car": "snowrunner",
+      "biome": "forest",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.8166666666666667
+    },
+    {
+      "car": "snowrunner",
+      "biome": "forest",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.8166666666666667
+    },
+    {
+      "car": "snowrunner",
+      "biome": "desert",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.8083333333333333
+    },
+    {
+      "car": "snowrunner",
+      "biome": "desert",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.8083333333333333
+    },
+    {
+      "car": "snowrunner",
+      "biome": "snow",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.8916666666666666
+    },
+    {
+      "car": "snowrunner",
+      "biome": "snow",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.8916666666666666
+    },
+    {
+      "car": "snowrunner",
+      "biome": "volcanic",
+      "sign": -1,
+      "releaseStoppedSeconds": 1.4416666666666667
+    },
+    {
+      "car": "snowrunner",
+      "biome": "volcanic",
+      "sign": 1,
+      "releaseStoppedSeconds": 1.4416666666666667
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "city",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.8666666666666667
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "city",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.8666666666666667
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "forest",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.85
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "forest",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.85
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "desert",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.8416666666666667
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "desert",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.8416666666666667
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "snow",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.9083333333333333
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "snow",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.9083333333333333
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "volcanic",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.875
+    },
+    {
+      "car": "lavacrawler",
+      "biome": "volcanic",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.875
+    },
+    {
+      "car": "ashhauler",
+      "biome": "city",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.9
+    },
+    {
+      "car": "ashhauler",
+      "biome": "city",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.9
+    },
+    {
+      "car": "ashhauler",
+      "biome": "forest",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.8916666666666666
+    },
+    {
+      "car": "ashhauler",
+      "biome": "forest",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.8916666666666666
+    },
+    {
+      "car": "ashhauler",
+      "biome": "desert",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.875
+    },
+    {
+      "car": "ashhauler",
+      "biome": "desert",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.875
+    },
+    {
+      "car": "ashhauler",
+      "biome": "snow",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.95
+    },
+    {
+      "car": "ashhauler",
+      "biome": "snow",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.95
+    },
+    {
+      "car": "ashhauler",
+      "biome": "volcanic",
+      "sign": -1,
+      "releaseStoppedSeconds": 0.9083333333333333
+    },
+    {
+      "car": "ashhauler",
+      "biome": "volcanic",
+      "sign": 1,
+      "releaseStoppedSeconds": 0.9083333333333333
+    }
+  ],
+  "slopeCases": 100
+}

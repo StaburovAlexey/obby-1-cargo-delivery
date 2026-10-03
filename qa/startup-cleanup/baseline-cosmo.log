@@ -1,0 +1,26 @@
+PASS pickup: exact GLB, uniform fit, forward/axles, palette scope, articulation, cargo support, owned disposal
+PASS citycourier: exact GLB, uniform fit, forward/axles, palette scope, articulation, cargo support, owned disposal
+PASS rover: exact GLB, uniform fit, forward/axles, palette scope, articulation, cargo support, owned disposal
+PASS foresthauler: exact GLB, uniform fit, forward/axles, palette scope, articulation, cargo support, owned disposal
+PASS van: exact GLB, uniform fit, forward/axles, palette scope, articulation, cargo support, owned disposal
+PASS desertscout: exact GLB, uniform fit, forward/axles, palette scope, articulation, cargo support, owned disposal
+PASS snowgrip: exact GLB, uniform fit, forward/axles, palette scope, articulation, cargo support, owned disposal
+PASS snowrunner: exact GLB, uniform fit, forward/axles, palette scope, articulation, cargo support, owned disposal
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+1948 !== 1924
+
+    at file:///tmp/city-baseline-70/tests/cosmo-fit-review.mjs:34:10 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 1948,
+  expected: 1924,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

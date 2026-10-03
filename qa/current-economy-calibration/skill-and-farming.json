@@ -1,0 +1,1216 @@
+{
+  "generatedAt": "2026-10-14T10:56:07.607Z",
+  "scope": "Offline CPU production modules at 20 Hz controller update and 120 Hz fixed physics. No browser/GPU/rendering or human playtest claim.",
+  "runtimeHashes": {
+    "app.js": "be361802855e50cc56d85fdef5ed70f35743e1e4de4c7511696710fd0615a611",
+    "biome-surfaces.js": "269e51c2c3ac2d32bc29f1780a2342a9df315fc3a7e6efe7b24a210d994e628a",
+    "biome-travel.js": "604c1c2e90abab4bf6526c324b4ae09eb6d647cdbbcf2da61d22eff78a12ed73",
+    "biome-weather.js": "17182b09e8c82129bfcecfed0a2bae0c7c3b4d9324943141fbe2263dd20415fa",
+    "building-material.js": "de80b6b72afb2489a2a47baa11570c2190b8c6f54b372748748c1b790a0fe042",
+    "career-save.js": "4fa790a8017f0fb64372e55219e50b9220df9d557db1fcdb67db4977a60f958d",
+    "character-catalog.js": "1ceed0f70e0604f1ab4343ee09184e9bb6c0b33767ff5415c0427363440707f6",
+    "character-seat-calibration.js": "2d09cbf7f2b2581bed84f81ae41b790c2877e979f017360a04561b8e3443d51d",
+    "character-seat-pose.js": "aef6693f7fa229e6a4a2c8c5c3c31d56213820a109275a09d5fd755bd3fdcb73",
+    "character-support.js": "35b780187ae42ed5fc2a34035c9bf5c7b5603d1304c7e6e658a5a2e531211528",
+    "character.js": "ff88173983ee6a022290542aac867b73f5ae0c6d009cef1f47b3641d16951f59",
+    "city-driving.js": "a33f82d66e2fa50fb281fb28e8231decb76ef216557110fd2881f4b3338f4b82",
+    "driving-ground.js": "157ac92a62df8858ba2af419e334121966214aa59dd91b063e6e30a7d4e14c84",
+    "driving-model.js": "74b1165a2cc326b940eb1de89292741596035e58fc06c57ef4d4c292f35af3bc",
+    "economy-config.js": "9920510201a0b051efe78c5c507e1101bb40be4cc8b28490c6ba5973e3cc2734",
+    "follow-camera.js": "619bec5c16b350b5c6404127cd2d772a7aef5276091b6d2f8a2e9b5b3d6a9a25",
+    "gameplay.js": "efeb4eef0b243324cb96d0cecf878813911ddfe56035d70da15924ea7bed9849",
+    "garage-scene.js": "13d4a7fc38bc53ae02e26e9a04b98a8f05e391843b389a693b39237d21a6b95b",
+    "ground-material.js": "3855969200dfbd2f567e965f3e3e621bcd64e137034506eedf420f22374ed103",
+    "jump-input.js": "7b6f4a074658f15691c0e1e2f39cad9acf6a66264d8d7854d78f6f303c445832",
+    "look-input.js": "73c8fbee12a361fa230c9070cd96671da01f8ebba5e8d698368987b6aa9869ec",
+    "network-scene.js": "71bde9a8753033348274ec7f4f1661526730e9d35cf96457e769da85f86f7a11",
+    "progression-config.js": "df64aa258949320085fb65cdaafe845bac66a2d65017fd19cfa3fb134b05af8e",
+    "progression-hud.js": "9f9e523ff24d93812c2d9e5e5f59ef70b396b4712d356fb25d125a4e1dbf5aa7",
+    "road-bridges.js": "dbb9f5f12bd33ccbc30c8de25599c2b4ec7b71b482b90b19b4639055b908bb38",
+    "road-hazards-scene.js": "b29b804f7c30bb7d859828582cf71ac87c4ce6d9bcee2fa4cccec064363ca1bc",
+    "road-hazards.js": "65b81a56194d8d1b65fda25fdf82e808e7d3f7feec42c4929a3dbc4eb87ae3d5",
+    "road-layout.js": "4705972cf548ff56a004b63a5d85ba41f67caf2b1fe16572c908abd3d10b8685",
+    "road-material.js": "90a81ae425b987e980c8d94b73ce5311f4121632ae99e4f7dfaaafab8f48067a",
+    "route-network-config.js": "e9fd175e4c926f382496d82e53de85d99a125dddc19eae4d9122b112edbed739",
+    "route-network.js": "c906578aa6d913d6c0d96f82a3c230373c4aefebe85c9accd1637a0a61dc115e",
+    "scene-lighting.js": "ba7b5eeeda73bb2532111668ee7d7d4520f78e102645d1c6f67a6b7c74f55608",
+    "scene.js": "169df363d212808a50b43cd9106ab1a4b8f7b35a04009bdf50acf695cb50290a",
+    "square-stud-texture.js": "8dcbe950316893d74bcb5b0f103b7e8bd972e6ef82e968239f6ee0c4442e367b",
+    "vehicle-input.js": "9bcf192299b0f5d56a0346e8eed53fc7a281bea24939690b8a2bfe99b2ffcc2e",
+    "vehicle-rig.js": "11c527c5aced8eeac2b748c8dfa1a413eab132de88ca28e9437f603fb7945b72",
+    "vehicle-upgrades.js": "6ba02ae4e0483f4dfefc9d6f953ffb0e2a0462da8be0adcc9519ce6c3c616a28",
+    "walk-input.js": "0f575e0a4a58c8a5f7f74edd78e941c5ab0304ecab18ff25d6c2a3b103850af7",
+    "wheel-particles.js": "4393a9ef61623d0a7a6d89934cc4acb984b7a768a954fdc8649ed5c8f070f743"
+  },
+  "routeLength3D": 32456.961569853796,
+  "checks": [
+    {
+      "name": "farm citycourier max10 stop3",
+      "passed": true,
+      "id": "citycourier",
+      "upgrade": "max10",
+      "target": 3,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "primary",
+      "slalom": false,
+      "carefulPedalFrames": 0,
+      "frames": 1154,
+      "seconds": 57.7,
+      "travelXZ": 779.572,
+      "travel3D": 779.885,
+      "fuelDemand": 272.85,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02"
+      ],
+      "crossedBridges": [],
+      "finalProgress": 776.019,
+      "finalDistance3D": 776.334,
+      "maxOffset": 8.379,
+      "maxStep": 0.692,
+      "range": 520,
+      "capacity": 182,
+      "endingFuel": 65.412,
+      "brainsEarned": 57.683,
+      "reward": 470,
+      "cashPerMinute": {
+        "0sRestart": 488.735,
+        "5sRestart": 449.761,
+        "10sRestart": 416.544,
+        "20sRestart": 362.934
+      }
+    },
+    {
+      "name": "farm rover stock stop3",
+      "passed": true,
+      "id": "rover",
+      "upgrade": "stock",
+      "target": 3,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "primary",
+      "slalom": false,
+      "carefulPedalFrames": 0,
+      "frames": 1140,
+      "seconds": 57,
+      "travelXZ": 779.187,
+      "travel3D": 779.5,
+      "fuelDemand": 269.174,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02"
+      ],
+      "crossedBridges": [],
+      "finalProgress": 775.651,
+      "finalDistance3D": 775.965,
+      "maxOffset": 8.377,
+      "maxStep": 0.701,
+      "range": 550,
+      "capacity": 190,
+      "endingFuel": 74.988,
+      "brainsEarned": 56.983,
+      "reward": 470,
+      "cashPerMinute": {
+        "0sRestart": 494.737,
+        "5sRestart": 454.839,
+        "10sRestart": 420.896,
+        "20sRestart": 366.234
+      }
+    },
+    {
+      "name": "farm rover max10 stop3",
+      "passed": true,
+      "id": "rover",
+      "upgrade": "max10",
+      "target": 3,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "primary",
+      "slalom": false,
+      "carefulPedalFrames": 0,
+      "frames": 1038,
+      "seconds": 51.9,
+      "travelXZ": 779.143,
+      "travel3D": 779.457,
+      "fuelDemand": 269.159,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02"
+      ],
+      "crossedBridges": [],
+      "finalProgress": 775.709,
+      "finalDistance3D": 776.023,
+      "maxOffset": 8.375,
+      "maxStep": 0.77,
+      "range": 715,
+      "capacity": 247,
+      "endingFuel": 131.924,
+      "brainsEarned": 51.883,
+      "reward": 470,
+      "cashPerMinute": {
+        "0sRestart": 543.353,
+        "5sRestart": 495.606,
+        "10sRestart": 455.574,
+        "20sRestart": 392.211
+      }
+    },
+    {
+      "name": "farm foresthauler stock stop3",
+      "passed": true,
+      "id": "foresthauler",
+      "upgrade": "stock",
+      "target": 3,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "primary",
+      "slalom": false,
+      "carefulPedalFrames": 0,
+      "frames": 1002,
+      "seconds": 50.1,
+      "travelXZ": 779.355,
+      "travel3D": 779.668,
+      "fuelDemand": 273.827,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02"
+      ],
+      "crossedBridges": [],
+      "finalProgress": 775.939,
+      "finalDistance3D": 776.253,
+      "maxOffset": 8.389,
+      "maxStep": 0.799,
+      "range": 740,
+      "capacity": 260,
+      "endingFuel": 142.822,
+      "brainsEarned": 50.083,
+      "reward": 470,
+      "cashPerMinute": {
+        "0sRestart": 562.874,
+        "5sRestart": 511.797,
+        "10sRestart": 469.218,
+        "20sRestart": 402.282
+      }
+    },
+    {
+      "name": "farm foresthauler max10 stop3",
+      "passed": true,
+      "id": "foresthauler",
+      "upgrade": "max10",
+      "target": 3,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "primary",
+      "slalom": false,
+      "carefulPedalFrames": 0,
+      "frames": 913,
+      "seconds": 45.65,
+      "travelXZ": 779.676,
+      "travel3D": 779.99,
+      "fuelDemand": 273.94,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02"
+      ],
+      "crossedBridges": [],
+      "finalProgress": 776.374,
+      "finalDistance3D": 776.689,
+      "maxOffset": 8.384,
+      "maxStep": 0.878,
+      "range": 962,
+      "capacity": 338,
+      "endingFuel": 220.824,
+      "brainsEarned": 45.642,
+      "reward": 470,
+      "cashPerMinute": {
+        "0sRestart": 617.744,
+        "5sRestart": 556.762,
+        "10sRestart": 506.739,
+        "20sRestart": 429.551
+      }
+    },
+    {
+      "name": "farm van stock stop3",
+      "passed": true,
+      "id": "van",
+      "upgrade": "stock",
+      "target": 3,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "primary",
+      "slalom": false,
+      "carefulPedalFrames": 0,
+      "frames": 884,
+      "seconds": 44.2,
+      "travelXZ": 778.945,
+      "travel3D": 779.259,
+      "fuelDemand": 272.631,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02"
+      ],
+      "crossedBridges": [],
+      "finalProgress": 775.667,
+      "finalDistance3D": 775.981,
+      "maxOffset": 8.392,
+      "maxStep": 0.906,
+      "range": 1000,
+      "capacity": 350,
+      "endingFuel": 233.596,
+      "brainsEarned": 44.192,
+      "reward": 470,
+      "cashPerMinute": {
+        "0sRestart": 638.009,
+        "5sRestart": 573.171,
+        "10sRestart": 520.295,
+        "20sRestart": 439.252
+      }
+    },
+    {
+      "name": "farm van max10 stop3",
+      "passed": true,
+      "id": "van",
+      "upgrade": "max10",
+      "target": 3,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "primary",
+      "slalom": false,
+      "carefulPedalFrames": 0,
+      "frames": 806,
+      "seconds": 40.3,
+      "travelXZ": 779.575,
+      "travel3D": 779.888,
+      "fuelDemand": 272.851,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02"
+      ],
+      "crossedBridges": [],
+      "finalProgress": 776.42,
+      "finalDistance3D": 776.734,
+      "maxOffset": 8.387,
+      "maxStep": 0.997,
+      "range": 1300,
+      "capacity": 455,
+      "endingFuel": 338.117,
+      "brainsEarned": 40.292,
+      "reward": 470,
+      "cashPerMinute": {
+        "0sRestart": 699.752,
+        "5sRestart": 622.517,
+        "10sRestart": 560.636,
+        "20sRestart": 467.662
+      }
+    },
+    {
+      "name": "farm desertscout stock stop3",
+      "passed": true,
+      "id": "desertscout",
+      "upgrade": "stock",
+      "target": 3,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "primary",
+      "slalom": false,
+      "carefulPedalFrames": 0,
+      "frames": 777,
+      "seconds": 38.85,
+      "travelXZ": 778.83,
+      "travel3D": 779.143,
+      "fuelDemand": 276.917,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02"
+      ],
+      "crossedBridges": [],
+      "finalProgress": 775.704,
+      "finalDistance3D": 776.019,
+      "maxOffset": 8.398,
+      "maxStep": 1.034,
+      "range": 1350,
+      "capacity": 480,
+      "endingFuel": 361.579,
+      "brainsEarned": 38.842,
+      "reward": 470,
+      "cashPerMinute": {
+        "0sRestart": 725.869,
+        "5sRestart": 643.101,
+        "10sRestart": 577.277,
+        "20sRestart": 479.184
+      }
+    },
+    {
+      "name": "farm desertscout max10 stop3",
+      "passed": true,
+      "id": "desertscout",
+      "upgrade": "max10",
+      "target": 3,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "primary",
+      "slalom": false,
+      "carefulPedalFrames": 0,
+      "frames": 708,
+      "seconds": 35.4,
+      "travelXZ": 778.698,
+      "travel3D": 779.012,
+      "fuelDemand": 276.87,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02"
+      ],
+      "crossedBridges": [],
+      "finalProgress": 775.704,
+      "finalDistance3D": 776.018,
+      "maxOffset": 8.392,
+      "maxStep": 1.137,
+      "range": 1755,
+      "capacity": 624,
+      "endingFuel": 505.455,
+      "brainsEarned": 35.392,
+      "reward": 470,
+      "cashPerMinute": {
+        "0sRestart": 796.61,
+        "5sRestart": 698.02,
+        "10sRestart": 621.145,
+        "20sRestart": 509.025
+      }
+    },
+    {
+      "name": "farm snowgrip stock stop3",
+      "passed": true,
+      "id": "snowgrip",
+      "upgrade": "stock",
+      "target": 3,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "primary",
+      "slalom": false,
+      "carefulPedalFrames": 0,
+      "frames": 685,
+      "seconds": 34.25,
+      "travelXZ": 778.646,
+      "travel3D": 778.959,
+      "fuelDemand": 281.178,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02"
+      ],
+      "crossedBridges": [],
+      "finalProgress": 775.684,
+      "finalDistance3D": 775.998,
+      "maxOffset": 8.4,
+      "maxStep": 1.176,
+      "range": 1800,
+      "capacity": 650,
+      "endingFuel": 529.678,
+      "brainsEarned": 34.242,
+      "reward": 470,
+      "cashPerMinute": {
+        "0sRestart": 823.358,
+        "5sRestart": 718.471,
+        "10sRestart": 637.288,
+        "20sRestart": 519.816
+      }
+    },
+    {
+      "name": "farm snowgrip max10 stop3",
+      "passed": true,
+      "id": "snowgrip",
+      "upgrade": "max10",
+      "target": 3,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "primary",
+      "slalom": false,
+      "carefulPedalFrames": 0,
+      "frames": 625,
+      "seconds": 31.25,
+      "travelXZ": 779.299,
+      "travel3D": 779.613,
+      "fuelDemand": 281.414,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02"
+      ],
+      "crossedBridges": [],
+      "finalProgress": 776.47,
+      "finalDistance3D": 776.784,
+      "maxOffset": 8.394,
+      "maxStep": 1.293,
+      "range": 2340,
+      "capacity": 845,
+      "endingFuel": 724.318,
+      "brainsEarned": 31.242,
+      "reward": 470,
+      "cashPerMinute": {
+        "0sRestart": 902.4,
+        "5sRestart": 777.931,
+        "10sRestart": 683.636,
+        "20sRestart": 550.244
+      }
+    },
+    {
+      "name": "farm snowrunner stock stop3",
+      "passed": true,
+      "id": "snowrunner",
+      "upgrade": "stock",
+      "target": 3,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "primary",
+      "slalom": false,
+      "carefulPedalFrames": 0,
+      "frames": 605,
+      "seconds": 30.25,
+      "travelXZ": 779.517,
+      "travel3D": 779.831,
+      "fuelDemand": 244.991,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02"
+      ],
+      "crossedBridges": [],
+      "finalProgress": 776.722,
+      "finalDistance3D": 777.037,
+      "maxOffset": 8.401,
+      "maxStep": 1.338,
+      "range": 2800,
+      "capacity": 880,
+      "endingFuel": 775.113,
+      "brainsEarned": 30.242,
+      "reward": 470,
+      "cashPerMinute": {
+        "0sRestart": 932.231,
+        "5sRestart": 800,
+        "10sRestart": 700.621,
+        "20sRestart": 561.194
+      }
+    },
+    {
+      "name": "farm snowrunner max10 stop3",
+      "passed": true,
+      "id": "snowrunner",
+      "upgrade": "max10",
+      "target": 3,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "primary",
+      "slalom": false,
+      "carefulPedalFrames": 0,
+      "frames": 551,
+      "seconds": 27.55,
+      "travelXZ": 778.377,
+      "travel3D": 778.691,
+      "fuelDemand": 244.633,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02"
+      ],
+      "crossedBridges": [],
+      "finalProgress": 775.712,
+      "finalDistance3D": 776.026,
+      "maxOffset": 8.395,
+      "maxStep": 1.471,
+      "range": 3640,
+      "capacity": 1144,
+      "endingFuel": 1039.254,
+      "brainsEarned": 27.542,
+      "reward": 470,
+      "cashPerMinute": {
+        "0sRestart": 1023.593,
+        "5sRestart": 866.359,
+        "10sRestart": 750.999,
+        "20sRestart": 593.06
+      }
+    },
+    {
+      "name": "farm lavacrawler stock stop3",
+      "passed": true,
+      "id": "lavacrawler",
+      "upgrade": "stock",
+      "target": 3,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "primary",
+      "slalom": false,
+      "carefulPedalFrames": 0,
+      "frames": 533,
+      "seconds": 26.65,
+      "travelXZ": 778.92,
+      "travel3D": 779.233,
+      "fuelDemand": 250.517,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02"
+      ],
+      "crossedBridges": [],
+      "finalProgress": 776.29,
+      "finalDistance3D": 776.604,
+      "maxOffset": 8.402,
+      "maxStep": 1.524,
+      "range": 3700,
+      "capacity": 1190,
+      "endingFuel": 1082.859,
+      "brainsEarned": 26.642,
+      "reward": 470,
+      "cashPerMinute": {
+        "0sRestart": 1058.161,
+        "5sRestart": 890.995,
+        "10sRestart": 769.441,
+        "20sRestart": 604.502
+      }
+    },
+    {
+      "name": "farm lavacrawler max10 stop3",
+      "passed": true,
+      "id": "lavacrawler",
+      "upgrade": "max10",
+      "target": 3,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "primary",
+      "slalom": false,
+      "carefulPedalFrames": 0,
+      "frames": 486,
+      "seconds": 24.3,
+      "travelXZ": 778.352,
+      "travel3D": 778.665,
+      "fuelDemand": 250.335,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02"
+      ],
+      "crossedBridges": [],
+      "finalProgress": 775.845,
+      "finalDistance3D": 776.16,
+      "maxOffset": 8.401,
+      "maxStep": 1.676,
+      "range": 4810,
+      "capacity": 1547,
+      "endingFuel": 1439.922,
+      "brainsEarned": 24.292,
+      "reward": 470,
+      "cashPerMinute": {
+        "0sRestart": 1160.494,
+        "5sRestart": 962.457,
+        "10sRestart": 822.157,
+        "20sRestart": 636.569
+      }
+    },
+    {
+      "name": "farm ashhauler stock stop3",
+      "passed": true,
+      "id": "ashhauler",
+      "upgrade": "stock",
+      "target": 3,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "primary",
+      "slalom": false,
+      "carefulPedalFrames": 0,
+      "frames": 469,
+      "seconds": 23.45,
+      "travelXZ": 778.316,
+      "travel3D": 778.63,
+      "fuelDemand": 255.732,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02"
+      ],
+      "crossedBridges": [],
+      "finalProgress": 775.846,
+      "finalDistance3D": 776.16,
+      "maxOffset": 8.409,
+      "maxStep": 1.739,
+      "range": 4900,
+      "capacity": 1610,
+      "endingFuel": 1500.438,
+      "brainsEarned": 23.45,
+      "reward": 470,
+      "cashPerMinute": {
+        "0sRestart": 1202.559,
+        "5sRestart": 991.213,
+        "10sRestart": 843.049,
+        "20sRestart": 649.022
+      }
+    },
+    {
+      "name": "farm ashhauler max10 stop3",
+      "passed": true,
+      "id": "ashhauler",
+      "upgrade": "max10",
+      "target": 3,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "primary",
+      "slalom": false,
+      "carefulPedalFrames": 0,
+      "frames": 428,
+      "seconds": 21.4,
+      "travelXZ": 777.986,
+      "travel3D": 778.3,
+      "fuelDemand": 255.624,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02"
+      ],
+      "crossedBridges": [],
+      "finalProgress": 775.634,
+      "finalDistance3D": 775.948,
+      "maxOffset": 8.41,
+      "maxStep": 1.913,
+      "range": 6370,
+      "capacity": 2093,
+      "endingFuel": 1983.792,
+      "brainsEarned": 21.4,
+      "reward": 470,
+      "cashPerMinute": {
+        "0sRestart": 1317.757,
+        "5sRestart": 1068.182,
+        "10sRestart": 898.089,
+        "20sRestart": 681.159
+      }
+    },
+    {
+      "name": "final ashhauler tank10 other stats0",
+      "passed": true,
+      "id": "ashhauler",
+      "upgrade": "{\"speed\":0,\"handling\":0,\"grip\":0,\"fuel\":10}",
+      "target": 16,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "branch": "primary",
+      "slalom": false,
+      "carefulPedalFrames": 7953,
+      "frames": 25334,
+      "seconds": 1266.7,
+      "travelXZ": 32428.429,
+      "travel3D": 32454.14,
+      "fuelDemand": 10655.055,
+      "refills": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02",
+        "fuel-checkpoint-03",
+        "fuel-checkpoint-04",
+        "fuel-checkpoint-05",
+        "fuel-checkpoint-06",
+        "fuel-checkpoint-07",
+        "fuel-checkpoint-08",
+        "fuel-checkpoint-09",
+        "fuel-checkpoint-10",
+        "fuel-checkpoint-11",
+        "fuel-checkpoint-12",
+        "fuel-checkpoint-13",
+        "fuel-checkpoint-14",
+        "fuel-checkpoint-15"
+      ],
+      "crossedBridges": [
+        "city-bridge-1",
+        "city-bridge-2",
+        "city-bridge-3",
+        "forest-bridge-1",
+        "forest-bridge-2",
+        "forest-bridge-3",
+        "desert-bridge-1",
+        "desert-bridge-2",
+        "desert-bridge-3",
+        "snow-bridge-1",
+        "snow-bridge-2",
+        "snow-bridge-3",
+        "volcanic-bridge-1",
+        "volcanic-bridge-2",
+        "volcanic-bridge-3"
+      ],
+      "finalProgress": 32375.695,
+      "finalDistance3D": 32432.657,
+      "maxOffset": 8.563,
+      "maxStep": 1.78,
+      "range": 6370,
+      "capacity": 2093,
+      "endingFuel": 23.612,
+      "brainsEarned": 1266.7,
+      "reward": 19460,
+      "cashPerMinute": {
+        "0sRestart": 921.765,
+        "5sRestart": 918.141,
+        "10sRestart": 914.545,
+        "20sRestart": 907.438
+      }
+    }
+  ],
+  "failures": [],
+  "complete": true,
+  "sourceCommit": "8355e2ba0d6cee212a15cc9d115f2849d10a517e",
+  "harnessSource": "tests/expanded-balance.mjs",
+  "harnessSourceHash": "9dc29b48f821c6b1fdee4072ab1169c9bf12a986edd5c49bc70c7661d51b70a1",
+  "frameSeconds": 0.05,
+  "physicsFixedStep": 0.008333333333333333,
+  "routeFingerprint": "2b055220a1b6d2e6005901e8c4c3d3818d34e902ef28a4678a6fadad56410d78",
+  "stations": [
+    {
+      "stop": 1,
+      "deliveryId": "delivery-checkpoint-01",
+      "fuelId": "fuel-checkpoint-01",
+      "progress": 180,
+      "distance3D": 180,
+      "reward": 110,
+      "biome": "city",
+      "deliveryCenter": {
+        "x": -8,
+        "z": -174
+      },
+      "fuelCenter": {
+        "x": 8,
+        "z": -174
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 2,
+      "deliveryId": "delivery-checkpoint-02",
+      "fuelId": "fuel-checkpoint-02",
+      "progress": 440,
+      "distance3D": 440.224,
+      "reward": 260,
+      "biome": "city",
+      "deliveryCenter": {
+        "x": -8,
+        "z": -434
+      },
+      "fuelCenter": {
+        "x": 8,
+        "z": -434
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 3,
+      "deliveryId": "delivery-checkpoint-03",
+      "fuelId": "fuel-checkpoint-03",
+      "progress": 780,
+      "distance3D": 780.314,
+      "reward": 470,
+      "biome": "city",
+      "deliveryCenter": {
+        "x": -8,
+        "z": -774
+      },
+      "fuelCenter": {
+        "x": 8,
+        "z": -774
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 4,
+      "deliveryId": "delivery-checkpoint-04",
+      "fuelId": "fuel-checkpoint-04",
+      "progress": 1220,
+      "distance3D": 1221.062,
+      "reward": 730,
+      "biome": "city",
+      "deliveryCenter": {
+        "x": -8,
+        "z": -1214
+      },
+      "fuelCenter": {
+        "x": 8,
+        "z": -1214
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 5,
+      "deliveryId": "delivery-checkpoint-05",
+      "fuelId": "fuel-checkpoint-05",
+      "progress": 1800,
+      "distance3D": 1801.728,
+      "reward": 1080,
+      "biome": "city",
+      "deliveryCenter": {
+        "x": -8,
+        "z": -1794
+      },
+      "fuelCenter": {
+        "x": 8,
+        "z": -1794
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 6,
+      "deliveryId": "delivery-checkpoint-06",
+      "fuelId": "fuel-checkpoint-06",
+      "progress": 2580,
+      "distance3D": 2582.781,
+      "reward": 1550,
+      "biome": "city",
+      "deliveryCenter": {
+        "x": -8,
+        "z": -2574
+      },
+      "fuelCenter": {
+        "x": 8,
+        "z": -2574
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 7,
+      "deliveryId": "delivery-checkpoint-07",
+      "fuelId": "fuel-checkpoint-07",
+      "progress": 3630,
+      "distance3D": 3634.427,
+      "reward": 2180,
+      "biome": "city",
+      "deliveryCenter": {
+        "x": -131.656,
+        "z": -3602.966
+      },
+      "fuelCenter": {
+        "x": -117.355,
+        "z": -3610.142
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 8,
+      "deliveryId": "delivery-checkpoint-08",
+      "fuelId": "fuel-checkpoint-08",
+      "progress": 5030,
+      "distance3D": 5036.827,
+      "reward": 3020,
+      "biome": "city",
+      "deliveryCenter": {
+        "x": -1342.224,
+        "z": -4098.215
+      },
+      "fuelCenter": {
+        "x": -1342.218,
+        "z": -4114.215
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 9,
+      "deliveryId": "delivery-checkpoint-09",
+      "fuelId": "fuel-checkpoint-09",
+      "progress": 6800,
+      "distance3D": 6809.3,
+      "reward": 4090,
+      "biome": "forest",
+      "deliveryCenter": {
+        "x": -3101.827,
+        "z": -4201.892
+      },
+      "fuelCenter": {
+        "x": -3094.9,
+        "z": -4216.314
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 10,
+      "deliveryId": "delivery-checkpoint-10",
+      "fuelId": "fuel-checkpoint-10",
+      "progress": 8900,
+      "distance3D": 8911.287,
+      "reward": 5350,
+      "biome": "forest",
+      "deliveryCenter": {
+        "x": -3555.915,
+        "z": -6141.915
+      },
+      "fuelCenter": {
+        "x": -3539.915,
+        "z": -6141.915
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 11,
+      "deliveryId": "delivery-checkpoint-11",
+      "fuelId": "fuel-checkpoint-11",
+      "progress": 11280,
+      "distance3D": 11300.793,
+      "reward": 6780,
+      "biome": "forest",
+      "deliveryCenter": {
+        "x": -3555.915,
+        "z": -8521.915
+      },
+      "fuelCenter": {
+        "x": -3539.915,
+        "z": -8521.915
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 12,
+      "deliveryId": "delivery-checkpoint-12",
+      "fuelId": "fuel-checkpoint-12",
+      "progress": 14080,
+      "distance3D": 14103.017,
+      "reward": 8460,
+      "biome": "desert",
+      "deliveryCenter": {
+        "x": -2455.913,
+        "z": -10659.609
+      },
+      "fuelCenter": {
+        "x": -2455.43,
+        "z": -10643.616
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 13,
+      "deliveryId": "delivery-checkpoint-13",
+      "fuelId": "fuel-checkpoint-13",
+      "progress": 17480,
+      "distance3D": 17514.45,
+      "reward": 10510,
+      "biome": "desert",
+      "deliveryCenter": {
+        "x": 944.306,
+        "z": -10662.136
+      },
+      "fuelCenter": {
+        "x": 944.306,
+        "z": -10646.136
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 14,
+      "deliveryId": "delivery-checkpoint-14",
+      "fuelId": "fuel-checkpoint-14",
+      "progress": 21480,
+      "distance3D": 21516.72,
+      "reward": 12910,
+      "biome": "snow",
+      "deliveryCenter": {
+        "x": 3468.528,
+        "z": -12546.357
+      },
+      "fuelCenter": {
+        "x": 3484.528,
+        "z": -12546.357
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 15,
+      "deliveryId": "delivery-checkpoint-15",
+      "fuelId": "fuel-checkpoint-15",
+      "progress": 26080,
+      "distance3D": 26127.914,
+      "reward": 15680,
+      "biome": "volcanic",
+      "deliveryCenter": {
+        "x": 3468.528,
+        "z": -17146.357
+      },
+      "fuelCenter": {
+        "x": 3484.528,
+        "z": -17146.357
+      },
+      "radius": 4.4
+    },
+    {
+      "stop": 16,
+      "deliveryId": "delivery-checkpoint-16",
+      "fuelId": "fuel-checkpoint-16",
+      "progress": 32380,
+      "distance3D": 32436.962,
+      "reward": 19460,
+      "biome": "volcanic",
+      "deliveryCenter": {
+        "x": 1634.306,
+        "z": -22020.578
+      },
+      "fuelCenter": {
+        "x": 1634.306,
+        "z": -22036.578
+      },
+      "radius": 4.4
+    }
+  ],
+  "bridges": [
+    {
+      "id": "city-bridge-1",
+      "biome": "city",
+      "from": 938,
+      "to": 962,
+      "halfWidth": 2.5,
+      "offset": 3.9
+    },
+    {
+      "id": "city-bridge-2",
+      "biome": "city",
+      "from": 2378,
+      "to": 2402,
+      "halfWidth": 2.5,
+      "offset": 0
+    },
+    {
+      "id": "city-bridge-3",
+      "biome": "city",
+      "from": 5628,
+      "to": 5652,
+      "halfWidth": 2.5,
+      "offset": -6.6
+    },
+    {
+      "id": "forest-bridge-1",
+      "biome": "forest",
+      "from": 6608,
+      "to": 6632,
+      "halfWidth": 2.5,
+      "offset": -5.5
+    },
+    {
+      "id": "forest-bridge-2",
+      "biome": "forest",
+      "from": 7368,
+      "to": 7392,
+      "halfWidth": 2.5,
+      "offset": 6
+    },
+    {
+      "id": "forest-bridge-3",
+      "biome": "forest",
+      "from": 11568,
+      "to": 11592,
+      "halfWidth": 2.5,
+      "offset": 0
+    },
+    {
+      "id": "desert-bridge-1",
+      "biome": "desert",
+      "from": 12738,
+      "to": 12762,
+      "halfWidth": 2.5,
+      "offset": -6
+    },
+    {
+      "id": "desert-bridge-2",
+      "biome": "desert",
+      "from": 13728,
+      "to": 13752,
+      "halfWidth": 2.5,
+      "offset": 0
+    },
+    {
+      "id": "desert-bridge-3",
+      "biome": "desert",
+      "from": 18168,
+      "to": 18192,
+      "halfWidth": 2.5,
+      "offset": 5.1
+    },
+    {
+      "id": "snow-bridge-1",
+      "biome": "snow",
+      "from": 19428,
+      "to": 19452,
+      "halfWidth": 2.5,
+      "offset": 0
+    },
+    {
+      "id": "snow-bridge-2",
+      "biome": "snow",
+      "from": 20658,
+      "to": 20682,
+      "halfWidth": 2.5,
+      "offset": 6.3
+    },
+    {
+      "id": "snow-bridge-3",
+      "biome": "snow",
+      "from": 24568,
+      "to": 24592,
+      "halfWidth": 2.5,
+      "offset": -5.7
+    },
+    {
+      "id": "volcanic-bridge-1",
+      "biome": "volcanic",
+      "from": 25408,
+      "to": 25432,
+      "halfWidth": 2.5,
+      "offset": -5.5
+    },
+    {
+      "id": "volcanic-bridge-2",
+      "biome": "volcanic",
+      "from": 29238,
+      "to": 29262,
+      "halfWidth": 2.5,
+      "offset": 0
+    },
+    {
+      "id": "volcanic-bridge-3",
+      "biome": "volcanic",
+      "from": 30888,
+      "to": 30912,
+      "halfWidth": 2.5,
+      "offset": 5.1
+    }
+  ],
+  "assumptions": {
+    "driver": "Deterministic clean bridge-aware controller, not fastest possible or human-play timing. Holds/releases ordinary pedal only; requests about 4 m/s near narrow bridges and future unsuitable terrain; no steering/pose/fuel injection.",
+    "refills": "Free and instantaneous when the actual vehicle centre enters each prior right-hand 4.4 m fuel circle; every prior station required by the harness. No dwell time added. Successful delivery to the left-hand circle instantly pays and returns to hangar.",
+    "restart": "Driving-only timing excludes garage walking, cooldown, car purchase, menus and reload. Cash/min shown separately with assumed 0, 5, 10 and 20 seconds of restart overhead per run. Those overheads are sensitivities, not measurements.",
+    "upgrades": "Stock means all levels 0; max10 means all four stats level 10 already owned. Does not charge time or brains to buy upgrades, and does not assert an optimal purchase plan.",
+    "failures": "All reported successful rates assume no missed refills, collision or bridge fall. Real learning and mistakes are unmeasured. Late failed runs pay zero, so real long-route yield can be substantially lower.",
+    "reward": "One endpoint payout per run, not cumulative station rewards. No skill bonuses exist in this baseline. Driving brains measured through production tickProgress are separate from delivery money.",
+    "scope": "Offline CPU production modules at 20 Hz controller update and 120 Hz fixed physics. No browser/GPU/rendering or human playtest claim."
+  },
+  "completedAt": "2026-10-14T10:56:31.125Z",
+  "runtimeHashesAtEnd": {
+    "app.js": "be361802855e50cc56d85fdef5ed70f35743e1e4de4c7511696710fd0615a611",
+    "biome-surfaces.js": "269e51c2c3ac2d32bc29f1780a2342a9df315fc3a7e6efe7b24a210d994e628a",
+    "biome-travel.js": "604c1c2e90abab4bf6526c324b4ae09eb6d647cdbbcf2da61d22eff78a12ed73",
+    "biome-weather.js": "17182b09e8c82129bfcecfed0a2bae0c7c3b4d9324943141fbe2263dd20415fa",
+    "building-material.js": "de80b6b72afb2489a2a47baa11570c2190b8c6f54b372748748c1b790a0fe042",
+    "career-save.js": "4fa790a8017f0fb64372e55219e50b9220df9d557db1fcdb67db4977a60f958d",
+    "character-catalog.js": "1ceed0f70e0604f1ab4343ee09184e9bb6c0b33767ff5415c0427363440707f6",
+    "character-seat-calibration.js": "2d09cbf7f2b2581bed84f81ae41b790c2877e979f017360a04561b8e3443d51d",
+    "character-seat-pose.js": "aef6693f7fa229e6a4a2c8c5c3c31d56213820a109275a09d5fd755bd3fdcb73",
+    "character-support.js": "35b780187ae42ed5fc2a34035c9bf5c7b5603d1304c7e6e658a5a2e531211528",
+    "character.js": "ff88173983ee6a022290542aac867b73f5ae0c6d009cef1f47b3641d16951f59",
+    "city-driving.js": "a33f82d66e2fa50fb281fb28e8231decb76ef216557110fd2881f4b3338f4b82",
+    "driving-ground.js": "157ac92a62df8858ba2af419e334121966214aa59dd91b063e6e30a7d4e14c84",
+    "driving-model.js": "74b1165a2cc326b940eb1de89292741596035e58fc06c57ef4d4c292f35af3bc",
+    "economy-config.js": "9920510201a0b051efe78c5c507e1101bb40be4cc8b28490c6ba5973e3cc2734",
+    "follow-camera.js": "619bec5c16b350b5c6404127cd2d772a7aef5276091b6d2f8a2e9b5b3d6a9a25",
+    "gameplay.js": "efeb4eef0b243324cb96d0cecf878813911ddfe56035d70da15924ea7bed9849",
+    "garage-scene.js": "13d4a7fc38bc53ae02e26e9a04b98a8f05e391843b389a693b39237d21a6b95b",
+    "ground-material.js": "3855969200dfbd2f567e965f3e3e621bcd64e137034506eedf420f22374ed103",
+    "jump-input.js": "7b6f4a074658f15691c0e1e2f39cad9acf6a66264d8d7854d78f6f303c445832",
+    "look-input.js": "73c8fbee12a361fa230c9070cd96671da01f8ebba5e8d698368987b6aa9869ec",
+    "network-scene.js": "71bde9a8753033348274ec7f4f1661526730e9d35cf96457e769da85f86f7a11",
+    "progression-config.js": "df64aa258949320085fb65cdaafe845bac66a2d65017fd19cfa3fb134b05af8e",
+    "progression-hud.js": "9f9e523ff24d93812c2d9e5e5f59ef70b396b4712d356fb25d125a4e1dbf5aa7",
+    "road-bridges.js": "dbb9f5f12bd33ccbc30c8de25599c2b4ec7b71b482b90b19b4639055b908bb38",
+    "road-hazards-scene.js": "b29b804f7c30bb7d859828582cf71ac87c4ce6d9bcee2fa4cccec064363ca1bc",
+    "road-hazards.js": "65b81a56194d8d1b65fda25fdf82e808e7d3f7feec42c4929a3dbc4eb87ae3d5",
+    "road-layout.js": "4705972cf548ff56a004b63a5d85ba41f67caf2b1fe16572c908abd3d10b8685",
+    "road-material.js": "90a81ae425b987e980c8d94b73ce5311f4121632ae99e4f7dfaaafab8f48067a",
+    "route-network-config.js": "e9fd175e4c926f382496d82e53de85d99a125dddc19eae4d9122b112edbed739",
+    "route-network.js": "c906578aa6d913d6c0d96f82a3c230373c4aefebe85c9accd1637a0a61dc115e",
+    "scene-lighting.js": "ba7b5eeeda73bb2532111668ee7d7d4520f78e102645d1c6f67a6b7c74f55608",
+    "scene.js": "169df363d212808a50b43cd9106ab1a4b8f7b35a04009bdf50acf695cb50290a",
+    "square-stud-texture.js": "8dcbe950316893d74bcb5b0f103b7e8bd972e6ef82e968239f6ee0c4442e367b",
+    "vehicle-input.js": "9bcf192299b0f5d56a0346e8eed53fc7a281bea24939690b8a2bfe99b2ffcc2e",
+    "vehicle-rig.js": "11c527c5aced8eeac2b748c8dfa1a413eab132de88ca28e9437f603fb7945b72",
+    "vehicle-upgrades.js": "6ba02ae4e0483f4dfefc9d6f953ffb0e2a0462da8be0adcc9519ce6c3c616a28",
+    "walk-input.js": "0f575e0a4a58c8a5f7f74edd78e941c5ab0304ecab18ff25d6c2a3b103850af7",
+    "wheel-particles.js": "4393a9ef61623d0a7a6d89934cc4acb984b7a768a954fdc8649ed5c8f070f743"
+  },
+  "changedRuntimeFiles": [],
+  "passed": true
+}

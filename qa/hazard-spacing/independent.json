@@ -1,0 +1,840 @@
+{
+  "generatedAt": "2026-10-14T12:50:30.985Z",
+  "scope": "Offline production descriptors, actual Three.js mesh vertices, live collision poses, mission compatibility and conservative perspective-frustum counts. No browser, GPU, occlusion, screenshot or human readability validation.",
+  "runtimeHashes": {
+    "app.js": "da69b5ed46b500cf86a69f8c1bfc1e0dd91f0bfc583f74051cbb8f7b6b327d4e",
+    "biome-surfaces.js": "269e51c2c3ac2d32bc29f1780a2342a9df315fc3a7e6efe7b24a210d994e628a",
+    "biome-travel.js": "604c1c2e90abab4bf6526c324b4ae09eb6d647cdbbcf2da61d22eff78a12ed73",
+    "biome-weather.js": "17182b09e8c82129bfcecfed0a2bae0c7c3b4d9324943141fbe2263dd20415fa",
+    "building-material.js": "de80b6b72afb2489a2a47baa11570c2190b8c6f54b372748748c1b790a0fe042",
+    "career-missions.js": "551340b29d59c5bcfe3724feb372bc60cc463bf8602f2d51f924b40744b24cce",
+    "career-route-tracker.js": "55398b1b04d3443e19dce4c3bdf4df635ec8271ce581f6c16fdab3460d250d71",
+    "career-save.js": "0f11c377f130618880d4b811c67b07420b53d2019e5fbd51c80aaa911bdf107d",
+    "character-catalog.js": "1ceed0f70e0604f1ab4343ee09184e9bb6c0b33767ff5415c0427363440707f6",
+    "character-seat-calibration.js": "2d09cbf7f2b2581bed84f81ae41b790c2877e979f017360a04561b8e3443d51d",
+    "character-seat-pose.js": "aef6693f7fa229e6a4a2c8c5c3c31d56213820a109275a09d5fd755bd3fdcb73",
+    "character-support.js": "35b780187ae42ed5fc2a34035c9bf5c7b5603d1304c7e6e658a5a2e531211528",
+    "character.js": "ff88173983ee6a022290542aac867b73f5ae0c6d009cef1f47b3641d16951f59",
+    "city-driving.js": "a33f82d66e2fa50fb281fb28e8231decb76ef216557110fd2881f4b3338f4b82",
+    "driving-ground.js": "157ac92a62df8858ba2af419e334121966214aa59dd91b063e6e30a7d4e14c84",
+    "driving-model.js": "74b1165a2cc326b940eb1de89292741596035e58fc06c57ef4d4c292f35af3bc",
+    "economy-config.js": "8ab77c5da2277bd9f25d53aaa569f14b49380c5c01b2d06192717f90b7a775bf",
+    "follow-camera.js": "619bec5c16b350b5c6404127cd2d772a7aef5276091b6d2f8a2e9b5b3d6a9a25",
+    "gameplay.js": "2443ef2cff35a3f83b85627e5316da141149454e7265cca1f672eabe0f095b73",
+    "garage-scene.js": "13d4a7fc38bc53ae02e26e9a04b98a8f05e391843b389a693b39237d21a6b95b",
+    "ground-material.js": "3855969200dfbd2f567e965f3e3e621bcd64e137034506eedf420f22374ed103",
+    "jump-input.js": "7b6f4a074658f15691c0e1e2f39cad9acf6a66264d8d7854d78f6f303c445832",
+    "look-input.js": "73c8fbee12a361fa230c9070cd96671da01f8ebba5e8d698368987b6aa9869ec",
+    "network-scene.js": "71bde9a8753033348274ec7f4f1661526730e9d35cf96457e769da85f86f7a11",
+    "progression-config.js": "53618eb715251c0feef2cf62ea62206e7ccf12ca9ba3fae9d1dfe61a8013110e",
+    "progression-hud.js": "55ff5a58e2b0fd0d166e98a42d58be02f126112af3735bd8e217e05eb707a6d5",
+    "retention-ui.js": "342a276916157e01909535ed60117d78feac9ae21472886ec3d8aa761d5e3420",
+    "road-bridges.js": "637ab07f628992d4fa8b24d797d83d90305600beebf27a49fb2c5f5cdaf3374d",
+    "road-hazards-scene.js": "f9c1ddafbf68bf1ebdd2fe4313ff77c6d3e838741a068c9aa285c97f349593d2",
+    "road-hazards.js": "3fbac6c50a055d07709fe289c70b2099a70d87515e8d5f2ad0ae6e8605b7a4c2",
+    "road-layout.js": "4705972cf548ff56a004b63a5d85ba41f67caf2b1fe16572c908abd3d10b8685",
+    "road-material.js": "90a81ae425b987e980c8d94b73ce5311f4121632ae99e4f7dfaaafab8f48067a",
+    "route-network-config.js": "1054da2409117aaf893766f27f1db34c6bb040c4c3e7424aad34d586c6b41f6f",
+    "route-network.js": "572094adc2d74ac3c8407522abac15bb98db136c17f29343ede8cad5967dfc29",
+    "scene-lighting.js": "ba7b5eeeda73bb2532111668ee7d7d4520f78e102645d1c6f67a6b7c74f55608",
+    "scene.js": "169df363d212808a50b43cd9106ab1a4b8f7b35a04009bdf50acf695cb50290a",
+    "square-stud-texture.js": "8dcbe950316893d74bcb5b0f103b7e8bd972e6ef82e968239f6ee0c4442e367b",
+    "vehicle-input.js": "9bcf192299b0f5d56a0346e8eed53fc7a281bea24939690b8a2bfe99b2ffcc2e",
+    "vehicle-rig.js": "11c527c5aced8eeac2b748c8dfa1a413eab132de88ca28e9437f603fb7945b72",
+    "vehicle-upgrades.js": "6694010402ede4bb0df4a9b25b86c0765c4a0de4912db2175a404dfbd0939ccf",
+    "walk-input.js": "0f575e0a4a58c8a5f7f74edd78e941c5ab0304ecab18ff25d6c2a3b103850af7",
+    "wheel-particles.js": "4393a9ef61623d0a7a6d89934cc4acb984b7a768a954fdc8649ed5c8f070f743"
+  },
+  "checks": [
+    {
+      "name": "Reduced layout is irregular, sparse and spread across the route",
+      "passed": true,
+      "beforeCount": 90,
+      "afterCount": 26,
+      "beforeMax180": 10,
+      "afterMax180": 1
+    },
+    {
+      "name": "Seed determinism, graph poses, corridors and protected stops remain valid",
+      "passed": true,
+      "seeds": 7,
+      "minimumExclusion": 0.17627788148206314,
+      "minimumGap": 180,
+      "minimumRoadMargin": 2.2331502450634773,
+      "centerClearance": -1.23148498844821
+    },
+    {
+      "name": "Actual mesh footprints and live colliders share the same positions",
+      "passed": true,
+      "frames": 901,
+      "poseChecks": 19822,
+      "vertices": 27888,
+      "maxPositionError": 0.0004878409417869989,
+      "maxBoundOvershoot": 0.00045649667050784437,
+      "stats": {
+        "hazards": 26,
+        "movers": 10,
+        "rockCapacity": 4,
+        "instancedMeshes": 6,
+        "mergedMeshes": 2,
+        "materials": 8,
+        "geometries": 8,
+        "sharedTextures": 1,
+        "drawCalls": 8,
+        "triangles": 1824,
+        "activeInstances": 30,
+        "visibleRocks": 4,
+        "visibleWarnings": 0,
+        "disposed": false,
+        "phases": {
+          "landed": 4
+        }
+      }
+    },
+    {
+      "name": "Perspective-frustum density falls in representative camera modes",
+      "passed": true,
+      "beforeMaximum": 11,
+      "afterMaximum": 2
+    },
+    {
+      "name": "Bridge missions, economy and physical controls remain unchanged",
+      "passed": true,
+      "unchangedModules": [
+        "road-bridges.js",
+        "route-network.js",
+        "route-network-config.js",
+        "economy-config.js",
+        "gameplay.js",
+        "career-missions.js",
+        "career-route-tracker.js",
+        "career-save.js",
+        "driving-model.js",
+        "vehicle-upgrades.js",
+        "road-hazards-scene.js"
+      ],
+      "bridges": 25,
+      "savedBridgeIdsPreserved": 25,
+      "cleanBridgeMissionReward": {
+        "id": "clean-bridges",
+        "name": "Два чистых моста",
+        "sequence": 1,
+        "cash": 120,
+        "brains": 30
+      }
+    }
+  ],
+  "failures": [],
+  "before": {
+    "count": 90,
+    "movers": 10,
+    "window180": {
+      "maximum": 10,
+      "worst": [
+        "volcanic-rock-compact-static-2",
+        "volcanic-rock-compact-static-3",
+        "volcanic-rock-compact-static-4",
+        "volcanic-rock-compact-static-5",
+        "volcanic-rock-compact-static-6",
+        "volcanic-rock-compact-static-7",
+        "volcanic-rock-compact-static-8",
+        "volcanic-rock-compact-static-9",
+        "volcanic-rock-compact-static-10",
+        "volcanic-rock-compact-static-11"
+      ]
+    },
+    "window320": {
+      "maximum": 10,
+      "worst": [
+        "volcanic-rock-compact-static-2",
+        "volcanic-rock-compact-static-3",
+        "volcanic-rock-compact-static-4",
+        "volcanic-rock-compact-static-5",
+        "volcanic-rock-compact-static-6",
+        "volcanic-rock-compact-static-7",
+        "volcanic-rock-compact-static-8",
+        "volcanic-rock-compact-static-9",
+        "volcanic-rock-compact-static-10",
+        "volcanic-rock-compact-static-11"
+      ]
+    },
+    "biomes": [
+      {
+        "biome": "city",
+        "count": 21,
+        "statics": 19,
+        "offsets": [
+          -8.7,
+          8.7
+        ],
+        "first": 288,
+        "last": 2827.8,
+        "fractionOfBiomeSpanned": 0.842,
+        "minimumGap": 15,
+        "maximumGap": 760,
+        "gapBins25m": [
+          25,
+          225,
+          425,
+          500,
+          750
+        ],
+        "window180": {
+          "maximum": 9,
+          "worst": [
+            "city-repair-compact-static-5",
+            "city-repair-compact-static-6",
+            "city-repair-compact-static-7",
+            "city-repair-compact-static-8",
+            "city-repair-compact-static-9",
+            "city-repair-compact-static-10",
+            "city-repair-compact-static-11",
+            "city-repair-compact-static-12",
+            "city-repair-compact-static-13"
+          ]
+        },
+        "window320": {
+          "maximum": 9,
+          "worst": [
+            "city-repair-compact-static-5",
+            "city-repair-compact-static-6",
+            "city-repair-compact-static-7",
+            "city-repair-compact-static-8",
+            "city-repair-compact-static-9",
+            "city-repair-compact-static-10",
+            "city-repair-compact-static-11",
+            "city-repair-compact-static-12",
+            "city-repair-compact-static-13"
+          ]
+        }
+      },
+      {
+        "biome": "forest",
+        "count": 21,
+        "statics": 19,
+        "offsets": [
+          -9.95,
+          9.95
+        ],
+        "first": 3439.977,
+        "last": 4792.336,
+        "fractionOfBiomeSpanned": 0.483,
+        "minimumGap": 15,
+        "maximumGap": 440.089,
+        "gapBins25m": [
+          25,
+          125,
+          200,
+          400,
+          450
+        ],
+        "window180": {
+          "maximum": 7,
+          "worst": [
+            "forest-log-compact-static-2",
+            "forest-log-compact-static-3",
+            "forest-log-compact-static-4",
+            "forest-log-compact-static-5",
+            "forest-log-compact-static-6",
+            "forest-log-compact-static-7",
+            "forest-log-compact-static-8"
+          ]
+        },
+        "window320": {
+          "maximum": 8,
+          "worst": [
+            "forest-boulder-compact-mover-2",
+            "forest-log-compact-static-2",
+            "forest-log-compact-static-3",
+            "forest-log-compact-static-4",
+            "forest-log-compact-static-5",
+            "forest-log-compact-static-6",
+            "forest-log-compact-static-7",
+            "forest-log-compact-static-8"
+          ]
+        }
+      },
+      {
+        "biome": "desert",
+        "count": 14,
+        "statics": 12,
+        "offsets": [
+          -10,
+          10
+        ],
+        "first": 6589.943,
+        "last": 8102.334,
+        "fractionOfBiomeSpanned": 0.56,
+        "minimumGap": 25,
+        "maximumGap": 675,
+        "gapBins25m": [
+          25,
+          125,
+          250,
+          350,
+          675
+        ],
+        "window180": {
+          "maximum": 4,
+          "worst": [
+            "desert-dune-compact-static-5",
+            "desert-dune-compact-static-6",
+            "desert-dune-compact-static-7",
+            "desert-dune-compact-static-8"
+          ]
+        },
+        "window320": {
+          "maximum": 4,
+          "worst": [
+            "desert-dune-compact-static-1",
+            "desert-dune-compact-static-2",
+            "desert-dune-compact-static-3",
+            "desert-dune-compact-static-4"
+          ]
+        }
+      },
+      {
+        "biome": "snow",
+        "count": 14,
+        "statics": 12,
+        "offsets": [
+          -10,
+          10
+        ],
+        "first": 9164.703,
+        "last": 10879.742,
+        "fractionOfBiomeSpanned": 0.686,
+        "minimumGap": 25,
+        "maximumGap": 724.284,
+        "gapBins25m": [
+          25,
+          350,
+          500,
+          725
+        ],
+        "window180": {
+          "maximum": 4,
+          "worst": [
+            "snow-ice-compact-static-1",
+            "snow-ice-compact-static-2",
+            "snow-ice-compact-static-3",
+            "snow-ice-compact-static-4"
+          ]
+        },
+        "window320": {
+          "maximum": 4,
+          "worst": [
+            "snow-ice-compact-static-1",
+            "snow-ice-compact-static-2",
+            "snow-ice-compact-static-3",
+            "snow-ice-compact-static-4"
+          ]
+        }
+      },
+      {
+        "biome": "volcanic",
+        "count": 20,
+        "statics": 18,
+        "offsets": [
+          -9.8,
+          9.8
+        ],
+        "first": 11424.949,
+        "last": 14364.925,
+        "fractionOfBiomeSpanned": 0.606,
+        "minimumGap": 15,
+        "maximumGap": 1050,
+        "gapBins25m": [
+          25,
+          225,
+          250,
+          275,
+          950,
+          1050
+        ],
+        "window180": {
+          "maximum": 10,
+          "worst": [
+            "volcanic-rock-compact-static-2",
+            "volcanic-rock-compact-static-3",
+            "volcanic-rock-compact-static-4",
+            "volcanic-rock-compact-static-5",
+            "volcanic-rock-compact-static-6",
+            "volcanic-rock-compact-static-7",
+            "volcanic-rock-compact-static-8",
+            "volcanic-rock-compact-static-9",
+            "volcanic-rock-compact-static-10",
+            "volcanic-rock-compact-static-11"
+          ]
+        },
+        "window320": {
+          "maximum": 10,
+          "worst": [
+            "volcanic-rock-compact-static-2",
+            "volcanic-rock-compact-static-3",
+            "volcanic-rock-compact-static-4",
+            "volcanic-rock-compact-static-5",
+            "volcanic-rock-compact-static-6",
+            "volcanic-rock-compact-static-7",
+            "volcanic-rock-compact-static-8",
+            "volcanic-rock-compact-static-9",
+            "volcanic-rock-compact-static-10",
+            "volcanic-rock-compact-static-11"
+          ]
+        }
+      }
+    ]
+  },
+  "after": {
+    "count": 26,
+    "movers": 10,
+    "window180": {
+      "maximum": 1,
+      "worst": [
+        "city-repair-spaced-static-1"
+      ]
+    },
+    "window320": {
+      "maximum": 2,
+      "worst": [
+        "forest-boulder-compact-mover-2",
+        "forest-log-spaced-static-1"
+      ]
+    },
+    "biomes": [
+      {
+        "biome": "city",
+        "count": 6,
+        "statics": 4,
+        "offsets": [
+          -8.056,
+          -2.799,
+          5.626,
+          8.9
+        ],
+        "first": 288,
+        "last": 2767.801,
+        "fractionOfBiomeSpanned": 0.822,
+        "minimumGap": 385,
+        "maximumGap": 755,
+        "gapBins25m": [
+          375,
+          425,
+          500,
+          750
+        ],
+        "window180": {
+          "maximum": 1,
+          "worst": [
+            "city-repair-spaced-static-1"
+          ]
+        },
+        "window320": {
+          "maximum": 1,
+          "worst": [
+            "city-repair-spaced-static-1"
+          ]
+        }
+      },
+      {
+        "biome": "forest",
+        "count": 6,
+        "statics": 4,
+        "offsets": [
+          -6.994,
+          -3.204,
+          5.774,
+          8.378
+        ],
+        "first": 3439.977,
+        "last": 5684.851,
+        "fractionOfBiomeSpanned": 0.802,
+        "minimumGap": 210,
+        "maximumGap": 1294.338,
+        "gapBins25m": [
+          200,
+          225,
+          525,
+          775,
+          1300
+        ],
+        "window180": {
+          "maximum": 1,
+          "worst": [
+            "forest-boulder-compact-mover-1"
+          ]
+        },
+        "window320": {
+          "maximum": 2,
+          "worst": [
+            "forest-boulder-compact-mover-2",
+            "forest-log-spaced-static-1"
+          ]
+        }
+      },
+      {
+        "biome": "desert",
+        "count": 4,
+        "statics": 2,
+        "offsets": [
+          -2.545,
+          8.374
+        ],
+        "first": 6589.943,
+        "last": 8097.41,
+        "fractionOfBiomeSpanned": 0.558,
+        "minimumGap": 370,
+        "maximumGap": 675,
+        "gapBins25m": [
+          375,
+          475,
+          675
+        ],
+        "window180": {
+          "maximum": 1,
+          "worst": [
+            "desert-boulder-compact-mover-1"
+          ]
+        },
+        "window320": {
+          "maximum": 1,
+          "worst": [
+            "desert-boulder-compact-mover-1"
+          ]
+        }
+      },
+      {
+        "biome": "snow",
+        "count": 4,
+        "statics": 2,
+        "offsets": [
+          -6.322,
+          9.108
+        ],
+        "first": 9164.703,
+        "last": 10804.758,
+        "fractionOfBiomeSpanned": 0.656,
+        "minimumGap": 350,
+        "maximumGap": 1294.638,
+        "gapBins25m": [
+          350,
+          500,
+          800,
+          1300
+        ],
+        "window180": {
+          "maximum": 1,
+          "worst": [
+            "snow-barrier-compact-mover-1"
+          ]
+        },
+        "window320": {
+          "maximum": 1,
+          "worst": [
+            "snow-barrier-compact-mover-1"
+          ]
+        }
+      },
+      {
+        "biome": "volcanic",
+        "count": 6,
+        "statics": 4,
+        "offsets": [
+          -8.313,
+          -6.645,
+          1.896,
+          5.931
+        ],
+        "first": 11424.949,
+        "last": 15454.841,
+        "fractionOfBiomeSpanned": 0.831,
+        "minimumGap": 180,
+        "maximumGap": 1849.544,
+        "gapBins25m": [
+          175,
+          250,
+          675,
+          1100,
+          1850
+        ],
+        "window180": {
+          "maximum": 1,
+          "worst": [
+            "volcanic-rock-spaced-static-1"
+          ]
+        },
+        "window320": {
+          "maximum": 2,
+          "worst": [
+            "volcanic-rock-spaced-static-1",
+            "volcanic-boulder-compact-mover-1"
+          ]
+        }
+      }
+    ]
+  },
+  "cameraBefore": {
+    "description": "Conservative frustum intersection of actual mesh bounding boxes within 320 world metres; includes both fork arms if in view. Camera target is road height + 1.7 m, no smoothing or depth occlusion. Default and minimum camera pitch, desktop and portrait. Parts count log body plus two caps separately.",
+    "actualMeshVertices": 12150,
+    "meshParts": 128,
+    "uniqueDescriptors": 90,
+    "modes": [
+      {
+        "aspect": 1.778,
+        "pitchDegrees": 32.557,
+        "samples": 2114,
+        "maxUnique": 7,
+        "maxParts": 21,
+        "worst": {
+          "progress": 4710,
+          "branch": "main",
+          "ids": [
+            "forest-log-compact-static-9",
+            "forest-log-compact-static-10",
+            "forest-log-compact-static-11",
+            "forest-log-compact-static-12",
+            "forest-log-compact-static-13",
+            "forest-log-compact-static-14",
+            "forest-log-compact-static-15"
+          ]
+        },
+        "byBiome": {
+          "city": 6,
+          "forest": 7,
+          "desert": 6,
+          "snow": 7,
+          "volcanic": 7
+        }
+      },
+      {
+        "aspect": 1.778,
+        "pitchDegrees": 15,
+        "samples": 2114,
+        "maxUnique": 11,
+        "maxParts": 33,
+        "worst": {
+          "progress": 4485,
+          "branch": "main",
+          "ids": [
+            "forest-log-compact-static-16",
+            "forest-log-compact-static-9",
+            "forest-log-compact-static-17",
+            "forest-log-compact-static-10",
+            "forest-log-compact-static-18",
+            "forest-log-compact-static-11",
+            "forest-log-compact-static-19",
+            "forest-log-compact-static-12",
+            "forest-log-compact-static-13",
+            "forest-log-compact-static-14",
+            "forest-log-compact-static-15"
+          ]
+        },
+        "byBiome": {
+          "city": 9,
+          "forest": 11,
+          "desert": 8,
+          "snow": 8,
+          "volcanic": 10
+        }
+      },
+      {
+        "aspect": 0.563,
+        "pitchDegrees": 32.557,
+        "samples": 2114,
+        "maxUnique": 6,
+        "maxParts": 18,
+        "worst": {
+          "progress": 540,
+          "branch": "main",
+          "ids": [
+            "city-repair-compact-static-5",
+            "city-repair-compact-static-6",
+            "city-repair-compact-static-7",
+            "city-repair-compact-static-8",
+            "city-repair-compact-static-9",
+            "city-repair-compact-static-10"
+          ]
+        },
+        "byBiome": {
+          "city": 6,
+          "forest": 6,
+          "desert": 4,
+          "snow": 4,
+          "volcanic": 6
+        }
+      },
+      {
+        "aspect": 0.563,
+        "pitchDegrees": 15,
+        "samples": 2114,
+        "maxUnique": 11,
+        "maxParts": 33,
+        "worst": {
+          "progress": 4485,
+          "branch": "main",
+          "ids": [
+            "forest-log-compact-static-16",
+            "forest-log-compact-static-9",
+            "forest-log-compact-static-17",
+            "forest-log-compact-static-10",
+            "forest-log-compact-static-18",
+            "forest-log-compact-static-11",
+            "forest-log-compact-static-19",
+            "forest-log-compact-static-12",
+            "forest-log-compact-static-13",
+            "forest-log-compact-static-14",
+            "forest-log-compact-static-15"
+          ]
+        },
+        "byBiome": {
+          "city": 9,
+          "forest": 11,
+          "desert": 8,
+          "snow": 8,
+          "volcanic": 10
+        }
+      }
+    ]
+  },
+  "cameraAfter": {
+    "description": "Conservative frustum intersection of actual mesh bounding boxes within 320 world metres; includes both fork arms if in view. Camera target is road height + 1.7 m, no smoothing or depth occlusion. Default and minimum camera pitch, desktop and portrait. Parts count log body plus two caps separately.",
+    "actualMeshVertices": 3984,
+    "meshParts": 34,
+    "uniqueDescriptors": 26,
+    "modes": [
+      {
+        "aspect": 1.778,
+        "pitchDegrees": 32.557,
+        "samples": 2114,
+        "maxUnique": 1,
+        "maxParts": 3,
+        "worst": {
+          "progress": 210,
+          "branch": "main",
+          "ids": [
+            "city-repair-spaced-static-1"
+          ]
+        },
+        "byBiome": {
+          "city": 1,
+          "forest": 1,
+          "desert": 1,
+          "snow": 1,
+          "volcanic": 1
+        }
+      },
+      {
+        "aspect": 1.778,
+        "pitchDegrees": 15,
+        "samples": 2114,
+        "maxUnique": 2,
+        "maxParts": 6,
+        "worst": {
+          "progress": 3855,
+          "branch": "main",
+          "ids": [
+            "forest-boulder-compact-mover-2",
+            "forest-log-spaced-static-1"
+          ]
+        },
+        "byBiome": {
+          "city": 1,
+          "forest": 2,
+          "desert": 1,
+          "snow": 1,
+          "volcanic": 2
+        }
+      },
+      {
+        "aspect": 0.563,
+        "pitchDegrees": 32.557,
+        "samples": 2114,
+        "maxUnique": 1,
+        "maxParts": 3,
+        "worst": {
+          "progress": 195,
+          "branch": "main",
+          "ids": [
+            "city-repair-spaced-static-1"
+          ]
+        },
+        "byBiome": {
+          "city": 1,
+          "forest": 1,
+          "desert": 1,
+          "snow": 1,
+          "volcanic": 1
+        }
+      },
+      {
+        "aspect": 0.563,
+        "pitchDegrees": 15,
+        "samples": 2114,
+        "maxUnique": 2,
+        "maxParts": 6,
+        "worst": {
+          "progress": 3855,
+          "branch": "main",
+          "ids": [
+            "forest-boulder-compact-mover-2",
+            "forest-log-spaced-static-1"
+          ]
+        },
+        "byBiome": {
+          "city": 1,
+          "forest": 2,
+          "desert": 1,
+          "snow": 1,
+          "volcanic": 2
+        }
+      }
+    ]
+  },
+  "runtimeHashesAtEnd": {
+    "app.js": "da69b5ed46b500cf86a69f8c1bfc1e0dd91f0bfc583f74051cbb8f7b6b327d4e",
+    "biome-surfaces.js": "269e51c2c3ac2d32bc29f1780a2342a9df315fc3a7e6efe7b24a210d994e628a",
+    "biome-travel.js": "604c1c2e90abab4bf6526c324b4ae09eb6d647cdbbcf2da61d22eff78a12ed73",
+    "biome-weather.js": "17182b09e8c82129bfcecfed0a2bae0c7c3b4d9324943141fbe2263dd20415fa",
+    "building-material.js": "de80b6b72afb2489a2a47baa11570c2190b8c6f54b372748748c1b790a0fe042",
+    "career-missions.js": "551340b29d59c5bcfe3724feb372bc60cc463bf8602f2d51f924b40744b24cce",
+    "career-route-tracker.js": "55398b1b04d3443e19dce4c3bdf4df635ec8271ce581f6c16fdab3460d250d71",
+    "career-save.js": "0f11c377f130618880d4b811c67b07420b53d2019e5fbd51c80aaa911bdf107d",
+    "character-catalog.js": "1ceed0f70e0604f1ab4343ee09184e9bb6c0b33767ff5415c0427363440707f6",
+    "character-seat-calibration.js": "2d09cbf7f2b2581bed84f81ae41b790c2877e979f017360a04561b8e3443d51d",
+    "character-seat-pose.js": "aef6693f7fa229e6a4a2c8c5c3c31d56213820a109275a09d5fd755bd3fdcb73",
+    "character-support.js": "35b780187ae42ed5fc2a34035c9bf5c7b5603d1304c7e6e658a5a2e531211528",
+    "character.js": "ff88173983ee6a022290542aac867b73f5ae0c6d009cef1f47b3641d16951f59",
+    "city-driving.js": "a33f82d66e2fa50fb281fb28e8231decb76ef216557110fd2881f4b3338f4b82",
+    "driving-ground.js": "157ac92a62df8858ba2af419e334121966214aa59dd91b063e6e30a7d4e14c84",
+    "driving-model.js": "74b1165a2cc326b940eb1de89292741596035e58fc06c57ef4d4c292f35af3bc",
+    "economy-config.js": "8ab77c5da2277bd9f25d53aaa569f14b49380c5c01b2d06192717f90b7a775bf",
+    "follow-camera.js": "619bec5c16b350b5c6404127cd2d772a7aef5276091b6d2f8a2e9b5b3d6a9a25",
+    "gameplay.js": "2443ef2cff35a3f83b85627e5316da141149454e7265cca1f672eabe0f095b73",
+    "garage-scene.js": "13d4a7fc38bc53ae02e26e9a04b98a8f05e391843b389a693b39237d21a6b95b",
+    "ground-material.js": "3855969200dfbd2f567e965f3e3e621bcd64e137034506eedf420f22374ed103",
+    "jump-input.js": "7b6f4a074658f15691c0e1e2f39cad9acf6a66264d8d7854d78f6f303c445832",
+    "look-input.js": "73c8fbee12a361fa230c9070cd96671da01f8ebba5e8d698368987b6aa9869ec",
+    "network-scene.js": "71bde9a8753033348274ec7f4f1661526730e9d35cf96457e769da85f86f7a11",
+    "progression-config.js": "53618eb715251c0feef2cf62ea62206e7ccf12ca9ba3fae9d1dfe61a8013110e",
+    "progression-hud.js": "55ff5a58e2b0fd0d166e98a42d58be02f126112af3735bd8e217e05eb707a6d5",
+    "retention-ui.js": "342a276916157e01909535ed60117d78feac9ae21472886ec3d8aa761d5e3420",
+    "road-bridges.js": "637ab07f628992d4fa8b24d797d83d90305600beebf27a49fb2c5f5cdaf3374d",
+    "road-hazards-scene.js": "f9c1ddafbf68bf1ebdd2fe4313ff77c6d3e838741a068c9aa285c97f349593d2",
+    "road-hazards.js": "3fbac6c50a055d07709fe289c70b2099a70d87515e8d5f2ad0ae6e8605b7a4c2",
+    "road-layout.js": "4705972cf548ff56a004b63a5d85ba41f67caf2b1fe16572c908abd3d10b8685",
+    "road-material.js": "90a81ae425b987e980c8d94b73ce5311f4121632ae99e4f7dfaaafab8f48067a",
+    "route-network-config.js": "1054da2409117aaf893766f27f1db34c6bb040c4c3e7424aad34d586c6b41f6f",
+    "route-network.js": "572094adc2d74ac3c8407522abac15bb98db136c17f29343ede8cad5967dfc29",
+    "scene-lighting.js": "ba7b5eeeda73bb2532111668ee7d7d4520f78e102645d1c6f67a6b7c74f55608",
+    "scene.js": "169df363d212808a50b43cd9106ab1a4b8f7b35a04009bdf50acf695cb50290a",
+    "square-stud-texture.js": "8dcbe950316893d74bcb5b0f103b7e8bd972e6ef82e968239f6ee0c4442e367b",
+    "vehicle-input.js": "9bcf192299b0f5d56a0346e8eed53fc7a281bea24939690b8a2bfe99b2ffcc2e",
+    "vehicle-rig.js": "11c527c5aced8eeac2b748c8dfa1a413eab132de88ca28e9437f603fb7945b72",
+    "vehicle-upgrades.js": "6694010402ede4bb0df4a9b25b86c0765c4a0de4912db2175a404dfbd0939ccf",
+    "walk-input.js": "0f575e0a4a58c8a5f7f74edd78e941c5ab0304ecab18ff25d6c2a3b103850af7",
+    "wheel-particles.js": "4393a9ef61623d0a7a6d89934cc4acb984b7a768a954fdc8649ed5c8f070f743"
+  },
+  "changedDuringRun": [],
+  "passed": true,
+  "complete": true
+}

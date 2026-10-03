@@ -1,0 +1,13 @@
+PASS 256 seeds keep 68 frozen deterministic hazards in five varied patterns and both fork arms: {"seeds":256,"count":68,"patterns":5,"forkArms":8}
+PASS Actual footprint perimeters respect arc exclusions, graph width and every actual service stop: {"minimumArcGap":109.27301925055144,"minimumRoadGap":0.8430498592291737,"protectedServiceStops":22}
+PASS An 8m-wide vehicle-center bypass stays clear across all branches and all five biomes: {"samples":34570,"clearCenterBandMetres":8,"bodyWidth":3.1,"bodyLength":5.76}
+PASS OBB contacts agree with independent polygon SAT and never collide with empty AABB corners: {"comparisons":21600,"emptyAabbCornersRejected":1380}
+PASS Soft patches preserve full base profiles, blend over 2.5m and leave all other asphalt untouched: {"profiles":280,"edgeBlendMetres":2.5}
+PASS 200 stock/max car-biome D/R solid-fixture impacts slow through normal impulses and all can reverse away: {"cases":200,"maximumFixedStepMetres":0.051736338424990785}
+PASS All 80 stock/max dune-and-ice D/R crossings leave the patch and regain their exact base surface: {"cases":80}
+PASS Swept solver stops both gears at thin logs even at 40m/s, without corner tunnelling: {"cases":6,"logThicknessMetres":1.3465675274375828,"sweepStepMetres":0.12}
+PASS Rocks require a moving 160–180m approach, visible 4.5s warning, and persist only after a safe landing: {"warningSeconds":4.5,"fallSeconds":1.2,"rocks":16}
+PASS Rock warning and falling both defer overlap, freeze on pause, clamp delayed frames and reset in place
+PASS Runtime owns no timers, renderer, random emission, economy mutations or body movement
+
+11 road hazard groups passed. Offline Node/actual solver only; browser, WebGL, visual readability and Android are unverified.

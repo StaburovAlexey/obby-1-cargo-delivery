@@ -1,0 +1,246 @@
+{
+  "passed": true,
+  "rendererFree": true,
+  "checks": [
+    {
+      "passed": true,
+      "id": "pickup",
+      "target": "delivery-checkpoint-04",
+      "succeeds": true,
+      "frames": 2908,
+      "seconds": 145.4,
+      "maxDistance": 1196,
+      "totalTravel": 1199,
+      "money": 720,
+      "refills": 3,
+      "biomes": [
+        "city",
+        "forest"
+      ],
+      "blocked": 0,
+      "maxStep": 0.5541395219863213
+    },
+    {
+      "passed": true,
+      "id": "citycourier",
+      "target": "delivery-checkpoint-05",
+      "succeeds": true,
+      "frames": 4982,
+      "seconds": 249.10000000000002,
+      "maxDistance": 1846,
+      "totalTravel": 1847,
+      "money": 1110,
+      "refills": 4,
+      "biomes": [
+        "city",
+        "forest"
+      ],
+      "blocked": 0,
+      "maxStep": 0.6291389042145563
+    },
+    {
+      "passed": true,
+      "id": "rover",
+      "target": "delivery-checkpoint-06",
+      "succeeds": true,
+      "frames": 5318,
+      "seconds": 265.90000000000003,
+      "maxDistance": 2695,
+      "totalTravel": 2696,
+      "money": 1620,
+      "refills": 5,
+      "biomes": [
+        "city",
+        "forest",
+        "desert"
+      ],
+      "blocked": 0,
+      "maxStep": 0.7176132739297361
+    },
+    {
+      "passed": true,
+      "id": "foresthauler",
+      "target": "delivery-checkpoint-08",
+      "succeeds": true,
+      "frames": 15181,
+      "seconds": 759.0500000000001,
+      "maxDistance": 5095,
+      "totalTravel": 5095,
+      "money": 3060,
+      "refills": 7,
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "blocked": 0,
+      "maxStep": 0.817612663894475
+    },
+    {
+      "passed": true,
+      "id": "van",
+      "target": "delivery-checkpoint-08",
+      "succeeds": true,
+      "frames": 9506,
+      "seconds": 475.3,
+      "maxDistance": 5096,
+      "totalTravel": 5095,
+      "money": 3060,
+      "refills": 7,
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "blocked": 0,
+      "maxStep": 0.9234320067085399
+    },
+    {
+      "passed": true,
+      "id": "desertscout",
+      "target": "delivery-checkpoint-08",
+      "succeeds": true,
+      "frames": 8315,
+      "seconds": 415.75,
+      "maxDistance": 5095,
+      "totalTravel": 5095,
+      "money": 3060,
+      "refills": 7,
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "blocked": 0,
+      "maxStep": 1.0534315488522497
+    },
+    {
+      "passed": true,
+      "id": "snowgrip",
+      "target": "delivery-checkpoint-08",
+      "succeeds": true,
+      "frames": 5351,
+      "seconds": 267.55,
+      "maxDistance": 5095,
+      "totalTravel": 5095,
+      "money": 3060,
+      "refills": 7,
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "blocked": 0,
+      "maxStep": 1.1988115982378647
+    },
+    {
+      "passed": true,
+      "id": "snowrunner",
+      "target": "delivery-checkpoint-08",
+      "succeeds": true,
+      "frames": 4684,
+      "seconds": 234.20000000000002,
+      "maxDistance": 5095,
+      "totalTravel": 5095,
+      "money": 3060,
+      "refills": 7,
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "blocked": 0,
+      "maxStep": 1.3638107480495536
+    },
+    {
+      "passed": true,
+      "id": "lavacrawler",
+      "target": "delivery-checkpoint-08",
+      "succeeds": true,
+      "frames": 3362,
+      "seconds": 168.10000000000002,
+      "maxDistance": 5095,
+      "totalTravel": 5094,
+      "money": 3060,
+      "refills": 7,
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "blocked": 0,
+      "maxStep": 1.554154336517903
+    },
+    {
+      "passed": true,
+      "id": "ashhauler",
+      "target": "delivery-checkpoint-08",
+      "succeeds": true,
+      "frames": 2947,
+      "seconds": 147.35,
+      "maxDistance": 5095,
+      "totalTravel": 5094,
+      "money": 3060,
+      "refills": 7,
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "blocked": 0,
+      "maxStep": 1.7741524229626968
+    },
+    {
+      "passed": true,
+      "id": "pickup",
+      "target": "delivery-checkpoint-05",
+      "succeeds": false,
+      "frames": 5153,
+      "seconds": 257.65000000000003,
+      "maxDistance": 1726,
+      "totalTravel": 1725,
+      "money": 0,
+      "refills": 4,
+      "biomes": [
+        "city",
+        "forest"
+      ],
+      "blocked": 0,
+      "maxStep": 0.5541395219863213
+    },
+    {
+      "passed": true,
+      "id": "rover",
+      "target": "delivery-checkpoint-07",
+      "succeeds": false,
+      "frames": 9557,
+      "seconds": 477.85,
+      "maxDistance": 3705,
+      "totalTravel": 3702,
+      "money": 0,
+      "refills": 6,
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow"
+      ],
+      "blocked": 0,
+      "maxStep": 0.7176132739297361
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+/** Deliberately arcade tight-turn assistance layered over the four tire forces.
+ * It does not teleport the chassis or assign heading, velocity or yaw rate.
+ * Strong throttle-held steering first sheds speed with bounded acceleration,
+ * then follows a compact radius using bounded torque and lateral forces.
+ * Ordinary weak steering and released throttle use the unmodified solver.
+ * After an assisted turn, active weak steering briefly retains only bounded
+ * yaw/lateral stabilization while the rack unwinds, with no automatic brake.
+ */
+export const TURN_ASSIST = Object.freeze({
+  startSteering: .60,
+  fullSteering: .95,
+  responseSeconds: .085,
+  recoverySeconds: .65,
+  recoveryCutoff: .0001,
+  minimumRadius: 3.85,
+  maximumRadius: 4.35,
+  minimumTurnSpeed: 3.8,
+  maximumTurnSpeed: 5.2,
+  turnGateStart: .25,
+  turnGateEnd: 1.05,
+  brakeGain: 5,
+  maximumBrakeAcceleration: 12,
+  lateralAlignmentGain: 8,
+  maximumLateralAcceleration: 14,
+  yawResponseGain: 10,
+  maximumYawAcceleration: 4,
+  maximumExtraYawAcceleration: 24,
+  maximumExtraLateralAcceleration: 40,
+  wheelbase: 3.36,
+});
+const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+const smooth = v => { v = clamp(v, 0, 1); return v * v * (3 - 2 * v); };
+/** Intent is algebraic; gradual rack, force engagement and the fixed-step
+ * integrator supply time continuity. An unsupported biome can lower speed,
+ * but is never allowed to destroy the basic full-lock turning radius. */
+export function turnAssistIntent({ steering, active, braking = false, linearSpeed,
+  maximumSpeed, handling = 1, friction = 1 }) {
+  const p = TURN_ASSIST;
+  const strength = active && !braking ? smooth((Math.abs(steering) - p.startSteering) /
+    (p.fullSteering - p.startSteering)) : 0;
+  const ability = clamp((handling - 1) / 1.3, 0, 1);
+  const roadGrip = clamp((friction - .15) / 2, 0, 1);
+  const fullLockRadius = p.maximumRadius - (p.maximumRadius - p.minimumRadius) * ability;
+  // Partial strong input blends into compact curvature rather than demanding
+  // full-lock yaw as soon as assistance starts.
+  const radius = fullLockRadius / (.65 + .35 * strength);
+  const targetSpeed = Math.min(maximumSpeed, p.minimumTurnSpeed +
+    (p.maximumTurnSpeed - p.minimumTurnSpeed) * (.55 * ability + .45 * roadGrip));
+  // Do not start a sweeping highway-speed arc while slowing down. The car
+  // may advance along the clear straight road until speed permits the turn.
+  const turnGate = 1 - smooth((linearSpeed - targetSpeed - p.turnGateStart) /
+    (p.turnGateEnd - p.turnGateStart));
+  const wheelAngle = -Math.sign(steering) * Math.atan(p.wheelbase / radius) * turnGate;
+  return { strength, radius, targetSpeed, turnGate, wheelAngle };
+}
+/** Adds finite, explicitly non-tire arcade forces; the baseline contact patch
+ * solver is always evaluated first and continues to provide tire telemetry.
+ * Lateral and yaw feedback compensates excess tire force instead of stacking
+ * an unbounded grip boost. The bounded additions are visible for QA.
+ */
+export function addTurnAssistForces(state, forces, intent, { mass, yawInertia }) {
+  const p = TURN_ASSIST, strength = intent.strength;
+  if (!strength) return { ...forces, assist: { strength: 0, forceX: 0, forceZ: 0, torque: 0,
+    brakeAcceleration: 0, targetSpeed: intent.targetSpeed, radius: intent.radius } };
+  const sin = Math.sin(state.heading), cos = Math.cos(state.heading);
+  const fx = -sin, fz = -cos, rx = cos, rz = -sin;
+  const longitudinalSpeed = state.velocityX * fx + state.velocityZ * fz;
+  const lateralSpeed = state.velocityX * rx + state.velocityZ * rz;
+  const speed = Math.hypot(state.velocityX, state.velocityZ);
+  const brakeAcceleration = clamp((speed - intent.targetSpeed) * p.brakeGain, 0, p.maximumBrakeAcceleration);
+  const brakeX = speed > 1e-8 ? -state.velocityX / speed * brakeAcceleration : 0;
+  const brakeZ = speed > 1e-8 ? -state.velocityZ / speed * brakeAcceleration : 0;
+  const targetYawRate = Number.isFinite(intent.targetYawRate) ? intent.targetYawRate :
+    -Math.sign(state.steering) * longitudinalSpeed / intent.radius * intent.turnGate;
+  const targetYawAcceleration = clamp((targetYawRate - state.angularVelocity) * p.yawResponseGain,
+    -p.maximumYawAcceleration, p.maximumYawAcceleration);
+  const extraYawAcceleration = clamp(targetYawAcceleration - forces.torque / yawInertia,
+    -p.maximumExtraYawAcceleration, p.maximumExtraYawAcceleration);
+  // For forward f=(-sin(h),-cos(h)), df/dt = -yawRate*right.
+  // This feed-forward bends momentum smoothly; feedback dissipates sideslip.
+  const targetLateralAcceleration = clamp(-longitudinalSpeed * state.angularVelocity -
+    lateralSpeed * p.lateralAlignmentGain, -p.maximumLateralAcceleration, p.maximumLateralAcceleration);
+  const currentLateralAcceleration = forces.forceX / mass * rx + forces.forceZ / mass * rz;
+  const extraLateralAcceleration = clamp(targetLateralAcceleration - currentLateralAcceleration,
+    -p.maximumExtraLateralAcceleration, p.maximumExtraLateralAcceleration);
+  const brakeStrength = intent.brakeStrength ?? strength;
+  const forceX = mass * (brakeX * brakeStrength + strength * rx * extraLateralAcceleration);
+  const forceZ = mass * (brakeZ * brakeStrength + strength * rz * extraLateralAcceleration);
+  const torque = yawInertia * strength * extraYawAcceleration;
+  return { ...forces, forceX: forces.forceX + forceX, forceZ: forces.forceZ + forceZ,
+    torque: forces.torque + torque, assist: { strength, forceX, forceZ, torque,
+      brakeAcceleration: brakeAcceleration * brakeStrength, targetSpeed: intent.targetSpeed,
+      radius: intent.radius, targetYawRate, lateralSpeed } };
+}

@@ -1,0 +1,64 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> urban-route-procedural-three@1.42.0 test:analog
+> node tests/analog-stick.mjs && node tests/analog-driving.mjs && node tests/analog-app.mjs && node tests/biome-weather.mjs && node tests/biome-effects-integration.mjs && node tests/vehicle-dynamics.mjs && node tests/bridge-independent.mjs && node tests/bridge-tip-independent.mjs
+
+PASS initial sample is centered, explicit signed speed API, compatibility gear method has no effect
+PASS up/down distance maps monotonically to signed speed with a quiet center and circular clamp
+PASS one pointer controls both axes and release recenters immediately with no duplicate capture-loss emission
+PASS secondary finger never changes the stick, while camera and stick work in either start order
+PASS capture failure still permits window motion and completion; unexpected release errors are harmless
+PASS cancel, capture loss, blur, pagehide, resize, hidden tab and editable focus clear all input
+PASS disable blocks controls, enabling republishes neutral once, held-key repeats cannot restart
+PASS WASD and arrow keys provide axis endpoints, opposing keys cancel and aliases release independently
+PASS mouse secondary buttons, typing, modifier shortcuts and unrelated keys do not drive
+PASS pointer takeover clears old keys and held keyboard cannot create hidden throttle after release
+PASS gesture protection preserves normal clicks and destroying removes every listener idempotently
+PASS HTML exposes one described driving stick, clear speed/release instructions and no gear or wheel UI
+PASS CSS uses the walking ring/thumb visual, focus support, safe areas and unchanged fuel/speed row
+PASS static layout arithmetic keeps the circular stick above fuel/speed and below top actions
+Analog driving stick: 14 checks passed. Fake DOM and static layout only; browser rendering/physical touch are unverified.
+PASS Catalog, upgrade and surface handling/grip remain exactly halved; other stats unchanged
+PASS All 300 signed 25/50/100% demands converge to proportional terrain-adjusted speed caps
+PASS Lowering demand brakes through tire forces; centered/released demand stops all 100 directions/profiles
+PASS Both reversal directions brake through a near-zero interlock without instant velocity flips
+PASS Canceling an in-progress reversal resumes the currently moving direction immediately
+PASS Side-only stick steers the wheels without moving or rotating a stationary vehicle
+PASS Legacy full-power and gear callers retain the same straight-line force response
+PASS Slope, yaw, release and changing directions stay finite on all car/biome profiles
+PASS Sanitized input, pauses, resets and frame rates preserve finite deterministic behavior
+
+9 analog-driving groups passed; 0 failed; 300 signed cap cases.
+PASS actual app analog input, independent camera finger, release/cancel, resize/blur/visibility, keyboard, upgrade interruption, garage walking and economy preservation (mock renderer, no browser/GPU).
+PASS biome weather: stronger four-biome precipitation and translucent local haze, one 128-slot pool/draw, bounds, inactivity, resets and disposal
+{"status":"PASS","transitions":20,"bridges":15,"weatherPool":128,"staticRocks":16,"scope":"Actual app/Three CPU; mock renderer, not browser/GPU"}
+PASS Four explicit contact patches have balanced straight engine thrust and yaw torque
+PASS Tire point velocity and torque use the signed rigid-body cross products
+PASS All four passive tires oppose slip and stay within individual friction circles
+PASS Semi-implicit integration obeys F/m and torque/inertia instead of setting geometric yaw
+PASS Mirrored steering gives mirrored lateral forces, paths, and yaw
+PASS UI steering remains normalized while actual road rack angle limits high-speed demand
+PASS Every vehicle reaches its 11 / 17 / 24 m/s governed speed without overshoot: [{"maxSpeed":11,"timeTo90":1.767},{"maxSpeed":17,"timeTo90":2.233},{"maxSpeed":24,"timeTo90":3.25}]
+PASS Maximum steering produces small controlled slip across all vehicle tiers: [{"maxSpeed":11,"maxSlipDegrees":4.3,"maxYaw":0.621},{"maxSpeed":17,"maxSlipDegrees":1.91,"maxYaw":0.524},{"maxSpeed":24,"maxSlipDegrees":0.8,"maxYaw":0.415}]
+PASS D/R selection brakes through a low-speed interlock before reverse acceleration: [{"startGear":"D","crossedAt":1.775,"minimumSpeed":0.0509},{"startGear":"R","crossedAt":1.775,"minimumSpeed":0.0509}]
+PASS Forward and reverse steer in opposite yaw directions without unstable reverse oscillation
+PASS Flat release coasts, reaches rest, and stops all wheel/body motion after settling
+PASS A true ground gradient changes acceleration, coasting, and gentle-slope rollback: {"uphillAfterCoast":2.6275371694779333,"flatAfterCoast":3.793374025918132,"downhillAfterCoast":4.9609557556095645,"rollbackSpeed":-0.8562525545456067}
+PASS 30 / 60 / 120 Hz rendering produces equivalent rigid-body state and path sums: {"totalDistance":65.61073303670646}
+PASS Long frame stalls are bounded, fractional frames accumulate, invalid frames cannot replay distance
+PASS Unsigned actual path counts lateral skid even when forward wheel rolling is zero
+PASS Head-on contacts remove inward normal motion with no bounce or wheel spinning through a wall
+PASS Oblique contacts preserve along-wall velocity and generate an off-center contact torque: {"tangentSpeed":-6.023655224945454,"contactYawRate":1.2925407153290045}
+PASS Near-parallel contact stays stable inside the real conservative road envelope: {"poses":5,"frames":1800,"maxYaw":0.00007908856316521741}
+PASS Adaptive swept collision samples cannot tunnel through a thin barrier at 24 m/s
+PASS Invalid confined contacts cannot create projection teleports or heading snaps
+PASS Pause and reset clear all velocities, accumulator residue, and suspension springs
+
+21 original planar vehicle dynamics checks passed.
+{"status":"PASS","centeredSupportCases":105,"yawSupportSamples":5400,"offCenterCases":60,"drivingCrossings":[{"vehicle":"pickup","gear":"D","frames":527,"maxSpeed":4.096570836923161,"maxOffset":0},{"vehicle":"pickup","gear":"R","frames":528,"maxSpeed":4.093300231220388,"maxOffset":0},{"vehicle":"citycourier","gear":"D","frames":524,"maxSpeed":4.109668170562903,"maxOffset":0},{"vehicle":"citycourier","gear":"R","frames":525,"maxSpeed":4.105806260580511,"maxOffset":0},{"vehicle":"rover","gear":"D","frames":522,"maxSpeed":4.1220524161423855,"maxOffset":0},{"vehicle":"rover","gear":"R","frames":522,"maxSpeed":4.119007787699793,"maxOffset":0},{"vehicle":"foresthauler","gear":"D","frames":519,"maxSpeed":4.139071265385352,"maxOffset":0},{"vehicle":"foresthauler","gear":"R","frames":520,"maxSpeed":4.13542196173389,"maxOffset":0},{"vehicle":"van","gear":"D","frames":517,"maxSpeed":4.150927829265316,"maxOffset":0},{"vehicle":"van","gear":"R","frames":518,"maxSpeed":4.146308822083195,"maxOffset":0},{"vehicle":"desertscout","gear":"D","frames":515,"maxSpeed":4.162144639325135,"maxOffset":0},{"vehicle":"desertscout","gear":"R","frames":516,"maxSpeed":4.159182740006936,"maxOffset":0},{"vehicle":"snowgrip","gear":"D","frames":514,"maxSpeed":4.17536464617371,"maxOffset":0},{"vehicle":"snowgrip","gear":"R","frames":514,"maxSpeed":4.1715102278777,"maxOffset":0},{"vehicle":"snowrunner","gear":"D","frames":512,"maxSpeed":4.189079191710195,"maxOffset":0},{"vehicle":"snowrunner","gear":"R","frames":513,"maxSpeed":4.185166760693032,"maxOffset":0},{"vehicle":"lavacrawler","gear":"D","frames":510,"maxSpeed":4.203348245512749,"maxOffset":0},{"vehicle":"lavacrawler","gear":"R","frames":511,"maxSpeed":4.200353266303221,"maxOffset":0},{"vehicle":"ashhauler","gear":"D","frames":508,"maxSpeed":4.220135653693258,"maxOffset":0},{"vehicle":"ashhauler","gear":"R","frames":509,"maxSpeed":4.217085053328118,"maxOffset":0}],"allVehicleFalls":10,"pauseResumeCases":3,"scope":"Node real app and geometry; DOM/renderer mocked, no browser/GPU/Android claim"}
+{"status":"PASS","maxTipLift":0,"maxLift":0.04326414860235772,"cornerCases":160,"cornerMinimum":0.002509255390113121,"cornerFailures":[],"cases":120,"directionCounts":{"front":30,"rear":30,"left":30,"right":30},"minDeckClearance":0.0011529907274692303,"failures":[],"scope":"Production THREE math and actual truck mesh; offline only"}
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

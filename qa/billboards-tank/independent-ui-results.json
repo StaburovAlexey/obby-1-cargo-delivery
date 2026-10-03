@@ -1,0 +1,59 @@
+{
+  "generated": "2026-10-13T20:54:36.622Z",
+  "scope": "Renderer-free real-app fixtures and source-derived CSS/SVG contracts; not browser, CSS layout, WebGL, Android, or physical-touch tests.",
+  "results": [
+    {
+      "name": "Six app viewport fixtures: fourth card purchase updates HUD immediately, no fuel grant, MAX disables, close re-enables driving",
+      "pass": true,
+      "detail": [
+        {
+          "width": 320,
+          "id": "pickup",
+          "hud": "38/106"
+        },
+        {
+          "width": 390,
+          "id": "rover",
+          "hud": "37,4/148,4"
+        },
+        {
+          "width": 601,
+          "id": "citycourier",
+          "hud": "37,4/132,5"
+        },
+        {
+          "width": 768,
+          "id": "snowgrip",
+          "hud": "37,4/153,7"
+        },
+        {
+          "width": 844,
+          "id": "ashhauler",
+          "hud": "37,4/222,6"
+        },
+        {
+          "width": 1440,
+          "id": "van",
+          "hud": "37,4/190,8"
+        }
+      ]
+    },
+    {
+      "name": "Fourth upgrade participates in keyboard focus and paused touch-event containment",
+      "pass": true
+    },
+    {
+      "name": "Dense school row fits 320\u20131440px viewport even at left/right edge without changing size",
+      "pass": true,
+      "detail": {
+        "cases": 49
+      }
+    },
+    {
+      "name": "School composition has fixed full-block footprint and bob; reserved absolute access row cannot collapse it",
+      "pass": true
+    }
+  ],
+  "passed": 4,
+  "failed": 0
+}

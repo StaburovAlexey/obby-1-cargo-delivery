@@ -1,0 +1,26 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> urban-route-procedural-three@1.70.0 test:integer-fuel
+> node tests/integer-fuel-hud.mjs && node tests/compact-fuel-hud.mjs && node tests/settings-app.mjs
+
+  3146 presentation cases, including 138 fractional capacity/language combinations
+PASS All 121 stock/upgraded tanks show integer current/max in RU and EN without mutating fuel or career
+PASS 100 → 99 → 9 preserves the same nodes and slot widths; identical integers avoid text rewrites
+PASS Real app buy/refill/empty/re-entry and language switching retain fractional accounting
+  80 viewport/safe-area/digit calculations; no browser rendering claim
+PASS Stable grid slots, fixed canister and 3/4-digit text fit narrow portrait/landscape safe areas (static CSS arithmetic)
+Integer fuel HUD: 4 groups passed; CPU/DOM mocks and static CSS arithmetic only.
+PASS only top icon can return to the garage; removed controls have no fixture nodes
+PASS fuel HUD is integer current/capacity from the real remaining state with no false zero
+PASS mouse/touch canvas interactions, E/F/Escape/Space and direct exit requests cannot disembark
+PASS real D/R travel drains the same capacity while idle does not; refill restores current/max
+PASS empty tank and sole top Garage atomically restore walking in the hangar with full tanks
+PASS fuel left and live speed right share one nowrap row with identical 44px centers
+PASS shared bottom row clears wheel and D/R across portrait, landscape and asymmetric safe areas
+Compact fuel/no-exit: 7 checks passed; Node and static layout arithmetic, not browser rendering.
+PASS settings real app: paused car/hazards/input/audio, exclusive modals, volume0/mute restore, RU/EN preference reload, career unaffected, production dev controls hidden.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

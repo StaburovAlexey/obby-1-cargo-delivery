@@ -1,0 +1,26 @@
+{
+  "method": "Byte comparison with published Site28 HEAD c171a78d88d9e6566617fb158d789760b7a8fd92",
+  "files": [
+    "dist/city-driving.js",
+    "dist/look-input.js",
+    "dist/building-material.js",
+    "dist/ground-material.js",
+    "dist/follow-camera.js",
+    "dist/driving-ground.js",
+    "dist/vehicle-input.js",
+    "dist/square-stud-texture.js",
+    "dist/road-layout.js",
+    "dist/character-seat-pose.js",
+    "dist/walk-input.js",
+    "dist/character-catalog.js",
+    "dist/biome-travel.js",
+    "dist/scene.js",
+    "dist/jump-input.js",
+    "dist/wheel-particles.js",
+    "dist/character-support.js",
+    "dist/vehicle-rig.js",
+    "dist/character-seat-calibration.js",
+    "dist/road-material.js",
+    "dist/character.js"
+  ]
+}

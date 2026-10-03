@@ -1,0 +1,3 @@
+PASS Throttle release preserves exact coast, weak input never auto-brakes, and recovery is bounded/reset {"cases":800}
+PASS Strong-turn unwind settles without residual reverse drift on every vehicle and surface {"cases":400,"maxYaw":0.000211874007431555,"maxLateral":0.0015644681777846614,"maxSlipDegrees":0.027445628570089576}
+2/2 groups passed; runtime changed: none

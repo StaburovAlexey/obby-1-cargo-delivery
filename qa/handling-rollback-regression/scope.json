@@ -1,0 +1,16 @@
+{
+  "fromCommit": "c7c6e00266c2622f338c2b7df7bd72636146e92c",
+  "changes": [
+    {
+      "file": "dist/driving-model.js",
+      "change": "restored",
+      "sha256": "652cc1898c935babc89ed641b085facaba58c514a508493942ca98fa2caa3b2b"
+    },
+    {
+      "file": "dist/turn-assist.js",
+      "change": "removed"
+    }
+  ],
+  "otherRuntimeIdentical": true,
+  "hillsPreserved": true
+}

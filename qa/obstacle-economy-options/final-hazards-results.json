@@ -1,0 +1,6146 @@
+{
+  "generatedAt": "2026-10-14T11:58:46.315Z",
+  "scope": "Read-only counterfactual economy. No runtime files changed and no physics rerun. Measured clean journeys plus explicit assumed player behavior; not a human-average claim.",
+  "calibration": "qa/45-bridge-calibration",
+  "outputName": "final-hazards",
+  "recommendedId": "price-buffer-b",
+  "calibrationRuntimeHashes": {
+    "app.js": "da69b5ed46b500cf86a69f8c1bfc1e0dd91f0bfc583f74051cbb8f7b6b327d4e",
+    "biome-surfaces.js": "269e51c2c3ac2d32bc29f1780a2342a9df315fc3a7e6efe7b24a210d994e628a",
+    "biome-travel.js": "604c1c2e90abab4bf6526c324b4ae09eb6d647cdbbcf2da61d22eff78a12ed73",
+    "biome-weather.js": "17182b09e8c82129bfcecfed0a2bae0c7c3b4d9324943141fbe2263dd20415fa",
+    "building-material.js": "de80b6b72afb2489a2a47baa11570c2190b8c6f54b372748748c1b790a0fe042",
+    "career-missions.js": "551340b29d59c5bcfe3724feb372bc60cc463bf8602f2d51f924b40744b24cce",
+    "career-route-tracker.js": "55398b1b04d3443e19dce4c3bdf4df635ec8271ce581f6c16fdab3460d250d71",
+    "career-save.js": "0f11c377f130618880d4b811c67b07420b53d2019e5fbd51c80aaa911bdf107d",
+    "character-catalog.js": "1ceed0f70e0604f1ab4343ee09184e9bb6c0b33767ff5415c0427363440707f6",
+    "character-seat-calibration.js": "2d09cbf7f2b2581bed84f81ae41b790c2877e979f017360a04561b8e3443d51d",
+    "character-seat-pose.js": "aef6693f7fa229e6a4a2c8c5c3c31d56213820a109275a09d5fd755bd3fdcb73",
+    "character-support.js": "35b780187ae42ed5fc2a34035c9bf5c7b5603d1304c7e6e658a5a2e531211528",
+    "character.js": "ff88173983ee6a022290542aac867b73f5ae0c6d009cef1f47b3641d16951f59",
+    "city-driving.js": "a33f82d66e2fa50fb281fb28e8231decb76ef216557110fd2881f4b3338f4b82",
+    "driving-ground.js": "157ac92a62df8858ba2af419e334121966214aa59dd91b063e6e30a7d4e14c84",
+    "driving-model.js": "74b1165a2cc326b940eb1de89292741596035e58fc06c57ef4d4c292f35af3bc",
+    "economy-config.js": "994a1179f7cf14967a352c5fd7ad65e851fac3df6e2f7aa8bd570c9e73d3effb",
+    "follow-camera.js": "619bec5c16b350b5c6404127cd2d772a7aef5276091b6d2f8a2e9b5b3d6a9a25",
+    "gameplay.js": "2443ef2cff35a3f83b85627e5316da141149454e7265cca1f672eabe0f095b73",
+    "garage-scene.js": "13d4a7fc38bc53ae02e26e9a04b98a8f05e391843b389a693b39237d21a6b95b",
+    "ground-material.js": "3855969200dfbd2f567e965f3e3e621bcd64e137034506eedf420f22374ed103",
+    "jump-input.js": "7b6f4a074658f15691c0e1e2f39cad9acf6a66264d8d7854d78f6f303c445832",
+    "look-input.js": "73c8fbee12a361fa230c9070cd96671da01f8ebba5e8d698368987b6aa9869ec",
+    "network-scene.js": "71bde9a8753033348274ec7f4f1661526730e9d35cf96457e769da85f86f7a11",
+    "progression-config.js": "53618eb715251c0feef2cf62ea62206e7ccf12ca9ba3fae9d1dfe61a8013110e",
+    "progression-hud.js": "55ff5a58e2b0fd0d166e98a42d58be02f126112af3735bd8e217e05eb707a6d5",
+    "retention-ui.js": "342a276916157e01909535ed60117d78feac9ae21472886ec3d8aa761d5e3420",
+    "road-bridges.js": "1618f4e1b16c01f3e78a5ee176e3a19b08c0a7b08516e198612fc0ccee57842a",
+    "road-hazards-scene.js": "f9c1ddafbf68bf1ebdd2fe4313ff77c6d3e838741a068c9aa285c97f349593d2",
+    "road-hazards.js": "6eafda8f6a32ec552b98fad99842c4dc8f5d36223ee945ae888a22d476262cfd",
+    "road-layout.js": "4705972cf548ff56a004b63a5d85ba41f67caf2b1fe16572c908abd3d10b8685",
+    "road-material.js": "90a81ae425b987e980c8d94b73ce5311f4121632ae99e4f7dfaaafab8f48067a",
+    "route-network-config.js": "e9fd175e4c926f382496d82e53de85d99a125dddc19eae4d9122b112edbed739",
+    "route-network.js": "c906578aa6d913d6c0d96f82a3c230373c4aefebe85c9accd1637a0a61dc115e",
+    "scene-lighting.js": "ba7b5eeeda73bb2532111668ee7d7d4520f78e102645d1c6f67a6b7c74f55608",
+    "scene.js": "169df363d212808a50b43cd9106ab1a4b8f7b35a04009bdf50acf695cb50290a",
+    "square-stud-texture.js": "8dcbe950316893d74bcb5b0f103b7e8bd972e6ef82e968239f6ee0c4442e367b",
+    "vehicle-input.js": "9bcf192299b0f5d56a0346e8eed53fc7a281bea24939690b8a2bfe99b2ffcc2e",
+    "vehicle-rig.js": "11c527c5aced8eeac2b748c8dfa1a413eab132de88ca28e9437f603fb7945b72",
+    "vehicle-upgrades.js": "6694010402ede4bb0df4a9b25b86c0765c4a0de4912db2175a404dfbd0939ccf",
+    "walk-input.js": "0f575e0a4a58c8a5f7f74edd78e941c5ab0304ecab18ff25d6c2a3b103850af7",
+    "wheel-particles.js": "4393a9ef61623d0a7a6d89934cc4acb984b7a768a954fdc8649ed5c8f070f743"
+  },
+  "currentRuntimeHashes": {
+    "app.js": "da69b5ed46b500cf86a69f8c1bfc1e0dd91f0bfc583f74051cbb8f7b6b327d4e",
+    "biome-surfaces.js": "269e51c2c3ac2d32bc29f1780a2342a9df315fc3a7e6efe7b24a210d994e628a",
+    "biome-travel.js": "604c1c2e90abab4bf6526c324b4ae09eb6d647cdbbcf2da61d22eff78a12ed73",
+    "biome-weather.js": "17182b09e8c82129bfcecfed0a2bae0c7c3b4d9324943141fbe2263dd20415fa",
+    "building-material.js": "de80b6b72afb2489a2a47baa11570c2190b8c6f54b372748748c1b790a0fe042",
+    "career-missions.js": "551340b29d59c5bcfe3724feb372bc60cc463bf8602f2d51f924b40744b24cce",
+    "career-route-tracker.js": "55398b1b04d3443e19dce4c3bdf4df635ec8271ce581f6c16fdab3460d250d71",
+    "career-save.js": "0f11c377f130618880d4b811c67b07420b53d2019e5fbd51c80aaa911bdf107d",
+    "character-catalog.js": "1ceed0f70e0604f1ab4343ee09184e9bb6c0b33767ff5415c0427363440707f6",
+    "character-seat-calibration.js": "2d09cbf7f2b2581bed84f81ae41b790c2877e979f017360a04561b8e3443d51d",
+    "character-seat-pose.js": "aef6693f7fa229e6a4a2c8c5c3c31d56213820a109275a09d5fd755bd3fdcb73",
+    "character-support.js": "35b780187ae42ed5fc2a34035c9bf5c7b5603d1304c7e6e658a5a2e531211528",
+    "character.js": "ff88173983ee6a022290542aac867b73f5ae0c6d009cef1f47b3641d16951f59",
+    "city-driving.js": "a33f82d66e2fa50fb281fb28e8231decb76ef216557110fd2881f4b3338f4b82",
+    "driving-ground.js": "157ac92a62df8858ba2af419e334121966214aa59dd91b063e6e30a7d4e14c84",
+    "driving-model.js": "74b1165a2cc326b940eb1de89292741596035e58fc06c57ef4d4c292f35af3bc",
+    "economy-config.js": "994a1179f7cf14967a352c5fd7ad65e851fac3df6e2f7aa8bd570c9e73d3effb",
+    "follow-camera.js": "619bec5c16b350b5c6404127cd2d772a7aef5276091b6d2f8a2e9b5b3d6a9a25",
+    "gameplay.js": "2443ef2cff35a3f83b85627e5316da141149454e7265cca1f672eabe0f095b73",
+    "garage-scene.js": "13d4a7fc38bc53ae02e26e9a04b98a8f05e391843b389a693b39237d21a6b95b",
+    "ground-material.js": "3855969200dfbd2f567e965f3e3e621bcd64e137034506eedf420f22374ed103",
+    "jump-input.js": "7b6f4a074658f15691c0e1e2f39cad9acf6a66264d8d7854d78f6f303c445832",
+    "look-input.js": "73c8fbee12a361fa230c9070cd96671da01f8ebba5e8d698368987b6aa9869ec",
+    "network-scene.js": "71bde9a8753033348274ec7f4f1661526730e9d35cf96457e769da85f86f7a11",
+    "progression-config.js": "53618eb715251c0feef2cf62ea62206e7ccf12ca9ba3fae9d1dfe61a8013110e",
+    "progression-hud.js": "55ff5a58e2b0fd0d166e98a42d58be02f126112af3735bd8e217e05eb707a6d5",
+    "retention-ui.js": "342a276916157e01909535ed60117d78feac9ae21472886ec3d8aa761d5e3420",
+    "road-bridges.js": "1618f4e1b16c01f3e78a5ee176e3a19b08c0a7b08516e198612fc0ccee57842a",
+    "road-hazards-scene.js": "f9c1ddafbf68bf1ebdd2fe4313ff77c6d3e838741a068c9aa285c97f349593d2",
+    "road-hazards.js": "6eafda8f6a32ec552b98fad99842c4dc8f5d36223ee945ae888a22d476262cfd",
+    "road-layout.js": "4705972cf548ff56a004b63a5d85ba41f67caf2b1fe16572c908abd3d10b8685",
+    "road-material.js": "90a81ae425b987e980c8d94b73ce5311f4121632ae99e4f7dfaaafab8f48067a",
+    "route-network-config.js": "e9fd175e4c926f382496d82e53de85d99a125dddc19eae4d9122b112edbed739",
+    "route-network.js": "c906578aa6d913d6c0d96f82a3c230373c4aefebe85c9accd1637a0a61dc115e",
+    "scene-lighting.js": "ba7b5eeeda73bb2532111668ee7d7d4520f78e102645d1c6f67a6b7c74f55608",
+    "scene.js": "169df363d212808a50b43cd9106ab1a4b8f7b35a04009bdf50acf695cb50290a",
+    "square-stud-texture.js": "8dcbe950316893d74bcb5b0f103b7e8bd972e6ef82e968239f6ee0c4442e367b",
+    "vehicle-input.js": "9bcf192299b0f5d56a0346e8eed53fc7a281bea24939690b8a2bfe99b2ffcc2e",
+    "vehicle-rig.js": "11c527c5aced8eeac2b748c8dfa1a413eab132de88ca28e9437f603fb7945b72",
+    "vehicle-upgrades.js": "6694010402ede4bb0df4a9b25b86c0765c4a0de4912db2175a404dfbd0939ccf",
+    "walk-input.js": "0f575e0a4a58c8a5f7f74edd78e941c5ab0304ecab18ff25d6c2a3b103850af7",
+    "wheel-particles.js": "4393a9ef61623d0a7a6d89934cc4acb984b7a768a954fdc8649ed5c8f070f743"
+  },
+  "changedSinceCalibration": [],
+  "inputFiles": {
+    "qa/45-bridge-calibration/journeys-stock.json": "c427c691cb9457ce57265eabb8ef2bc9c4d3a16a4fbfd99dde6b6a04483886ba",
+    "qa/45-bridge-calibration/journeys-final.json": "944b839602f5d48d9490b83bb8ad5ce8fb431b77d7b01f0d2b6a44c3f5c2d178",
+    "qa/45-bridge-calibration/journeys-typical.json": "0990556ab1f56cfcdf0d7513c0d9bd48916e197c18c725a0516de59a37a6bf1a"
+  },
+  "modelHash": "20fc19a3be7af59872d673f4b87a88811bd439fa1a8d70e30a8b985042359ab6",
+  "scenarios": [
+    {
+      "name": "unchanged",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        25000,
+        45000,
+        78000,
+        100000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence"
+      },
+      "movingMinutes": 720.115,
+      "interfaceRestartMinutes": 15.718,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 735.833,
+      "totalHours": 12.264,
+      "successfulRuns": 56,
+      "expectedFailedRuns": 6.872,
+      "cashSpent": 259300,
+      "brainsSpent": 48585,
+      "cashAfter": 38411.616,
+      "brainsAfter": 90889.429,
+      "retentionRewards": {
+        "firstCash": 2771,
+        "firstBrains": 550,
+        "missionCash": 889.316,
+        "missionBrains": 220.872,
+        "expectedMissionCompletions": 7.557,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 5,
+          "movingSeconds": 243.51779605263158,
+          "overheadSeconds": 78.94736842105263,
+          "targets": {
+            "2": 5
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 5.374,
+          "cumulativeMinutes": 5.374,
+          "cashAfter": 246,
+          "brainsAfter": 780.053
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 19,
+          "movingSeconds": 1442.76479787234,
+          "overheadSeconds": 303.1914893617022,
+          "targets": {
+            "3": 19
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 29.099,
+          "cumulativeMinutes": 34.474,
+          "cashAfter": 181.3,
+          "brainsAfter": 5300.448
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 11,
+          "movingSeconds": 4983.578986111111,
+          "overheadSeconds": 183.33333333333331,
+          "targets": {
+            "6": 1,
+            "7": 10
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 86.115,
+          "cumulativeMinutes": 120.589,
+          "cashAfter": 1405.782,
+          "brainsAfter": 15269.78
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 8,
+          "movingSeconds": 8525.528172413791,
+          "overheadSeconds": 137.9310344827586,
+          "targets": {
+            "10": 8
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 144.391,
+          "cumulativeMinutes": 264.98,
+          "cashAfter": 4180.8,
+          "brainsAfter": 33815.969
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 6,
+          "movingSeconds": 10489.844087349398,
+          "overheadSeconds": 108.43373493975905,
+          "targets": {
+            "13": 6
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 176.638,
+          "cumulativeMinutes": 441.618,
+          "cashAfter": 1741.781,
+          "brainsAfter": 58484.964
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 6,
+          "movingSeconds": 14840.114624999998,
+          "overheadSeconds": 112.5,
+          "targets": {
+            "15": 6
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 249.21,
+          "cumulativeMinutes": 690.828,
+          "cashAfter": 14323.728,
+          "brainsAfter": 95665.001
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2681.5707187499997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 45.005,
+          "cumulativeMinutes": 735.833,
+          "cashAfter": 38411.616,
+          "brainsAfter": 90889.429
+        }
+      ]
+    },
+    {
+      "name": "price-3edit-a",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        25000,
+        30000,
+        45000,
+        60000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence"
+      },
+      "movingMinutes": 484.886,
+      "interfaceRestartMinutes": 13.316,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 498.202,
+      "totalHours": 8.303,
+      "successfulRuns": 48,
+      "expectedFailedRuns": 5.265,
+      "cashSpent": 171300,
+      "brainsSpent": 48585,
+      "cashAfter": 27683.152,
+      "brainsAfter": 45272.803,
+      "retentionRewards": {
+        "firstCash": 2771,
+        "firstBrains": 550,
+        "missionCash": 626.952,
+        "missionBrains": 155.631,
+        "expectedMissionCompletions": 5.335,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 5,
+          "movingSeconds": 243.51779605263158,
+          "overheadSeconds": 78.94736842105263,
+          "targets": {
+            "2": 5
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 5.374,
+          "cumulativeMinutes": 5.374,
+          "cashAfter": 246,
+          "brainsAfter": 780.053
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 19,
+          "movingSeconds": 1442.76479787234,
+          "overheadSeconds": 303.1914893617022,
+          "targets": {
+            "3": 19
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 29.099,
+          "cumulativeMinutes": 34.474,
+          "cashAfter": 181.3,
+          "brainsAfter": 5300.448
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 11,
+          "movingSeconds": 4983.578986111111,
+          "overheadSeconds": 183.33333333333331,
+          "targets": {
+            "6": 1,
+            "7": 10
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 86.115,
+          "cumulativeMinutes": 120.589,
+          "cashAfter": 1405.782,
+          "brainsAfter": 15269.78
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 5,
+          "movingSeconds": 5328.455107758619,
+          "overheadSeconds": 86.20689655172413,
+          "targets": {
+            "10": 5
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 90.244,
+          "cumulativeMinutes": 210.833,
+          "cashAfter": 1365.3,
+          "brainsAfter": 23871.65
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 4,
+          "movingSeconds": 6993.229391566266,
+          "overheadSeconds": 72.28915662650603,
+          "targets": {
+            "13": 4
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 117.759,
+          "cumulativeMinutes": 328.592,
+          "cashAfter": 6892.325,
+          "brainsAfter": 37137.838
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 3,
+          "movingSeconds": 7420.057312499999,
+          "overheadSeconds": 56.25,
+          "targets": {
+            "15": 3
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 124.605,
+          "cumulativeMinutes": 453.197,
+          "cashAfter": 3603.542,
+          "brainsAfter": 50050.149
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2681.5707187499997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 45.005,
+          "cumulativeMinutes": 498.202,
+          "cashAfter": 27683.152,
+          "brainsAfter": 45272.803
+        }
+      ]
+    },
+    {
+      "name": "price-3edit-b",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        25000,
+        30000,
+        45000,
+        55000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence"
+      },
+      "movingMinutes": 484.886,
+      "interfaceRestartMinutes": 13.316,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 498.202,
+      "totalHours": 8.303,
+      "successfulRuns": 48,
+      "expectedFailedRuns": 5.265,
+      "cashSpent": 166300,
+      "brainsSpent": 48585,
+      "cashAfter": 32683.152,
+      "brainsAfter": 45272.803,
+      "retentionRewards": {
+        "firstCash": 2771,
+        "firstBrains": 550,
+        "missionCash": 626.952,
+        "missionBrains": 155.631,
+        "expectedMissionCompletions": 5.335,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 5,
+          "movingSeconds": 243.51779605263158,
+          "overheadSeconds": 78.94736842105263,
+          "targets": {
+            "2": 5
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 5.374,
+          "cumulativeMinutes": 5.374,
+          "cashAfter": 246,
+          "brainsAfter": 780.053
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 19,
+          "movingSeconds": 1442.76479787234,
+          "overheadSeconds": 303.1914893617022,
+          "targets": {
+            "3": 19
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 29.099,
+          "cumulativeMinutes": 34.474,
+          "cashAfter": 181.3,
+          "brainsAfter": 5300.448
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 11,
+          "movingSeconds": 4983.578986111111,
+          "overheadSeconds": 183.33333333333331,
+          "targets": {
+            "6": 1,
+            "7": 10
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 86.115,
+          "cumulativeMinutes": 120.589,
+          "cashAfter": 1405.782,
+          "brainsAfter": 15269.78
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 5,
+          "movingSeconds": 5328.455107758619,
+          "overheadSeconds": 86.20689655172413,
+          "targets": {
+            "10": 5
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 90.244,
+          "cumulativeMinutes": 210.833,
+          "cashAfter": 1365.3,
+          "brainsAfter": 23871.65
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 4,
+          "movingSeconds": 6993.229391566266,
+          "overheadSeconds": 72.28915662650603,
+          "targets": {
+            "13": 4
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 117.759,
+          "cumulativeMinutes": 328.592,
+          "cashAfter": 6892.325,
+          "brainsAfter": 37137.838
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 3,
+          "movingSeconds": 7420.057312499999,
+          "overheadSeconds": 56.25,
+          "targets": {
+            "15": 3
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 124.605,
+          "cumulativeMinutes": 453.197,
+          "cashAfter": 8603.542,
+          "brainsAfter": 50050.149
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2681.5707187499997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 45.005,
+          "cumulativeMinutes": 498.202,
+          "cashAfter": 32683.152,
+          "brainsAfter": 45272.803
+        }
+      ]
+    },
+    {
+      "name": "price-3edit-c",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        25000,
+        28000,
+        45000,
+        55000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence"
+      },
+      "movingMinutes": 484.886,
+      "interfaceRestartMinutes": 13.316,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 498.202,
+      "totalHours": 8.303,
+      "successfulRuns": 48,
+      "expectedFailedRuns": 5.265,
+      "cashSpent": 164300,
+      "brainsSpent": 48585,
+      "cashAfter": 34683.152,
+      "brainsAfter": 45272.803,
+      "retentionRewards": {
+        "firstCash": 2771,
+        "firstBrains": 550,
+        "missionCash": 626.952,
+        "missionBrains": 155.631,
+        "expectedMissionCompletions": 5.335,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 5,
+          "movingSeconds": 243.51779605263158,
+          "overheadSeconds": 78.94736842105263,
+          "targets": {
+            "2": 5
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 5.374,
+          "cumulativeMinutes": 5.374,
+          "cashAfter": 246,
+          "brainsAfter": 780.053
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 19,
+          "movingSeconds": 1442.76479787234,
+          "overheadSeconds": 303.1914893617022,
+          "targets": {
+            "3": 19
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 29.099,
+          "cumulativeMinutes": 34.474,
+          "cashAfter": 181.3,
+          "brainsAfter": 5300.448
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 11,
+          "movingSeconds": 4983.578986111111,
+          "overheadSeconds": 183.33333333333331,
+          "targets": {
+            "6": 1,
+            "7": 10
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 86.115,
+          "cumulativeMinutes": 120.589,
+          "cashAfter": 1405.782,
+          "brainsAfter": 15269.78
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 5,
+          "movingSeconds": 5328.455107758619,
+          "overheadSeconds": 86.20689655172413,
+          "targets": {
+            "10": 5
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 90.244,
+          "cumulativeMinutes": 210.833,
+          "cashAfter": 3365.3,
+          "brainsAfter": 23871.65
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 4,
+          "movingSeconds": 6993.229391566266,
+          "overheadSeconds": 72.28915662650603,
+          "targets": {
+            "13": 4
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 117.759,
+          "cumulativeMinutes": 328.592,
+          "cashAfter": 8892.325,
+          "brainsAfter": 37137.838
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 3,
+          "movingSeconds": 7420.057312499999,
+          "overheadSeconds": 56.25,
+          "targets": {
+            "15": 3
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 124.605,
+          "cumulativeMinutes": 453.197,
+          "cashAfter": 10603.542,
+          "brainsAfter": 50050.149
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2681.5707187499997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 45.005,
+          "cumulativeMinutes": 498.202,
+          "cashAfter": 34683.152,
+          "brainsAfter": 45272.803
+        }
+      ]
+    },
+    {
+      "name": "price-3edit-d",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        25000,
+        30000,
+        40000,
+        55000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence"
+      },
+      "movingMinutes": 484.886,
+      "interfaceRestartMinutes": 13.316,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 498.202,
+      "totalHours": 8.303,
+      "successfulRuns": 48,
+      "expectedFailedRuns": 5.265,
+      "cashSpent": 161300,
+      "brainsSpent": 48585,
+      "cashAfter": 37683.152,
+      "brainsAfter": 45272.803,
+      "retentionRewards": {
+        "firstCash": 2771,
+        "firstBrains": 550,
+        "missionCash": 626.952,
+        "missionBrains": 155.631,
+        "expectedMissionCompletions": 5.335,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 5,
+          "movingSeconds": 243.51779605263158,
+          "overheadSeconds": 78.94736842105263,
+          "targets": {
+            "2": 5
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 5.374,
+          "cumulativeMinutes": 5.374,
+          "cashAfter": 246,
+          "brainsAfter": 780.053
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 19,
+          "movingSeconds": 1442.76479787234,
+          "overheadSeconds": 303.1914893617022,
+          "targets": {
+            "3": 19
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 29.099,
+          "cumulativeMinutes": 34.474,
+          "cashAfter": 181.3,
+          "brainsAfter": 5300.448
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 11,
+          "movingSeconds": 4983.578986111111,
+          "overheadSeconds": 183.33333333333331,
+          "targets": {
+            "6": 1,
+            "7": 10
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 86.115,
+          "cumulativeMinutes": 120.589,
+          "cashAfter": 1405.782,
+          "brainsAfter": 15269.78
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 5,
+          "movingSeconds": 5328.455107758619,
+          "overheadSeconds": 86.20689655172413,
+          "targets": {
+            "10": 5
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 90.244,
+          "cumulativeMinutes": 210.833,
+          "cashAfter": 1365.3,
+          "brainsAfter": 23871.65
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 4,
+          "movingSeconds": 6993.229391566266,
+          "overheadSeconds": 72.28915662650603,
+          "targets": {
+            "13": 4
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 117.759,
+          "cumulativeMinutes": 328.592,
+          "cashAfter": 11892.325,
+          "brainsAfter": 37137.838
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 3,
+          "movingSeconds": 7420.057312499999,
+          "overheadSeconds": 56.25,
+          "targets": {
+            "15": 3
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 124.605,
+          "cumulativeMinutes": 453.197,
+          "cashAfter": 13603.542,
+          "brainsAfter": 50050.149
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2681.5707187499997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 45.005,
+          "cumulativeMinutes": 498.202,
+          "cashAfter": 37683.152,
+          "brainsAfter": 45272.803
+        }
+      ]
+    },
+    {
+      "name": "price-v1",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        20000,
+        30000,
+        45000,
+        60000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence"
+      },
+      "movingMinutes": 469.376,
+      "interfaceRestartMinutes": 12.761,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 482.137,
+      "totalHours": 8.036,
+      "successfulRuns": 46,
+      "expectedFailedRuns": 5.042,
+      "cashSpent": 166300,
+      "brainsSpent": 48585,
+      "cashAfter": 27843.551,
+      "brainsAfter": 42385.342,
+      "retentionRewards": {
+        "firstCash": 2771,
+        "firstBrains": 550,
+        "missionCash": 626.951,
+        "missionBrains": 155.631,
+        "expectedMissionCompletions": 5.335,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 5,
+          "movingSeconds": 243.51779605263158,
+          "overheadSeconds": 78.94736842105263,
+          "targets": {
+            "2": 5
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 5.374,
+          "cumulativeMinutes": 5.374,
+          "cashAfter": 246,
+          "brainsAfter": 780.053
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 19,
+          "movingSeconds": 1442.76479787234,
+          "overheadSeconds": 303.1914893617022,
+          "targets": {
+            "3": 19
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 29.099,
+          "cumulativeMinutes": 34.474,
+          "cashAfter": 181.3,
+          "brainsAfter": 5300.448
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 9,
+          "movingSeconds": 4052.991958333333,
+          "overheadSeconds": 150,
+          "targets": {
+            "6": 1,
+            "7": 8
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 70.05,
+          "cumulativeMinutes": 104.524,
+          "cashAfter": 1566.109,
+          "brainsAfter": 12382.301
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 5,
+          "movingSeconds": 5328.455107758619,
+          "overheadSeconds": 86.20689655172413,
+          "targets": {
+            "10": 5
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 90.244,
+          "cumulativeMinutes": 194.768,
+          "cashAfter": 1525.698,
+          "brainsAfter": 20984.189
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 4,
+          "movingSeconds": 6993.229391566266,
+          "overheadSeconds": 72.28915662650603,
+          "targets": {
+            "13": 4
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 117.759,
+          "cumulativeMinutes": 312.527,
+          "cashAfter": 7052.724,
+          "brainsAfter": 34250.377
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 3,
+          "movingSeconds": 7420.057312499999,
+          "overheadSeconds": 56.25,
+          "targets": {
+            "15": 3
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 124.605,
+          "cumulativeMinutes": 437.132,
+          "cashAfter": 3763.94,
+          "brainsAfter": 47162.688
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2681.5707187499997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 45.005,
+          "cumulativeMinutes": 482.137,
+          "cashAfter": 27843.551,
+          "brainsAfter": 42385.342
+        }
+      ]
+    },
+    {
+      "name": "price-buffer-a",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        18000,
+        30000,
+        45000,
+        60000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence"
+      },
+      "movingMinutes": 461.622,
+      "interfaceRestartMinutes": 12.483,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 474.104,
+      "totalHours": 7.902,
+      "successfulRuns": 45,
+      "expectedFailedRuns": 4.931,
+      "cashSpent": 164300,
+      "brainsSpent": 48585,
+      "cashAfter": 27423.75,
+      "brainsAfter": 40941.611,
+      "retentionRewards": {
+        "firstCash": 2771,
+        "firstBrains": 550,
+        "missionCash": 626.95,
+        "missionBrains": 155.63,
+        "expectedMissionCompletions": 5.335,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 5,
+          "movingSeconds": 243.51779605263158,
+          "overheadSeconds": 78.94736842105263,
+          "targets": {
+            "2": 5
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 5.374,
+          "cumulativeMinutes": 5.374,
+          "cashAfter": 246,
+          "brainsAfter": 780.053
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 19,
+          "movingSeconds": 1442.76479787234,
+          "overheadSeconds": 303.1914893617022,
+          "targets": {
+            "3": 19
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 29.099,
+          "cumulativeMinutes": 34.474,
+          "cashAfter": 181.3,
+          "brainsAfter": 5300.448
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 8,
+          "movingSeconds": 3587.6984444444442,
+          "overheadSeconds": 133.33333333333334,
+          "targets": {
+            "6": 1,
+            "7": 7
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 62.017,
+          "cumulativeMinutes": 96.491,
+          "cashAfter": 1146.198,
+          "brainsAfter": 10938.543
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 5,
+          "movingSeconds": 5328.455107758619,
+          "overheadSeconds": 86.20689655172413,
+          "targets": {
+            "10": 5
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 90.244,
+          "cumulativeMinutes": 186.735,
+          "cashAfter": 1105.896,
+          "brainsAfter": 19540.458
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 4,
+          "movingSeconds": 6993.229391566266,
+          "overheadSeconds": 72.28915662650603,
+          "targets": {
+            "13": 4
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 117.759,
+          "cumulativeMinutes": 304.494,
+          "cashAfter": 6632.922,
+          "brainsAfter": 32806.646
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 3,
+          "movingSeconds": 7420.057312499999,
+          "overheadSeconds": 56.25,
+          "targets": {
+            "15": 3
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 124.605,
+          "cumulativeMinutes": 429.099,
+          "cashAfter": 3344.139,
+          "brainsAfter": 45718.957
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2681.5707187499997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 45.005,
+          "cumulativeMinutes": 474.104,
+          "cashAfter": 27423.75,
+          "brainsAfter": 40941.611
+        }
+      ]
+    },
+    {
+      "name": "price-buffer-b",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        20000,
+        25000,
+        45000,
+        60000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence"
+      },
+      "movingMinutes": 451.615,
+      "interfaceRestartMinutes": 12.473,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 464.088,
+      "totalHours": 7.735,
+      "successfulRuns": 45,
+      "expectedFailedRuns": 4.893,
+      "cashSpent": 161300,
+      "brainsSpent": 48585,
+      "cashAfter": 26905.05,
+      "brainsAfter": 39070.568,
+      "retentionRewards": {
+        "firstCash": 2771,
+        "firstBrains": 550,
+        "missionCash": 626.95,
+        "missionBrains": 155.63,
+        "expectedMissionCompletions": 5.335,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 5,
+          "movingSeconds": 243.51779605263158,
+          "overheadSeconds": 78.94736842105263,
+          "targets": {
+            "2": 5
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 5.374,
+          "cumulativeMinutes": 5.374,
+          "cashAfter": 246,
+          "brainsAfter": 780.053
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 19,
+          "movingSeconds": 1442.76479787234,
+          "overheadSeconds": 303.1914893617022,
+          "targets": {
+            "3": 19
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 29.099,
+          "cumulativeMinutes": 34.474,
+          "cashAfter": 181.3,
+          "brainsAfter": 5300.448
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 9,
+          "movingSeconds": 4052.991958333333,
+          "overheadSeconds": 150,
+          "targets": {
+            "6": 1,
+            "7": 8
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 70.05,
+          "cumulativeMinutes": 104.524,
+          "cashAfter": 1566.109,
+          "brainsAfter": 12382.301
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 4,
+          "movingSeconds": 4262.764086206896,
+          "overheadSeconds": 68.9655172413793,
+          "targets": {
+            "10": 4
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 72.195,
+          "cumulativeMinutes": 176.719,
+          "cashAfter": 587.196,
+          "brainsAfter": 17669.415
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 4,
+          "movingSeconds": 6993.229391566266,
+          "overheadSeconds": 72.28915662650603,
+          "targets": {
+            "13": 4
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 117.759,
+          "cumulativeMinutes": 294.478,
+          "cashAfter": 6114.222,
+          "brainsAfter": 30935.603
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 3,
+          "movingSeconds": 7420.057312499999,
+          "overheadSeconds": 56.25,
+          "targets": {
+            "15": 3
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 124.605,
+          "cumulativeMinutes": 419.083,
+          "cashAfter": 2825.439,
+          "brainsAfter": 43847.915
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2681.5707187499997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 45.005,
+          "cumulativeMinutes": 464.088,
+          "cashAfter": 26905.05,
+          "brainsAfter": 39070.568
+        }
+      ]
+    },
+    {
+      "name": "price-buffer-c",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        19000,
+        28000,
+        45000,
+        60000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence"
+      },
+      "movingMinutes": 461.622,
+      "interfaceRestartMinutes": 12.483,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 474.104,
+      "totalHours": 7.902,
+      "successfulRuns": 45,
+      "expectedFailedRuns": 4.931,
+      "cashSpent": 163300,
+      "brainsSpent": 48585,
+      "cashAfter": 28423.75,
+      "brainsAfter": 40941.611,
+      "retentionRewards": {
+        "firstCash": 2771,
+        "firstBrains": 550,
+        "missionCash": 626.95,
+        "missionBrains": 155.63,
+        "expectedMissionCompletions": 5.335,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 5,
+          "movingSeconds": 243.51779605263158,
+          "overheadSeconds": 78.94736842105263,
+          "targets": {
+            "2": 5
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 5.374,
+          "cumulativeMinutes": 5.374,
+          "cashAfter": 246,
+          "brainsAfter": 780.053
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 19,
+          "movingSeconds": 1442.76479787234,
+          "overheadSeconds": 303.1914893617022,
+          "targets": {
+            "3": 19
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 29.099,
+          "cumulativeMinutes": 34.474,
+          "cashAfter": 181.3,
+          "brainsAfter": 5300.448
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 8,
+          "movingSeconds": 3587.6984444444442,
+          "overheadSeconds": 133.33333333333334,
+          "targets": {
+            "6": 1,
+            "7": 7
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 62.017,
+          "cumulativeMinutes": 96.491,
+          "cashAfter": 146.198,
+          "brainsAfter": 10938.543
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 5,
+          "movingSeconds": 5328.455107758619,
+          "overheadSeconds": 86.20689655172413,
+          "targets": {
+            "10": 5
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 90.244,
+          "cumulativeMinutes": 186.735,
+          "cashAfter": 2105.896,
+          "brainsAfter": 19540.458
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 4,
+          "movingSeconds": 6993.229391566266,
+          "overheadSeconds": 72.28915662650603,
+          "targets": {
+            "13": 4
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 117.759,
+          "cumulativeMinutes": 304.494,
+          "cashAfter": 7632.922,
+          "brainsAfter": 32806.646
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 3,
+          "movingSeconds": 7420.057312499999,
+          "overheadSeconds": 56.25,
+          "targets": {
+            "15": 3
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 124.605,
+          "cumulativeMinutes": 429.099,
+          "cashAfter": 4344.139,
+          "brainsAfter": 45718.957
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2681.5707187499997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 45.005,
+          "cumulativeMinutes": 474.104,
+          "cashAfter": 28423.75,
+          "brainsAfter": 40941.611
+        }
+      ]
+    },
+    {
+      "name": "price-v2",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        14000,
+        18000,
+        27000,
+        42000,
+        56000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence"
+      },
+      "movingMinutes": 432.483,
+      "interfaceRestartMinutes": 12.182,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 444.665,
+      "totalHours": 7.411,
+      "successfulRuns": 44,
+      "expectedFailedRuns": 4.726,
+      "cashSpent": 154300,
+      "brainsSpent": 48585,
+      "cashAfter": 24923.139,
+      "brainsAfter": 35243.647,
+      "retentionRewards": {
+        "firstCash": 2771,
+        "firstBrains": 550,
+        "missionCash": 580.439,
+        "missionBrains": 143.589,
+        "expectedMissionCompletions": 4.989,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 5,
+          "movingSeconds": 243.51779605263158,
+          "overheadSeconds": 78.94736842105263,
+          "targets": {
+            "2": 5
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 5.374,
+          "cumulativeMinutes": 5.374,
+          "cashAfter": 246,
+          "brainsAfter": 780.053
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 19,
+          "movingSeconds": 1442.76479787234,
+          "overheadSeconds": 303.1914893617022,
+          "targets": {
+            "3": 19
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 29.099,
+          "cumulativeMinutes": 34.474,
+          "cashAfter": 181.3,
+          "brainsAfter": 5300.448
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 8,
+          "movingSeconds": 3587.6984444444442,
+          "overheadSeconds": 133.33333333333334,
+          "targets": {
+            "6": 1,
+            "7": 7
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 62.017,
+          "cumulativeMinutes": 96.491,
+          "cashAfter": 1146.198,
+          "brainsAfter": 10938.543
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 5,
+          "movingSeconds": 5328.455107758619,
+          "overheadSeconds": 86.20689655172413,
+          "targets": {
+            "10": 5
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 90.244,
+          "cumulativeMinutes": 186.735,
+          "cashAfter": 4105.896,
+          "brainsAfter": 19540.458
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 3,
+          "movingSeconds": 5244.922043674699,
+          "overheadSeconds": 54.21686746987952,
+          "targets": {
+            "13": 3
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 88.319,
+          "cumulativeMinutes": 275.054,
+          "cashAfter": 124.448,
+          "brainsAfter": 27108.224
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 3,
+          "movingSeconds": 7420.057312499999,
+          "overheadSeconds": 56.25,
+          "targets": {
+            "15": 3
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 124.605,
+          "cumulativeMinutes": 399.659,
+          "cashAfter": 830.978,
+          "brainsAfter": 40017.908
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2681.5707187499997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 45.005,
+          "cumulativeMinutes": 444.665,
+          "cashAfter": 24923.139,
+          "brainsAfter": 35243.647
+        }
+      ]
+    },
+    {
+      "name": "price-v3",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6000,
+        9000,
+        13000,
+        18000,
+        26000,
+        40000,
+        55000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence"
+      },
+      "movingMinutes": 429.952,
+      "interfaceRestartMinutes": 11.65,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 441.602,
+      "totalHours": 7.36,
+      "successfulRuns": 42,
+      "expectedFailedRuns": 4.599,
+      "cashSpent": 149300,
+      "brainsSpent": 48585,
+      "cashAfter": 28879.739,
+      "brainsAfter": 34768.237,
+      "retentionRewards": {
+        "firstCash": 2771,
+        "firstBrains": 550,
+        "missionCash": 580.439,
+        "missionBrains": 143.589,
+        "expectedMissionCompletions": 4.989,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 5,
+          "movingSeconds": 243.51779605263158,
+          "overheadSeconds": 78.94736842105263,
+          "targets": {
+            "2": 5
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 5.374,
+          "cumulativeMinutes": 5.374,
+          "cashAfter": 246,
+          "brainsAfter": 780.053
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 17,
+          "movingSeconds": 1290.894819148936,
+          "overheadSeconds": 271.2765957446809,
+          "targets": {
+            "3": 17
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 26.036,
+          "cumulativeMinutes": 31.411,
+          "cashAfter": 137.9,
+          "brainsAfter": 4825.038
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 8,
+          "movingSeconds": 3587.6984444444442,
+          "overheadSeconds": 133.33333333333334,
+          "targets": {
+            "6": 1,
+            "7": 7
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 62.017,
+          "cumulativeMinutes": 93.428,
+          "cashAfter": 1102.798,
+          "brainsAfter": 10463.133
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 5,
+          "movingSeconds": 5328.455107758619,
+          "overheadSeconds": 86.20689655172413,
+          "targets": {
+            "10": 5
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 90.244,
+          "cumulativeMinutes": 183.672,
+          "cashAfter": 5062.496,
+          "brainsAfter": 19065.048
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 3,
+          "movingSeconds": 5244.922043674699,
+          "overheadSeconds": 54.21686746987952,
+          "targets": {
+            "13": 3
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 88.319,
+          "cumulativeMinutes": 271.991,
+          "cashAfter": 3081.048,
+          "brainsAfter": 26632.814
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 3,
+          "movingSeconds": 7420.057312499999,
+          "overheadSeconds": 56.25,
+          "targets": {
+            "15": 3
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 124.605,
+          "cumulativeMinutes": 396.596,
+          "cashAfter": 4787.578,
+          "brainsAfter": 39542.498
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2681.5707187499997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 45.005,
+          "cumulativeMinutes": 441.602,
+          "cashAfter": 28879.739,
+          "brainsAfter": 34768.237
+        }
+      ]
+    },
+    {
+      "name": "price-v4",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6000,
+        9000,
+        13000,
+        17000,
+        25000,
+        39000,
+        52000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence"
+      },
+      "movingMinutes": 412.19,
+      "interfaceRestartMinutes": 11.362,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 423.553,
+      "totalHours": 7.059,
+      "successfulRuns": 41,
+      "expectedFailedRuns": 4.449,
+      "cashSpent": 143300,
+      "brainsSpent": 48585,
+      "cashAfter": 28941.234,
+      "brainsAfter": 31453.463,
+      "retentionRewards": {
+        "firstCash": 2771,
+        "firstBrains": 550,
+        "missionCash": 580.434,
+        "missionBrains": 143.587,
+        "expectedMissionCompletions": 4.989,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 5,
+          "movingSeconds": 243.51779605263158,
+          "overheadSeconds": 78.94736842105263,
+          "targets": {
+            "2": 5
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 5.374,
+          "cumulativeMinutes": 5.374,
+          "cashAfter": 246,
+          "brainsAfter": 780.053
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 17,
+          "movingSeconds": 1290.894819148936,
+          "overheadSeconds": 271.2765957446809,
+          "targets": {
+            "3": 17
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 26.036,
+          "cumulativeMinutes": 31.411,
+          "cashAfter": 137.9,
+          "brainsAfter": 4825.038
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 8,
+          "movingSeconds": 3587.6984444444442,
+          "overheadSeconds": 133.33333333333334,
+          "targets": {
+            "6": 1,
+            "7": 7
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 62.017,
+          "cumulativeMinutes": 93.428,
+          "cashAfter": 2102.798,
+          "brainsAfter": 10463.133
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 4,
+          "movingSeconds": 4262.764086206896,
+          "overheadSeconds": 68.9655172413793,
+          "targets": {
+            "10": 4
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 72.195,
+          "cumulativeMinutes": 165.623,
+          "cashAfter": 1123.992,
+          "brainsAfter": 15750.273
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 3,
+          "movingSeconds": 5244.922043674699,
+          "overheadSeconds": 54.21686746987952,
+          "targets": {
+            "13": 3
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 88.319,
+          "cumulativeMinutes": 253.942,
+          "cashAfter": 142.546,
+          "brainsAfter": 23318.04
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 3,
+          "movingSeconds": 7420.057312499999,
+          "overheadSeconds": 56.25,
+          "targets": {
+            "15": 3
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 124.605,
+          "cumulativeMinutes": 378.547,
+          "cashAfter": 4849.074,
+          "brainsAfter": 36227.724
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2681.5707187499997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 45.005,
+          "cumulativeMinutes": 423.553,
+          "cashAfter": 28941.234,
+          "brainsAfter": 31453.463
+        }
+      ]
+    },
+    {
+      "name": "price-v5",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6000,
+        8500,
+        12000,
+        17000,
+        25000,
+        38000,
+        50000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence"
+      },
+      "movingMinutes": 410.925,
+      "interfaceRestartMinutes": 11.096,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 422.021,
+      "totalHours": 7.034,
+      "successfulRuns": 40,
+      "expectedFailedRuns": 4.385,
+      "cashSpent": 139800,
+      "brainsSpent": 48585,
+      "cashAfter": 31919.534,
+      "brainsAfter": 31215.758,
+      "retentionRewards": {
+        "firstCash": 2771,
+        "firstBrains": 550,
+        "missionCash": 580.434,
+        "missionBrains": 143.587,
+        "expectedMissionCompletions": 4.989,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 5,
+          "movingSeconds": 243.51779605263158,
+          "overheadSeconds": 78.94736842105263,
+          "targets": {
+            "2": 5
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 5.374,
+          "cumulativeMinutes": 5.374,
+          "cashAfter": 246,
+          "brainsAfter": 780.053
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 16,
+          "movingSeconds": 1214.959829787234,
+          "overheadSeconds": 255.31914893617022,
+          "targets": {
+            "3": 16
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 24.505,
+          "cumulativeMinutes": 29.879,
+          "cashAfter": 116.2,
+          "brainsAfter": 4587.333
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 8,
+          "movingSeconds": 3587.6984444444442,
+          "overheadSeconds": 133.33333333333334,
+          "targets": {
+            "6": 1,
+            "7": 7
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 62.017,
+          "cumulativeMinutes": 91.896,
+          "cashAfter": 2081.098,
+          "brainsAfter": 10225.428
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 4,
+          "movingSeconds": 4262.764086206896,
+          "overheadSeconds": 68.9655172413793,
+          "targets": {
+            "10": 4
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 72.195,
+          "cumulativeMinutes": 164.092,
+          "cashAfter": 1102.292,
+          "brainsAfter": 15512.568
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 3,
+          "movingSeconds": 5244.922043674699,
+          "overheadSeconds": 54.21686746987952,
+          "targets": {
+            "13": 3
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 88.319,
+          "cumulativeMinutes": 252.411,
+          "cashAfter": 1120.846,
+          "brainsAfter": 23080.335
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 3,
+          "movingSeconds": 7420.057312499999,
+          "overheadSeconds": 56.25,
+          "targets": {
+            "15": 3
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 124.605,
+          "cumulativeMinutes": 377.016,
+          "cashAfter": 7827.374,
+          "brainsAfter": 35990.019
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2681.5707187499997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 45.005,
+          "cumulativeMinutes": 422.021,
+          "cashAfter": 31919.534,
+          "brainsAfter": 31215.758
+        }
+      ]
+    },
+    {
+      "name": "reward-x1.3",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        25000,
+        45000,
+        78000,
+        100000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence",
+        "rewardMultiplier": 1.3
+      },
+      "movingMinutes": 549.381,
+      "interfaceRestartMinutes": 12.335,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 561.715,
+      "totalHours": 9.362,
+      "successfulRuns": 44,
+      "expectedFailedRuns": 5.339,
+      "cashSpent": 259300,
+      "brainsSpent": 48585,
+      "cashAfter": 36946.046,
+      "brainsAfter": 60219.966,
+      "retentionRewards": {
+        "firstCash": 3602,
+        "firstBrains": 718,
+        "missionCash": 722.446,
+        "missionBrains": 179.282,
+        "expectedMissionCompletions": 6.153,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 4,
+          "movingSeconds": 194.81423684210526,
+          "overheadSeconds": 63.1578947368421,
+          "targets": {
+            "2": 4
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 4.3,
+          "cumulativeMinutes": 4.3,
+          "cashAfter": 316.6,
+          "brainsAfter": 636.043
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 15,
+          "movingSeconds": 1139.024840425532,
+          "overheadSeconds": 239.36170212765958,
+          "targets": {
+            "3": 15
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 22.973,
+          "cumulativeMinutes": 27.273,
+          "cashAfter": 503.1,
+          "brainsAfter": 4257.117
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 9,
+          "movingSeconds": 3918.3422916666664,
+          "overheadSeconds": 150,
+          "targets": {
+            "6": 2,
+            "7": 7
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 67.806,
+          "cumulativeMinutes": 95.078,
+          "cashAfter": 2315.309,
+          "brainsAfter": 11053.171
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 6,
+          "movingSeconds": 6394.146129310343,
+          "overheadSeconds": 103.44827586206895,
+          "targets": {
+            "10": 6
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 108.293,
+          "cumulativeMinutes": 203.372,
+          "cashAfter": 3949.399,
+          "brainsAfter": 23197.032
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 5,
+          "movingSeconds": 8741.536739457832,
+          "overheadSeconds": 90.36144578313254,
+          "targets": {
+            "13": 5
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 147.198,
+          "cumulativeMinutes": 350.57,
+          "cashAfter": 7813.712,
+          "brainsAfter": 42856.143
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 4,
+          "movingSeconds": 9893.409749999999,
+          "overheadSeconds": 75,
+          "targets": {
+            "15": 4
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 166.14,
+          "cumulativeMinutes": 516.71,
+          "cashAfter": 5650.902,
+          "brainsAfter": 64692.476
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2681.5707187499997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 45.005,
+          "cumulativeMinutes": 561.715,
+          "cashAfter": 36946.046,
+          "brainsAfter": 60219.966
+        }
+      ]
+    },
+    {
+      "name": "reward-x1.4",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        25000,
+        45000,
+        78000,
+        100000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence",
+        "rewardMultiplier": 1.4
+      },
+      "movingMinutes": 539.549,
+      "interfaceRestartMinutes": 11.528,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 551.076,
+      "totalHours": 9.185,
+      "successfulRuns": 41,
+      "expectedFailedRuns": 5.111,
+      "cashSpent": 259300,
+      "brainsSpent": 48585,
+      "cashAfter": 55292.245,
+      "brainsAfter": 59111.32,
+      "retentionRewards": {
+        "firstCash": 3879,
+        "firstBrains": 772,
+        "missionCash": 722.445,
+        "missionBrains": 179.282,
+        "expectedMissionCompletions": 6.153,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 3,
+          "movingSeconds": 146.11067763157894,
+          "overheadSeconds": 47.368421052631575,
+          "targets": {
+            "2": 3
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 3.225,
+          "cumulativeMinutes": 3.225,
+          "cashAfter": 40.1,
+          "brainsAfter": 484.432
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 14,
+          "movingSeconds": 1063.0898510638299,
+          "overheadSeconds": 223.40425531914894,
+          "targets": {
+            "3": 14
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 21.442,
+          "cumulativeMinutes": 24.666,
+          "cashAfter": 329.5,
+          "brainsAfter": 3879.902
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 8,
+          "movingSeconds": 3453.0487777777776,
+          "overheadSeconds": 133.33333333333334,
+          "targets": {
+            "6": 2,
+            "7": 6
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 59.773,
+          "cumulativeMinutes": 84.439,
+          "cashAfter": 839.698,
+          "brainsAfter": 9257.197
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 6,
+          "movingSeconds": 6394.146129310343,
+          "overheadSeconds": 103.44827586206895,
+          "targets": {
+            "10": 6
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 108.293,
+          "cumulativeMinutes": 192.732,
+          "cashAfter": 6097.298,
+          "brainsAfter": 21475.386
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 5,
+          "movingSeconds": 8741.536739457832,
+          "overheadSeconds": 90.36144578313254,
+          "targets": {
+            "13": 5
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 147.198,
+          "cumulativeMinutes": 339.931,
+          "cashAfter": 16233.611,
+          "brainsAfter": 41365.996
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 4,
+          "movingSeconds": 9893.409749999999,
+          "overheadSeconds": 75,
+          "targets": {
+            "15": 4
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 166.14,
+          "cumulativeMinutes": 506.071,
+          "cashAfter": 21589.601,
+          "brainsAfter": 63482.93
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2681.5707187499997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 45.005,
+          "cumulativeMinutes": 551.076,
+          "cashAfter": 55292.245,
+          "brainsAfter": 59111.32
+        }
+      ]
+    },
+    {
+      "name": "reward-x1.5",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        25000,
+        45000,
+        78000,
+        100000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence",
+        "rewardMultiplier": 1.5
+      },
+      "movingMinutes": 491.383,
+      "interfaceRestartMinutes": 10.673,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 502.056,
+      "totalHours": 8.368,
+      "successfulRuns": 38,
+      "expectedFailedRuns": 4.693,
+      "cashSpent": 259300,
+      "brainsSpent": 48585,
+      "cashAfter": 49180.5,
+      "brainsAfter": 50316.191,
+      "retentionRewards": {
+        "firstCash": 4158,
+        "firstBrains": 829,
+        "missionCash": 672.8,
+        "missionBrains": 167.103,
+        "expectedMissionCompletions": 5.716,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 3,
+          "movingSeconds": 146.11067763157894,
+          "overheadSeconds": 47.368421052631575,
+          "targets": {
+            "2": 3
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 3.225,
+          "cumulativeMinutes": 3.225,
+          "cashAfter": 142,
+          "brainsAfter": 488.732
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 13,
+          "movingSeconds": 987.1548617021278,
+          "overheadSeconds": 207.4468085106383,
+          "targets": {
+            "3": 13
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 19.91,
+          "cumulativeMinutes": 23.135,
+          "cashAfter": 278,
+          "brainsAfter": 3657.397
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 8,
+          "movingSeconds": 3453.0487777777776,
+          "overheadSeconds": 133.33333333333334,
+          "targets": {
+            "6": 2,
+            "7": 6
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 59.773,
+          "cumulativeMinutes": 82.908,
+          "cashAfter": 2605.398,
+          "brainsAfter": 9071.693
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 5,
+          "movingSeconds": 5328.455107758619,
+          "overheadSeconds": 86.20689655172413,
+          "targets": {
+            "10": 5
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 90.244,
+          "cumulativeMinutes": 173.152,
+          "cashAfter": 2517.596,
+          "brainsAfter": 17992.107
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 4,
+          "movingSeconds": 6993.229391566266,
+          "overheadSeconds": 72.28915662650603,
+          "targets": {
+            "13": 4
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 117.759,
+          "cumulativeMinutes": 290.911,
+          "cashAfter": 193.622,
+          "brainsAfter": 32192.296
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 4,
+          "movingSeconds": 9893.409749999999,
+          "overheadSeconds": 75,
+          "targets": {
+            "15": 4
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 166.14,
+          "cumulativeMinutes": 457.051,
+          "cashAfter": 13085.75,
+          "brainsAfter": 54588.656
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2681.5707187499997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 45.005,
+          "cumulativeMinutes": 502.056,
+          "cashAfter": 49180.5,
+          "brainsAfter": 50316.191
+        }
+      ]
+    },
+    {
+      "name": "reward-x1.6",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        25000,
+        45000,
+        78000,
+        100000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence",
+        "rewardMultiplier": 1.6
+      },
+      "movingMinutes": 476.955,
+      "interfaceRestartMinutes": 10.13,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 487.085,
+      "totalHours": 8.118,
+      "successfulRuns": 36,
+      "expectedFailedRuns": 4.518,
+      "cashSpent": 259300,
+      "brainsSpent": 48585,
+      "cashAfter": 63077.396,
+      "brainsAfter": 48335.77,
+      "retentionRewards": {
+        "firstCash": 4761,
+        "firstBrains": 948,
+        "missionCash": 672.796,
+        "missionBrains": 167.103,
+        "expectedMissionCompletions": 5.716,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-09",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 3,
+          "movingSeconds": 146.11067763157894,
+          "overheadSeconds": 47.368421052631575,
+          "targets": {
+            "2": 3
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 3.225,
+          "cumulativeMinutes": 3.225,
+          "cashAfter": 209.6,
+          "brainsAfter": 488.732
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 12,
+          "movingSeconds": 911.2198723404257,
+          "overheadSeconds": 191.48936170212767,
+          "targets": {
+            "3": 12
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 18.378,
+          "cumulativeMinutes": 21.603,
+          "cashAfter": 236.6,
+          "brainsAfter": 3427.392
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 7,
+          "movingSeconds": 2987.7552638888887,
+          "overheadSeconds": 116.66666666666669,
+          "targets": {
+            "6": 2,
+            "7": 5
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 51.74,
+          "cumulativeMinutes": 73.344,
+          "cashAfter": 529.252,
+          "brainsAfter": 7409.695
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 5,
+          "movingSeconds": 5004.01013505747,
+          "overheadSeconds": 86.20689655172413,
+          "targets": {
+            "9": 1,
+            "10": 4
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 84.837,
+          "cumulativeMinutes": 158.18,
+          "cashAfter": 1505.092,
+          "brainsAfter": 15442.786
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 4,
+          "movingSeconds": 6993.229391566266,
+          "overheadSeconds": 72.28915662650603,
+          "targets": {
+            "13": 4
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 117.759,
+          "cumulativeMinutes": 275.939,
+          "cashAfter": 4209.119,
+          "brainsAfter": 29830.375
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 4,
+          "movingSeconds": 9893.409749999999,
+          "overheadSeconds": 75,
+          "targets": {
+            "15": 4
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 166.14,
+          "cumulativeMinutes": 442.079,
+          "cashAfter": 24573.646,
+          "brainsAfter": 52506.334
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2681.5707187499997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 45.005,
+          "cumulativeMinutes": 487.085,
+          "cashAfter": 63077.396,
+          "brainsAfter": 48335.77
+        }
+      ]
+    },
+    {
+      "name": "reward-x1.7",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        25000,
+        45000,
+        78000,
+        100000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence",
+        "rewardMultiplier": 1.7
+      },
+      "movingMinutes": 432.223,
+      "interfaceRestartMinutes": 9.551,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 441.774,
+      "totalHours": 7.363,
+      "successfulRuns": 34,
+      "expectedFailedRuns": 4.204,
+      "cashSpent": 259300,
+      "brainsSpent": 48585,
+      "cashAfter": 49563.646,
+      "brainsAfter": 39798.235,
+      "retentionRewards": {
+        "firstCash": 5058,
+        "firstBrains": 1008,
+        "missionCash": 626.946,
+        "missionBrains": 155.629,
+        "expectedMissionCompletions": 5.335,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-09",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 3,
+          "movingSeconds": 146.11067763157894,
+          "overheadSeconds": 47.368421052631575,
+          "targets": {
+            "2": 3
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 3.225,
+          "cumulativeMinutes": 3.225,
+          "cashAfter": 310.5,
+          "brainsAfter": 492.032
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 11,
+          "movingSeconds": 835.2848829787235,
+          "overheadSeconds": 175.53191489361703,
+          "targets": {
+            "3": 11
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 16.847,
+          "cumulativeMinutes": 20.072,
+          "cashAfter": 118.5,
+          "brainsAfter": 3199.487
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 7,
+          "movingSeconds": 2853.105597222222,
+          "overheadSeconds": 116.66666666666669,
+          "targets": {
+            "6": 3,
+            "7": 4
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 49.496,
+          "cumulativeMinutes": 69.568,
+          "cashAfter": 784.352,
+          "brainsAfter": 6790.541
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 5,
+          "movingSeconds": 5004.01013505747,
+          "overheadSeconds": 86.20689655172413,
+          "targets": {
+            "9": 1,
+            "10": 4
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 84.837,
+          "cumulativeMinutes": 154.405,
+          "cashAfter": 4659.892,
+          "brainsAfter": 14888.182
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 4,
+          "movingSeconds": 6993.229391566266,
+          "overheadSeconds": 72.28915662650603,
+          "targets": {
+            "13": 4
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 117.759,
+          "cumulativeMinutes": 272.163,
+          "cashAfter": 12394.919,
+          "brainsAfter": 29462.171
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 3,
+          "movingSeconds": 7420.057312499999,
+          "overheadSeconds": 56.25,
+          "targets": {
+            "15": 3
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 124.605,
+          "cumulativeMinutes": 396.769,
+          "cashAfter": 8651.734,
+          "brainsAfter": 43867.331
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2681.5707187499997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 45.005,
+          "cumulativeMinutes": 441.774,
+          "cashAfter": 49563.646,
+          "brainsAfter": 39798.235
+        }
+      ]
+    },
+    {
+      "name": "upgrade-base-20",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        25000,
+        45000,
+        78000,
+        100000
+      ],
+      "upgradeBase": 20,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence"
+      },
+      "movingMinutes": 722.359,
+      "interfaceRestartMinutes": 15.718,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 738.078,
+      "totalHours": 12.301,
+      "successfulRuns": 56,
+      "expectedFailedRuns": 6.872,
+      "cashSpent": 259300,
+      "brainsSpent": 24285,
+      "cashAfter": 39033.916,
+      "brainsAfter": 115592.128,
+      "retentionRewards": {
+        "firstCash": 2694,
+        "firstBrains": 535,
+        "missionCash": 889.316,
+        "missionBrains": 220.872,
+        "expectedMissionCompletions": 7.557,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 5,
+          "movingSeconds": 243.51779605263158,
+          "overheadSeconds": 78.94736842105263,
+          "targets": {
+            "2": 5
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 5.374,
+          "cumulativeMinutes": 5.374,
+          "cashAfter": 246,
+          "brainsAfter": 780.053
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 19,
+          "movingSeconds": 1442.76479787234,
+          "overheadSeconds": 303.1914893617022,
+          "targets": {
+            "3": 19
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 29.099,
+          "cumulativeMinutes": 34.474,
+          "cashAfter": 181.3,
+          "brainsAfter": 5300.448
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 11,
+          "movingSeconds": 5118.228652777778,
+          "overheadSeconds": 183.33333333333331,
+          "targets": {
+            "7": 11
+          },
+          "upgradeBrains": 2775,
+          "phaseMinutes": 88.359,
+          "cumulativeMinutes": 122.833,
+          "cashAfter": 2028.082,
+          "brainsAfter": 18457.479
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 8,
+          "movingSeconds": 8525.528172413791,
+          "overheadSeconds": 137.9310344827586,
+          "targets": {
+            "10": 8
+          },
+          "upgradeBrains": 4015,
+          "phaseMinutes": 144.391,
+          "cumulativeMinutes": 267.224,
+          "cashAfter": 4803.1,
+          "brainsAfter": 41013.668
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 6,
+          "movingSeconds": 10489.844087349398,
+          "overheadSeconds": 108.43373493975905,
+          "targets": {
+            "13": 6
+          },
+          "upgradeBrains": 4790,
+          "phaseMinutes": 176.638,
+          "cumulativeMinutes": 443.862,
+          "cashAfter": 2364.081,
+          "brainsAfter": 70522.663
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 6,
+          "movingSeconds": 14840.114624999998,
+          "overheadSeconds": 112.5,
+          "targets": {
+            "15": 6
+          },
+          "upgradeBrains": 5755,
+          "phaseMinutes": 249.21,
+          "cumulativeMinutes": 693.072,
+          "cashAfter": 14946.028,
+          "brainsAfter": 113472.7
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2681.5707187499997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 6950,
+          "phaseMinutes": 45.005,
+          "cumulativeMinutes": 738.078,
+          "cashAfter": 39033.916,
+          "brainsAfter": 115592.128
+        }
+      ]
+    },
+    {
+      "name": "upgrade-base-30",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        25000,
+        45000,
+        78000,
+        100000
+      ],
+      "upgradeBase": 30,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence"
+      },
+      "movingMinutes": 722.359,
+      "interfaceRestartMinutes": 15.718,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 738.078,
+      "totalHours": 12.301,
+      "successfulRuns": 56,
+      "expectedFailedRuns": 6.872,
+      "cashSpent": 259300,
+      "brainsSpent": 36435,
+      "cashAfter": 39033.916,
+      "brainsAfter": 103442.128,
+      "retentionRewards": {
+        "firstCash": 2694,
+        "firstBrains": 535,
+        "missionCash": 889.316,
+        "missionBrains": 220.872,
+        "expectedMissionCompletions": 7.557,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 5,
+          "movingSeconds": 243.51779605263158,
+          "overheadSeconds": 78.94736842105263,
+          "targets": {
+            "2": 5
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 5.374,
+          "cumulativeMinutes": 5.374,
+          "cashAfter": 246,
+          "brainsAfter": 780.053
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 19,
+          "movingSeconds": 1442.76479787234,
+          "overheadSeconds": 303.1914893617022,
+          "targets": {
+            "3": 19
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 29.099,
+          "cumulativeMinutes": 34.474,
+          "cashAfter": 181.3,
+          "brainsAfter": 5300.448
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 11,
+          "movingSeconds": 5118.228652777778,
+          "overheadSeconds": 183.33333333333331,
+          "targets": {
+            "7": 11
+          },
+          "upgradeBrains": 4175,
+          "phaseMinutes": 88.359,
+          "cumulativeMinutes": 122.833,
+          "cashAfter": 2028.082,
+          "brainsAfter": 17057.479
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 8,
+          "movingSeconds": 8525.528172413791,
+          "overheadSeconds": 137.9310344827586,
+          "targets": {
+            "10": 8
+          },
+          "upgradeBrains": 6015,
+          "phaseMinutes": 144.391,
+          "cumulativeMinutes": 267.224,
+          "cashAfter": 4803.1,
+          "brainsAfter": 37613.668
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 6,
+          "movingSeconds": 10489.844087349398,
+          "overheadSeconds": 108.43373493975905,
+          "targets": {
+            "13": 6
+          },
+          "upgradeBrains": 7195,
+          "phaseMinutes": 176.638,
+          "cumulativeMinutes": 443.862,
+          "cashAfter": 2364.081,
+          "brainsAfter": 64717.663
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 6,
+          "movingSeconds": 14840.114624999998,
+          "overheadSeconds": 112.5,
+          "targets": {
+            "15": 6
+          },
+          "upgradeBrains": 8665,
+          "phaseMinutes": 249.21,
+          "cumulativeMinutes": 693.072,
+          "cashAfter": 14946.028,
+          "brainsAfter": 104757.7
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2681.5707187499997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 10385,
+          "phaseMinutes": 45.005,
+          "cumulativeMinutes": 738.078,
+          "cashAfter": 39033.916,
+          "brainsAfter": 103442.128
+        }
+      ]
+    },
+    {
+      "name": "upgrade-base-50",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        25000,
+        45000,
+        78000,
+        100000
+      ],
+      "upgradeBase": 50,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence"
+      },
+      "movingMinutes": 717.871,
+      "interfaceRestartMinutes": 15.718,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 733.589,
+      "totalHours": 12.226,
+      "successfulRuns": 56,
+      "expectedFailedRuns": 6.872,
+      "cashSpent": 259300,
+      "brainsSpent": 60725,
+      "cashAfter": 37712.316,
+      "brainsAfter": 78331.73,
+      "retentionRewards": {
+        "firstCash": 2771,
+        "firstBrains": 550,
+        "missionCash": 889.316,
+        "missionBrains": 220.872,
+        "expectedMissionCompletions": 7.557,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 5,
+          "movingSeconds": 243.51779605263158,
+          "overheadSeconds": 78.94736842105263,
+          "targets": {
+            "2": 5
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 5.374,
+          "cumulativeMinutes": 5.374,
+          "cashAfter": 246,
+          "brainsAfter": 780.053
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 19,
+          "movingSeconds": 1442.76479787234,
+          "overheadSeconds": 303.1914893617022,
+          "targets": {
+            "3": 19
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 29.099,
+          "cumulativeMinutes": 34.474,
+          "cashAfter": 181.3,
+          "brainsAfter": 5300.448
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 11,
+          "movingSeconds": 4848.929319444444,
+          "overheadSeconds": 183.33333333333331,
+          "targets": {
+            "6": 2,
+            "7": 9
+          },
+          "upgradeBrains": 6970,
+          "phaseMinutes": 83.871,
+          "cumulativeMinutes": 118.345,
+          "cashAfter": 706.482,
+          "brainsAfter": 13442.081
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 8,
+          "movingSeconds": 8525.528172413791,
+          "overheadSeconds": 137.9310344827586,
+          "targets": {
+            "10": 8
+          },
+          "upgradeBrains": 10005,
+          "phaseMinutes": 144.391,
+          "cumulativeMinutes": 262.736,
+          "cashAfter": 3481.5,
+          "brainsAfter": 30008.27
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 6,
+          "movingSeconds": 10489.844087349398,
+          "overheadSeconds": 108.43373493975905,
+          "targets": {
+            "13": 6
+          },
+          "upgradeBrains": 12015,
+          "phaseMinutes": 176.638,
+          "cumulativeMinutes": 439.374,
+          "cashAfter": 1042.481,
+          "brainsAfter": 52292.265
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 6,
+          "movingSeconds": 14840.114624999998,
+          "overheadSeconds": 112.5,
+          "targets": {
+            "15": 6
+          },
+          "upgradeBrains": 14415,
+          "phaseMinutes": 249.21,
+          "cumulativeMinutes": 688.584,
+          "cashAfter": 13624.428,
+          "brainsAfter": 86582.302
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2681.5707187499997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 17320,
+          "phaseMinutes": 45.005,
+          "cumulativeMinutes": 733.589,
+          "cashAfter": 37712.316,
+          "brainsAfter": 78331.73
+        }
+      ]
+    },
+    {
+      "name": "upgrade-base-60",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        25000,
+        45000,
+        78000,
+        100000
+      ],
+      "upgradeBase": 60,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence"
+      },
+      "movingMinutes": 698.135,
+      "interfaceRestartMinutes": 15.707,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 713.842,
+      "totalHours": 11.897,
+      "successfulRuns": 56,
+      "expectedFailedRuns": 6.827,
+      "cashSpent": 259300,
+      "brainsSpent": 72900,
+      "cashAfter": 29691.716,
+      "brainsAfter": 62385.161,
+      "retentionRewards": {
+        "firstCash": 2975,
+        "firstBrains": 590,
+        "missionCash": 889.316,
+        "missionBrains": 220.872,
+        "expectedMissionCompletions": 7.557,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-09",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 5,
+          "movingSeconds": 243.51779605263158,
+          "overheadSeconds": 78.94736842105263,
+          "targets": {
+            "2": 5
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 5.374,
+          "cumulativeMinutes": 5.374,
+          "cashAfter": 246,
+          "brainsAfter": 780.053
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 19,
+          "movingSeconds": 1442.76479787234,
+          "overheadSeconds": 303.1914893617022,
+          "targets": {
+            "3": 19
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 29.099,
+          "cumulativeMinutes": 34.474,
+          "cashAfter": 181.3,
+          "brainsAfter": 5300.448
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 11,
+          "movingSeconds": 4714.279652777777,
+          "overheadSeconds": 183.33333333333331,
+          "targets": {
+            "6": 3,
+            "7": 8
+          },
+          "upgradeBrains": 8360,
+          "phaseMinutes": 81.627,
+          "cumulativeMinutes": 116.101,
+          "cashAfter": 7.182,
+          "brainsAfter": 11634.382
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 8,
+          "movingSeconds": 8201.08319971264,
+          "overheadSeconds": 137.9310344827586,
+          "targets": {
+            "9": 1,
+            "10": 7
+          },
+          "upgradeBrains": 12015,
+          "phaseMinutes": 138.984,
+          "cumulativeMinutes": 255.084,
+          "cashAfter": 1587.6,
+          "brainsAfter": 25229.186
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 7,
+          "movingSeconds": 12238.151435240965,
+          "overheadSeconds": 126.50602409638556,
+          "targets": {
+            "13": 7
+          },
+          "upgradeBrains": 14415,
+          "phaseMinutes": 206.078,
+          "cumulativeMinutes": 461.162,
+          "cashAfter": 11661.742,
+          "brainsAfter": 50814.23
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 5,
+          "movingSeconds": 12366.762187499999,
+          "overheadSeconds": 93.75,
+          "targets": {
+            "15": 5
+          },
+          "upgradeBrains": 17320,
+          "phaseMinutes": 207.675,
+          "cumulativeMinutes": 668.837,
+          "cashAfter": 5603.828,
+          "brainsAfter": 74105.733
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2681.5707187499997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 20790,
+          "phaseMinutes": 45.005,
+          "cumulativeMinutes": 713.842,
+          "cashAfter": 29691.716,
+          "brainsAfter": 62385.161
+        }
+      ]
+    }
+  ],
+  "detailScenarios": [
+    {
+      "name": "Recommended prices: typical illustrative budget",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        20000,
+        25000,
+        45000,
+        60000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence"
+      },
+      "movingMinutes": 451.615,
+      "interfaceRestartMinutes": 12.473,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 464.088,
+      "totalHours": 7.735,
+      "successfulRuns": 45,
+      "expectedFailedRuns": 4.893,
+      "cashSpent": 161300,
+      "brainsSpent": 48585,
+      "cashAfter": 26905.05,
+      "brainsAfter": 39070.568,
+      "retentionRewards": {
+        "firstCash": 2771,
+        "firstBrains": 550,
+        "missionCash": 626.95,
+        "missionBrains": 155.63,
+        "expectedMissionCompletions": 5.335,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 5,
+          "movingSeconds": 243.51779605263158,
+          "overheadSeconds": 78.94736842105263,
+          "targets": {
+            "2": 5
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 5.374,
+          "cumulativeMinutes": 5.374,
+          "cashAfter": 246,
+          "brainsAfter": 780.053
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 19,
+          "movingSeconds": 1442.76479787234,
+          "overheadSeconds": 303.1914893617022,
+          "targets": {
+            "3": 19
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 29.099,
+          "cumulativeMinutes": 34.474,
+          "cashAfter": 181.3,
+          "brainsAfter": 5300.448
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 9,
+          "movingSeconds": 4052.991958333333,
+          "overheadSeconds": 150,
+          "targets": {
+            "6": 1,
+            "7": 8
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 70.05,
+          "cumulativeMinutes": 104.524,
+          "cashAfter": 1566.109,
+          "brainsAfter": 12382.301
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 4,
+          "movingSeconds": 4262.764086206896,
+          "overheadSeconds": 68.9655172413793,
+          "targets": {
+            "10": 4
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 72.195,
+          "cumulativeMinutes": 176.719,
+          "cashAfter": 587.196,
+          "brainsAfter": 17669.415
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 4,
+          "movingSeconds": 6993.229391566266,
+          "overheadSeconds": 72.28915662650603,
+          "targets": {
+            "13": 4
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 117.759,
+          "cumulativeMinutes": 294.478,
+          "cashAfter": 6114.222,
+          "brainsAfter": 30935.603
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 3,
+          "movingSeconds": 7420.057312499999,
+          "overheadSeconds": 56.25,
+          "targets": {
+            "15": 3
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 124.605,
+          "cumulativeMinutes": 419.083,
+          "cashAfter": 2825.439,
+          "brainsAfter": 43847.915
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2681.5707187499997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 45.005,
+          "cumulativeMinutes": 464.088,
+          "cashAfter": 26905.05,
+          "brainsAfter": 39070.568
+        }
+      ]
+    },
+    {
+      "name": "Recommended prices: capable assumptions",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        20000,
+        25000,
+        45000,
+        60000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1,
+        "restartSeconds": 10,
+        "failureProbabilities": [
+          0.02,
+          0.03,
+          0.04,
+          0.05,
+          0.08,
+          0.1,
+          0.1
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.8,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence"
+      },
+      "movingMinutes": 365.41,
+      "interfaceRestartMinutes": 7.675,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 373.084,
+      "totalHours": 6.218,
+      "successfulRuns": 44,
+      "expectedFailedRuns": 2.047,
+      "cashSpent": 161300,
+      "brainsSpent": 48585,
+      "cashAfter": 33856.066,
+      "brainsAfter": 25118.52,
+      "retentionRewards": {
+        "firstCash": 2771,
+        "firstBrains": 550,
+        "missionCash": 652.366,
+        "missionBrains": 162.255,
+        "expectedMissionCompletions": 5.52,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 4,
+          "movingSeconds": 165.97285714285715,
+          "overheadSeconds": 40.816326530612244,
+          "targets": {
+            "2": 4
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 3.446,
+          "cumulativeMinutes": 3.446,
+          "cashAfter": 9.4,
+          "brainsAfter": 551.919
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 19,
+          "movingSeconds": 1228.8161855670105,
+          "overheadSeconds": 195.87628865979372,
+          "targets": {
+            "3": 19
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 23.745,
+          "cumulativeMinutes": 27.191,
+          "cashAfter": 391.2,
+          "brainsAfter": 4515.967
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 9,
+          "movingSeconds": 3263.8140624999996,
+          "overheadSeconds": 93.75000000000003,
+          "targets": {
+            "6": 2,
+            "7": 7
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 55.959,
+          "cumulativeMinutes": 83.151,
+          "cashAfter": 1994.8,
+          "brainsAfter": 9399.809
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 4,
+          "movingSeconds": 3494.1836842105263,
+          "overheadSeconds": 42.10526315789473,
+          "targets": {
+            "10": 4
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 58.938,
+          "cumulativeMinutes": 142.089,
+          "cashAfter": 2085.8,
+          "brainsAfter": 12595.16
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 4,
+          "movingSeconds": 5669.929565217391,
+          "overheadSeconds": 43.47826086956522,
+          "targets": {
+            "13": 4
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 95.223,
+          "cumulativeMinutes": 237.312,
+          "cashAfter": 9714.825,
+          "brainsAfter": 22311.449
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 3,
+          "movingSeconds": 5951.155,
+          "overheadSeconds": 33.33333333333333,
+          "targets": {
+            "15": 3
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 99.741,
+          "cumulativeMinutes": 337.054,
+          "cashAfter": 8807.123,
+          "brainsAfter": 31294.832
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2150.7169444444444,
+          "overheadSeconds": 11.11111111111111,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 36.03,
+          "cumulativeMinutes": 373.084,
+          "cashAfter": 33856.066,
+          "brainsAfter": 25118.52
+        }
+      ]
+    },
+    {
+      "name": "Recommended prices: frequent mistakes",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        20000,
+        25000,
+        45000,
+        60000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.35,
+        "restartSeconds": 20,
+        "failureProbabilities": [
+          0.1,
+          0.15,
+          0.2,
+          0.25,
+          0.3,
+          0.35,
+          0.35
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.3,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence"
+      },
+      "movingMinutes": 625.088,
+      "interfaceRestartMinutes": 19.623,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 644.711,
+      "totalHours": 10.745,
+      "successfulRuns": 47,
+      "expectedFailedRuns": 11.87,
+      "cashSpent": 161300,
+      "brainsSpent": 48585,
+      "cashAfter": 25653.122,
+      "brainsAfter": 68757.598,
+      "retentionRewards": {
+        "firstCash": 2694,
+        "firstBrains": 535,
+        "missionCash": 573.022,
+        "missionBrains": 141.693,
+        "expectedMissionCompletions": 4.931,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 5,
+          "movingSeconds": 296.375625,
+          "overheadSeconds": 111.11111111111111,
+          "targets": {
+            "2": 5
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 6.791,
+          "cumulativeMinutes": 6.791,
+          "cashAfter": 181,
+          "brainsAfter": 926.127
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 20,
+          "movingSeconds": 1908.1535294117655,
+          "overheadSeconds": 470.58823529411745,
+          "targets": {
+            "3": 20
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 39.646,
+          "cumulativeMinutes": 46.437,
+          "cashAfter": 168,
+          "brainsAfter": 6762.587
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 9,
+          "movingSeconds": 5329.832906250001,
+          "overheadSeconds": 225,
+          "targets": {
+            "7": 9
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 92.581,
+          "cumulativeMinutes": 139.018,
+          "cashAfter": 1189.358,
+          "brainsAfter": 17476.776
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 5,
+          "movingSeconds": 6936.6881250000015,
+          "overheadSeconds": 133.33333333333331,
+          "targets": {
+            "10": 5
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 117.834,
+          "cumulativeMinutes": 256.851,
+          "cashAfter": 4815.386,
+          "brainsAfter": 30636.847
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 4,
+          "movingSeconds": 9263.13492857143,
+          "overheadSeconds": 114.28571428571429,
+          "targets": {
+            "13": 4
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 156.29,
+          "cumulativeMinutes": 413.142,
+          "cashAfter": 8240.273,
+          "brainsAfter": 50292.718
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 3,
+          "movingSeconds": 10115.421750000001,
+          "overheadSeconds": 92.30769230769229,
+          "targets": {
+            "15": 3
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 170.129,
+          "cumulativeMinutes": 583.271,
+          "cashAfter": 2551.792,
+          "brainsAfter": 70808.613
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 3655.661625,
+          "overheadSeconds": 30.769230769230766,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 61.441,
+          "cumulativeMinutes": 644.711,
+          "cashAfter": 25653.122,
+          "brainsAfter": 68757.598
+        }
+      ]
+    },
+    {
+      "name": "Recommended prices: no first or mission rewards",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        20000,
+        25000,
+        45000,
+        60000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": false,
+        "missions": false
+      },
+      "movingMinutes": 469.376,
+      "interfaceRestartMinutes": 12.761,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 482.137,
+      "totalHours": 8.036,
+      "successfulRuns": 46,
+      "expectedFailedRuns": 5.042,
+      "cashSpent": 161300,
+      "brainsSpent": 48585,
+      "cashAfter": 29445.6,
+      "brainsAfter": 41679.711,
+      "retentionRewards": {
+        "firstCash": 0,
+        "firstBrains": 0,
+        "missionCash": 0,
+        "missionBrains": 0,
+        "expectedMissionCompletions": 0,
+        "firstCheckpoints": []
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 5,
+          "movingSeconds": 243.51779605263158,
+          "overheadSeconds": 78.94736842105263,
+          "targets": {
+            "2": 5
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 5.374,
+          "cumulativeMinutes": 5.374,
+          "cashAfter": 143,
+          "brainsAfter": 758.053
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 19,
+          "movingSeconds": 1442.76479787234,
+          "overheadSeconds": 303.1914893617022,
+          "targets": {
+            "3": 19
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 29.099,
+          "cumulativeMinutes": 34.474,
+          "cashAfter": 55.3,
+          "brainsAfter": 5274.448
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 9,
+          "movingSeconds": 4052.991958333333,
+          "overheadSeconds": 150,
+          "targets": {
+            "6": 1,
+            "7": 8
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 70.05,
+          "cumulativeMinutes": 104.524,
+          "cashAfter": 1134.2,
+          "brainsAfter": 12290.324
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 5,
+          "movingSeconds": 5328.455107758619,
+          "overheadSeconds": 86.20689655172413,
+          "targets": {
+            "10": 5
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 90.244,
+          "cumulativeMinutes": 194.768,
+          "cashAfter": 5826.7,
+          "brainsAfter": 20839.189
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 4,
+          "movingSeconds": 6993.229391566266,
+          "overheadSeconds": 72.28915662650603,
+          "targets": {
+            "13": 4
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 117.759,
+          "cumulativeMinutes": 312.527,
+          "cashAfter": 10643.1,
+          "brainsAfter": 33952.877
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 3,
+          "movingSeconds": 7420.057312499999,
+          "overheadSeconds": 56.25,
+          "targets": {
+            "15": 3
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 124.605,
+          "cumulativeMinutes": 437.132,
+          "cashAfter": 6385.5,
+          "brainsAfter": 46663.099
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2681.5707187499997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 45.005,
+          "cumulativeMinutes": 482.137,
+          "cashAfter": 29445.6,
+          "brainsAfter": 41679.711
+        }
+      ]
+    },
+    {
+      "name": "Recommended prices: no optional bonuses",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        20000,
+        25000,
+        45000,
+        60000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0,
+        "hardBonus": false,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": false,
+        "missions": false
+      },
+      "movingMinutes": 524.395,
+      "interfaceRestartMinutes": 14.149,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 538.544,
+      "totalHours": 8.976,
+      "successfulRuns": 51,
+      "expectedFailedRuns": 5.595,
+      "cashSpent": 161300,
+      "brainsSpent": 48585,
+      "cashAfter": 23110,
+      "brainsAfter": 45806.063,
+      "retentionRewards": {
+        "firstCash": 0,
+        "firstBrains": 0,
+        "missionCash": 0,
+        "missionBrains": 0,
+        "expectedMissionCompletions": 0,
+        "firstCheckpoints": []
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 5,
+          "movingSeconds": 243.51779605263158,
+          "overheadSeconds": 78.94736842105263,
+          "targets": {
+            "2": 5
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 5.374,
+          "cumulativeMinutes": 5.374,
+          "cashAfter": 0,
+          "brainsAfter": 730.553
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 22,
+          "movingSeconds": 1670.5697659574462,
+          "overheadSeconds": 351.0638297872342,
+          "targets": {
+            "3": 22
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 33.694,
+          "cumulativeMinutes": 39.068,
+          "cashAfter": 340,
+          "brainsAfter": 5742.263
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 10,
+          "movingSeconds": 4652.935138888889,
+          "overheadSeconds": 166.66666666666666,
+          "targets": {
+            "7": 10
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 80.327,
+          "cumulativeMinutes": 119.395,
+          "cashAfter": 2140,
+          "brainsAfter": 14141.068
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 5,
+          "movingSeconds": 5328.455107758619,
+          "overheadSeconds": 86.20689655172413,
+          "targets": {
+            "10": 5
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 90.244,
+          "cumulativeMinutes": 209.639,
+          "cashAfter": 3890,
+          "brainsAfter": 22101.433
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 4,
+          "movingSeconds": 6993.229391566266,
+          "overheadSeconds": 72.28915662650603,
+          "targets": {
+            "13": 4
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 117.759,
+          "cumulativeMinutes": 327.398,
+          "cashAfter": 930,
+          "brainsAfter": 33451.122
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 4,
+          "movingSeconds": 9893.409749999999,
+          "overheadSeconds": 75,
+          "targets": {
+            "15": 4
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 166.14,
+          "cumulativeMinutes": 493.538,
+          "cashAfter": 3650,
+          "brainsAfter": 51606.351
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2681.5707187499997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 45.005,
+          "cumulativeMinutes": 538.544,
+          "cashAfter": 23110,
+          "brainsAfter": 45806.063
+        }
+      ]
+    },
+    {
+      "name": "Recommended prices: no hard-branch bonus",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        20000,
+        25000,
+        45000,
+        60000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": false,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence"
+      },
+      "movingMinutes": 492.837,
+      "interfaceRestartMinutes": 12.786,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 505.623,
+      "totalHours": 8.427,
+      "successfulRuns": 46,
+      "expectedFailedRuns": 5.143,
+      "cashSpent": 161300,
+      "brainsSpent": 48585,
+      "cashAfter": 35753.4,
+      "brainsAfter": 44560.345,
+      "retentionRewards": {
+        "firstCash": 2771,
+        "firstBrains": 550,
+        "missionCash": 210,
+        "missionBrains": 50,
+        "expectedMissionCompletions": 2,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 5,
+          "movingSeconds": 243.51779605263158,
+          "overheadSeconds": 78.94736842105263,
+          "targets": {
+            "2": 5
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 5.374,
+          "cumulativeMinutes": 5.374,
+          "cashAfter": 246,
+          "brainsAfter": 780.053
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 19,
+          "movingSeconds": 1442.76479787234,
+          "overheadSeconds": 303.1914893617022,
+          "targets": {
+            "3": 19
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 29.099,
+          "cumulativeMinutes": 34.474,
+          "cashAfter": 181.3,
+          "brainsAfter": 5300.448
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 9,
+          "movingSeconds": 4052.991958333333,
+          "overheadSeconds": 150,
+          "targets": {
+            "6": 1,
+            "7": 8
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 70.05,
+          "cumulativeMinutes": 104.524,
+          "cashAfter": 1566.109,
+          "brainsAfter": 12382.301
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 4,
+          "movingSeconds": 4262.764086206896,
+          "overheadSeconds": 68.9655172413793,
+          "targets": {
+            "10": 4
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 72.195,
+          "cumulativeMinutes": 176.719,
+          "cashAfter": 587.196,
+          "brainsAfter": 17669.415
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 4,
+          "movingSeconds": 6993.229391566266,
+          "overheadSeconds": 72.28915662650603,
+          "targets": {
+            "13": 4
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 117.759,
+          "cumulativeMinutes": 294.478,
+          "cashAfter": 2776.6,
+          "brainsAfter": 30048.104
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 4,
+          "movingSeconds": 9893.409749999999,
+          "overheadSeconds": 75,
+          "targets": {
+            "15": 4
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 166.14,
+          "cumulativeMinutes": 460.618,
+          "cashAfter": 13179.8,
+          "brainsAfter": 49738.733
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2681.5707187499997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 45.005,
+          "cumulativeMinutes": 505.623,
+          "cashAfter": 35753.4,
+          "brainsAfter": 44560.345
+        }
+      ]
+    },
+    {
+      "name": "Recommended prices: missions skipped to three deliveries",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        20000,
+        25000,
+        45000,
+        60000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "skip-to-deliveries"
+      },
+      "movingMinutes": 450.349,
+      "interfaceRestartMinutes": 12.207,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 462.557,
+      "totalHours": 7.709,
+      "successfulRuns": 44,
+      "expectedFailedRuns": 4.829,
+      "cashSpent": 161300,
+      "brainsSpent": 48585,
+      "cashAfter": 27016.4,
+      "brainsAfter": 38957.233,
+      "retentionRewards": {
+        "firstCash": 2771,
+        "firstBrains": 550,
+        "missionCash": 1260,
+        "missionBrains": 280,
+        "expectedMissionCompletions": 14,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 5,
+          "movingSeconds": 243.51779605263158,
+          "overheadSeconds": 78.94736842105263,
+          "targets": {
+            "2": 5
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 5.374,
+          "cumulativeMinutes": 5.374,
+          "cashAfter": 246,
+          "brainsAfter": 780.053
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 18,
+          "movingSeconds": 1366.829808510638,
+          "overheadSeconds": 287.23404255319156,
+          "targets": {
+            "3": 18
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 27.568,
+          "cumulativeMinutes": 32.942,
+          "cashAfter": 199.6,
+          "brainsAfter": 5182.743
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 9,
+          "movingSeconds": 4052.991958333333,
+          "overheadSeconds": 150,
+          "targets": {
+            "6": 1,
+            "7": 8
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 70.05,
+          "cumulativeMinutes": 102.992,
+          "cashAfter": 1734.5,
+          "brainsAfter": 12294.619
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 4,
+          "movingSeconds": 4262.764086206896,
+          "overheadSeconds": 68.9655172413793,
+          "targets": {
+            "10": 4
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 72.195,
+          "cumulativeMinutes": 175.188,
+          "cashAfter": 935.5,
+          "brainsAfter": 17621.711
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 4,
+          "movingSeconds": 6993.229391566266,
+          "overheadSeconds": 72.28915662650603,
+          "targets": {
+            "13": 4
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 117.759,
+          "cumulativeMinutes": 292.946,
+          "cashAfter": 6366.9,
+          "brainsAfter": 30860.399
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 3,
+          "movingSeconds": 7420.057312499999,
+          "overheadSeconds": 56.25,
+          "targets": {
+            "15": 3
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 124.605,
+          "cumulativeMinutes": 417.551,
+          "cashAfter": 2983.3,
+          "brainsAfter": 43746.621
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2681.5707187499997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 45.005,
+          "cumulativeMinutes": 462.557,
+          "cashAfter": 27016.4,
+          "brainsAfter": 38957.233
+        }
+      ]
+    },
+    {
+      "name": "Recommended prices: 5% slower than typical route assumption",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        20000,
+        25000,
+        45000,
+        60000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.2075,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence"
+      },
+      "movingMinutes": 474.196,
+      "interfaceRestartMinutes": 12.473,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 486.669,
+      "totalHours": 8.111,
+      "successfulRuns": 45,
+      "expectedFailedRuns": 4.893,
+      "cashSpent": 161300,
+      "brainsSpent": 48585,
+      "cashAfter": 26905.05,
+      "brainsAfter": 43135.103,
+      "retentionRewards": {
+        "firstCash": 2771,
+        "firstBrains": 550,
+        "missionCash": 626.95,
+        "missionBrains": 155.63,
+        "expectedMissionCompletions": 5.335,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 5,
+          "movingSeconds": 255.6936858552632,
+          "overheadSeconds": 78.94736842105263,
+          "targets": {
+            "2": 5
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 5.577,
+          "cumulativeMinutes": 5.577,
+          "cashAfter": 246,
+          "brainsAfter": 816.581
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 19,
+          "movingSeconds": 1514.9030377659574,
+          "overheadSeconds": 303.1914893617022,
+          "targets": {
+            "3": 19
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 30.302,
+          "cumulativeMinutes": 35.879,
+          "cashAfter": 181.3,
+          "brainsAfter": 5553.39
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 9,
+          "movingSeconds": 4255.641556250001,
+          "overheadSeconds": 150,
+          "targets": {
+            "6": 1,
+            "7": 8
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 73.427,
+          "cumulativeMinutes": 109.306,
+          "cashAfter": 1566.109,
+          "brainsAfter": 13243.192
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 4,
+          "movingSeconds": 4475.9022905172405,
+          "overheadSeconds": 68.9655172413793,
+          "targets": {
+            "10": 4
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 75.748,
+          "cumulativeMinutes": 185.054,
+          "cashAfter": 587.196,
+          "brainsAfter": 19169.721
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 4,
+          "movingSeconds": 7342.8908611445795,
+          "overheadSeconds": 72.28915662650603,
+          "targets": {
+            "13": 4
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 123.586,
+          "cumulativeMinutes": 308.64,
+          "cashAfter": 6114.222,
+          "brainsAfter": 33484.894
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 3,
+          "movingSeconds": 7791.060178125001,
+          "overheadSeconds": 56.25,
+          "targets": {
+            "15": 3
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 130.789,
+          "cumulativeMinutes": 439.429,
+          "cashAfter": 2825.439,
+          "brainsAfter": 47510.213
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2815.6492546875,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 47.24,
+          "cumulativeMinutes": 486.669,
+          "cashAfter": 26905.05,
+          "brainsAfter": 43135.103
+        }
+      ]
+    },
+    {
+      "name": "Recommended prices: 10% slower than typical route assumption",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        20000,
+        25000,
+        45000,
+        60000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.265,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence"
+      },
+      "movingMinutes": 499.245,
+      "interfaceRestartMinutes": 12.473,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 511.718,
+      "totalHours": 8.529,
+      "successfulRuns": 45,
+      "expectedFailedRuns": 4.893,
+      "cashSpent": 161300,
+      "brainsSpent": 48585,
+      "cashAfter": 27527.35,
+      "brainsAfter": 47642.731,
+      "retentionRewards": {
+        "firstCash": 2694,
+        "firstBrains": 535,
+        "missionCash": 626.95,
+        "missionBrains": 155.63,
+        "expectedMissionCompletions": 5.335,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 5,
+          "movingSeconds": 267.8695756578947,
+          "overheadSeconds": 78.94736842105263,
+          "targets": {
+            "2": 5
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 5.78,
+          "cumulativeMinutes": 5.78,
+          "cashAfter": 246,
+          "brainsAfter": 853.109
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 19,
+          "movingSeconds": 1587.0412776595751,
+          "overheadSeconds": 303.1914893617022,
+          "targets": {
+            "3": 19
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 31.504,
+          "cumulativeMinutes": 37.284,
+          "cashAfter": 181.3,
+          "brainsAfter": 5806.333
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 9,
+          "movingSeconds": 4606.405787500001,
+          "overheadSeconds": 150,
+          "targets": {
+            "7": 9
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 79.273,
+          "cumulativeMinutes": 116.558,
+          "cashAfter": 2188.409,
+          "brainsAfter": 14547.177
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 4,
+          "movingSeconds": 4689.0404948275855,
+          "overheadSeconds": 68.9655172413793,
+          "targets": {
+            "10": 4
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 79.3,
+          "cumulativeMinutes": 195.858,
+          "cashAfter": 1209.496,
+          "brainsAfter": 21113.12
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 4,
+          "movingSeconds": 7692.552330722891,
+          "overheadSeconds": 72.28915662650603,
+          "targets": {
+            "13": 4
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 129.414,
+          "cumulativeMinutes": 325.272,
+          "cashAfter": 6736.522,
+          "brainsAfter": 36477.278
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 3,
+          "movingSeconds": 8162.06304375,
+          "overheadSeconds": 56.25,
+          "targets": {
+            "15": 3
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 136.972,
+          "cumulativeMinutes": 462.244,
+          "cashAfter": 3447.739,
+          "brainsAfter": 51615.606
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2949.7277906249997,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 49.475,
+          "cumulativeMinutes": 511.718,
+          "cashAfter": 27527.35,
+          "brainsAfter": 47642.731
+        }
+      ]
+    },
+    {
+      "name": "Recommended prices: failures happen at 90% rather than 65%",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        20000,
+        25000,
+        45000,
+        60000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "van",
+        "snowgrip",
+        "snowrunner",
+        "lavacrawler",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1.15,
+        "restartSeconds": 15,
+        "failureProbabilities": [
+          0.05,
+          0.06,
+          0.1,
+          0.13,
+          0.17,
+          0.2,
+          0.2
+        ],
+        "failureAtFraction": 0.9,
+        "cleanSuccessFraction": 0.55,
+        "hardBonus": true,
+        "hardSuccessFraction": 0.5,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "normal-sequence"
+      },
+      "movingMinutes": 470.523,
+      "interfaceRestartMinutes": 12.473,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 482.996,
+      "totalHours": 8.05,
+      "successfulRuns": 45,
+      "expectedFailedRuns": 4.893,
+      "cashSpent": 161300,
+      "brainsSpent": 48585,
+      "cashAfter": 26905.05,
+      "brainsAfter": 42473.951,
+      "retentionRewards": {
+        "firstCash": 2771,
+        "firstBrains": 550,
+        "missionCash": 626.95,
+        "missionBrains": 155.63,
+        "expectedMissionCompletions": 5.335,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-06",
+          "checkpoint-07",
+          "checkpoint-10",
+          "checkpoint-13",
+          "checkpoint-15",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 5,
+          "movingSeconds": 246.61598684210526,
+          "overheadSeconds": 78.94736842105263,
+          "targets": {
+            "2": 5
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 5.426,
+          "cumulativeMinutes": 5.426,
+          "cashAfter": 246,
+          "brainsAfter": 789.348
+        },
+        {
+          "car": "citycourier",
+          "purchase": "van",
+          "runs": 19,
+          "movingSeconds": 1464.8704893617023,
+          "overheadSeconds": 303.1914893617022,
+          "targets": {
+            "3": 19
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 29.468,
+          "cumulativeMinutes": 34.894,
+          "cashAfter": 181.3,
+          "brainsAfter": 5376.059
+        },
+        {
+          "car": "van",
+          "purchase": "snowgrip",
+          "runs": 9,
+          "movingSeconds": 4157.99175,
+          "overheadSeconds": 150,
+          "targets": {
+            "6": 1,
+            "7": 8
+          },
+          "upgradeBrains": 5560,
+          "phaseMinutes": 71.8,
+          "cumulativeMinutes": 106.694,
+          "cashAfter": 1566.109,
+          "brainsAfter": 12772.912
+        },
+        {
+          "car": "snowgrip",
+          "purchase": "snowrunner",
+          "runs": 4,
+          "movingSeconds": 4407.907965517241,
+          "overheadSeconds": 68.9655172413793,
+          "targets": {
+            "10": 4
+          },
+          "upgradeBrains": 8025,
+          "phaseMinutes": 74.615,
+          "cumulativeMinutes": 181.308,
+          "cashAfter": 587.196,
+          "brainsAfter": 18495.458
+        },
+        {
+          "car": "snowrunner",
+          "purchase": "lavacrawler",
+          "runs": 4,
+          "movingSeconds": 7309.244542168675,
+          "overheadSeconds": 72.28915662650603,
+          "targets": {
+            "13": 4
+          },
+          "upgradeBrains": 9630,
+          "phaseMinutes": 123.026,
+          "cumulativeMinutes": 304.334,
+          "cashAfter": 6114.222,
+          "brainsAfter": 32709.692
+        },
+        {
+          "car": "lavacrawler",
+          "purchase": "ashhauler",
+          "runs": 3,
+          "movingSeconds": 7818.985125,
+          "overheadSeconds": 56.25,
+          "targets": {
+            "15": 3
+          },
+          "upgradeBrains": 11525,
+          "phaseMinutes": 131.254,
+          "cumulativeMinutes": 435.588,
+          "cashAfter": 2825.439,
+          "brainsAfter": 46818.786
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2825.7411875,
+          "overheadSeconds": 18.75,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 13845,
+          "phaseMinutes": 47.408,
+          "cumulativeMinutes": 482.996,
+          "cashAfter": 26905.05,
+          "brainsAfter": 42473.951
+        }
+      ]
+    },
+    {
+      "name": "Recommended prices: fastest of 32 measured stock-route paths; not global optimum",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        20000,
+        25000,
+        45000,
+        60000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "citycourier",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1,
+        "restartSeconds": 5,
+        "failureProbabilities": [
+          0
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 1,
+        "hardBonus": true,
+        "hardSuccessFraction": 1,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "skip-to-deliveries"
+      },
+      "movingMinutes": 143.858,
+      "interfaceRestartMinutes": 8.833,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 152.692,
+      "totalHours": 2.545,
+      "successfulRuns": 106,
+      "expectedFailedRuns": 0,
+      "cashSpent": 61300,
+      "brainsSpent": 11265,
+      "cashAfter": 27342,
+      "brainsAfter": 18943.5,
+      "retentionRewards": {
+        "firstCash": 1009,
+        "firstBrains": 200,
+        "missionCash": 3150,
+        "missionBrains": 700,
+        "expectedMissionCompletions": 35,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-03",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "citycourier",
+          "runs": 4,
+          "movingSeconds": 163.8,
+          "overheadSeconds": 20,
+          "targets": {
+            "2": 4
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 3.063,
+          "cumulativeMinutes": 3.063,
+          "cashAfter": 51,
+          "brainsAfter": 553.4
+        },
+        {
+          "car": "citycourier",
+          "purchase": "ashhauler",
+          "runs": 101,
+          "movingSeconds": 6403.3999999999905,
+          "overheadSeconds": 505,
+          "targets": {
+            "3": 101
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 115.14,
+          "cumulativeMinutes": 118.203,
+          "cashAfter": 98,
+          "brainsAfter": 22265.6
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2064.3,
+          "overheadSeconds": 5,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 11265,
+          "phaseMinutes": 34.488,
+          "cumulativeMinutes": 152.692,
+          "cashAfter": 27342,
+          "brainsAfter": 18943.5
+        }
+      ]
+    },
+    {
+      "name": "Recommended prices: direct pickup to final car witness",
+      "prices": [
+        0,
+        1300,
+        3200,
+        6500,
+        10000,
+        16000,
+        20000,
+        25000,
+        45000,
+        60000
+      ],
+      "upgradeBase": 40,
+      "carPath": [
+        "pickup",
+        "ashhauler"
+      ],
+      "assumptions": {
+        "speedFactor": 1,
+        "restartSeconds": 5,
+        "failureProbabilities": [
+          0
+        ],
+        "failureAtFraction": 0.65,
+        "cleanSuccessFraction": 1,
+        "hardBonus": true,
+        "hardSuccessFraction": 1,
+        "driveBrainsPerSecond": 3,
+        "firstDeliveryBonus": true,
+        "missions": "skip-to-deliveries"
+      },
+      "movingMinutes": 154.525,
+      "interfaceRestartMinutes": 14.75,
+      "requiredStudyMinutes": 0,
+      "totalMinutes": 169.275,
+      "totalHours": 2.821,
+      "successfulRuns": 177,
+      "expectedFailedRuns": 0,
+      "cashSpent": 60000,
+      "brainsSpent": 11265,
+      "cashAfter": 27479,
+      "brainsAfter": 21241.5,
+      "retentionRewards": {
+        "firstCash": 986,
+        "firstBrains": 196,
+        "missionCash": 5310,
+        "missionBrains": 1180,
+        "expectedMissionCompletions": 59,
+        "firstCheckpoints": [
+          "checkpoint-02",
+          "checkpoint-16"
+        ]
+      },
+      "phases": [
+        {
+          "car": "pickup",
+          "purchase": "ashhauler",
+          "runs": 176,
+          "movingSeconds": 7207.199999999979,
+          "overheadSeconds": 880,
+          "targets": {
+            "2": 176
+          },
+          "upgradeBrains": 0,
+          "phaseMinutes": 134.787,
+          "cumulativeMinutes": 134.787,
+          "cashAfter": 145,
+          "brainsAfter": 24543.6
+        },
+        {
+          "car": "ashhauler",
+          "purchase": "first successful delivery to checkpoint-16",
+          "runs": 1,
+          "movingSeconds": 2064.3,
+          "overheadSeconds": 5,
+          "targets": {
+            "16": 1
+          },
+          "upgradeBrains": 11265,
+          "phaseMinutes": 34.488,
+          "cumulativeMinutes": 169.275,
+          "cashAfter": 27479,
+          "brainsAfter": 21241.5
+        }
+      ]
+    }
+  ],
+  "payoutCadence": [
+    {
+      "car": "pickup",
+      "target": 2,
+      "cleanMeasuredMinutes": 0.683,
+      "assumedHumanSuccessfulTripMinutes": 0.785,
+      "expectedMinutesPerSuccessWithFailures": 1.075,
+      "baseCash": 260
+    },
+    {
+      "car": "citycourier",
+      "target": 3,
+      "cleanMeasuredMinutes": 1.057,
+      "assumedHumanSuccessfulTripMinutes": 1.215,
+      "expectedMinutesPerSuccessWithFailures": 1.532,
+      "baseCash": 470
+    },
+    {
+      "car": "van",
+      "target": 7,
+      "cleanMeasuredMinutes": 6.289,
+      "assumedHumanSuccessfulTripMinutes": 7.233,
+      "expectedMinutesPerSuccessWithFailures": 8.033,
+      "baseCash": 2180
+    },
+    {
+      "car": "snowgrip",
+      "target": 10,
+      "cleanMeasuredMinutes": 14.077,
+      "assumedHumanSuccessfulTripMinutes": 16.189,
+      "expectedMinutesPerSuccessWithFailures": 18.049,
+      "baseCash": 5350
+    },
+    {
+      "car": "snowrunner",
+      "target": 13,
+      "cleanMeasuredMinutes": 22.361,
+      "assumedHumanSuccessfulTripMinutes": 25.715,
+      "expectedMinutesPerSuccessWithFailures": 29.44,
+      "baseCash": 10510
+    },
+    {
+      "car": "lavacrawler",
+      "target": 15,
+      "cleanMeasuredMinutes": 30.835,
+      "assumedHumanSuccessfulTripMinutes": 35.46,
+      "expectedMinutesPerSuccessWithFailures": 41.535,
+      "baseCash": 15680
+    },
+    {
+      "car": "ashhauler",
+      "target": 16,
+      "cleanMeasuredMinutes": 33.431,
+      "assumedHumanSuccessfulTripMinutes": 38.445,
+      "expectedMinutesPerSuccessWithFailures": 45.005,
+      "baseCash": 19460
+    }
+  ],
+  "expertEnumeration": {
+    "count": 32,
+    "carIds": [
+      "pickup",
+      "citycourier",
+      "van",
+      "snowgrip",
+      "snowrunner",
+      "lavacrawler",
+      "ashhauler"
+    ],
+    "note": "Only the seven cars with fresh stock journeys are enumerated; intermediate target choice, three other cars, alternate strategies and human behavior may be faster."
+  }
+}

@@ -1,0 +1,3045 @@
+{
+  "passed": true,
+  "rendererFree": true,
+  "actualProductionModules": true,
+  "poseMutationsAfterSpawn": 0,
+  "routeLength": 10829.072000445114,
+  "biomes": [
+    {
+      "id": "city",
+      "from": -17,
+      "to": 2000
+    },
+    {
+      "id": "forest",
+      "from": 2000,
+      "to": 4000
+    },
+    {
+      "id": "desert",
+      "from": 4000,
+      "to": 6200
+    },
+    {
+      "id": "snow",
+      "from": 6200,
+      "to": 8400
+    },
+    {
+      "id": "volcanic",
+      "from": 8400,
+      "to": 10800
+    }
+  ],
+  "checkpoints": [
+    {
+      "id": "checkpoint-01",
+      "progress": 180,
+      "distance": 180.00282417426246,
+      "reward": 110
+    },
+    {
+      "id": "checkpoint-02",
+      "progress": 440,
+      "distance": 440.21632098589953,
+      "reward": 260
+    },
+    {
+      "id": "checkpoint-03",
+      "progress": 780,
+      "distance": 780.3293132006197,
+      "reward": 470
+    },
+    {
+      "id": "checkpoint-04",
+      "progress": 1220,
+      "distance": 1220.6242376947482,
+      "reward": 730
+    },
+    {
+      "id": "checkpoint-05",
+      "progress": 1800,
+      "distance": 1800.9351481402832,
+      "reward": 1080
+    },
+    {
+      "id": "checkpoint-06",
+      "progress": 2580,
+      "distance": 2581.539838100352,
+      "reward": 1550
+    },
+    {
+      "id": "checkpoint-07",
+      "progress": 3480,
+      "distance": 3485.3712195604385,
+      "reward": 2090
+    },
+    {
+      "id": "checkpoint-08",
+      "progress": 4730,
+      "distance": 4736.220987494396,
+      "reward": 2840
+    },
+    {
+      "id": "checkpoint-09",
+      "progress": 6170,
+      "distance": 6184.046467623946,
+      "reward": 3710
+    },
+    {
+      "id": "checkpoint-10",
+      "progress": 7870,
+      "distance": 7890.3148003410815,
+      "reward": 4730
+    },
+    {
+      "id": "checkpoint-11",
+      "progress": 9870,
+      "distance": 9898.461524002516,
+      "reward": 5940
+    }
+  ],
+  "checks": [
+    {
+      "passed": true,
+      "id": "pickup",
+      "upgrade": "stock",
+      "branch": "primary",
+      "target": "delivery-checkpoint-04",
+      "targetIndex": 3,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "dt": 0.05,
+      "frames": 2241,
+      "seconds": 112.05,
+      "actualTravel": 1218.675,
+      "finalProgress": 1215.81,
+      "finalDistance": 1216.434,
+      "money": 730,
+      "refills": 3,
+      "stationIds": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02",
+        "fuel-checkpoint-03"
+      ],
+      "biomes": [
+        "city"
+      ],
+      "edges": [
+        "city--17-2000"
+      ],
+      "forks": [],
+      "gaps": [
+        {
+          "from": "spawn",
+          "to": "fuel-checkpoint-01",
+          "travel": 176.776,
+          "fuelOnEntry": 66.005,
+          "range": 520
+        },
+        {
+          "from": "fuel-checkpoint-01",
+          "to": "fuel-checkpoint-02",
+          "travel": 253.064,
+          "fuelOnEntry": 51.334,
+          "range": 520
+        },
+        {
+          "from": "fuel-checkpoint-02",
+          "to": "fuel-checkpoint-03",
+          "travel": 332.776,
+          "fuelOnEntry": 36.005,
+          "range": 520
+        },
+        {
+          "from": "fuel-checkpoint-03",
+          "to": "delivery-checkpoint-04",
+          "travel": 431.322,
+          "range": 520
+        }
+      ],
+      "maxStep": 0.555,
+      "maxOffset": 8.201,
+      "minClearance": 0.012,
+      "heightRange": [
+        -0.03,
+        13.97
+      ],
+      "blocked": 0,
+      "trace": [
+        {
+          "frame": 200,
+          "seconds": 10,
+          "progress": 99.171,
+          "distance": 99.171,
+          "x": 2.136,
+          "z": -93.171,
+          "heading": -0.174,
+          "edgeId": "city--17-2000",
+          "fuel": 80.904,
+          "speed": 11
+        },
+        {
+          "frame": 341,
+          "seconds": 17.05,
+          "progress": 176.131,
+          "distance": 176.133,
+          "x": 8.027,
+          "z": -170.131,
+          "heading": 0.004,
+          "edgeId": "city--17-2000",
+          "fuel": 100,
+          "speed": 10.959
+        },
+        {
+          "frame": 400,
+          "seconds": 20,
+          "progress": 208.399,
+          "distance": 208.413,
+          "x": 7.995,
+          "z": -202.399,
+          "heading": 0,
+          "edgeId": "city--17-2000",
+          "fuel": 95.374,
+          "speed": 10.918
+        },
+        {
+          "frame": 600,
+          "seconds": 30,
+          "progress": 316.523,
+          "distance": 316.68,
+          "x": -0.045,
+          "z": -310.523,
+          "heading": -0.005,
+          "edgeId": "city--17-2000",
+          "fuel": 74.457,
+          "speed": 10.87
+        },
+        {
+          "frame": 800,
+          "seconds": 40,
+          "progress": 425.127,
+          "distance": 425.343,
+          "x": 8.085,
+          "z": -419.127,
+          "heading": 0.007,
+          "edgeId": "city--17-2000",
+          "fuel": 53.448,
+          "speed": 10.987
+        },
+        {
+          "frame": 820,
+          "seconds": 41,
+          "progress": 436.118,
+          "distance": 436.334,
+          "x": 8.027,
+          "z": -430.118,
+          "heading": 0.004,
+          "edgeId": "city--17-2000",
+          "fuel": 100,
+          "speed": 10.995
+        },
+        {
+          "frame": 1000,
+          "seconds": 50,
+          "progress": 534.596,
+          "distance": 534.815,
+          "x": 0.47,
+          "z": -528.596,
+          "heading": 0.094,
+          "edgeId": "city--17-2000",
+          "fuel": 82.527,
+          "speed": 11.038
+        },
+        {
+          "frame": 1200,
+          "seconds": 60,
+          "progress": 645.294,
+          "distance": 645.564,
+          "x": 0,
+          "z": -639.294,
+          "heading": 0,
+          "edgeId": "city--17-2000",
+          "fuel": 61.236,
+          "speed": 11.092
+        },
+        {
+          "frame": 1400,
+          "seconds": 70,
+          "progress": 755.424,
+          "distance": 755.75,
+          "x": 8.151,
+          "z": -749.424,
+          "heading": 0.004,
+          "edgeId": "city--17-2000",
+          "fuel": 39.933,
+          "speed": 11.05
+        },
+        {
+          "frame": 1437,
+          "seconds": 71.85,
+          "progress": 775.853,
+          "distance": 776.182,
+          "x": 8.029,
+          "z": -769.853,
+          "heading": 0.004,
+          "edgeId": "city--17-2000",
+          "fuel": 100,
+          "speed": 11.035
+        },
+        {
+          "frame": 1600,
+          "seconds": 80,
+          "progress": 865.039,
+          "distance": 865.369,
+          "x": 1.635,
+          "z": -859.039,
+          "heading": 0.171,
+          "edgeId": "city--17-2000",
+          "fuel": 84.333,
+          "speed": 10.996
+        },
+        {
+          "frame": 1800,
+          "seconds": 90,
+          "progress": 974.327,
+          "distance": 974.71,
+          "x": -0.219,
+          "z": -968.326,
+          "heading": 0.011,
+          "edgeId": "city--17-2000",
+          "fuel": 63.299,
+          "speed": 10.871
+        },
+        {
+          "frame": 2000,
+          "seconds": 100,
+          "progress": 1082.858,
+          "distance": 1083.439,
+          "x": -6.43,
+          "z": -1076.612,
+          "heading": 0.127,
+          "edgeId": "city--17-2000",
+          "fuel": 42.428,
+          "speed": 10.872
+        },
+        {
+          "frame": 2200,
+          "seconds": 110,
+          "progress": 1192.642,
+          "distance": 1193.267,
+          "x": -41.687,
+          "z": -1179.199,
+          "heading": 0.408,
+          "edgeId": "city--17-2000",
+          "fuel": 21.39,
+          "speed": 10.998
+        },
+        {
+          "frame": 2241,
+          "seconds": 112.05,
+          "progress": 1215.81,
+          "distance": 1216.434,
+          "x": -51.32,
+          "z": -1199.582,
+          "heading": 0.475,
+          "edgeId": "city--17-2000",
+          "fuel": 100,
+          "speed": 11.002
+        }
+      ]
+    },
+    {
+      "passed": true,
+      "id": "ashhauler",
+      "upgrade": "stock",
+      "branch": "primary",
+      "target": "delivery-checkpoint-11",
+      "targetIndex": 10,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "dt": 0.05,
+      "frames": 5713,
+      "seconds": 285.65,
+      "actualTravel": 9902.519,
+      "finalProgress": 9867.02,
+      "finalDistance": 9895.475,
+      "money": 5940,
+      "refills": 10,
+      "stationIds": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02",
+        "fuel-checkpoint-03",
+        "fuel-checkpoint-04",
+        "fuel-checkpoint-05",
+        "fuel-checkpoint-06",
+        "fuel-checkpoint-07",
+        "fuel-checkpoint-08",
+        "fuel-checkpoint-09",
+        "fuel-checkpoint-10"
+      ],
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "edges": [
+        "city--17-2000",
+        "forest-2000-2780",
+        "forest-fork-alternate",
+        "forest-fork-main",
+        "forest-3280-4000",
+        "desert-4000-4980",
+        "desert-fork-main",
+        "desert-fork-alternate",
+        "desert-5980-6200",
+        "snow-6200-7060",
+        "snow-fork-alternate",
+        "snow-fork-main",
+        "snow-7660-8400",
+        "volcanic-8400-8660",
+        "volcanic-fork-main",
+        "volcanic-fork-alternate",
+        "volcanic-9660-10800"
+      ],
+      "forks": [
+        "forest-fork",
+        "desert-fork",
+        "snow-fork",
+        "volcanic-fork"
+      ],
+      "gaps": [
+        {
+          "from": "spawn",
+          "to": "fuel-checkpoint-01",
+          "travel": 176.572,
+          "fuelOnEntry": 203.258,
+          "range": 5500
+        },
+        {
+          "from": "fuel-checkpoint-01",
+          "to": "fuel-checkpoint-02",
+          "travel": 254.299,
+          "fuelOnEntry": 200.29,
+          "range": 5500
+        },
+        {
+          "from": "fuel-checkpoint-02",
+          "to": "fuel-checkpoint-03",
+          "travel": 333.561,
+          "fuelOnEntry": 197.264,
+          "range": 5500
+        },
+        {
+          "from": "fuel-checkpoint-03",
+          "to": "fuel-checkpoint-04",
+          "travel": 436.286,
+          "fuelOnEntry": 193.342,
+          "range": 5500
+        },
+        {
+          "from": "fuel-checkpoint-04",
+          "to": "fuel-checkpoint-05",
+          "travel": 576.85,
+          "fuelOnEntry": 187.975,
+          "range": 5500
+        },
+        {
+          "from": "fuel-checkpoint-05",
+          "to": "fuel-checkpoint-06",
+          "travel": 771.395,
+          "fuelOnEntry": 180.547,
+          "range": 5500
+        },
+        {
+          "from": "fuel-checkpoint-06",
+          "to": "fuel-checkpoint-07",
+          "travel": 896.753,
+          "fuelOnEntry": 175.76,
+          "range": 5500
+        },
+        {
+          "from": "fuel-checkpoint-07",
+          "to": "fuel-checkpoint-08",
+          "travel": 1242.865,
+          "fuelOnEntry": 162.545,
+          "range": 5500
+        },
+        {
+          "from": "fuel-checkpoint-08",
+          "to": "fuel-checkpoint-09",
+          "travel": 1441.975,
+          "fuelOnEntry": 154.943,
+          "range": 5500
+        },
+        {
+          "from": "fuel-checkpoint-09",
+          "to": "fuel-checkpoint-10",
+          "travel": 1699.38,
+          "fuelOnEntry": 145.115,
+          "range": 5500
+        },
+        {
+          "from": "fuel-checkpoint-10",
+          "to": "delivery-checkpoint-11",
+          "travel": 2001.47,
+          "range": 5500
+        }
+      ],
+      "maxStep": 1.77,
+      "maxOffset": 8.385,
+      "minClearance": 0.012,
+      "heightRange": [
+        -0.03,
+        27.968
+      ],
+      "blocked": 0,
+      "trace": [
+        {
+          "frame": 122,
+          "seconds": 6.1,
+          "progress": 176.117,
+          "distance": 176.119,
+          "x": 8.315,
+          "z": -170.117,
+          "heading": 0.001,
+          "edgeId": "city--17-2000",
+          "fuel": 210,
+          "speed": 34.657
+        },
+        {
+          "frame": 200,
+          "seconds": 10,
+          "progress": 310.544,
+          "distance": 310.692,
+          "x": -0.288,
+          "z": -304.544,
+          "heading": 0.009,
+          "edgeId": "city--17-2000",
+          "fuel": 205.114,
+          "speed": 34.556
+        },
+        {
+          "frame": 273,
+          "seconds": 13.65,
+          "progress": 436.395,
+          "distance": 436.612,
+          "x": 8.323,
+          "z": -430.395,
+          "heading": 0.001,
+          "edgeId": "city--17-2000",
+          "fuel": 210,
+          "speed": 34.682
+        },
+        {
+          "frame": 400,
+          "seconds": 20,
+          "progress": 656.495,
+          "distance": 656.773,
+          "x": 0.012,
+          "z": -650.495,
+          "heading": -0.001,
+          "edgeId": "city--17-2000",
+          "fuel": 201.843,
+          "speed": 34.784
+        },
+        {
+          "frame": 469,
+          "seconds": 23.45,
+          "progress": 775.977,
+          "distance": 776.306,
+          "x": 8.315,
+          "z": -769.977,
+          "heading": 0,
+          "edgeId": "city--17-2000",
+          "fuel": 210,
+          "speed": 34.731
+        },
+        {
+          "frame": 600,
+          "seconds": 30,
+          "progress": 1002.493,
+          "distance": 1002.925,
+          "x": -0.755,
+          "z": -996.487,
+          "heading": 0.026,
+          "edgeId": "city--17-2000",
+          "fuel": 201.599,
+          "speed": 34.545
+        },
+        {
+          "frame": 725,
+          "seconds": 36.25,
+          "progress": 1216.673,
+          "distance": 1217.297,
+          "x": -37.244,
+          "z": -1207.993,
+          "heading": 0.484,
+          "edgeId": "city--17-2000",
+          "fuel": 210,
+          "speed": 34.69
+        },
+        {
+          "frame": 800,
+          "seconds": 40,
+          "progress": 1344.232,
+          "distance": 1344.895,
+          "x": -127.542,
+          "z": -1299.432,
+          "heading": 0.961,
+          "edgeId": "city--17-2000",
+          "fuel": 205.292,
+          "speed": 34.792
+        },
+        {
+          "frame": 1000,
+          "seconds": 50,
+          "progress": 1691.989,
+          "distance": 1692.924,
+          "x": -462.729,
+          "z": -1364.901,
+          "heading": 1.549,
+          "edgeId": "city--17-2000",
+          "fuel": 192.015,
+          "speed": 34.691
+        },
+        {
+          "frame": 1061,
+          "seconds": 53.05,
+          "progress": 1797.344,
+          "distance": 1798.28,
+          "x": -568.085,
+          "z": -1373.053,
+          "heading": 1.572,
+          "edgeId": "city--17-2000",
+          "fuel": 210,
+          "speed": 34.692
+        },
+        {
+          "frame": 1200,
+          "seconds": 60,
+          "progress": 2037.979,
+          "distance": 2038.915,
+          "x": -808.72,
+          "z": -1364.794,
+          "heading": 1.568,
+          "edgeId": "forest-2000-2780",
+          "fuel": 201.059,
+          "speed": 34.674
+        },
+        {
+          "frame": 1400,
+          "seconds": 70,
+          "progress": 2383.946,
+          "distance": 2385.281,
+          "x": -1122.83,
+          "z": -1472.395,
+          "heading": 0.649,
+          "edgeId": "forest-2000-2780",
+          "fuel": 187.851,
+          "speed": 34.697
+        },
+        {
+          "frame": 1510,
+          "seconds": 75.5,
+          "progress": 2575.885,
+          "distance": 2577.417,
+          "x": -1172.239,
+          "z": -1653.108,
+          "heading": 0.068,
+          "edgeId": "forest-2000-2780",
+          "fuel": 210,
+          "speed": 34.846
+        },
+        {
+          "frame": 1600,
+          "seconds": 80,
+          "progress": 2732.468,
+          "distance": 2734.136,
+          "x": -1182.914,
+          "z": -1809.107,
+          "heading": -0.007,
+          "edgeId": "forest-2000-2780",
+          "fuel": 204.288,
+          "speed": 34.716
+        },
+        {
+          "frame": 1800,
+          "seconds": 90,
+          "progress": 3077.467,
+          "distance": 3081.113,
+          "x": -1162.454,
+          "z": -2154.128,
+          "heading": 0.146,
+          "edgeId": "forest-fork-main",
+          "fuel": 191.042,
+          "speed": 34.691
+        },
+        {
+          "frame": 2000,
+          "seconds": 100,
+          "progress": 3422.249,
+          "distance": 3427.52,
+          "x": -1176.799,
+          "z": -2498.887,
+          "heading": -0.125,
+          "edgeId": "forest-3280-4000",
+          "fuel": 177.805,
+          "speed": 34.557
+        },
+        {
+          "frame": 2031,
+          "seconds": 101.55,
+          "progress": 3475.703,
+          "distance": 3481.068,
+          "x": -1174.316,
+          "z": -2552.341,
+          "heading": 0.001,
+          "edgeId": "forest-3280-4000",
+          "fuel": 210,
+          "speed": 34.551
+        },
+        {
+          "frame": 2200,
+          "seconds": 110,
+          "progress": 3768.118,
+          "distance": 3773.545,
+          "x": -1182.638,
+          "z": -2844.757,
+          "heading": 0,
+          "edgeId": "forest-3280-4000",
+          "fuel": 199.147,
+          "speed": 34.692
+        },
+        {
+          "frame": 2400,
+          "seconds": 120,
+          "progress": 4114.924,
+          "distance": 4120.378,
+          "x": -1181.474,
+          "z": -3191.549,
+          "heading": -0.036,
+          "edgeId": "desert-4000-4980",
+          "fuel": 185.905,
+          "speed": 34.596
+        },
+        {
+          "frame": 2600,
+          "seconds": 130,
+          "progress": 4460.687,
+          "distance": 4466.627,
+          "x": -1041.604,
+          "z": -3491.479,
+          "heading": -1.001,
+          "edgeId": "desert-4000-4980",
+          "fuel": 172.704,
+          "speed": 34.689
+        },
+        {
+          "frame": 2753,
+          "seconds": 137.65,
+          "progress": 4726.716,
+          "distance": 4732.93,
+          "x": -785.095,
+          "z": -3538.9,
+          "heading": -1.559,
+          "edgeId": "desert-4000-4980",
+          "fuel": 210,
+          "speed": 34.853
+        },
+        {
+          "frame": 2800,
+          "seconds": 140,
+          "progress": 4808.374,
+          "distance": 4814.724,
+          "x": -703.524,
+          "z": -3544.064,
+          "heading": -1.425,
+          "edgeId": "desert-4000-4980",
+          "fuel": 207.14,
+          "speed": 34.81
+        },
+        {
+          "frame": 3000,
+          "seconds": 150,
+          "progress": 5155.265,
+          "distance": 5161.744,
+          "x": -356.635,
+          "z": -3543.61,
+          "heading": -1.646,
+          "edgeId": "desert-fork-main",
+          "fuel": 193.886,
+          "speed": 34.692
+        },
+        {
+          "frame": 3200,
+          "seconds": 160,
+          "progress": 5498.445,
+          "distance": 5508.669,
+          "x": -13.453,
+          "z": -3497.707,
+          "heading": -1.538,
+          "edgeId": "desert-fork-main",
+          "fuel": 180.64,
+          "speed": 34.691
+        },
+        {
+          "frame": 3400,
+          "seconds": 170,
+          "progress": 5841.555,
+          "distance": 5855.582,
+          "x": 329.656,
+          "z": -3545.831,
+          "heading": -1.527,
+          "edgeId": "desert-fork-main",
+          "fuel": 167.394,
+          "speed": 34.692
+        },
+        {
+          "frame": 3588,
+          "seconds": 179.4,
+          "progress": 6167.173,
+          "distance": 6181.219,
+          "x": 655.275,
+          "z": -3539.048,
+          "heading": -1.569,
+          "edgeId": "desert-5980-6200",
+          "fuel": 210,
+          "speed": 34.692
+        },
+        {
+          "frame": 3600,
+          "seconds": 180,
+          "progress": 6187.987,
+          "distance": 6202.034,
+          "x": 676.09,
+          "z": -3539.178,
+          "heading": -1.563,
+          "edgeId": "desert-5980-6200",
+          "fuel": 209.47,
+          "speed": 34.692
+        },
+        {
+          "frame": 3800,
+          "seconds": 190,
+          "progress": 6533.314,
+          "distance": 6547.813,
+          "x": 1012.715,
+          "z": -3600.107,
+          "heading": -1.029,
+          "edgeId": "snow-6200-7060",
+          "fuel": 196.266,
+          "speed": 34.62
+        },
+        {
+          "frame": 4000,
+          "seconds": 200,
+          "progress": 6880.859,
+          "distance": 6895.698,
+          "x": 1157.643,
+          "z": -3898.99,
+          "heading": -0.041,
+          "edgeId": "snow-6200-7060",
+          "fuel": 182.993,
+          "speed": 34.84
+        },
+        {
+          "frame": 4200,
+          "seconds": 210,
+          "progress": 7227.392,
+          "distance": 7243.017,
+          "x": 1169.902,
+          "z": -4245.531,
+          "heading": -0.189,
+          "edgeId": "snow-fork-main",
+          "fuel": 169.734,
+          "speed": 34.691
+        },
+        {
+          "frame": 4400,
+          "seconds": 220,
+          "progress": 7569.81,
+          "distance": 7589.925,
+          "x": 1160.137,
+          "z": -4587.925,
+          "heading": 0.059,
+          "edgeId": "snow-fork-main",
+          "fuel": 156.489,
+          "speed": 34.691
+        },
+        {
+          "frame": 4572,
+          "seconds": 228.6,
+          "progress": 7867.208,
+          "distance": 7887.517,
+          "x": 1167.213,
+          "z": -4885.327,
+          "heading": 0.004,
+          "edgeId": "snow-7660-8400",
+          "fuel": 210,
+          "speed": 34.535
+        },
+        {
+          "frame": 4600,
+          "seconds": 230,
+          "progress": 7915.558,
+          "distance": 7935.95,
+          "x": 1166.407,
+          "z": -4933.677,
+          "heading": 0.06,
+          "edgeId": "snow-7660-8400",
+          "fuel": 208.417,
+          "speed": 34.557
+        },
+        {
+          "frame": 4800,
+          "seconds": 240,
+          "progress": 8262.323,
+          "distance": 8282.928,
+          "x": 1158.843,
+          "z": -5280.442,
+          "heading": 0,
+          "edgeId": "snow-7660-8400",
+          "fuel": 195.159,
+          "speed": 34.803
+        },
+        {
+          "frame": 5000,
+          "seconds": 250,
+          "progress": 8613.523,
+          "distance": 8634.158,
+          "x": 1158.843,
+          "z": -5631.642,
+          "heading": 0,
+          "edgeId": "volcanic-8400-8660",
+          "fuel": 181.75,
+          "speed": 35.4
+        },
+        {
+          "frame": 5200,
+          "seconds": 260,
+          "progress": 8966,
+          "distance": 8988.159,
+          "x": 1181.397,
+          "z": -5984.128,
+          "heading": -0.195,
+          "edgeId": "volcanic-fork-main",
+          "fuel": 168.233,
+          "speed": 35.4
+        },
+        {
+          "frame": 5400,
+          "seconds": 270,
+          "progress": 9316.166,
+          "distance": 9342.161,
+          "x": 1189.176,
+          "z": -6334.299,
+          "heading": 0.2,
+          "edgeId": "volcanic-fork-main",
+          "fuel": 154.717,
+          "speed": 35.4
+        },
+        {
+          "frame": 5600,
+          "seconds": 280,
+          "progress": 9667.875,
+          "distance": 9696.163,
+          "x": 1158.835,
+          "z": -6685.994,
+          "heading": 0,
+          "edgeId": "volcanic-9660-10800",
+          "fuel": 141.201,
+          "speed": 35.4
+        },
+        {
+          "frame": 5713,
+          "seconds": 285.65,
+          "progress": 9867.02,
+          "distance": 9895.475,
+          "x": 1150.525,
+          "z": -6885.138,
+          "heading": 0.002,
+          "edgeId": "volcanic-9660-10800",
+          "fuel": 210,
+          "speed": 35.24
+        }
+      ]
+    },
+    {
+      "passed": true,
+      "id": "pickup",
+      "upgrade": "stock",
+      "branch": "alternate",
+      "target": "delivery-checkpoint-04",
+      "targetIndex": 3,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "dt": 0.1,
+      "frames": 1121,
+      "seconds": 112.1,
+      "actualTravel": 1219.224,
+      "finalProgress": 1216.323,
+      "finalDistance": 1216.947,
+      "money": 730,
+      "refills": 3,
+      "stationIds": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02",
+        "fuel-checkpoint-03"
+      ],
+      "biomes": [
+        "city"
+      ],
+      "edges": [
+        "city--17-2000"
+      ],
+      "forks": [],
+      "gaps": [
+        {
+          "from": "spawn",
+          "to": "fuel-checkpoint-01",
+          "travel": 177.324,
+          "fuelOnEntry": 65.899,
+          "range": 520
+        },
+        {
+          "from": "fuel-checkpoint-01",
+          "to": "fuel-checkpoint-02",
+          "travel": 253.064,
+          "fuelOnEntry": 51.334,
+          "range": 520
+        },
+        {
+          "from": "fuel-checkpoint-02",
+          "to": "fuel-checkpoint-03",
+          "travel": 333.877,
+          "fuelOnEntry": 35.793,
+          "range": 520
+        },
+        {
+          "from": "fuel-checkpoint-03",
+          "to": "delivery-checkpoint-04",
+          "travel": 431.871,
+          "range": 520
+        }
+      ],
+      "maxStep": 1.109,
+      "maxOffset": 8.195,
+      "minClearance": 0.012,
+      "heightRange": [
+        -0.03,
+        13.969
+      ],
+      "blocked": 0,
+      "trace": [
+        {
+          "frame": 171,
+          "seconds": 17.1,
+          "progress": 176.672,
+          "distance": 176.674,
+          "x": 8.018,
+          "z": -170.672,
+          "heading": 0.004,
+          "edgeId": "city--17-2000",
+          "fuel": 100,
+          "speed": 10.958
+        },
+        {
+          "frame": 200,
+          "seconds": 20,
+          "progress": 208.392,
+          "distance": 208.406,
+          "x": 7.996,
+          "z": -202.392,
+          "heading": 0,
+          "edgeId": "city--17-2000",
+          "fuel": 95.374,
+          "speed": 10.918
+        },
+        {
+          "frame": 400,
+          "seconds": 40,
+          "progress": 425.105,
+          "distance": 425.322,
+          "x": 8.073,
+          "z": -419.105,
+          "heading": 0.007,
+          "edgeId": "city--17-2000",
+          "fuel": 53.448,
+          "speed": 10.987
+        },
+        {
+          "frame": 410,
+          "seconds": 41,
+          "progress": 436.096,
+          "distance": 436.313,
+          "x": 8.019,
+          "z": -430.096,
+          "heading": 0.004,
+          "edgeId": "city--17-2000",
+          "fuel": 100,
+          "speed": 10.995
+        },
+        {
+          "frame": 600,
+          "seconds": 60,
+          "progress": 645.265,
+          "distance": 645.535,
+          "x": 0,
+          "z": -639.265,
+          "heading": 0,
+          "edgeId": "city--17-2000",
+          "fuel": 61.13,
+          "speed": 11.092
+        },
+        {
+          "frame": 719,
+          "seconds": 71.9,
+          "progress": 776.368,
+          "distance": 776.697,
+          "x": 8.019,
+          "z": -770.368,
+          "heading": 0.004,
+          "edgeId": "city--17-2000",
+          "fuel": 100,
+          "speed": 11.035
+        },
+        {
+          "frame": 800,
+          "seconds": 80,
+          "progress": 864.995,
+          "distance": 865.325,
+          "x": 1.615,
+          "z": -858.995,
+          "heading": 0.173,
+          "edgeId": "city--17-2000",
+          "fuel": 84.333,
+          "speed": 10.996
+        },
+        {
+          "frame": 1000,
+          "seconds": 100,
+          "progress": 1082.815,
+          "distance": 1083.396,
+          "x": -6.424,
+          "z": -1076.57,
+          "heading": 0.127,
+          "edgeId": "city--17-2000",
+          "fuel": 42.428,
+          "speed": 10.872
+        },
+        {
+          "frame": 1121,
+          "seconds": 112.1,
+          "progress": 1216.323,
+          "distance": 1216.947,
+          "x": -51.543,
+          "z": -1200.029,
+          "heading": 0.477,
+          "edgeId": "city--17-2000",
+          "fuel": 100,
+          "speed": 11.002
+        }
+      ]
+    },
+    {
+      "passed": true,
+      "id": "ashhauler",
+      "upgrade": "stock",
+      "branch": "alternate",
+      "target": "delivery-checkpoint-11",
+      "targetIndex": 10,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "dt": 0.1,
+      "frames": 2857,
+      "seconds": 285.7,
+      "actualTravel": 9904.266,
+      "finalProgress": 9868.467,
+      "finalDistance": 9896.925,
+      "money": 5940,
+      "refills": 10,
+      "stationIds": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02",
+        "fuel-checkpoint-03",
+        "fuel-checkpoint-04",
+        "fuel-checkpoint-05",
+        "fuel-checkpoint-06",
+        "fuel-checkpoint-07",
+        "fuel-checkpoint-08",
+        "fuel-checkpoint-09",
+        "fuel-checkpoint-10"
+      ],
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "edges": [
+        "city--17-2000",
+        "forest-2000-2780",
+        "forest-fork-main",
+        "forest-fork-alternate",
+        "forest-3280-4000",
+        "desert-4000-4980",
+        "desert-fork-main",
+        "desert-fork-alternate",
+        "desert-5980-6200",
+        "snow-6200-7060",
+        "snow-fork-alternate",
+        "snow-fork-main",
+        "snow-7660-8400",
+        "volcanic-8400-8660",
+        "volcanic-fork-alternate",
+        "volcanic-fork-main",
+        "volcanic-9660-10800"
+      ],
+      "forks": [
+        "forest-fork",
+        "desert-fork",
+        "snow-fork",
+        "volcanic-fork"
+      ],
+      "gaps": [
+        {
+          "from": "spawn",
+          "to": "fuel-checkpoint-01",
+          "travel": 176.571,
+          "fuelOnEntry": 203.258,
+          "range": 5500
+        },
+        {
+          "from": "fuel-checkpoint-01",
+          "to": "fuel-checkpoint-02",
+          "travel": 256.032,
+          "fuelOnEntry": 200.224,
+          "range": 5500
+        },
+        {
+          "from": "fuel-checkpoint-02",
+          "to": "fuel-checkpoint-03",
+          "travel": 337.031,
+          "fuelOnEntry": 197.132,
+          "range": 5500
+        },
+        {
+          "from": "fuel-checkpoint-03",
+          "to": "fuel-checkpoint-04",
+          "travel": 439.756,
+          "fuelOnEntry": 193.209,
+          "range": 5500
+        },
+        {
+          "from": "fuel-checkpoint-04",
+          "to": "fuel-checkpoint-05",
+          "travel": 580.317,
+          "fuelOnEntry": 187.842,
+          "range": 5500
+        },
+        {
+          "from": "fuel-checkpoint-05",
+          "to": "fuel-checkpoint-06",
+          "travel": 773.129,
+          "fuelOnEntry": 180.481,
+          "range": 5500
+        },
+        {
+          "from": "fuel-checkpoint-06",
+          "to": "fuel-checkpoint-07",
+          "travel": 898.481,
+          "fuelOnEntry": 175.694,
+          "range": 5500
+        },
+        {
+          "from": "fuel-checkpoint-07",
+          "to": "fuel-checkpoint-08",
+          "travel": 1244.605,
+          "fuelOnEntry": 162.479,
+          "range": 5500
+        },
+        {
+          "from": "fuel-checkpoint-08",
+          "to": "fuel-checkpoint-09",
+          "travel": 1443.717,
+          "fuelOnEntry": 154.876,
+          "range": 5500
+        },
+        {
+          "from": "fuel-checkpoint-09",
+          "to": "fuel-checkpoint-10",
+          "travel": 1699.38,
+          "fuelOnEntry": 145.115,
+          "range": 5500
+        },
+        {
+          "from": "fuel-checkpoint-10",
+          "to": "delivery-checkpoint-11",
+          "travel": 2003.225,
+          "range": 5500
+        }
+      ],
+      "maxStep": 3.54,
+      "maxOffset": 8.397,
+      "minClearance": 0.012,
+      "heightRange": [
+        -0.03,
+        27.968
+      ],
+      "blocked": 0,
+      "trace": [
+        {
+          "frame": 61,
+          "seconds": 6.1,
+          "progress": 176.102,
+          "distance": 176.105,
+          "x": 8.312,
+          "z": -170.102,
+          "heading": 0.003,
+          "edgeId": "city--17-2000",
+          "fuel": 210,
+          "speed": 34.658
+        },
+        {
+          "frame": 137,
+          "seconds": 13.7,
+          "progress": 438.092,
+          "distance": 438.309,
+          "x": 8.309,
+          "z": -432.092,
+          "heading": 0.004,
+          "edgeId": "city--17-2000",
+          "fuel": 210,
+          "speed": 34.683
+        },
+        {
+          "frame": 200,
+          "seconds": 20,
+          "progress": 656.447,
+          "distance": 656.724,
+          "x": 0.016,
+          "z": -650.447,
+          "heading": 0,
+          "edgeId": "city--17-2000",
+          "fuel": 201.777,
+          "speed": 34.784
+        },
+        {
+          "frame": 235,
+          "seconds": 23.5,
+          "progress": 777.65,
+          "distance": 777.979,
+          "x": 8.306,
+          "z": -771.65,
+          "heading": 0.003,
+          "edgeId": "city--17-2000",
+          "fuel": 210,
+          "speed": 34.73
+        },
+        {
+          "frame": 363,
+          "seconds": 36.3,
+          "progress": 1218.265,
+          "distance": 1218.89,
+          "x": -38.019,
+          "z": -1209.435,
+          "heading": 0.492,
+          "edgeId": "city--17-2000",
+          "fuel": 210,
+          "speed": 34.691
+        },
+        {
+          "frame": 400,
+          "seconds": 40,
+          "progress": 1344.129,
+          "distance": 1344.793,
+          "x": -127.478,
+          "z": -1299.346,
+          "heading": 0.959,
+          "edgeId": "city--17-2000",
+          "fuel": 205.226,
+          "speed": 34.792
+        },
+        {
+          "frame": 531,
+          "seconds": 53.1,
+          "progress": 1798.961,
+          "distance": 1799.897,
+          "x": -569.702,
+          "z": -1373.04,
+          "heading": 1.575,
+          "edgeId": "city--17-2000",
+          "fuel": 210,
+          "speed": 34.692
+        },
+        {
+          "frame": 600,
+          "seconds": 60,
+          "progress": 2037.85,
+          "distance": 2038.786,
+          "x": -808.591,
+          "z": -1364.791,
+          "heading": 1.568,
+          "edgeId": "forest-2000-2780",
+          "fuel": 200.993,
+          "speed": 34.674
+        },
+        {
+          "frame": 755,
+          "seconds": 75.5,
+          "progress": 2575.737,
+          "distance": 2577.269,
+          "x": -1172.222,
+          "z": -1652.962,
+          "heading": 0.071,
+          "edgeId": "forest-2000-2780",
+          "fuel": 210,
+          "speed": 34.846
+        },
+        {
+          "frame": 800,
+          "seconds": 80,
+          "progress": 2732.311,
+          "distance": 2733.978,
+          "x": -1182.892,
+          "z": -1808.949,
+          "heading": -0.008,
+          "edgeId": "forest-2000-2780",
+          "fuel": 204.288,
+          "speed": 34.716
+        },
+        {
+          "frame": 1000,
+          "seconds": 100,
+          "progress": 3422.069,
+          "distance": 3427.339,
+          "x": -1176.772,
+          "z": -2498.707,
+          "heading": -0.129,
+          "edgeId": "forest-3280-4000",
+          "fuel": 177.805,
+          "speed": 34.557
+        },
+        {
+          "frame": 1016,
+          "seconds": 101.6,
+          "progress": 3477.247,
+          "distance": 3482.614,
+          "x": -1174.325,
+          "z": -2553.885,
+          "heading": 0.004,
+          "edgeId": "forest-3280-4000",
+          "fuel": 210,
+          "speed": 34.552
+        },
+        {
+          "frame": 1200,
+          "seconds": 120,
+          "progress": 4114.728,
+          "distance": 4120.182,
+          "x": -1181.487,
+          "z": -3191.353,
+          "heading": -0.036,
+          "edgeId": "desert-4000-4980",
+          "fuel": 185.905,
+          "speed": 34.596
+        },
+        {
+          "frame": 1377,
+          "seconds": 137.7,
+          "progress": 4728.249,
+          "distance": 4734.466,
+          "x": -783.567,
+          "z": -3538.92,
+          "heading": -1.556,
+          "edgeId": "desert-4000-4980",
+          "fuel": 210,
+          "speed": 34.853
+        },
+        {
+          "frame": 1400,
+          "seconds": 140,
+          "progress": 4808.156,
+          "distance": 4814.506,
+          "x": -703.741,
+          "z": -3544.04,
+          "heading": -1.419,
+          "edgeId": "desert-4000-4980",
+          "fuel": 207.074,
+          "speed": 34.81
+        },
+        {
+          "frame": 1600,
+          "seconds": 160,
+          "progress": 5498.217,
+          "distance": 5508.441,
+          "x": -13.681,
+          "z": -3597.06,
+          "heading": -1.604,
+          "edgeId": "desert-fork-alternate",
+          "fuel": 180.573,
+          "speed": 34.691
+        },
+        {
+          "frame": 1794,
+          "seconds": 179.4,
+          "progress": 6166.93,
+          "distance": 6180.976,
+          "x": 655.032,
+          "z": -3539.052,
+          "heading": -1.567,
+          "edgeId": "desert-5980-6200",
+          "fuel": 210,
+          "speed": 34.692
+        },
+        {
+          "frame": 1800,
+          "seconds": 180,
+          "progress": 6187.744,
+          "distance": 6201.791,
+          "x": 675.847,
+          "z": -3539.205,
+          "heading": -1.563,
+          "edgeId": "desert-5980-6200",
+          "fuel": 209.47,
+          "speed": 34.692
+        },
+        {
+          "frame": 2000,
+          "seconds": 200,
+          "progress": 6880.6,
+          "distance": 6895.438,
+          "x": 1157.625,
+          "z": -3898.731,
+          "heading": -0.041,
+          "edgeId": "snow-6200-7060",
+          "fuel": 182.993,
+          "speed": 34.84
+        },
+        {
+          "frame": 2200,
+          "seconds": 220,
+          "progress": 7569.545,
+          "distance": 7589.659,
+          "x": 1157.532,
+          "z": -4587.66,
+          "heading": -0.059,
+          "edgeId": "snow-fork-alternate",
+          "fuel": 156.489,
+          "speed": 34.691
+        },
+        {
+          "frame": 2286,
+          "seconds": 228.6,
+          "progress": 7866.927,
+          "distance": 7887.235,
+          "x": 1167.209,
+          "z": -4885.046,
+          "heading": 0.006,
+          "edgeId": "snow-7660-8400",
+          "fuel": 210,
+          "speed": 34.535
+        },
+        {
+          "frame": 2400,
+          "seconds": 240,
+          "progress": 8262.027,
+          "distance": 8282.631,
+          "x": 1158.843,
+          "z": -5280.146,
+          "heading": 0,
+          "edgeId": "snow-7660-8400",
+          "fuel": 195.159,
+          "speed": 34.803
+        },
+        {
+          "frame": 2600,
+          "seconds": 260,
+          "progress": 8965.704,
+          "distance": 8987.857,
+          "x": 1136.342,
+          "z": -5983.831,
+          "heading": 0.195,
+          "edgeId": "volcanic-fork-alternate",
+          "fuel": 168.234,
+          "speed": 35.4
+        },
+        {
+          "frame": 2800,
+          "seconds": 280,
+          "progress": 9667.572,
+          "distance": 9695.859,
+          "x": 1158.849,
+          "z": -6685.691,
+          "heading": 0,
+          "edgeId": "volcanic-9660-10800",
+          "fuel": 141.201,
+          "speed": 35.4
+        },
+        {
+          "frame": 2857,
+          "seconds": 285.7,
+          "progress": 9868.467,
+          "distance": 9896.925,
+          "x": 1150.525,
+          "z": -6886.584,
+          "heading": -0.001,
+          "edgeId": "volcanic-9660-10800",
+          "fuel": 210,
+          "speed": 35.24
+        }
+      ]
+    },
+    {
+      "passed": true,
+      "id": "pickup",
+      "upgrade": "max",
+      "branch": "primary",
+      "target": "delivery-checkpoint-04",
+      "targetIndex": 3,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "dt": 0.1,
+      "frames": 1058,
+      "seconds": 105.8,
+      "actualTravel": 1219.31,
+      "finalProgress": 1216.463,
+      "finalDistance": 1217.088,
+      "money": 730,
+      "refills": 3,
+      "stationIds": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02",
+        "fuel-checkpoint-03"
+      ],
+      "biomes": [
+        "city"
+      ],
+      "edges": [
+        "city--17-2000"
+      ],
+      "forks": [],
+      "gaps": [
+        {
+          "from": "spawn",
+          "to": "fuel-checkpoint-01",
+          "travel": 176.334,
+          "fuelOnEntry": 72.09,
+          "range": 551.2
+        },
+        {
+          "from": "fuel-checkpoint-01",
+          "to": "fuel-checkpoint-02",
+          "travel": 253.337,
+          "fuelOnEntry": 57.281,
+          "range": 551.2
+        },
+        {
+          "from": "fuel-checkpoint-02",
+          "to": "fuel-checkpoint-03",
+          "travel": 333.893,
+          "fuelOnEntry": 41.79,
+          "range": 551.2
+        },
+        {
+          "from": "fuel-checkpoint-03",
+          "to": "delivery-checkpoint-04",
+          "travel": 432.441,
+          "range": 551.2
+        }
+      ],
+      "maxStep": 1.175,
+      "maxOffset": 8.202,
+      "minClearance": 0.012,
+      "heightRange": [
+        -0.03,
+        13.969
+      ],
+      "blocked": 0,
+      "trace": [
+        {
+          "frame": 161,
+          "seconds": 16.1,
+          "progress": 175.69,
+          "distance": 175.692,
+          "x": 8.028,
+          "z": -169.69,
+          "heading": 0.004,
+          "edgeId": "city--17-2000",
+          "fuel": 106,
+          "speed": 11.62
+        },
+        {
+          "frame": 200,
+          "seconds": 20,
+          "progress": 220.894,
+          "distance": 220.917,
+          "x": 7.971,
+          "z": -214.894,
+          "heading": 0.007,
+          "edgeId": "city--17-2000",
+          "fuel": 98.87,
+          "speed": 11.563
+        },
+        {
+          "frame": 387,
+          "seconds": 38.7,
+          "progress": 435.865,
+          "distance": 436.081,
+          "x": 8.027,
+          "z": -429.865,
+          "heading": 0.004,
+          "edgeId": "city--17-2000",
+          "fuel": 106,
+          "speed": 11.655
+        },
+        {
+          "frame": 400,
+          "seconds": 40,
+          "progress": 451.02,
+          "distance": 451.236,
+          "x": 7.996,
+          "z": -445.02,
+          "heading": 0.001,
+          "edgeId": "city--17-2000",
+          "fuel": 104.655,
+          "speed": 11.66
+        },
+        {
+          "frame": 600,
+          "seconds": 60,
+          "progress": 684.648,
+          "distance": 684.945,
+          "x": 0.318,
+          "z": -678.648,
+          "heading": -0.052,
+          "edgeId": "city--17-2000",
+          "fuel": 59.601,
+          "speed": 11.746
+        },
+        {
+          "frame": 679,
+          "seconds": 67.9,
+          "progress": 776.629,
+          "distance": 776.958,
+          "x": 8.025,
+          "z": -770.629,
+          "heading": 0.004,
+          "edgeId": "city--17-2000",
+          "fuel": 106,
+          "speed": 11.695
+        },
+        {
+          "frame": 800,
+          "seconds": 80,
+          "progress": 917.038,
+          "distance": 917.373,
+          "x": -0.045,
+          "z": -911.038,
+          "heading": -0.005,
+          "edgeId": "city--17-2000",
+          "fuel": 80.223,
+          "speed": 11.603
+        },
+        {
+          "frame": 1000,
+          "seconds": 100,
+          "progress": 1147.749,
+          "distance": 1148.372,
+          "x": -22.487,
+          "z": -1139.235,
+          "heading": 0.47,
+          "edgeId": "city--17-2000",
+          "fuel": 35.829,
+          "speed": 11.616
+        },
+        {
+          "frame": 1058,
+          "seconds": 105.8,
+          "progress": 1216.463,
+          "distance": 1217.088,
+          "x": -51.614,
+          "z": -1200.146,
+          "heading": 0.477,
+          "edgeId": "city--17-2000",
+          "fuel": 106,
+          "speed": 11.662
+        }
+      ]
+    },
+    {
+      "passed": true,
+      "id": "ashhauler",
+      "upgrade": "max",
+      "branch": "primary",
+      "target": "delivery-checkpoint-11",
+      "targetIndex": 10,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "dt": 0.1,
+      "frames": 2695,
+      "seconds": 269.5,
+      "actualTravel": 9901.164,
+      "finalProgress": 9865.63,
+      "finalDistance": 9894.083,
+      "money": 5940,
+      "refills": 10,
+      "stationIds": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02",
+        "fuel-checkpoint-03",
+        "fuel-checkpoint-04",
+        "fuel-checkpoint-05",
+        "fuel-checkpoint-06",
+        "fuel-checkpoint-07",
+        "fuel-checkpoint-08",
+        "fuel-checkpoint-09",
+        "fuel-checkpoint-10"
+      ],
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "edges": [
+        "city--17-2000",
+        "forest-2000-2780",
+        "forest-fork-alternate",
+        "forest-fork-main",
+        "forest-3280-4000",
+        "desert-4000-4980",
+        "desert-fork-main",
+        "desert-fork-alternate",
+        "desert-5980-6200",
+        "snow-6200-7060",
+        "snow-fork-alternate",
+        "snow-fork-main",
+        "snow-7660-8400",
+        "volcanic-8400-8660",
+        "volcanic-fork-main",
+        "volcanic-fork-alternate",
+        "volcanic-9660-10800"
+      ],
+      "forks": [
+        "forest-fork",
+        "desert-fork",
+        "snow-fork",
+        "volcanic-fork"
+      ],
+      "gaps": [
+        {
+          "from": "spawn",
+          "to": "fuel-checkpoint-01",
+          "travel": 176.157,
+          "fuelOnEntry": 215.874,
+          "range": 5830
+        },
+        {
+          "from": "fuel-checkpoint-01",
+          "to": "fuel-checkpoint-02",
+          "travel": 256.765,
+          "fuelOnEntry": 212.796,
+          "range": 5830
+        },
+        {
+          "from": "fuel-checkpoint-02",
+          "to": "fuel-checkpoint-03",
+          "travel": 335.127,
+          "fuelOnEntry": 209.804,
+          "range": 5830
+        },
+        {
+          "from": "fuel-checkpoint-03",
+          "to": "fuel-checkpoint-04",
+          "travel": 436.817,
+          "fuelOnEntry": 205.922,
+          "range": 5830
+        },
+        {
+          "from": "fuel-checkpoint-04",
+          "to": "fuel-checkpoint-05",
+          "travel": 578.249,
+          "fuelOnEntry": 200.521,
+          "range": 5830
+        },
+        {
+          "from": "fuel-checkpoint-05",
+          "to": "fuel-checkpoint-06",
+          "travel": 775.445,
+          "fuelOnEntry": 192.992,
+          "range": 5830
+        },
+        {
+          "from": "fuel-checkpoint-06",
+          "to": "fuel-checkpoint-07",
+          "travel": 897.233,
+          "fuelOnEntry": 188.342,
+          "range": 5830
+        },
+        {
+          "from": "fuel-checkpoint-07",
+          "to": "fuel-checkpoint-08",
+          "travel": 1245.804,
+          "fuelOnEntry": 175.033,
+          "range": 5830
+        },
+        {
+          "from": "fuel-checkpoint-08",
+          "to": "fuel-checkpoint-09",
+          "travel": 1442.016,
+          "fuelOnEntry": 167.541,
+          "range": 5830
+        },
+        {
+          "from": "fuel-checkpoint-09",
+          "to": "fuel-checkpoint-10",
+          "travel": 1702.113,
+          "fuelOnEntry": 157.61,
+          "range": 5830
+        },
+        {
+          "from": "fuel-checkpoint-10",
+          "to": "delivery-checkpoint-11",
+          "travel": 2000.262,
+          "range": 5830
+        }
+      ],
+      "maxStep": 3.752,
+      "maxOffset": 8.398,
+      "minClearance": 0.012,
+      "heightRange": [
+        -0.03,
+        27.964
+      ],
+      "blocked": 0,
+      "trace": [
+        {
+          "frame": 58,
+          "seconds": 5.8,
+          "progress": 175.703,
+          "distance": 175.705,
+          "x": 8.323,
+          "z": -169.703,
+          "heading": 0,
+          "edgeId": "city--17-2000",
+          "fuel": 222.6,
+          "speed": 36.74
+        },
+        {
+          "frame": 130,
+          "seconds": 13,
+          "progress": 438.866,
+          "distance": 439.082,
+          "x": 8.324,
+          "z": -432.866,
+          "heading": 0.003,
+          "edgeId": "city--17-2000",
+          "fuel": 222.6,
+          "speed": 36.765
+        },
+        {
+          "frame": 200,
+          "seconds": 20,
+          "progress": 696.072,
+          "distance": 696.376,
+          "x": 2.103,
+          "z": -690.072,
+          "heading": -0.13,
+          "edgeId": "city--17-2000",
+          "fuel": 212.899,
+          "speed": 36.855
+        },
+        {
+          "frame": 222,
+          "seconds": 22.2,
+          "progress": 776.755,
+          "distance": 777.084,
+          "x": 8.321,
+          "z": -770.755,
+          "heading": 0.001,
+          "edgeId": "city--17-2000",
+          "fuel": 222.6,
+          "speed": 36.813
+        },
+        {
+          "frame": 343,
+          "seconds": 34.3,
+          "progress": 1218.352,
+          "distance": 1218.976,
+          "x": -38.05,
+          "z": -1209.519,
+          "heading": 0.491,
+          "edgeId": "city--17-2000",
+          "fuel": 222.6,
+          "speed": 36.772
+        },
+        {
+          "frame": 400,
+          "seconds": 40,
+          "progress": 1425.769,
+          "distance": 1426.55,
+          "x": -199.366,
+          "z": -1337.44,
+          "heading": 1.213,
+          "edgeId": "city--17-2000",
+          "fuel": 214.721,
+          "speed": 36.913
+        },
+        {
+          "frame": 501,
+          "seconds": 50.1,
+          "progress": 1797.199,
+          "distance": 1798.135,
+          "x": -567.94,
+          "z": -1373.061,
+          "heading": 1.572,
+          "edgeId": "city--17-2000",
+          "fuel": 222.6,
+          "speed": 36.773
+        },
+        {
+          "frame": 600,
+          "seconds": 60,
+          "progress": 2160.446,
+          "distance": 2161.541,
+          "x": -930.962,
+          "z": -1370.469,
+          "heading": 1.443,
+          "edgeId": "forest-2000-2780",
+          "fuel": 208.854,
+          "speed": 36.597
+        },
+        {
+          "frame": 713,
+          "seconds": 71.3,
+          "progress": 2576.527,
+          "distance": 2578.06,
+          "x": -1172.276,
+          "z": -1653.741,
+          "heading": 0.068,
+          "edgeId": "forest-2000-2780",
+          "fuel": 222.6,
+          "speed": 36.927
+        },
+        {
+          "frame": 800,
+          "seconds": 80,
+          "progress": 2896.715,
+          "distance": 2898.583,
+          "x": -1177.786,
+          "z": -1973.349,
+          "heading": -0.127,
+          "edgeId": "forest-fork-main",
+          "fuel": 210.65,
+          "speed": 36.773
+        },
+        {
+          "frame": 959,
+          "seconds": 95.9,
+          "progress": 3477.233,
+          "distance": 3482.6,
+          "x": -1174.311,
+          "z": -2553.871,
+          "heading": 0.002,
+          "edgeId": "forest-3280-4000",
+          "fuel": 222.6,
+          "speed": 36.633
+        },
+        {
+          "frame": 1000,
+          "seconds": 100,
+          "progress": 3627.293,
+          "distance": 3632.719,
+          "x": -1182.948,
+          "z": -2703.931,
+          "heading": -0.005,
+          "edgeId": "forest-3280-4000",
+          "fuel": 216.993,
+          "speed": 36.773
+        },
+        {
+          "frame": 1200,
+          "seconds": 120,
+          "progress": 4361.66,
+          "distance": 4367.591,
+          "x": -1114.003,
+          "z": -3424.701,
+          "heading": -0.641,
+          "edgeId": "desert-4000-4980",
+          "fuel": 188.954,
+          "speed": 36.686
+        },
+        {
+          "frame": 1299,
+          "seconds": 129.9,
+          "progress": 4726.202,
+          "distance": 4732.415,
+          "x": -785.606,
+          "z": -3538.886,
+          "heading": -1.559,
+          "edgeId": "desert-4000-4980",
+          "fuel": 222.6,
+          "speed": 36.935
+        },
+        {
+          "frame": 1400,
+          "seconds": 140,
+          "progress": 5097.769,
+          "distance": 5104.17,
+          "x": -414.129,
+          "z": -3546.493,
+          "heading": -1.598,
+          "edgeId": "desert-fork-main",
+          "fuel": 208.68,
+          "speed": 36.773
+        },
+        {
+          "frame": 1600,
+          "seconds": 160,
+          "progress": 5825.631,
+          "distance": 5839.638,
+          "x": 313.731,
+          "z": -3545.041,
+          "heading": -1.513,
+          "edgeId": "desert-fork-main",
+          "fuel": 180.599,
+          "speed": 36.773
+        },
+        {
+          "frame": 1693,
+          "seconds": 169.3,
+          "progress": 6167.118,
+          "distance": 6181.165,
+          "x": 655.22,
+          "z": -3539.039,
+          "heading": -1.569,
+          "edgeId": "desert-5980-6200",
+          "fuel": 222.6,
+          "speed": 36.773
+        },
+        {
+          "frame": 1800,
+          "seconds": 180,
+          "progress": 6559.015,
+          "distance": 6573.518,
+          "x": 1034.083,
+          "z": -3614.38,
+          "heading": -0.938,
+          "edgeId": "snow-6200-7060",
+          "fuel": 207.758,
+          "speed": 36.733
+        },
+        {
+          "frame": 2000,
+          "seconds": 200,
+          "progress": 7293.27,
+          "distance": 7310.322,
+          "x": 1183.615,
+          "z": -4311.421,
+          "heading": -0.19,
+          "edgeId": "snow-fork-main",
+          "fuel": 179.638,
+          "speed": 36.773
+        },
+        {
+          "frame": 2157,
+          "seconds": 215.7,
+          "progress": 7866.61,
+          "distance": 7886.918,
+          "x": 1167.229,
+          "z": -4884.729,
+          "heading": 0.004,
+          "edgeId": "snow-7660-8400",
+          "fuel": 222.6,
+          "speed": 36.617
+        },
+        {
+          "frame": 2200,
+          "seconds": 220,
+          "progress": 8023.859,
+          "distance": 8044.29,
+          "x": 1158.545,
+          "z": -5041.978,
+          "heading": -0.009,
+          "edgeId": "snow-7660-8400",
+          "fuel": 216.857,
+          "speed": 36.768
+        },
+        {
+          "frame": 2400,
+          "seconds": 240,
+          "progress": 8767.151,
+          "distance": 8787.79,
+          "x": 1159.472,
+          "z": -5785.269,
+          "heading": -0.021,
+          "edgeId": "volcanic-fork-main",
+          "fuel": 188.477,
+          "speed": 37.524
+        },
+        {
+          "frame": 2600,
+          "seconds": 260,
+          "progress": 9510.019,
+          "distance": 9538.274,
+          "x": 1160.945,
+          "z": -6528.137,
+          "heading": 0.054,
+          "edgeId": "volcanic-fork-main",
+          "fuel": 159.822,
+          "speed": 37.524
+        },
+        {
+          "frame": 2695,
+          "seconds": 269.5,
+          "progress": 9865.63,
+          "distance": 9894.083,
+          "x": 1150.518,
+          "z": -6883.749,
+          "heading": 0.003,
+          "edgeId": "volcanic-9660-10800",
+          "fuel": 222.6,
+          "speed": 37.364
+        }
+      ]
+    },
+    {
+      "passed": true,
+      "id": "pickup",
+      "upgrade": "max",
+      "branch": "alternate",
+      "target": "delivery-checkpoint-04",
+      "targetIndex": 3,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "dt": 0.05,
+      "frames": 2115,
+      "seconds": 105.75,
+      "actualTravel": 1218.728,
+      "finalProgress": 1215.918,
+      "finalDistance": 1216.542,
+      "money": 730,
+      "refills": 3,
+      "stationIds": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02",
+        "fuel-checkpoint-03"
+      ],
+      "biomes": [
+        "city"
+      ],
+      "edges": [
+        "city--17-2000"
+      ],
+      "forks": [],
+      "gaps": [
+        {
+          "from": "spawn",
+          "to": "fuel-checkpoint-01",
+          "travel": 176.335,
+          "fuelOnEntry": 72.09,
+          "range": 551.2
+        },
+        {
+          "from": "fuel-checkpoint-01",
+          "to": "fuel-checkpoint-02",
+          "travel": 253.337,
+          "fuelOnEntry": 57.281,
+          "range": 551.2
+        },
+        {
+          "from": "fuel-checkpoint-02",
+          "to": "fuel-checkpoint-03",
+          "travel": 333.308,
+          "fuelOnEntry": 41.902,
+          "range": 551.2
+        },
+        {
+          "from": "fuel-checkpoint-03",
+          "to": "delivery-checkpoint-04",
+          "travel": 431.273,
+          "range": 551.2
+        }
+      ],
+      "maxStep": 0.588,
+      "maxOffset": 8.208,
+      "minClearance": 0.012,
+      "heightRange": [
+        -0.03,
+        13.969
+      ],
+      "blocked": 0,
+      "trace": [
+        {
+          "frame": 200,
+          "seconds": 10,
+          "progress": 105.032,
+          "distance": 105.032,
+          "x": 3.321,
+          "z": -99.032,
+          "heading": -0.204,
+          "edgeId": "city--17-2000",
+          "fuel": 85.755,
+          "speed": 11.66
+        },
+        {
+          "frame": 322,
+          "seconds": 16.1,
+          "progress": 175.697,
+          "distance": 175.699,
+          "x": 8.036,
+          "z": -169.697,
+          "heading": 0.005,
+          "edgeId": "city--17-2000",
+          "fuel": 106,
+          "speed": 11.62
+        },
+        {
+          "frame": 400,
+          "seconds": 20,
+          "progress": 220.902,
+          "distance": 220.925,
+          "x": 7.967,
+          "z": -214.902,
+          "heading": 0.008,
+          "edgeId": "city--17-2000",
+          "fuel": 98.87,
+          "speed": 11.563
+        },
+        {
+          "frame": 600,
+          "seconds": 30,
+          "progress": 335.596,
+          "distance": 335.776,
+          "x": 0.028,
+          "z": -329.596,
+          "heading": -0.009,
+          "edgeId": "city--17-2000",
+          "fuel": 76.691,
+          "speed": 11.543
+        },
+        {
+          "frame": 774,
+          "seconds": 38.7,
+          "progress": 435.888,
+          "distance": 436.104,
+          "x": 8.035,
+          "z": -429.888,
+          "heading": 0.005,
+          "edgeId": "city--17-2000",
+          "fuel": 106,
+          "speed": 11.655
+        },
+        {
+          "frame": 800,
+          "seconds": 40,
+          "progress": 451.043,
+          "distance": 451.259,
+          "x": 7.998,
+          "z": -445.043,
+          "heading": 0.001,
+          "edgeId": "city--17-2000",
+          "fuel": 104.655,
+          "speed": 11.66
+        },
+        {
+          "frame": 1000,
+          "seconds": 50,
+          "progress": 567.248,
+          "distance": 567.475,
+          "x": -0.117,
+          "z": -561.248,
+          "heading": -0.007,
+          "edgeId": "city--17-2000",
+          "fuel": 82.185,
+          "speed": 11.721
+        },
+        {
+          "frame": 1200,
+          "seconds": 60,
+          "progress": 684.678,
+          "distance": 684.975,
+          "x": 0.333,
+          "z": -678.678,
+          "heading": -0.053,
+          "edgeId": "city--17-2000",
+          "fuel": 59.601,
+          "speed": 11.746
+        },
+        {
+          "frame": 1357,
+          "seconds": 67.85,
+          "progress": 776.082,
+          "distance": 776.411,
+          "x": 8.035,
+          "z": -770.082,
+          "heading": 0.005,
+          "edgeId": "city--17-2000",
+          "fuel": 106,
+          "speed": 11.695
+        },
+        {
+          "frame": 1400,
+          "seconds": 70,
+          "progress": 801.209,
+          "distance": 801.539,
+          "x": 7.994,
+          "z": -795.209,
+          "heading": 0,
+          "edgeId": "city--17-2000",
+          "fuel": 102.742,
+          "speed": 11.679
+        },
+        {
+          "frame": 1600,
+          "seconds": 80,
+          "progress": 917.083,
+          "distance": 917.419,
+          "x": -0.055,
+          "z": -911.083,
+          "heading": -0.005,
+          "edgeId": "city--17-2000",
+          "fuel": 80.336,
+          "speed": 11.603
+        },
+        {
+          "frame": 1800,
+          "seconds": 90,
+          "progress": 1032.467,
+          "distance": 1032.96,
+          "x": -1.943,
+          "z": -1026.435,
+          "heading": 0.054,
+          "edgeId": "city--17-2000",
+          "fuel": 58.147,
+          "speed": 11.503
+        },
+        {
+          "frame": 2000,
+          "seconds": 100,
+          "progress": 1147.797,
+          "distance": 1148.42,
+          "x": -22.512,
+          "z": -1139.277,
+          "heading": 0.469,
+          "edgeId": "city--17-2000",
+          "fuel": 35.941,
+          "speed": 11.616
+        },
+        {
+          "frame": 2115,
+          "seconds": 105.75,
+          "progress": 1215.918,
+          "distance": 1216.542,
+          "x": -51.377,
+          "z": -1199.671,
+          "heading": 0.475,
+          "edgeId": "city--17-2000",
+          "fuel": 106,
+          "speed": 11.662
+        }
+      ]
+    },
+    {
+      "passed": true,
+      "id": "ashhauler",
+      "upgrade": "max",
+      "branch": "alternate",
+      "target": "delivery-checkpoint-11",
+      "targetIndex": 10,
+      "expect": "delivery",
+      "outcome": "delivery",
+      "dt": 0.05,
+      "frames": 5390,
+      "seconds": 269.5,
+      "actualTravel": 9901.18,
+      "finalProgress": 9865.948,
+      "finalDistance": 9894.401,
+      "money": 5940,
+      "refills": 10,
+      "stationIds": [
+        "fuel-checkpoint-01",
+        "fuel-checkpoint-02",
+        "fuel-checkpoint-03",
+        "fuel-checkpoint-04",
+        "fuel-checkpoint-05",
+        "fuel-checkpoint-06",
+        "fuel-checkpoint-07",
+        "fuel-checkpoint-08",
+        "fuel-checkpoint-09",
+        "fuel-checkpoint-10"
+      ],
+      "biomes": [
+        "city",
+        "forest",
+        "desert",
+        "snow",
+        "volcanic"
+      ],
+      "edges": [
+        "city--17-2000",
+        "forest-2000-2780",
+        "forest-fork-alternate",
+        "forest-fork-main",
+        "forest-3280-4000",
+        "desert-4000-4980",
+        "desert-fork-main",
+        "desert-fork-alternate",
+        "desert-5980-6200",
+        "snow-6200-7060",
+        "snow-fork-alternate",
+        "snow-fork-main",
+        "snow-7660-8400",
+        "volcanic-8400-8660",
+        "volcanic-fork-alternate",
+        "volcanic-fork-main",
+        "volcanic-9660-10800"
+      ],
+      "forks": [
+        "forest-fork",
+        "desert-fork",
+        "snow-fork",
+        "volcanic-fork"
+      ],
+      "gaps": [
+        {
+          "from": "spawn",
+          "to": "fuel-checkpoint-01",
+          "travel": 176.158,
+          "fuelOnEntry": 215.874,
+          "range": 5830
+        },
+        {
+          "from": "fuel-checkpoint-01",
+          "to": "fuel-checkpoint-02",
+          "travel": 254.927,
+          "fuelOnEntry": 212.866,
+          "range": 5830
+        },
+        {
+          "from": "fuel-checkpoint-02",
+          "to": "fuel-checkpoint-03",
+          "travel": 335.128,
+          "fuelOnEntry": 209.804,
+          "range": 5830
+        },
+        {
+          "from": "fuel-checkpoint-03",
+          "to": "fuel-checkpoint-04",
+          "travel": 434.979,
+          "fuelOnEntry": 205.992,
+          "range": 5830
+        },
+        {
+          "from": "fuel-checkpoint-04",
+          "to": "fuel-checkpoint-05",
+          "travel": 576.411,
+          "fuelOnEntry": 200.592,
+          "range": 5830
+        },
+        {
+          "from": "fuel-checkpoint-05",
+          "to": "fuel-checkpoint-06",
+          "travel": 773.608,
+          "fuelOnEntry": 193.062,
+          "range": 5830
+        },
+        {
+          "from": "fuel-checkpoint-06",
+          "to": "fuel-checkpoint-07",
+          "travel": 897.233,
+          "fuelOnEntry": 188.342,
+          "range": 5830
+        },
+        {
+          "from": "fuel-checkpoint-07",
+          "to": "fuel-checkpoint-08",
+          "travel": 1243.975,
+          "fuelOnEntry": 175.103,
+          "range": 5830
+        },
+        {
+          "from": "fuel-checkpoint-08",
+          "to": "fuel-checkpoint-09",
+          "travel": 1442.016,
+          "fuelOnEntry": 167.541,
+          "range": 5830
+        },
+        {
+          "from": "fuel-checkpoint-09",
+          "to": "fuel-checkpoint-10",
+          "travel": 1700.276,
+          "fuelOnEntry": 157.68,
+          "range": 5830
+        },
+        {
+          "from": "fuel-checkpoint-10",
+          "to": "delivery-checkpoint-11",
+          "travel": 2000.269,
+          "range": 5830
+        }
+      ],
+      "maxStep": 1.876,
+      "maxOffset": 8.386,
+      "minClearance": 0.012,
+      "heightRange": [
+        -0.03,
+        27.964
+      ],
+      "blocked": 0,
+      "trace": [
+        {
+          "frame": 116,
+          "seconds": 5.8,
+          "progress": 175.718,
+          "distance": 175.72,
+          "x": 8.32,
+          "z": -169.718,
+          "heading": -0.002,
+          "edgeId": "city--17-2000",
+          "fuel": 222.6,
+          "speed": 36.74
+        },
+        {
+          "frame": 200,
+          "seconds": 10,
+          "progress": 329.262,
+          "distance": 329.436,
+          "x": -0.208,
+          "z": -323.262,
+          "heading": -0.02,
+          "edgeId": "city--17-2000",
+          "fuel": 217.001,
+          "speed": 36.646
+        },
+        {
+          "frame": 259,
+          "seconds": 12.95,
+          "progress": 437.065,
+          "distance": 437.281,
+          "x": 8.332,
+          "z": -431.065,
+          "heading": 0,
+          "edgeId": "city--17-2000",
+          "fuel": 222.6,
+          "speed": 36.764
+        },
+        {
+          "frame": 400,
+          "seconds": 20,
+          "progress": 696.118,
+          "distance": 696.422,
+          "x": 2.17,
+          "z": -690.118,
+          "heading": -0.129,
+          "edgeId": "city--17-2000",
+          "fuel": 212.899,
+          "speed": 36.856
+        },
+        {
+          "frame": 444,
+          "seconds": 22.2,
+          "progress": 776.817,
+          "distance": 777.146,
+          "x": 8.32,
+          "z": -770.817,
+          "heading": -0.001,
+          "edgeId": "city--17-2000",
+          "fuel": 222.6,
+          "speed": 36.813
+        },
+        {
+          "frame": 600,
+          "seconds": 30,
+          "progress": 1062.714,
+          "distance": 1063.265,
+          "x": -4.218,
+          "z": -1056.593,
+          "heading": 0.094,
+          "edgeId": "city--17-2000",
+          "fuel": 211.948,
+          "speed": 36.625
+        },
+        {
+          "frame": 685,
+          "seconds": 34.25,
+          "progress": 1216.657,
+          "distance": 1217.281,
+          "x": -37.233,
+          "z": -1207.98,
+          "heading": 0.482,
+          "edgeId": "city--17-2000",
+          "fuel": 222.6,
+          "speed": 36.771
+        },
+        {
+          "frame": 800,
+          "seconds": 40,
+          "progress": 1425.876,
+          "distance": 1426.657,
+          "x": -199.469,
+          "z": -1337.47,
+          "heading": 1.213,
+          "edgeId": "city--17-2000",
+          "fuel": 214.791,
+          "speed": 36.913
+        },
+        {
+          "frame": 1000,
+          "seconds": 50,
+          "progress": 1793.641,
+          "distance": 1794.576,
+          "x": -564.381,
+          "z": -1373.056,
+          "heading": 1.567,
+          "edgeId": "city--17-2000",
+          "fuel": 200.732,
+          "speed": 36.773
+        },
+        {
+          "frame": 1002,
+          "seconds": 50.1,
+          "progress": 1797.318,
+          "distance": 1798.253,
+          "x": -568.059,
+          "z": -1373.06,
+          "heading": 1.57,
+          "edgeId": "city--17-2000",
+          "fuel": 222.6,
+          "speed": 36.773
+        },
+        {
+          "frame": 1200,
+          "seconds": 60,
+          "progress": 2160.577,
+          "distance": 2161.672,
+          "x": -931.09,
+          "z": -1370.497,
+          "heading": 1.443,
+          "edgeId": "forest-2000-2780",
+          "fuel": 208.924,
+          "speed": 36.597
+        },
+        {
+          "frame": 1400,
+          "seconds": 70,
+          "progress": 2528.048,
+          "distance": 2529.489,
+          "x": -1169.124,
+          "z": -1605.995,
+          "heading": 0.052,
+          "edgeId": "forest-2000-2780",
+          "fuel": 194.895,
+          "speed": 36.914
+        },
+        {
+          "frame": 1426,
+          "seconds": 71.3,
+          "progress": 2576.679,
+          "distance": 2578.212,
+          "x": -1172.299,
+          "z": -1653.89,
+          "heading": 0.065,
+          "edgeId": "forest-2000-2780",
+          "fuel": 222.6,
+          "speed": 36.927
+        },
+        {
+          "frame": 1600,
+          "seconds": 80,
+          "progress": 2896.876,
+          "distance": 2898.745,
+          "x": -1187.523,
+          "z": -1973.508,
+          "heading": 0.127,
+          "edgeId": "forest-fork-alternate",
+          "fuel": 210.65,
+          "speed": 36.773
+        },
+        {
+          "frame": 1800,
+          "seconds": 90,
+          "progress": 3261.329,
+          "distance": 3266.525,
+          "x": -1182.502,
+          "z": -2337.967,
+          "heading": 0,
+          "edgeId": "forest-fork-main",
+          "fuel": 196.61,
+          "speed": 36.773
+        },
+        {
+          "frame": 1918,
+          "seconds": 95.9,
+          "progress": 3477.419,
+          "distance": 3482.786,
+          "x": -1174.31,
+          "z": -2554.057,
+          "heading": 0,
+          "edgeId": "forest-3280-4000",
+          "fuel": 222.6,
+          "speed": 36.633
+        },
+        {
+          "frame": 2000,
+          "seconds": 100,
+          "progress": 3627.49,
+          "distance": 3632.917,
+          "x": -1182.958,
+          "z": -2704.128,
+          "heading": -0.003,
+          "edgeId": "forest-3280-4000",
+          "fuel": 217.062,
+          "speed": 36.773
+        },
+        {
+          "frame": 2200,
+          "seconds": 110,
+          "progress": 3995.224,
+          "distance": 4000.651,
+          "x": -1182.638,
+          "z": -3071.863,
+          "heading": 0,
+          "edgeId": "forest-3280-4000",
+          "fuel": 203.022,
+          "speed": 36.774
+        },
+        {
+          "frame": 2400,
+          "seconds": 120,
+          "progress": 4361.862,
+          "distance": 4367.793,
+          "x": -1113.878,
+          "z": -3424.859,
+          "heading": -0.642,
+          "edgeId": "desert-4000-4980",
+          "fuel": 189.024,
+          "speed": 36.686
+        },
+        {
+          "frame": 2598,
+          "seconds": 129.9,
+          "progress": 4726.418,
+          "distance": 4732.632,
+          "x": -785.391,
+          "z": -3538.899,
+          "heading": -1.561,
+          "edgeId": "desert-4000-4980",
+          "fuel": 222.6,
+          "speed": 36.935
+        },
+        {
+          "frame": 2600,
+          "seconds": 130,
+          "progress": 4730.124,
+          "distance": 4736.345,
+          "x": -781.698,
+          "z": -3538.938,
+          "heading": -1.56,
+          "edgeId": "desert-4000-4980",
+          "fuel": 222.6,
+          "speed": 36.934
+        },
+        {
+          "frame": 2800,
+          "seconds": 140,
+          "progress": 5097.996,
+          "distance": 5104.396,
+          "x": -413.903,
+          "z": -3548.276,
+          "heading": -1.544,
+          "edgeId": "desert-fork-alternate",
+          "fuel": 208.68,
+          "speed": 36.773
+        },
+        {
+          "frame": 3000,
+          "seconds": 150,
+          "progress": 5461.922,
+          "distance": 5472.139,
+          "x": -49.974,
+          "z": -3597.029,
+          "heading": -1.532,
+          "edgeId": "desert-fork-alternate",
+          "fuel": 194.64,
+          "speed": 36.773
+        },
+        {
+          "frame": 3200,
+          "seconds": 160,
+          "progress": 5825.859,
+          "distance": 5839.866,
+          "x": 313.959,
+          "z": -3549.702,
+          "heading": -1.628,
+          "edgeId": "desert-fork-alternate",
+          "fuel": 180.599,
+          "speed": 36.773
+        },
+        {
+          "frame": 3386,
+          "seconds": 169.3,
+          "progress": 6167.361,
+          "distance": 6181.407,
+          "x": 655.463,
+          "z": -3539.039,
+          "heading": -1.571,
+          "edgeId": "desert-5980-6200",
+          "fuel": 222.6,
+          "speed": 36.773
+        },
+        {
+          "frame": 3400,
+          "seconds": 170,
+          "progress": 6193.102,
+          "distance": 6207.148,
+          "x": 681.204,
+          "z": -3539.186,
+          "heading": -1.563,
+          "edgeId": "desert-5980-6200",
+          "fuel": 221.828,
+          "speed": 36.773
+        },
+        {
+          "frame": 3600,
+          "seconds": 180,
+          "progress": 6559.275,
+          "distance": 6573.778,
+          "x": 1034.29,
+          "z": -3614.538,
+          "heading": -0.937,
+          "edgeId": "snow-6200-7060",
+          "fuel": 207.828,
+          "speed": 36.733
+        },
+        {
+          "frame": 3800,
+          "seconds": 190,
+          "progress": 6927.786,
+          "distance": 6942.682,
+          "x": 1158.725,
+          "z": -3945.905,
+          "heading": -0.01,
+          "edgeId": "snow-6200-7060",
+          "fuel": 193.754,
+          "speed": 36.88
+        },
+        {
+          "frame": 4000,
+          "seconds": 200,
+          "progress": 7293.527,
+          "distance": 7310.583,
+          "x": 1134.049,
+          "z": -4311.683,
+          "heading": 0.189,
+          "edgeId": "snow-fork-alternate",
+          "fuel": 179.708,
+          "speed": 36.773
+        },
+        {
+          "frame": 4200,
+          "seconds": 210,
+          "progress": 7658.164,
+          "distance": 7678.301,
+          "x": 1158.911,
+          "z": -4676.283,
+          "heading": 0.002,
+          "edgeId": "snow-fork-main",
+          "fuel": 165.667,
+          "speed": 36.774
+        },
+        {
+          "frame": 4314,
+          "seconds": 215.7,
+          "progress": 7866.894,
+          "distance": 7887.202,
+          "x": 1167.226,
+          "z": -4885.013,
+          "heading": 0.002,
+          "edgeId": "snow-7660-8400",
+          "fuel": 222.6,
+          "speed": 36.617
+        },
+        {
+          "frame": 4400,
+          "seconds": 220,
+          "progress": 8024.156,
+          "distance": 8044.587,
+          "x": 1158.525,
+          "z": -5042.275,
+          "heading": -0.008,
+          "edgeId": "snow-7660-8400",
+          "fuel": 216.857,
+          "speed": 36.768
+        },
+        {
+          "frame": 4600,
+          "seconds": 230,
+          "progress": 8392.564,
+          "distance": 8413.199,
+          "x": 1158.843,
+          "z": -5410.683,
+          "heading": 0,
+          "edgeId": "snow-7660-8400",
+          "fuel": 202.791,
+          "speed": 36.861
+        },
+        {
+          "frame": 4800,
+          "seconds": 240,
+          "progress": 8767.454,
+          "distance": 8788.093,
+          "x": 1158.202,
+          "z": -5785.573,
+          "heading": 0.021,
+          "edgeId": "volcanic-fork-alternate",
+          "fuel": 188.477,
+          "speed": 37.524
+        },
+        {
+          "frame": 5000,
+          "seconds": 250,
+          "progress": 9138.888,
+          "distance": 9163.344,
+          "x": 1109.325,
+          "z": -6157.009,
+          "heading": 0.044,
+          "edgeId": "volcanic-fork-alternate",
+          "fuel": 174.149,
+          "speed": 37.523
+        },
+        {
+          "frame": 5200,
+          "seconds": 260,
+          "progress": 9510.324,
+          "distance": 9538.58,
+          "x": 1156.759,
+          "z": -6528.442,
+          "heading": -0.054,
+          "edgeId": "volcanic-fork-alternate",
+          "fuel": 159.822,
+          "speed": 37.524
+        },
+        {
+          "frame": 5390,
+          "seconds": 269.5,
+          "progress": 9865.948,
+          "distance": 9894.401,
+          "x": 1150.528,
+          "z": -6884.066,
+          "heading": 0.005,
+          "edgeId": "volcanic-9660-10800",
+          "fuel": 222.6,
+          "speed": 37.364
+        }
+      ]
+    }
+  ],
+  "failures": []
+}

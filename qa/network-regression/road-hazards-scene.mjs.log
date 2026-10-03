@@ -1,0 +1,9 @@
+PASS 68 hazards use six bounded instanced pools and two merged patch meshes
+PASS yellow repair faces have code-native black stripes and outward-facing normals
+PASS solid horizontal bounds match their exact OBBs and sit into the curved road
+PASS sand and ice use their full local soft-physics footprint with ground-conforming vertices
+PASS warning rock and footprint appear before the drop at 170m with no hidden collider
+PASS repeated runs reuse every mesh, material, geometry and typed instance buffer
+PASS multiple seeded curved/hilly layouts keep patch edges and solid footprints aligned
+PASS dispose is idempotent and releases the shared checker only after its last owner
+8 road hazard scene checks passed.

@@ -1,0 +1,10 @@
+PASS garage is 3m from road, threshold faces it, all solids remain outside route
+  Jump peaks: [ 1.4544444444444442, 1.4544444444444458, 1.454444444444443 ]
+PASS jump arc is ballistic and frame-rate independent at30/60/120fps
+PASS jump never bypasses entrance, cars, displays or desk collisions
+PASS airborne entry, model changes and seats are suppressed including landing frame
+PASS button and Space cause real world elevation once, and landing restores ground
+PASS seated must stand first, driving cannot jump, garage reset clears vertical state
+PASS three concurrent walking/look/jump pointers have separate ownership
+PASS driving return uses actual displacement, waits6m, reverse works and teleports reset it
+Jump/camera integration: 8 checks passed. No browser/WebGL test.

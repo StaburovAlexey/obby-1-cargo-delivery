@@ -1,0 +1,29 @@
+PASS default offsets preserve the original walking/car height and rear distance at every heading
+PASS walking yaw/pitch persist while moving, turning, parked, or after a long idle
+PASS manual orbit is free through many revolutions, with only the declared elevation clamp
+PASS driving keeps world yaw through car turns until six actual metres after release
+PASS forward and reverse both count positive actual distance, including a D/R combination
+PASS held look never credits travel; every new touch cancels return and resets the distance budget
+PASS stopping freezes return even after it has started; no parked or blocked time is counted
+PASS the 180-degree boundary uses the short arc, without a nearly full-circle return
+PASS threshold crossing plus exponential return matches exactly at 30/60/120 FPS
+PASS teleport/fuel resets clear held look and old distance without counting the position jump
+PASS non-reset mode changes preserve manual world yaw, while changing the fixed follow radius
+PASS actual force-based driving triggers return after six metres in D and R
+PASS holding the real vehicle against a wall never falsely unlocks camera return
+PASS look can only start on the canvas; HUD, right mouse, and unowned pointers remain separate
+PASS joystick, look and jump can be held simultaneously and released independently
+PASS original wheel and D/R controls work while a secondary finger orbits
+PASS window/canvas up, cancellation and lost capture release exactly once, including reentrant loss
+PASS blur, hidden, resize and pagehide cancel held look and allow a fresh gesture
+PASS disabled/destroyed look is inert and restores canvas touch-action without leaking listeners
+PASS pointer-capture failure still permits look and release through the window fallback
+PASS gesture acquisition adopts the rendered orbit and viewport scale without modifying the camera or target
+PASS portrait walking: zero-delta mouse/touch cannot snap a lagged target; the first quarter-pixel drag stays tiny
+PASS portrait driving: zero-delta mouse/touch cannot snap a lagged target; the first quarter-pixel drag stays tiny
+PASS landscape walking: zero-delta mouse/touch cannot snap a lagged target; the first quarter-pixel drag stays tiny
+PASS landscape driving: zero-delta mouse/touch cannot snap a lagged target; the first quarter-pixel drag stays tiny
+PASS seating, standing, character changes, recenter, teleport and reset keep the next tap at the rendered pose
+PASS holding a walking joystick or original car wheel does not turn a secondary look tap into a camera jump
+
+27 camera and multitouch checks passed (Node, real Three.js, mocked DOM; no browser launch).

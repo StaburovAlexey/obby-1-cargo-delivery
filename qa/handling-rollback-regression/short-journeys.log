@@ -1,0 +1,9 @@
+PASS pickup stock primary → delivery-checkpoint-04: delivery, 3 refills, 1218.453 m, 2241 frames
+PASS ashhauler stock primary → delivery-checkpoint-11: delivery, 10 refills, 9901.233 m, 5714 frames
+PASS pickup stock alternate → delivery-checkpoint-04: delivery, 3 refills, 1219.004 m, 1121 frames
+PASS ashhauler stock alternate → delivery-checkpoint-11: delivery, 10 refills, 9904.758 m, 2858 frames
+PASS pickup max primary → delivery-checkpoint-04: delivery, 3 refills, 1219.102 m, 1058 frames
+PASS ashhauler max primary → delivery-checkpoint-11: delivery, 10 refills, 9902.027 m, 2696 frames
+PASS pickup max alternate → delivery-checkpoint-04: delivery, 3 refills, 1218.519 m, 2115 frames
+PASS ashhauler max alternate → delivery-checkpoint-11: delivery, 10 refills, 9902.042 m, 5392 frames
+8 passed, 0 failed; qa/network-journeys/handling-rollback-short.json

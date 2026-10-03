@@ -1,0 +1,434 @@
+PASS 50 actual solver speed/fuel profiles, 45 next-stock vs previous-max actual acceleration/top-speed/rack/grip comparisons; all range/capacity improvements, blended fuel and reverse/idle charging.
+PASS All ten cars expose four ten-level stats with bounded, increasing offers: {"offers":440}
+PASS Old zero-to-three-level saves retain levels, ownership and currencies on the original key: {"variants":8,"vehiclesPerVariant":10}
+PASS Hostile and excessive save levels cannot exceed ten, invoke getters, or grant unowned upgrades
+PASS All 400 app purchases deduct exact brains, refresh UI, preserve fuel and persist every level: {"purchases":400,"rejectedClicks":600,"exactTotalBrains":84500}
+PASS A fresh app restores all forty maximums, exact balances and disabled maximum controls
+PASS Walking, unowned, unknown and exact-balance purchases cannot exchange or create currencies
+PASS Failed writes never refund, double-purchase past ten, create fuel or duplicate save warnings
+Ten-level upgrades: 7 groups passed. Actual app/save/gameplay; renderer-free, no browser claim.
+PASS weather and biome fog persist throughout four-biome falls; garage clears both; no rewards during fall. Actual app CPU, mocked renderer.
+PASS biome weather: four strong styles, wide padded bounds, off-screen edge fade, soft recycling, one 768-slot pool/draw, immutable camera, inactivity, teleports, resets and disposal
+{
+  "status": "PASS",
+  "scope": "Offline CPU: production Three.js, actual app camera and local road/deck tangent-plane occlusion; no browser/GPU/Android rendering or performance claim.",
+  "defaultViews": [
+    {
+      "biome": "forest",
+      "viewport": "390x844",
+      "cameraHeightAbovePlane": 11.622,
+      "before": {
+        "visibleMin": 0,
+        "visibleMean": 2.4,
+        "visibleMax": 6,
+        "onScreenMean": 2.4,
+        "groundOccludedMean": 0,
+        "hazeMean": 0,
+        "meanCssSize": 8.465,
+        "meanPeakAlpha": 0.447,
+        "alphaFootprintUpperBoundPct": 0.003
+      },
+      "after": {
+        "visibleMin": 144,
+        "visibleMean": 169.1,
+        "visibleMax": 220,
+        "onScreenMean": 330.35,
+        "groundOccludedMean": 161.25,
+        "hazeMean": 5,
+        "meanCssSize": 22.5,
+        "meanPeakAlpha": 0.694,
+        "alphaFootprintUpperBoundPct": 2.36
+      }
+    },
+    {
+      "biome": "desert",
+      "viewport": "390x844",
+      "cameraHeightAbovePlane": 11.582,
+      "before": {
+        "visibleMin": 0,
+        "visibleMean": 0.55,
+        "visibleMax": 2,
+        "onScreenMean": 0.55,
+        "groundOccludedMean": 0,
+        "hazeMean": 0.15,
+        "meanCssSize": 2.141,
+        "meanPeakAlpha": 0.121,
+        "alphaFootprintUpperBoundPct": 0.004
+      },
+      "after": {
+        "visibleMin": 97,
+        "visibleMean": 122.2,
+        "visibleMax": 211,
+        "onScreenMean": 227.6,
+        "groundOccludedMean": 105.4,
+        "hazeMean": 4.15,
+        "meanCssSize": 8.282,
+        "meanPeakAlpha": 0.499,
+        "alphaFootprintUpperBoundPct": 0.667
+      }
+    },
+    {
+      "biome": "snow",
+      "viewport": "390x844",
+      "cameraHeightAbovePlane": 11.554,
+      "before": {
+        "visibleMin": 0,
+        "visibleMean": 1.7,
+        "visibleMax": 4,
+        "onScreenMean": 1.7,
+        "groundOccludedMean": 0,
+        "hazeMean": 0,
+        "meanCssSize": 2.823,
+        "meanPeakAlpha": 0.524,
+        "alphaFootprintUpperBoundPct": 0.002
+      },
+      "after": {
+        "visibleMin": 60,
+        "visibleMean": 159.25,
+        "visibleMax": 350,
+        "onScreenMean": 558.6,
+        "groundOccludedMean": 399.35,
+        "hazeMean": 11.65,
+        "meanCssSize": 12.02,
+        "meanPeakAlpha": 0.816,
+        "alphaFootprintUpperBoundPct": 3.97
+      }
+    },
+    {
+      "biome": "volcanic",
+      "viewport": "390x844",
+      "cameraHeightAbovePlane": 12.021,
+      "before": {
+        "visibleMin": 0,
+        "visibleMean": 1.35,
+        "visibleMax": 3,
+        "onScreenMean": 1.35,
+        "groundOccludedMean": 0,
+        "hazeMean": 0.05,
+        "meanCssSize": 3.193,
+        "meanPeakAlpha": 0.398,
+        "alphaFootprintUpperBoundPct": 0.002
+      },
+      "after": {
+        "visibleMin": 114,
+        "visibleMean": 141.15,
+        "visibleMax": 215,
+        "onScreenMean": 267.65,
+        "groundOccludedMean": 126.5,
+        "hazeMean": 4.35,
+        "meanCssSize": 9.202,
+        "meanPeakAlpha": 0.629,
+        "alphaFootprintUpperBoundPct": 1.335
+      }
+    },
+    {
+      "biome": "forest",
+      "viewport": "1440x900",
+      "cameraHeightAbovePlane": 9.962,
+      "before": {
+        "visibleMin": 1,
+        "visibleMean": 6.3,
+        "visibleMax": 11,
+        "onScreenMean": 6.3,
+        "groundOccludedMean": 0,
+        "hazeMean": 0,
+        "meanCssSize": 7.349,
+        "meanPeakAlpha": 0.441,
+        "alphaFootprintUpperBoundPct": 0.001
+      },
+      "after": {
+        "visibleMin": 129,
+        "visibleMean": 148,
+        "visibleMax": 202,
+        "onScreenMean": 332,
+        "groundOccludedMean": 184,
+        "hazeMean": 3.75,
+        "meanCssSize": 18.317,
+        "meanPeakAlpha": 0.689,
+        "alphaFootprintUpperBoundPct": 0.331
+      }
+    },
+    {
+      "biome": "desert",
+      "viewport": "1440x900",
+      "cameraHeightAbovePlane": 9.929,
+      "before": {
+        "visibleMin": 0,
+        "visibleMean": 2.05,
+        "visibleMax": 6,
+        "onScreenMean": 2.05,
+        "groundOccludedMean": 0,
+        "hazeMean": 0.15,
+        "meanCssSize": 2.249,
+        "meanPeakAlpha": 0.149,
+        "alphaFootprintUpperBoundPct": 0.001
+      },
+      "after": {
+        "visibleMin": 97,
+        "visibleMean": 132.15,
+        "visibleMax": 210,
+        "onScreenMean": 267.4,
+        "groundOccludedMean": 135.25,
+        "hazeMean": 4.9,
+        "meanCssSize": 7.447,
+        "meanPeakAlpha": 0.528,
+        "alphaFootprintUpperBoundPct": 0.152
+      }
+    },
+    {
+      "biome": "snow",
+      "viewport": "1440x900",
+      "cameraHeightAbovePlane": 9.905,
+      "before": {
+        "visibleMin": 1,
+        "visibleMean": 5.85,
+        "visibleMax": 10,
+        "onScreenMean": 5.85,
+        "groundOccludedMean": 0,
+        "hazeMean": 0.25,
+        "meanCssSize": 3.146,
+        "meanPeakAlpha": 0.634,
+        "alphaFootprintUpperBoundPct": 0.002
+      },
+      "after": {
+        "visibleMin": 50,
+        "visibleMean": 133.95,
+        "visibleMax": 341,
+        "onScreenMean": 568.9,
+        "groundOccludedMean": 434.95,
+        "hazeMean": 11,
+        "meanCssSize": 10.21,
+        "meanPeakAlpha": 0.808,
+        "alphaFootprintUpperBoundPct": 0.609
+      }
+    },
+    {
+      "biome": "volcanic",
+      "viewport": "1440x900",
+      "cameraHeightAbovePlane": 10.294,
+      "before": {
+        "visibleMin": 1,
+        "visibleMean": 4.1,
+        "visibleMax": 7,
+        "onScreenMean": 4.1,
+        "groundOccludedMean": 0,
+        "hazeMean": 0.2,
+        "meanCssSize": 2.765,
+        "meanPeakAlpha": 0.492,
+        "alphaFootprintUpperBoundPct": 0.001
+      },
+      "after": {
+        "visibleMin": 63,
+        "visibleMean": 111.25,
+        "visibleMax": 261,
+        "onScreenMean": 272.6,
+        "groundOccludedMean": 161.35,
+        "hazeMean": 4.45,
+        "meanCssSize": 8.367,
+        "meanPeakAlpha": 0.642,
+        "alphaFootprintUpperBoundPct": 0.238
+      }
+    }
+  ],
+  "orbitCases": 64,
+  "worstOrbitVisibleCount": 36,
+  "movingOrbitViews": [
+    {
+      "biome": "forest",
+      "viewport": "390x844",
+      "seconds": 10,
+      "yawRadiansPerSecond": 2.4,
+      "samples": 600,
+      "visibleMin": 66,
+      "visibleMean": 102.255,
+      "softRecycles": 21935,
+      "maxSurvivorStep": 0.466,
+      "maxBirthFadeStep": 0.083
+    },
+    {
+      "biome": "desert",
+      "viewport": "390x844",
+      "seconds": 10,
+      "yawRadiansPerSecond": 2.4,
+      "samples": 600,
+      "visibleMin": 46,
+      "visibleMean": 136.532,
+      "softRecycles": 27177,
+      "maxSurvivorStep": 0.161,
+      "maxBirthFadeStep": 0.083
+    },
+    {
+      "biome": "snow",
+      "viewport": "390x844",
+      "seconds": 10,
+      "yawRadiansPerSecond": 2.4,
+      "samples": 600,
+      "visibleMin": 75,
+      "visibleMean": 120.048,
+      "softRecycles": 25024,
+      "maxSurvivorStep": 0.078,
+      "maxBirthFadeStep": 0.083
+    },
+    {
+      "biome": "volcanic",
+      "viewport": "390x844",
+      "seconds": 10,
+      "yawRadiansPerSecond": 2.4,
+      "samples": 600,
+      "visibleMin": 69,
+      "visibleMean": 122.352,
+      "softRecycles": 25690,
+      "maxSurvivorStep": 0.075,
+      "maxBirthFadeStep": 0.083
+    },
+    {
+      "biome": "forest",
+      "viewport": "1440x900",
+      "seconds": 10,
+      "yawRadiansPerSecond": 2.4,
+      "samples": 600,
+      "visibleMin": 108,
+      "visibleMean": 140.01,
+      "softRecycles": 16611,
+      "maxSurvivorStep": 0.466,
+      "maxBirthFadeStep": 0.083
+    },
+    {
+      "biome": "desert",
+      "viewport": "1440x900",
+      "seconds": 10,
+      "yawRadiansPerSecond": 2.4,
+      "samples": 600,
+      "visibleMin": 151,
+      "visibleMean": 247.723,
+      "softRecycles": 17112,
+      "maxSurvivorStep": 0.161,
+      "maxBirthFadeStep": 0.083
+    },
+    {
+      "biome": "snow",
+      "viewport": "1440x900",
+      "seconds": 10,
+      "yawRadiansPerSecond": 2.4,
+      "samples": 600,
+      "visibleMin": 197,
+      "visibleMean": 243.995,
+      "softRecycles": 16569,
+      "maxSurvivorStep": 0.078,
+      "maxBirthFadeStep": 0.083
+    },
+    {
+      "biome": "volcanic",
+      "viewport": "1440x900",
+      "seconds": 10,
+      "yawRadiansPerSecond": 2.4,
+      "samples": 600,
+      "visibleMin": 190,
+      "visibleMean": 244.84,
+      "softRecycles": 16817,
+      "maxSurvivorStep": 0.075,
+      "maxBirthFadeStep": 0.083
+    }
+  ],
+  "fog": [
+    {
+      "biome": "forest",
+      "color": 9941438,
+      "near": 46,
+      "far": 220,
+      "contrastTransmission": {
+        "20m": 1,
+        "50m": 0.998,
+        "90m": 0.841,
+        "100m": 0.771,
+        "200m": 0.037
+      }
+    },
+    {
+      "biome": "desert",
+      "color": 13082988,
+      "near": 36,
+      "far": 150,
+      "contrastTransmission": {
+        "20m": 1,
+        "50m": 0.958,
+        "90m": 0.539,
+        "100m": 0.408,
+        "200m": 0
+      }
+    },
+    {
+      "biome": "snow",
+      "color": 14214636,
+      "near": 42,
+      "far": 190,
+      "contrastTransmission": {
+        "20m": 1,
+        "50m": 0.992,
+        "90m": 0.753,
+        "100m": 0.66,
+        "200m": 0
+      }
+    },
+    {
+      "biome": "volcanic",
+      "color": 9207164,
+      "near": 38,
+      "far": 170,
+      "contrastTransmission": {
+        "20m": 1,
+        "50m": 0.977,
+        "90m": 0.657,
+        "100m": 0.545,
+        "200m": 0
+      }
+    }
+  ]
+}
+{"status":"PASS","transitions":20,"bridges":15,"weatherPool":768,"staticRocks":16,"scope":"Actual app/Three CPU; mock renderer, not browser/GPU"}
+PASS initial legacy coast sample omits speedDemand; setGear is a no-op
+PASS original angular helper wraps correctly and ignores dead center/nonfinite coordinates
+PASS wheel alone rotates ±135 degrees without throttle; release returns to center
+PASS angular wrap and dead-center traversal never jump the steering
+PASS regrab uses the rendered returning angle plus any image transform
+PASS DOMMatrix rendered-angle path and invalid serialized transform fallback remain safe
+PASS gas alone accelerates forward while its click and wheel do not latch throttle
+PASS wheel and pedal have independent captures in both start orders and both release orders
+PASS third camera finger works concurrently in every start order without control cross-talk
+PASS capture failure uses window move/release; capture release errors are harmless
+PASS cancel and capture loss release only their own control
+PASS blur, pagehide, resize, hidden tab and editable focus reset both pointers and keyboard
+PASS disable blocks both controls and keyboard; re-enable is neutral and repeat cannot restart
+PASS W/up/Space give forward gas; A/D/arrows steer with independent release and opposing keys
+PASS keyboard reverse keys, shortcuts, editable fields and secondary mouse buttons are untouched
+PASS mixed keyboard/touch preserves the other axis without latent throttle after pedal release
+PASS synthetic clicks do not drive; gesture protections and destroy remove all owned listeners
+PASS actual production model receives forward throttle and release exactly matches legacy coast
+PASS HTML retains walking stick and exposes described wheel/pedal with no gear or drive stick
+PASS CSS separates hit targets, keeps fuel/speed row and supports focus/reduced motion
+PASS static visual footprints keep wheel/pedal apart, above fuel/speed and below top actions
+Wheel and gas pedal: 21 checks passed. Fake DOM, production model and static layout only; browser rendering/physical touch unverified.
+PASS actual app wheel + pedal + third camera pointer, all safety resets, keyboard, upgrade pause, garage walking and balances. Offline mock renderer.
+PASS Four explicit contact patches have balanced straight engine thrust and yaw torque
+PASS Tire point velocity and torque use the signed rigid-body cross products
+PASS All four passive tires oppose slip and stay within individual friction circles
+PASS Semi-implicit integration obeys F/m and torque/inertia instead of setting geometric yaw
+PASS Mirrored steering gives mirrored lateral forces, paths, and yaw
+PASS UI steering remains normalized while actual road rack angle limits high-speed demand
+PASS Every vehicle reaches its 11 / 17 / 24 m/s governed speed without overshoot: [{"maxSpeed":11,"timeTo90":1.767},{"maxSpeed":17,"timeTo90":2.233},{"maxSpeed":24,"timeTo90":3.25}]
+PASS Maximum steering produces small controlled slip across all vehicle tiers: [{"maxSpeed":11,"maxSlipDegrees":4.3,"maxYaw":0.621},{"maxSpeed":17,"maxSlipDegrees":1.91,"maxYaw":0.524},{"maxSpeed":24,"maxSlipDegrees":0.8,"maxYaw":0.415}]
+PASS D/R selection brakes through a low-speed interlock before reverse acceleration: [{"startGear":"D","crossedAt":1.775,"minimumSpeed":0.0509},{"startGear":"R","crossedAt":1.775,"minimumSpeed":0.0509}]
+PASS Forward and reverse steer in opposite yaw directions without unstable reverse oscillation
+PASS Flat release coasts, reaches rest, and stops all wheel/body motion after settling
+PASS A true ground gradient changes acceleration, coasting, and gentle-slope rollback: {"uphillAfterCoast":2.6275371694779333,"flatAfterCoast":3.793374025918132,"downhillAfterCoast":4.9609557556095645,"rollbackSpeed":-0.8562525545456067}
+PASS 30 / 60 / 120 Hz rendering produces equivalent rigid-body state and path sums: {"totalDistance":65.61073303670646}
+PASS Long frame stalls are bounded, fractional frames accumulate, invalid frames cannot replay distance
+PASS Unsigned actual path counts lateral skid even when forward wheel rolling is zero
+PASS Head-on contacts remove inward normal motion with no bounce or wheel spinning through a wall
+PASS Oblique contacts preserve along-wall velocity and generate an off-center contact torque: {"tangentSpeed":-6.023655224945454,"contactYawRate":1.2925407153290045}
+PASS Near-parallel contact stays stable inside the real conservative road envelope: {"poses":5,"frames":1800,"maxYaw":0.00007908856316521741}
+PASS Adaptive swept collision samples cannot tunnel through a thin barrier at 24 m/s
+PASS Invalid confined contacts cannot create projection teleports or heading snaps
+PASS Pause and reset clear all velocities, accumulator residue, and suspension springs
+
+21 original planar vehicle dynamics checks passed.

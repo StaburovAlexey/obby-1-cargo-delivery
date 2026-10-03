@@ -1,0 +1,13 @@
+PASS Reduced layout is irregular, sparse and spread across the route
+PASS Seed determinism, graph poses, corridors and protected stops remain valid
+PASS Actual mesh footprints and live colliders share the same positions
+PASS Perspective-frustum density falls in representative camera modes
+PASS Bridge missions, economy and physical controls remain unchanged
+{
+  "passed": true,
+  "checks": 5,
+  "failures": [],
+  "changedDuringRun": [],
+  "before": 90,
+  "after": 26
+}

@@ -1,0 +1,503 @@
+[
+  {
+    "name": "unchanged",
+    "hours": 11.741,
+    "runs": 56,
+    "brainsAfter": 85245.283,
+    "phases": [
+      5.374,
+      29.099,
+      83.882,
+      137.973,
+      171.393,
+      234.418,
+      42.337
+    ]
+  },
+  {
+    "name": "price-3edit-a",
+    "hours": 7.973,
+    "runs": 48,
+    "brainsAfter": 41707.886,
+    "phases": [
+      5.374,
+      29.099,
+      83.882,
+      86.233,
+      114.262,
+      117.209,
+      42.337
+    ]
+  },
+  {
+    "name": "price-3edit-b",
+    "hours": 7.973,
+    "runs": 48,
+    "brainsAfter": 41707.886,
+    "phases": [
+      5.374,
+      29.099,
+      83.882,
+      86.233,
+      114.262,
+      117.209,
+      42.337
+    ]
+  },
+  {
+    "name": "price-3edit-c",
+    "hours": 7.973,
+    "runs": 48,
+    "brainsAfter": 41707.886,
+    "phases": [
+      5.374,
+      29.099,
+      83.882,
+      86.233,
+      114.262,
+      117.209,
+      42.337
+    ]
+  },
+  {
+    "name": "price-3edit-d",
+    "hours": 7.973,
+    "runs": 48,
+    "brainsAfter": 41707.886,
+    "phases": [
+      5.374,
+      29.099,
+      83.882,
+      86.233,
+      114.262,
+      117.209,
+      42.337
+    ]
+  },
+  {
+    "name": "price-v1",
+    "hours": 7.712,
+    "runs": 46,
+    "brainsAfter": 38893.298,
+    "phases": [
+      5.374,
+      29.099,
+      68.222,
+      86.233,
+      114.262,
+      117.209,
+      42.337
+    ]
+  },
+  {
+    "name": "price-buffer-a",
+    "hours": 7.582,
+    "runs": 45,
+    "brainsAfter": 37486.004,
+    "phases": [
+      5.374,
+      29.099,
+      60.392,
+      86.233,
+      114.262,
+      117.209,
+      42.337
+    ]
+  },
+  {
+    "name": "price-buffer-b",
+    "hours": 7.425,
+    "runs": 45,
+    "brainsAfter": 35722.925,
+    "phases": [
+      5.374,
+      29.099,
+      68.222,
+      68.987,
+      114.262,
+      117.209,
+      42.337
+    ]
+  },
+  {
+    "name": "price-buffer-c",
+    "hours": 7.582,
+    "runs": 45,
+    "brainsAfter": 37486.004,
+    "phases": [
+      5.374,
+      29.099,
+      60.392,
+      86.233,
+      114.262,
+      117.209,
+      42.337
+    ]
+  },
+  {
+    "name": "price-v2",
+    "hours": 7.106,
+    "runs": 44,
+    "brainsAfter": 31945.39,
+    "phases": [
+      5.374,
+      29.099,
+      60.392,
+      86.233,
+      85.696,
+      117.209,
+      42.337
+    ]
+  },
+  {
+    "name": "price-v3",
+    "hours": 7.055,
+    "runs": 42,
+    "brainsAfter": 31469.98,
+    "phases": [
+      5.374,
+      26.036,
+      60.392,
+      86.233,
+      85.696,
+      117.209,
+      42.337
+    ]
+  },
+  {
+    "name": "price-v4",
+    "hours": 6.767,
+    "runs": 41,
+    "brainsAfter": 28299.607,
+    "phases": [
+      5.374,
+      26.036,
+      60.392,
+      68.987,
+      85.696,
+      117.209,
+      42.337
+    ]
+  },
+  {
+    "name": "price-v5",
+    "hours": 6.742,
+    "runs": 40,
+    "brainsAfter": 28061.902,
+    "phases": [
+      5.374,
+      24.505,
+      60.392,
+      68.987,
+      85.696,
+      117.209,
+      42.337
+    ]
+  },
+  {
+    "name": "reward-x1.3",
+    "hours": 8.969,
+    "runs": 44,
+    "brainsAfter": 55981.286,
+    "phases": [
+      4.3,
+      22.973,
+      65.972,
+      103.48,
+      142.827,
+      156.278,
+      42.337
+    ]
+  },
+  {
+    "name": "reward-x1.4",
+    "hours": 8.796,
+    "runs": 41,
+    "brainsAfter": 54909.077,
+    "phases": [
+      3.225,
+      21.442,
+      58.141,
+      103.48,
+      142.827,
+      156.278,
+      42.337
+    ]
+  },
+  {
+    "name": "reward-x1.5",
+    "hours": 8.006,
+    "runs": 38,
+    "brainsAfter": 46415.699,
+    "phases": [
+      3.225,
+      19.91,
+      58.141,
+      86.233,
+      114.262,
+      156.278,
+      42.337
+    ]
+  },
+  {
+    "name": "reward-x1.6",
+    "hours": 7.943,
+    "runs": 37,
+    "brainsAfter": 46433.435,
+    "phases": [
+      3.225,
+      18.378,
+      55.891,
+      86.233,
+      114.262,
+      156.278,
+      42.337
+    ]
+  },
+  {
+    "name": "reward-x1.7",
+    "hours": 7.061,
+    "runs": 34,
+    "brainsAfter": 36541.497,
+    "phases": [
+      3.225,
+      16.847,
+      48.061,
+      81.741,
+      114.262,
+      117.209,
+      42.337
+    ]
+  },
+  {
+    "name": "upgrade-base-20",
+    "hours": 11.779,
+    "runs": 56,
+    "brainsAfter": 109949.091,
+    "phases": [
+      5.374,
+      29.099,
+      86.133,
+      137.973,
+      171.393,
+      234.418,
+      42.337
+    ]
+  },
+  {
+    "name": "upgrade-base-30",
+    "hours": 11.779,
+    "runs": 56,
+    "brainsAfter": 97799.091,
+    "phases": [
+      5.374,
+      29.099,
+      86.133,
+      137.973,
+      171.393,
+      234.418,
+      42.337
+    ]
+  },
+  {
+    "name": "upgrade-base-50",
+    "hours": 11.704,
+    "runs": 56,
+    "brainsAfter": 72686.474,
+    "phases": [
+      5.374,
+      29.099,
+      81.632,
+      137.973,
+      171.393,
+      234.418,
+      42.337
+    ]
+  },
+  {
+    "name": "upgrade-base-60",
+    "hours": 11.759,
+    "runs": 57,
+    "brainsAfter": 61081.15,
+    "phases": [
+      5.374,
+      29.099,
+      84.962,
+      137.973,
+      171.393,
+      234.418,
+      42.337
+    ]
+  },
+  {
+    "name": "Recommended prices: typical illustrative budget",
+    "hours": 7.712,
+    "runs": 46,
+    "brainsAfter": 38893.298,
+    "phases": [
+      5.374,
+      29.099,
+      68.222,
+      86.233,
+      114.262,
+      117.209,
+      42.337
+    ]
+  },
+  {
+    "name": "Recommended prices: capable assumptions",
+    "hours": 6.202,
+    "runs": 45,
+    "brainsAfter": 25080.261,
+    "phases": [
+      3.446,
+      23.745,
+      54.432,
+      70.385,
+      92.388,
+      93.809,
+      33.89
+    ]
+  },
+  {
+    "name": "Recommended prices: frequent mistakes",
+    "hours": 10.689,
+    "runs": 48,
+    "brainsAfter": 68135.243,
+    "phases": [
+      6.791,
+      39.646,
+      90.262,
+      135.134,
+      151.659,
+      160.046,
+      57.803
+    ]
+  },
+  {
+    "name": "Recommended prices: no first or mission rewards",
+    "hours": 7.712,
+    "runs": 46,
+    "brainsAfter": 38187.667,
+    "phases": [
+      5.374,
+      29.099,
+      68.222,
+      86.233,
+      114.262,
+      117.209,
+      42.337
+    ]
+  },
+  {
+    "name": "Recommended prices: no optional bonuses",
+    "hours": 8.895,
+    "runs": 52,
+    "brainsAfter": 44887.588,
+    "phases": [
+      5.374,
+      33.694,
+      78.302,
+      103.48,
+      114.262,
+      156.278,
+      42.337
+    ]
+  },
+  {
+    "name": "Recommended prices: no hard-branch bonus",
+    "hours": 8.363,
+    "runs": 47,
+    "brainsAfter": 43939.299,
+    "phases": [
+      5.374,
+      29.099,
+      68.222,
+      86.233,
+      114.262,
+      156.278,
+      42.337
+    ]
+  },
+  {
+    "name": "Recommended prices: missions skipped to three deliveries",
+    "hours": 7.687,
+    "runs": 45,
+    "brainsAfter": 38799.962,
+    "phases": [
+      5.374,
+      27.568,
+      68.222,
+      86.233,
+      114.262,
+      117.209,
+      42.337
+    ]
+  },
+  {
+    "name": "Recommended prices: 5% slower than typical route assumption",
+    "hours": 8.087,
+    "runs": 46,
+    "brainsAfter": 42943.084,
+    "phases": [
+      5.577,
+      30.302,
+      71.508,
+      90.473,
+      119.915,
+      123.022,
+      44.438
+    ]
+  },
+  {
+    "name": "Recommended prices: 10% slower than typical route assumption",
+    "hours": 8.503,
+    "runs": 46,
+    "brainsAfter": 47437.184,
+    "phases": [
+      5.78,
+      31.504,
+      77.269,
+      94.713,
+      125.568,
+      128.836,
+      46.54
+    ]
+  },
+  {
+    "name": "Recommended prices: failures happen at 90% rather than 65%",
+    "hours": 8.023,
+    "runs": 46,
+    "brainsAfter": 42246.591,
+    "phases": [
+      5.426,
+      29.468,
+      69.925,
+      89.12,
+      119.371,
+      123.46,
+      44.597
+    ]
+  },
+  {
+    "name": "Recommended prices: fastest of 32 measured stock-route paths; not global optimum",
+    "hours": 2.509,
+    "runs": 106,
+    "brainsAfter": 18551.4,
+    "phases": [
+      3.063,
+      115.14,
+      32.31
+    ]
+  },
+  {
+    "name": "Recommended prices: direct pickup to final car witness",
+    "hours": 2.785,
+    "runs": 177,
+    "brainsAfter": 20849.4,
+    "phases": [
+      134.787,
+      32.31
+    ]
+  }
+]

@@ -1,0 +1,26 @@
+PASS Retained Tow UI/view configuration and city mesh adaptations are explicit
+PASS Exact deadzone, nonlinear steering response, and exponential response
+PASS Collision solver uses source 0.15 m combined translation/rotation steps
+PASS Thin obstacles block head-on travel without tunneling inside the road corridor
+PASS Confined-corner corrections cannot teleport or preserve a blocked yaw
+PASS Road projection follows the curved generated centerline at all elevations
+PASS Four-wheel fit stays finite and supported across route heights, curves, shoulders
+PASS Uphill and cross-slope body orientation agrees with wheel contacts
+PASS City obstacle collection excludes the moving truck and visual-only details
+PASS Rendered wide road and edge markings are physically flush with the sampler
+PASS Tire vertices stay above actual uphill, downhill and level-branch road triangles
+PASS Ground pose and moving wheel rig remain coherent without scene-resource growth
+PASS Input starts in D with zero throttle and no invented keyboard driving
+PASS 135-degree wheel gesture starts throttle and release clears/coasts input
+PASS Angular wrap and center-disc crossing cannot cause steering jumps
+PASS Regrab continues from both rendered wheel and image rotations
+PASS Only the captured pointer moves/releases; cancel and capture-loss reset
+PASS D/R panel, labels, handle, and second pointer each toggle exactly once
+PASS Documented non-primary first-grab safety adaptation works
+PASS Resize, blur, hidden tab, disable, repeated reset, and destroy release input
+PASS Touch guard suppresses browser gestures without cancelling control clicks
+PASS Integrated input release coasts; safety reset clears rigid-body velocities and visual springs
+PASS Selected vehicle follows with the requested unrestricted fixed-radius camera
+PASS Application mode switches keep regeneration locked in a car; top Garage clears held throttle
+PASS Hidden-tab timing reset prevents a catch-up leap on resume
+Driving: 25/25 checks passed.

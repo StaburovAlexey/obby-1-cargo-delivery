@@ -1,0 +1,102 @@
+{
+  "scope": "CPU projection, identical one-second warmup and ten-second continuous orbit; visible count requires peak alpha >= .08, clip visibility and above the tangent ground/deck plane. Checked-in Site52 vs transition weather.",
+  "baseCommit": "cf549c45c06dcda554e6fcd90056a69798629d06",
+  "cases": [
+    {
+      "biome": "forest",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "frames": 600,
+      "buffersIdentical": true,
+      "oldMin": 54,
+      "newMin": 54,
+      "mean": 99.69833333333334
+    },
+    {
+      "biome": "desert",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "frames": 600,
+      "buffersIdentical": true,
+      "oldMin": 41,
+      "newMin": 41,
+      "mean": 134.65666666666667
+    },
+    {
+      "biome": "snow",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "frames": 600,
+      "buffersIdentical": true,
+      "oldMin": 72,
+      "newMin": 72,
+      "mean": 117.89666666666666
+    },
+    {
+      "biome": "volcanic",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "frames": 600,
+      "buffersIdentical": true,
+      "oldMin": 69,
+      "newMin": 69,
+      "mean": 121.65833333333333
+    },
+    {
+      "biome": "forest",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "frames": 600,
+      "buffersIdentical": true,
+      "oldMin": 86,
+      "newMin": 86,
+      "mean": 136.08666666666667
+    },
+    {
+      "biome": "desert",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "frames": 600,
+      "buffersIdentical": true,
+      "oldMin": 149,
+      "newMin": 149,
+      "mean": 245.38
+    },
+    {
+      "biome": "snow",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "frames": 600,
+      "buffersIdentical": true,
+      "oldMin": 189,
+      "newMin": 189,
+      "mean": 242.05333333333334
+    },
+    {
+      "biome": "volcanic",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "frames": 600,
+      "buffersIdentical": true,
+      "oldMin": 186,
+      "newMin": 186,
+      "mean": 243.22166666666666
+    }
+  ]
+}

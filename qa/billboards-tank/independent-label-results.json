@@ -1,0 +1,97 @@
+{
+  "generated": "2026-10-13T20:54:33.342Z",
+  "scope": "Renderer-free production logic and Three.js projection; no browser, CSS layout, WebGL, Android or physical-touch validation.",
+  "results": [
+    {
+      "name": "All 17 skins: Bacon owned and invisible, 16 unowned exact numerical prices, each purchase disappears, reload remains invisible",
+      "pass": true,
+      "detail": {
+        "free": 1,
+        "purchased": 16,
+        "reloadedHidden": 17
+      }
+    },
+    {
+      "name": "All 5 schools retain rate/book structure and owned access hides; purchase and reload are stable",
+      "pass": true
+    },
+    {
+      "name": "School scale is invariant across front/side/back yaw, pitch and distance at each viewport",
+      "pass": true,
+      "detail": {
+        "samples": [
+          {
+            "width": 320,
+            "scales": [
+              "0.5"
+            ],
+            "visibleTotal": 362
+          },
+          {
+            "width": 360,
+            "scales": [
+              "0.5333333333333333"
+            ],
+            "visibleTotal": 374
+          },
+          {
+            "width": 390,
+            "scales": [
+              "0.5833333333333334"
+            ],
+            "visibleTotal": 382
+          },
+          {
+            "width": 430,
+            "scales": [
+              "0.65"
+            ],
+            "visibleTotal": 406
+          },
+          {
+            "width": 768,
+            "scales": [
+              "1"
+            ],
+            "visibleTotal": 450
+          },
+          {
+            "width": 1440,
+            "scales": [
+              "1"
+            ],
+            "visibleTotal": 474
+          }
+        ],
+        "poses": 576
+      }
+    },
+    {
+      "name": "Identical projected anchors preserve transform/position as school ownership changes",
+      "pass": true
+    },
+    {
+      "name": "Labels disappear in driving, overview and out-of-range projections",
+      "pass": true
+    },
+    {
+      "name": "All school and skin anchors are modestly lower without changing X/Z locations",
+      "pass": true,
+      "detail": {
+        "schoolY": 3.2,
+        "skinY": 4.6,
+        "carDrop": 0.4
+      }
+    },
+    {
+      "name": "Economy configuration, physics and school rates remain byte-for-byte unchanged from Site30",
+      "pass": true,
+      "detail": {
+        "files": 7,
+        "desks": 20
+      }
+    }
+  ],
+  "passed": 7,
+  "failed": 0
+}

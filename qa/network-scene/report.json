@@ -1,0 +1,175 @@
+{
+  "generatedAt": "2026-10-14T08:50:07.969Z",
+  "threeRevision": "186",
+  "scope": "Actual Three.js CPU triangles, source-shader inspection and vehicle-rig compatibility. No browser/WebGL/GPU/mobile/FPS verification.",
+  "checks": [
+    {
+      "name": "Graph union has exact bridge cuts, opaque up-facing metric road and unchanged start",
+      "passed": true,
+      "milliseconds": 136,
+      "detail": {
+        "samples": 139776,
+        "minNormalY": 0.9924893680025682,
+        "minArea": 0.00017323324743073415,
+        "stats": {
+          "seed": 42,
+          "instances": 83,
+          "triangles": 98288,
+          "drawCalls": 8,
+          "bridges": 15,
+          "bridgeWidths": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "buildings": 210,
+          "retainedBuildings": 210,
+          "roadWidth": 30,
+          "roadsideProps": 0,
+          "continuousHouseRows": true,
+          "alignedFacadeRows": true,
+          "facadeSetback": 0.35,
+          "routeLength": 10830.787649846368,
+          "longitudinalLength": 10817,
+          "roadMeshStep": 2,
+          "roadBranches": 5,
+          "forks": 4,
+          "loops": 4,
+          "sequentialBiomes": true,
+          "biomes": 5,
+          "biomeIds": [
+            "city",
+            "forest",
+            "desert",
+            "snow",
+            "volcanic"
+          ],
+          "buildingHeightScale": 2,
+          "buildingWidthScale": 3,
+          "originalBuildingFrontage": 6,
+          "buildingFrontage": 18,
+          "minimumActualFrontage": 17.947513135596246,
+          "maximumActualFrontage": 18.063125597829085,
+          "barriers": 1005,
+          "routeEndHeight": 32,
+          "maximumElevation": 66,
+          "sharedMaterialPattern": "grass-checker",
+          "flushCurbs": true,
+          "studs": false,
+          "texturedRoad": true,
+          "embeddedRoadMarkings": true,
+          "nonOverlappingGround": true,
+          "nonOverlappingResidences": true,
+          "texturedBuildings": true,
+          "buildingBodyTriangles": 2520,
+          "importedModels": 0,
+          "externalTextures": 0,
+          "proceduralBuildingMaterial": true,
+          "roofStuds": 0,
+          "roadUnion": true,
+          "mergedMetricPrisms": true,
+          "omittedJunctionSections": 338
+        }
+      }
+    },
+    {
+      "name": "Fifteen single-car bridges replace wide road and remove all terrain support",
+      "passed": true,
+      "milliseconds": 63,
+      "detail": {
+        "bridges": 15,
+        "bridgeTriangles": 728,
+        "widthMeters": 5,
+        "spanMeters": 24,
+        "guardrails": 0,
+        "terrainTrianglesWithinGaps": 0
+      }
+    },
+    {
+      "name": "Road union has no self-overlap and terrain never covers asphalt",
+      "passed": true,
+      "milliseconds": 569,
+      "detail": {
+        "roadTrianglePairs": 502097,
+        "maxSelfOverlapSquareMeters": 0.0004640636034309864,
+        "maxRoadGroundOverlapSquareMeters": 0
+      }
+    },
+    {
+      "name": "Every road/terrain boundary shares the same actual Float32 height with no riser or daylight",
+      "passed": true,
+      "milliseconds": 100,
+      "detail": {
+        "boundaryEndpoints": 32256,
+        "maxVerticalSeamMeters": 0
+      }
+    },
+    {
+      "name": "Height queries agree with actual road triangles including curved grades and both branches",
+      "passed": true,
+      "milliseconds": 87,
+      "detail": {
+        "samples": 5630,
+        "maxHeightError": 0.0000068189669875096115,
+        "maxNormalDifference": 0.0000353242067355606
+      }
+    },
+    {
+      "name": "Physical 18m city storefront rows share cuts outside bridge gaps and never overlap",
+      "passed": true,
+      "milliseconds": 46,
+      "detail": {
+        "houses": 210,
+        "joins": 202,
+        "allPairs": 21945,
+        "maxSeam": 0,
+        "maxOverlap": 0,
+        "minFrontage": 17.947513135596246,
+        "maxFrontage": 18.063125597829085
+      }
+    },
+    {
+      "name": "All massive biome envelopes clear actual asphalt including fork islands and rejoin mouths",
+      "passed": true,
+      "milliseconds": 163,
+      "detail": {
+        "checked": 1004,
+        "crossEdgePairs": 465923,
+        "maxBarrierOverlap": 0,
+        "omittedJunctionSections": 338
+      }
+    },
+    {
+      "name": "Existing square/stud/storefront shader uses metric faces; graph paint uses explicit progress",
+      "passed": true,
+      "milliseconds": 2,
+      "detail": {
+        "metricEdges": 1680,
+        "maxMetricError": 0.00010989430175101234,
+        "shaderCompilation": "Not run; source expansion only"
+      }
+    },
+    {
+      "name": "Original procedural truck remains compatible with its unchanged animation rig",
+      "passed": true,
+      "milliseconds": 3,
+      "detail": {
+        "truckInstances": 83,
+        "wheels": 4
+      }
+    }
+  ],
+  "passed": true
+}

@@ -1,0 +1,47 @@
+{
+  "rendererFree": true,
+  "passed": true,
+  "results": [
+    {
+      "name": "1000 deterministic seeds preserve count, types, complete footprint exclusions and8m common bypass band",
+      "passed": true,
+      "details": {
+        "seeds": 1000,
+        "hazards": 25000,
+        "poses": 225000,
+        "minimumProtectedClearance": 105.82890881231903,
+        "minimumCityCenterBand": 8.421988849649207
+      }
+    },
+    {
+      "name": "independent polygon projections agree with contacts for randomized rotated body and hazard footprints",
+      "passed": true,
+      "details": {
+        "poses": 27000
+      }
+    },
+    {
+      "name": "600 stock/max ten-car D/R solid impacts cannot tunnel and retreat cleanly after contact",
+      "passed": true,
+      "details": {
+        "cases": 600,
+        "frames": 64253,
+        "maxStep": 1.8765446058307396
+      }
+    },
+    {
+      "name": "surface patch semantics remain localized, continuous and reduce intended traction/speed across10cars",
+      "passed": true,
+      "details": {
+        "carPatchCases": 100
+      }
+    },
+    {
+      "name": "rocks honor warning/fall clocks, inactive pause, overlap deferral, fixed-pool persistence and reset",
+      "passed": true,
+      "details": {
+        "directionRockCases": 10
+      }
+    }
+  ]
+}

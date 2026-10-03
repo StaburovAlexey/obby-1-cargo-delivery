@@ -1,0 +1,11 @@
+PASS Road and terrain render the canonical non-overlapping curved graph union at 30m width
+PASS One opaque standard road material uses five palettes and the exact shared LEGO tile without geometry layers
+PASS Exact v26 grass checker pixels, metric UVs and mip policy are reused in all five road colors: {"sharedTileBytes":65536,"addedGeometry":0}
+PASS Five logical biomes cover full road width with continuous linear-light palette blends
+PASS Actual road and fringe shader uniforms share the dynamic sampler bounds and cheap metric pattern
+PASS Road paint remains embedded; the pre-existing terrain fringe gets no paint and preserves outside terrain
+PASS Graph attributes locate every curved road and terrain seam without world-Z biome assumptions: {"existingTerrainVertices":60804,"seamVertices":33016,"unchangedOutsideVertices":27788}
+PASS Fork shoulders and median islands retain biome ground without an asphalt flood: {"islandVertices":5224,"outerVertices":12336,"edgeVertices":12336,"geometryAdded":0}
+PASS Independent road-material instances preserve legacy city-color override and deterministic shader setup
+
+9 biome road material/geometry groups passed. Shader-source and CPU checks only, no WebGL/GPU claim.

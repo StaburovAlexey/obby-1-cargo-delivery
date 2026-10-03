@@ -1,0 +1,157 @@
+{
+  "generated": "2026-10-14T07:32:04.400Z",
+  "baseline": "28b8ff4445f392f47a515fe62d115d1f84b9f689",
+  "scope": "Real production app frames and Three.js with a mock DOM/renderer. No browser launch, CSS-layout raster test, WebGL, Android, physical touch or world-geometry occlusion claim.",
+  "runtimeSha256": {
+    "dist/app.js": "6e77e15dc47e4de66f1eab5c62ae67901d8074b2af0cc263d62f8dadd4a1a9e9",
+    "dist/progression-hud.js": "be62a7f48a7678c9cb6311701f0ee1259eb9d3949dbce855791ee7a314ffa0bb",
+    "dist/progression-ui.css": "243ead708d80513538118389f08c6bee9a9f1226d543e262104245e792167fa1"
+  },
+  "assertionCount": 43325,
+  "passed": 10,
+  "failed": 0,
+  "results": [
+    {
+      "name": "School UI, controls, characters and shared assets stay unchanged through the authorized route expansion and strong-turn assist",
+      "status": "PASS",
+      "detail": {
+        "unchangedRuntimeAndAssetFiles": 48,
+        "sharedDesks": 20,
+        "baseline": "28b8ff4445f392f47a515fe62d115d1f84b9f689"
+      }
+    },
+    {
+      "name": "120 by 128 composition remains bottom-centered and camera-facing; inner bob is retained without X/Y lag",
+      "status": "PASS",
+      "detail": {
+        "artworkWidth": 120,
+        "artworkHeight": 128,
+        "bobPx": 4,
+        "worldLabelLayer": 2
+      }
+    },
+    {
+      "name": "Actual app frames match independent anchor and depth oracle for full 360-degree yaw, four pitches/distances and eight viewports",
+      "status": "PASS",
+      "detail": {
+        "poses": 3072,
+        "visibleLabels": 11892,
+        "overlappingPairs": 10574,
+        "maxAnchorErrorPx": 2.2737367544323206e-13,
+        "viewports": [
+          {
+            "width": 320,
+            "height": 480,
+            "poses": 384,
+            "visibleLabels": 1458
+          },
+          {
+            "width": 360,
+            "height": 780,
+            "poses": 384,
+            "visibleLabels": 1402
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "poses": 384,
+            "visibleLabels": 1402
+          },
+          {
+            "width": 430,
+            "height": 932,
+            "poses": 384,
+            "visibleLabels": 1402
+          },
+          {
+            "width": 568,
+            "height": 320,
+            "poses": 384,
+            "visibleLabels": 1570
+          },
+          {
+            "width": 768,
+            "height": 900,
+            "poses": 384,
+            "visibleLabels": 1522
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "poses": 384,
+            "visibleLabels": 1578
+          },
+          {
+            "width": 1440,
+            "height": 900,
+            "poses": 384,
+            "visibleLabels": 1558
+          }
+        ]
+      }
+    },
+    {
+      "name": "Front/back projection order reverses; side-on anchors coincide and nearest label reverses across a 180-degree orbit",
+      "status": "PASS",
+      "detail": {
+        "eastNearest": 5,
+        "westNearest": 1,
+        "sideSpanPx": 2.8421709430404007e-13
+      }
+    },
+    {
+      "name": "Near-camera and partially offscreen anchors are never clamped or spread; beyond-frustum, near-plane and distance culling remain intact",
+      "status": "PASS",
+      "detail": {
+        "cameraCases": 224,
+        "retainedOffscreenCenters": 192
+      }
+    },
+    {
+      "name": "Live ready-character follow camera retains exact projected school positions during repeated full turns",
+      "status": "PASS",
+      "detail": {
+        "frames": 864,
+        "visibleLabels": 1992,
+        "completeTurns": 24
+      }
+    },
+    {
+      "name": "School ownership changes preserve identical projected anchors, block size and depth order; all rates/access rows survive reload",
+      "status": "PASS",
+      "detail": {
+        "schools": 5,
+        "purchases": 4,
+        "reloadedOwnedLabels": 5
+      }
+    },
+    {
+      "name": "Actual school button denies insufficient funds, buys once, seats separately and retains five rates on the shared 20-seat pool",
+      "status": "PASS",
+      "detail": {
+        "paidSchools": 4,
+        "selectedRates": 5,
+        "sharedFallbackSeat": "desk-20",
+        "hiddenInDrivingAndOverview": true
+      }
+    },
+    {
+      "name": "Car and skin label coordinates/culling retain their production projection contract across cameras",
+      "status": "PASS",
+      "detail": {
+        "poses": 16,
+        "visibleCars": 47,
+        "visibleSkins": 61
+      }
+    },
+    {
+      "name": "Regression witness: Site32 artificially spread coincident side-on anchors; current code preserves them with depth ordering",
+      "status": "PASS",
+      "detail": {
+        "baselineMaximumAnchorDriftPx": 147.9999999999999,
+        "baselineHorizontalSpreadPx": 296,
+        "currentMaximumAnchorDriftPx": 0
+      }
+    }
+  ]
+}

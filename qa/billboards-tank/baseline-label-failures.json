@@ -1,0 +1,43 @@
+{
+  "generated": "2026-10-13T20:49:19.077Z",
+  "scope": "Renderer-free production logic and Three.js projection; no browser, CSS layout, WebGL, Android or physical-touch validation.",
+  "results": [
+    {
+      "name": "All 17 skins: Bacon owned and invisible, 16 unowned exact numerical prices, each purchase disappears, reload remains invisible",
+      "pass": false,
+      "error": "bacon\n\nfalse !== true\n"
+    },
+    {
+      "name": "All 5 schools retain rate/book structure and owned access hides; purchase and reload are stable",
+      "pass": true
+    },
+    {
+      "name": "School scale is invariant across front/side/back yaw, pitch and distance at each viewport",
+      "pass": false,
+      "error": "320px scales: 1,0.38,0.5634363262044849,0.5634363262044851,0.5634363262044847,0.5889196593389264,0.5889196593389265,0.5889196593389261,0.5889196593389263,0.6508762700454498,0.6508762700454505,0.6508762700454502,0.6508762700454492,0.7520293060692794,0.7520293060692801,0.7520293060692764,0.7520293060692785,0.6809933279417272,0.39355071456360574,0.3935507145636056,0.6809933279417271,0.39355071456360546,0.40523368547789895,0.4052336854778985,0.680993327941727,0.4052336854778988,0.40523368547789823,0.4325690068961206,0.4325690068961202,0.43256900689612054,0.43256900689611977,0.4601774852308651,0.4601774852308649,0.6809933279417273,0.46017748523086494\n\n35 !== 1\n"
+    },
+    {
+      "name": "Identical projected anchors preserve transform/position as school ownership changes",
+      "pass": true
+    },
+    {
+      "name": "Labels disappear in driving, overview and out-of-range projections",
+      "pass": true
+    },
+    {
+      "name": "All school and skin anchors are modestly lower without changing X/Z locations",
+      "pass": false,
+      "error": "The expression evaluated to a falsy value:\n\n  assert.ok(a.labelAnchor.y<3.6&&a.labelAnchor.y>=2.6)\n"
+    },
+    {
+      "name": "Economy configuration, physics and school rates remain byte-for-byte unchanged from Site30",
+      "pass": true,
+      "detail": {
+        "files": 7,
+        "desks": 20
+      }
+    }
+  ],
+  "passed": 4,
+  "failed": 3
+}
