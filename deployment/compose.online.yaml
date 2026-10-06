@@ -1,0 +1,21 @@
+services:
+  online:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile.online
+    restart: unless-stopped
+    init: true
+    env_file: ./obby-online.env
+    environment:
+      HOST: 0.0.0.0
+      PORT: 8081
+    ports:
+      - "127.0.0.1:8081:8081"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    tmpfs: [/tmp]
+    ulimits:
+      nofile:
+        soft: 16384
+        hard: 16384

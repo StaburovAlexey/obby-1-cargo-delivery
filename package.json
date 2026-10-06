@@ -42,10 +42,16 @@
     "test:settings": "node tests/settings-help.mjs && node tests/settings-menu.mjs && node tests/localization.mjs && node tests/settings-app.mjs && node tests/vehicle-audio.mjs",
     "test:integer-fuel": "node tests/integer-fuel-hud.mjs && node tests/compact-fuel-hud.mjs && node tests/settings-app.mjs",
     "test:startup": "node tests/startup-gate.mjs && node tests/startup-app.mjs",
-    "test:vehicle-cleanup": "node tests/vehicle-cleanup.mjs && node tests/vehicle-rig.mjs && node tests/cosmo-garage.mjs"
+    "test:vehicle-cleanup": "node tests/vehicle-cleanup.mjs && node tests/vehicle-rig.mjs && node tests/cosmo-garage.mjs",
+    "server": "node server/room-server.mjs",
+    "test:online": "node --test tests/online-server*.mjs",
+    "stress:online": "node scripts/stress-online.mjs --users=100,200,500,1000 --duration=30"
   },
   "devDependencies": {
     "@rsbuild/core": "2.2.13",
     "gltf-validator": "2.0.0-dev.3.10"
+  },
+  "dependencies": {
+    "ws": "8.22.0"
   }
 }

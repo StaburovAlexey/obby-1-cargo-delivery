@@ -1,0 +1,26 @@
+[Unit]
+Description=Obby Cargo Delivery ephemeral WebSocket rooms
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=obby-online
+Group=obby-online
+WorkingDirectory=/opt/obby-cargo-delivery
+Environment=NODE_ENV=production
+EnvironmentFile=/etc/obby-online.env
+ExecStart=/usr/bin/node server/room-server.mjs
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=10
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadOnlyPaths=/opt/obby-cargo-delivery
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+LimitNOFILE=16384
+
+[Install]
+WantedBy=multi-user.target
