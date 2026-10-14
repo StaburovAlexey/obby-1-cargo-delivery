@@ -1,10 +1,14 @@
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from '@rsbuild/core';
 
-export default defineConfig({
+export default defineConfig(({env})=>({
   source: {
     entry: { index: './scripts/rsbuild-entry.js' },
     assetsInclude: /\.glb$/,
+    define: {
+      __URBAN_DEVELOPMENT__: JSON.stringify(env==='development'||process.env.PUBLIC_YANDEX_DEVELOPMENT==='1'),
+      __MULTIPLAYER_URL__: JSON.stringify(process.env.PUBLIC_MULTIPLAYER_URL||(env==='development'?'ws://127.0.0.1:8081/ws':'')),
+    },
   },
   resolve: {
     // Use the same bundled Three.js revision as the importmap in dist/index.html.
@@ -28,9 +32,9 @@ export default defineConfig({
     setup(api) {
       api.modifyHTML(html => html
         // The entry bundles CSS and handles startup errors for the built version.
-        .replace(/\s*<link rel="stylesheet" href="\.\/(?:style|vehicle-controls|progression-ui|settings-menu)\.css"\s*\/>/g, '')
+        .replace(/\s*<link rel="stylesheet" href="\.\/(?:style|vehicle-controls|progression-ui|settings-menu|online-ui)\.css"\s*\/>/g, '')
         .replace(/\s*<script type="importmap">[\s\S]*?<\/script>/g, '')
         .replace(/\s*<script type="module">[\s\S]*?<\/script>/g, ''));
     },
   }],
-});
+}));

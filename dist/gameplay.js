@@ -13,6 +13,7 @@ import { getActiveMission, advanceCareerMission, calculateDeliveryReward, capDel
 const runtimeId = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
 let runSequence = 0;
 const characterIds = new Set(CHARACTER_CATALOG.map(character => character.id));
+const premiumSkinIds = new Set(['spider-man','spyder-sammy','kreekcraft','jandel','dancing-npc-girl']);
 
 export const GAMEPLAY = Object.freeze({ spawn: Object.freeze({...GARAGE_LAYOUT.spawn,heading:0}), roadSpawn: Object.freeze({x:0,z:6,heading:0}), walkSpeed:4.5, runSpeed:7, entryRadius:5.2, fuelRange:460, fuelCapacity:100, exitCooldown:1.1,jumpSpeed:8,gravity:22,jumpDuration:16/22 });
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
@@ -232,6 +233,7 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
     buySkin(id){
       const spec=skinConfig(id),deny=reason=>{emit('skin-purchase-denied',{id,reason});return false;};
       if(!spec)return deny('unknown');
+      if(premiumSkinIds.has(id))return deny('platform-purchase');
       if(isSkinOwned(id))return deny('owned');
       if(!canShop())return deny('unavailable');
       if(!nearSkin(id))return deny('distance');
@@ -249,9 +251,19 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       state.money-=spec.price;state.ownedSchoolIds.push(id);state.schoolPurchaseCandidateId=id;
       persist();emit('school-purchase',{id,price:spec.price,money:state.money});return true;
     },
-    sitAtSchool(id){
+    grantPremiumSkin(id){
+      if(!premiumSkinIds.has(id))return false;
+      if(!isSkinOwned(id)){state.ownedSkinIds.push(id);persist();}
+      return true;
+    },
+    reassignSeat(seatId){
+      const desk=desks.find(d=>d.id===seatId);
+      if(!state.seatedId||!desk)return false;
+      state.seatedId=seatId;state.player={x:desk.seat.x,z:desk.seat.z,heading:desk.seat.heading};return true;
+    },
+    sitAtSchool(id,reservedSeatId=null){
       if(!canShop()||!isSchoolOwned(id)||!nearSchool(id))return false;
-      const desk=resolveFreeClassroomSeat(desks,state.occupiedSeatIds);
+      const desk=reservedSeatId?desks.find(d=>d.id===reservedSeatId&&!state.occupiedSeatIds.includes(d.id)):resolveFreeClassroomSeat(desks,state.occupiedSeatIds);
       state.classroomArmed=false;state.interactionCooldown=1.2;state.walked=0;
       if(!desk){emit('classroom-full',{schoolId:id});return false;}
       clearShopPrompts();state.seatedId=desk.id;state.seatedSchoolId=id;

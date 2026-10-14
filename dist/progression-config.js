@@ -1,6 +1,7 @@
 import { CHARACTER_CATALOG } from './character-catalog.js';
+import {PREMIUM_SKIN_IDS,premiumProductId} from './premium-skins.js';
 
-/** All prices are fictional in-game currency. No purchase uses real money. */
+/** Non-premium prices are fictional currency; premium prices come from SDK. */
 export const PROGRESSION_CONFIG = Object.freeze({
   drivingRate: 3,
   maxBrains: 1_000_000_000,
@@ -21,6 +22,7 @@ export const SCHOOL_CONFIG = Object.freeze([
 const skinPrices = Object.freeze([0,250,400,600,850,1150,1500,1900,2400,3000,3700,4500,5400,6400,7500,8700,10000]);
 export const SKIN_CONFIG = Object.freeze(CHARACTER_CATALOG.map((skin,index)=>Object.freeze({
   id:skin.id,name:skin.name,price:skinPrices[index],
+  premium:PREMIUM_SKIN_IDS.includes(skin.id),productId:PREMIUM_SKIN_IDS.includes(skin.id)?premiumProductId(skin.id):null,
 })));
 export const schoolConfig = id => SCHOOL_CONFIG.find(school=>school.id===id) || null;
 export const skinConfig = id => SKIN_CONFIG.find(skin=>skin.id===id) || null;

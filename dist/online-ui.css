@@ -1,0 +1,6 @@
+#online-status{position:fixed;left:50%;top:max(8px,env(safe-area-inset-top));transform:translateX(-50%);z-index:8;max-width:50vw;padding:5px 9px;border-radius:10px;background:#14213dcc;color:white;font:700 12px/1.3 system-ui;pointer-events:none;text-align:center}
+#ad-countdown{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:#081425c9;color:white;font:900 clamp(28px,6vw,64px)/1.2 system-ui;text-align:center;padding:20px;touch-action:none}
+#ad-countdown[hidden]{display:none}
+.portal-currency-icon{display:inline-block;width:1.15em;height:1.15em;vertical-align:middle;margin-left:.2em;object-fit:contain}
+[data-premium="true"]>.hud-art{display:none}
+body.is-loading #online-status{display:none}

@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import {updateProgressionWorldLabels} from '../dist/progression-hud.js';
+import {SKIN_CONFIG} from '../dist/progression-config.js';
+let imageCreates=0,iconCalls=0;
+const nodes=new Map();
+const doc={getElementById(id){if(!nodes.has(id))nodes.set(id,{dataset:{},style:{},set textContent(value){this.text=value;this.children=[];},get textContent(){return this.text;},appendChild(value){this.children.push(value);}});return nodes.get(id);},createElement(){imageCreates++;return {};}};
+const product={price:'39 TST',getPriceCurrencyImage(){iconCalls++;return '/currency.svg';}};
+const premium={catalog:new Map(SKIN_CONFIG.filter(s=>s.premium).map(s=>[s.id,product]))};
+const garage={classroomEntries:[],stands:SKIN_CONFIG.map(()=>({x:0,z:0}))};
+const gameplay={state:{mode:'walking'},isSkinOwned:()=>false};
+for(let i=0;i<60;i++)updateProgressionWorldLabels(doc,{gameplay,garage,playing:true,premium,project(){}});
+assert.equal(imageCreates,5,'stable prices must retain their icon nodes across frames');
+assert.equal(iconCalls,1,'currency metadata is cached per product');
+const node=doc.getElementById('skin-price-17');assert.equal(node.textContent,'39 TST');assert.equal(node.children.length,1);
+premium.catalog.clear();updateProgressionWorldLabels(doc,{gameplay,garage,playing:true,premium,project(){}});
+assert.equal(node.textContent,'—');assert.equal(node.children.length,0);
+console.log('PASS premium HUD: SDK currency, retained icon nodes and unavailable catalogue.');

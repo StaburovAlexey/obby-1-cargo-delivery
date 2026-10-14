@@ -3,6 +3,14 @@
  * Original text is retained per DOM node/attribute, not reconstructed from EN.
  */
 const phrases = Object.freeze({
+  "Не удалось загрузить игру": "Unable to load the game",
+  "Прогресс и настройки сохраняются в облаке Яндекс Игр. Без соединения изменения останутся до закрытия страницы. Сам рейс и положение машины не сохраняются. Настройки, потеря фокуса и фоновая вкладка ставят игру и заработок на паузу.": "Progress and settings are saved in the Yandex Games cloud. Without a connection, changes last until this page is closed. The current trip and vehicle position are not saved. Settings, loss of focus and background tabs pause the game and earnings.",
+  "Монета вверху показывает ваш баланс. Над машиной или персонажем она обозначает цену; у выгрузки — награду за груз. В ангаре подойдите к товару и нажмите «Купить». Обычные покупки используют игровые деньги. Последние пять персонажей покупаются за портальную валюту Яндекс Игр; цена указана рядом с её значком.": "The top coin shows your balance. Above a vehicle or character it shows a price; at an unloading point it shows the cargo reward. Approach an item and press Buy. Ordinary purchases use game money. The last five characters use Yandex Games portal currency; the price is shown with its icon.",
+  "Подключение к комнате…": "Connecting to a room…",
+  "Одиночный режим": "Single player",
+  "Покупки недоступны": "Purchases unavailable",
+  "Изменения ещё не сохранены в облаке. При закрытии страницы они могут пропасть.": "Changes have not been saved to the cloud yet. They may be lost when this page closes.",
+
   // Settings gameplay guide and actual-interface icon legend.
   "Как играть": "How to play",
   "Один рейс — один груз. Выбирайте, где забрать награду, и возвращайтесь за следующей доставкой.": "One trip, one cargo load. Choose where to collect your reward, then return for the next delivery.",
@@ -196,6 +204,10 @@ const rx = source => new RegExp('^' + source + '$', 'u');
 // Every pattern matches an entire UI phrase. Captured prices, rates and asset
 // names remain strings: no number parsing, reformatting or substring rewriting.
 const templates = [
+  [/^Купить ([\d.,\s\u00a0\u202f]+[A-Za-zА-Яа-я₽$€¥]+)$/u, (_, price) => `Buy ${price}`],
+  [/^Онлайн: (\d+)\/20$/u, (_, n) => `Online: ${n}/20`],
+  [/^Игрок (.+)$/u, (_, id) => `Player ${id}`],
+  [/^(.+)\. Покупка через Яндекс Игры\.$/u, (_, name) => `${name}. Purchase through Yandex Games.`],
   [/^Класс (\d+)$/u, (_, n) => `Class ${n}`],
   [rx(`Купить ${quantity}`), (_, n) => `Buy ${n}`],
   [rx(`Купить (.+) за ${quantity}\\. (Средств достаточно|Недостаточно денег)`), (_, name, n, status) => `Buy ${translateCore(name)} for ${n}. ${status === 'Средств достаточно' ? 'Enough money' : 'Not enough money'}`],

@@ -44,7 +44,9 @@
     "test:startup": "node tests/startup-gate.mjs && node tests/startup-app.mjs",
     "test:vehicle-cleanup": "node tests/vehicle-cleanup.mjs && node tests/vehicle-rig.mjs && node tests/cosmo-garage.mjs",
     "server": "node server/room-server.mjs",
-    "test:online": "node --test tests/online-server*.mjs",
+    "build:demo": "PUBLIC_YANDEX_DEVELOPMENT=1 rsbuild build --dist-path build-demo",
+    "preview:demo": "rsbuild preview --dist-path build-demo",
+    "test:online": "node --test tests/online-server*.mjs tests/online-client.mjs tests/remote-motion.mjs tests/online-gameplay.mjs tests/pause-state.mjs tests/advertising-*.mjs tests/yandex-platform.mjs tests/cloud-career.mjs tests/premium-skins.mjs tests/premium-hud.mjs tests/yandex-app.mjs",
     "stress:online": "node scripts/stress-online.mjs --users=100,200,500,1000 --duration=30"
   },
   "devDependencies": {

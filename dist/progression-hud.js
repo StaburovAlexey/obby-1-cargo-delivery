@@ -37,7 +37,7 @@ export function upgradeValuePresentation(stat,offer){
       (offer.maxed?'':` (+${compactDecimal(next.range-current.range)} м)`)+'. Заправка отдельно.',
   };
 }
-export function updateProgressionHud(doc,{gameplay,playing,driving,upgradeMenuOpen}){
+export function updateProgressionHud(doc,{gameplay,playing,driving,upgradeMenuOpen,premium}){
   const s=gameplay.state,el=id=>doc.getElementById(id),brains=brainDisplay(s.brains);
   el('brain-value').textContent=brains;
   el('brain-hud').style.setProperty('--brain-digits',String(brains.length));
@@ -51,8 +51,10 @@ export function updateProgressionHud(doc,{gameplay,playing,driving,upgradeMenuOp
   for(const kind of ['skin','school']){
     const id=s[kind+'PurchaseCandidateId'],spec=kind==='skin'?skinConfig(id):schoolConfig(id),owned=kind==='skin'?gameplay.isSkinOwned(id):gameplay.isSchoolOwned(id);
     const button=el('buy-'+kind);button.hidden=!canBuy||!spec;
-    if(spec){button.dataset.owned=String(owned);const label=owned?(kind==='skin'?'Выбрать':`Сесть · +${brainRateDisplay(spec.rate)}/сек`):`Купить ${spec.price}`;
-      el('buy-'+kind+'-label').textContent=label;button.dataset.affordable=String(owned||s.money>=spec.price);button.setAttribute('aria-label',owned?label:`Купить ${spec.name} за ${spec.price} игровых денег`);}
+    if(spec){const product=spec.premium?premium?.catalog.get(id):null,available=!spec.premium||!!product;
+      button.dataset.owned=String(owned);button.dataset.premium=String(!!spec.premium);const label=owned?(kind==='skin'?'Выбрать':`Сесть · +${brainRateDisplay(spec.rate)}/сек`):spec.premium?(product?`Купить ${product.price}`:'Покупки недоступны'):`Купить ${spec.price}`;
+      setPortalPrice(doc,el('buy-'+kind+'-label'),label,spec.premium&&!owned?product:null);button.disabled=!!premium?.status.busy||(!owned&&!available);button.dataset.affordable=String(owned||(spec.premium?available:s.money>=spec.price));button.setAttribute('aria-label',spec.premium?label:owned?label:`Купить ${spec.name} за ${spec.price} игровых денег`);
+    }
   }
   const school=schoolConfig(s.seatedSchoolId);
   el('study-status').hidden=!playing||!s.seatedId||!school;
@@ -71,7 +73,7 @@ export function updateProgressionHud(doc,{gameplay,playing,driving,upgradeMenuOp
     button.setAttribute('aria-label',offer.maxed?`${stat.name}: максимальный уровень`:`${stat.name}: уровень ${offer.nextLevel}, ${offer.price} мозгов. ${presentation.value}. ${presentation.detail}`);
   }
 }
-export function updateProgressionWorldLabels(doc,{gameplay,garage,playing,project,viewportWidth=390}){
+export function updateProgressionWorldLabels(doc,{gameplay,garage,playing,project,viewportWidth=390,premium}){
   const visible=playing&&gameplay.state.mode==='walking',projectedSchools=[];
   for(const [i,entry]of garage.classroomEntries.entries()){
     const spec=SCHOOL_CONFIG.find(s=>s.id===entry.id),owned=gameplay.isSchoolOwned(entry.id),a=entry.labelAnchor;
@@ -97,7 +99,23 @@ export function updateProgressionWorldLabels(doc,{gameplay,garage,playing,projec
   }
   for(const [i,stand]of garage.stands.entries()){
     const skin=SKIN_CONFIG[i],owned=gameplay.isSkinOwned(skin.id);
-    doc.getElementById(`skin-price-${i+1}`).textContent=String(skin.price);
+    const priceNode=doc.getElementById(`skin-price-${i+1}`),product=skin.premium?premium?.catalog.get(skin.id):null;
+    setPortalPrice(doc,priceNode,skin.premium?(product?.price||'—'):String(skin.price),product);
+    const label=doc.getElementById(`skin-label-${i+1}`);label.dataset.premium=String(skin.premium);
     project(doc.getElementById(`skin-label-${i+1}`),stand.x,5.0-WORLD_LABEL_DROP,stand.z,visible&&!owned,45);
   }
+}
+
+const priceContent=new WeakMap(),currencyImages=new WeakMap();
+function setPortalPrice(doc,node,text,product){
+  let icon='';
+  if(product&&typeof product.getPriceCurrencyImage==='function'){
+    if(!currencyImages.has(product)){try{currencyImages.set(product,product.getPriceCurrencyImage('small')||'');}catch{currencyImages.set(product,'');}}
+    icon=currencyImages.get(product);
+  }
+  const previous=priceContent.get(node);
+  if(previous?.text===text&&previous?.icon===icon)return;
+  node.textContent=text;priceContent.set(node,{text,icon});
+  if(!icon||!doc.createElement||!node.appendChild)return;
+  const image=doc.createElement('img');image.className='portal-currency-icon';image.alt='';image.src=icon;node.appendChild(image);
 }

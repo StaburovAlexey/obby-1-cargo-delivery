@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {createGameplay} from '../dist/gameplay.js';
+import {CLASSROOM_DESKS,CLASSROOM_ENTRIES} from '../dist/garage-scene.js';
+const g=createGameplay({desks:CLASSROOM_DESKS,stands:[{index:12,trigger:CLASSROOM_ENTRIES[0],triggerRadius:5}]});
+g.state.money=100000;
+g.state.player={x:CLASSROOM_ENTRIES[0].x,z:CLASSROOM_ENTRIES[0].z,heading:0};
+assert.equal(g.buySkin('spider-man'),false,'premium skins cannot be bought with fictional money');
+assert(g.grantPremiumSkin('spider-man'));assert(g.isSkinOwned('spider-man'));assert(!g.grantPremiumSkin('bogus'));
+assert(g.sitAtSchool('school-1','desk-07'));assert.equal(g.state.seatedId,'desk-07');
+assert(g.reassignSeat('desk-08'));assert.equal(g.state.seatedId,'desk-08');assert(!g.reassignSeat('missing'));
+console.log('PASS gameplay premium-only currency boundary and explicit server-reserved seats.');
