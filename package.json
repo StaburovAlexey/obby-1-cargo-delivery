@@ -46,11 +46,12 @@
     "server": "node server/room-server.mjs",
     "build:demo": "PUBLIC_YANDEX_DEVELOPMENT=1 rsbuild build --dist-path build-demo",
     "preview:demo": "rsbuild preview --dist-path build-demo",
-    "test:online": "node --test tests/online-server*.mjs tests/online-client.mjs tests/remote-motion.mjs tests/online-gameplay.mjs tests/pause-state.mjs tests/advertising-*.mjs tests/yandex-platform.mjs tests/cloud-career.mjs tests/premium-skins.mjs tests/premium-hud.mjs tests/yandex-app.mjs",
+    "test:online": "node --test tests/online-server*.mjs tests/online-client.mjs tests/remote-motion.mjs tests/online-gameplay.mjs tests/pause-state.mjs tests/advertising-*.mjs tests/yandex-platform.mjs tests/cloud-career.mjs tests/premium-skins.mjs tests/premium-hud.mjs tests/yandex-app.mjs tests/strip-code-comments.mjs",
     "stress:online": "node scripts/stress-online.mjs --users=100,200,500,1000 --duration=30"
   },
   "devDependencies": {
     "@rsbuild/core": "2.2.13",
+    "acorn": "8.19.0",
     "gltf-validator": "2.0.0-dev.3.10"
   },
   "dependencies": {
