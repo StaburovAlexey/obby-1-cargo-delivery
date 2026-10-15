@@ -1,5 +1,5 @@
-// Independent school-anchor regression review. Actual app.js/Three.js execution
-// with a DOM/renderer fixture, not a browser, layout, GPU or Android test.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -19,10 +19,10 @@ const results=[],specimens=[];let assertionCount=0;
 const near=(a,b,label,tolerance=1e-7)=>{assertionCount++;assert.ok(Number.isFinite(a)&&Math.abs(a-b)<=tolerance,`${label}: ${a} != ${b}`);};
 const check=(name,run)=>{try{const detail=run();results.push({name,status:'PASS',...(detail?{detail}:{})});console.log('PASS '+name);}catch(error){results.push({name,status:'FAIL',error:error.stack});console.error('FAIL '+name+'\n'+error.stack);}};
 const withApp=(run,options={})=>{const app=createAppDom({startDriving:false,...options});try{return run(app);}finally{app.dispose();}};
-// A deliberately pending character asset keeps production followCharacter from
-// replacing assigned cameras. The real app frame still invokes its unmodified
-// updateWorldLabels/projectWorldLabel functions. Ready-character flows below
-// separately exercise real follow-camera updates and actual purchase buttons.
+
+
+
+
 const heldOptions={deferCharacters:true,career:{...freshCareer(),characterId:'pack1',ownedSkinIds:['bacon','pack1']}};
 const held=(run,options={})=>withApp(run,{...heldOptions,...options});
 const el=(app,id)=>app.ids.get(id);
@@ -34,8 +34,8 @@ const orbit=(app,yaw,pitch=0,distance=35)=>{
   c.position.set(center.x+Math.sin(a)*Math.cos(p)*distance,center.y+Math.sin(p)*distance,center.z+Math.cos(a)*Math.cos(p)*distance);
   c.lookAt(center);c.updateMatrixWorld();return c;
 };
-// Independent homogeneous clip-space oracle, rather than Vector3.project or
-// the production label projector. Camera-space forward distance defines order.
+
+
 const oracle=(camera,point,width,height,maxDistance=65)=>{
   const view=new THREE.Vector4(point.x,point.y,point.z,1).applyMatrix4(camera.matrixWorldInverse);
   const clip=view.clone().applyMatrix4(camera.projectionMatrix),ndc={x:clip.x/clip.w,y:clip.y/clip.w,z:clip.z/clip.w};
@@ -197,8 +197,8 @@ check('Car and skin label coordinates/culling retain their production projection
   assert.ok(visibleCars>0&&visibleSkins>0);return {poses:16,visibleCars,visibleSkins};
 }));
 
-// Replay the published old HUD against the same true side-on projections. This
-// guards against a self-consistent test suite that never detects the old bug.
+
+
 const oldSource=fs.readFileSync(new URL('baseline-progression-hud.js.txt',qa),'utf8').replace(/from '(\.\/[^']+)'/g,(_,p)=>`from '${new URL('dist/'+p.slice(2),root).href}'`);
 const oldHud=await import('data:text/javascript;base64,'+Buffer.from(oldSource).toString('base64'));
 check('Regression witness: Site32 artificially spread coincident side-on anchors; current code preserves them with depth ordering',()=>held(app=>{

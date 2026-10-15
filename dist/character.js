@@ -9,13 +9,13 @@ export { CHARACTER_CATALOG } from './character-catalog.js';
 export const BACON_HEIGHT = 3.5;
 export const BACON_ASSET_URL = new URL('./assets/bacon.glb', import.meta.url);
 
-// Offline support calibration of the original 250 sole vertices; no support
-// sampling at page load or per frame. Source GLB SHA-256:
-// eb78b0d387d323905bc0151d4a533a07acf61cea6d98de417c105079750a6415
-// Idle: 501 equally spaced poses over Orc Idle. Run: 240 Hz support maximum
-// plus 4 mm clearance. Transition: 8 idle phases × 48 run phases × 31 weights;
-// each entry bounds quaternion-blended leg extension above endpoint support.
-// Real-GLB trajectory/grounding tests guard these asset-specific constants.
+
+
+
+
+
+
+
 const BACON_IDLE_SUPPORT = [
   0.04453476, 0.04454886, 0.04456538, 0.04457741, 0.04459185, 0.04460458, 0.04461834, 0.04463977,
   0.04466250, 0.04469266, 0.04472253, 0.04476912, 0.04481523, 0.04488426, 0.04495239, 0.04504931,
@@ -86,9 +86,9 @@ const BACON_TRANSITION_SUPPORT = [
   0.00000000, 0.02449714, 0.05168496, 0.07465372, 0.09569764, 0.11275801, 0.12532092, 0.13419590, 0.14162307, 0.14780461, 0.15073915, 0.15263905, 0.15472762, 0.15738722, 0.16006514, 0.16095964, 0.16193497, 0.16226048, 0.16110800, 0.15846215, 0.15430970, 0.14863963, 0.14144314, 0.13317244, 0.12408573, 0.11345694, 0.10128448, 0.08756913, 0.07231399, 0.05552455, 0.03720865, 0.01737652, 0.00000000
 ];
 
-// Native Jumping's final 0.6..0.833 s poses, calibrated offline against each
-// original skin. [constant local support, ground/jump blend clearance]. These
-// values never add world jump height or scan skinned vertices during update.
+
+
+
 const JUMP_SUPPORT = {
   'bacon': [0.05486697, 0.20450325],
   'pack1': [0.04485096, 0.23073348],
@@ -113,10 +113,10 @@ const JUMP_LANDING_BLEND = 0.12;
 const JUMP_APPROACH_BLEND = 0.20;
 const smoothStep = value => { const t = Math.max(0, Math.min(1, value)); return t * t * (3 - 2 * t); };
 
-/** The user's original textured, rigged Bacon model. Loading errors are surfaced.
- * Heading 0 faces -Z; positive heading is Three's positive rotation around Y.
- * Optional data allows renderer-free tests to parse the same shipped GLB bytes.
- */
+
+
+
+
 const parsedCache = new Map();
 let parseCount = 0;
 function disposeResources(model) {
@@ -157,8 +157,8 @@ export function getCharacterCacheStats() {
     references: [...parsedCache.values()].reduce((sum,record) => sum + record.refs, 0),
     snapshots: [...parsedCache.values()].filter(record => record.snapshot).length };
 }
-// Explicit scene teardown only. In-use shared assets are retained until their
-// characters/displays release them; ordinary switching never destroys textures.
+
+
 export function clearCharacterCache() {
   let cleared = 0;
   for (const [key,record] of parsedCache) {
@@ -207,12 +207,12 @@ function createCharacter(THREE, gltf, entry, cacheRecord = null) {
   pivot.name = `${entry.name} normalized mesh`;
   group.add(pivot);
   pivot.add(model);
-  // The supplied rig's feet and face point toward +Z.
+
   model.rotation.y = Math.PI;
-  // The controller owns translation. The supplied clips are already periodic,
-  // but their different pelvis X/Z offsets cause sideways/fore-aft sliding when
-  // blended. Make only those two axes in-place, on runtime copies of the tracks.
-  // Keep the source GLB, vertical hip bob, rotations and every limb key intact.
+
+
+
+
   const hipPosition = idleClip.tracks.find((track) => /Hips\.position$/.test(track.name));
   function inPlaceClip(source, removeVertical = false) {
     const clip = source.clone();
@@ -221,9 +221,9 @@ function createCharacter(THREE, gltf, entry, cacheRecord = null) {
       for (let i = 0; i < track.values.length; i += 3) {
         track.values[i] = hipPosition.values[0];
         track.values[i + 2] = hipPosition.values[2];
-        // The Jumping source has its ballistic arc in the hips translation.
-        // Gameplay already applies that arc to group.position.y, so only the
-        // jump copy also fixes Y; all native limb/root rotations stay intact.
+
+
+
         if (removeVertical) track.values[i + 1] = hipPosition.values[1];
       }
     }
@@ -262,7 +262,7 @@ function createCharacter(THREE, gltf, entry, cacheRecord = null) {
     }
     object.castShadow = true;
     object.receiveShadow = true;
-    // A bind-pose sphere is unsafe when its skinned limbs move outside it.
+
     object.frustumCulled = false;
   });
   if (!meshCount) throw new Error('Bacon GLB contains no renderable mesh.');
@@ -280,14 +280,14 @@ function createCharacter(THREE, gltf, entry, cacheRecord = null) {
   const groundActions = [...new Set([idle, locomotion, run])];
   const actions = [...groundActions, jump];
   const [jumpSupport, jumpClearance] = JUMP_SUPPORT[entry.id];
-  // The source apex is frame 19/60, touchdown is frame 36/60; the rest is
-  // recovery. Re-time these actual poses to the controller's flight duration.
+
+
   const jumpApexTime = Math.min(jumpClip.duration, 19 / 60);
   const jumpTouchdownTime = Math.min(jumpClip.duration, 36 / 60);
   function supportAt(action, time) {
     if (action !== idle) return RUN_SUPPORT;
-    // Idle's slow 1.5 cm sole movement needs no whole-mesh feedback. Its baked
-    // periodic curve also preserves the exact 3.5 m pose at load/reset.
+
+
     const duration = idleClip.duration;
     const phase = ((time % duration) + duration) % duration;
     const frame = phase / duration * IDLE_SUPPORT.length;
@@ -295,10 +295,10 @@ function createCharacter(THREE, gltf, entry, cacheRecord = null) {
     return THREE.MathUtils.lerp(IDLE_SUPPORT[index],
       IDLE_SUPPORT[(index + 1) % IDLE_SUPPORT.length], fraction);
   }
-  // Running has a flight phase: the lowest foot is allowed above the floor.
-  // Pinning min(Box3.y) to zero every frame made the entire body jump by 12 cm
-  // at 60 fps. Constant run support retains the authored 7 cm hip bob instead.
-  // A smooth baked transition envelope handles leg extension while blending.
+
+
+
+
   function transitionSupport(weight) {
     const frame = weight * (TRANSITION_SUPPORT.length - 1);
     const i = Math.min(TRANSITION_SUPPORT.length - 2, Math.floor(frame));
@@ -334,8 +334,8 @@ function createCharacter(THREE, gltf, entry, cacheRecord = null) {
       takeoffSnapshot = null; jump.setEffectiveWeight(0);
     }
   }
-  // This only chooses a local native pose. The caller owns all world movement,
-  // height, gravity, collision, jump permission, and the authoritative clock.
+
+
   function setAirborne(state = {}) {
     if (disposed) return false;
     const nextAirborne = Boolean(state.airborne) && !seated;
@@ -386,9 +386,9 @@ function createCharacter(THREE, gltf, entry, cacheRecord = null) {
     for (const action of groundActions) action.setEffectiveWeight(action.getEffectiveWeight() * (1 - jumpWeight));
   }
   function restoreTakeoffPose() {
-    // AnimationMixer skips a property write if its sampled value is unchanged.
-    // Restore the last unblended pose before evaluating again so our takeoff
-    // overlay cannot leave constant translation/rotation tracks stuck halfway.
+
+
+
     if (!takeoffSnapshot) return;
     for (const { bone, mixedPosition, mixedQuaternion } of takeoffSnapshot) {
       if (mixedPosition) bone.position.copy(mixedPosition);
@@ -434,17 +434,17 @@ function createCharacter(THREE, gltf, entry, cacheRecord = null) {
     }
   }
   function updateSupport() {
-    // Keep the original walking/running support unchanged whenever grounded.
-    // The landing envelope was baked from real native poses; unlike min(Box3),
-    // its smooth weight cannot jitter when the lowest foot changes.
+
+
+
     let height = (1 - movingWeight) * supportAt(idle, idle.time) + movingWeight * RUN_SUPPORT
       + transitionSupport(movingWeight);
     height = THREE.MathUtils.lerp(height, jumpSupport, jumpWeight)
       + jumpClearance * Math.sin(Math.PI * jumpWeight);
     if (takeoffSnapshot) height = THREE.MathUtils.lerp(takeoffSupport, height,
       smoothStep(takeoffElapsed / JUMP_TAKEOFF_BLEND));
-    // Offline real-skin blend sweep requires at most .185 m of clearance.
-    // A smooth .21 m envelope keeps the feet above the floor in both directions.
+
+
     pivot.position.y = THREE.MathUtils.lerp(height, seatedCalibration.seatSupport, seatedWeight)
       + .21 * Math.sin(Math.PI * seatedWeight);
     group.updateMatrixWorld(true);
@@ -486,9 +486,9 @@ function createCharacter(THREE, gltf, entry, cacheRecord = null) {
     }
     const blend = 1 - Math.exp(-12 * step);
     const desiredMotion = !seated && velocity > 0.04 ? Math.min(1, velocity) : 0;
-    // Critically damped weight keeps both position and velocity continuous
-    // when movement starts/stops; an exponential weight alone starts at its
-    // maximum velocity and made the transition support visibly pop upward.
+
+
+
     const omega = 8;
     const decay = Math.exp(-omega * step);
     const change = movingWeight - desiredMotion;
@@ -498,8 +498,8 @@ function createCharacter(THREE, gltf, entry, cacheRecord = null) {
     runWeight += ((velocity > 5.4 ? 1 : 0) - runWeight) * blend;
     idle.setEffectiveWeight(1 - movingWeight);
     const desiredCadence = Math.max(0.3, Math.min(1.4, velocity / 7));
-    // Integrate the exponential cadence ramp exactly across each frame. Its
-    // phase therefore matches at 30/60/120 fps, including speed changes.
+
+
     const cadenceBlend = 1 - Math.exp(-10 * step);
     const averageCadence = step > 0
       ? desiredCadence + (cadence - desiredCadence) * cadenceBlend / (10 * step)
@@ -547,10 +547,10 @@ function createCharacter(THREE, gltf, entry, cacheRecord = null) {
 }
 
 
-/** Static snapshot with original UV/materials. The temporary mixer's normalized
- * idle pose is baked into positions/normals once; displays have no skeleton,
- * animation mixer or per-frame work. Multiple instances share frozen geometry.
- */
+
+
+
+
 export async function createCharacterDisplay(THREE, { id, url, height = BACON_HEIGHT } = {}) {
   const entry = resolveEntry(id, url);
   const record = await getCachedAsset(entry, url ?? entry.url);

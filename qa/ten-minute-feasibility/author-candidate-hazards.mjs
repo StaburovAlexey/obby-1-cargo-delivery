@@ -1,4 +1,4 @@
-// HISTORICAL ONE-TIME AUTHORING PASS. Not idempotent; do not rerun on the finalized candidate.
+
 import fs from 'node:fs';
 const root='/workspace/scratch/e6939d35b3a6/city-ten-minute-candidate/';
 const file=root+'dist/road-hazards.js';

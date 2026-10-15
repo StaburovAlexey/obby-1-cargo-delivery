@@ -1,6 +1,6 @@
-/* Urban Route — original procedural environment. No model or texture assets.
- * Logical coordinates: (x, distance along street, height), metres.
- * Conversion to Three.js: (x, height, -distance). */
+
+
+
 import {
   createBrickPlasticMaterial,
   BRICK_STYLE,
@@ -133,7 +133,7 @@ export function buildCity(THREE, { seed = 42, studs = true } = {}) {
         : axis === "Y"
           ? [Math.PI / 2, 0, 0]
           : null;
-    // Cylinder's vertical axis is native Y. Rotation order above maps logical axes.
+
     if (axis === "X")
       return add(type, name, loc, [r, r, depth], color, [0, Math.PI / 2, 0]);
     return add(type, name, loc, [r, r, depth], color, rot);
@@ -208,7 +208,7 @@ export function buildCity(THREE, { seed = 42, studs = true } = {}) {
     group(section).add(mesh);
     return mesh;
   }
-  // A closed continuous terrain surface avoids stair-step intrusion into the ramp.
+
   section = "Terrain";
   {
     const p = [],
@@ -407,7 +407,7 @@ export function buildCity(THREE, { seed = 42, studs = true } = {}) {
     if (!studs) return;
     const pitch = BRICK_STYLE.studPitch,
       r = BRICK_STYLE.studRadius;
-    // Stud centers align to the same global 0.8 m lattice as the roof seam shader.
+
     const startX =
       (Math.ceil((x - width / 2 + 0.4) / pitch - 0.5) + 0.5) * pitch;
     const startY =
@@ -522,7 +522,7 @@ export function buildCity(THREE, { seed = 42, studs = true } = {}) {
           f > 0 && j === 1,
           { px: x - (side * width) / 2, py: y, a: (-side * Math.PI) / 2 },
         );
-    // Rear and outer facades stay finished when orbiting around the district.
+
     for (let f = 0; f < floors; f++) {
       for (let j = 0; j < cols; j++)
         window(
@@ -595,7 +595,7 @@ export function buildCity(THREE, { seed = 42, studs = true } = {}) {
         palette[(i + (s > 0 ? 3 : 0) + Math.floor(rand() * 2)) % 4],
         (s > 0 ? 4 : 0) + i,
       );
-  // Tiny voxel lettering uses the same instanced boxes; no font or image assets.
+
   function lettering(text, x, y, z, pixel = 0.1, color = "cream") {
     const font = {
       D: ["11110", "10001", "10001", "10001", "10001", "10001", "11110"],
@@ -682,7 +682,7 @@ export function buildCity(THREE, { seed = 42, studs = true } = {}) {
     );
   box("Depot sign", [dx, dy - 5.27, 6.63], [8.2, 0.14, 1.02], "teal");
   lettering("DEPOT", dx, dy - 5.36, 6.63, 0.105);
-  // Parcel icon on the fascia, built from beams rather than an image.
+
   for (let x of [dx - 4.1, dx + 4.1]) {
     box("Dock bumper", [x, dy - 5.3, 1.04], [0.5, 0.3, 1.45], "rubber");
     for (let z of [0.54, 0.95, 1.36, 1.77])
@@ -1143,7 +1143,7 @@ export function buildCity(THREE, { seed = 42, studs = true } = {}) {
         "glassLight",
       );
   }
-  // Mesh instancing keeps draw calls low; original transforms stay accessible in userData.
+
   let instances = 0,
     triangles = 0;
   for (const [key, b] of batches) {

@@ -1,7 +1,7 @@
-/* Urban Route — original procedural environment. No imported models.
- * Facades/roofs/road use small code-generated textures instead of repeated detail meshes.
- * Logical coordinates: (x, distance along street, height), metres.
- * Conversion to Three.js: (x, height, -distance). */
+
+
+
+
 import {
   createBrickPlasticMaterial,
   createRoadMaterial,
@@ -111,7 +111,7 @@ export function buildCity(THREE, { seed = 42 } = {}) {
         : axis === "Y"
           ? [Math.PI / 2, 0, 0]
           : null;
-    // Cylinder's vertical axis is native Y. Rotation order above maps logical axes.
+
     if (axis === "X")
       return add(type, name, loc, [r, r, depth], color, [0, Math.PI / 2, 0]);
     return add(type, name, loc, [r, r, depth], color, rot);
@@ -158,8 +158,8 @@ export function buildCity(THREE, { seed = 42 } = {}) {
   const roadMaterial=createRoadMaterial(THREE,materials.road);
   const grassMaterial=createGroundMaterial(THREE,"grass",materials.grass);
   const paintMaterial=new THREE.MeshStandardMaterial({color:materials.white,roughness:.86,polygonOffset:true,polygonOffsetFactor:-1,polygonOffsetUnits:-1});
-  // One closed terrain surface. Cross-road grade is shared with the vehicle,
-  // with no curb riser, planter slab, staircase, or stud geometry.
+
+
   section="Terrain";
   {
     const positions=[],uv=[],indices=[],rows=385,cols=11,start=ROUTE.start-4,end=ROUTE.end+9;
@@ -171,11 +171,11 @@ export function buildCity(THREE, { seed = 42 } = {}) {
     }
     for(let i=0;i<rows-1;i++)for(let j=0;j<cols-1;j++) {
       const a=i*cols+j,b=a+cols;
-      // Coincident central columns are deliberately welded logically at the fork.
+
       if(Math.abs(positions[(a+1)*3]-positions[a*3])+Math.abs(positions[(b+1)*3]-positions[b*3])>1e-8)
         indices.push(a,a+1,b,a+1,b+1,b);
     }
-    // Side skirts and bottom close the diorama; they are outside the drive area.
+
     const ring=[];for(let j=0;j<cols;j++)ring.push(j);for(let i=1;i<rows;i++)ring.push(i*cols+cols-1);for(let j=cols-2;j>=0;j--)ring.push((rows-1)*cols+j);for(let i=rows-2;i>0;i--)ring.push(i*cols);
     const bottom=[];for(const v of ring){bottom.push(positions.length/3);positions.push(positions[v*3],-1.8,positions[v*3+2]);uv.push(positions[v*3]/4,positions[v*3+2]/4);}
     for(let i=0;i<ring.length;i++){const n=(i+1)%ring.length;indices.push(ring[i],bottom[i],ring[n],ring[n],bottom[i],bottom[n]);}
@@ -185,19 +185,19 @@ export function buildCity(THREE, { seed = 42 } = {}) {
     const mesh=new THREE.Mesh(g,grassMaterial);mesh.name="Closed continuous terrain foundation";mesh.receiveShadow=true;mesh.castShadow=true;group(section).add(mesh);
   }
   section="Street";
-  // Two half-strips share the wide approach and separate at an exact mesh station.
+
   surfaceMesh("Continuous 30m-wide road",[y=>halves(y)[0],y=>halves(y)[1]],ROUTE.start,ROUTE.end,roadMaterial);
   const w=ROUTE.halfWidth,split=ROAD_SPLIT_Y;
-  // Edge markings are paint; houses directly bound the avenue without sidewalks.
+
   surfaceMesh("Flush painted curb",[y=>{const [l]=centers(y);return[l-w+.05,l-w+.19];},y=>{const [,r]=centers(y);return[r+w-.19,r+w-.05];}],ROUTE.start,ROUTE.end,paintMaterial,.008);
   surfaceMesh("Fork inner edge paint",[y=>{const [l]=centers(y);return[l+w-.19,l+w-.05];},y=>{const [,r]=centers(y);return[r-w+.05,r-w+.19];}],split+.2,ROUTE.end,paintMaterial,.008);
   for(const id of["main","left","right"]) {
     const start=id==="main"?ROUTE.start+3:ROUTE.fork+10,end=id==="main"?ROUTE.fork-4:ROUTE.end-3;
     for(let y=start;y<end;y+=6)surfaceMesh("Center dash",[yy=>{const x=branchCenter(id,yy);return[x-.1,x+.1];}],y,Math.min(y+2.5,end),paintMaterial,.008,1.25);
   }
-  // Every residence is a single instanced cuboid. Its front follows a short
-  // road-edge chord; a conservative footprint fit keeps every corner outside
-  // the true curved road. Small overlap closes joints without curb geometry.
+
+
+
   const palette=["coral","mustard","mint","blue"];
   let buildingCount=0;
   function spanAt(polygon,y) {
@@ -233,8 +233,8 @@ export function buildCity(THREE, { seed = 42 } = {}) {
     }
     polygon=footprint();
     const floors=3+(rand()>.72?1:0),height=floors*2.8+.4;
-    // Bury the bottom below the lowest adjacent surface: no daylight under
-    // descending homes, while level roofs retain the simple cuboid silhouette.
+
+
     let low=Infinity,high=-Infinity;
     for(let i=0;i<4;i++)for(let j=0;j<=8;j++){
       const a=polygon[i],b=polygon[(i+1)%4],t=j/8,h=surfaceHeight(a.x+(b.x-a.x)*t,a.y+(b.y-a.y)*t);
@@ -248,14 +248,14 @@ export function buildCity(THREE, { seed = 42 } = {}) {
   }
   for(const side of[-1,1]){
     const row=side<0?"West residences":"East residences",id=side<0?"left":"right";
-    // Explicit fork station prevents a box straddling the change in curvature.
+
     for(const [start,end] of[[ROUTE.start-.25,ROUTE.fork],[ROUTE.fork,ROUTE.end+.25]]){
       const count=Math.ceil((end-start)/6);
       for(let i=0;i<count;i++)addResidence(row,id,side,start+(end-start)*i/count,start+(end-start)*(i+1)/count);
     }
   }
-  // At the pointed fork there is not room for two deep houses. Low, closely
-  // abutting cuboids fill the first 10m of median, then blend into its two rows.
+
+
   const noseEnd=split+10,noseStep=5/3,noseColor="mint";
   for(let from=split+.045;from<noseEnd;from+=noseStep){
     const to=Math.min(from+noseStep+.015,noseEnd),mid=(from+to)/2;
@@ -397,7 +397,7 @@ export function buildCity(THREE, { seed = 42 } = {}) {
     box("Distant tower", [x, y, z + h / 2], [5.4, 5, h], "skyline");
 
   }
-  // All flat road markings share one merged draw batch.
+
   for(const [material,name] of[[paintMaterial,"Flush road markings"]]) {
     const sources=[];for(const g of Object.values(groups))for(const mesh of g.children)if(mesh.isMesh&&mesh.material===material)sources.push(mesh);
     if(!sources.length)continue;
@@ -406,7 +406,7 @@ export function buildCity(THREE, { seed = 42 } = {}) {
     const geometry=new THREE.BufferGeometry();geometry.setAttribute("position",new THREE.Float32BufferAttribute(positions,3));geometry.setAttribute("uv",new THREE.Float32BufferAttribute(uv,2));geometry.setIndex(index);finishSurfaceGeometry(geometry);
     const mesh=new THREE.Mesh(geometry,material);mesh.name=name;mesh.receiveShadow=true;mesh.userData.sourceNames=sources.map(o=>o.name);group("Street").add(mesh);
   }
-  // Mesh instancing keeps draw calls low; original transforms stay accessible in userData.
+
   let instances = 0,
     triangles = 0;
   for (const [key, b] of batches) {

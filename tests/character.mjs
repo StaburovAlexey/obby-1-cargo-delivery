@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Real Three GLTF parsing, skinning, animation, and input lifecycle checks.
-// No browser/WebGL. PNG decoding/rendering is not claimed by these tests.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -11,7 +11,7 @@ import { createWalkInput, cameraRelativeAxes } from '../dist/walk-input.js';
 const require = createRequire(import.meta.url);
 let validator;
 try { validator = require('gltf-validator'); }
-catch { try { validator = require('../../tools/node_modules/gltf-validator'); } catch { /* Optional validation dependency. */ } }
+catch { try { validator = require('../../tools/node_modules/gltf-validator'); } catch {                                       } }
 let checks = 0;
 function check(name, callback) { callback(); checks++; console.log(`PASS ${name}`); }
 function near(actual, expected, epsilon = 1e-6) { assert.ok(Math.abs(actual - expected) < epsilon, `${actual} != ${expected}`); }
@@ -31,8 +31,8 @@ check('Shipped asset matches original GLB hash, clips and embedded PNG', () => {
   assert.equal(json.images[0].mimeType, 'image/png');
   assert.equal(json.images[0].uri, undefined);
 });
-// GLTFLoader still reads the original embedded PNG. A minimal bitmap shim lets
-// Node exercise the real loader without claiming browser image decoding.
+
+
 const oldSelf = globalThis.self, oldBitmap = globalThis.createImageBitmap;
 let bitmapClosed = 0, imageDecoded = 0;
 globalThis.self = globalThis;

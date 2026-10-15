@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Actual Three.js meshes plus shader-source/CPU palette audit. This does not
-// compile GLSL, run WebGL, render screenshots or measure GPU/mobile performance.
+
+
 import assert from 'node:assert/strict';
 import * as THREE from '../dist/vendor/three.module.js';
 import { GRASS_CHECKER_TEXTURE,createGrassCheckerTextureData } from '../dist/square-stud-texture.js';
@@ -38,7 +38,7 @@ try{
   assert.equal(t.minFilter,THREE.LinearMipmapLinearFilter);assert.equal(t.magFilter,THREE.LinearFilter);assert.equal(t.generateMipmaps,true);assert.equal(t.anisotropy,4);
   assert.equal(GRASS_CHECKER_TEXTURE.studPitch,.4);assert.equal(GRASS_CHECKER_TEXTURE.studSize,.2);
   for(const mesh of[road,terrain]){const p=mesh.geometry.attributes.position,uv=mesh.geometry.attributes.uv;
-   // Terrain includes a closed skirt/bottom; inspect its top road-side strip.
+
    for(let i=0;i<p.count;i++){if(mesh===terrain&&(p.getY(i)<=-1.79||Math.abs(mesh.geometry.attributes.roadAcross.getX(i))>17.5))continue;
     near(uv.getX(i),p.getX(i)/4,1e-4);near(uv.getY(i),-p.getZ(i)/4,1e-4);}
   }

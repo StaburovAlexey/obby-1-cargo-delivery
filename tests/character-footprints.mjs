@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Actual deformed vertices across complete idle/run cycles, without a renderer.
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import * as THREE from '../dist/vendor/three.module.js';

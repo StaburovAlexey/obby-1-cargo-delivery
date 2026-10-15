@@ -69,7 +69,7 @@ const unhandled = [];
 const onUnhandled = error => unhandled.push(error);
 process.on('unhandledRejection', onUnhandled);
 
-// Cold construction, updates, mute, stop and disposal must not autoplay or load.
+
 {
   const h = harness();
   update(h); h.audio.stop(); h.audio.setMuted(true); h.audio.setMuted(false);
@@ -80,7 +80,7 @@ process.on('unhandledRejection', onUnhandled);
   assert.equal(await unsupported.unlock(), false); unsupported.update(.02, active); await unsupported.dispose();
 }
 
-// Gesture resume is synchronous, fetch/decode are shared, and looping is bounded.
+
 {
   const h = harness(), first = h.audio.unlock();
   assert.equal(h.contexts.length, 1); assert.equal(h.context.resumeCalls, 1, 'resume called before awaiting gesture');
@@ -118,7 +118,7 @@ process.on('unhandledRejection', onUnhandled);
   assert.equal(live(h.context).length, 0); assert.equal(h.context.closeCalls, 1); assert.equal(h.timers.callbacks.size, 0);
 }
 
-// Every inactive lifecycle reason is immediately silent, including an impact tail.
+
 for (const reason of ['hidden', 'blurred', 'modal', 'garage', 'fall', 'fuel-zero']) {
   const h = harness(); await h.audio.unlock(); update(h, { ...active, slip: 4, impact: .8 });
   assert.equal(live(h.context).length, 3);
@@ -133,7 +133,7 @@ for (const reason of ['hidden', 'blurred', 'modal', 'garage', 'fall', 'fuel-zero
   await h.audio.dispose();
 }
 
-// Muting persists as state across stop/unlock. Unmute never performs resume itself.
+
 {
   const h = harness({ audio: { muted: true } });
   assert.equal(h.audio.muted, true); await h.audio.unlock(); update(h, { ...active, slip: 4, impact: 1 });
@@ -152,7 +152,7 @@ for (const reason of ['hidden', 'blurred', 'modal', 'garage', 'fall', 'fuel-zero
   await h.audio.dispose();
 }
 
-// Collision contact must have a new edge and satisfy the cooldown, with one voice.
+
 {
   const h = harness(); await h.audio.unlock();
   update(h, { ...active, impact: .8 });
@@ -174,7 +174,7 @@ for (const reason of ['hidden', 'blurred', 'modal', 'garage', 'fall', 'fuel-zero
   await h.audio.dispose();
 }
 
-// Bad input must not leak NaN/Infinity into AudioParams, and input stays untouched.
+
 {
   const h = harness(); await h.audio.unlock();
   const state = Object.freeze({ active: true, speed: NaN, slip: Infinity, throttle: -Infinity, braking: 'bad', impact: NaN });
@@ -184,7 +184,7 @@ for (const reason of ['hidden', 'blurred', 'modal', 'garage', 'fall', 'fuel-zero
   await h.audio.dispose();
 }
 
-// Fetch failures, invalid responses and decode errors remain isolated and quiet.
+
 for (const fetch of [() => { throw Error('fetch unavailable'); }, async () => { throw Error('network failed'); }, async () => ({ ok: false }), async () => ({ ok: true, arrayBuffer: async () => { throw Error('body failed'); } })]) {
   const h = harness({ fetch });
   assert.equal(await h.audio.unlock(), false); update(h, { ...active, slip: 8, impact: 1 });
@@ -207,7 +207,7 @@ for (const fetch of [() => { throw Error('fetch unavailable'); }, async () => { 
   await h.audio.dispose();
 }
 
-// Failed resume can be retried by another gesture, never automatically by a frame.
+
 {
   let attempts = 0;
   const h = harness({ context: { resume: context => { if (++attempts === 1) return Promise.reject(Error('gesture required')); context.state = 'running'; return Promise.resolve(); } } });
@@ -216,7 +216,7 @@ for (const fetch of [() => { throw Error('fetch unavailable'); }, async () => { 
   await h.audio.dispose();
 }
 
-// Hung operations have deadlines; late fetch/decode completions cannot start audio.
+
 {
   const fetchResult = deferred();
   const h = harness({ fetch: () => fetchResult.promise }), unlock = h.audio.unlock();

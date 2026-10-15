@@ -1,4 +1,4 @@
-// Renderer-free integration and CSS contracts; not a browser layout measurement.
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {brainDisplay,brainRateDisplay,updateProgressionHud} from '../dist/progression-hud.js';
@@ -36,8 +36,8 @@ assert.match(value,/font-variant-numeric:tabular-nums/);
 assert.match(value,/min-width:0;overflow:hidden;text-align:right/);
 assert.match(value,/font-size:min\(calc\(var\(--top-icon-size\)\*\.56\),calc\(\(100cqw - 115px - var\(--top-icon-size\) - 12px\)\/\(var\(--brain-digits,1\)\*\.68\)\)\)/);
 assert.match(baseCss,/\.topbar \{ container-type: inline-size; \}/);
-// Evaluate the declared sizing budget at desktop, portrait and short landscape
-// sizes. Natural row order fixes the number's right edge for every balance.
+
+
 for(const [container,iconSize] of [[288,52],[364,65],[804,48],[1326,82]]){
   const valueRight=container;
   for(const [,text]of balances){

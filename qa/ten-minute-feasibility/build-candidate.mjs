@@ -1,5 +1,5 @@
-// HISTORICAL INITIAL AUTHORING PASS. Do not rerun over the finalized isolated candidate.
-// Final geometry/hazards/payout corrections are documented in README.md and the candidate snapshot.
+
+
 import fs from 'node:fs';
 const root=new URL('../../',import.meta.url).pathname,dir='/workspace/scratch/e6939d35b3a6/city-ten-minute-candidate/';
 fs.mkdirSync(dir,{recursive:true});fs.cpSync(root+'dist',dir+'dist',{recursive:true});
@@ -7,8 +7,8 @@ const gaps=[180,260,340,360,400,440,500,560,630,710,800,900,1020,1150,1300,4000]
 const ids=['city','forest','desert','snow','volcanic'],bounds=[-17,3000,5800,8500,11000,13570],biomes=ids.map((id,i)=>({id,name:id,from:bounds[i],to:bounds[i+1],color:[0x22e500,0x159b2e,0xf2b941,0xe6f8ff,0x553442][i]}));
 const forks=[[4500,5000],[7280,7780],[9800,10300],[11850,12350]].map(([from,to],i)=>({id:ids[i+1]+'-fork',biome:ids[i+1],from,to,offset:25,ridge:4.4,valley:-3.4,skew:[.18,.24,-.2,-.24][i]}));
 const turns=[[800,3000,0,Math.PI/2],[3000,4400,Math.PI/2,Math.PI/4],[5800,7150,Math.PI/4,0],[8500,9670,0,-Math.PI/4],[11000,11750,-Math.PI/4,-Math.PI/8],[12400,13570,-Math.PI/8,Math.PI/8]];
-// Initial geometry candidate uses gentle broad hills and level service shelves.
-// Later physical terrain validation remains required; no main runtime change.
+
+
 const anchors=[[-17,0],[0,0],[780,0],[3000,20],[4500,32],[5000,32],[5800,20],[7280,38],[7780,38],[8500,28],[9800,16],[10300,16],[11000,32],[11850,45],[12350,45],[13570,20]];
 const ease=t=>t*t*t*(10+t*(-15+6*t));
 function h(q){let j=0;while(j<anchors.length-2&&anchors[j+1][0]<=q)j++;const [a,x]=anchors[j],[b,y]=anchors[j+1];return x+(y-x)*ease(Math.max(0,Math.min(1,(q-a)/(b-a))));}

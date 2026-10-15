@@ -69,7 +69,7 @@ import { UPGRADE_STATS, getVehiclePerformance } from "./vehicle-upgrades.js";
 import { updateProgressionHud, updateProgressionWorldLabels, WORLD_LABEL_DROP } from "./progression-hud.js";
 const memoryRecords=new Map();
 const careerStore=services?.cloud?.store??createCareerStore({storage:{getItem:key=>memoryRecords.get(key)??null,setItem:(key,value)=>memoryRecords.set(key,value)}});
-// Explicit developer URL keeps normal career storage read-only for this session.
+
 const developerMode=(!services||services.development)&&new URLSearchParams(window.location?.search||'').get('dev')==='1';
 document.body.classList.toggle('developer-mode',developerMode);
 const viewport = document.getElementById("viewport");
@@ -243,8 +243,8 @@ function rebuild(value) {
     city.dispose();
   }
   city = next;
-  // Overview anchors follow the generated graph instead of obsolete world-Z
-  // stations. Playing follow/orbit camera behavior is otherwise unchanged.
+
+
   const roadBounds=city.group.getObjectByName('Continuous 30m-wide road').geometry;
   roadBounds.computeBoundingBox();
   const box=roadBounds.boundingBox,centre=box.getCenter(new THREE.Vector3()),span=box.getSize(new THREE.Vector3()),extent=Math.max(span.x,span.z);
@@ -358,8 +358,8 @@ function applyTruckPose() {
   if (biomeLabel) biomeLabel.textContent = biome?.name || biome?.label || "Город";
   data.biome = biome?.id || "city";
 }
-// Requested unrestricted orbital camera: no wall raycasts, roof/terrain
-// clamping, near-wall pushes or corrective zoom. A fixed radius is preserved.
+
+
 const smoothedCameraTarget=new THREE.Vector3();
 let renderedCameraScale=1;
 function followTruck(dt,snap=false,distance=0){
@@ -369,15 +369,15 @@ function followTruck(dt,snap=false,distance=0){
   const scale=drivingCameraScale(camera.aspect);
   desiredTarget.copy(rig.root.position);desiredTarget.y+=1.7;
   desiredCamera.set(offset.x*scale,offset.y*scale,offset.z*scale).add(desiredTarget);
-  // A look gesture changes angles immediately, never translation damping.
-  // Bypassing damping on pointerdown snapped the remaining follow-target lag.
+
+
   const blend=snap?1:1-Math.exp(-7*Math.max(0,dt));
   smoothedCameraTarget.lerp(desiredTarget,blend);
   camera.position.set(offset.x*scale,offset.y*scale,offset.z*scale).add(smoothedCameraTarget);
   camera.lookAt(smoothedCameraTarget);
   controls.target.copy(smoothedCameraTarget);renderedCameraScale=scale;
 }
-// Gameplay feedback is conveyed by counters, prices and controls. No text toasts.
+
 const retentionUi=createRetentionUi(document,{onOpenChange:open=>{careerMenuOpen=!!open;inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();model?.pause();gameplay?.flushProgress();lastTime=0;syncMode();},onSelectGoal:id=>{gameplay?.setVehicleGoal(id);updateEconomyHud();},onSkipMission:()=>{gameplay?.skipMission();updateEconomyHud();}});
 
 settingsUi=createSettingsMenu(document,{volume:audioVolume,language:selectedLanguage,
@@ -394,8 +394,8 @@ function updateFuelHud(){
   const id=gameplay?.state.selectedId;
   const capacity=getVehiclePerformance(vehicleConfig(id).id,gameplay?.state.upgrades[id]).capacity;
   const value=Math.max(0,Math.min(capacity,id ? gameplay.state.fuels[id] : capacity));
-  // Round only the readout. The tank, fill and consumption keep their exact
-  // fractions; the epsilon avoids turning 109.00000000000001 into 110.
+
+
   const displayCapacity=Math.ceil(capacity-1e-7);
   const display=value>0 ? Math.min(displayCapacity,Math.max(1,Math.ceil(value-1e-7))) : 0;
   for(const [elementId,number] of [['fuel-current',display],['fuel-capacity',displayCapacity]]){
@@ -438,7 +438,7 @@ function updateEconomyHud(){
     const v=garage.vehicles[i],owned=gameplay.isOwned(v.id),label=document.getElementById(`vehicle-price-${i+1}`);
     label.hidden=owned||!playing||state.mode!=='walking';
     document.getElementById(`vehicle-price-value-${i+1}`).textContent=v.rewardDisplay?'Заблокировано':String(vehicleConfig(v.id).price);
-    v.cargo.visible=false; // Cargo remains in gameplay, without a roof-mounted box.
+    v.cargo.visible=false;
   }
 }
 const labelProjection=new THREE.Vector3();
@@ -551,8 +551,8 @@ function syncMode(snap=false){
   const walking=playing&&gameplay?.state.mode==='walking';
   controls.enabled=!playing&&!settingsMenuOpen;
   scene.fog.near=playing?500:10000;scene.fog.far=playing?1600:18000;
-  // A useful near plane preserves depth precision over the long road. This
-  // changes clipping only; it never moves, pushes or zooms the camera.
+
+
   camera.near=playing?.5:5;camera.far=playing?1800:18000;camera.updateProjectionMatrix();
   const vehicleLocked=gameplay?.state.mode==='driving';
   document.getElementById('regenerate').disabled=vehicleLocked||!developerMode;
@@ -588,15 +588,15 @@ function enterVehicle(id){
   if(!vehicle||!gameplay.isOwned(id)||(gameplay.state.mode==='driving'&&gameplay.state.selectedId!==id))return false;
   bridgeFall.reset();wheelParticles?.clear();roadHazards?.reset();roadHazardsScene?.update(0);
   const spawn=GAMEPLAY.roadSpawn;
-  // Check the full conservative vehicle envelope before changing the session.
+
   const footprint=vehicleFootprint(vehicle.visual?.metadata,0,vehicle.contactFootprint??={});
   if(getTruckContact(spawn.x,spawn.z,spawn.heading,obstacles,undefined,footprint)||roadHazards.contact(spawn.x,spawn.z,spawn.heading,footprint)){
     returnToGarage('blocked');notify('Стартовая полоса занята. Вы возвращены в ангар.');return false;
   }
   if(gameplay.state.mode!=='driving'&&!gameplay.enter(id))return false;
   inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();lastTime=0;
-  // Only the selected car is on the network. Park the previous selection first
-  // so repeated entries can never create a stack of cars on the launch point.
+
+
   for(const v of garage.vehicles){v.model.reset();v.routeContext=null;poseVehicle(v);}
   model=vehicle.model;rig=vehicle.rig;
   Object.assign(model.state,spawn);vehicle.routeContext=null;model.pause();model.setGear('D');
@@ -703,7 +703,7 @@ function selectCharacter(id,initial=false){
 }
 async function populateDisplays({required=false}={}){
   const generation=displayGeneration,stands=garage.stands;
-  // Sequential cached static snapshots avoid seventeen simultaneous animation mixers.
+
   for(const stand of stands){
     try{
       const spec=CHARACTER_CATALOG[stand.index];if(!spec)continue;
@@ -837,8 +837,8 @@ function frame(now) {
   }
   if (playing && startup.ready && characterReady && !gameplayPaused()) {
     if(driving){
-      // Hazards advance only with the same visible driving simulation clock.
-      // Modal, hidden, garage and teleport time can never fast-forward a rock.
+
+
       roadHazards.update(dt,model.state,true);
       if(!bridgeFall.active){
         model.step(dt);
@@ -850,8 +850,8 @@ function frame(now) {
       if(fell&&bridgeFall.step(dt)){returnToGarage('bridge');}
       else applyTruckPose();
       roadHazardsScene.update(dt);
-      // Sum actual fixed-step path, including sideways slip and reverse. A
-      // signed wheel-roll total could cancel during D/R and undercount fuel.
+
+
       const actualDistance=dt&&!fell?model.state.pathDistance:0;
       if(!fell)gameplay.tickProgress(model.state.movingSeconds||0,{distance:actualDistance,active:rewardFrameValid});
       if(!fell)careerRouteTracker.update(gameplay,model.state,dt);
@@ -862,8 +862,8 @@ function frame(now) {
     }else{
       const move=walkInput.sample(),p=gameplay.state.player,before={x:p.x,z:p.z};
       gameplay.walk(dt,move);
-      // Study follows visible real elapsed time, not the movement/animation
-      // clamp: at 15 FPS a 6/s class must still earn 60 in ten seconds.
+
+
       gameplay.tickProgress(rewardFrameValid?Math.min(rawDelta,.1):0,{distance:0,active:rewardFrameValid});
       handleGameplayEvents();
       lastWalkSpeed=dt?Math.hypot(p.x-before.x,p.z-before.z)/dt:0;updateCharacter(dt,lastWalkSpeed);
@@ -910,8 +910,8 @@ if(services?.serverUrl){
 window.addEventListener('pagehide',()=>{if(disposedOnline)return;disposedOnline=true;onlineSession?.dispose();advertising?.destroy();});
 requestAnimationFrame(frame);
 
-// Every visible showroom character and every current vehicle is part of boot.
-// Audio stays gesture-unlocked; it is not needed to draw the opening scene.
+
+
 const initialAssets=Promise.all([
   initialCharacter.then(()=>populateDisplays({required:true})),
   garage.vehicleVisuals?.ready.then(result=>{if(result.loaded!==result.total)throw new Error('Vehicle models incomplete');}),

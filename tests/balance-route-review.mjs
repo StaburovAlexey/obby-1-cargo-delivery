@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-/** Independent balance review. Production solver + gameplay + actual service
- * circles. Only steering/throttle inputs after spawn; no fuel/pose injection.
- * --quick covers the starter pass/fail/upgrade, slalom and biome fuel tests.
- * Default also checks all ten stock/max maximum delivery routes. */
+
+
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -61,8 +61,8 @@ function runJourney({id='pickup',max=false,target=2,expect='delivery',slalom=fal
  gameplay.events();
  while(gameplay.state.mode==='driving'&&frames<30000){
   const state=model.state,input=controller.sample(state),before={x:state.x,z:state.z,h:context.height,fuel:gameplay.state.fuels[id]};
-  // Small real steering oscillation away from service circles. This consumes
-  // additional measured path length rather than synthetic graph progress.
+
+
   if(slalom&&!BRIDGES.some(b=>Math.abs(context.progress-(b.from+b.to)/2)<140)&&!g.stations.some(s=>Math.abs(context.distance-s.distance)<70))input.steering+=.12*Math.sin(frames*dt*1.8);
   if(input.carefulPedal)carefulPedalFrames++;
   model.setInput(input);hazards.update(dt,{...state,routeContext:context},true);model.step(dt);frames++;
@@ -102,8 +102,8 @@ check('Pickup max10 fails unload 4 despite full refills',()=>runJourney({max:tru
 check('Pickup stock slalom still reaches unload 2',()=>runJourney({target:2,slalom:true}));
 check('World-space biome crossing uses actual distance multiplier',()=>{
  const game=createGameplay({vehicles:g.vehicles,career:{version:2,ownedVehicleIds:['pickup']}});assert.equal(game.enter('pickup'),true);let fuel=game.state.fuels.pickup;const demand=[];
- // Read-only accounting inputs isolate gameplay's biome lookup. Complete
- // input-only physical journeys above separately verify displacement origins.
+
+
  for(const b of BIOMES){const p=routePointAtProgress(b.id==='city'?60:b.from+60);game.drive(.75,p.x,p.z);const used=fuel-game.state.fuels.pickup,expected=.75*vehicleConfig('pickup').consumption*biomeSurfaceAt(p.progress,'pickup').fuelFactor;assert.ok(Math.abs(used-expected)<1e-9);demand.push({biome:b.id,factor:biomeSurfaceAt(p.progress,'pickup').fuelFactor,fuelFor075m:round(used)});fuel=game.state.fuels.pickup;}return{demand};
 });
 if(!quick){const stock=[2,3,4,5,7,8,10,10,11,11],max=[3,4,5,7,8,9,10,11,11,11];for(const [i,v]of VEHICLE_CONFIG.entries())for(const upgraded of [false,true]){if(i===0||(only&&v.id!==only))continue;const target=(upgraded?max:stock)[i],branch=i%2?'alternate':'primary';check(`${v.id} ${upgraded?'max10':'stock'} reaches expected unload`,()=>runJourney({id:v.id,max:upgraded,target,branch}));}}

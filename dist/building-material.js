@@ -1,11 +1,11 @@
-/** Flat low-poly building and road surfaces. A metric square-stud base is
- * independent from the window overlay, so floors never interrupt stud spacing. */
+
+
 import { SQUARE_STUD_STYLE, GRASS_CHECKER_TEXTURE, sampleGrassChecker,
   createPatternTexture, createGrassCheckerTextureData, useGrassCheckerTexture } from './square-stud-texture.js';
 export { SQUARE_STUD_STYLE, SQUARE_STUD_TEXTURE, createSquareStudTextureData } from './square-stud-texture.js';
 export const BRICK_STYLE = Object.freeze({
   ...SQUARE_STUD_STYLE,
-  // Legacy dimension names are retained; they now describe a seamless square cell.
+
   blockWidth: SQUARE_STUD_STYLE.studPitch / 2,
   blockHeight: SQUARE_STUD_STYLE.studPitch / 2,
   jointWidth: 0,
@@ -56,7 +56,7 @@ function facadePixel(x, y) {
   const dy = Math.abs(y - centerY);
   const halfW = BRICK_STYLE.windowWidth / 2;
   const halfH = BRICK_STYLE.windowHeight / 2;
-  // Thin sill and its painted shadow also live entirely in the texture.
+
   if (dx < halfW + 0.075 && y > centerY - halfH - 0.095 && y < centerY - halfH) {
     return y < centerY - halfH - 0.06 ? [143, 149, 142, 0] : [217, 216, 198, 0];
   }
@@ -68,8 +68,8 @@ function facadePixel(x, y) {
   const reflection = Math.abs(x - BRICK_STYLE.windowPitchX / 2 - (y - centerY) * 0.38 - 0.22) < 0.035 ? 13 : 0;
   return [32 + 15 * light + reflection, 69 + 25 * light + reflection, 88 + 29 * light + reflection, 0];
 }
-/** Five compact code-native storefronts share one atlas and one draw material.
- * No external bitmap/font, decal, transparency, geometry or per-house texture. */
+
+
 export const STOREFRONT_STYLE = Object.freeze({
   width: 4.8, height: 3.1, belowGrade: 0.5, gutter: 16, contentSize: 224,
   signBottom: 2.53, signTop: 3.04, doorWidth: 0.96, doorHeight: 2.15,
@@ -81,8 +81,8 @@ export const STOREFRONT_STYLE = Object.freeze({
     Object.freeze({ name: 'BLOOMS', sign: [107, 70, 114], trim: [232, 220, 203], accent: [229, 136, 163] }),
   ]),
 });
-// Deliberately legible 5×7 block lettering. The same analytic glyphs make
-// atlas bytes, CPU previews and metric diagnostic samples agree.
+
+
 const SHOP_FONT = Object.freeze({
  A:['01110','10001','10001','11111','10001','10001','10001'],
  B:['11110','10001','10001','11110','10001','10001','11110'],
@@ -110,31 +110,31 @@ function inRect(x, y, left, bottom, right, top) {
   return x >= left && x <= right && y >= bottom && y <= top;
 }
 export function storefrontVariant(shopId, bay = 0) {
-  // Integer arithmetic also stays exact in GLSL highp floats for this city.
+
   return mod(Math.floor(Math.max(1, shopId)) * 3 + bay, STOREFRONT_STYLE.variants.length);
 }
 export function sampleStorefront(x, y, variant = 0) {
   const index = mod(Math.floor(variant), STOREFRONT_STYLE.variants.length);
   const style = STOREFRONT_STYLE.variants[index], { trim, sign, accent } = style;
   const rgba = color => [...color, 0];
-  // The edges are wall-tint mask, never transparency.
+
   if (x < .13 || x > 4.67) return [255, 255, 255, 255];
   if (y < .22) return rgba(y < .075 ? [70, 77, 73] : trim.map(n => n * .76));
   if (y > 3.04) return rgba(trim);
   if (y >= 2.53) {
     if (shopTextPixel(style.name, x, y, 2.4, 2.785, .051)) return [255, 242, 211, 0];
     if (y < 2.565 || y > 3.0) return rgba(sign.map(n => n * .7));
-    // Small paired pinstripes help the sign read without tiny pictograms.
+
     if ((x < .72 || x > 4.08) && Math.abs(y - 2.785) < .023) return rgba(accent);
     return rgba(sign);
   }
   if (y > 2.40) {
-    // Painted valance, flat in the texture. Four styles get distinct stripes.
+
     if (index === 0 || index === 3 || index === 4)
       return rgba(Math.floor(x / .3) % 2 ? trim : sign);
     return rgba(trim);
   }
-  // Display window and separate full-height entrance, both opaque shaded glass.
+
   const display = inRect(x, y, .27, .38, 3.37, 2.37);
   const door = inRect(x, y, 3.57, .22, 4.53, 2.37);
   if (!display && !door) return rgba(trim);
@@ -143,8 +143,8 @@ export function sampleStorefront(x, y, variant = 0) {
   if (display && Math.abs(x - 1.82) < .026) return rgba(trim.map(n => n * .7));
   const sky = Math.max(0, Math.min(1, (y - .3) / 2.1));
   let glass = [25 + 24 * sky, 52 + 44 * sky, 62 + 52 * sky];
-  // A warm recessed interior and low shelves read as a shop rather than a
-  // larger apartment window. These silhouettes are specific to each trade.
+
+
   if (display && y < 1.52) {
     glass = [48 + 10 * sky, 56 + 14 * sky, 55 + 18 * sky];
     if (Math.abs(y - .68) < .045 || (index !== 0 && Math.abs(y - 1.10) < .035)) glass = trim.map(n => n * .49);
@@ -162,9 +162,9 @@ export function sampleStorefront(x, y, variant = 0) {
   }
   const diagonal = mod(x + y * .54, 2.12);
   if (diagonal < .075 || (diagonal > .17 && diagonal < .205)) glass = glass.map((n, i) => n + [32, 39, 43][i]);
-  // The handle is 4cm wide and 32cm tall, independent of house size.
+
   if (door && inRect(x, y, 4.28, .94, 4.32, 1.26)) return [241, 219, 170, 0];
-  // A small frosted stripe helps distinguish the entrance from display glazing.
+
   if (door && y > 1.64 && y < 1.72) glass = [137, 164, 162];
   return rgba(glass);
 }
@@ -182,8 +182,8 @@ export function buildingAtlasRegion(tile) {
     gutter,
   };
 }
-/** One bounded 2MiB atlas. Duplicated edge texels in every slot protect its
- * independently baked pixels from adjacent tiles through mip level four. */
+
+
 export function createBuildingTextureData() {
   const { width, height, tileSize } = BUILDING_TEXTURE;
   const data = new Uint8Array(width * height * 4);
@@ -210,11 +210,11 @@ export function createRoadTextureData() {
   return createGrassCheckerTextureData();
 }
 
-/** CPU equivalent of the metric vertex projection and atlas sampling.
- * Inputs are unit BoxGeometry coordinates/normal and positive instance axis
- * lengths in world metres. Use surfaceUv + tile to render separate repeating
- * tiles; atlasUv is the final coordinate for a single point in the full atlas.
- */
+
+
+
+
+
 export function projectBuildingSurface(position, normal, scale = [1, 1, 1], { shopBase = 0, shopId = 0 } = {}) {
   const size = scale.map(Math.abs);
   const meters = position.map((n, i) => (n + 0.5) * size[i]);
@@ -274,9 +274,9 @@ export function projectBuildingSurface(position, normal, scale = [1, 1, 1], { sh
   return { tile, surfaceUv, atlasUv, studUv, patternUv, sourceSurfaceUv: sourceSurfaceUv || surfaceUv.slice(), facadeLayout, shopVariant, shopBay };
 }
 
-/** Continuous CPU counterpart for offline previews. RGB is the neutral surface
- * color and alpha is the same instance-tint mask used by the runtime shader.
- * Convert RGB to linear before applying the instance's linear RGB tint. */
+
+
+
 export function sampleBuildingSurface(position, normal, scale = [1, 1, 1], shop = {}) {
   const projected = projectBuildingSurface(position, normal, scale, shop);
   const base = sampleGrassChecker(projected.studUv[0] * BRICK_STYLE.studPitch,
@@ -294,15 +294,15 @@ export function sampleBuildingSurface(position, normal, scale = [1, 1, 1], shop 
 export function createBuildingTexture(THREE) {
   const texture = createPatternTexture(THREE, createBuildingTextureData(), 'Padded windows + five commercial storefronts · one shared atlas');
   texture.wrapS = texture.wrapT = THREE.ClampToEdgeWrapping;
-  texture.anisotropy = 1; // Explicit derivative cap and gutters protect every sample footprint.
+  texture.anisotropy = 1;
   return texture;
 }
 export function createRoadTexture(THREE) {
   return createPatternTexture(THREE, createRoadTextureData(), 'Original grass checker road · four metre repeat');
 }
 function ownTexture(material, texture) {
-  // Three.js does not automatically dispose material maps. The scene already
-  // disposes each unique material, so this also releases the texture on rebuild.
+
+
   let disposed = false;
   material.addEventListener('dispose', () => {
     if (!disposed) { texture.dispose(); disposed = true; }
@@ -390,7 +390,7 @@ export function createBrickPlasticMaterial(THREE) {
       varying float urAtlasTile;
       varying vec3 urFacadeLayout;
       varying vec4 urShopPosition;`)
-      // Atlas alpha is a tint mask. Never multiply it into surface opacity.
+
       .replace('#include <map_fragment>', '')
       .replace('#include <color_fragment>', `#include <color_fragment>
         // Compute gradients before any repeating or atlas-region selection.
@@ -448,7 +448,7 @@ export function createBrickPlasticMaterial(THREE) {
   return material;
 }
 
-/** Road and terrain UVs both store world X/4 and logical forward Y/4. */
+
 export function createRoadMaterial(THREE, color = 0x72747a) {
   const material = new THREE.MeshStandardMaterial({
     color,
@@ -461,8 +461,8 @@ export function createRoadMaterial(THREE, color = 0x72747a) {
   return material;
 }
 
-/** Window-free counterpart for biome barrier cuboids. Instance color supplies
- * each biome's tint; all face sizes use the same metre scale and zero phase. */
+
+
 export function projectEnvironmentSurface(position, normal, scale = [1, 1, 1]) {
   const meters = position.map((value, axis) => (value + 0.5) * Math.abs(scale[axis]));
   const face = normal.map(Math.abs);

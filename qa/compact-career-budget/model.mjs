@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/** Read-only compact-candidate economy. Never runs physics or writes runtime files. */
+
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';

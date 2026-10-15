@@ -19,7 +19,7 @@ export function createInitialPlayerState() {
   return {seq:0,mode:'walking',characterId:DEFAULT_CHARACTER_ID,vehicleId:null,position:[0,0,0],quaternion:[0,0,0,1],heading:0,speed:0,steer:0,wheelSpin:0,bodyPitch:0,bodyRoll:0,bodyBob:0,braking:false,airborne:false,jumpElapsed:0,paused:false,teleportId:0,seatId:null};
 }
 
-/** Strict wire schema: return a detached bounded state, or null. Seat ownership is supplied only by the server. */
+
 export function sanitizePlayerState(input,{seatId=null,previousSeq=-1}={}) {
   if(!input||typeof input!=='object'||Array.isArray(input)||Object.keys(input).length!==keys.size||Object.keys(input).some(key=>!keys.has(key)))return null;
   if(!integer(input.seq,STATE_LIMITS.sequence)||input.seq<=previousSeq||!integer(input.teleportId,STATE_LIMITS.teleportId))return null;

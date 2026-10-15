@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Independent fake DOM: validates control ownership and event semantics without
-// a browser, rendering engine, WebGL, or claims about physical touch hardware.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { createVehicleInput, driveStickAxes, DRIVE_STICK_DEAD_ZONE, DRIVE_STICK_TRAVEL } from '../dist/vehicle-input.js';

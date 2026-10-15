@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Independent narrow rollback audit. Actual production solver/Three.js/app;
-// mock DOM/renderer. No browser, WebGL, physical touch or Android claim.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import crypto from 'node:crypto';

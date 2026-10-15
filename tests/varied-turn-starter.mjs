@@ -1,5 +1,5 @@
-/** Isolated input-only starter runs. No hazards; validates the earlier turns,
- * actual circle entry, measured path fuel and CP2-versus-CP3 boundary only. */
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import * as THREE from '../dist/vendor/three.module.js';

@@ -1,6 +1,6 @@
-/** Seeded graph-aware road hazards. World X/Z is used only for footprints;
- * placement, exclusions and sightlines use edge identity and true arc.
- * Static descriptors never change. Runtime mover poses use a bounded per-run pool. */
+
+
+
 import { ROUTE, BIOME_DEFINITIONS, FORKS, NETWORK_EDGES,
   routeDistanceAt, pointOnEdge,
   junctionDistance, queryRoadSurface,
@@ -33,8 +33,8 @@ function randomFor(seed) {
   else { s = 2166136261; for (const c of String(seed ?? 42)) { s ^= c.charCodeAt(0); s = Math.imul(s, 16777619); } }
   return () => { s += 0x6D2B79F5; let t = s; t = Math.imul(t ^ t >>> 15, t | 1); t ^= t + Math.imul(t ^ t >>> 7, t | 61); return ((t ^ t >>> 14) >>> 0) / 4294967296; };
 }
-/** Common service stops protect both fork choices. The split/join and median
- * tip exclusions also protect every road strip in the junction union. */
+
+
 export const ROAD_HAZARD_EXCLUSIONS = Object.freeze([
   { id: 'spawn', progress: 0 }, { id: 'route-start', progress: ROUTE.start },
   { id: 'route-end', progress: ROUTE.end },
@@ -45,8 +45,8 @@ export const ROAD_HAZARD_EXCLUSIONS = Object.freeze([
   ...FORKS.flatMap(f => [{ id: `${f.id}-split`, progress: f.from }, { id: `${f.id}-join`, progress: f.to }]),
 ].map(p => Object.freeze({ ...p, distance: routeDistanceAt(p.progress), radius: R.exclusionMetres })));
 
-/** Verify both driving directions have a long gentle sightline, a flat/noncrest
- * approach, and no intervening edge transition before a rock may be placed. */
+
+
 export function rockApproachIsClear(h) {
   const edge = NETWORK_EDGES.find(e => e.id === h.edgeId), sight = R.rockSightlineMetres;
   if (!edge || h.edgeDistance < sight + 8 || edge.length - h.edgeDistance < sight + 8) return false;
@@ -57,8 +57,8 @@ export function rockApproachIsClear(h) {
       Math.abs(angleDelta(p.heading, center.heading)) > R.maximumApproachHeadingChange ||
       Math.hypot(p.gradient.x, p.gradient.z) > R.maximumApproachGrade ||
       junctionDistance(p.progress) < R.junctionExclusionMetres) return false;
-    // A terrain crest cannot hide the warning footprint from a 2 m driver eye.
-    // This remains explicit even though current volcanic approaches are flat.
+
+
     const eye = pointOnEdge(h.edgeId, h.edgeDistance + (d < 0 ? -R.rockCrestEyeDistance : R.rockCrestEyeDistance));
     const fraction = Math.abs(d) / sight;
     if (p.height > center.height * (1 - fraction) + (eye.height + 2) * fraction + .1) return false;
@@ -70,8 +70,8 @@ function moverCandidatesFor(biome) {
   if (moverCandidates.has(biome)) return moverCandidates.get(biome);
   const candidates = [];
   for (const edge of NETWORK_EDGES.filter(e => e.biome === biome)) {
-    // The bridge buffers leave some short but fair windows. A 5 m scan finds
-    // them without relaxing any service, bridge, junction or sightline buffer.
+
+
     for (let distance = R.moverSightlineMetres + 15; distance < edge.length - R.moverSightlineMetres - 15; distance += 5) {
       const p = pointOnEdge(edge.id, distance), extent = 5;
       if(p.distance < routeDistanceAt(CHECKPOINT_PROGRESS[2])+160)continue;
@@ -91,9 +91,9 @@ function moverCandidatesFor(biome) {
   moverCandidates.set(biome, Object.freeze(candidates));
   return candidates;
 }
-/** Seeded whole-biome spacing: four crossing shuttles per biome replace some
- * static encounters. All encounter types cross the road; lava rocks stay grounded. Targets span each biome;
- * every encounter leaves a long clear approach and a passable corridor. */
+
+
+
 export function buildRoadHazards(seed = 42) {
   const random = randomFor(seed), result = [];
   const biomes = BIOME_DEFINITIONS.map(b => b.id);
@@ -113,7 +113,7 @@ export function buildRoadHazards(seed = 42) {
       const motion = Object.freeze({
         minOffset: -R.moverOuterOffset, maxOffset: R.moverOuterOffset,
         crossesCenter: true, travelSeconds: R.moverTravelSeconds,
-        // Eight seconds means endpoint-to-endpoint travel, excluding dwell.
+
         period: 2 * (R.moverTravelSeconds + R.moverPauseSeconds), phase: random(),
         pauseSeconds: R.moverPauseSeconds, startPause: 1.2,
       });
@@ -157,8 +157,8 @@ export function buildRoadHazards(seed = 42) {
         if (fork && (p.progress - fork.splitOverlapEnd < R.forkTipExclusionMetres + extent ||
           fork.mergeOverlapStart - p.progress < R.forkTipExclusionMetres + extent)) continue;
         if (result.some(h => h.edgeId === p.edgeId && Math.abs(h.edgeDistance - distance) < R.moverSpacingMetres)) continue;
-        // Candidate enumeration is dense; final selection below enforces long
-        // spacing. Do not take the first N candidates in road order.
+
+
         const offset = -size.lateral;
         const x = p.x + p.right.x * offset, z = p.z + p.right.z * offset;
         const descriptor = {
@@ -228,8 +228,8 @@ const STATIC_DIMENSIONS = Object.freeze({
   rock: Object.freeze({width: 4.7, length: 4.8, height: 2.2, lateral: 9.8}),
 });
 
-/** A wide opening always remains on the opposite side of a crossing shuttle.
- * This hint follows the live pose; it never promises a permanently clear lane. */
+
+
 function moverBypass(offset, width, pose = {}) {
   const bypassSide = offset <= 0 ? 1 : -1, half = width / 2;
   pose.bypassSide = bypassSide;
@@ -238,9 +238,9 @@ function moverBypass(offset, width, pose = {}) {
   return pose;
 }
 
-/** Smooth eight-second transverse travel with separate dwell at both ends.
- * Only the capped visible simulation clock advances it, so pausing cannot
- * jump a collider and renderer to a different part of the road. */
+
+
+
 function motionOffset(motion, elapsed) {
   const t = (Math.max(0, elapsed-motion.startPause) + motion.phase*motion.period) % motion.period;
   const dwell = motion.pauseSeconds, travel = motion.travelSeconds;
@@ -252,9 +252,9 @@ function motionOffset(motion, elapsed) {
   return motion.minOffset+(motion.maxOffset-motion.minOffset)*amount;
 }
 
-/** Exact 2D OBB separating-axis test. Returns the minimum separating translation
- * for the actual solver body, rather than an invisible world-axis bounding box.
- * Positive normal points from obstacle into free space towards the vehicle. */
+
+
+
 export function roadHazardContact(hazard, x, z, heading, padding = 0, footprint) {
   if (![x, z, heading, padding].every(Number.isFinite)) return undefined;
   const hc = Math.cos(hazard.heading), hs = Math.sin(hazard.heading);
@@ -284,8 +284,8 @@ const PATCH_FACTORS = Object.freeze({
   dune: Object.freeze({ frictionFactor: .95, lateralDampingFactor: .95, rollingFactor: 1.28, engineFactor: .86, speedFactor: .80, coastingFactor: 1.1 }),
   ice: Object.freeze({ frictionFactor: .62, lateralDampingFactor: .5, rollingFactor: .9, engineFactor: .94, coastingFactor: .76 }),
 });
-/** Renderer-free per-run system. No timers, DOM, random emission, HP, fuel,
- * currency, save writes, terrain reshaping, or vehicle position mutations. */
+
+
 export function createRoadHazards(seed = 42) {
   const hazards = buildRoadHazards(seed);
   const poses = Object.freeze(hazards.map(h => h.motion ? {...h} : h));
@@ -298,7 +298,7 @@ export function createRoadHazards(seed = 42) {
     shadowVisible:false,rockVisible:true,altitude:0,deferred:false,
   })));
   const rockById=new Map(rocks.map(s=>[s.id,s]));
-  // Basalt stays grounded while moving sideways; it never drops from above.
+
   function setMoverPoses() {
     for (let i=0;i<movers.length;i++) {
       const h=movers[i], p=moverFrames[i];
@@ -337,7 +337,7 @@ export function createRoadHazards(seed = 42) {
       if (h.type === 'dune' && Number.isFinite(baseSurface.vibration)) surface.vibration = Math.min(1, baseSurface.vibration + .08 * weight);
       return surface;
     }
-    // Outside all finite patch footprints, preserve the exact baseline object.
+
     return baseSurface;
   }
   setMoverPoses();

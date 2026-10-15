@@ -2,20 +2,20 @@ import { PROGRESSION_CONFIG, SCHOOL_CONFIG, SKIN_CONFIG, schoolConfig, skinConfi
 import { UPGRADE_STATS, getUpgradeOffer } from './vehicle-upgrades.js';
 import { vehicleConfig } from './economy-config.js';
 
-// Balances are whole spendable units; fractional earnings stay in gameplay state.
+
 export const brainDisplay = n => {
   const value=Number(n);
   return String(Math.floor(Number.isFinite(value)?Math.max(0,Math.min(PROGRESSION_CONFIG.maxBrains,value)):0));
 };
-// Rates must retain their decimal precision (for example, the first school is 1.5/s).
+
 export const brainRateDisplay = n => (Math.floor(Math.max(0,Number(n)||0)*10+1e-6)/10).toFixed(1).replace(/\.0$/,'').replace('.',',');
-// Fixed viewport-sized artwork; world anchors are never screen-space shifted.
+
 export const WORLD_LABEL_DROP=.4;
 export const schoolLabelScale = width => Math.max(.5,Math.min(1,((Number(width)||390)-40)/600));
 const decimal=(value,digits=1)=>Number(value).toFixed(digits).replace('.',',');
 const compactDecimal=value=>decimal(value).replace(/,0$/,'');
-// Use the same per-car values as physics. Percent modifiers obscure both the
-// actual steering response and the tank's useful full-fill range increase.
+
+
 export function upgradeValuePresentation(stat,offer){
   const current=offer.currentPerformance,next=offer.nextPerformance;
   const pair=(a,b,format,unit='')=>(offer.maxed?format(a):`${format(a)} → ${format(b)}`)+(unit?' '+unit:'');
@@ -88,9 +88,9 @@ export function updateProgressionWorldLabels(doc,{gameplay,garage,playing,projec
     const depth=project(element,a.x,a.y-WORLD_LABEL_DROP,a.z,visible,65);
     if(!element.hidden)projectedSchools.push({element,depth:Number.isFinite(depth)?depth:0,index:i});
   }
-  // Composition remains camera-facing and viewport-sized. Keep the exact
-  // projected X/Y even when labels overlap or partially leave the screen.
-  // Projection depth is monotone (near -1, far +1); draw farther labels first.
+
+
+
   const scale=schoolLabelScale(viewportWidth);
   projectedSchools.sort((a,b)=>b.depth-a.depth||a.index-b.index);
   for(const [rank,{element}]of projectedSchools.entries()){

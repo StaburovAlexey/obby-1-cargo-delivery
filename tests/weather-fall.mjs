@@ -7,7 +7,7 @@ try{
  for(const biome of ['forest','desert','snow','volcanic']){
   if(!d.driving){d.gameplay.state.cooldown=0;d.enterVehicle('pickup');}
   d.setBiomeMenu(true);assert.equal(d.travelToBiome(biome),true);
-  // Resume has a deliberate zero-dt frame; let the gradual storm begin.
+
   for(let warm=0;warm<45;warm++)app.frame();
   const b=BRIDGES.find(b=>b.biome===biome),p=routePointAtProgress((b.from+b.to)/2);
   d.model.pause();Object.assign(d.model.state,{x:p.x+p.right.x*(b.offset+1.3),z:p.z+p.right.z*(b.offset+1.3),heading:p.heading});d.applyTruckPose();

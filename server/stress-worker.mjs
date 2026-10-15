@@ -1,4 +1,4 @@
-// Separate server process: client JSON parsing and orchestration do not pollute these measurements.
+
 import {createRoomServer} from './room-server.mjs';
 const app=createRoomServer();const address=await app.listen();
 let peakRss=process.memoryUsage().rss;

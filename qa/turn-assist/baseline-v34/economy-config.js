@@ -1,6 +1,6 @@
 import { routeDistanceAt } from './route-network.js';
 import { BIOME_DEFINITIONS, NETWORK_CONFIG, CHECKPOINT_PROGRESS } from './route-network-config.js';
-/** Shared finite-route prototype balance. Currency is earned locally only. */
+
 export const ECONOMY_CONFIG = Object.freeze({
   saveVersion: 2,
   saveKey: 'urban-route-career-v1',
@@ -11,9 +11,9 @@ export const ECONOMY_CONFIG = Object.freeze({
   checkpointRadius: 4.4,
   routeEnd: NETWORK_CONFIG.end,
 });
-/** Bay order is the progression order. IDs keep v1 ownership/save compatibility.
- * Speed, engine pull, steering response, grip and full-tank range all improve.
- * Prices only apply to future purchases; saves retain money and owned IDs. */
+
+
+
 export const VEHICLE_CONFIG = Object.freeze([
   {id:'pickup',name:'Пикап',price:0,capacity:100,range:520,maxSpeed:11,acceleration:11/1.8,specialty:'city'},
   {id:'citycourier',name:'Городской курьер',price:900,capacity:125,range:700,maxSpeed:12.5,acceleration:6.9,specialty:'city'},
@@ -28,8 +28,8 @@ export const VEHICLE_CONFIG = Object.freeze([
 ].map((v,index)=>Object.freeze({...v,progressionOrder:index+1,pairRole:index%2?'advanced':'standard',
   handling:1.08**index,grip:1.08**index,consumption:v.capacity/v.range})));
 export const vehicleConfig = id => VEHICLE_CONFIG.find(v=>v.id===id) || VEHICLE_CONFIG[0];
-/** Stable IDs/payouts are shared by both equal-length alternatives. Loops and
- * reversing never change a checkpoint reward; actual distance is 3D arc length. */
+
+
 export const DELIVERY_CHECKPOINTS = Object.freeze(CHECKPOINT_PROGRESS.map((progress,index)=>{
   const distance=routeDistanceAt(progress);
   return Object.freeze({id:`checkpoint-${String(index+1).padStart(2,'0')}`,progress,distance,reward:Math.round(distance*.6/10)*10});

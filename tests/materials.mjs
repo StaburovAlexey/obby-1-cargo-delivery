@@ -7,8 +7,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import * as THREE from '../dist/vendor/three.module.js';
 import { MATERIAL_BASELINE_COMMIT, sceneSnapshot, checkProtectedFiles, checkSquareStudSurfaces } from './square-studs.mjs';
 
-// Renderer-free texture, UV, shader construction and resource-lifetime checks.
-// Usage: node tests/materials.mjs [scene.js] [material-report.json]
+
+
 const scenePath = process.argv[2] ? path.resolve(process.argv[2]) : fileURLToPath(new URL('../dist/scene.js', import.meta.url));
 const materialPath = path.join(path.dirname(scenePath), 'building-material.js');
 const reportPath = path.resolve(process.argv[3] || fileURLToPath(new URL('./latest-material-report.json', import.meta.url)));
@@ -193,7 +193,7 @@ try {
     for (const part of buildingParts) for (const normal of faces) {
       const isRoof = Math.abs(normal[1]) > 0.5;
       const axes = isRoof ? [0, 2] : normal[0] ? [2, 1] : [0, 1];
-      // Stud coordinates remain metric even when a narrow nose face changes between plain and window atlas masks.
+
       const periods = [BRICK_STYLE.studPitch, BRICK_STYLE.studPitch];
       for (const [uvAxis, axis] of axes.entries()) {
         const start = [-0.31, -0.23, -0.17], end = [...start]; end[axis] += periods[uvAxis] / part.scale.getComponent(axis);
@@ -203,7 +203,7 @@ try {
         checks++;
       }
     }
-    // Preserve explicit overlay/roof repeat checks on faces large enough to hold a full tile.
+
     let atlasPeriodChecks = 0;
     for (const size of [[12, 12, 12], [8, 1, 8]]) for (const normal of faces) {
       const roof = Math.abs(normal[1]) > .5, thin = size[1] < BRICK_STYLE.windowMinHeight;
@@ -304,7 +304,7 @@ try {
       for (const slot of ['displacementMap', 'normalMap', 'bumpMap']) assert.equal(item[slot], null);
       const p = mesh.geometry.attributes.position, uv = mesh.geometry.attributes.uv;
       for (let i = 0; i < p.count; i++) {
-        if (p.getY(i) < -1) continue; // Diorama base underside is not a drivable top face.
+        if (p.getY(i) < -1) continue;
         near(uv.getX(i), p.getX(i) / period, 'Ground world X repeat');
         near(uv.getY(i), -p.getZ(i) / period, 'Ground world Y repeat');
       }
@@ -365,7 +365,7 @@ try {
   });
 
   check('Shared checker survives partial disposal and is released exactly once with its final owner', () => {
-    // A new namespace key isolates this explicit lifecycle test from other live cities.
+
     const localThree = { ...THREE }, fresh = buildCity(localThree, { seed: 1234 }), second = buildCity(localThree, { seed: 9 });
     const resources = new Map(), shared = fresh.group.getObjectByName('Continuous 30m-wide road').material.map;
     fresh.group.traverse(object => { for (const item of [].concat(object.material || [])) {

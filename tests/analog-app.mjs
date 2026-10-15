@@ -4,7 +4,7 @@ const app=createAppDom(),d=app.debug;
 const advance=n=>{for(let i=0;i<n;i++)app.frame();};
 const touch=(target,type,id,x,y)=>target.dispatch(type,{pointerId:id,button:0,clientX:x,clientY:y,isPrimary:id===1});
 try{
- // Fixed joystick center (60,70), radius34 in the renderer-free fixture.
+
  touch(app.stick,'pointerdown',1,60,36);assert.equal(d.model.state.speedDemand,1);advance(15);assert.ok(d.model.state.linearSpeed>0);
  const canvas=d.renderer.domElement;
  touch(canvas,'pointerdown',2,200,200);touch(canvas,'pointermove',2,240,205);

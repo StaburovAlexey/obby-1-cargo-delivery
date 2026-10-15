@@ -1,13 +1,13 @@
-/** Original four-contact-patch planar vehicle solver, in meters / seconds / kg.
- * Independently implements rigid-body force/torque and tire-slip principles;
- * no article implementation is copied. +Y is up and heading 0 faces -Z.
- * The TOW_DRIVING name and UI/view fields remain public for compatibility.
- */
+
+
+
+
+
 import { CITY_SURFACE, normalizeSurfaceDynamics } from './biome-surfaces.js';
 import { vehicleConfig } from './economy-config.js';
 import { getUpgradeModifiers } from './vehicle-upgrades.js';
-// Compatibility metadata for older view/input consumers. Acceleration, inertia,
-// and geometric-turn values here do not drive the new force solver.
+
+
 export const TOW_DRIVING = Object.freeze({
   maxSpeed: 11,
   accelerationSeconds: 1.3,
@@ -41,8 +41,8 @@ export function steeringTarget(input) {
   );
 }
 
-/** Legacy geometric stepping retained for character and compatibility callers.
- * The vehicle rigid body below does not use this kinematic helper. */
+
+
 export function moveWithContacts(
   position,
   rotation,
@@ -97,11 +97,11 @@ export function moveWithContacts(
   return collided;
 }
 
-/** Calibrated for the existing 2.64 m track / 3.36 m wheelbase truck mesh.
- * Tire forces use a friction circle, not a geometric yaw-rate prescription.
- * The short speed-sensitive steering rack prevents a full UI turn at highway
- * speed from demanding more lateral acceleration than the tires can provide.
- */
+
+
+
+
+
 export const VEHICLE_DYNAMICS = Object.freeze({
   mass: 1600,
   yawInertia: 5300,
@@ -113,11 +113,11 @@ export const VEHICLE_DYNAMICS = Object.freeze({
   halfWidth: 1.55,
   halfLength: 2.88,
   colliderReach: Math.hypot(1.55, 2.88),
-  lateralViscosity: 10000, // N per m/s, per contact patch
+  lateralViscosity: 10000,
   tireFriction: 1.35,
   rollingCoefficient: 0.018,
   rollingTransitionSpeed: 0.18,
-  poweredDrag: 0.06, // acceleration per m/s, divided between all four tires
+  poweredDrag: 0.06,
   coastingDrag: 0.38,
   maximumAcceleration: 7.5,
   accelerationTimeScale: 1.8,
@@ -144,17 +144,17 @@ const finite = (v, fallback = 0) => Number.isFinite(v) ? v : fallback;
 const normalizeMaxSpeed = (speed) => clamp(finite(Number(speed), TOW_DRIVING.maxSpeed), 1, 40);
 const forwardSpeed = (s) => (-Math.sin(s.heading) * s.velocityX - Math.cos(s.heading) * s.velocityZ) || 0;
 
-/** Actual road-wheel rack angle, independent of the +/-135-degree touch wheel. */
+
 export function roadWheelTarget(steering, linearSpeed = 0) {
   const ratio = Math.abs(linearSpeed) / VEHICLE_DYNAMICS.steeringSpeedScale;
   return steeringTarget(steering) / (1 + ratio * ratio);
 }
 
-/** Pure force evaluation, exported so tests can inspect every tire force.
- * At a point r relative to the center, v_point = v + (omega*r.z,-omega*r.x).
- * A force at that point contributes tauY = r.z*Fx-r.x*Fz.
- * `braking` is the gear-interlock brake, and gradients are dh/dx and dh/dz.
- */
+
+
+
+
+
 export function evaluateVehicleForces(state, {
   maxSpeed = TOW_DRIVING.maxSpeed,
   gradient = { x: 0, z: 0 },
@@ -178,8 +178,8 @@ export function evaluateVehicleForces(state, {
   const brakeScale = clamp(finite(brakeFactor, 1), 1, 2.5);
   const rollingAcceleration = p.gravity * rollingCoefficient;
   const speedInGear = speed * direction;
-  // A governed engine feathers torque close to the requested maximum. At the
-  // maximum on flat ground it supplies just the drag/rolling losses.
+
+
   const driveAcceleration = powered ? clamp(
     (surfaceMaxSpeed - speedInGear) * p.governorGain +
       p.poweredDrag * Math.max(0, speedInGear) +
@@ -188,7 +188,7 @@ export function evaluateVehicleForces(state, {
   ) * direction : 0;
   const gx = finite(Number(gradient?.x)), gz = finite(Number(gradient?.z));
   const slopeSquared = gx * gx + gz * gz;
-  // Horizontal components of gravity projected onto the terrain tangent.
+
   let forceX = -p.mass * p.gravity * p.gradeGravityScale * gx / (1 + slopeSquared);
   let forceZ = -p.mass * p.gravity * p.gradeGravityScale * gz / (1 + slopeSquared);
   let torque = 0;
@@ -246,13 +246,13 @@ export function createDrivingModel({
   const p = VEHICLE_DYNAMICS;
   maxSpeed = normalizeMaxSpeed(maxSpeed);
   const spec = vehicleConfig(vehicleId);
-  // Non-catalog speed callers keep the original force tuning. Production cars
-  // pass both their stable ID and nominal catalog speed.
+
+
   const catalogAcceleration = maxSpeed === spec.maxSpeed ? spec.acceleration :
     Math.min(p.maximumAcceleration, maxSpeed / p.accelerationTimeScale);
   const readModifiers = () => {
     let levels;
-    try { levels = typeof getUpgrades === 'function' ? getUpgrades() : undefined; } catch { /* malformed callback uses stock */ }
+    try { levels = typeof getUpgrades === 'function' ? getUpgrades() : undefined; } catch {                                     }
     return getUpgradeModifiers(levels);
   };
   const spawn = { x, z, heading };
@@ -303,8 +303,8 @@ export function createDrivingModel({
   const contactImpulse = (hit) => {
     const nx = hit.normalX, nz = hit.normalZ;
     const c = Math.cos(state.heading), s = Math.sin(state.heading);
-    // Contacts may come from a larger conservative road envelope. Projection
-    // honors that envelope; impulses act at this physical chassis footprint.
+
+
     const points = [];
     for (const sx of [-p.halfWidth, p.halfWidth]) for (const sz of [-p.halfLength, p.halfLength]) {
       const rx = c * sx + s * sz, rz = -s * sx + c * sz;
@@ -318,9 +318,9 @@ export function createDrivingModel({
       state.velocityZ += nz * impulse / p.mass;
       state.angularVelocity += lever * impulse / p.yawInertia;
     };
-    // Nearly parallel contact is a face, not an arbitrarily selected corner.
-    // Solve its two endpoint constraints together, with nonnegative impulses.
-    // This prevents tiny tire yaw at a flat wall from producing a yaw kick.
+
+
+
     if (candidates.length === 2) {
       const [a, b] = candidates;
       const va = normalVelocity(a), vb = normalVelocity(b);
@@ -335,8 +335,8 @@ export function createDrivingModel({
         return;
       }
     }
-    // A corner, or a face with one endpoint moving away: use unilateral
-    // constraints. Restitution is zero and tangential velocity is untouched.
+
+
     for (let pass = 0; pass < 4; pass++) {
       for (const point of candidates) {
         const velocity = normalVelocity(point);
@@ -364,7 +364,7 @@ export function createDrivingModel({
   const moveRigidBody = (dt) => {
     let remaining = dt;
     while (remaining > 1e-12) {
-      // Recompute after an impulse, which can trade translation for rotation.
+
       const sweptDistance = (Math.hypot(state.velocityX, state.velocityZ) +
         Math.abs(state.angularVelocity) * p.colliderReach) * remaining;
       const count = Math.max(1, Math.ceil(sweptDistance / p.maxSweepDistance));
@@ -375,8 +375,8 @@ export function createDrivingModel({
       state.z += state.velocityZ * slice;
       state.heading += state.angularVelocity * slice;
       if (!resolveContacts()) {
-        // An inconsistent/confined/deeply overlapping pose cannot teleport the
-        // body. Keep the last conservative pose; the contact impulse remains.
+
+
         state.x = px; state.z = pz; state.heading = previousHeading;
       }
       const dx = state.x - px, dz = state.z - pz;
@@ -391,16 +391,16 @@ export function createDrivingModel({
     const oldVelocityX = state.velocityX, oldVelocityZ = state.velocityZ;
     const upgrades = readModifiers();
     const surface = normalizeSurfaceDynamics(groundSurface(state.x, state.z, vehicleId));
-    // Upgrade effects enter the existing four contact forces, never positions,
-    // heading, velocity, fuel or range. A purchase applies on the next step.
+
+
     surface.frictionFactor *= upgrades.grip;
     surface.lateralDampingFactor *= upgrades.grip;
     const effectiveMaxSpeed = maxSpeed * upgrades.speed;
     const responseSeconds = TOW_DRIVING.steeringResponseSeconds / (spec.handling * upgrades.handling);
-    // Retain the same UI/rack response, reducing only its high-speed demand on
-    // low-grip surfaces. Yaw still comes entirely from the four tire forces.
-    // This keeps a held reverse turn on snow controllable rather than asking
-    // winter tires for dry-asphalt lateral acceleration indefinitely.
+
+
+
+
     const steeringGripScale = Math.sqrt(Math.min(1, surface.frictionFactor));
     const reverseGripScale = state.gear === 'R' ? Math.min(1, surface.frictionFactor) : 1;
     const targetWheelAngle = roadWheelTarget(state.steering, state.linearSpeed / steeringGripScale) * reverseGripScale;
@@ -419,8 +419,8 @@ export function createDrivingModel({
     state.velocityX += forces.forceX / p.mass * dt;
     state.velocityZ += forces.forceZ / p.mass * dt;
     state.angularVelocity += forces.torque / p.yawInertia * dt;
-    // Tire static resistance holds only very shallow ground. On a real gentle
-    // grade, projected gravity exceeds it and a released vehicle rolls downhill.
+
+
     const slope = Math.hypot(finite(Number(gradient.x)), finite(Number(gradient.z)));
     if (!state.active && slope < p.rollingCoefficient * surface.rollingFactor &&
       Math.hypot(state.velocityX, state.velocityZ) < p.sleepSpeed &&
@@ -431,8 +431,8 @@ export function createDrivingModel({
     updateSpeed();
     const actualTravel = state.travel - previousTravel;
     const actualDistance = state.pathDistance - previousDistance;
-    // Reward timing follows fixed-step contact-resolved travel, including when
-    // high-refresh frames contain no physics step. Wheel spin cannot mint time.
+
+
     if (actualDistance / dt >= .15) state.movingSeconds += dt;
     state.wheelSpin += actualTravel / TOW_DRIVING.wheelRadius;
     phase += actualDistance * 4.2;
@@ -446,8 +446,8 @@ export function createDrivingModel({
     springStep(springs.pitch, pitch, 48, 8.5, dt);
     springStep(springs.roll, roll, 54, 9, dt);
     springStep(springs.bob, bob, 70, 11, dt);
-    // Basalt roughness is view-only: distance-driven, centimetre-scale, and
-    // absent at rest. It never adds impulses, collision/fuel distance or noise.
+
+
     const roughness = surface.vibration * Math.min(1, state.linearSpeed / 3);
     state.bodyPitch = springs.pitch.value + roughness * Math.sin(phase * .83) * .0015;
     state.bodyRoll = springs.roll.value + roughness * Math.sin(phase * 1.13) * .003;
@@ -485,8 +485,8 @@ export function createDrivingModel({
       clearSprings();
     },
     step(deltaSeconds) {
-      // These are per-public-frame sums, including when no fixed step is due.
-      // Keeping stale travel on a zero-delta frame would burn fuel twice.
+
+
       state.travel = state.pathDistance = state.movingSeconds = 0;
       state.blocked = false;
       const dt = clamp(finite(Number(deltaSeconds)), 0, p.maxFrameDelta);

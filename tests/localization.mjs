@@ -1,5 +1,5 @@
-// Deterministic DOM/mutation tests, plus real progression/retention renderers.
-// No WebGL, browser-layout or visual-QA claims; no third-party dependency needed.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createLocalization, translateGameText} from '../dist/localization.js';

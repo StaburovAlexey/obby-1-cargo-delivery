@@ -1,7 +1,7 @@
-/** Authoritative world-space road graph. Progress is not a world axis. */
+
 export * from './route-network.js';
 import {routePointAtProgress,FORKS} from './route-network.js';
-// Metadata compatibility for tools; runtime spatial queries use the graph.
+
 export const routeCenter=q=>routePointAtProgress(q).x;
 export const routeSlope=q=>-Math.tan(routePointAtProgress(q).heading);
 export const branchCenter=(id,q)=>routePointAtProgress(q,{branch:id==='left'?'alternate':'primary'}).x;

@@ -1,4 +1,4 @@
-// Geometry-only SVG diagnostic. No browser, screenshots or gameplay rendering.
+
 import fs from 'node:fs';
 const rows=JSON.parse(fs.readFileSync(new URL('./projection-specimens.json',import.meta.url),'utf8'));
 const samples=[['published32-east-side','Published32: side view','148 px maximum anchor drift'],['east-side','Fixed: side view','School 5 nearest; other labels behind'],['west-side','Fixed: opposite side','School 1 nearest; other labels behind']];

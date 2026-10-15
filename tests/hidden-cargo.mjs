@@ -12,7 +12,7 @@ try{
  }
  d.gameplay.state.cooldown=0;assert(d.enterVehicle('pickup'));
  const stop=d.garage.deliveries[0],before=d.gameplay.state.money;
- // Successful logical delivery still pays once, despite invisible crate.
+
  d.gameplay.drive(0,stop.x,stop.z);f.frame();
  assert(d.gameplay.state.money>before);const after=d.gameplay.state.money;
  for(let i=0;i<5;i++)f.frame();assert.equal(d.gameplay.state.money,after);assert(d.garage.vehicles.every(v=>!v.cargo.visible));

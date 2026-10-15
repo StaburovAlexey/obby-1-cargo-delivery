@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Renderer-independent regression and geometry evidence for the City34 hills.
-// Uses real Float32 route/terrain geometry and procedural scene data; no browser.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import crypto from 'node:crypto';

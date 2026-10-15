@@ -2,7 +2,7 @@ import {FINISH_LINE_SPEC} from './finish-line.js';
 import { PREVIEW_PROGRESS } from './route-network-config.js';
 import { BIOME_SEQUENCE } from './economy-config.js';
 import { routePointAtProgress, truckInRoad } from './road-layout.js';
-/** Preview anchors are on common edges, well clear of forks and checkpoints. */
+
 export const BIOME_DESTINATIONS=Object.freeze([...BIOME_SEQUENCE.map((b,i)=>{
   const progress=PREVIEW_PROGRESS[i].progress,p=routePointAtProgress(progress);
   return Object.freeze({...p,id:b.id,name:b.name,progress});

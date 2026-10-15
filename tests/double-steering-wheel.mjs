@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Structural CSS arithmetic and real input events. No browser/GPU/touch claim.
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { createInputDom } from './fixtures/vehicle-input-dom.mjs';
@@ -53,7 +53,7 @@ for (const [w,h] of [[320,480],[320,568],[360,640],[375,667],[390,844],[500,700]
     const gas = box(['.gas-pedal','.vehicle-controls:has(.reverse-pedal) .gas-pedal','.vehicle-controls:has(.reverse-pedal) .gas-pedal:not(.reverse-pedal)']);
     const reverse = box(['.gas-pedal','.reverse-pedal','.vehicle-controls:has(.reverse-pedal) .gas-pedal']);
     const row = {x:safe.left+12,y:h-safe.bottom-56,w:w-safe.left-safe.right-24,h:44};
-    // Full wallet/brain height is reserved, not just the clickable top icons.
+
     const top = {x:safe.left,y:safe.top,w:w-safe.left-safe.right,h:get(root['--wheel-top-clearance'])-safe.top};
     const target = get(root['--steering-requested']);
     assert.equal(target, get(root['--steering-base']) * 2);
@@ -101,7 +101,7 @@ for (const diameter of [224,264,370]) {
     p(wheel,'pointerup',1);near(api.state.steering,0);assert.equal(api.state.active,true);
     image.computedTransform='rotate(45deg)';p(wheel,'pointerdown',5,0);near(api.state.steering,1/3);image.computedTransform=undefined;
     p(wheel,'pointermove',5,45);near(api.state.steering,2/3);
-    // Orientation/resize clears all ownership; stale events cannot restart it.
+
     p(reverse,'pointerdown',4);win.dispatch('resize');near(api.state.steering,0);assert.equal(api.state.active,false);
     for(const e of [wheel,pedal,reverse])assert.equal(e.captures.size,0);
     wheel.bounds={left:25,top:124,width:202,height:202};wheel.clientWidth=202;

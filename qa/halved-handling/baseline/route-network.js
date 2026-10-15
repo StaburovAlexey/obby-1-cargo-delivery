@@ -1,6 +1,6 @@
-/** Renderer-independent geometric graph. All forks rejoin and visit every
- * ordered biome. A single union triangulation is authoritative for rendering,
- * containment and height; analytic frames keep wheel normals continuous. */
+
+
+
 import {NETWORK_CONFIG as C, BIOME_DEFINITIONS, FORK_DEFINITIONS,
   TURN_DEFINITIONS, ELEVATION_PROFILE} from './route-network-config.js';
 export {NETWORK_CONFIG, BIOME_DEFINITIONS, FORK_DEFINITIONS, TURN_DEFINITIONS, ELEVATION_PROFILE, CHECKPOINT_PROGRESS, PREVIEW_PROGRESS} from './route-network-config.js';
@@ -53,9 +53,9 @@ function selectedEdge(q,branch='main'){return edgesAt(q).find(e=>e.branch===bran
 function pointFor(q,edge){
   const b=backbone(q),a=headingAt(q),fx=-Math.sin(a),fz=-Math.cos(a),rx=Math.cos(a),rz=-Math.sin(a),f=edge?.forkId?FORK_DEFINITIONS.find(v=>v.id===edge.forkId):null,ex=f?excursion(f,q,edge.branch==='alternate'?-1:1):{offset:0,d1:0,d2:0};
   const tx=fx+rx*ex.d1,tz=fz+rz*ex.d1,n=Math.hypot(tx,tz),right={x:-tz/n,z:tx/n},grade=routeGrade(q),den=n*n;
-  // A fork is one transverse height field H(backbone progress), shared by
-  // both arms, their overlap, island and shoulders. Its gradient follows the
-  // backbone, not the differently angled branch tangents.
+
+
+
   const gradient=f?{x:grade*fx,z:grade*fz}:{x:grade*tx/den,z:grade*tz/den},normalLength=Math.hypot(gradient.x,1,gradient.z),distance=routeDistanceAt(q);
   return{x:b.x+rx*ex.offset,z:b.z+rz*ex.offset,height:routeHeight(q),heading:Math.atan2(-tx,-tz),right,
     normal:{x:-gradient.x/normalLength,y:1/normalLength,z:-gradient.z/normalLength},gradient,
@@ -73,7 +73,7 @@ export const ROUTE_STATIONS=Object.freeze([...new Set([...breakpoints,...TURN_DE
 export const FORKS=Object.freeze(FORK_DEFINITIONS.map(f=>Object.freeze({...f,length:routeDistanceAt(f.to)-routeDistanceAt(f.from),splitOverlapEnd:f.from+(f.to-f.from)*Math.asin((C.halfWidth/f.offset)**.25)/Math.PI,mergeOverlapStart:f.to-(f.to-f.from)*Math.asin((C.halfWidth/f.offset)**.25)/Math.PI})));
 export const junctionDistance=q=>Math.min(...FORKS.flatMap(f=>[Math.abs(q-f.from),Math.abs(q-f.to)]));
 
-// One spatial index serves projection, exact union surface and boundary queries.
+
 const CELL=32,key=(x,z)=>`${Math.floor(x/CELL)},${Math.floor(z/CELL)}`;
 function binAdd(map,item,minX,maxX,minZ,maxZ){for(let x=Math.floor(minX/CELL);x<=Math.floor(maxX/CELL);x++)for(let z=Math.floor(minZ/CELL);z<=Math.floor(maxZ/CELL);z++){const k=`${x},${z}`;if(!map.has(k))map.set(k,[]);map.get(k).push(item);}}
 const sampleBins=new Map();
@@ -92,7 +92,7 @@ export function projectRoad(x,z,history){
   for(const seg of segments){const {a,b}=seg,dx=b.x-a.x,dz=b.z-a.z,t=clamp(((x-a.x)*dx+(z-a.z)*dz)/(dx*dx+dz*dz),0,1),d=sq(x-a.x-t*dx,z-a.z-t*dz);const stable=d+(history?.edgeId===seg.edge.id?0:1e-7);if(stable<score){score=stable;best={seg,q:a.progress+t*(b.progress-a.progress)};}}
   if(!best)return undefined;
   const e=best.seg.edge;let q=best.q;
-  // Newton projection on the original smooth centerline, not the mesh chords.
+
   for(let i=0;i<5;i++){const p=pointFor(q,e),f=e.forkId?FORK_DEFINITIONS.find(f=>f.id===e.forkId):null,ex=f?excursion(f,q,e.branch==='alternate'?-1:1):{d1:0,d2:0},a=headingAt(q),rx=Math.cos(a),rz=-Math.sin(a),fx=-Math.sin(a),fz=-Math.cos(a),tx=fx+rx*ex.d1,tz=fz+rz*ex.d1,k=headingAt(q,1),ax=-rx*k+rx*ex.d2,az=-rz*k+rz*ex.d2,den=tx*tx+tz*tz+(p.x-x)*ax+(p.z-z)*az;const step=((p.x-x)*tx+(p.z-z)*tz)/den;if(!Number.isFinite(step))break;const next=clamp(q-clamp(step,-4,4),e.progressFrom,e.progressTo);if(Math.abs(next-q)<1e-10){q=next;break;}q=next;}
   const p=pointFor(q,e),dx=x-p.x,dz=z-p.z;return{...p,offset:dx*p.right.x+dz*p.right.z,distanceSquared:sq(dx,dz),y:q,logicalY:q};
 }
@@ -102,8 +102,8 @@ export const ROAD_MESH=mesh(),GROUND_MESH=mesh();
 const roadTriangleBins=new Map(),groundTriangleBins=new Map(),boundaryBins=new Map();
 export const ROAD_BOUNDARY_SEGMENTS=[];
 function appendQuad(m,v,paint=1,fringe=1){
-  // THREE uploads Float32 positions. Quantize before topology/degeneracy tests
-  // so the query mesh is exactly the mesh that the GPU receives.
+
+
   v=v.map(p=>({...p,x:Math.fround(p.x),height:Math.fround(p.height),z:Math.fround(p.z)}));
   const area=(a,b,c)=>(b.x-a.x)*(c.z-a.z)-(b.z-a.z)*(c.x-a.x);
   const valid=[[0,1,2],[0,2,3]].filter(t=>Math.abs(area(...t.map(i=>v[i])))>1e-9);
@@ -124,9 +124,9 @@ function buildFork(f){
   const gap=u=>interp(curves[2],u)-interp(curves[1],u),roots=[];
   for(let i=0;i<rows.length-1;i++){const a=rows[i],b=rows[i+1],ga=gap(a),gb=gap(b);if(ga*gb<0)roots.push(a+(b-a)*(-ga)/(gb-ga));}
   rows=[...rows,...roots].sort((a,b)=>a-b).filter((u,i,a)=>!i||u-a[i-1]>1e-8);
-  // Material coordinates are separate from geometry. Signed perpendicular
-  // distance follows the nearer branch, while island ground disables the
-  // asphalt fringe to avoid interpolating between opposite branch signs.
+
+
+
   const vertex=(u,v)=>{const ex=excursion(f,f.from+u,v>=0?1:-1);return{x:origin.x+t.x*u+r.x*v,z:origin.z+t.z*u+r.z*v,height:routeHeight(f.from+u),progress:f.from+u,across:(v-ex.offset)/Math.hypot(1,ex.d1),paint:0};};
   for(let i=0;i<rows.length-1;i++){const a=rows[i],b=rows[i+1],va=curves.map(c=>interp(c,a)),vb=curves.map(c=>interp(c,b)),separate=gap((a+b)/2)>1e-8;
     const quad=(m,lo,hi,fringe=1)=>appendQuad(m,[vertex(a,lo[0]),vertex(a,hi[0]),vertex(b,hi[1]),vertex(b,lo[1])],0,fringe);
@@ -137,7 +137,7 @@ function buildFork(f){
 }
 for(const e of NETWORK_EDGES){if(!e.forkId)buildSingle(e);else if(e.branch==='main')buildFork(FORKS.find(f=>f.id===e.forkId));}
 for(const q of [C.start,C.end]){const p=routePointAtProgress(q),a=shifted(p,-15),b=shifted(p,15),inside=routePointAtProgress(q===C.start?q+1:q-1);addBoundary(a,b,inside);}
-// The unchanged four-metre rear ground apron ends exactly at the road cap.
+
 appendQuad(GROUND_MESH,[{x:-104,z:27,height:0,progress:C.start},{x:104,z:27,height:0,progress:C.start},{x:104,z:23,height:0,progress:C.start},{x:-104,z:23,height:0,progress:C.start}],0,0);
 function indexTriangles(m,bins){for(let i=0;i<m.indices.length;i+=3){const v=m.indices.slice(i,i+3).map(n=>({x:m.positions[n*3],height:m.positions[n*3+1],z:m.positions[n*3+2],progress:m.progress[n]})),[a,b,c]=v,area=(b.x-a.x)*(c.z-a.z)-(b.z-a.z)*(c.x-a.x);if(Math.abs(area)<1e-12)continue;const dhb=b.height-a.height,dhc=c.height-a.height,gradient={x:(dhb*(c.z-a.z)-dhc*(b.z-a.z))/area,z:((b.x-a.x)*dhc-(c.x-a.x)*dhb)/area};const n=Math.hypot(gradient.x,1,gradient.z),tri={a,b,c,area,gradient,normal:{x:-gradient.x/n,y:1/n,z:-gradient.z/n}};binAdd(bins,tri,Math.min(a.x,b.x,c.x),Math.max(a.x,b.x,c.x),Math.min(a.z,b.z,c.z),Math.max(a.z,b.z,c.z));}}
 indexTriangles(ROAD_MESH,roadTriangleBins);indexTriangles(GROUND_MESH,groundTriangleBins);
@@ -151,9 +151,9 @@ export const surfaceHeight=(x,logicalY,history)=>queryRoadSurface(x,-logicalY,hi
 export function biomeAt(x,logicalY,history){const p=projectRoad(x,-logicalY,history);return biomeFor(p?.progress??C.start);}
 export function truckFootprint(x,z,heading){const c=Math.cos(heading),s=Math.sin(heading);return[[-1,-1],[1,-1],[1,1],[-1,1]].map(([a,b])=>({x:x+a*C.truckHalfWidth*c+b*C.truckHalfLength*s,z:z-a*C.truckHalfWidth*s+b*C.truckHalfLength*c}));}
 function clipSegmentRectangle(a,b,x,z,heading,width,length){const c=Math.cos(heading),s=Math.sin(heading),local=p=>({x:(p.x-x)*c-(p.z-z)*s,z:(p.x-x)*s+(p.z-z)*c}),p=local(a),q=local(b),dx=q.x-p.x,dz=q.z-p.z;let lo=0,hi=1;for(const [v,d,r] of [[p.x,dx,width],[p.z,dz,length]]){if(Math.abs(d)<1e-12){if(v<=-r||v>=r)return false;continue;}let a=(-r-v)/d,b=(r-v)/d;if(a>b)[a,b]=[b,a];lo=Math.max(lo,a);hi=Math.min(hi,b);if(lo>=hi)return false;}return true;}
-/** The entire conservative body rectangle is checked, not only four corners.
- * A median whose tip lies completely inside the body is detected by segment
- * clipping, even when every body corner remains on the union surface. */
+
+
+
 export function corridorContact(x,z,heading,history){if(![x,z,heading].every(Number.isFinite))return undefined;const corners=truckFootprint(x,z,heading),radius=Math.hypot(C.truckHalfWidth,C.truckHalfLength)+C.roadMargin,near=segmentsNear(x,z,radius+1);let deepest;
   const keep=v=>{if(v.depth>1e-8&&(!deepest||v.depth>deepest.depth))deepest=v;};
   for(const s of near){if(!clipSegmentRectangle(s.a,s.b,x,z,heading,C.truckHalfWidth+C.roadMargin,C.truckHalfLength+C.roadMargin))continue;const depth=Math.max(...corners.map(p=>(s.a.x-p.x)*s.normalX+(s.a.z-p.z)*s.normalZ))+C.roadMargin;if(depth>0)keep({normalX:s.normalX,normalZ:s.normalZ,depth,name:'Road boundary'});}
@@ -163,7 +163,7 @@ export function corridorContact(x,z,heading,history){if(![x,z,heading].every(Num
 }
 export const truckInRoad=(x,z,heading,history)=>[x,z,heading].every(Number.isFinite)&&!corridorContact(x,z,heading,history);
 export function roadIntervals(logicalY,halfWidth=C.halfWidth){const z=-logicalY,spans=[];for(const t of roadTriangleBins.get(key(0,z))||[])void t;
-  // Compatibility horizontal slices, intentionally world-coordinate based.
+
   for(const s of ROAD_BOUNDARY_SEGMENTS){const a=s.a,b=s.b;if(z<Math.min(a.z,b.z)-1e-9||z>Math.max(a.z,b.z)+1e-9)continue;if(Math.abs(b.z-a.z)<1e-10){if(Math.abs(z-a.z)<1e-8)spans.push(a.x,b.x);}else spans.push(a.x+(b.x-a.x)*(z-a.z)/(b.z-a.z));}
   const xs=[...new Set(spans)].sort((a,b)=>a-b),out=[];for(let i=0;i<xs.length-1;i++)if(pointInRoad((xs[i]+xs[i+1])/2,z)){const pad=halfWidth-C.halfWidth,min=xs[i]-pad,max=xs[i+1]+pad,last=out.at(-1);if(last&&Math.abs(last.max-min)<1e-7)last.max=max;else out.push({min,max});}return out;
 }

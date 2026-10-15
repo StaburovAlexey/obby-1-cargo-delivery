@@ -5,7 +5,7 @@ import {routePointAtProgress,routeDistanceAt,queryRoadSurface} from '../dist/rou
 import {BIOME_DEFINITIONS,CHECKPOINT_PROGRESS,FORK_DEFINITIONS,NETWORK_CONFIG,PREVIEW_PROGRESS} from '../dist/route-network-config.js';
 import {buildRoadHazards,ROAD_HAZARD_RULES} from '../dist/road-hazards.js';
 
-// Independent snapshot of all pre-expansion descriptors, including array order.
+
 const baseline42=[
  ['city',950,3.9],['city',2390,0],['city',5640,-6.6],
  ['forest',6620,-5.5],['forest',7380,6],['forest',11580,0],
@@ -13,8 +13,8 @@ const baseline42=[
  ['snow',19440,0],['snow',20670,6.3],['snow',24580,-5.7],
  ['volcanic',25420,-5.5],['volcanic',29250,0],['volcanic',30900,5.1],
 ].map(([biome,q,offset],i)=>({id:`${biome}-bridge-${i%3+1}`,biome,from:q-12,to:q+12,halfWidth:2.5,offset}));
-// Original v1.50 seed behavior: five random calls per biome, including zero-side
-// magnitudes, are intentionally checked instead of only comparing the IDs.
+
+
 function legacyFor(seed=42){
  const centers={city:[510,2550,5640],forest:[6660,7380,11580],desert:[12750,13740,18180],snow:[19440,20670,24060],volcanic:[25380,29250,30900]};
  let state=seed>>>0||1;const random=()=>{state^=state<<13;state^=state>>>17;state^=state<<5;state>>>=0;return state/4294967296;};

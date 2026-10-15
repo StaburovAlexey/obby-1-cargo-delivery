@@ -1,5 +1,5 @@
-// Export actual final THREE vertex arrays for offline Blender geometry proof.
-// The storefront wall bake uses the source CPU material sampler. No browser.
+
+
 import fs from 'node:fs';
 import crypto from 'node:crypto';
 import * as THREE from '../../dist/vendor/three.module.js';

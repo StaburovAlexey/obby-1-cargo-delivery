@@ -1,4 +1,4 @@
-/** The exact render triangles supply world-space gradient and biome progress. */
+
 import { queryRoadSurface,projectRoad } from './road-layout.js';
 import { biomeSurfaceAt } from './biome-surfaces.js';
 export function roadGroundGradient(x,z,history){

@@ -1,7 +1,7 @@
-/** Presentation-only RU/EN localization. Game state, prices, IDs, links and
- * source-asset names never change. Dynamic HUD writers may keep emitting RU.
- * Original text is retained per DOM node/attribute, not reconstructed from EN.
- */
+
+
+
+
 const phrases = Object.freeze({
   "Не удалось загрузить игру": "Unable to load the game",
   "Прогресс и настройки сохраняются в облаке Яндекс Игр. Без соединения изменения останутся до закрытия страницы. Сам рейс и положение машины не сохраняются. Настройки, потеря фокуса и фоновая вкладка ставят игру и заработок на паузу.": "Progress and settings are saved in the Yandex Games cloud. Without a connection, changes last until this page is closed. The current trip and vehicle position are not saved. Settings, loss of focus and background tabs pause the game and earnings.",
@@ -11,7 +11,7 @@ const phrases = Object.freeze({
   "Покупки недоступны": "Purchases unavailable",
   "Изменения ещё не сохранены в облаке. При закрытии страницы они могут пропасть.": "Changes have not been saved to the cloud yet. They may be lost when this page closes.",
 
-  // Settings gameplay guide and actual-interface icon legend.
+
   "Как играть": "How to play",
   "Один рейс — один груз. Выбирайте, где забрать награду, и возвращайтесь за следующей доставкой.": "One trip, one cargo load. Choose where to collect your reward, then return for the next delivery.",
   "Сядьте в машину": "Get in a vehicle",
@@ -201,8 +201,8 @@ const phrases = Object.freeze({
 
 const quantity = String.raw`([+−-]?\d(?:[\d.,\u00a0\u202f ]*\d)?)`;
 const rx = source => new RegExp('^' + source + '$', 'u');
-// Every pattern matches an entire UI phrase. Captured prices, rates and asset
-// names remain strings: no number parsing, reformatting or substring rewriting.
+
+
 const templates = [
   [/^Купить ([\d.,\s\u00a0\u202f]+[A-Za-zА-Яа-я₽$€¥]+)$/u, (_, price) => `Buy ${price}`],
   [/^Онлайн: (\d+)\/20$/u, (_, n) => `Online: ${n}/20`],
@@ -257,17 +257,17 @@ function translateCore(text) {
   return text;
 }
 
-/** Pure translation for tests and presentation boundaries outside the DOM. */
+
 export function translateGameText(value, language = 'en') {
   const text = String(value ?? '');
   if (language !== 'en' || !/[А-Яа-яЁё]/u.test(text)) return text;
   const [, before, core, after] = /^(\s*)([\s\S]*?)(\s*)$/u.exec(text);
-  // HTML source wraps sentences across lines. Keep numeric separators intact.
+
   let translated = translateCore(core);
   if (translated === core) {
     const normalized = core.replace(/[\t\r\n]+/g, ' ').replace(/ {2,}/g, ' ');
-    // Normalize source-code line wrapping for static phrases only. Never alter
-    // captured dynamic values, even if a number contains multiple spaces.
+
+
     translated = Object.hasOwn(phrases, normalized) ? phrases[normalized] : core;
   }
   return translated === core ? text : before + translated + after;
@@ -282,12 +282,12 @@ const isSkipped = node => {
   return false;
 };
 
-/**
- * Observe only text/presentation attributes, never style/physics/frame state.
- * Disconnect while applying changes so translations cannot retrigger themselves.
- * refresh() consumes pending mutations; no full-page per-frame scan is needed.
- * Without MutationObserver it safely performs a synchronous walk on refresh().
- */
+
+
+
+
+
+
 export function createLocalization(doc, { language = 'ru' } = {}) {
   if (!doc) throw new TypeError('A document is required');
   let currentLanguage = language === 'en' ? 'en' : 'ru', disposed = false;
@@ -313,7 +313,7 @@ export function createLocalization(doc, { language = 'ru' } = {}) {
     for (const name of attributes) {
       const current = node.getAttribute?.(name);
       if (current == null) { records.delete(name); continue; }
-      // Only description metadata is prose. Never translate URLs or technical metadata.
+
       if (name === 'content' && !(node.tagName?.toUpperCase() === 'META' && node.getAttribute('name') === 'description')) continue;
       const record = renderValue(current, records.get(name));
       records.set(name, record);
@@ -324,7 +324,7 @@ export function createLocalization(doc, { language = 'ru' } = {}) {
     if (!node || isSkipped(node)) return;
     if (node.nodeType === 3) { renderText(node); return; }
     if (isElement(node)) renderAttributes(node);
-    // Renderer-free game fixtures have plain textContent fields, no Text nodes.
+
     if (!node.childNodes && typeof node.textContent === 'string') {
       const current = node.textContent, record = renderValue(current, originalText.get(node));
       originalText.set(node, record);

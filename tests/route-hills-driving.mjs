@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-// Isolated production drivability coverage: input-only after each legitimate
-// segment spawn. Fuel use is measured from actual displacement and reported,
-// not replenished or injected; economy depletion is tested by journey tests.
+
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import crypto from 'node:crypto';
@@ -46,7 +46,7 @@ function run({spec,levels,branch,fork,direction=1}){
 const specs=quick?VEHICLE_CONFIG.filter(v=>['pickup','ashhauler'].includes(v.id)):VEHICLE_CONFIG;
 const scenarios=[];
 for(const spec of specs)for(const levels of [{},MAX])for(const branch of ['main','alternate'])for(const fork of N.FORKS)scenarios.push({spec,levels,branch,fork});
-// Reversing the forest hill traverses both slopes of its 7.5% crest, on each arm.
+
 for(const spec of specs)for(const levels of [{},MAX])for(const branch of ['main','alternate'])scenarios.push({spec,levels,branch,fork:N.FORKS[0],direction:-1});
 report.expectedForward=specs.length*2*2*4;report.expectedReverse=specs.length*2*2;
 const target=new URL(quick?'driving-quick.json':'driving.json',dir);

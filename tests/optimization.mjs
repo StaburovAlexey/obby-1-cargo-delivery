@@ -8,9 +8,9 @@ import * as THREE from '../dist/vendor/three.module.js';
 import * as optimized from '../dist/scene.js';
 import { collectObstacles } from '../dist/city-driving.js';
 
-// Reproduce the published v3 generator from byte-for-byte git-show fixtures.
-// Fixtures make the same independent audit portable in the source archive without .git.
-// This is a deterministic geometry/collision audit, not a browser or FPS benchmark.
+
+
+
 const baselineCommit = '7f1f32551db2423127517085cacbe62425ed7cdf';
 const root = fileURLToPath(new URL('..', import.meta.url));
 const report = { generatedAt: new Date().toISOString(), baselineCommit, checks: [], measurements: [], notes: [] };

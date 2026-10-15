@@ -8,7 +8,7 @@ import {PROTOCOL_VERSION,ROOM_CAPACITY,SNAPSHOT_HZ,WORLD_ID,SEAT_IDS,createIniti
 const exactKeys=(message,keys)=>Object.keys(message).length===keys.length&&keys.every(key=>Object.hasOwn(message,key));
 const positive=(value,fallback)=>Number.isFinite(Number(value))&&Number(value)>0?Number(value):fallback;
 function originAllowed(origin,patterns) {
-  if(!origin||!patterns.length)return true; // Non-browser health/load clients; deployment config constrains browser origins.
+  if(!origin||!patterns.length)return true;
   let url;try {url=new URL(origin);if(url.origin!==origin)return false;}catch{return false;}
   return patterns.some(pattern=>{
     if(pattern===origin)return true;
@@ -17,7 +17,7 @@ function originAllowed(origin,patterns) {
   });
 }
 
-/** Ephemeral visual-presence server. No account, progression, economy or peer physics authority. */
+
 export function createRoomServer(options={}) {
   const heartbeatMs=positive(options.heartbeatMs,15_000);
   const joinTimeoutMs=positive(options.joinTimeoutMs,5_000);
@@ -111,7 +111,7 @@ export function createRoomServer(options={}) {
   const tick=setInterval(()=>{
     const start=performance.now();counters.tickCount++;
     for(const room of rooms.values()) {
-      const payload=Buffer.from(JSON.stringify(roomPayload(room))); // One serialization and UTF-8 encoding shared by all twenty recipients.
+      const payload=Buffer.from(JSON.stringify(roomPayload(room)));
       counters.snapshots++;
       for(const conn of room.players.values())send(conn,payload,true);
     }

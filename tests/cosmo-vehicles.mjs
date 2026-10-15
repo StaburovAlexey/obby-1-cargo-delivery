@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Real packaged GLBs parsed with installed GLTFLoader, CPU only. Image bitmaps
-// are dimensions-only stubs; no browser, socket, WebGL, rendered-image claim.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -131,7 +131,7 @@ for (const adapter of adapters) {
     near(wheel.wheelSpin * wheel.radius, 1.8 * .68);
     near(wheel.spin.rotation.x, -(wheel.wheelSpin % (Math.PI * 2)));
   });
-  // Mixed-invalid poses must not partially mutate either body or wheels.
+
   const stateBeforeBadPose = matrices(group);
   assert.throws(() => adapter.update({ bodyBob: .9, wheelSpin: NaN }), /finite/);
   assert.deepEqual(matrices(group), stateBeforeBadPose);
@@ -143,8 +143,8 @@ for (const adapter of adapters) {
   assert.ok(adapter.cargoPosition.y - .55 > .5, 'cargo sits above roof');
   assert.ok(Math.abs(adapter.cargoPosition.z) + .59 < size.z / 2);
 
-  // Shader substitutions target audited body paint only, leaving actual palette
-  // PNGs, light/glass materials and wheel materials unchanged.
+
+
   const painted = [];
   body.traverse(node => {
     if (node.material && ['metallic', 'texture'].includes(node.material.name)) {
@@ -175,7 +175,7 @@ assert.equal(totalTriangles, 23207);
 assert.equal(totalPrimitives, 109);
 console.log('PASS all ten source palettes, +Z→-Z, uniform fit, grounding, articulation and cargo metadata');
 
-// Concurrent loads share immutable bytes/palette. Geometry and materials remain independent.
+
 const [a, b] = await Promise.all([loadCosmoVehicle(THREE, 'pickup'), loadCosmoVehicle(THREE, 'pickup')]);
 assert.equal(requests.get(COSMO_VEHICLES[0].url), 1);
 const aResources = resourceSets(a.group), bResources = resourceSets(b.group);
@@ -203,7 +203,7 @@ b.update({ bodyBob: .2 }); near(b.body.position.y, .2);
 b.dispose();
 foreignGeometry.dispose(); foreignMaterial.dispose();
 
-// Raw parsing route is real GLTFLoader too and prevents accidental double-adoption.
+
 const bytes = fs.readFileSync(new URL(COSMO_VEHICLES[0].url));
 const gltf = await new GLTFLoader().parseAsync(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), '');
 const raw = createCosmoVehicleAdapter(THREE, 'pickup', gltf);
@@ -218,7 +218,7 @@ clearCosmoVehicleCache();
 const fresh = await loadCosmoVehicle(THREE, 'pickup');
 assert.equal(requests.get(COSMO_VEHICLES[0].url), 2);
 fresh.dispose();
-// Failed transport is evicted so a later explicit load can recover.
+
 clearCosmoVehicleCache();
 const workingFetch = globalThis.fetch;
 let failNext = true;

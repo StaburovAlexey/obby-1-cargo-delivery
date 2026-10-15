@@ -1,9 +1,9 @@
 import {bridgeAtProgress} from '../dist/road-bridges.js';
-// Independent integration regression: executes actual app.js and its physics,
-// road contacts, Three.js meshes, economy, camera and input. Renderer, DOM and
-// pointer delivery are simulated. This is not Android, browser or GPU evidence.
-// Position/velocity injection is confined to explicit setup of edge cases; the
-// ordinary frame-rate scenarios start through the real garage launch path.
+
+
+
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import * as THREE from '../dist/vendor/three.module.js';
@@ -111,7 +111,7 @@ check('Road gradient matches the rendered height convention and influences actua
   const p=gradients.filter(p=>!bridgeAtProgress(p.progress)).reduce((a,b)=>Math.abs(a.gradient.z)>Math.abs(b.gradient.z)?a:b);
   assert.ok(Math.abs(p.gradient.z)>.005,'Test requires a real nonzero route grade');
   const app=make(),d=app.debug,s=d.model.state;
-  // This case starts on a grade by setup; subsequent movement is real app physics.
+
   setupPose(app,{x:p.x,z:p.z,heading:0},0,-4);
   const flat=createDrivingModel({x:p.x,z:p.z,heading:0,...vehicleConfig('pickup'),groundGradient:()=>({x:0,z:0})});
   setVelocity(flat.state,0,-4); flat.step(.05); frame(app,.05);

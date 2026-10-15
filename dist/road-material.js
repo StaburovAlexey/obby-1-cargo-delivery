@@ -1,5 +1,5 @@
-/** Biome surfaces and road markings share one opaque road shader. There are
- * no extra meshes, relief triangles, shoulder strips. The original shared square-stud color tile is retained. */
+
+
 import { createRoadMaterial } from './building-material.js';
 import { ROUTE } from './road-layout.js';
 import { BIOME_SURFACES, SURFACE_BOUNDS, SURFACE_TRANSITION_METERS, biomeSurfaceBlend } from './biome-surfaces.js';
@@ -10,7 +10,7 @@ export function roadPaintAt(across,logicalY){
   const dash=Math.abs(across)<.1&&phase<3&&logicalY>=ROAD_PAINT.dashStart&&logicalY<ROUTE.end-3;
   return edge||dash;
 }
-/** Linear RGB reference for the same complete-width shader palette. */
+
 export function roadSurfaceAppearanceAt(THREE,logicalY){
   const {from,to,blend}=biomeSurfaceBlend(logicalY),a=BIOME_SURFACES[from],b=BIOME_SURFACES[to];
   return {color:new THREE.Color(a.color).lerp(new THREE.Color(b.color),blend),
@@ -23,10 +23,10 @@ export function createPaintedRoadMaterial(THREE,color=BIOME_SURFACES.city.color,
   m.userData.embeddedRoadMarkings={...ROAD_PAINT};
   return applyRoadSurfaceShader(THREE,m,{color,...options});
 }
-/** Reuses the exact road pattern on the pre-existing terrain seam, covering
- * exposed gaps to the roadside walls without adding any drivable geometry.
- * Terrain must supply roadAcross just like the road; outside the bounded
- * fringe its original map/vertex colors and lighting remain untouched. */
+
+
+
+
 export function applyRoadSurfaceShader(THREE,m,{fringe=false,color=BIOME_SURFACES.city.color,network=false}={}){
   m.userData.biomeSurfaces={boundaries:[...SURFACE_BOUNDS],transitionMeters:SURFACE_TRANSITION_METERS,
     colors:Object.fromEntries(Object.entries(BIOME_SURFACES).map(([id,s])=>[id,s.color])),fringe};

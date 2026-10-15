@@ -14,7 +14,7 @@ for i,(file,biome,title,note) in enumerate(items):
  d.rounded_rectangle((x,y,x+490,y+457),radius=14,fill='#203e54')
  thumb=im.resize((490,351),Image.Resampling.LANCZOS);out.paste(thumb,(x,y+46))
  d.text((x+14,y+11),biome,font=font(19,True),fill='#f4fcff');d.text((x+14,y+406),title,font=font(18,True),fill='#ffffff');d.text((x+14,y+432),note,font=font(12),fill='#bbdbea')
- # A label in every standalone PNG prevents mistaking it for in-game capture.
+
  draw=ImageDraw.Draw(im);draw.rectangle((0,0,1200,54),fill='#152a3b');draw.text((18,12),f'OFFLINE • {biome} • {title}',font=font(23,True),fill='#ffffff')
  draw.rectangle((0,826,1200,860),fill='#152a3b');draw.text((18,835),'Actual hazard geometry. Source-sampled road context. Blender lighting; no browser/WebGL/mobile validation.',font=font(14),fill='#c6dfed');im.save(HERE/f'{file}-offline.jpg',quality=90,subsampling=0,optimize=True)
 x=26+3*506;y=118+477

@@ -16,9 +16,9 @@ const read=rel=>JSON.parse(fs.readFileSync(path.join(root,rel),'utf8'));
 const inputs=['production-journeys.json','skill-and-farming.json','typical-builds.json'].map(f=>`qa/current-economy-calibration/${f}`);
 const reports=inputs.map(read);
 for(const r of reports)if(!r.complete||!r.passed||r.changedRuntimeFiles.length)throw new Error('Incomplete, failed or drifting calibration input');
-// Route timing inputs remain the pre-economy measurements. Changes to the
-// physical solver, road, bridges or hazards invalidate them. The approved
-// price/core/UI edits are recorded explicitly, never labelled remeasured.
+
+
+
 const approvedNonPhysicsChanges=new Set(['app.js','career-save.js','economy-config.js','gameplay.js','progression-config.js','progression-hud.js','vehicle-upgrades.js']);
 const calibrationRuntimeHashes=reports[0].runtimeHashes,currentRuntimeHashes={},changedSinceCalibration=[];
 for(const [f,h] of Object.entries(calibrationRuntimeHashes)){
@@ -43,8 +43,8 @@ const typical={speedFactor:1.15,restartSeconds:15,failureProbabilities:[.05,.06,
 const defaultPath=[0,1,4,6,7,8,9];
 function outcomes(row,a){
  const clean=a.cleanSuccessFraction,hard=a.hardBonus&&isHard(row,a)?(a.hardSuccessFraction??1):0;
- // Independence of clean success and optional hard selection is an explicit
- // illustrative assumption, not player telemetry.
+
+
  return [false,true].flatMap(c=>[false,true].map(h=>({clean:c,hard:h,p:(c?clean:1-clean)*(h?hard:1-hard)}))).filter(o=>o.p>0);
 }
 function routeEconomics(row,a,k){
@@ -55,8 +55,8 @@ function routeEconomics(row,a,k){
  for(const o of outcomes(row,a)){const r=calculateDeliveryReward(row.reward,o);cash+=o.p*r.totalCash;masteryBrains+=o.p*r.brains.total;}
  return {cash,brains:movingSeconds*a.driveBrainsPerSecond+masteryBrains,movingSeconds,overheadSeconds,expectedFailures:failedAttemptsPerSuccess};
 }
-// Exact finite-state expectation for the implemented sequential mission rules.
-// A fractional state weight is probability, never an extra runtime payout.
+
+
 function missionStep(distribution,row,a){
  if(!a.missions)return {distribution,cash:0,brains:0,completions:0};
  if(a.missions==='reward-upper-bound')return {distribution,cash:150,brains:40,completions:1};

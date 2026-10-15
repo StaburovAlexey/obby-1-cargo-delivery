@@ -1,8 +1,8 @@
-/* Transform-only vehicle root. Imported GLB adapters own all render geometry
- * and visual articulation. These contact records preserve the driving model's
- * established calibration; they allocate no meshes, materials or draw calls.
- * Three.js axes: +Y up, -Z forward, +X right.
- */
+
+
+
+
+
 const activeRigs = new WeakMap();
 const POSE_FIELDS = ['steerAngle', 'wheelSpin', 'bodyPitch', 'bodyRoll', 'bodyBob'];
 
@@ -51,7 +51,7 @@ export function createVehicleRig(THREE, root) {
     update(next = {}) {
       if (disposed) return rig;
       if (!next || typeof next !== 'object') throw new TypeError('Vehicle update requires a pose object.');
-      // Validate the complete request before changing either transform or state.
+
       if (next.position !== undefined) readPosition(next.position);
       if (next.quaternion !== undefined) readQuaternion(next.quaternion);
       for (const key of POSE_FIELDS)

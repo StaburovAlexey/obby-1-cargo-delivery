@@ -1,4 +1,4 @@
-/** Flat terrain carrying the same small square-stud pattern as the buildings. */
+
 import { GRASS_CHECKER_TEXTURE, createGrassCheckerTextureData, useGrassCheckerTexture } from './square-stud-texture.js';
 export const GROUND_TEXTURE = Object.freeze({
   grass: GRASS_CHECKER_TEXTURE,

@@ -1,5 +1,5 @@
-/* Transparent currency and code-native progression controls. */
-/* Icon precedes the right-anchored balance; artwork keeps its responsive size. */
+
+
 #brain-hud{position:absolute;z-index:7;right:0;top:calc(var(--top-icon-size) + 5px);display:flex;flex-direction:row;align-items:center;gap:6px;height:var(--top-icon-size);max-width:calc(100% - 115px);background:transparent;padding:0;border:0;pointer-events:none}
 #brain-hud .hud-art{width:var(--top-icon-size);height:var(--top-icon-size);flex:0 0 var(--top-icon-size)}
 #brain-value{min-width:0;overflow:hidden;text-align:right;font-size:min(calc(var(--top-icon-size)*.56),calc((100cqw - 115px - var(--top-icon-size) - 12px)/(var(--brain-digits,1)*.68)));line-height:1;font-weight:900;font-variant-numeric:tabular-nums;white-space:nowrap;text-shadow:var(--hud-shadow);-webkit-text-stroke:1.5px var(--hud-ink);paint-order:stroke fill}
@@ -43,8 +43,8 @@
  #study-status{bottom:calc(env(safe-area-inset-bottom) + 140px);max-width:calc(100% - 28px);font-size:15px}
 }
 @media(max-height:420px) and (min-width:501px){
- /* Leave the distant road/warning area clear, above the bottom readout and
-    between the complete rotated wheel and D/R hit regions. */
+
+
  #biome-button{top:auto;right:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 140px);transform:none;width:48px;height:48px;min-height:48px;max-width:48px;padding:4px;justify-content:center;gap:0}
  #biome-button{left:calc(50% + 4px)}
  #biome-button>span{display:none}
@@ -68,13 +68,13 @@
 body.upgrade-menu-open{touch-action:pan-y}
 @media(min-width:601px) and (max-width:800px){.upgrade-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
-/* The upgrade action shares the hangar's top-row circle in every orientation.
-   Explicit containment prevents legacy action/SVG rules from moving the icon. */
+
+
 .top-actions #upgrade-button{position:static;inset:auto;z-index:auto;min-height:var(--top-icon-size);max-width:none;padding:0;border:0;border-radius:0;background:none;box-shadow:none;gap:0;touch-action:manipulation;--action-color:#1486d0;--action-hover:#36a5eb}
 .top-actions #upgrade-button>.hud-circle{position:relative;display:block;flex:none;overflow:hidden;isolation:isolate}
 .top-actions #upgrade-button>.hud-circle>.hud-art{position:absolute;inset:15%;display:block;width:70%;height:70%;min-width:0;min-height:0;max-width:70%;max-height:70%;margin:0;transform:none;flex:none;overflow:hidden}
-/* Reserve the third icon only while driving. Compact phone controls leave a
-   separate wallet column instead of squeezing its number beneath the buttons. */
+
+
 .is-driving .topbar{--top-actions-width:284px}
 .is-driving #wallet-hud{--top-actions-width:284px}
 @media(max-width:760px){.is-driving .topbar,.is-driving #wallet-hud{--top-actions-width:228px}}
@@ -87,8 +87,8 @@ body.upgrade-menu-open{touch-action:pan-y}
  .is-driving .top-actions .button-label{font-size:11px}
 }
 
-/* Savings and tasks remain two bright, round, explicit actions on the left.
-   Only narrow phones wrap to a 2×2 group, leaving exact balances readable. */
+
+
 .top-actions .career-action{position:static;inset:auto;min-height:var(--top-icon-size);padding:0;border:0;background:none;gap:0;flex-shrink:0;touch-action:manipulation}
 #career-goal-button{--action-color:#e8ae1e;--action-hover:#ffd354}
 #career-mission-button{--action-color:#8251d4;--action-hover:#ac78f4}
@@ -121,7 +121,7 @@ body.upgrade-menu-open{touch-action:pan-y}
  .career-actions-visible .top-actions .hud-circle .hud-art{width:35px;height:35px}
  .career-actions-visible .top-actions .career-action>.hud-circle>.hud-art{width:70%;height:70%}
 }
-/* A single modal surface holds only the action explicitly opened by the player. */
+
 body.career-menu-open{touch-action:pan-y}
 #career-menu{position:fixed;z-index:34;inset:0;display:grid;place-items:center;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));background:#07132ad9;touch-action:pan-y}
 #career-panel{width:min(420px,100%);max-height:100%;overflow:auto;overscroll-behavior:contain;touch-action:pan-y;padding:16px;border:4px solid var(--hud-ink);border-radius:22px;background:#243f85;box-shadow:inset 0 4px #87ccff77;color:#fffdf3;font-size:14px}
@@ -149,8 +149,8 @@ body.career-menu-open{touch-action:pan-y}
 .career-reward{display:flex;align-items:center;gap:5px;flex-wrap:wrap;font-variant-numeric:tabular-nums}
 .career-reward strong{overflow-wrap:anywhere}
 .career-reward .hud-art:nth-of-type(2){margin-left:8px}
-/* A viewport-centered receipt sits above every HUD and game dialog. The
-   constrained card scrolls in short landscape without moving its backdrop. */
+
+
 #delivery-receipt-menu{position:fixed;z-index:100;inset:0;display:grid;place-items:center;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));background:#07132ad9;touch-action:pan-y;pointer-events:auto;isolation:isolate}
 #delivery-receipt{width:min(440px,100%);min-height:0;max-height:calc(100vh - max(12px,env(safe-area-inset-top)) - max(12px,env(safe-area-inset-bottom)));max-height:calc(100dvh - max(12px,env(safe-area-inset-top)) - max(12px,env(safe-area-inset-bottom)));overflow:auto;overscroll-behavior:contain;touch-action:pan-y;padding:16px;border:4px solid var(--hud-ink);border-radius:22px;background:#173a76;box-shadow:inset 0 3px #87ccff55,0 12px 40px #0006;color:#fffdf3;pointer-events:auto}
 body.career-menu-open .buy-button{display:none!important}
@@ -164,7 +164,7 @@ body.career-menu-open .buy-button{display:none!important}
 #delivery-receipt thead .hud-art{margin-left:auto;width:23px;height:23px}
 #delivery-receipt tfoot{border-top:1px solid #76b291;color:#b8ffd1;font-weight:900}
 .career-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
-/* Physical values and range detail stay readable even for the tenth vehicle. */
+
 .upgrade-card>strong{max-width:100%;white-space:normal;overflow-wrap:anywhere}
 .upgrade-card>small{overflow-wrap:anywhere}
 @media(max-width:600px){#career-panel{padding:12px}#career-panel h2{font-size:19px}#delivery-receipt{padding:12px}.receipt-heading h2{font-size:20px}#delivery-receipt table{font-size:14px}}
@@ -174,8 +174,8 @@ body.career-menu-open .buy-button{display:none!important}
 .hard-route-price{padding:0;border:0;background:transparent;box-shadow:none;gap:3px;color:#ffe580}
 .hard-route-price .hud-art{width:28px;height:28px}
 
-/* Hangar actions form one left-edge column. Driving keeps its existing row.
-   Short landscape views shrink only this walking column above the joystick. */
+
+
 .is-walking .top-actions{display:flex;flex-direction:column;align-items:center;gap:6px;width:var(--top-icon-size);--top-actions-width:var(--top-icon-size)}
 .is-walking .top-actions .hud-menu-button{width:var(--top-icon-size);height:var(--top-icon-size);min-height:var(--top-icon-size);gap:0;flex:none}
 .is-walking .top-actions .button-label{display:none}
@@ -184,9 +184,9 @@ body.career-menu-open .buy-button{display:none!important}
  .is-walking .top-actions{--top-icon-size:clamp(28px,calc((100dvh - 180px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))/4),44px);gap:4px}
  .is-walking .top-actions .hud-menu-button>.hud-circle>.hud-art{width:70%;height:70%;max-width:70%;max-height:70%}
 }
-/* The optional one-time test grant must not cover the new left icon column. */
+
 .is-walking #vehicle-funds-button{left:50%;transform:translateX(-50%);top:calc(max(15px,env(safe-area-inset-top,0px) + 8px) + var(--top-icon-size)*2 + 24px)}
 @media(max-height:420px) and (min-width:501px){.is-walking #vehicle-funds-button{top:max(12px,calc(env(safe-area-inset-top,0px) + 6px))}}
 
-/* Owned characters use a plain selection label; purchases retain their coin. */
+
 #buy-skin[data-owned="true"] .hud-art{display:none}

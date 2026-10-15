@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// CPU-only transform rig contract; imported adapters own visual articulation.
+
 import assert from 'node:assert/strict';
 import * as THREE from '../dist/vendor/three.module.js';
 import {createVehicleRig} from '../dist/vehicle-rig.js';

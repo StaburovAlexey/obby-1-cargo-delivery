@@ -1,8 +1,8 @@
-/** Angular steering restored from 321db49: ±135°, angle wrap, dead center and
- * rendered-angle regrab. The wheel only steers; a separate held pedal supplies
- * forward throttle; a smaller held pedal supplies reverse throttle. Releasing
- * either pedal uses the model's original coasting path.
- */
+
+
+
+
+
 export const STEERING_MAX_ANGLE = 135;
 export const shortestAngleDegrees = delta =>
   Math.atan2(Math.sin(delta), Math.cos(delta)) * 180 / Math.PI;
@@ -66,11 +66,11 @@ export function createVehicleInput({
     pedal.setAttribute('aria-pressed', String(held && !reversing));
     reverse?.classList.toggle('is-active', reversing);
     reverse?.setAttribute('aria-pressed', String(reversing));
-    // Reverse wins simultaneous presses. Never switch gear on release: coast
-    // keeps signed velocity and leaves the existing model interlock in charge.
+
+
     if (held && reverse) onGear(reversing ? 'R' : 'D');
     root.dataset.throttle = String(held);
-    // Deliberately omit speedDemand: zero would engage the analog stick's brake.
+
     onInput({ steering, active: held });
     if (started) onStart();
   }
@@ -82,7 +82,7 @@ export function createVehicleInput({
         const matrix = new win.DOMMatrixReadOnly(transform);
         const rotation = Math.atan2(matrix.b, matrix.a) * 180 / Math.PI;
         if (Number.isFinite(rotation)) return rotation;
-      } catch { /* Older engines can fall back to the serialized CSS matrix. */ }
+      } catch {                                                                 }
     }
     const rotate = transform.match(/^rotate\(([-.\d]+)deg\)$/);
     if (rotate) return Number(rotate[1]);
@@ -97,7 +97,7 @@ export function createVehicleInput({
   const angle = event => fingerAngleAt(event, wheel.getBoundingClientRect(), wheel.clientWidth);
   function releaseCapture(element, pointer) {
     if (pointer !== undefined && element.hasPointerCapture?.(pointer)) {
-      try { element.releasePointerCapture(pointer); } catch { /* The browser may have cancelled first. */ }
+      try { element.releasePointerCapture(pointer); } catch {                                             }
     }
   }
   function reset() {
@@ -106,7 +106,7 @@ export function createVehicleInput({
     wheelPointer = pedalPointer = reversePointer = anchor = undefined;
     keys.clear();
     steering = 0;
-    // Clear ownership first: synchronous lostpointercapture cannot reset twice.
+
     releaseCapture(wheel, previousWheel);
     releaseCapture(pedal, previousPedal);
     if (reverse) releaseCapture(reverse, previousReverse);
@@ -122,17 +122,17 @@ export function createVehicleInput({
     steering = clampSteering((visualRotation(wheel) + visualRotation(image)) / STEERING_MAX_ANGLE);
     anchor = angle(event);
     wheel.classList.remove('is-returning');
-    try { wheel.setPointerCapture?.(wheelPointer); } catch { /* Window fallback still owns this pointer. */ }
+    try { wheel.setPointerCapture?.(wheelPointer); } catch {                                                }
     emit();
   });
   listen(pedal, 'pointerdown', event => {
     if (!enabled || destroyed || pedalPointer !== undefined || event.button !== 0 || event.pointerId === wheelPointer || event.pointerId === reversePointer) return;
     event.preventDefault();
     event.stopPropagation();
-    // A touch owns only its own axis, with no latent keyboard gas on release.
+
     for (const key of GAS_KEYS) keys.delete(key);
     pedalPointer = event.pointerId;
-    try { pedal.setPointerCapture?.(pedalPointer); } catch { /* Window fallback still completes release. */ }
+    try { pedal.setPointerCapture?.(pedalPointer); } catch {                                                }
     emit();
   });
   if (reverse) listen(reverse, 'pointerdown', event => {
@@ -142,7 +142,7 @@ export function createVehicleInput({
     event.stopPropagation();
     for (const key of GAS_KEYS) keys.delete(key);
     reversePointer = event.pointerId;
-    try { reverse.setPointerCapture?.(reversePointer); } catch { /* Window release fallback. */ }
+    try { reverse.setPointerCapture?.(reversePointer); } catch {                                }
     emit();
   });
   function pointerMove(event) {
@@ -178,7 +178,7 @@ export function createVehicleInput({
     emit();
   }
   for (const element of controls) listen(element, 'pointermove', pointerMove);
-  // Consume only wheel/pedal pointers. The canvas can own a third camera finger.
+
   listen(win, 'pointermove', pointerMove, { capture: true, passive: false });
   for (const type of ['pointerup', 'pointercancel', 'lostpointercapture']) {
     for (const element of controls) listen(element, type, release);
@@ -189,7 +189,7 @@ export function createVehicleInput({
     if (!enabled || destroyed || !code || event.ctrlKey || event.metaKey || event.altKey || isEditable(event.target)) return;
     event.preventDefault();
     event.stopImmediatePropagation?.();
-    // Repeats cannot restart gas after a blur, menu or other safety reset.
+
     if (event.repeat || (GAS_KEYS.has(code) ? (pedalPointer !== undefined || reversePointer !== undefined) : wheelPointer !== undefined)) return;
     keys.add(code);
     if (wheelPointer === undefined) {
@@ -222,7 +222,7 @@ export function createVehicleInput({
   return {
     get state() { return { steering, active: active(), pointerId: wheelPointer, wheelPointerId: wheelPointer, pedalPointerId: pedalPointer, reversePointerId: reversePointer, enabled }; },
     reset,
-    // Compatibility with existing launch/teleport resets; no direction selector.
+
     setGear() {},
     setEnabled(value) {
       const previous = enabled;

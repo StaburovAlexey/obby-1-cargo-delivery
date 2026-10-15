@@ -18,8 +18,8 @@ const outputName=process.argv[3]||'bridge-only';
 const inputs=['journeys-stock.json','journeys-final.json','journeys-typical.json'].map(f=>`${calibration}/${f}`);
 const reports=inputs.map(read);
 for(const r of reports)if(!r.complete||!r.passed||r.changedRuntimeFiles.length)throw new Error('Incomplete, failed or drifting calibration input');
-// This is a read-only counterfactual budget. Calibration may be a preserved snapshot.
-// Runtime physics signatures are reported rather than substituted into old route timings.
+
+
 const calibrationRuntimeHashes=reports[0].runtimeHashes;
 for(const report of reports)assert.deepEqual(report.runtimeHashes,calibrationRuntimeHashes,'Calibration reports must be from one runtime');
 const currentRuntimeHashes=Object.fromEntries(Object.keys(calibrationRuntimeHashes).map(f=>[f,hash(fs.readFileSync(path.join(root,'dist',f)))]));
@@ -35,8 +35,8 @@ const tankCost=i=>sum(levels(i)),typicalCost=i=>tankCost(i)+3*sum(levels(i).slic
 const cars=VEHICLE_CONFIG.map((v,i)=>({order:i+1,id:v.id,name:v.name,price:v.price,upgradeLevelsPerStat:levels(i),oneStatMax:tankCost(i),fourStatsMax:4*tankCost(i),typicalBuild:typicalCost(i)}));
 const schools=SCHOOL_CONFIG.map(({id,price,rate})=>({id,price,rate}));
 const stock=i=>checks.find(c=>c.id===ids[i]&&c.name===`endpoint ${ids[i]} stock`);
-// The historical seven-car purchase plan uses stock pickup/courier. Extra
-// comfort rows for those vehicles are measurements, not purchased model builds.
+
+
 const build=i=>i<4?undefined:reports[2].checks.find(c=>c.id===ids[i]);
 const finalTank=reports[1].checks.find(c=>c.name==='final ashhauler tank10 other stats0 primary');
 const isHard=(row,a)=>a.historicalHardProxy?row.target>=4:FORK_DEFINITIONS.some(f=>HARD_BRANCHES[f.id]&&row.finalProgress>=f.to);
@@ -44,8 +44,8 @@ const typical={speedFactor:1.15,restartSeconds:15,failureProbabilities:[.05,.06,
 const defaultPath=[0,1,4,6,7,8,9];
 function outcomes(row,a){
  const clean=a.cleanSuccessFraction,hard=a.hardBonus&&isHard(row,a)?(a.hardSuccessFraction??1):0;
- // Independence of clean success and optional hard selection is an explicit
- // illustrative assumption, not player telemetry.
+
+
  return [false,true].flatMap(c=>[false,true].map(h=>({clean:c,hard:h,p:(c?clean:1-clean)*(h?hard:1-hard)}))).filter(o=>o.p>0);
 }
 const rewardValue=(row,a)=>Math.round(DELIVERY_CHECKPOINTS[row.target-1].distance*.6*(a.rewardMultiplier||1)/10)*10;
@@ -57,8 +57,8 @@ function routeEconomics(row,a,k){
  for(const o of outcomes(row,a)){const r=calculateDeliveryReward(rewardValue(row,a),o);cash+=o.p*r.totalCash;masteryBrains+=o.p*r.brains.total;}
  return {cash,brains:movingSeconds*a.driveBrainsPerSecond+masteryBrains,movingSeconds,overheadSeconds,expectedFailures:failedAttemptsPerSuccess};
 }
-// Exact finite-state expectation for the implemented sequential mission rules.
-// A fractional state weight is probability, never an extra runtime payout.
+
+
 function missionStep(distribution,row,a){
  if(!a.missions)return {distribution,cash:0,brains:0,completions:0};
  if(a.missions==='reward-upper-bound')return {distribution,cash:150,brains:40,completions:1};

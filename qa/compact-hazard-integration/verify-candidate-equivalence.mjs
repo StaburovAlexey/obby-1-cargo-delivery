@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-/** Reproducible cleanup proof against the approved, isolated frozen candidate.
- * This file is QA only. The production module has no candidate/test hooks. */
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';

@@ -1,6 +1,6 @@
-/* Curved, branching Urban Route. Every road/terrain triangle is owned by the
- * shared graph module. Scenic rows are closed 12-triangle prisms whose exact
- * miter cuts are shared by neighbours. No imported models or raster artwork. */
+
+
+
 import * as NETWORK from './route-network.js';
 import {NETWORK_CONFIG} from './route-network-config.js';
 import {BRIDGES} from './road-bridges.js';
@@ -24,8 +24,8 @@ export function polygonIntersectionArea(subject,clip){
   return out.length>2?Math.abs(signedArea(out)):0;
 }
 function boundsOf(points){return {minX:Math.min(...points.map(p=>p.x)),maxX:Math.max(...points.map(p=>p.x)),minZ:Math.min(...points.map(p=>p.z)),maxZ:Math.max(...points.map(p=>p.z))};}
-/** Exact convex-polygon/triangle overlap, spatially indexed. Used on actual
- * rendered road triangles, not a bounding-box approximation near junctions. */
+
+
 export function createRoadFootprintIndex(data,cellSize=32){
   const cells=new Map(),triangles=[];
   const visit=(b,fn)=>{for(let x=Math.floor(b.minX/cellSize);x<=Math.floor(b.maxX/cellSize);x++)for(let z=Math.floor(b.minZ/cellSize);z<=Math.floor(b.maxZ/cellSize);z++)fn(`${x},${z}`);};
@@ -38,9 +38,9 @@ export function createRoadFootprintIndex(data,cellSize=32){
     intersects(p,tolerance=1e-6){return this.candidates(p).some(t=>polygonIntersectionArea(p,t.p)>tolerance);}};
 }
 
-/** Clip in route coordinates, interpolating every vertex attribute. The same
- * boundaries cut the asphalt and the entire terrain cross-section. No full-
- * width surface is left below or alongside the single-car bridge deck. */
+
+
+
 export function clipBridgeSurfaces(data,{terrain=false,bridges=BRIDGES,onlyBridges=false,edgeStrips=false}={}){
   const n=data.positions.length/3,keys=Object.keys(data).filter(k=>k!=='indices'&&(Array.isArray(data[k])||ArrayBuffer.isView(data[k]))&&data[k].length%n===0),sizes=Object.fromEntries(keys.map(k=>[k,data[k].length/n]));
   const out=Object.fromEntries(keys.map(k=>[k,[]]));out.indices=[];
@@ -80,8 +80,8 @@ export function clipBridgeSurfaces(data,{terrain=false,bridges=BRIDGES,onlyBridg
   return out;
 }
 
-// Extrude the exact clipped deck triangles downwards. Shared interior edges
-// cancel, leaving just the open bridge sides and end faces, with no guardrail.
+
+
 function bridgeUnderdeck(THREE,data){
   const positions=[],indices=[],edges=new Map(),depth=.85;
   const point=i=>data.positions.slice(i*3,i*3+3),key=p=>p.map(v=>v.toFixed(7)).join(',');
@@ -99,10 +99,10 @@ function bridgeUnderdeck(THREE,data){
   const mesh=new THREE.Mesh(g,createEnvironmentMaterial(THREE,0xe1af42));mesh.name='Single-car bridge underdecks';mesh.castShadow=true;mesh.receiveShadow=true;return mesh;
 }
 
-/** Reuse the exact original material pipeline and texture data while providing
- * per-face metres for merged trapezoid prisms instead of unit-cube instances.
- * Visible normals stay those of the actual geometry; metric UVs never inherit
- * a skewed box transform, so window/stud dimensions remain undistorted. */
+
+
+
+
 function prismMaterial(THREE,shops){
   const material=shops?createBrickPlasticMaterial(THREE):createEnvironmentMaterial(THREE);
   material.vertexColors=true;
@@ -124,7 +124,7 @@ function prismMaterial(THREE,shops){
 function prismBatch(THREE){
   const arrays={position:[],normal:[],color:[],urPrismMeters:[],urPrismSize:[],urPrismFace:[],urShopData:[],uv:[]},indices=[],ranges=[];
   function add(name,footprint,bottom,top,color,shopBase=0,shopId=0){
-    // Footprint order is front-start, rear-start, rear-end, front-end.
+
     const p=footprint,v=p.map(q=>[q.x,bottom,q.z]).concat(p.map(q=>[q.x,top,q.z]));
     const start=arrays.position.length/3,faceStart=indices.length;
     const center=new THREE.Vector3(p.reduce((n,q)=>n+q.x,0)/4,(bottom+top)/2,p.reduce((n,q)=>n+q.z,0)/4),h=top-bottom;
@@ -195,8 +195,8 @@ export function buildCity(THREE,{seed=42}={}){
   const offset=(p,d)=>({x:p.x+p.right.x*d,z:p.z+p.right.z*d});
   const groundAt=p=>NETWORK.getSurface(p.x,p.z).height;
   function profileFor(edge,side,frontage=18){
-    // Partition by physical facade arc, not backbone progress. Inner and outer
-    // rows stay approximately 18m wide even through the full 90-degree turn.
+
+
     const curve=edge.samples.map(p=>({...offset(p,side*15.3),s:p.edgeDistance})),arc=[0];
     for(let i=1;i<curve.length;i++)arc.push(arc.at(-1)+Math.hypot(curve[i].x-curve[i-1].x,curve[i].z-curve[i-1].z));
     const count=Math.max(1,Math.round(arc.at(-1)/frontage)),cuts=[0];let k=0;
@@ -220,7 +220,7 @@ export function buildCity(THREE,{seed=42}={}){
   }
   function tierFootprint(p,depthScale=1,frontScale=1){
     const lerp=(a,b,t)=>({x:a.x+(b.x-a.x)*t,z:a.z+(b.z-a.z)*t}),half=(1-frontScale)/2;
-    // Every upper tier retreats from the road, and is nested inside its base.
+
     const fa=lerp(p[0],p[1],1-depthScale),fb=lerp(p[3],p[2],1-depthScale);
     return [lerp(fa,fb,half),lerp(p[1],p[2],half),lerp(p[1],p[2],1-half),lerp(fa,fb,1-half)];
   }
@@ -232,10 +232,10 @@ export function buildCity(THREE,{seed=42}={}){
         const from=cuts[i],to=cuts[i+1],depth=biome.id==='city'?7.5:12;
         const q0=sample(edge,from).progress,q1=sample(edge,to).progress;
         if(BRIDGES.some(b=>q0<b.to&&q1>b.from)){omittedJunctionSections++;continue;}
-        // At a fork the main edge is the positive excursion and alternate is
-        // negative. Only their outward-facing rows own the exterior envelope.
-        // The two inward rows begin after the entire median can contain both
-        // full-depth masses, never two coincident walls at a narrow fork tip.
+
+
+
+
         const inner=edge.forkId&&side===(edge.branch==='main'?-1:1);
         if(inner){
           let medianFits=true;
@@ -279,7 +279,7 @@ export function buildCity(THREE,{seed=42}={}){
   for(const [name,batch,shops] of [['Continuous storefront residences',houseBatch,true],['Massive biome barriers',barrierBatch,false]]){
     const mesh=new THREE.Mesh(batch.build(),prismMaterial(THREE,shops));mesh.name=name;mesh.castShadow=true;mesh.receiveShadow=true;mesh.userData.partNames=batch.ranges.map(p=>p.name);group(shops?'Residences':'Biome barriers').add(mesh);
   }
-  // Vehicle geometry is loaded only by the garage GLB adapters.
+
   const instances=0;
   for(const g of Object.values(groups))root.add(g);
   let triangles=0,drawCalls=0;root.traverse(o=>{if(o.isMesh){triangles+=(o.geometry.index?.count||o.geometry.attributes.position.count)/3*(o.isInstancedMesh?o.count:1);drawCalls++;}});

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Node-only pure session and real driving-model regression tests. No browser,
-// WebGL, network server, real payments, or storage outside this memory fixture.
+
+
 import assert from 'node:assert/strict';
 import { createGameplay, GAMEPLAY, resolveFreeClassroomSeat } from '../dist/gameplay.js';
 import { ECONOMY_CONFIG, VEHICLE_CONFIG, DELIVERY_CHECKPOINTS, vehicleConfig } from '../dist/economy-config.js';
@@ -16,7 +16,7 @@ const near=(a,b,tolerance=1e-8)=>assert.ok(Number.isFinite(a)&&Math.abs(a-b)<=to
 const vehicles=()=>VEHICLE_CONFIG.map((spec,index)=>({id:spec.id,park:{x:24,z:44+index*11,heading:Math.PI/2}}));
 const deliveries=DELIVERY_CHECKPOINTS.map((spec,index)=>({...spec,x:8,z:-spec.distance,radius:4.4}));
 const stations=[{id:'fuel-a',x:-8,z:-80,radius:4},{id:'fuel-b',x:-8,z:-320,radius:4}];
-// Geometry/legacy interaction fixtures explicitly own paid content in schema 2.
+
 const allOwned=(money=0)=>({...freshCareer(),money,ownedVehicleIds:VEHICLE_CONFIG.map(v=>v.id),ownedSkinIds:CHARACTER_CATALOG.map(s=>s.id),ownedSchoolIds:SCHOOL_CONFIG.map(s=>s.id)});
 const make=(options={})=>createGameplay({vehicles:vehicles(),stations,deliveries,...options});
 const ready=g=>{g.state.cooldown=0;g.state.interactionCooldown=0;};

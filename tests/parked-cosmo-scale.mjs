@@ -12,7 +12,7 @@ import {TRUCK_HALF_WIDTH,TRUCK_HALF_LENGTH} from '../dist/road-layout.js';
 import {WORLD_LABEL_DROP} from '../dist/progression-hud.js';
 import {createAppDom} from './fixtures/app-dom.mjs';
 
-// Parse the real self-contained GLBs without a browser, network, or renderer.
+
 const originalFetch=globalThis.fetch,originalBitmap=globalThis.createImageBitmap,originalSelf=globalThis.self;
 globalThis.self=globalThis;
 globalThis.createImageBitmap=async blob=>{const b=Buffer.from(await blob.arrayBuffer());return {width:b.readUInt32BE(16),height:b.readUInt32BE(20),close(){}};};
@@ -109,17 +109,17 @@ try{
       assert.equal(game.state.selectedId,vehicle.id,'return to exact bought car boards it');
     }
     game.returnToGarage();assert.equal(game.state.mode,'walking');assert.deepEqual(game.state.player,GAMEPLAY.spawn);
-    // Using an adjacent approach cannot buy this vehicle.
+
     const other=g.vehicles.find(v=>v.id!==vehicle.id),isolated=createGameplay({...parameters,career:{...freshCareer(),money:500000}});
     Object.assign(isolated.state.player,other.approach);if(vehicle.id!=='pickup')assert(!isolated.buy(vehicle.id));
   }
-  // Enlarged passive cars participate in contact; the active envelope remains unchanged.
+
   const parked=g.vehicles[0],activeX=parked.park.x-parked.parkedFootprint.halfLength-TRUCK_HALF_WIDTH;
   assert(parkedVehicleContact(activeX,parked.park.z,0,[parked],'another'));
   assert(!parkedVehicleContact(activeX-.1,parked.park.z,0,[parked],'another'));
   assert(!parkedVehicleContact(parked.park.x,parked.park.z,0,[parked],parked.id));
 
-  // Real application transitions, including rebuild, restore display-only scaling.
+
   for(const vehicle of g.vehicles){
     if(!d.gameplay.isOwned(vehicle.id))d.gameplay.state.ownedVehicleIds.push(vehicle.id);
     d.gameplay.state.cooldown=0;assert(d.enterVehicle(vehicle.id));
@@ -134,7 +134,7 @@ try{
   for(const car of fixture.debug.garage.vehicles)near(car.visual.group.scale.x,1,'rebuilt parked scale');
   fixture.dispose();fixture=null;
 
-  // Delay real parsers until selection has changed, including return-before-ready.
+
   for(const returnBeforeReady of [false,true]){
     let release;const gate=new Promise(resolve=>release=resolve);
     fixture=createAppDom({startDriving:false,attachVehicleVisuals:(T,garage)=>attachCosmoGarage(T,garage,{load:async(...args)=>{await gate;return loadCosmoVehicle(...args);}})});
@@ -145,7 +145,7 @@ try{
     app.returnToGarage();for(const car of app.garage.vehicles)near(car.visual.group.scale.x,1,'late-load garage restore');
     fixture.dispose();fixture=null;report.asyncModes++;
   }
-  // Bay order, career IDs, prices and physics configuration are untouched.
+
   assert.deepEqual([...boxes].map(v=>v.id),VEHICLE_CONFIG.map(v=>v.id));
   console.log(JSON.stringify({passed:true,...report},null,2));
 }finally{

@@ -41,8 +41,8 @@ for(let i=0;i<VEHICLE_CONFIG.length;i++){
  assert(Math.abs(v.consumption-v.capacity/v.range)<1e-12);
  if(i)assert(v.range>getVehiclePerformance(VEHICLE_CONFIG[i-1].id,max).range,'Next stock range exceeds previous maximum');
 }
-// Existing save identities survive the geometry replacement, with no reward
-// reset, duplicate first-visit award or reinterpretation of bought upgrades.
+
+
 const saved=freshCareer();saved.money=123456;saved.brains=9876.75;
 saved.ownedVehicleIds=VEHICLE_CONFIG.map(v=>v.id);saved.completedRuns=63;
 saved.upgrades=Object.fromEntries(VEHICLE_CONFIG.map(v=>[v.id,{...max}]));

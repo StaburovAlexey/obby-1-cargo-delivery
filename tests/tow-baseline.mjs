@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Portable source-backed tests. Node only: no HTTP server, browser, or WebGL.
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import * as THREE from '../dist/vendor/three.module.js';

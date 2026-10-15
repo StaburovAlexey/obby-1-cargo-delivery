@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Exact procedural footprints and actual gameplay collision checks; no renderer.
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import * as THREE from '../dist/vendor/three.module.js';
@@ -16,8 +16,8 @@ assert.equal(parking.length,40);assert.equal(stands.length,17);assert.equal(gara
 const gap=(a,b)=>Math.hypot(Math.max(a.minX-b.maxX,b.minX-a.maxX,0),Math.max(a.minZ-b.maxZ,b.minZ-a.maxZ,0));
 const newGap=Math.min(...parking.flatMap(p=>stands.map(s=>gap(p,s))));
 const newLongitudinalGap=Math.min(...stands.map(s=>s.minZ))-Math.max(...parking.map(p=>p.maxZ));
-// Published v15 had z=32+9*5.4, halfLength=2.45, paint half-thickness=.065;
-// its nearest 3.6m platform started at z=85-1.8 and overlapped the bay in X.
+
+
 const oldGap=(85-1.8)-(32+9*5.4+2.45+.065);
 assert.ok(newLongitudinalGap>11.7);assert.ok(newGap>12);assert.ok(oldGap<.1);
 for(const bay of GARAGE_LAYOUT.bays){assert.equal(bay.x,24);assert.ok(bay.z-bay.halfLength>GARAGE_LAYOUT.frontZ);assert.ok(bay.z+bay.halfLength<72);}

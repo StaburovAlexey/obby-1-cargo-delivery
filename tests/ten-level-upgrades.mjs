@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Actual application handlers, HUD, career persistence and gameplay, with the
-// existing renderer-free DOM fixture. No browser, GPU or layout-test claim.
+
+
 import assert from 'node:assert/strict';
 import { VEHICLE_CONFIG, ECONOMY_CONFIG } from '../dist/economy-config.js';
 import { PROGRESSION_CONFIG } from '../dist/progression-config.js';

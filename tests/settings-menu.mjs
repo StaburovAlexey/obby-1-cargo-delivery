@@ -1,5 +1,5 @@
-// A renderer-free DOM/event test. Real markup is parsed for hierarchy/controls;
-// this is not browser layout or assistive-technology verification.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createSettingsMenu} from '../dist/settings-menu.js';
@@ -152,7 +152,7 @@ function fixture(options = {}) {
   assert.equal([...doc.listeners.values()].reduce((n, handlers) => n + handlers.size, 0), 0, 'Document listeners removed on dispose');
 }
 
-// Other modals release inert during the parent callback. Capture only afterward.
+
 {
   let f;
   f = fixture({onOpenChange(open) {if (open) f.other.inert = false;}});
@@ -161,15 +161,15 @@ function fixture(options = {}) {
   f.menu.close(); assert.equal(f.other.inert, false);
   f.menu.dispose();
 }
-// A synchronous parent veto must leave neither inert background nor open UI.
+
 {
   let f;
   f = fixture({onOpenChange(open) {if (open) f.menu.close({restoreFocus: false});}});
   f.menu.open(); assert.equal(f.menu.isOpen(), false); assert.equal(f.other.inert, false);
   f.menu.dispose();
 }
-// Navigation remains inside the settings scroll container and focuses its
-// native keyboard scrolling region. It never scrolls or activates the game.
+
+
 {
   const f = fixture(), scroll = f.ids.get('settings-scroll');
   scroll.getBoundingClientRect = () => ({top: 80});

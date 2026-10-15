@@ -1,5 +1,5 @@
-// Test-only steering for the real four-tire solver. The controller returns
-// steering/throttle inputs; it never changes pose, speed, fuel or progression.
+
+
 import { routePointAtDistance, projectRoad } from '../../dist/road-layout.js';
 import { roadGroundSurface } from '../../dist/driving-ground.js';
 import { VEHICLE_DYNAMICS } from '../../dist/driving-model.js';
@@ -16,8 +16,8 @@ export function createNetworkRouteController({branch='primary',stations=[],targe
       const lookAhead = 12 + Math.abs(state.speed) * .65;
       const distance = history.distance + direction*lookAhead;
       const next = routePointAtDistance(distance,{branch:graphBranch(branch)});
-      // The center corridor clears every authored hazard. Service circles are
-      // approached only in their protected common-edge exclusion areas.
+
+
       let offset = 0;
       for (const station of stations) {
         if (target && station.distance >= target.distance) break;

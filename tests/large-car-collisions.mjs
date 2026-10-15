@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-/** Actual packaged GLB bounds and production collision/sweep code, offline.
- * No browser, socket, rendered-visibility, GPU or handling-feel claim. */
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import * as THREE from '../dist/vendor/three.module.js';
@@ -23,7 +23,7 @@ globalThis.fetch=async request=>{
 const near=(a,b,label='',epsilon=2e-7)=>assert(Math.abs(a-b)<=epsilon,`${label}: ${a} != ${b}`);
 const adapters=[],cars=[];
 const report={scope:'Offline actual GLBs, OBB/SAT, runtime moving poses and existing production sweeps',cars:[],faceChecks:0,yawChecks:0,roadChecks:0,sweeps:0,moverChecks:0,minimumPassage:Infinity};
-// Independent rectangle vertices and edge-normal SAT, with no shared collision helpers.
+
 function polygon(x,z,h,hw,hl){
   const c=Math.cos(h),s=Math.sin(h);
   return [[-hw,-hl],[hw,-hl],[hw,hl],[-hw,hl]].map(([u,v])=>[x+c*u+s*v,z-s*u+c*v]);
@@ -82,7 +82,7 @@ try{
           report.faceChecks+=3;
         }
       }
-      // Arbitrary yaw and offsets are checked against independent SAT polygons.
+
       for(const oh of [-1.17,.42,2.13])for(const dx of [-5,-2.1,0,2.1,5])for(const dz of [-7,-3.8,0,3.8,7]){
         const hazard={id:'yaw-probe',x:x+dx,z:z+dz,heading:oh,width:2.2,length:3.7};
         const expected=intersects(polygon(x,z,h,footprint.halfWidth,footprint.halfLength),polygon(hazard.x,hazard.z,oh,1.1,1.85));
@@ -101,7 +101,7 @@ try{
         report.yawChecks+=3;
       }
     }
-    // Wide-road containment uses each actual body, including yaw/front/rear reach.
+
     for(const h of [0,.37,Math.PI/2,Math.PI])for(const side of [-1,1])for(const gap of [-.02,.02]){
       const reach=Math.abs(Math.cos(h))*footprint.halfWidth+Math.abs(Math.sin(h))*footprint.halfLength;
       const px=side*(15-reach-ROAD_MARGIN+gap),hit=corridorContact(px,6,h,undefined,footprint);
@@ -115,7 +115,7 @@ try{
       for(const yaw of [0,Math.PI,.25])assert(truckInRoad(p.x,p.z,p.heading+yaw,p,footprint),`${spec.id}/${edge.id}/${distance} center fits 30 m road`);
       report.roadChecks+=3;
     }
-    // Existing production fixed-step solver: thin walls, front/rear, side and yaw.
+
     for(const h of [0,.62,Math.PI/2,Math.PI])for(const angularVelocity of [-3,0,3]){
       const reach=Math.abs(Math.cos(h))*footprint.halfLength+Math.abs(Math.sin(h))*footprint.halfWidth;
       const wall={name:'thin sweep wall',minX:-14,maxX:14,minZ:-.005,maxZ:.005};
@@ -133,7 +133,7 @@ try{
       assert(position.z>=footprint.halfLength+.035,'Long forward/reverse sweep cannot tunnel');report.sweeps++;
     }
   }
-  // Legacy/procedural callers retain every existing default envelope.
+
   const legacy={halfWidth:1.55,halfLength:2.88},routeDefault={halfWidth:TRUCK_HALF_WIDTH,halfLength:TRUCK_HALF_LENGTH};
   for(const h of [0,.4,Math.PI/2]){
     assert.deepEqual(truckFootprint(0,6,h),truckFootprint(0,6,h,routeDefault));
@@ -169,7 +169,7 @@ try{
   }
   assert.equal(JSON.stringify(system.hazards),descriptors,'Static descriptors/density/motion unchanged');
   identities.forEach((pose,i)=>assert.equal(system.poses[i],pose,'Moving hazard pool identities retained'));
-  // Collider resizing never retunes chassis forces, wheelbase, sweep settings or mass.
+
   assert.equal(VEHICLE_DYNAMICS.mass,1600);assert.equal(VEHICLE_DYNAMICS.yawInertia,5300);
   assert.equal(VEHICLE_DYNAMICS.halfWidth,1.55);assert.equal(VEHICLE_DYNAMICS.halfLength,2.88);
   assert.equal(VEHICLE_DYNAMICS.maxSweepDistance,.12);assert.equal(VEHICLE_DYNAMICS.fixedStep,1/120);

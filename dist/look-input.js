@@ -1,7 +1,7 @@
-/** One captured look pointer, accepted only when it starts on the renderer
- * canvas. HUD/joystick/wheel/jump touches never enter this pointer's ownership.
- * The callbacks use yaw/pitch radians; no timer, zoom or camera is owned here.
- */
+
+
+
+
 export function createLookInput({
   canvas,
   onBegin = () => {},
@@ -26,7 +26,7 @@ export function createLookInput({
     const previous = pointer;
     pointer = undefined;
     if (canvas.hasPointerCapture?.(previous)) {
-      try { canvas.releasePointerCapture(previous); } catch { /* The browser may have cancelled first. */ }
+      try { canvas.releasePointerCapture(previous); } catch {                                             }
     }
     onEnd({ reason, cancelled: reason !== 'pointerup', pointerId: previous });
   }
@@ -36,13 +36,13 @@ export function createLookInput({
   }
   listen(canvas, 'pointerdown', (event) => {
     if (!enabled || destroyed || pointer !== undefined || event.button !== 0) return;
-    // Do not test isPrimary: a joystick can already own the primary touch.
+
     pointer = event.pointerId;
     lastX = event.clientX;
     lastY = event.clientY;
     event.preventDefault();
     event.stopPropagation();
-    try { canvas.setPointerCapture?.(pointer); } catch { /* Window listeners are the interruption fallback. */ }
+    try { canvas.setPointerCapture?.(pointer); } catch {                                                       }
     onBegin(event);
   });
   function move(event) {
@@ -60,8 +60,8 @@ export function createLookInput({
     reset(event.type);
   }
   listen(canvas, 'pointermove', move);
-  // Capture-phase completion also works if a HUD stops bubbling. These window
-  // handlers never acquire a pointer or consume another control's pointer.
+
+
   listen(win, 'pointermove', move, { capture: true, passive: false });
   for (const type of ['pointerup', 'pointercancel', 'lostpointercapture']) {
     listen(canvas, type, release);

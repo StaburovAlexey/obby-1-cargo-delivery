@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Renderer-free measurements of the actual four-contact solver. No browser claim.
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -132,8 +132,8 @@ check('Maximum upgrades cross all biome boundaries without discontinuities, incl
     const direction=gear==='D'?1:-1,m=make(v,'city',FULL,{z:-(boundary-30*direction),groundSurface:(x,z)=>biomeSurfaceAt(-z,v.id)});m.setGear(gear);m.setInput({active:true});for(let i=0;i<4800;i++){const speed=m.state.velocityZ;m.step(DT);finite(m.state);assert.ok(Math.abs(m.state.velocityZ-speed)<.2);assert.ok(m.state.speed*direction>0);}assert.ok((-m.state.z-boundary)*direction>24);
   }
 });
-// Optional route sweep keeps the everyday numerical suite fast. This controls
-// only steering/throttle; road poses, collisions and slopes are production code.
+
+
 if(process.argv.includes('--route-check'))check('All ten maximum-upgrade vehicles follow the real route and fuel checkpoint spacing',()=>{
   const rows=[];
   for(const v of VEHICLE_CONFIG){

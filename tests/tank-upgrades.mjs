@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Production gameplay + actual four-wheel movement, without a browser/GPU.
+
 import assert from 'node:assert/strict';
 import { VEHICLE_CONFIG, BIOME_SEQUENCE, ECONOMY_CONFIG } from '../dist/economy-config.js';
 import { UPGRADE_STATS, getUpgradeOffer, getUpgradeModifiers, getVehiclePerformance, sanitizeUpgradeLevels } from '../dist/vehicle-upgrades.js';

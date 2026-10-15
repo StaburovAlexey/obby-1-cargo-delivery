@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-/** Independent source-to-adapter scale regression. Actual packaged GLB vertices,
- * local bitmap-dimension stubs, no browser, sockets, renderer or GPU claims. */
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import * as THREE from '../dist/vendor/three.module.js';
@@ -32,8 +32,8 @@ try{
   for(const spec of COSMO_VEHICLES){
     const bytes=fs.readFileSync(new URL(spec.url)),gltf=await new GLTFLoader().parseAsync(bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength),'');
     const raw=meshVertices(gltf.scene),sourceBounds=new THREE.Box3().setFromObject(gltf.scene,true),size=sourceBounds.getSize(new THREE.Vector3()),center=sourceBounds.getCenter(new THREE.Vector3());
-    // Derive the old Site58 road fit from original vertices, independently of
-    // current metadata. Ground-anchored enlargement matches the former display.
+
+
     const priorScale=Math.min(3.1/size.x,5.76/size.z),scale=priorScale*1.5;
     const normalize=([x,y,z])=>[-(x-center.x)*scale,(y-sourceBounds.min.y)*scale+.05,-(z-center.z)*scale];
     const adapter=createCosmoVehicleAdapter(THREE,spec.id,gltf),metadata=adapter.metadata;adapters.push(adapter);
@@ -73,7 +73,7 @@ try{
   let release;const gate=new Promise(resolve=>release=resolve);
   const controller=attachCosmoGarage(THREE,garage,{load:async(T,id)=>{await gate;return adapters[COSMO_VEHICLES.findIndex(spec=>spec.id===id)];}});
   for(const vehicle of garage.vehicles){assert.deepEqual(vehicle.parkedFootprint,{halfWidth:2.25,halfLength:4.32});near(Math.hypot(vehicle.approach.x-vehicle.park.x,vehicle.approach.z-vehicle.park.z),6.55,'existing approach preserved');}
-  // A selection made while parsing is pending must never change actual size.
+
   garage.setVehicleDisplayMode('pickup');release();assert.deepEqual(await controller.ready,{loaded:10,total:10});
   for(const vehicle of garage.vehicles){
     const adapter=vehicle.visual,box=new THREE.Box3().setFromObject(adapter.group,true),bay=vehicle.park;

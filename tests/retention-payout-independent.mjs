@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Independent, renderer-free audit. Only memory-backed storage is used.
+
 import assert from 'node:assert/strict';
 import {createGameplay} from '../dist/gameplay.js';
 import {freshCareer,sanitizeCareer,createCareerStore} from '../dist/career-save.js';

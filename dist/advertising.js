@@ -1,4 +1,4 @@
-/** Advertising policy and lifecycle, independent of rendering and physics. */
+
 import {routePointAtProgress} from './route-network.js';
 
 const EPSILON=1e-8;
@@ -60,8 +60,8 @@ function bridgeGeometry(bridge){
     const p=routePointAtProgress(bridge.from+(bridge.to-bridge.from)*i/steps,bridge.branch?{branch:bridge.branch}:{});
     for(const side of [-1,1]){const offset=(bridge.offset??0)+side*bridge.halfWidth;points.push({x:p.x+p.right.x*offset,z:p.z+p.right.z*offset});}
   }
-  // The hull conservatively contains the whole curved deck, including the
-  // inside of a bend. A 2 cm allowance covers sub-sample curvature on this map.
+
+
   const result=geometry(hull(points));
   if(Object.isFrozen(bridge))bridgeCache.set(bridge,result);
   return result;
@@ -80,13 +80,13 @@ function hazardGeometry(hazard){
   if(Object.isFrozen(hazard))hazardCache.set(hazard,result);
   return result;
 }
-/**
- * Horizontal clearance from the complete avatar/vehicle shape to every bridge
- * deck and complete obstacle sweep, in metres. speed is signed metres/second;
- * heading uses the game's +X right, -Z forward convention. No world is advanced.
- * footprint is {halfWidth,halfLength} or {radius}; top-level radius is accepted.
- * The caller supplies the current map's immutable bridge/hazard descriptors.
- */
+
+
+
+
+
+
+
 export function isAdvertisingSafe({position,heading=0,speed=0,footprint,radius,bridges=[],hazards=[],jumping=false,falling=false,teleporting=false,loading=false,modal=false}={}){
   if(jumping||falling||teleporting||loading||modal)return false;
   const x=Array.isArray(position)?position[0]:position?.x,z=Array.isArray(position)?position[2]:position?.z;
@@ -107,24 +107,24 @@ export function isAdvertisingSafe({position,heading=0,speed=0,footprint,radius,b
   return true;
 }
 
-/**
- * Single-attempt fullscreen advertising controller.
- *
- * update(realElapsedSeconds, {active, safe, visible=true}) must run on every
- * animation frame, including frames paused by this controller. active means
- * gameplay is actually advancing, excluding menus, loading, SDK pause and ads.
- * The warning advances from real elapsed dt even when our own pause makes
- * active=false. Other pause reasons call setSuspended(true); do not suspend
- * for the advertising reason itself. Hidden/unsafe warnings return to pending
- * and require a fresh complete 3,2,1 warning when active and safe again.
- *
- * showAd({onOpen,onClose,onError,onOffline}) may use SDK callbacks (return undefined),
- * return false for refusal, or return a Promise settled only when the attempt
- * completes. Callback and Promise completion are deduplicated per attempt.
- * pause/resume own only the caller's advertising pause reason. No rewards,
- * persistence, world progression or other lifecycle reasons are changed.
- * onCountdown receives 3, 2, 1, then null; onStatus receives phase and details.
- */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export function createAdvertising({showAd=()=>false,pause=()=>{},resume=()=>{},onCountdown=()=>{},onStatus=()=>{},intervalSeconds=240}={}){
   if(!Number.isFinite(intervalSeconds)||intervalSeconds<=0)throw new RangeError('Advertising interval must be positive seconds');
   let phase='idle',activeSeconds=0,countdownElapsed=0,countdown=null,suspended=false,ownsPause=false,attempt=0;

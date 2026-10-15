@@ -8,8 +8,8 @@ import { pathToFileURL, fileURLToPath } from 'node:url';
 import * as THREE from '../dist/vendor/three.module.js';
 import { ROUTE, branchCenter, branchHeight, roadIntervals, surfaceHeight, ROAD_SURFACE_OFFSET } from '../dist/road-layout.js';
 
-// Independent, renderer-free checks. No server, browser, or WebGL context used.
-// Usage: node tests/geometry.mjs [scene.js] [validation-report.json]
+
+
 const scenePath = process.argv[2] ? path.resolve(process.argv[2]) : fileURLToPath(new URL('../dist/scene.js', import.meta.url));
 const projectRoot = path.dirname(scenePath);
 const reportPath = path.resolve(process.argv[3] || fileURLToPath(new URL('./latest-report.json', import.meta.url)));
@@ -154,7 +154,7 @@ function inspectDependencies() {
   }
   for (const file of files.filter((file) => /\.(?:m?js|cjs|html?|css)$/i.test(file))) {
     const source = withoutComments(fs.readFileSync(file, 'utf8'));
-    // Vendor code contains optional capabilities; audit actual project source for loading models.
+
     if (!file.split(path.sep).some((part) => ['vendor', 'node_modules'].includes(part)) && !['character.js','character-catalog.js'].includes(path.basename(file))) {
       assert.ok(!/\b(?:new\s+)?(?:GLTFLoader|OBJLoader|FBXLoader|STLLoader|ColladaLoader|DRACOLoader|PLYLoader)\s*\(/.test(source), `${file} uses a model loader.`);
       assert.ok(!/(?:from\s*|import\s*\(|new\s+URL\s*\()["'][^"']*\.(?:glb|gltf|obj|fbx|stl|dae|blend|ply)(?:[?#][^"']*)?["']/.test(source), `${file} imports a model.`);
@@ -186,8 +186,8 @@ function inspectRoute(group, stats, module) {
   assert.ok(road && !road.isInstancedMesh, 'Expected one merged fork road mesh.');
   assert.equal(stats.roadWidth, 30); assert.equal(stats.rampRise, 11);
   assert.equal(stats.routeLength, 643); assert.equal(stats.roadBranches, 4);
-  // At station620 Float32 spacing is61µm; transformed boundary/height tolerances
-  // cover its quantization, while independent ray and slice checks audit surfaces.
+
+
   const p = road.geometry.attributes.position, ray = new THREE.Raycaster();
   let samples = 0, maximumHeightError = 0, minimumNormalY = 1;
   for (let i = 0; i < p.count; i++) {

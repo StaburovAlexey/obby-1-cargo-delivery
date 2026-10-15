@@ -1,6 +1,6 @@
 import { routeHeight, routeCenter } from "./scene.js";
 
-/** Project X/Z onto the same curved centerline used by the procedural road. */
+
 export function projectRoad(x, z) {
   const yy = -z;
   let y = yy;
@@ -18,12 +18,12 @@ export function projectRoad(x, z) {
   return { y, offset: (x - routeCenter(y)) * n - (yy - y) * d * n };
 }
 
-/** Existing scene surfaces, in Three.js metres. Includes the flat service yards. */
+
 export function groundHeight(x, z) {
   const p = projectRoad(x, z),
     a = Math.abs(p.offset),
     yy = -z;
-  if (a >= 4.98 && a <= 5.31) return routeHeight(p.y) + 0.402; // raised curb caps, including slope tolerance
+  if (a >= 4.98 && a <= 5.31) return routeHeight(p.y) + 0.402;
   if (a <= 5.05) {
     const road = routeHeight(p.y) + 0.061;
     return p.y >= 12.5 && p.y <= 15.5
@@ -36,7 +36,7 @@ export function groundHeight(x, z) {
   return routeHeight(yy) - 0.28;
 }
 
-/** Four-wheel ground fit; raised enough that none of the tires cut the surface. */
+
 export function fitTruckToGround(THREE, x, z, heading) {
   const forward = new THREE.Vector3(-Math.sin(heading), 0, -Math.cos(heading));
   const right = new THREE.Vector3(Math.cos(heading), 0, -Math.sin(heading));
@@ -54,7 +54,7 @@ export function fitTruckToGround(THREE, x, z, heading) {
   right.y = (rightH - left) / 2.64;
   right.normalize();
   const up = new THREE.Vector3().crossVectors(right, forward).normalize();
-  // Keep heading stable while producing an orthonormal ground frame.
+
   right.crossVectors(forward, up).normalize();
   const back = forward.clone().negate();
   const matrix = new THREE.Matrix4().makeBasis(right, up, back);
@@ -62,7 +62,7 @@ export function fitTruckToGround(THREE, x, z, heading) {
   const centers = [];
   let height = -Infinity;
   const radiusVertical = 0.68 * Math.sqrt(Math.max(0, 1 - right.y * right.y));
-  // Circle support against an inclined plane: convert normal distance to vertical height.
+
   const supportHeight = 0.68 / Math.max(0.2, up.y);
   for (const dx of [-1.32, 1.32])
     for (const dz of [-1.63, 1.73]) {
@@ -83,7 +83,7 @@ export function fitTruckToGround(THREE, x, z, heading) {
 
 const OBSTACLE =
   /^(Residence |Terrace plinth|Depot rear$|Depot side$|Portal pier$|Mini mart$|Fuel canopy column$|Canopy column$|Pump red base$|Tree planter$|Low planter$|Lamp base$|Fuel totem$|Forklift body$|Fuel island$|Dock$|Pallet deck$)/;
-/** Static obstacles only; visual windows, roof details, road studs stay nonblocking. */
+
 export function collectObstacles(THREE, city) {
   const result = [],
     m = new THREE.Matrix4(),
@@ -150,7 +150,7 @@ export function canPlaceTruck(x, z, heading, obstacles) {
   return !obstacles.some((o) => overlapsTruck(x, z, heading, o));
 }
 
-/** Minimal-translation contact for the local scene. Consumed by the source collision solver. */
+
 export function getTruckContact(x, z, heading, obstacles) {
   let deepest;
   const keep = (c) => {

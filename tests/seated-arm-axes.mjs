@@ -1,4 +1,4 @@
-// Actual inverse binds, posed bone matrices and mirrored skin frames. No browser.
+
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import * as T from '../dist/vendor/three.module.js';

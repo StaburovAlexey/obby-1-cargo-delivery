@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Real Three.js scene/rig and on-foot collision checks. No browser or sockets.
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import * as THREE from '../dist/vendor/three.module.js';
@@ -57,8 +57,8 @@ try{
   near(pedestalBox.min.y,groundHeight(24,81));near(pedestalBox.max.y,reward.pedestal.topY);
   near(pedestalBox.min.x,solid.minX,'pedestal min x');near(pedestalBox.max.x,solid.maxX,'pedestal max x');
 
-  // BMW import contract supplied by the visual adapter: 8m long, 3.381m wide.
-  // Every corner is tested at a full turn with the local forward display pitch.
+
+
   reward.visual={metadata:{bounds:{min:[-3.381/2,.05,-4],max:[3.381/2,2.6,4]}}};
   for(let step=0;step<=180;step++){
     const pose=rewardDisplayPose(THREE,reward,step*Math.PI*2/(180*REWARD_PEDESTAL.rotationSpeed));
@@ -77,7 +77,7 @@ try{
   near(start.quaternion.angleTo(later.quaternion),.14,'slow rotation rate');
   assert.deepEqual(rewardDisplayPose(THREE,reward,NaN).position.toArray(),start.position.toArray());
   assert.deepEqual(rewardDisplayPose(THREE,reward,NaN).quaternion.toArray(),start.quaternion.toArray());
-  // A taller/longer alternate visual needs extra lift rather than clipping.
+
   reward.visual.metadata.bounds={min:[-1.7,0,-8],max:[1.7,3,8]};
   const adaptive=rewardDisplayPose(THREE,reward,0);
   assert(adaptive.position.y>start.position.y+.2);
@@ -119,8 +119,8 @@ try{
   near(new THREE.Vector3(0,0,-1).applyQuaternion(reward.root.quaternion).y,0,'road root has no display pitch');
   reward.rig.update(rewardDisplayPose(THREE,reward,0));
 
-  // Reserve the current imported footprints to test actual occupied aisles,
-  // including the largest skin's airborne collision envelope.
+
+
   for(const vehicle of garage.vehicles.slice(0,10)){
     vehicle.parkedFootprint={halfWidth:2.25,halfLength:4.32};
     vehicle.approach={x:vehicle.park.x-6.55,z:vehicle.park.z};vehicle.approachRadius=.9;

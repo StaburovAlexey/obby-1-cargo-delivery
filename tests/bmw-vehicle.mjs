@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Actual self-contained BMW GLB and vendored GLTFLoader, CPU only.
-// No image decoder, browser, socket, renderer or GPU appearance claim.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -182,9 +182,9 @@ wheels.forEach((wheel, i) => {
   near(wheel.pivot.rotation.y, wheel.front ? .37 : 0);
   near(wheel.wheelSpin * wheel.radius, 2.4 * .68);
   near(wheel.spin.rotation.x, -(wheel.wheelSpin % (Math.PI * 2)));
-  // Every real vertex rotates about the new center, despite the original pivot
-  // being at the body origin. Rotated asymmetric spokes need not keep an exact
-  // AABB midpoint, so compare transformed geometry instead of that midpoint.
+
+
+
   const expected = new Set(wheel.contactVertices.map(point => new THREE.Vector3(...point)
     .applyMatrix4(wheel.spin.matrixWorld).toArray().map(v => v.toFixed(5)).join(',')));
   wheel.node.traverse(mesh => {

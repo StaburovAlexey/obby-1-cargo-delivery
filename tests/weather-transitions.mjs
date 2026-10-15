@@ -1,6 +1,6 @@
-// Offline CPU evidence for the production weather crossfade. Fragment alpha is
-// evaluated from the real shader source; Three.js performs camera projection.
-// This is not browser/GPU/device rendering or performance validation.
+
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import * as THREE from '../dist/vendor/three.module.js';
@@ -32,8 +32,8 @@ const report = {
   boundaries: [], projection: [], stress: {}, app: [],
 };
 
-// Record actual resource identities and prove kinds never change at nonzero
-// opacity. Hidden reusable layers allocate no subsequent geometries/buffers.
+
+
 function observer(weather) {
   const resources = weather.group.children.map(points => ({
     points, geometry: points.geometry, material: points.material,
@@ -72,7 +72,7 @@ function observer(weather) {
 for (let index = 1; index < BIOME_DEFINITIONS.length; index++) {
   const oldId = BIOME_DEFINITIONS[index - 1].id, nextId = BIOME_DEFINITIONS[index].id, boundary = BIOME_DEFINITIONS[index].from;
   const weather = createBiomeWeather(THREE), observe = observer(weather), samples = [];
-  // Route progress wins over a deliberately wrong discrete biome label.
+
   for (const direction of [1, -1]) {
     for (let n = 0; n <= 360; n++) {
       const progress = boundary + direction * (n / 2 - halfBand);
@@ -86,7 +86,7 @@ for (let index = 1; index < BIOME_DEFINITIONS.length; index++) {
     for (let n = 0; n < 60; n++) { weather.update(step, { progress: boundary, camera }); observe.check(); }
     assert.deepEqual(weights(weather), midpoint, 'stopping in the band does not finish an unrelated timer');
     assert.equal(weather.fog, fog, 'one fog object is reused'); assert.deepEqual(weather.fog, state);
-    // Resynchronise observer after stationary settling, then check reversal.
+
     for (const p of weather.group.children) assert.ok(p.material.uniforms.blendWeight.value <= .5);
   }
   settle(weather, { progress: boundary + halfBand + 1, camera });
@@ -101,8 +101,8 @@ for (let index = 1; index < BIOME_DEFINITIONS.length; index++) {
   weather.dispose();
 }
 
-// Backwards-compatible standalone API, full style strengths, safety states,
-// and exact steady one-layer budget. Zero-step calls never reveal a new storm.
+
+
 {
   const expected = {
     forest: { opacity: .78, hazeOpacity: .16, particleSize: 24, far: 220 },
@@ -132,8 +132,8 @@ for (let index = 1; index < BIOME_DEFINITIONS.length; index++) {
   }
 }
 
-// Both live weather kinds retain camera-oriented bounds, soft recycling and
-// world-axis trajectories through a moving camera orbit and a slow reversal.
+
+
 {
   const weather = createBiomeWeather(THREE), view = camera.clone();
   settle(weather, { progress: 5800, camera: view });
@@ -174,8 +174,8 @@ for (let index = 1; index < BIOME_DEFINITIONS.length; index++) {
   weather.dispose();
 }
 
-// Reversing at arbitrary points should preserve the old/new particle sets,
-// and a third-type teleport must never morph particles or clear both layers.
+
+
 {
   const weather = createBiomeWeather(THREE), observe = observer(weather);
   const targets = [5800, 8500, 11000, 3000, 9000, 4400, 6500];
@@ -197,7 +197,7 @@ for (let index = 1; index < BIOME_DEFINITIONS.length; index++) {
     weather.update(dt, { progress: 3400, camera, x: 10000, y: 200, z: -10000 });
     assert.deepEqual(weights(weather), frozenWeights); assert.deepEqual(weather.fog, fog);
     for (const [i, p] of weather.group.children.entries()) {
-      // Only zero-weight layers may be prepared, not the visible snow cloud.
+
       if (p.visible) assert.deepEqual(p.geometry.getAttribute('position').array, buffers[i]);
     }
   }
@@ -217,9 +217,9 @@ for (let index = 1; index < BIOME_DEFINITIONS.length; index++) {
   report.stress = { ...observe.result, teleports: 120, nonClearHandoverMinimum, geometryDisposals, materialDisposals };
 }
 
-// Compile the actual alpha expression/body into a small CPU scalar evaluator.
-// It keeps the shader's shape/discard and blend expression, rather than merely
-// asserting that a JS transition variable changes. Unsupported GLSL fails here.
+
+
+
 function shaderAlpha(source) {
   let body = source.slice(source.indexOf('void main() {') + 13, source.lastIndexOf('}'));
   body = body.replace('vec2 p = gl_PointCoord - 0.5;', '')
@@ -260,8 +260,8 @@ function measure(weather, view, plane) {
   return result;
 }
 
-// Real application camera, road tangent ground occlusion, portrait + landscape,
-// and every boundary. Both types must contribute real shader alpha at midpoint.
+
+
 for (const viewport of [{ width: 390, height: 844 }, { width: 1440, height: 900 }]) {
   const app = createAppDom(viewport), d = app.debug;
   try {
@@ -283,8 +283,8 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 1440, height: 900 
   } finally { app.dispose(); }
 }
 
-// Real app state flow: distance-based anticipation, all modals, blur/hidden
-// resume, preview teleport, fall-to-hangar, and rebuilt/disposed resources.
+
+
 {
   const app = createAppDom(), d = app.debug;
   const putAt = progress => {

@@ -1,5 +1,5 @@
-// Project into the actual canvas rectangle, then into the common label layer.
-// Mobile browser toolbars/embedded viewports can differ from window.innerHeight.
+
+
 export function projectLabelPixel(ndc,canvasRect,layerRect={left:0,top:0}){
  return {x:canvasRect.left+(ndc.x*.5+.5)*canvasRect.width-layerRect.left,
   y:canvasRect.top+(-ndc.y*.5+.5)*canvasRect.height-layerRect.top};

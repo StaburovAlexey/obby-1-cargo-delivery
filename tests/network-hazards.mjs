@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Offline graph/real-solver QA. No browser, device screenshot or GPU claim.
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {buildRoadHazards,createRoadHazards,roadHazardContact,rockApproachIsClear,ROAD_HAZARD_RULES as R,ROAD_HAZARD_EXCLUSIONS} from '../dist/road-hazards.js';
@@ -82,7 +82,7 @@ check('Physics and renderer pools remain bounded, frozen descriptors survive res
  return {staticDescriptors:hazards.length,rockPool:rocks.length,resets:100};
 });
 const directory=new URL('../qa/network-hazards/',import.meta.url);fs.mkdirSync(directory,{recursive:true});report.generatedAt=new Date().toISOString();report.passed=report.checks.length;fs.writeFileSync(new URL('checks.json',directory),JSON.stringify(report,null,2)+'\n');
-// A deterministic world-space evidence plot, not a browser screenshot.
+
 const all=NETWORK_EDGES.flatMap(e=>e.samples),minX=Math.min(...all.map(p=>p.x))-70,maxX=Math.max(...all.map(p=>p.x))+70,minZ=Math.min(...all.map(p=>p.z))-70,maxZ=Math.max(...all.map(p=>p.z))+70,scale=Math.min(1000/(maxX-minX),1600/(maxZ-minZ)),X=x=>40+(x-minX)*scale,Y=z=>90+(z-minZ)*scale;
 let svg=`<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1740" viewBox="0 0 1080 1740"><rect width="1080" height="1740" fill="#eef3ee"/><text x="28" y="30" font-family="sans-serif" font-size="21" fill="#173122">68 graph-aware hazards · seeded layout 42</text><text x="28" y="56" font-family="sans-serif" font-size="14">Offline geometry evidence. Both arms, protected stops, and an open central bypass.</text>`;
 for(const e of NETWORK_EDGES){svg+=`<polyline points="${e.samples.filter((_,i)=>i%3===0).map(p=>`${X(p.x).toFixed(2)},${Y(p.z).toFixed(2)}`).join(' ')}" fill="none" stroke="#4a5561" stroke-width="${30*scale}"/>`;}

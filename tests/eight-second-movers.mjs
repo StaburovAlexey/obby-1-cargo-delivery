@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/** Deterministic offline contracts for the requested moving-road encounters. */
+
 import assert from 'node:assert/strict';
 import {buildRoadHazards,createRoadHazards,roadHazardContact,ROAD_HAZARD_RULES as R,ROAD_HAZARD_EXCLUSIONS} from '../dist/road-hazards.js';
 import {BIOME_DEFINITIONS,NETWORK_EDGES,FORKS,pointOnEdge,truckInRoad,pointInRoad,routeDistanceAt} from '../dist/route-network.js';

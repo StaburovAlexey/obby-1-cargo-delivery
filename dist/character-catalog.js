@@ -1,4 +1,4 @@
-// Original user-supplied meshes, rigs, UVs and embedded materials.
+
 export const CHARACTER_CATALOG = Object.freeze([
   Object.freeze({"id": "bacon", "name": "Bacon", "source": "Obby_pack10_Bacon.glb", "sha256": "eb78b0d387d323905bc0151d4a533a07acf61cea6d98de417c105079750a6415", "bytes": 704152, "textured": true, url: new URL("./assets/bacon.glb", import.meta.url) }),
   Object.freeze({"id": "pack1", "name": "Pack 1", "source": "Obby_pack1.glb", "sha256": "ceb7a729d38d976318fc5768142be42387c7e753b329ac025b58d24a9e73b95c", "bytes": 711244, "textured": true, url: new URL("./assets/characters/Obby_pack1.glb", import.meta.url) }),

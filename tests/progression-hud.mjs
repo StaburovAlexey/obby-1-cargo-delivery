@@ -1,5 +1,5 @@
-// Renderer-free app integration and source contracts. This is deliberately not
-// browser layout, GPU performance, Android, or physical-touchscreen validation.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import * as THREE from '../dist/vendor/three.module.js';
@@ -324,8 +324,8 @@ test('Narrow MAX button resets UA padding and overrides the stronger desktop fon
   assert.ok(override,'Use an ID-specific mobile selector to override #upgrade-panel button font-size:16px');
   assert.match(override,/font-size:13px/);assert.match(override,/padding:0 2px/);assert.match(override,/gap:3px/);
   assert.match(css,/\.upgrade-card button\{[^}]*min-width:0[^}]*padding:0 3px/);
-  // Offline DejaVu Sans Bold measurement of the actual Cyrillic label at13px.
-  // This is a conservative installed-font specimen, not browser font shaping.
+
+
   const maxTextWidth=43.171875,icon=23,gap=3,borders=6,padding=4,track=85;
   assert.ok(icon+gap+maxTextWidth+borders+padding<=track-4);
   console.log(`Narrow MAX specimen budget: ${icon+gap+maxTextWidth+borders+padding}px of ${track}px; explicit padding and cascade.`);

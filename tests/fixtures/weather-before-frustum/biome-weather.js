@@ -1,5 +1,5 @@
-// One fixed particle pool and one draw call, shared by all outdoor biomes.
-// Positions are local to the supplied camera/player anchor; no game state is read.
+
+
 const CAPACITY = 128;
 const RADIUS = 22;
 const BOTTOM = -4;
@@ -18,8 +18,8 @@ export function createBiomeWeather(THREE) {
   group.visible = false;
   const positions = new Float32Array(CAPACITY * 3);
   const phases = new Float32Array(CAPACITY);
-  // At most eight soft, local veils share the precipitation pool/draw call.
-  // They drift through the view instead of applying a full-screen fog layer.
+
+
   const haze = new Float32Array(CAPACITY);
   for (let i = 0; i < CAPACITY; i += 16) haze[i] = 1;
   const geometry = new THREE.BufferGeometry();

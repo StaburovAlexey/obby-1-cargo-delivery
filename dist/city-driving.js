@@ -1,18 +1,18 @@
 import { queryRoadSurface, projectRoad, ROAD_SURFACE_OFFSET, corridorContact, truckInRoad, obstacleIntersectsRoad } from "./road-layout.js";
 export { projectRoad } from "./road-layout.js";
 
-// Analytic height can differ slightly from the rendered 0.5 m road triangles.
-// A uniform 12 mm support allowance prevents tire/triangle intersections without
-// changing the continuous road surface or introducing edge-dependent steps.
+
+
+
 export const SUPPORT_CLEARANCE = 0.012;
 
-/** Exactly the shared continuous road/terrain surface, plus the road mesh's
- * 8 mm rendering separation. There are no raised curb or sidewalk steps. */
+
+
 export function groundHeight(x, z, history) {
   return queryRoadSurface(x, z, history).height + ROAD_SURFACE_OFFSET;
 }
 
-/** Four-wheel ground fit; raised enough that none of the tires cut the surface. */
+
 export function fitTruckToGround(THREE, x, z, heading, history, visual) {
   if(visual?.wheelContacts?.length===4)return fitImportedWheelsToGround(THREE,x,z,heading,history,visual.wheelContacts);
   const chassis=projectRoad(x,z,history);
@@ -33,14 +33,14 @@ export function fitTruckToGround(THREE, x, z, heading, history, visual) {
   right.y = (rightH - left) / 2.64;
   right.normalize();
   const up = new THREE.Vector3().crossVectors(right, forward).normalize();
-  // Keep heading stable while producing an orthonormal ground frame.
+
   right.crossVectors(forward, up).normalize();
   const back = forward.clone().negate();
   const matrix = new THREE.Matrix4().makeBasis(right, up, back);
   const quaternion = new THREE.Quaternion().setFromRotationMatrix(matrix);
   const centers = [];
   let height = -Infinity;
-  // Circle support against an inclined plane: convert normal distance to vertical height.
+
   const supportHeight = 0.68 / Math.max(0.2, up.y);
   for (const dx of [-1.32, 1.32])
     for (const dz of [-1.63, 1.73]) {
@@ -61,7 +61,7 @@ export function fitTruckToGround(THREE, x, z, heading, history, visual) {
 
 const OBSTACLE =
   /^(Residence |Terrace plinth|Depot rear$|Depot side$|Portal pier$|Mini mart$|Fuel canopy column$|Canopy column$|Pump red base$|Tree planter$|Tree trunk$|Low planter$|Lamp base$|Fuel totem$|Forklift body$|Fuel island$|Dock$|Pallet deck$)/;
-/** Static obstacles only; visual windows, roof details, road studs stay nonblocking. */
+
 export function collectObstacles(THREE, city) {
   const result = [],
     m = new THREE.Matrix4(),
@@ -87,8 +87,8 @@ export function collectObstacles(THREE, city) {
         minY: b.min.y,
         maxY: b.max.y,
       };
-      // Corridor containment is authoritative. Props stay outside it so visual
-      // details cannot create invisible bumps or branch-selection obstacles.
+
+
       if (!obstacleIntersectsRoad(obstacle)) result.push(obstacle);
     }
   });
@@ -129,7 +129,7 @@ export function canPlaceTruck(x, z, heading, obstacles = [], footprint) {
   return truckInRoad(x, z, heading, undefined, footprint) && !obstacles.some((o) => overlapsTruck(x, z, heading, o, 0.03, footprint));
 }
 
-/** Minimal-translation contact for the local scene. Consumed by the source collision solver. */
+
 export function getTruckContact(x, z, heading, obstacles = [], history, footprint) {
   let deepest;
   const keep = (c) => {
@@ -183,8 +183,8 @@ export function getTruckContact(x, z, heading, obstacles = [], history, footprin
   return deepest;
 }
 
-// Imported meshes retain their proportions and use their own tire locations
-// for visual road fitting. Driving forces stay independent of these dimensions.
+
+
 function fitImportedWheelsToGround(THREE,x,z,heading,history,wheels){
   const chassis=projectRoad(x,z,history),c=Math.cos(heading),s=Math.sin(heading);
   const pos=w=>w.center;

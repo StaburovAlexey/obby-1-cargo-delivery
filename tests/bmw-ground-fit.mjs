@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Actual packaged BMW tire vertices against production ground/bridge math.
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import * as THREE from '../dist/vendor/three.module.js';
@@ -15,7 +15,7 @@ let poses = 0, minimum = Infinity, largestMinimum = -Infinity, centeredBridges =
 try {
   adapter = await loadBMWVehicle(THREE);
   const { metadata } = adapter;
-  // Independent measurements, not a generic old procedural-truck envelope.
+
   const boxes = adapter.wheels.map(wheel => new THREE.Box3().setFromObject(wheel.node, true));
   const measuredHalfWidth = Math.max(...boxes.map(box => Math.max(Math.abs(box.min.x), Math.abs(box.max.x))));
   assert.ok(Math.abs(measuredHalfWidth - 1.578429980785126) < 1e-6);

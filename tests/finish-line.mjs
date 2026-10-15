@@ -1,4 +1,4 @@
-// Actual Three.js CPU geometry, frustum and occlusion checks. No browser/GPU claim.
+
 import assert from 'node:assert/strict';
 import * as THREE from '../dist/vendor/three.module.js';
 import { createFinishLine, FINISH_LINE_SPEC, FINISH_LINE_STYLE } from '../dist/finish-line.js';
@@ -37,8 +37,8 @@ check('Finish is 28 real route metres before the final left delivery trigger', (
     assert.ok(road.progress < checkpoint.progress - ECONOMY_CONFIG.checkpointRadius - 20);
     assert.ok(Math.hypot(v.x - delivery.x, v.z - delivery.z) > ECONOMY_CONFIG.checkpointRadius + 20);
   }
-  // A driver already in the unloading lane crosses the paint before any
-  // sample could enter the authoritative 4.4 m centre-based delivery circle.
+
+
   let crossedAt = null, deliveryAt = null;
   for (let distance = spec.distance - 50; distance < checkpoint.distance + 1; distance += .1) {
     const p = routePointAtDistance(distance), x = p.x - p.right.x * ECONOMY_CONFIG.checkpointOffset,
@@ -62,8 +62,8 @@ function checkPaintSurface(scene) {
     colours.add(color.getX(i).toFixed(6));
   }
   assert.equal(colours.size, 2);
-  // Centroids and edge samples catch a flat tile cutting through an underlying
-  // road seam, which checking vertices alone would miss.
+
+
   for (let i = 0; i < p.count; i += 3) {
     const vertices = [0, 1, 2].map(k => worldVertex(mesh, i + k));
     for (const [a, b, c] of [[1 / 3, 1 / 3, 1 / 3], [.5, .5, 0], [0, .5, .5], [.5, 0, .5]]) {

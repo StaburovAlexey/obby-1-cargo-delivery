@@ -16,7 +16,7 @@ try{
  f.frame();const start=reward.root.quaternion.clone();for(let i=0;i<120;i++)f.frame();assert(start.angleTo(reward.root.quaternion)>.1,'parked trophy rotates');
  assert.equal(f.ids.get('vehicle-price-value-11').textContent,'Заблокировано');
  f.dispose();f=createAppDom({startDriving:false,attachVehicleVisuals:attachCosmoGarage,career:earnedRewardCareer()});d=f.debug;await d.garage.vehicleVisuals.ready;reward=d.garage.vehicles.find(v=>v.id==='bmwreward');
- // The new fixture earned the reward through the real route validator.
+
  for(const v of d.garage.vehicles){if(!d.gameplay.isOwned(v.id))d.gameplay.state.ownedVehicleIds.push(v.id);d.gameplay.state.cooldown=0;assert(d.enterVehicle(v.id));d.applyTruckPose();assert(v.visual.group.parent===v.root);assert(!v.cargo.visible);d.returnToGarage();}
  d.gameplay.state.cooldown=0;assert(d.enterVehicle('bmwreward'));
  for(const bridge of BRIDGES)for(const direction of [0,Math.PI]){

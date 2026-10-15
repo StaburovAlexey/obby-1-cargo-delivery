@@ -1,5 +1,5 @@
-// Camera-only orbit state. It never queries collision geometry or changes the
-// player/car: the application supplies actual travelled distance after physics.
+
+
 const radians = (degrees) => degrees * Math.PI / 180;
 export const FOLLOW_CAMERA = Object.freeze({
   minPitch: radians(15),
@@ -15,10 +15,10 @@ const clampPitch = (pitch) => Math.max(FOLLOW_CAMERA.minPitch, Math.min(FOLLOW_C
 export const wrapAngle = (angle) => Math.atan2(Math.sin(finite(angle)), Math.cos(finite(angle)));
 export const shortestAngleDelta = (from, to) => wrapAngle(to - from);
 
-/** +Z is behind a subject with heading 0; positive yaw rotates toward +X.
- * Pitch is elevation above the horizontal. The fixed offset is deliberately
- * independent of walls, roofs, terrain and any zoom/occlusion adjustment.
- */
+
+
+
+
 export function computeFollowOffset({ yaw, pitch, radius }, out = {}) {
   const horizontal = Math.cos(pitch) * radius;
   out.x = Math.sin(yaw) * horizontal;
@@ -39,8 +39,8 @@ export function createFollowCameraState({ mode = 'walking', heading = 0 } = {}) 
     state.radius = FOLLOW_CAMERA[state.mode].radius;
     state.looking = false;
     state.distanceSinceLook = 0;
-    // A fresh driving view is already behind the car. Manual look suspends
-    // following until a new, released-gesture travel budget reaches six metres.
+
+
     state.returning = state.mode === 'driving';
     return state;
   }
@@ -61,9 +61,9 @@ export function createFollowCameraState({ mode = 'walking', heading = 0 } = {}) 
       return state;
     },
     lookBegin({ position, target, scale = 1 } = {}) {
-      // Adopt the rendered orbit, not the unsmoothed subject position. This
-      // only synchronizes input state; acquiring a pointer never moves the eye
-      // or the target. Keep viewport scaling out of the fixed-radius state.
+
+
+
       if (position && target && Number.isFinite(scale) && scale > 0) {
         const x = (position.x - target.x) / scale;
         const y = (position.y - target.y) / scale;
@@ -93,10 +93,10 @@ export function createFollowCameraState({ mode = 'walking', heading = 0 } = {}) 
       state.returning = false;
       return state;
     },
-    /** distance is this frame's actual movement in metres, never intended
-     * throttle/speed*time. Signed reverse travel is accepted. Reset on a
-     * teleport instead of passing the discontinuity as travelled distance.
-     */
+
+
+
+
     update({ dt = 0, heading = state.yaw, distance = 0, teleported = false } = {}) {
       if (teleported) return reset({ heading, mode: state.mode });
       if (state.mode !== 'driving' || state.looking) return state;
@@ -108,8 +108,8 @@ export function createFollowCameraState({ mode = 'walking', heading = 0 } = {}) 
       if (!state.returning) {
         if (state.distanceSinceLook < FOLLOW_CAMERA.returnDistance - 1e-9) return state;
         state.returning = true;
-        // Only smooth over the portion of the frame AFTER crossing six metres.
-        // This avoids an extra frame of return at 30 Hz versus 60/120 Hz.
+
+
         const pastThreshold = Math.max(0, state.distanceSinceLook - Math.max(before, FOLLOW_CAMERA.returnDistance));
         returnDt *= Math.min(1, pastThreshold / travelled);
       }
@@ -121,5 +121,5 @@ export function createFollowCameraState({ mode = 'walking', heading = 0 } = {}) 
   };
 }
 
-// Only very tall portrait viewports need extra room for the full-size cars.
+
 export function drivingCameraScale(aspect){return aspect<.8?Math.max(1.2,.54/Math.max(.2,aspect)):1;}

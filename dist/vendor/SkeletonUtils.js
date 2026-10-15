@@ -9,10 +9,10 @@ import {
 	VectorKeyframeTrack
 } from './three.module.js';
 
-/**
- * @module SkeletonUtils
- * @three_import import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js';
- */
+
+
+
+
 
 function getBoneName( bone, options ) {
 
@@ -26,16 +26,16 @@ function getBoneName( bone, options ) {
 
 }
 
-/**
- * Retargets the skeleton from the given source to the target.
- *
- * Both `target` and `source` can be a 3D object with a skeleton property (e.g. a skinned mesh)
- * or a {@link Skeleton} directly.
- *
- * @param {Object3D|Skeleton} target - The target object.
- * @param {Object3D|Skeleton} source - The source object.
- * @param {module:SkeletonUtils~RetargetOptions} options - The options.
- */
+
+
+
+
+
+
+
+
+
+
 function retarget( target, source, options = {} ) {
 
 	const quat = new Quaternion(),
@@ -57,7 +57,7 @@ function retarget( target, source, options = {} ) {
 	let bone, name, boneTo,
 		bonesPosition;
 
-	// reset bones
+
 
 	if ( target.isObject3D ) {
 
@@ -84,13 +84,13 @@ function retarget( target, source, options = {} ) {
 
 	if ( options.preserveBoneMatrix ) {
 
-		// reset matrix
+
 
 		target.updateMatrixWorld();
 
 		target.matrixWorld.identity();
 
-		// reset children matrix
+
 
 		for ( let i = 0; i < target.children.length; ++ i ) {
 
@@ -124,12 +124,12 @@ function retarget( target, source, options = {} ) {
 
 			}
 
-			// ignore scale to extract rotation
+
 
 			scale.setFromMatrixScale( relativeMatrix );
 			relativeMatrix.scale( scale.set( 1 / scale.x, 1 / scale.y, 1 / scale.z ) );
 
-			// apply to global matrix
+
 
 			globalMatrix.makeRotationFromQuaternion( quat.setFromRotationMatrix( relativeMatrix ) );
 
@@ -203,7 +203,7 @@ function retarget( target, source, options = {} ) {
 
 	if ( options.preserveBoneMatrix ) {
 
-		// restore matrix
+
 
 		target.updateMatrixWorld( true );
 
@@ -211,23 +211,23 @@ function retarget( target, source, options = {} ) {
 
 }
 
-/**
- * Retargets the animation clip of the source to the target 3D object.
- *
- * The `source` can be a 3D object with a skeleton property (e.g. a skinned mesh)
- * or a {@link Skeleton} directly.
- *
- * @param {Object3D} target - The target 3D object. Must have a `skeleton` property.
- * @param {Object3D|Skeleton} source - The source object.
- * @param {AnimationClip} clip - The animation clip.
- * @param {module:SkeletonUtils~RetargetOptions} options - The options.
- * @return {AnimationClip} The retargeted animation clip.
- */
+
+
+
+
+
+
+
+
+
+
+
+
 function retargetClip( target, source, clip, options = {} ) {
 
 	options.useFirstFramePosition = options.useFirstFramePosition !== undefined ? options.useFirstFramePosition : false;
 
-	// Calculate the fps from the source clip based on the track with the most frames, unless fps is already provided.
+
 	options.fps = options.fps !== undefined ? options.fps : ( Math.max( ...clip.tracks.map( track => track.times.length ) ) / clip.duration );
 	options.names = options.names || [];
 
@@ -250,7 +250,7 @@ function retargetClip( target, source, clip, options = {} ) {
 
 	mixer.clipAction( clip ).play();
 
-	// trim
+
 
 	let start = 0, end = numFrames;
 
@@ -269,7 +269,7 @@ function retargetClip( target, source, clip, options = {} ) {
 
 	source.updateMatrixWorld();
 
-	//
+
 
 	for ( let frame = 0; frame < end; ++ frame ) {
 
@@ -335,8 +335,8 @@ function retargetClip( target, source, clip, options = {} ) {
 
 		if ( frame === end - 2 ) {
 
-			// last mixer update before final loop iteration
-			// make sure we do not go over or equal to clip duration
+
+
 			mixer.update( delta - 0.0000001 );
 
 		} else {
@@ -381,14 +381,14 @@ function retargetClip( target, source, clip, options = {} ) {
 
 }
 
-/**
- * Clones the given 3D object and its descendants, ensuring that any `SkinnedMesh` instances are
- * correctly associated with their bones. Bones are also cloned, and must be descendants of the
- * object passed to this method. Other data, like geometries and materials, are reused by reference.
- *
- * @param {Object3D} source - The 3D object to clone.
- * @return {Object3D} The cloned 3D object.
- */
+
+
+
+
+
+
+
+
 function clone( source ) {
 
 	const sourceLookup = new Map();
@@ -428,7 +428,7 @@ function clone( source ) {
 
 }
 
-// internal helper
+
 
 function getBoneByName( name, skeleton ) {
 
@@ -470,24 +470,24 @@ function parallelTraverse( a, b, callback ) {
 
 }
 
-/**
- * Retarget options of `SkeletonUtils`.
- *
- * @typedef {Object} module:SkeletonUtils~RetargetOptions
- * @property {boolean} [useFirstFramePosition=false] - Whether to use the position of the first frame or not.
- * @property {number} [fps] - The FPS of the clip.
- * @property {Object<string,string>} [names] - A dictionary for mapping target to source bone names.
- * @property {function(string):string} [getBoneName] - A function for mapping bone names. Alternative to `names`.
- * @property {Array<number>} [trim] - Whether to trim the clip or not. If set the array should hold two values for the start and end.
- * @property {boolean} [preserveBoneMatrix=true] - Whether to preserve bone matrices or not.
- * @property {boolean} [preserveBonePositions=true] - Whether to preserve bone positions or not.
- * @property {boolean} [useTargetMatrix=false] - Whether to use the target matrix or not.
- * @property {string} [hip='hip'] - The name of the source's hip bone.
- * @property {Vector3} [hipInfluence=(1,1,1)] - The hip influence.
- * @property {number} [scale=1] - The scale.
- * @property {Object<string,Matrix4>} [localOffsets] - Per-bone local offset matrices, keyed by bone name.
- * @property {Vector3} [hipPosition] - An additional position offset applied to the hip bone.
- **/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export {
 	retarget,

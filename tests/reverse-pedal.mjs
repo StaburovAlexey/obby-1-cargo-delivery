@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Renderer-free reverse pedal regressions using production input/model.
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 const pedalMarkup=fs.readFileSync(new URL('../dist/index.html',import.meta.url),'utf8').match(/<button id="reverse-pedal"[\s\S]*?<\/button>/)[0];
@@ -138,7 +138,7 @@ for(const spec of VEHICLE_CONFIG) {
     assert.ok(stopped, spec.id+' passes zero'); assert.ok(m.state.speed<-.3, spec.id+' reaches reverse');
     step(m,1); const reverseSpeed=m.state.speed;
     const reference=createDrivingModel({vehicleId:spec.id,maxSpeed:spec.maxSpeed,x:0,z:0});
-    // Straight-line force state is identical for a reference legacy coast.
+
     Object.assign(reference.state,m.state); reference.setInput({active:false,steering:0});
     input.pointer(input.reverse,'pointerup',2);
     assert.equal(m.state.gear,'R'); assert.equal(m.state.active,false); assert.equal(m.state.speedDemand,null);

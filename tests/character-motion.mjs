@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Renderer-free regression against the actual original GLB, Three mixer and
-// deformed vertices. Covers true 0.6333 s loops, not only short start-up samples.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -49,7 +49,7 @@ function reset(heading = 0) {
   character.resetMotion(heading);
 }
 
-// The root already loops: do not hide a discontinuity by slowing the whole game.
+
 for (const track of run.tracks) {
   const size = track.getValueSize();
   const a = Array.from(track.values.slice(0, size));
@@ -68,10 +68,10 @@ for (const fps of [30, 60, 120]) {
     minFoot: Infinity, maxFoot: -Infinity, minHip: Infinity, maxHip: -Infinity, loopHipStep: 0, poseError: 0 };
   for (let i = 1; i <= fps * 13; i++) {
     const t = i / fps;
-    group.position.z = -7 * t; // Same full-speed external controller movement.
+    group.position.z = -7 * t;
     character.update(1 / fps, 7, 0);
     const current = sample();
-    // Exact phase integral of the smoothed 0.3 -> 1 cadence.
+
     const phase = (t - 0.07 * (1 - Math.exp(-10 * t))) % run.duration;
     const dy = current.hip.y - previous.hip.y;
     if (t >= 3) {
@@ -104,8 +104,8 @@ for (const fps of [30, 60, 120]) {
   pass(`${fps} fps: 15+ true full-speed run loops retain original bone phase, bounded body trajectory and natural flight`);
 }
 
-// Repeat complete speed changes and start/stop sequences. Cross-frame-rate
-// snapshots must match, including cadence, blend weights and support position.
+
+
 const snapshots = [];
 for (const fps of [30, 60, 120]) {
   reset();
@@ -181,8 +181,8 @@ near(group.position.x, 27); near(group.position.y, 2); near(group.position.z, -1
 run.tracks.forEach((track, i) => assert.deepEqual(Array.from(track.values), originalTrackBytes[i]));
 pass('Teleport reset preserves 3.5 m idle height, caller world position, pause safety and unmodified source tracks');
 
-// Geometry is measured only during calibration. A render update must not run a
-// 2,897-vertex Box3 ground-feedback pass or sample vertex deformation at all.
+
+
 let mesh;
 group.traverse(object => { if (object.isMesh) mesh = object; });
 const originalGetVertex = mesh.getVertexPosition;

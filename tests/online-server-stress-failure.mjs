@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {spawn} from 'node:child_process';
 import {once} from 'node:events';
 import {createInterface} from 'node:readline';
-// A failed later server must preserve the earlier measured report and finish as JSON.
+
 const child=spawn(process.execPath,['scripts/stress-online.mjs','--users=20,40','--duration=0.6'],{stdio:['ignore','pipe','pipe']});
 const records=[];let stderr='';child.stderr.on('data',bytes=>{stderr+=bytes;});
 const lines=createInterface({input:child.stdout});

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Independent real-Three camera, garage-boundary, fleet-contact and locked-vehicle QA.
-// Renderer/DOM are stubbed. This does not claim browser or WebGL visual QA.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import * as THREE from '../dist/vendor/three.module.js';
@@ -31,7 +31,7 @@ function worldVertices(root){
     else{for(let i=0;i<attr.count;i++){mesh.getVertexPosition(i,v);result.push(v.applyMatrix4(mesh.matrixWorld).clone());}}
   });return result;
 }
-// Measure the shipped skin once, across actual idle/locomotion transitions.
+
 bacon.group.position.set(0,0,0);
 for(const speed of [0,4.5,7,0])for(let frame=0;frame<120;frame++){
   bacon.update(1/60,speed,0);
@@ -214,8 +214,8 @@ try{
     const limit=(lo,hi,allowed)=>{for(let i=0;i<40;i++){const mid=(lo+hi)/2;if(allowed(mid))lo=mid;else hi=mid;}return lo;};
     const maxX=limit(GARAGE_LAYOUT.maxX-4,GARAGE_LAYOUT.maxX+1,x=>walkPointAllowed(x,GARAGE_LAYOUT.spawn.z)),maxZ=limit(GARAGE_LAYOUT.rearZ-4,GARAGE_LAYOUT.rearZ+1,z=>walkPointAllowed(0,z));
     console.log(`  Bacon measured over idle/walk/run: half-width ${halfWidth.toFixed(3)} m, half-length ${halfLength.toFixed(3)} m, maximum horizontal radius ${radius.toFixed(3)} m. Allowed center limits: x=${maxX.toFixed(3)}, z=${maxZ.toFixed(3)}.`);
-    // Logical road inset and physical hangar bounds differ. Use the measured
-    // full radial animation envelope so all player headings remain safe.
+
+
     assert.ok(radius<GARAGE_LAYOUT.maxX-maxX,'Bacon rendered body reaches through hangar side walls');
     assert.ok(radius<GARAGE_LAYOUT.rearZ-maxZ,'Bacon rendered body reaches through rear wall');
   });

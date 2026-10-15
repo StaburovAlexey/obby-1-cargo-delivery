@@ -1,5 +1,5 @@
-/** Geometry-only route configuration. Progress is a canonical station in metres;
- * it is never a world coordinate. The spawn and rear apron stay at (0,0,6). */
+
+
 export const NETWORK_CONFIG = Object.freeze({ start:-17, end:10800, spawn:0,
   halfWidth:15, shoulderWidth:110, meshStep:2, roadSurfaceOffset:.008,
   truckHalfWidth:2.9, truckHalfLength:3.6, roadMargin:.1 });
@@ -28,6 +28,6 @@ export const ELEVATION_PROFILE = Object.freeze([
   [6600,26],[7040,10],[7680,10],[8030,22],[8380,12],
   [9680,12],[10050,25],[10500,8],[10800,8],
 ].map(Object.freeze));
-/** Safe common-edge gates, shared by economy, hazards and travel adapters. */
+
 export const CHECKPOINT_PROGRESS=Object.freeze([180,440,780,1220,1800,2580,3480,4730,6170,7870,9870]);
 export const PREVIEW_PROGRESS=Object.freeze(BIOME_DEFINITIONS.map(b=>Object.freeze({id:b.id,progress:b.id==='city'?80:b.from+140})));

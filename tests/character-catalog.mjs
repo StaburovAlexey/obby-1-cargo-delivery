@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Actual 17 GLBs, Three GLTFLoader/mixers/deformed meshes; no WebGL/browser.
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -35,7 +35,7 @@ for(const entry of CHARACTER_CATALOG){
  character.resetMotion(); character.setSeated(true);const originals=[];group.traverse(o=>{if(o.isMesh){originals.push([o,o.getVertexPosition]);o.getVertexPosition=()=>{throw Error('Runtime skinned scan');};}});for(let i=0;i<180;i++)character.update(1/60,0,0);for(const [m,original] of originals)m.getVertexPosition=original;
  group.position.set(-character.seatAnchor.x*character.seatedWeight,(CLASSROOM_DESKS[0].seat.height-character.seatAnchor.y)*character.seatedWeight,-character.seatAnchor.z*character.seatedWeight);group.updateMatrixWorld(true);
  const seated=box.setFromObject(group,true);assert.ok(seated.min.y>=-.001,`${entry.id} seated feet below floor ${seated.min.y}`);assert.ok(character.seatedWeight>.99999);assert.ok(character.animations.every(c=>!/sit/i.test(c.name)));
- // Actual surface contact is independently checked by desk-pose-clearance.mjs.
+
  const hip=group.getObjectByName('mixamorigHips').getWorldPosition(new THREE.Vector3());assert.ok(hip.y>CLASSROOM_DESKS[0].seat.height&&hip.y<1.1,`${entry.id} seated pelvis height ${hip.y}`);
  for(const side of ['Left','Right']){
   const top=group.getObjectByName(`mixamorig${side}UpLeg`).getWorldPosition(new THREE.Vector3());
@@ -43,8 +43,8 @@ for(const entry of CHARACTER_CATALOG){
   const foot=group.getObjectByName(`mixamorig${side}Foot`).getWorldPosition(new THREE.Vector3());
   assert.ok(knee.z<top.z-.3,`${entry.id} ${side} thigh not forward`);assert.ok(Math.abs(Math.atan2(knee.y-top.y,top.z-knee.z))<23*Math.PI/180,`${entry.id} thigh not seated`);assert.ok(foot.y<knee.y-.35,`${entry.id} lower leg not vertical`);
  }
- // Installed desk center is 1.5 m forward; top 1.35, underside 1.15.
- // Report only lower-body vertices in its x/z span: hips/thighs stay below it.
+
+
  let lowerTableMax=-Infinity;
  group.traverse(mesh=>{if(!mesh.isSkinnedMesh)return;const pos=mesh.geometry.attributes.position,weights=mesh.geometry.attributes.skinWeight,indices=mesh.geometry.attributes.skinIndex;for(let i=0;i<pos.count;i++){let legWeight=0;for(let c=0;c<4;c++)if(/UpLeg|Leg|Foot|Toe/.test(mesh.skeleton.bones[indices.getComponent(i,c)].name))legWeight+=weights.getComponent(i,c);if(legWeight<.5)continue;mesh.getVertexPosition(i,vector).applyMatrix4(mesh.matrixWorld);if(vector.z<-.5&&vector.z>-2.5&&Math.abs(vector.x)<1.2)lowerTableMax=Math.max(lowerTableMax,vector.y);}});
  assert.ok(lowerTableMax<1.15,`${entry.id} thighs/table collision ${lowerTableMax}`);
@@ -53,8 +53,8 @@ for(const entry of CHARACTER_CATALOG){
  metrics.push({id:entry.id,meshPrimitives:meshes,parsedVertices:skinVertices,validationErrors:validation.issues.numErrors,validationWarnings:validation.issues.numWarnings,minFoot,maxFoot,maxSteadyPivotStep,maxPivotStep:maxStep,seatedFeetY:seated.min.y,lowerTableMax:Number.isFinite(lowerTableMax)?lowerTableMax:null,seatAnchor:character.seatAnchor.toArray()});
  console.log(`PASS ${entry.id}: original GLB, 22-bone rig, native materials/UV, idle/run floor, stable support, seated knees + feet + desk`);
 }
-// Same URL caches network and parsing; skeletons are independent; snapshots
-// share frozen geometry/materials and have no live skeleton or mixer.
+
+
 const [a,b,display1,display2]=await Promise.all([loadCharacter(THREE),loadCharacter(THREE),createCharacterDisplay(THREE),createCharacterDisplay(THREE)]);
 assert.equal(reads,1);assert.equal(getCharacterCacheStats().parses,1);
 assert.notEqual(a.group.getObjectByName('mixamorigHips'),b.group.getObjectByName('mixamorigHips'));

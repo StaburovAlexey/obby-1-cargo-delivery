@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-/** Independent final-review contracts. Real production geometry/poses/Three.js
- * matrices plus bounded app integration. No browser, GPU, occlusion or human
- * playtest claim. Output is confined to qa/turns-crossings/review*.json. */
+
+
+
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -37,8 +37,8 @@ check('Route length, bridge identities and progression are preserved',()=>{
  return{routeLength:N.ROUTE_LENGTH,bridges:BRIDGES.length,preservedModules:Object.keys(baseline.preservedHashes),bridgeApproachSamples:samples,maxBridgeCurvature};
 });
 
-// Finite-segment closest distance, including intersections. Used independently
-// of production projection/spatial bins, so wrong metadata cannot mask a cross.
+
+
 const cross=(a,b,c)=>(b.x-a.x)*(c.z-a.z)-(b.z-a.z)*(c.x-a.x);
 function pointSegment(p,a,b){const dx=b.x-a.x,dz=b.z-a.z,t=Math.max(0,Math.min(1,((p.x-a.x)*dx+(p.z-a.z)*dz)/(dx*dx+dz*dz)));return Math.hypot(p.x-a.x-t*dx,p.z-a.z-t*dz);}
 function segmentDistance(a,b,c,d){if(cross(a,b,c)*cross(a,b,d)<0&&cross(c,d,a)*cross(c,d,b)<0)return 0;return Math.min(pointSegment(a,c,d),pointSegment(b,c,d),pointSegment(c,a,b),pointSegment(d,a,b));}
@@ -73,7 +73,7 @@ check('More movers preserve clear intervals, exclusions and bidirectional terrai
    assert(h.progress>C.CHECKPOINT_PROGRESS[2]+160);assert.equal(h.motion.travelSeconds,8);near(h.motion.period,2*(8+h.motion.pauseSeconds));assert.equal(h.motion.pauseSeconds,1.4);assert.equal(h.motion.minOffset,-10.6);assert.equal(h.motion.maxOffset,10.6);
    const edge=N.getEdge(h.edgeId);assert(h.edgeDistance>100&&edge.length-h.edgeDistance>100);
    for(let d=-100;d<=100;d+=2){const q=N.pointOnEdge(h.edgeId,h.edgeDistance+d),curve=Math.abs(q.curvature),grade=Math.hypot(q.gradient.x,q.gradient.z),heading=Math.abs(angle(q.heading,p.heading));maxCurve=Math.max(maxCurve,curve);maxGrade=Math.max(maxGrade,grade);maxHeading=Math.max(maxHeading,heading);assert(curve<=R.maximumApproachCurvature);assert(grade<=R.maximumApproachGrade);assert(heading<=R.maximumApproachHeadingChange);sightSamples++;}
-   // True road-local sweep, including corners at intermediate offsets.
+
    for(let offset=-10.6;offset<=10.6001;offset+=1.06)for(const lx of [-h.width/2,h.width/2])for(const lz of [-h.length/2,h.length/2]){
     const x=p.x+p.right.x*offset+Math.cos(h.heading)*lx+Math.sin(h.heading)*lz,z=p.z+p.right.z*offset-Math.sin(h.heading)*lx+Math.cos(h.heading)*lz,q=N.projectRoad(x,z,h),margin=15-Math.abs(q.offset);minimumRoadMargin=Math.min(minimumRoadMargin,margin);assert(margin>2.4);assert(N.pointInRoad(x,z,.4));perimeterSamples++;
    }

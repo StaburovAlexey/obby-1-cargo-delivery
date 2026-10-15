@@ -26,7 +26,7 @@ icon('money',390,513,44);text(446,545,'900',30);text(390,588,'Unowned car: same 
 text(736,531,'Owned skin / car:',18);text(736,558,'no floating price label',18);text(736,588,'All three price anchors lowered by 0.4 m',12,'#b4cbe4')
 svg.append('</svg>');output=''.join(svg).encode();(HERE/'billboard-tank-specimen.svg').write_bytes(output)
 
-# CPU-only native SVG rasterization. No browser, network, server, or GPU needed.
+
 rsvg=C.CDLL(ctypes.util.find_library('rsvg-2'))
 cairo=C.CDLL(ctypes.util.find_library('cairo'))
 gobj=C.CDLL(ctypes.util.find_library('gobject-2.0'))

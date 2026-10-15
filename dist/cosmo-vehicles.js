@@ -1,16 +1,16 @@
-/** Cosmo CC0 vehicle visuals. Gameplay IDs, root pose and dynamics stay external.
- * Sources: ./assets/vehicles/cosmo/README.md. Units are metres, +Y up/-Z forward.
- * Each adapter owns its geometry/materials. Bytes and immutable palette textures are shared.
- */
+
+
+
+
 import { GLTFLoader } from './vendor/GLTFLoader.js';
 import { attachVehicleBrakeLights } from './vehicle-brake-lights.js';
 
 const TAU = Math.PI * 2;
 const SOURCE_WHEEL_RADIUS = 0.68;
 const GROUND_CLEARANCE = 0.05;
-// Road and parked cars share one real size. Bake the former showroom enlargement
-// into normalization so tire centers/radii/vertices and bounds match the meshes.
-// The route's legacy procedural-truck envelope must not cap imported geometry.
+
+
+
 export const COSMO_VEHICLE_SCALE = 1.5;
 const MAX_WIDTH = 3.1 * COSMO_VEHICLE_SCALE;
 const MAX_LENGTH = 5.76 * COSMO_VEHICLE_SCALE;
@@ -20,9 +20,9 @@ const paletteTextures = new Map();
 let paletteSource = null;
 let paletteUsers = 0;
 
-// All bundled GLBs embed the same audited PNG (SHA-256 17c51ef9…e502b).
-// Retain both original sampler variants, but share their GPU textures and one
-// ImageBitmap across all live cars. Per-car materials and geometry stay private.
+
+
+
 function acquirePalette(scene) {
   const sourceTextures = new Set(), sourceImages = new Set(), materials = new Set();
   scene.traverse(node => {
@@ -81,7 +81,7 @@ function acquirePalette(scene) {
 }
 
 export const COSMO_VEHICLES = Object.freeze([
-  // Literal asset URLs work in native ES modules and let bundlers emit each GLB.
+
   { id: 'pickup', model: 'coupe', url: new URL('./assets/vehicles/cosmo/coupe.glb', import.meta.url).href, biome: 'city', cargoZ: 0.55 },
   { id: 'citycourier', model: 'police', url: new URL('./assets/vehicles/cosmo/police.glb', import.meta.url).href, biome: 'city', cargoZ: 0.95 },
   { id: 'rover', model: 'jeep', url: new URL('./assets/vehicles/cosmo/jeep.glb', import.meta.url).href, biome: 'forest', cargoZ: 0.3, paint: [[0xfe9a2e, 0x4b8956], [0xff8000, 0x72aa5b]] },
@@ -122,7 +122,7 @@ function resourcesOf(scene, palette) {
       geometries.forEach(value => value.dispose());
       materials.forEach(value => value.dispose());
       textures.forEach(value => { if (!palette.textures.has(value)) value.dispose(); });
-      // GLTFLoader uses ImageBitmap when available; texture.dispose does not close it.
+
       images.forEach(value => { if (value !== palette.image && typeof value.close === 'function') value.close(); });
       palette.release();
     },
@@ -141,10 +141,10 @@ async function sourceBytes(url) {
   return byteCache.get(url);
 }
 
-/** Replace only audited main-paint palette swatches on BODY paint materials.
- * Keeping the UV map, vertex colors and separate glass/light materials preserves
- * tires, trim, stripes, windows and lamps. The source GLBs stay byte-for-byte intact.
- */
+
+
+
+
 function applyBodyPaint(THREE, body, spec, resources) {
   const clones = new Map();
   const recolor = original => {
@@ -153,8 +153,8 @@ function applyBodyPaint(THREE, body, spec, resources) {
     const material = original.clone();
     clones.set(original, material);
     resources.materials.add(material);
-    // The game lights cars with hemisphere/directional light, without an IBL
-    // environment map. A modest body finish keeps diffuse paint readable.
+
+
     material.metalness = Math.min(material.metalness, 0.22);
     material.roughness = Math.max(material.roughness, 0.32);
     material.userData.cosmoBodyFinish = true;
@@ -183,10 +183,10 @@ function applyBodyPaint(THREE, body, spec, resources) {
   });
 }
 
-/** Load local, self-contained GLB using the installed Three.js GLTFLoader.
- * Call update(lastPose) before revealing the result. The caller must discard and
- * dispose a late result if its garage has gone away; no attachment occurs here.
- */
+
+
+
+
 export async function loadCosmoVehicle(THREE, vehicleId) {
   const spec = vehicleSpec(vehicleId);
   const bytes = await sourceBytes(spec.url);
@@ -194,13 +194,13 @@ export async function loadCosmoVehicle(THREE, vehicleId) {
   return createCosmoVehicleAdapter(THREE, vehicleId, gltf);
 }
 
-/** Drop the small byte cache, without touching active adapters or pending callers. */
+
 export function clearCosmoVehicleCache() { byteCache.clear(); }
 
-/** Adopt a NEW GLTF parse and its resources. Do not reuse its scene for another
- * adapter. Exported to support renderer-free checks against the actual assets.
- * The returned group is identity; attach it inside the authoritative vehicle root.
- */
+
+
+
+
 export function createCosmoVehicleAdapter(THREE, vehicleId, gltf) {
   const spec = vehicleSpec(vehicleId);
   const cargoZ = spec.cargoZ * COSMO_VEHICLE_SCALE;
@@ -216,7 +216,7 @@ export function createCosmoVehicleAdapter(THREE, vehicleId, gltf) {
   group.add(body);
   const normalized = new THREE.Group();
   normalized.name = 'Cosmo uniform scale and source-axis correction';
-  // All ten sources have headlights at +Z and the axle along X.
+
   normalized.rotation.y = Math.PI;
   normalized.add(scene);
   body.add(normalized);
@@ -244,8 +244,8 @@ export function createCosmoVehicleAdapter(THREE, vehicleId, gltf) {
     const vertex = new THREE.Vector3();
     const wheels = wheelNodes.map(node => {
       const bounds = new THREE.Box3().setFromObject(node, true);
-      // Use geometry centers (source pivots differ by only ~0.00002m), not the
-      // body parent's origin. This also removes tiny exported pivot offsets.
+
+
       const localPosition = bounds.getCenter(new THREE.Vector3());
       const front = localPosition.z < 0;
       const side = localPosition.x < 0 ? 'left' : 'right';
@@ -273,8 +273,8 @@ export function createCosmoVehicleAdapter(THREE, vehicleId, gltf) {
       const spin = new THREE.Group();
       spin.name = 'Cosmo wheel roll about local -X';
       pivot.add(spin);
-      // attach preserves the complete normalized world transform. Wheels become
-      // siblings of body, so suspension cannot drag their centers off the ground.
+
+
       spin.attach(node);
       return {
         name: `${front ? 'front' : 'rear'}-${side}`, front, side, localPosition,
@@ -291,7 +291,7 @@ export function createCosmoVehicleAdapter(THREE, vehicleId, gltf) {
       node.castShadow = true;
       node.receiveShadow = true;
     });
-    // Wheels have already been reparented, so collect all adapter meshes here.
+
     group.traverse(node => {
       if (!node.isMesh) return;
       node.castShadow = true;
@@ -300,9 +300,9 @@ export function createCosmoVehicleAdapter(THREE, vehicleId, gltf) {
       primitives += Array.isArray(node.material) ? node.material.length : 1;
     });
     for (const material of resources.materials) {
-      // Opaque GLB shells are double-sided for viewing. Cast their back faces
-      // like ordinary solid meshes, so lit front faces do not self-shadow at
-      // the road shadow map's coarse resolution. Keep visible sidedness intact.
+
+
+
       if (material.side === THREE.DoubleSide && !material.transparent &&
           material.opacity === 1 && material.alphaTest === 0)
         material.shadowSide = THREE.BackSide;
@@ -315,9 +315,9 @@ export function createCosmoVehicleAdapter(THREE, vehicleId, gltf) {
     applyBodyPaint(THREE, body, spec, resources);
     const brakeLights = attachVehicleBrakeLights(THREE, { scene, normalized, model: spec.model, resources });
 
-    // Exact support under the 1.18 x 1.1 x 1.18 delivery crate: clip each
-    // body triangle to its XZ footprint, then take the highest clipped point.
-    // Sparse rays can miss roof ridges and let the flat crate cut into the roof.
+
+
+
     group.updateWorldMatrix(true, true);
     let supportY = -Infinity;
     const clip = (polygon, axis, edge, sign) => {
@@ -385,8 +385,8 @@ export function createCosmoVehicleAdapter(THREE, vehicleId, gltf) {
       update(pose = {}) {
         if (disposed) return adapter;
         if (!pose || typeof pose !== 'object') throw new TypeError('Cosmo update requires a pose object.');
-        // Validate the entire update before changing the visual. World position
-        // and quaternion are deliberately ignored: the original rig owns them.
+
+
         for (const key of Object.keys(state))
           if (pose[key] !== undefined && !Number.isFinite(pose[key]))
             throw new TypeError(`Cosmo ${key} must be finite.`);
@@ -395,8 +395,8 @@ export function createCosmoVehicleAdapter(THREE, vehicleId, gltf) {
         body.rotation.set(state.bodyPitch % TAU, 0, state.bodyRoll % TAU, 'XYZ');
         for (const wheel of wheels) {
           wheel.steerAngle = wheel.front ? state.steerAngle : 0;
-          // Existing simulation spin is distance / .68; restore that distance
-          // and divide by this model's true tire radius. Reverse works likewise.
+
+
           wheel.wheelSpin = state.wheelSpin * SOURCE_WHEEL_RADIUS / wheel.radius;
           wheel.pivot.rotation.y = wheel.steerAngle % TAU;
           wheel.spin.rotation.x = -(wheel.wheelSpin % TAU);

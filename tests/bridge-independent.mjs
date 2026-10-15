@@ -46,12 +46,12 @@ try{
   assert.equal(d.model.state.x,x);assert.equal(d.model.state.z,z);assert.equal(g.state.money,money);assert.equal(g.state.brains,brains);
   const before=returns;advance(app,100);assert.equal(g.state.mode,'walking');assert.equal(g.state.run,null);assert.equal(returns,before+1);assert.equal(g.state.money,money);assert.equal(g.state.brains,brains);advance(app,90);assert.equal(returns,before+1);cases++;
  }
- // Dirty pre-fall progress is saved once on return and preserved across reload.
+
  let saves=0;const originalSave=app.storage.setItem;app.storage.setItem=(...args)=>{saves++;return originalSave(...args);};
  g.state.cooldown=0;d.enterVehicle('pickup');g.tickProgress(.05,{distance:.2,active:true});const savedBrains=g.state.brains;
  place(d,(BRIDGES[0].from+BRIDGES[0].to)/2,1.3);advance(app,100);assert.equal(saves,1);advance(app,100);assert.equal(saves,1);
  const reload=createAppDom({startDriving:false,storage:app.storage});try{assert.ok(Math.abs(reload.debug.gameplay.state.brains-savedBrains)<1e-5);assert.equal(reload.debug.gameplay.state.money,g.state.money);}finally{reload.dispose();}
- // Overview, blur and visibility pause an ongoing fall; resuming must finish it.
+
  for(const pause of ['overview','hidden','blur']){
   g.state.cooldown=0;d.enterVehicle('pickup');place(d,(BRIDGES[0].from+BRIDGES[0].to)/2,1.3);advance(app,3);const before=returns;
   if(pause==='overview')d.setDriving(false);if(pause==='hidden'){app.doc.hidden=true;app.doc.dispatch('visibilitychange');}if(pause==='blur')app.win.dispatch('blur');

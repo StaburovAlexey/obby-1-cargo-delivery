@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Renderer-free scene contract, real collision footprints and resource audit.
-// The hashes were recorded from the Site28 classroom before this feature.
+
+
 import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
 import * as THREE from '../dist/vendor/three.module.js';
@@ -116,8 +116,8 @@ check('all seventeen characters reach every entry via a clear rear aisle, includ
     for(const airborne of [false,true]){
       gameplay.state.jump.airborne=airborne;
       for(const target of CLASSROOM_ENTRIES){
-        // Leave the main aisle, use the unobstructed z=70 corridor, then turn
-        // straight toward only the selected circle. No desk crossing is needed.
+
+
         const route=[GARAGE_LAYOUT.spawn,{x:0,z:70},{x:target.x,z:70},target];
         for(let segment=1;segment<route.length;segment++){
           const a=route[segment-1],b=route[segment],steps=Math.ceil(Math.hypot(b.x-a.x,b.z-a.z)/.2);

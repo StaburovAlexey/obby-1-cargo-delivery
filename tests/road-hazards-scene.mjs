@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Offline actual Three.js geometry, state and resource checks. No browser,
-// WebGL shader execution, device screenshot, frame-time or mobile claim.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import * as THREE from '../dist/vendor/three.module.js';
@@ -61,7 +61,7 @@ check('sand and ice use their full local soft-physics footprint with ground-conf
    assert.notEqual(system.surfaceAt(h.x,h.z,CITY_SURFACE),CITY_SURFACE);
    assert.equal(system.contact(h.x,h.z,h.heading),undefined);
   }
-  // Triangulated interiors cannot dip through road/paint between sampled rows.
+
   const a=new THREE.Vector3(),b=new THREE.Vector3(),c=new THREE.Vector3(),q=new THREE.Vector3();
   for(let i=0;i<g.index.count;i+=3){a.fromBufferAttribute(p,g.index.getX(i));b.fromBufferAttribute(p,g.index.getX(i+1));c.fromBufferAttribute(p,g.index.getX(i+2));q.copy(a).add(b).add(c).multiplyScalar(1/3);assert.ok(q.y-groundHeight(q.x,q.z)>.0205);}
  }
@@ -81,7 +81,7 @@ check('warning rock and footprint appear before the drop at 170m with no hidden 
  for(const v of instanceVertices(ring,ri))assert.ok(v.y-groundHeight(v.x,v.z)>.016&&v.y-groundHeight(v.x,v.z)<.03);
  const pulse=ring.material.emissiveIntensity;visual.update(.13);assert.notEqual(ring.material.emissiveIntensity,pulse);
  const vertices=ring.geometry.attributes.position;assert.equal(vertices.count,8,'One hollow perimeter, not extra coincident glow layers');
- // Advance the authoritative model only. The visual must follow its exact pose.
+
  for(let i=0;i<46;i++){system.update(.1,player,true);visual.update(.1);}
  assert.equal(state.phase,'falling');
  system.update(.1,player,true);visual.update(.1);

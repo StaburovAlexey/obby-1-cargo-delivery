@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Renderer-free audit: actual Three.js data/material/shader sources plus CPU
-// projection and baked atlas pixels. This is not a WebGL/browser render test.
+
+
 import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
 import * as THREE from '../dist/vendor/three.module.js';
@@ -55,7 +55,7 @@ check('Padded atlas UVs cannot reach another slot through mip level four', () =>
   let samples=0;
   for(let tile=0;tile<8;tile++) {
     const r=buildingAtlasRegion(tile),sx=(tile%4)*256,sy=Math.floor(tile/4)*256;
-    // Every gutter texel is an exact extension of its own edge.
+
     for(let y=0;y<256;y++)for(let x=0;x<256;x++) {
       const cx=Math.max(r.x,Math.min(r.x+r.width-1,sx+x));
       const cy=Math.max(r.y,Math.min(r.y+r.height-1,sy+y));

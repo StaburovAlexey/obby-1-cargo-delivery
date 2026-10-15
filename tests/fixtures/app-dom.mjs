@@ -16,8 +16,8 @@ import {SHADOW_LAYOUT,followShadowLight} from '../../dist/scene-lighting.js';
 import {createBiomeWeather} from '../../dist/biome-weather.js';
 import {BRIDGES,bridgeAtProgress,bridgeSupport,bridgeFallPose,createBridgeFall} from '../../dist/road-bridges.js';
 import { projectRoad, routePointAtProgress } from '../../dist/road-layout.js';
-// Application integration without a browser: real Three.js math and city meshes,
-// but stubbed renderer/OrbitControls and explicit DOM/event/RAF queues.
+
+
 import fs from 'node:fs';
 import * as THREE from '../../dist/vendor/three.module.js';
 import { buildCity } from '../../dist/network-scene.js';
@@ -54,8 +54,8 @@ export function createAppDom({width=390,height=844,startDriving=true,realStartup
  const nest=(id,parent)=>{const child=ids.get(id),target=ids.get(parent);if(!child||!target)return;dom.doc.body.children=dom.doc.body.children.filter(n=>n!==child);target.append(child);};
  nest('settings-panel','settings-menu');nest('settings-close','settings-panel');nest('settings-scroll','settings-panel');
  for(const id of ['settings-volume','settings-volume-value','settings-language'])nest(id,'settings-scroll');
- // The fuel readout now has independently positioned current/max text nodes.
- // Model their combined textContent without introducing browser layout claims.
+
+
  nest('fuel-current','fuel-value');
  const fuelSeparator=new Element(['fuel-separator']);fuelSeparator.textContent='/';ids.get('fuel-value').append(fuelSeparator);
  nest('fuel-capacity','fuel-value');

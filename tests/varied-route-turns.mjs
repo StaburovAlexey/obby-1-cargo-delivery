@@ -1,4 +1,4 @@
-/** Curvature-only route change: fixed progression, C2 turns and safe bridges. */
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';

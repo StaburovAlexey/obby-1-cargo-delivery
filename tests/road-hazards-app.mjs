@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Real app, Three.js scenegraph and fixed-step driving/economy. DOM, renderer
-// and event delivery are mocked: these are not browser/Android/GPU checks.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createAppDom} from './fixtures/app-dom.mjs';
@@ -38,7 +38,7 @@ check('Hazard contact participates in actual swept solver, fuel and D/R for all 
   for(let i=0;i<100;i++){const x=s.x,z=s.z;tick(app,.05);path+=s.pathDistance;blocked+=Number(s.blocked);maxStep=Math.max(maxStep,Math.hypot(s.x-x,s.z-z));assert.ok(!d.roadHazards.contact(s.x,s.z,s.heading),'No residual solid penetration');assert.ok(truckInRoad(s.x,s.z,s.heading));assert.equal(d.gameplay.state.mode,'driving');assert.equal(d.gameplay.state.money,7654);assert.ok([s.x,s.z,s.heading,s.velocityX,s.velocityZ,s.angularVelocity].every(Number.isFinite));}
   assert.ok(blocked>0,'A visible block must stop a direct hit');assert.ok(Math.abs(projectRoad(s.x,s.z).distance-h.distance)<14,'No tunnel through the block');assert.ok(maxStep<=getVehiclePerformance(car.id,max).maxSpeed*.05+.4);
   near(d.gameplay.state.fuels[car.id],fuel-path*car.consumption,1e-6);
-  // Shift into the opposite direction and leave contact naturally; no pose edit.
+
   d.model.setGear(reverse?'D':'R');d.model.setInput({active:true,steering:0});const start=projectRoad(s.x,s.z).distance;
   for(let i=0;i<100;i++)tick(app,.05);
   assert.ok((projectRoad(s.x,s.z).distance-start)*sign< -3,'Vehicle can back away, not glue to hazard');

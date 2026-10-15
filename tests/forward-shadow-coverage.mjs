@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Real Three shadow matrices + application loop with a mocked renderer.
-// This verifies geometric coverage, not GPU appearance, FPS or perceived popping.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import * as T from '../dist/vendor/three.module.js';
@@ -27,18 +27,18 @@ for(let i=0;i<72;i++){
  report.forward.push({degrees:i*5,old:a,new:b});
  const target=new T.Vector3(P.lookAhead*d.x,0,P.lookAhead*d.z);
  snapError=Math.max(snapError,target.distanceTo(tracking.target.position));
- // 200 m of ground and a 40 m caster envelope with the maximum route grade,
- // in either uphill/downhill direction and every horizontal camera direction.
+
+
  for(const grade of [-.075,0,.075])for(const distance of [-30,0,50,100,150,200])for(const side of [-20,0,20])for(const height of [0,40]){
   const point={x:d.x*distance+d.z*side,y:grade*distance+height,z:d.z*distance-d.x*side};
   covered(tracking,point,'graded receiver/caster');const z=project(tracking,point).z;minDepth=Math.min(minDepth,z);maxDepth=Math.max(maxDepth,z);report.receiverAndCasterChecks++;
  }
- // Nearby roof/vehicle/road remain inside while bias rotates around the player.
+
  for(const x of [-35,35])for(const z of [-35,35])for(const y of [0,20.6])covered(tracking,{x,y,z},'nearby roof/ground');
 }
 assert(snapError<=Math.SQRT2*report.drivingTexel/2+1e-9);
-// Sample every route branch at 100 m intervals, both travel directions, including
-// large world coordinates and actual sloped road edges at 200 m look-ahead.
+
+
 for(const edge of NETWORK_EDGES)for(let q=edge.progressFrom;q<=edge.progressTo;q+=100){
  const r=routePointAtProgress(q,{branch:edge.branch}),anchor={x:r.x,y:groundHeight(r.x,r.z,r),z:r.z};report.terrainAnchors++;
  for(const sign of [-1,1]){
@@ -49,14 +49,14 @@ for(const edge of NETWORK_EDGES)for(let q=edge.progressFrom;q<=edge.progressTo;q
   }
  }
 }
-// The hangar returns to its exact original transverse resolution and covers
-// all shell corners from its spawn, plus the former local envelope at edges.
+
+
 const spawn={x:0,y:0,z:60};update(tracking,spawn);
 assert.equal(tracking.shadow.camera.right,75);
 for(const x of [-58,32])for(const y of [0,20.6])for(const z of [25,91])covered(tracking,{x,y,z},'hangar shell from spawn');
 for(const a of [{x:-56,y:0,z:89},{x:30,y:0,z:27}]){update(tracking,a);for(const x of [-35,35])for(const y of [0,20.6])for(const z of [-35,35])covered(tracking,{x:a.x+x,y,z:a.z+z},'hangar local envelope');}
 for(const d of [{x:0,y:-1,z:0},{x:NaN,y:Infinity,z:NaN}]){update(tracking,origin,d);assert.equal(tracking.shadow.camera.right,P.halfExtent);assert(tracking.target.position.toArray().every(Number.isFinite));covered(tracking,origin,'degenerate view fallback');}
-// Real app camera quaternion is sampled after follow-camera/orbit updates.
+
 const app=createAppDom();try{
  const debug=app.debug,sun=debug.scene.children.find(o=>o.isDirectionalLight&&o.castShadow);
  assert(sun);assert.equal(debug.scene.children.filter(o=>o.isLight&&o.castShadow).length,1);
@@ -65,7 +65,7 @@ const app=createAppDom();try{
   const direction=debug.camera.getWorldDirection(new T.Vector3()),length=Math.hypot(direction.x,direction.z),a=debug.model.state;
   const expected=new T.Vector3(a.x+P.lookAhead*direction.x/length,groundHeight(a.x,a.z),a.z+P.lookAhead*direction.z/length);
   assert(sun.target.position.distanceTo(expected)<=Math.SQRT2*report.drivingTexel/2+1e-8,'Production anchor uses actual viewed direction');
-  // Negative speed must not flip the shadow bias away from the viewed direction.
+
   Object.assign(a,{velocityX:2*Math.sin(a.heading),velocityZ:2*Math.cos(a.heading),speed:-2,linearSpeed:2,gear:'R'});app.frame();
   assert(a.speed<0,'Exercise actual reverse motion');
   debug.camera.getWorldDirection(direction);const reverseLength=Math.hypot(direction.x,direction.z);

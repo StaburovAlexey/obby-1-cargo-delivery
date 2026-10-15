@@ -1,5 +1,5 @@
-/** Settings UI only. The application owns audio, translation, persistence and
- * pause/exclusivity. Programmatic setters never echo user-change callbacks. */
+
+
 export function createSettingsMenu(doc, {
   onOpenChange = () => {}, onVolumeChange = () => {}, onLanguageChange = () => {},
   volume = 1, language = 'ru',
@@ -55,7 +55,7 @@ export function createSettingsMenu(doc, {
     returnFocus = button;
     opened = true;
     renderOpen();
-    // Close other application modals before capturing their restored inert state.
+
     onOpenChange(true);
     if (!opened || disposed) return;
     background = Array.from(doc.body.children || [])
@@ -81,7 +81,7 @@ export function createSettingsMenu(doc, {
   };
   const focusable = () => {
     const controls = Array.from(panel.querySelectorAll?.('button, input, select, a[href], [tabindex="0"]') || []);
-    // The game's renderer-free fixture only resolves IDs, without a selector engine.
+
     return (controls.length ? controls : [closeButton, slider, select])
       .filter(node => !node.hidden && !node.disabled && !node.inert && node.tabIndex !== -1);
   };
@@ -99,10 +99,10 @@ export function createSettingsMenu(doc, {
         (event.shiftKey ? last : first).focus?.();
       }
     }
-    // Preserve native range/select keyboard behavior: only Escape/Tab are canceled.
+
   };
-  // In-panel navigation changes only this scroll container, never the game or
-  // page position. Keep focus in its keyboard-scrollable region after jumping.
+
+
   for (const [name, targetId] of [['play', 'settings-how-to-play'], ['icons', 'settings-icon-guide'], ['credits', 'settings-credits']]) {
     const jump = el(`settings-jump-${name}`), target = el(targetId);
     if (!jump || !target || !scroll) continue;

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Renderer-free executable contracts. Actual four-tire solver; no browser claim.
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';

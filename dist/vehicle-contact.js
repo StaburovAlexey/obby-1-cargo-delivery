@@ -1,5 +1,5 @@
-// Collision envelope follows normalized imported geometry, including steered
-// tire overhang. It does not alter the driving solver's forces or coefficients.
+
+
 export function vehicleFootprint(metadata,steerAngle=0,out={}){
  if(!metadata?.bounds)return undefined;
  const {min,max}=metadata.bounds;

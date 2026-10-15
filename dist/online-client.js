@@ -1,4 +1,4 @@
-/** Transport only: remote players never become local gameplay entities. */
+
 export function createOnlineClient({url,WebSocketClass=globalThis.WebSocket,getState=()=>null,
   onSnapshot=()=>{},onStatus=()=>{},setTimer=setTimeout,clearTimer=clearTimeout}={}){
   let socket=null,stopped=false,connected=false,id=null,roomId=null,seatId=null;
@@ -62,7 +62,7 @@ export function createOnlineClient({url,WebSocketClass=globalThis.WebSocket,getS
     claimSeat(){
       if(!connected)return Promise.resolve(null);
       if(seatId)return Promise.resolve(seatId);
-      // One outstanding claim per client; callers share its completion.
+
       if(pending.size)return new Promise(resolve=>{
         const [key,original]=pending.entries().next().value;pending.set(key,value=>{original(value);resolve(value);});
       });

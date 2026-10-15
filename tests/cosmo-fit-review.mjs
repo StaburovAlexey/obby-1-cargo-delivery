@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Independent CPU review of every actual packaged Cosmo GLB. No renderer,
-// browser, socket, GPU-performance or screenshot claim is made by this test.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import crypto from 'node:crypto';
@@ -46,7 +46,7 @@ try{
    const r=Math.max(...points.map(v=>Math.hypot(v[1]-center.y,v[2]-center.z)));near(w.radius,r,1e-5,'actual tire radius');
   }
   const white=before.lights['255,255,255'];assert(white && white.max[2]>0,`${spec.id} source headlamp forward`);
-  // Shader replacement must only affect body paint. Wheels, glass and lamps retain source colors/maps.
+
   const paintMaterials=new Set();adapter.body.traverse(mesh=>{if(!mesh.material)return;for(const m of [].concat(mesh.material)){if(m.userData.cosmoPaintSwatches){paintMaterials.add(m);assert(['metallic','texture'].includes(m.name));assert.equal(m.color.getHex(),0xffffff);const shader={uniforms:{},fragmentShader:'#include <map_fragment>'};m.onBeforeCompile(shader);assert(!shader.fragmentShader.includes('#include <map_fragment>'));assert(shader.fragmentShader.includes('sampledDiffuseColor.rgb = mix'));assert.equal(Object.keys(shader.uniforms).length,spec.paint.length*2);for(let i=0;i<spec.paint.length;i++){vectorNear(shader.uniforms[`cosmoPaintSource${i}`].value.toArray(),new THREE.Color(spec.paint[i][0]).toArray(),0);vectorNear(shader.uniforms[`cosmoPaintTarget${i}`].value.toArray(),new THREE.Color(spec.paint[i][1]).toArray(),0);}}}});
   assert.equal(paintMaterials.size>0,spec.paint.length>0);
   for(const w of adapter.wheels)w.node.traverse(mesh=>{for(const m of [].concat(mesh.material??[]))assert(!m.userData.cosmoPaintSwatches,'wheel palette must not be recolored');});
@@ -59,7 +59,7 @@ try{
   for(let i=0;i<20;i++){adapter.update({bodyPitch:.02,bodyRoll:.08,bodyBob:-.02});adapter.update({bodyPitch:.0375,bodyRoll:-.1,bodyBob:.03});}
   const posed=vertices(adapter.group);assert.throws(()=>adapter.update({wheelSpin:7,bodyBob:Infinity}),TypeError);assert.deepEqual(vertices(adapter.group),posed,'invalid update atomic');
   adapter.reset();vertices(adapter.group).forEach((v,i)=>vectorNear(v,rest[i],1e-6,'repeated/reset preserves geometry'));
-  // Dense footprint rays keep crate off body rather than relying on full-car maximum (antenna/lightbar).
+
   const cargo=adapter.cargoPosition,ray=new THREE.Raycaster();let peak=-Infinity,hits=0;
   for(let xi=0;xi<=8;xi++)for(let zi=0;zi<=8;zi++){
    ray.set(new THREE.Vector3(-.59+1.18*xi/8,bounds.max.y+1,cargo.z-.59+1.18*zi/8),new THREE.Vector3(0,-1,0));const hit=ray.intersectObject(adapter.body,true)[0];if(hit){peak=Math.max(peak,hit.point.y);hits++;}
@@ -83,14 +83,14 @@ try{
   const parkedBounds=new THREE.Box3().setFromObject(adapter.group,true);
   const parkingMargins=[parkedBounds.min.x-(bay.x-bay.halfWidth),bay.x+bay.halfWidth-parkedBounds.max.x,parkedBounds.min.z-(bay.z-bay.halfLength),bay.z+bay.halfLength-parkedBounds.max.z];
   assert(parkingMargins.every(v=>v>.03),`${spec.id} fits painted parking bay`);assert(parkedBounds.max.y<GARAGE_LAYOUT.roofHeight);parkHost.remove(adapter.group);adapter.reset();
-  // Verify injected/shared cargo is not captured in adapter ownership/disposal.
+
   const cargoGeometry=new THREE.BoxGeometry(),cargoMaterial=new THREE.MeshBasicMaterial(),externalCargo=new THREE.Mesh(cargoGeometry,cargoMaterial);adapter.body.add(externalCargo);let externalDisposals=0;cargoGeometry.addEventListener('dispose',()=>externalDisposals++);cargoMaterial.addEventListener('dispose',()=>externalDisposals++);
   const disposalCounts=new Map();for(const resource of [...s.geometries,...s.materials,...s.textures])resource.addEventListener('dispose',()=>disposalCounts.set(resource,(disposalCounts.get(resource)??0)+1));
   adapter.dispose();adapter.dispose();assert(adapter.disposed);assert.equal(externalDisposals,0,'shared cargo resources not disposed');for(const resource of [...s.geometries,...s.materials,...s.textures])assert.equal(disposalCounts.get(resource),1,'owned resource disposed once');cargoGeometry.dispose();cargoMaterial.dispose();
   report.push({id:spec.id,model:spec.model,bytes:bytes.length,triangles:s.triangles,primitives:s.meshes,width:size.x,length:size.z,height:size.y,wheelCenters:tireCenters,cargoPosition:cargo.toArray(),cargoSupportSamples:hits,cargoClearance:cargo.y-.55-peak,parkingMargins,roadMinimum,roadMaximumLowest,roadPoses,minSpinY,maxSteeredWidth,materialCount:s.materials.size,textureCount:s.textures.size,textureSources:s.sources.size});
   console.log(`PASS ${spec.id}: exact GLB, uniform fit, forward/axles, palette scope, articulation, cargo support, owned disposal`);
  }
- // Keep distinct cars alive together to test immutable-palette reference counts.
+
  const pooled=[];for(const spec of [COSMO_VEHICLES[0],COSMO_VEHICLES[2],COSMO_VEHICLES[9]]){
   const bytes=fs.readFileSync(new URL(spec.url));const gltf=await new GLTFLoader().parseAsync(bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength),'');pooled.push(createCosmoVehicleAdapter(THREE,spec.id,gltf));
  }

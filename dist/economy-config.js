@@ -1,6 +1,6 @@
 import { routeDistanceAt } from './route-network.js';
 import { BIOME_DEFINITIONS, NETWORK_CONFIG, CHECKPOINT_PROGRESS } from './route-network-config.js';
-/** Shared finite-route prototype balance. Currency is earned locally only. */
+
 export const ECONOMY_CONFIG = Object.freeze({
   saveVersion: 2,
   saveKey: 'urban-route-career-v1',
@@ -11,9 +11,9 @@ export const ECONOMY_CONFIG = Object.freeze({
   checkpointRadius: 4.4,
   routeEnd: NETWORK_CONFIG.end,
 });
-/** Bay order is the progression order. IDs keep v1 ownership/save compatibility.
- * Speed, engine pull, steering response, grip and full-tank range all improve.
- * Prices only apply to future purchases; saves retain money and owned IDs. */
+
+
+
 export const REWARD_VEHICLE_ID = 'bmwreward';
 export const ROUTE_COMPLETION_PROOF = 'continuous-route-v1';
 export const VEHICLE_CONFIG = Object.freeze([
@@ -27,14 +27,14 @@ export const VEHICLE_CONFIG = Object.freeze([
   {id:'snowrunner',name:'Полярный экспресс',price:45000,capacity:880,range:1855,maxSpeed:27.2,acceleration:14.5,specialty:'snow'},
   {id:'lavacrawler',name:'Лавовый тягач',price:78000,capacity:1190,range:2413,maxSpeed:31,acceleration:16.4,specialty:'volcanic'},
   {id:'ashhauler',name:'Пепельный караван',price:100000,capacity:1610,range:3140,maxSpeed:35.4,acceleration:18.6,specialty:'volcanic'},
-  // An earned eleventh car, never a zero-price shop item or debug grant.
+
   {id:REWARD_VEHICLE_ID,name:'BMW — награда',price:0,rewardOnly:true,unlock:'full-route',capacity:1800,range:3600,maxSpeed:42,acceleration:21.5,specialty:'volcanic',
     rewardDrift:Object.freeze({rearLateralGrip:.85,rearLateralDamping:.7,steeringSpeedRatio:.65})},
 ].map((v,index)=>Object.freeze({...v,progressionOrder:index+1,pairRole:index%2?'advanced':'standard',
   handling:.5*1.12**index,grip:.5*1.12**index,consumption:v.capacity/v.range})));
 export const vehicleConfig = id => VEHICLE_CONFIG.find(v=>v.id===id) || VEHICLE_CONFIG[0];
-/** Rewards follow the same sixteen saved checkpoint identities. Shortening
- * geometry must not silently reduce payouts. Distance remains actual 3D arc. */
+
+
 const CHECKPOINT_REWARDS=Object.freeze([110,260,470,730,1080,1550,2180,3020,4090,5350,6780,8460,10510,12910,15680,19460]);
 export const DELIVERY_CHECKPOINTS = Object.freeze(CHECKPOINT_PROGRESS.map((progress,index)=>{
   const distance=routeDistanceAt(progress);

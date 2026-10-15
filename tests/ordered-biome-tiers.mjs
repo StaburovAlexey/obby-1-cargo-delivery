@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-// Quantitative ordered-capability contract, using the actual four-tire solver.
-// No renderer/browser, hand-authored trajectories, fuel edits, or speed clamps.
-// Run with --report-dir <directory> to save the complete 50-row measurements.
+
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -67,8 +67,8 @@ check('50-combination launch, terminal, common-speed braking, turn response and 
       let elapsed=0;
       while(n.state.speed*direction<COMMON_SPEED&&elapsed<10){n.step(DT);elapsed+=DT;}
       assert.ok(elapsed<10,`${label}: attain reference speed`);
-      // All measurements begin at exactly the same speed, after confirming it
-      // can be reached without injection. This is test setup, not runtime logic.
+
+
       n.state.velocityZ=-COMMON_SPEED*direction;n.state.velocityX=0;
       n.setGear(gear==='D'?'R':'D');
       let seconds=0,distance=0;
@@ -128,8 +128,8 @@ check('Own biome is fastest; all earlier terrain is good; every later tier is ob
       }
     }
   }
-  // The second bay now improves every useful stat rather than trading grip
-  // away for range. Legacy ownership IDs remain intact.
+
+
   for(const b of BIOME_SEQUENCE){const [first,next]=VEHICLE_CONFIG.filter(v=>v.specialty===b.id);
     assert.ok(next.range>first.range);assert.ok(surfaceForBiome(b.id,next.id).frictionFactor>surfaceForBiome(b.id,first.id).frictionFactor);
     assert.ok(surfaceForBiome(b.id,next.id).lateralDampingFactor>surfaceForBiome(b.id,first.id).lateralDampingFactor);
@@ -162,7 +162,7 @@ check('Both gears retain controlled held turns, recovery and gradual brake-befor
 });
 
 check('Every profile can recover uphill and reverse at the actual route maximum grade',()=>{
-  // Quintic route grade reaches its extrema at profile-segment midpoints.
+
   const candidates=ROUTE_STATIONS.flatMap((y,i)=>i?[y,(ROUTE_STATIONS[i-1]+y)/2]:[y]);
   const maximum=candidates.map(y=>({y,grade:Math.abs(routeGrade(y))})).reduce((a,b)=>a.grade>b.grade?a:b);
   near(maximum.grade,.075,1e-12);
@@ -172,8 +172,8 @@ check('Every profile can recover uphill and reverse at the actual route maximum 
       const direction=gear==='D'?1:-1,extra={groundGradient:()=>({x:0,z:-maximum.grade*direction})};
       const m=make(v,row.biome,extra);m.setGear(gear);m.setInput({active:true});run(m,20);assertFinite(m.state);
       assert.ok(m.state.speed*direction>1,`${row.car}/${row.biome}/${gear}: continuous uphill progress`);minSpeed=Math.min(minSpeed,m.state.speed*direction);
-      // Start sliding downhill, then request uphill power. The existing gear
-      // interlock must brake the wrong-way momentum and recover on tire forces.
+
+
       const n=make(v,row.biome,extra);n.state.velocityZ=COMMON_SPEED*direction;n.setGear(gear);n.setInput({active:true});
       let recovered=null;
       for(let i=0;i<2400;i++){const previous={...n.state};n.step(DT);assertFinite(n.state);

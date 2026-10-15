@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Independent CPU audit: actual uploaded Float32 triangles and actual app under
-// a mocked DOM/renderer. This does not run a browser, GPU, WebGL or mobile device.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import crypto from 'node:crypto';
@@ -38,8 +38,8 @@ const road=meshIndex(city.group.getObjectByName('Continuous 30m-wide road')),ter
 check('Actual rendered road and terrain have continuous shared support and exact gradients',()=>{
  let samples=0,maxHeight=0,maxNormal=0;
  for(const [kind,index]of [['road',road],['terrain',terrain]])for(let i=0;i<index.triangles.length;i+=2){const tri=index.triangles[i];for(const w of [[.21,.31,.48],[.51,.18,.31]]){const p=tri.v.reduce((s,v,j)=>s.addScaledVector(v,w[j]),new THREE.Vector3()),hit=index.at(p.x,p.z);assert.ok(hit,`${kind} triangle ${i} not found`);const s=N.getSurface(p.x,p.z),g=roadGroundGradient(p.x,p.z),heightError=Math.abs(groundHeight(p.x,p.z)-p.y),nError=new THREE.Vector3(s.normal.x,s.normal.y,s.normal.z).distanceTo(tri.normal);maxHeight=Math.max(maxHeight,heightError);maxNormal=Math.max(maxNormal,nError);assert.ok(heightError<.0001,`${kind} triangle ${i} height ${heightError}`);assert.ok(nError<.002,`${kind} normal ${nError}`);near(g.x,-tri.normal.x/tri.normal.y,.002);near(g.z,-tri.normal.z/tri.normal.y,.002);assert.ok(tri.normal.y>.95);samples++;}}
- // Probe both sides of every actual boundary. A continuous finite foundation
- // must support both probes at every interior road/terrain interface.
+
+
  let seams=0,maxStep=0;
  for(const s of N.ROAD_BOUNDARY_SEGMENTS){const q=N.projectRoad((s.a.x+s.b.x)/2,(s.a.z+s.b.z)/2);if(q.progress<N.ROUTE.start+.1||q.progress>N.ROUTE.end-.1||BRIDGES.some(b=>q.progress>=b.from&&q.progress<=b.to))continue;const x=(s.a.x+s.b.x)/2,z=(s.a.z+s.b.z)/2,e=.0005,a=road.at(x+s.normalX*e,z+s.normalZ*e),b=terrain.at(x-s.normalX*e,z-s.normalZ*e);assert.ok(a,`Missing rendered road at ${x},${z}`);assert.ok(b,`Missing rendered terrain at ${x},${z}`);const step=Math.abs(a.height-b.height);maxStep=Math.max(maxStep,step);assert.ok(step<.0002,`Road-ground seam step ${step}`);seams++;}
  return{samples,seams,maxHeightError:maxHeight,maxNormalError:maxNormal,maxSeamStep:maxStep};
@@ -98,8 +98,8 @@ check('Overview frames the complete actual road at six desktop and phone aspect 
  const rows=[];
  for(const [width,height]of [[320,480],[320,844],[390,844],[568,320],[844,390],[1366,768]]){
   const app=createAppDom({width,height});try{app.views.find(v=>v.dataset.view==='overview').dispatch('click');app.frame(2100);const d=app.debug;assert.equal(d.playing,false);assert.equal(d.controls.enabled,true);assert.ok(d.camera.far>1800);assert.equal(d.scene.fog.far,d.camera.far);assert.ok(d.camera.position.distanceTo(d.controls.target)<=d.controls.maxDistance);
-   // OrbitControls is deliberately stubbed in this harness. Apply its standard
-   // look-at orientation, then inspect actual Three perspective projection.
+
+
    d.camera.lookAt(d.controls.target);d.camera.updateMatrixWorld(true);const p=d.city.group.getObjectByName('Continuous 30m-wide road').geometry.attributes.position;let maxX=0,maxY=0,minZ=Infinity,maxZ=-Infinity,maxDepth=0;
    for(let i=0;i<p.count;i++){const v=new THREE.Vector3().fromBufferAttribute(p,i).project(d.camera);maxX=Math.max(maxX,Math.abs(v.x));maxY=Math.max(maxY,Math.abs(v.y));minZ=Math.min(minZ,v.z);maxZ=Math.max(maxZ,v.z);const world=new THREE.Vector3().fromBufferAttribute(p,i);maxDepth=Math.max(maxDepth,-world.applyMatrix4(d.camera.matrixWorldInverse).z);}
    rows.push({width,height,maxX,maxY,minZ,maxZ,maxDepth,near:d.camera.near,far:d.camera.far});assert.ok(maxX<=.98&&maxY<=.98,`Overview clips at ${width}×${height}: |NDC x|=${maxX}, |y|=${maxY}`);assert.ok(minZ>-1&&maxZ<1);assert.ok(maxDepth<d.scene.fog.near,'Overview road is hidden in distance fog');app.views.find(v=>v.dataset.view==='fuel').dispatch('click');app.frame(3200);near(d.camera.near,5);near(d.camera.far,18000);near(d.scene.fog.far,18000);d.setDriving(true);near(d.camera.near,.5);near(d.camera.far,1800);near(d.scene.fog.far,1600);assert.equal(d.controls.enabled,false);

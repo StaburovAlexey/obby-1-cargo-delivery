@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-// Actual eleven packaged GLBs and real GLTFLoader, CPU-only. PNG pixels are
-// decoded below to independently verify red/yellow rear-lens selection.
-// No browser, socket, renderer, bloom or GPU appearance claim.
+
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { inflateSync } from 'node:zlib';

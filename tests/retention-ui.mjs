@@ -1,4 +1,4 @@
-// Real UI code against a deterministic event/DOM fixture. No browser/GPU claims.
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createInputDom} from './fixtures/vehicle-input-dom.mjs';

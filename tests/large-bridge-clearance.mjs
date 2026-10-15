@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-/** Independent measurements of the enlarged real GLBs on the unchanged 5m
- * bridges. CPU-only geometry and production support; no browser/GPU claim. */
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import crypto from 'node:crypto';
@@ -54,7 +54,7 @@ try{
       near(halfWidths[i],metadata.wheels[i].halfWidth,`${spec.id} wheel width`);
       dimensions[i].getCenter(new THREE.Vector3()).toArray().forEach((n,j)=>near(n,metadata.wheels[i].center[j],`${spec.id} wheel center ${j}`));
     });
-    // Independent bottom contact lines use actual Object3D steering pivots.
+
     const contacts=(heading,steer)=>{
       adapter.update({steerAngle:steer,wheelSpin:.7});
       const rotation=new THREE.Matrix4().makeRotationY(heading);
@@ -81,9 +81,9 @@ try{
         assert.equal(bridgeSupport(pose,midpoint,metadata).fall,false,`${spec.id}/${bridge.id}: modest correction yaw=${yaw} steer=${steer} offset=${offset}`);
         report.modestCorrections++;
       }
-      // Conservative tire rectangles include every real vertex through every
-      // spin phase. Project their corners against each actual curved slot,
-      // including the first and last axles entering/leaving its wide approaches.
+
+
+
       for(const q of [bridge.from-3,bridge.from,bridge.from+3,(bridge.from+bridge.to)/2,bridge.to-3,bridge.to,bridge.to+3])for(const yaw of [-.04,.04])for(const steer of [-.08,.08]){
         const route=routePointAtProgress(q),heading=route.heading+reverse+yaw,c=Math.cos(heading),s=Math.sin(heading);
         for(const offset of [-.02,.02])for(let i=0;i<4;i++)for(const side of [-1,1])for(const end of [-1,1]){
@@ -96,8 +96,8 @@ try{
         }
       }
     }
-    // Measure the complete tire silhouette, not only its bottom contact line.
-    // Steering and spin can extend the upper tire outside the contact patch.
+
+
     let modestOuterHalfWidth=0,maxSteerOuterHalfWidth=0;
     for(const steer of [-.08,0,.08,-TOW_DRIVING.maximumWheelAngle,TOW_DRIVING.maximumWheelAngle])for(let spin=0;spin<12;spin++){
       adapter.update({steerAngle:steer,wheelSpin:spin/12*Math.PI*2*adapter.wheels[0].radius/.68});
@@ -108,8 +108,8 @@ try{
     const modestPhysicalMargin=2.5-modestOuterHalfWidth-report.approach.maximumOffset;
     assert.ok(modestPhysicalMargin>0,`${spec.id} modest steering/yaw silhouette exceeds bridge: ${modestPhysicalMargin}`);
     adapter.reset();
-    // Read-only projection audit of every actual vertex at the normal follow
-    // angle. This checks framing, without changing camera behavior or UI.
+
+
     const vertices=localVertices(adapter.group),projection=[];
     for(const [width,height] of [[1920,1080],[390,844],[320,568],[320,844]]){
       const camera=new THREE.PerspectiveCamera(TOW_DRIVING.cameraFov,width/height,.5,1800);

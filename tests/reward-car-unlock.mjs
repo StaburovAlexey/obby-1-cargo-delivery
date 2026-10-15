@@ -16,8 +16,8 @@ const delivery={...FINAL,id:`delivery-${FINAL.id}`,x:endpoint.x+endpoint.right.x
 const make=(options={})=>createGameplay({vehicles,deliveries:[delivery],...options});
 const begin=(g,id='pickup')=>{g.state.cooldown=0;assert.equal(g.enter(id),true);g.events();return g.state.run.id;};
 const memory=()=>{let value=null,writes=0;return {getItem:()=>value,setItem:(key,next)=>{assert.equal(key,ECONOMY_CONFIG.saveKey);value=next;writes++;},get value(){return value;},get writes(){return writes;}};};
-// A reproducible legal center path aligns before each narrow bridge and uses
-// either branch. One-metre samples also exercise all interpolated deck checks.
+
+
 function poseAt(q,branch='main'){
   const p=routePointAtProgress(q,{branch});let offset=0;
   for(const bridge of BRIDGES){

@@ -1,8 +1,8 @@
-/** Code-native, bounded road-hazard visuals. Physics stays in road-hazards.js.
- * Solid props share instanced geometry. Soft patches are batched per material,
- * with every vertex sampled on the same road height field as their footprint.
- * No assets, physics engine, stud meshes, browser canvas, or growing pools.
- */
+
+
+
+
+
 import { queryRoadSurface, ROAD_SURFACE_OFFSET, ROAD_MESH } from './route-network.js';
 import { groundHeight as roadGroundHeight } from './city-driving.js';
 import { useGrassCheckerTexture } from './square-stud-texture.js';
@@ -30,8 +30,8 @@ function geometry(THREE, positions, colors, uv, indices) {
   g.computeVertexNormals(); g.computeBoundingBox(); g.computeBoundingSphere();
   return g;
 }
-/** Clip diagonal painted stripes into the box faces rather than overlaying
- * coincident faces. The stripe and yellow polygons share their exact edges. */
+
+
 function repairGeometry(THREE) {
   const p = [], colors = [], uv = [];
   const yellow = new THREE.Color(0xffd42b), black = new THREE.Color(0x282832);
@@ -85,8 +85,8 @@ function groundFrame(THREE, h, groundHeight) {
   const sample=(lx,lz)=>{const q=point(lx,lz);return groundHeight(q.x,q.z);};
   const dx=(sample(e,0)-sample(-e,0))/(2*e),dz=(sample(0,e)-sample(0,-e))/(2*e);
   let base=sample(0,0);
-  // Enclose the tangent on the low side, eliminating tiny daylight gaps at
-  // convex grades without widening any horizontal collision footprint.
+
+
   for(let i=0;i<=6;i++)for(let j=0;j<=6;j++) {
     const x=(i/6-.5)*h.width,z=(j/6-.5)*h.length;
     base=Math.min(base,sample(x,z)-dx*x-dz*z);
@@ -102,11 +102,11 @@ function patchGroundHeight(groundHeight,x,z,h) {
   const e=.1,gx=(groundHeight(x+e,z,h)-groundHeight(x-e,z,h))/(2*e),gz=(groundHeight(x,z+e,h)-groundHeight(x,z-e,h))/(2*e);
   return groundHeight(x,z,h)+ROAD_HAZARD_VISUALS.surfaceNormalOffset*Math.hypot(gx,1,gz);
 }
-/** A patch only crosses its fixed road segment. Cache the authoritative road
- * triangles in that bounded sweep, rather than re-projecting 156 points onto
- * the entire route every frame. Barycentric height and gradient use exactly
- * the quantized road vertices used by queryRoadSurface and the road renderer.
- * Custom terrain functions, or a point beyond this sweep, keep the full query. */
+
+
+
+
+
 function patchGroundSampler(h,groundHeight) {
   if(groundHeight!==roadGroundHeight)return (x,z)=>patchGroundHeight(groundHeight,x,z,h);
   const heading=h.roadHeading??h.heading,c=Math.cos(heading),s=Math.sin(heading),radius=Math.hypot(h.width,h.length)/2+.01;
@@ -141,8 +141,8 @@ function patchGeometry(THREE, hazards, groundHeight, kind) {
     for(let j=0;j<=nz;j++)for(let i=0;i<=nx;i++) {
       const lx=(i/nx-.5)*h.width,lz=(j/nz-.5)*h.length;
       const x=h.x+c*lx+s*lz,z=h.z-s*lx+c*lz;
-      // The vertical equivalent of a normal separation keeps every horizontal
-      // perimeter vertex exactly on the collider's boundary (no outside effect).
+
+
       const base=sampleGround(x,z);
       const edge=Math.min(h.width/2-Math.abs(lx),h.length/2-Math.abs(lz));
       const blend=smooth(edge/ROAD_HAZARD_VISUALS.patchEdgeBlend);
@@ -161,10 +161,10 @@ function patchGeometry(THREE, hazards, groundHeight, kind) {
   return g;
 }
 
-/** Keep the two soft-patch batches, including their topology, colors and UV
- * density. Only pooled positions, normals and UVs follow the collision pose.
- * Sampling the current footprint avoids dragging an old terrain slope across
- * the road. Bounds are refreshed as well so culling never uses the old place. */
+
+
+
+
 function updatePatchGeometry(g, poseFor) {
   let changed=false;
   const positions=g.attributes.position,uv=g.attributes.uv;
@@ -217,8 +217,8 @@ export function createRoadHazardsScene(THREE, { system, groundHeight=roadGroundH
   const instanced=(name,g,m,capacity)=>{
     geometries.add(g);const mesh=new THREE.InstancedMesh(g,m,Math.max(1,capacity));mesh.name=name;mesh.count=0;
     mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);mesh.castShadow=name!=='Rock impact shadow'&&name!=='Rock warning perimeter';mesh.receiveShadow=true;
-    // These tiny route-wide pools cannot be culled from an old zero-count bound.
-    // Fog and the camera far plane remain the scene's draw-distance authority.
+
+
     mesh.frustumCulled=false;mesh.userData.capacity=capacity;mesh.userData.hazardIds=[];group.add(mesh);meshes.push(mesh);return mesh;
   };
   const staticInstances=(mesh,items,dimensions,offsetY=0)=>{
@@ -246,8 +246,8 @@ export function createRoadHazardsScene(THREE, { system, groundHeight=roadGroundH
   }
   const rockDescriptors=byType('rock'),rocks=instanced('Volcanic sliding basalt rocks',rockGeometry(THREE),darkRock,rockDescriptors.length);
   staticInstances(rocks,rockDescriptors,h=>[h.width,h.height,h.length]);
-  // Two shared pools cover all additions, even when they move. Per-instance
-  // biome colors do not allocate another mesh or material per obstacle.
+
+
   const barrier=instanced('Biome sliding and fixed barriers',repairGeometry(THREE),barrierPaint,byType('barrier').length);
   const boulders=instanced('Biome sliding and fixed boulders',rockGeometry(THREE),boulderPaint,byType('boulder').length);
   const palette={city:0xffffff,forest:0xa79c78,desert:0xe4b36e,snow:0xa8e6f8,volcanic:0x8e6975};
@@ -257,9 +257,9 @@ export function createRoadHazardsScene(THREE, { system, groundHeight=roadGroundH
     items.forEach((h,index)=>{mesh.setColorAt(index,new THREE.Color(palette[h.biome]));});
     if(mesh.instanceColor)mesh.instanceColor.needsUpdate=true;
   }
-  // A reusable ground frame uses the authoritative pose and terrain gradient.
-  // Four low corners keep props grounded on a curved triangle road without
-  // resampling a 7x7 grid or allocating matrices for every moving frame.
+
+
+
   function setMovingInstance({mesh,index,h,capIndex}) {
     const p=poseFor(h),c=Math.cos(p.heading),s=Math.sin(p.heading),e=.25;
     const sample=(x,z)=>groundHeight(p.x+c*x+s*z,p.z-s*x+c*z,p);

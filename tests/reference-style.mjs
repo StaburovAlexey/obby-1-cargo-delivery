@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Visual policy checks on real Three materials; not a WebGL screenshot test.
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import * as THREE from '../dist/vendor/three.module.js';

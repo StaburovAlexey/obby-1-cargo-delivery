@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Independent biome-preview audit: production app/gameplay/physics with real
-// Three.js geometry and synthetic DOM/renderer. No browser, GPU or Android claim.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import * as THREE from '../dist/vendor/three.module.js';
@@ -270,7 +270,7 @@ check('reload migrates old three-car saves to schema 2 without restoring preview
   for (const spec of VEHICLE_CONFIG) assert.equal(d.gameplay.isOwned(spec.id), old.ownedVehicleIds.includes(spec.id));
   loadRun(app, 'van'); travel(app, 'volcanic');
   const saved = JSON.parse(app.storage.getItem(ECONOMY_CONFIG.saveKey));
-  // Reading/migrating alone need not rewrite storage. Preview cannot invent a save or payout.
+
   assert.deepEqual(saved, old); assert.equal('run' in saved, false); assert.equal('testMode' in saved, false);
   const reloaded = make({ startDriving: false, storage: app.storage }), next = reloaded.debug.gameplay.state;
   assert.equal(next.mode, 'walking'); assert.equal(next.run, null); assert.equal(next.testMode, false);
@@ -291,7 +291,7 @@ check('all configured purchases debit once and all ten ownership IDs survive a s
     app.ids.get('buy-vehicle').dispatch('click'); app.ids.get('buy-vehicle').dispatch('click');
     expected -= spec.price; assert.equal(s.money, expected); assert.equal(s.mode, 'walking');
     assert.equal(d.gameplay.isOwned(spec.id), true);
-    // World labels follow garage mesh-array identity, not progression catalog order.
+
     const index = d.garage.vehicles.findIndex(v => v.id === spec.id) + 1;
     assert.equal(app.ids.get(`vehicle-price-${index}`).hidden, true);
   }
@@ -420,13 +420,13 @@ check('modal markup and layout explicitly fit short portrait/landscape viewports
   assert.match(css, /#biome-panel button\s*\{[^}]*min-height:\s*48px/s);
   assert.match(css, /\[hidden\][\s\S]*?display:\s*none\s*!important/);
   assert.match(css, /@media\s*\(max-height:360px\)\s*and\s*\(min-width:501px\)\s*\{\s*#biome-button\s*\{[^}]*right:auto;[^}]*left:50%;[^}]*translateX\(-50%\)/);
-  // Arithmetic of authored CSS only. The centered short-landscape action
-  // clears the wheel and gear horizontally, including asymmetric safe areas.
+
+
   for (const width of [501, 568, 640]) for (const height of [320, 360]) for (const [top, left, right] of [[0, 0, 0], [21, 44, 0], [21, 0, 44], [21, 44, 44]]) {
     const steering = Math.min(112, .2875 * height), rotationPad = steering * (Math.SQRT2 - 1) / 2;
     const wheelRight = Math.max(19, left + 10) + steering + rotationPad;
     const gearLeft = width - Math.max(22, right + 12) - 86;
-    // Conservative120px action width covers the30px icon, text, gap/padding.
+
     assert.ok(width / 2 - 60 > wheelRight, `${width}x${height}: biome/wheel clearance`);
     assert.ok(width / 2 + 60 < gearLeft, `${width}x${height}: biome/gear clearance`);
     const buttonBottom = Math.max(72, top + 54) + 46;

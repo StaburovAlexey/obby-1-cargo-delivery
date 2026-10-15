@@ -1,6 +1,6 @@
-/** Read-only geometry qualification for the optional hard-branch delivery bonus.
- * This samples the actual route API. It does not award money, change geometry,
- * or claim a physical driver completed the route. */
+
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { FORKS, getEdge, routePointAtProgress } from '../dist/route-network.js';
@@ -49,7 +49,7 @@ const forks = FORKS.map(fork => {
   const alternate = measure(fork, 'alternate');
   const ascentRatio = main.ascent / alternate.ascent;
   const peakGradeDifferencePoints = main.peakGradePercent - alternate.peakGradePercent;
-  // The main ridge is meaningfully steeper, not simply a different road ID.
+
   assert.ok(ascentRatio >= 1.15, `${fork.id}: main ascent advantage disappeared`);
   assert.ok(peakGradeDifferencePoints >= 1, `${fork.id}: main grade advantage disappeared`);
   assert.ok(main.rmsGradePercent >= alternate.rmsGradePercent * 1.15);

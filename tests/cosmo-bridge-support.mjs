@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-/** Real local GLBs, production adapters and bridge transforms. CPU geometry only;
- * image decode is a dimensions-only stub, with no sockets, browser or GPU. */
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import * as THREE from '../dist/vendor/three.module.js';
@@ -33,8 +33,8 @@ try{
     const adapter=await loadCosmoVehicle(THREE,spec.id);adapters.push(adapter);
     const {metadata}=adapter;
     assert.equal(metadata.wheels.length,4);
-    // Measure the real model rather than using the new bridge metadata as the
-    // expectation. Steering transforms the bottom-width line via actual pivots.
+
+
     const dimensions=adapter.wheels.map(wheel=>{
       const box=new THREE.Box3().setFromObject(wheel.node,true);
       return {halfWidth:(box.max.x-box.min.x)/2,center:box.getCenter(new THREE.Vector3())};
@@ -60,15 +60,15 @@ try{
       wheel.center.forEach((value,j)=>near(value,dimensions[i].center.getComponent(j)));
     }
     for(const b of BRIDGES){
-      // On the actual scaled tire contacts, every car can cross all 25 bridges
-      // centered in either direction with small steering corrections.
+
+
       for(const q of [b.from-3,b.from,b.from+3,(b.from+b.to)/2,b.to-3,b.to,b.to+3])for(const reverse of [0,Math.PI])for(const yaw of [-.08,0,.08]){
         const {pose,route}=poseAt(b,q,0,reverse+yaw,yaw*2,.7);
         assert.equal(bridgeSupport(pose,route,metadata).fall,false,`${spec.id}/${b.id} centered q=${q} yaw=${reverse+yaw}`);
         report.centered++;
       }
-      // Side boundaries remain correct in reverse. The threshold follows this
-      // model's measured wheel width, including asymmetric source tire meshes.
+
+
       for(const side of [-1,1])for(const reverse of [0,Math.PI])for(const delta of [-.04,.04]){
         const offset=side*(b.halfWidth-extent+delta),{pose,route}=poseAt(b,(b.from+b.to)/2,offset,reverse);
         const actual=bridgeSupport(pose,route,metadata),expected=expectedFall(pose,route);
@@ -81,9 +81,9 @@ try{
         assert.equal(bridgeSupport(pose,route,metadata).fall,false,`${spec.id}/${b.id} wide approach`);report.approaches++;
       }
     }
-    // Entry and exit must use each model's real, asymmetric axle positions.
-    // The first bridge lies on a straight horizontal alignment, allowing exact
-    // thresholds derived independently from the actual steered mesh pivots.
+
+
+
     for(const yaw of [0,Math.PI])for(const steer of [-.3,.3])for(const side of [-1,1]){
       const b=BRIDGES[0],mid=(b.from+b.to)/2,offset=side*(b.halfWidth-extent+.4),reference=poseAt(b,mid,offset,yaw,steer);
       const overEdge=realContacts(reference.pose).map(v=>projectRoad(v.x,v.z,reference.route)).filter(p=>Math.abs(p.offset-b.offset)>b.halfWidth);
@@ -94,9 +94,9 @@ try{
         assert.equal(bridgeSupport(pose,route,metadata).fall,expected,`${spec.id} actual axle entry/exit q=${q} yaw=${yaw}`);report.longitudinalThresholds++;
       }
     }
-    // The enlarged police track is still narrower than the procedural truck.
-    // Derive the separating offset from both actual widths rather than keeping
-    // the old 1.2m example, which is outside the new car's supported interval.
+
+
+
     if(spec.id==='citycourier'){
       const legacyOuterHalfWidth=1.535;
       assert.ok(extent<legacyOuterHalfWidth);
@@ -112,7 +112,7 @@ try{
       if(actual.fall){assert.ok(actual.pivot);near(Math.hypot(actual.outward.x,actual.outward.z),1);}
       report.diagonals++;
     }
-    // All four tipping directions plus front and rear diagonal approach hinges.
+
     const b=BRIDGES[0];let diagonalHinges=0;
     for(const q of [b.from-.5,(b.from+b.to)/2,b.to+.5])for(const yaw of [0,Math.PI/2,Math.PI,Math.PI*1.5])for(const side of [-1,1]){
       const {pose,route}=poseAt(b,q,side*(b.halfWidth-extent+.3),yaw,side*.24,side*.83);

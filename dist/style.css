@@ -75,7 +75,7 @@ canvas { width: 100%; height: 100%; display: block; touch-action: none; }
 h1 { margin: 5px 0 0; font-size: 25px; line-height: 1; font-weight: 900; text-shadow: var(--hud-shadow); }
 h1 span { margin-left: 5px; color: #ffdb55; font-size: 14px; vertical-align: top; }
 .is-walking .brand, .is-driving .brand { display: none; }
-/* Short, high-contrast game captions leave the middle of the world unobstructed. */
+
 .session-hud {
   position: fixed;
   top: max(24px, calc(env(safe-area-inset-top) + 18px));
@@ -161,7 +161,7 @@ body:not(.is-driving):not(.is-walking) .session-hud { display: none; }
 }
 .stand-button .hud-art { width: 56px; height: 56px; }
 .stand-button .button-label { font-size: 18px; }
-/* Overview tools keep the same functions in a matching compact game panel. */
+
 .seed-card { position: fixed; left: max(24px, calc(env(safe-area-inset-left) + 12px)); top: 149px; width: 292px; padding: 14px; background: #fff1c9f2; border: 3px solid var(--hud-ink); border-radius: 17px; box-shadow: inset 0 3px #fff, 0 5px #14213d55; color: var(--hud-ink); }
 .seed-title { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 900; }
 .status-dot { width: 10px; height: 10px; background: #92e73e; border: 2px solid var(--hud-ink); border-radius: 50%; }
@@ -181,7 +181,7 @@ body:not(.is-driving):not(.is-walking) .session-hud { display: none; }
 .controls button { display: flex; align-items: center; justify-content: center; gap: 5px; flex: 1; min-width: 0; height: 46px; padding: 0 5px; white-space: nowrap; border: 2px solid transparent; border-radius: 11px; color: #fff; background: transparent; font-size: 12px; font-weight: 900; text-shadow: 0 2px #14213d; }
 .controls button:hover { background: #4288ed; }
 .controls button.active, .controls button[aria-pressed="true"] { color: #fff; border-color: #14213d; background: #18bfc3; box-shadow: inset 0 3px #ffe49780; }
-/* Each existing view/action keeps its own bright, recognizable color. */
+
 .controls button[data-view="street"] { background: #147ce5; }
 .controls button[data-view="overview"] { background: #9544e9; }
 .controls button[data-view="delivery"] { background: #20a84b; }
@@ -269,9 +269,9 @@ body:not(.is-driving):not(.is-walking) .session-hud { display: none; }
   *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
   .spinner { animation: none; }
 }
-/* One return action: the orange top icon. No visible caption or lower clone. */
+
 #garage-button { min-height: 0; }
-/* Fuel is the left flexible item in the shared bottom row; no outer card. */
+
 #fuel-hud {
   position: relative;
   flex: 1 1 0;
@@ -300,7 +300,7 @@ body:not(.is-driving):not(.is-walking) .session-hud { display: none; }
   .hud-menu-button .button-label { font-size: 11px; }
 }
 
-/* Earned local currency. World labels track 3D markers without taking touches. */
+
 #wallet-hud { --wallet-gap: 6px; position: absolute; z-index: 7; right: 0; top: 0; display: flex; gap: var(--wallet-gap); align-items: center; height: var(--top-icon-size); max-width: calc(100% - var(--top-actions-width) - 12px); padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; pointer-events: none; }
 #wallet-hud .hud-art { width: var(--top-icon-size); height: var(--top-icon-size); flex: 0 0 var(--top-icon-size); }
 #wallet-value { font-size: min(calc(var(--top-icon-size) * .56), calc((100cqw - var(--top-actions-width) - var(--top-icon-size) - var(--wallet-gap) - 12px) / (var(--wallet-digits, 1) * .68))); line-height: 1; white-space: nowrap; font-weight: 900; font-variant-numeric: tabular-nums; text-shadow: var(--hud-shadow); -webkit-text-stroke: 1.5px var(--hud-ink); paint-order: stroke fill; }
@@ -317,7 +317,7 @@ body:not(.is-driving):not(.is-walking) .session-hud { display: none; }
 @media (max-height: 650px) and (max-width: 500px) { .buy-button { bottom: calc(env(safe-area-inset-bottom,0px) + 190px); } }
 @media (max-height: 500px) and (min-width: 501px) { .buy-button { bottom: calc(env(safe-area-inset-bottom,0px) + 20px); font-size: 16px; min-height: 48px; padding: 5px 14px; } }
 
-/* Save failure is separate from the bare wallet, shown only when needed. */
+
 #save-notice { position: fixed; z-index: 7; top: calc(max(15px, env(safe-area-inset-top,0px) + 8px) + var(--top-icon-size) + 8px); right: max(13px, calc(env(safe-area-inset-right) + 8px)); padding: 3px 5px; background: #75300edb; color: #ffe99a; border-radius: 5px; font-size: 10px; font-weight: 900; white-space: nowrap; pointer-events: none; }
 .topbar { container-type: inline-size; }
 @container (max-width: 260px) {
@@ -327,8 +327,8 @@ body:not(.is-driving):not(.is-walking) .session-hud { display: none; }
   .hud-circle .hud-art { width: 32px; height: 32px; }
   .hud-menu-button .button-label { font-size: 11px; }
 }
-/* Both sides share the same icon box at every breakpoint; numbers fit the
-   remaining header width without abbreviating the saved balance. */
+
+
 :root { --top-actions-width: 185px; }
 
 @media (max-width: 760px) { :root { --top-actions-width: 149px; } }
@@ -341,7 +341,7 @@ body:not(.is-driving):not(.is-walking) .session-hud { display: none; }
   #wallet-hud { --wallet-gap: 4px; }
 }
 
-/* Final shared sizes follow the same cascade as the top-left controls. */
+
 :root { --top-icon-size: 82px; }
 @media (max-width: 760px) { :root { --top-icon-size: 65px; } }
 @media (max-height: 500px) and (min-width: 501px) { :root { --top-icon-size: 56px; } }
@@ -353,7 +353,7 @@ body:not(.is-driving):not(.is-walking) .session-hud { display: none; }
   .top-actions { gap: 6px; }
 }
 
-/* Biome preview is a separate modal action: it never crowds the bare wallet. */
+
 #biome-button { position:fixed; z-index:8; right:max(14px,calc(env(safe-area-inset-right) + 8px)); top:max(158px,calc(env(safe-area-inset-top) + 150px)); display:flex; align-items:center; gap:5px; min-height:44px; padding:5px 10px 5px 6px; color:#fff; background:#9c38eb; border:3px solid var(--hud-ink); border-radius:18px; box-shadow:inset 0 3px #eac4ff; font-weight:900; text-shadow:var(--hud-shadow); touch-action:none; }
 #biome-button .hud-art { width:30px; height:30px; }
 #biome-menu { position:fixed; z-index:30; inset:0; display:grid; place-items:center; padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left)); background:#07132ac7; touch-action:none; }
@@ -374,7 +374,7 @@ body:not(.is-driving):not(.is-walking) .session-hud { display: none; }
 
 .vehicle-price { padding:0; background:transparent; border:0; border-radius:0; box-shadow:none; }
 
-/* Quiet playfield: retain functional buttons, counters, world prices and dialogs. */
+
 .session-hud,.walk-tip,#biome-test-note,#drive-status,#study-status{display:none!important}
 .button-label,.view-label,.gesture,.biome-name{display:none!important}
 
@@ -382,7 +382,7 @@ body:not(.is-driving):not(.is-walking) .session-hud { display: none; }
 
 #audio-toggle{position:fixed;right:max(14px,env(safe-area-inset-right));top:calc(env(safe-area-inset-top) + var(--top-icon-size)*2 + 30px);width:44px;height:44px;padding:8px;border:3px solid #173d82;border-radius:50%;background:#278fe5;box-shadow:0 3px 0 #173d82;z-index:25;touch-action:none}#audio-toggle svg{display:block;width:100%;height:100%}#audio-toggle .audio-cross{display:none}#audio-toggle.muted .audio-cross{display:block}#audio-toggle.muted .audio-waves{display:none}@media(max-height:500px){#audio-toggle{width:38px;height:38px}}
 
-/* Initial boot UI stays above every control, including the sound shortcut. */
+
 body.is-loading #audio-toggle{display:none}
 body.is-loading #loading{z-index:90}
 body.is-loading #error{z-index:91}

@@ -19,13 +19,13 @@ try{
   v.rig.reset();assert.equal(v.visual.calls.at(-1).wheelSpin,0);
  }
  assert.equal(loaded[0].calls[0].wheelSpin,4);assert.equal(f.debug.gameplay.state.money,money);
- // Rebuild disposes every imported visual and starts a new bounded loader.
+
  f.ids.get('regenerate').dispatch('click');assert(loaded.every(a=>a.disposed));
  while(pending.length){pending.splice(0).forEach(r=>r());await flush();}
  await controls.ready;
 }finally{f.dispose()}
 assert(loaded.every(a=>a.disposed));
-// Late decoder results cannot attach to destroyed scenes; failures are explicit.
+
 for(const fail of [false,true]){
  let resolve,reject;const warnings=[];
  const stub={vehicles:[{id:'pickup',root:new THREE.Group(),cargo:new THREE.Group(),rig:{update(){return this},dispose(){this.dead=true}}}],dispose(){this.vehicles.forEach(v=>v.rig.dispose())}};
@@ -38,8 +38,8 @@ for(const fail of [false,true]){
   stub.dispose();const a=adapter();resolve(a);await c.ready;assert(a.disposed);assert.equal(a.group.parent,null);assert.equal(c.disposed,true);
  }
 }
-// A failed adapter initialization releases its GLB resources, and all failed
-// vehicle IDs are reported together after the bounded queue finishes.
+
+
 {
  const broken=[],warnings=[];
  const stub={vehicles:['pickup','rover','van'].map(id=>({id,root:new THREE.Group(),cargo:new THREE.Group(),rig:{update(){return this},dispose(){}}})),dispose(){this.vehicles.forEach(v=>v.rig.dispose())}};

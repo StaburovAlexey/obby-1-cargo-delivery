@@ -16,8 +16,8 @@ function settingsValue(value, language) {
 }
 function careerValue(value, legacyIds, permanentIds = []) {
   const result = sanitizeCareer(value);
-  // The old save sanitizer may filter premium characters. Legacy rights remain
-  // independent from the current progression schema and real SDK purchases.
+
+
   result.ownedSkinIds = [...new Set([...result.ownedSkinIds, ...legacyIds, ...permanentIds])];
   if (result.ownedSkinIds.includes(value?.characterId)) result.characterId = value.characterId;
   if (!result.ownedSkinIds.includes(result.characterId)) result.characterId = DEFAULT_CHARACTER_ID;
@@ -32,10 +32,10 @@ function envelopeValue(raw, language) {
 }
 const contents = envelope => JSON.stringify({ career: envelope.career, settings: envelope.settings, legacyPremiumIds: envelope.legacyPremiumIds });
 
-/** Cloud is the sole durable store. initialize must finish before synchronous
- * store operations. flush resolves false on a failed sync; initialization rejects.
- * Default spacing stays below getData/setData's 100 requests / 5 minute limit.
- * Retry delays are bounded; unsaved memory remains playable until explicit retry. */
+
+
+
+
 export function createCloudCareer(options = {}) {
   const { platform, onStatus, onReplace } = options;
   if (!platform?.loadSave || !platform?.saveSave) throw new Error('Cloud platform required');
@@ -61,7 +61,7 @@ export function createCloudCareer(options = {}) {
     if (contents(next) === contents(envelope)) return false;
     envelope = { ...next, updatedAt: nextTimestamp(envelope.updatedAt) }; revision++;
     status.unsaved = true; status.operation = 'save'; syncRights(); notify();
-    // Exhausted background retries stay stopped until an explicit flush.
+
     if (retryIndex <= retryDelays.length) schedule(writeDelayMs);
     return true;
   };
@@ -72,7 +72,7 @@ export function createCloudCareer(options = {}) {
     if (typeof storage?.getItem !== 'function') return {};
     const read = key => { try { return storage.getItem(key); } catch { return null; } };
     let career;
-    try { const raw = read('urban-route-career-v1'); if (typeof raw === 'string' && raw.length < 100000) { const data = JSON.parse(raw); if (validRecord(data) && [1, 2].includes(data.version)) career = data; } } catch { /* Invalid legacy data is not imported. */ }
+    try { const raw = read('urban-route-career-v1'); if (typeof raw === 'string' && raw.length < 100000) { const data = JSON.parse(raw); if (validRecord(data) && [1, 2].includes(data.version)) career = data; } } catch {                                            }
     const importedRights = rights(career?.ownedSkinIds);
     if (career?.version === 1 && premium.has(career.characterId) && !importedRights.includes(career.characterId)) importedRights.push(career.characterId);
     const volume = read('urban-route-audio-volume'), lastVolume = read('urban-route-audio-last-volume');
@@ -109,8 +109,8 @@ export function createCloudCareer(options = {}) {
           if (wait) await new Promise(resolve => setTimeout(resolve, wait));
           if (destroyed) return false;
           lastAttemptAt = Number(now()); status.syncing = true; status.operation = 'sync'; notify();
-          // Read before every write, especially after reconnect. Never overwrite
-          // another device's newer progress with a stale in-memory snapshot.
+
+
           const cloud = envelopeValue(await platform.loadSave(), platform.language);
           if (destroyed) return false;
           const union = rights([...envelope.legacyPremiumIds, ...(cloud?.legacyPremiumIds || [])]);

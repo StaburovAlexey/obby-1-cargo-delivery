@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Renderer-free verification of every shipped native Jumping clip and its real
-// skinned vertices. Gameplay supplies world height; the rig supplies only pose.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -63,7 +63,7 @@ for (const entry of CHARACTER_CATALOG) {
       character.resetMotion(); group.position.set(5, 0, -3);
       for (let i = 0; i < fps; i++) character.update(dt, speed, 0);
       let previous = sample();
-      // Repeat without waiting for the first landing blend to finish.
+
       for (let repetition = 0; repetition < 3; repetition++) {
         character.setAirborne({ airborne: true, elapsed: 0, duration: DURATION, justJumped: true,
           height: 0, verticalVelocity: SPEED });
@@ -88,7 +88,7 @@ for (const entry of CHARACTER_CATALOG) {
             minAirFoot = Math.min(minAirFoot, current.foot); maxAirFoot = Math.max(maxAirFoot, current.foot);
           }
           if (elapsed >= .1 && character.jumpState.weight === 1) {
-            // Every native quaternion is retained, not a placeholder pose.
+
             for (const { bone, interpolant } of rotationTracks) {
               expected.fromArray(interpolant.evaluate(character.jumpState.time)).normalize();
               poseError = Math.max(poseError, expected.angleTo(bone.quaternion.clone().normalize()));
@@ -98,7 +98,7 @@ for (const entry of CHARACTER_CATALOG) {
           }
           previous = current;
         }
-        // At actual impact the native clip must be at its landing pose.
+
         near(character.jumpState.time, group.userData.character.motion.jumpSourceTouchdown);
         const impactPose = sample();
         character.setAirborne({ airborne: false, height: 0, verticalVelocity: 0 });
@@ -127,8 +127,8 @@ for (const entry of CHARACTER_CATALOG) {
   assert.ok(maxLocalHipStep < .19, `${entry.id} local root teleport: ${maxLocalHipStep}`);
   assert.ok(maxSupportStep < .19, `${entry.id} support discontinuity: ${maxSupportStep}`);
 
-  // Horizontal collision clearance uses the full deformed skin, including
-  // accessories/tails; a foot-only bound cannot detect outstretched arms.
+
+
   let maxRadius = 0, maxX = 0, maxZ = 0, groundedLandingRadius = 0;
   character.resetMotion(); group.position.set(0, 0, 0);
   for (const speed of [0, 4.5, 7]) {
@@ -168,7 +168,7 @@ for (const entry of CHARACTER_CATALOG) {
   character.setAirborne({ airborne: true, elapsed: NaN, duration: NaN, height: NaN, verticalVelocity: NaN });
   character.update(NaN, NaN, NaN); character.update(10, 7, 0);
   assert.ok(group.matrixWorld.elements.every(Number.isFinite));
-  // Runtime never samples deformed geometry or creates source animations.
+
   const originalGetters = meshes.map(mesh => [mesh, mesh.getVertexPosition]);
   for (const mesh of meshes) mesh.getVertexPosition = () => { throw Error('Runtime jump geometry scan'); };
   for (let i = 0; i < 90; i++) {

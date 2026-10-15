@@ -1,4 +1,4 @@
-// Approved compact-route actual Three.js mesh and mover regression. CPU only.
+
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import * as T from '../dist/vendor/three.module.js';
@@ -27,16 +27,16 @@ const overlapFindings=[],terrainFindings=[];const index=createRoadFootprintIndex
 for(const a of index.triangles)for(const b of index.candidates(a.p)){if(b.id<=a.id)continue;const overlap=polygonIntersectionArea(a.p,b.p);maxSelfOverlap=Math.max(maxSelfOverlap,overlap);const q=road.geometry.attributes.roadProgress.getX(road.geometry.index.getX(a.id*3));if(N.FORKS.some(f=>q>=f.from&&q<=f.to))maxForkOverlap=Math.max(maxForkOverlap,overlap);if(overlap>=.002)overlapFindings.push({a:a.id,b:b.id,overlap,p:a.p,q:b.p});roadPairs++;}
 const gp=ground.geometry.attributes.position,gi=ground.geometry.index;
 for(let i=0;i<gi.count;i+=3){const p=[0,1,2].map(k=>({x:gp.getX(gi.getX(i+k)),z:gp.getZ(gi.getX(i+k))}));for(const r of index.candidates(p)){const overlap=polygonIntersectionArea(p,r.p);maxGroundOverlap=Math.max(maxGroundOverlap,overlap);if(overlap>=.004)terrainFindings.push({i,r:r.id,overlap,p,q:r.p});terrainPairs++;}}
-report.overlapFindings=overlapFindings;report.terrainFindings=terrainFindings;// Every repeated fork boundary position must share one actual Float32 Y.
-// A nearly zero median width must never amplify the ridge/valley height blend.
+report.overlapFindings=overlapFindings;report.terrainFindings=terrainFindings;
+
 const forkVertices=new Map();let sharedForkVertexChecks=0,maximumSharedForkHeightGap=0;
 for(const mesh of [N.ROAD_MESH,N.GROUND_MESH])for(let i=0;i<mesh.positions.length;i+=3){
  const q=mesh.progress[i/3];if(!N.FORKS.some(f=>q>=f.from&&q<=f.to))continue;
  const x=mesh.positions[i],y=mesh.positions[i+1],z=mesh.positions[i+2],key=x+','+z;
  if(forkVertices.has(key)){maximumSharedForkHeightGap=Math.max(maximumSharedForkHeightGap,Math.abs(forkVertices.get(key)-y));sharedForkVertexChecks++;}else forkVertices.set(key,y);
 }
-// Check the authoritative Float32 collision triangles, not only analytic
-// centerline frames: a shared tip can be watertight but still form a ramp.
+
+
 let maximumRoadTriangleGrade=0;
 const collisionRoad=N.ROAD_MESH;
 for(let i=0;i<collisionRoad.indices.length;i+=3){

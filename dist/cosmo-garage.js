@@ -2,14 +2,14 @@ import {loadCosmoVehicle} from './cosmo-vehicles.js';
 import {loadBMWVehicle} from './bmw-vehicle.js';
 const loadGarageVehicle=(THREE,id)=>id==='bmwreward'?loadBMWVehicle(THREE,id):loadCosmoVehicle(THREE,id);
 
-// The adapter now owns the full 1.5× geometry/contact scale in every mode.
-// Keep the display-mode lifecycle API, with no extra showroom enlargement.
+
+
 export const PARKED_COSMO_SCALE=1;
 const PARKED_APPROACH_DISTANCE=6.55;
 const PARKED_APPROACH_RADIUS=.9;
 
-// Keep gameplay/root identities stable while attaching the required GLB visuals.
-// Missing visuals are a loading error; there is no generated vehicle fallback.
+
+
 export function attachCosmoGarage(THREE,garage,{load=loadGarageVehicle,onError=console.warn}={}){
   let disposed=false,selectedId=null;
   function applyDisplay(record){
@@ -32,8 +32,8 @@ export function attachCosmoGarage(THREE,garage,{load=loadGarageVehicle,onError=c
   const records=garage.vehicles.map(vehicle=>{
     const rig=vehicle.rig,originalUpdate=rig.update,originalDispose=rig.dispose;
     const record={vehicle,adapter:null,lastPose:{...rig.pose},error:null,cancelled:false,displayScale:null};
-    // Reserve the existing full-size footprint before decoding. This prevents a
-    // late model from growing around somebody already standing beside it.
+
+
     if(!vehicle.rewardDisplay)vehicle.parkedFootprint={halfWidth:2.25,halfLength:4.32};
     if(vehicle.park&&!vehicle.rewardDisplay){
       const heading=vehicle.park.heading||0;
@@ -55,7 +55,7 @@ export function attachCosmoGarage(THREE,garage,{load=loadGarageVehicle,onError=c
     };
     return record;
   });
-  // Bound decode concurrency to avoid ten simultaneous texture uploads on phones.
+
   let next=0;
   async function worker(){
     while(next<records.length&&!disposed){

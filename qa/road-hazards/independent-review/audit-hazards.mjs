@@ -21,7 +21,7 @@ check('1000 deterministic seeds preserve count, types, complete footprint exclus
   for(const type of ['repair','log','dune','ice','rock'])assert.equal(hs.filter(h=>h.type===type).length,5);
   for(const h of hs){assert.ok(Object.isFrozen(h));let radius=Math.hypot(h.width,h.length)/2;for(const d of protectedDs){minProtected=Math.min(minProtected,Math.abs(h.distance-d)-radius);assert.ok(Math.abs(h.distance-d)-radius>=100,h.id);}
    const bandEdge=12-(Math.max(0,-h.bypassSide*h.offset+h.width/2)+1.55);if(h.type==='repair')minCenterBand=Math.min(minCenterBand,bandEdge);
-   // Full body at both edges and center of an 8m-wide continuously common center band.
+
    for(const along of [-h.length/2-4,0,h.length/2+4])for(const lane of [3.8,7.8,11.8]){const p=routePointAtDistance(h.distance+along),x=p.x+p.right.x*h.bypassSide*lane,z=p.z+p.right.z*h.bypassSide*lane;assert.ok(truckInRoad(x,z,p.heading));assert.equal(roadHazardContact(h,x,z,p.heading),undefined);samples++;}
   }
  }

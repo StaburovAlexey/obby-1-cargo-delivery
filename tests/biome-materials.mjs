@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-// Independent, renderer-free acceptance audit. Only actual Three.js meshes,
-// instance matrices, texture bytes and the hash-locked published v7 fixture
-// establish the assertions below; scene feature/stat metadata is not evidence.
-// Usage: node tests/biome-materials.mjs
+
+
+
+
 import assert from 'node:assert/strict';
 import {CHARACTER_CATALOG} from '../dist/character-catalog.js';
 import fs from 'node:fs';
@@ -44,7 +44,7 @@ const hash = data => crypto.createHash('sha256').update(data).digest('hex');
 const close = (actual, expected, message, tolerance = 1e-7) =>
   assert.ok(Number.isFinite(actual) && Math.abs(actual - expected) <= tolerance,
     `${message}: ${actual} != ${expected} (tolerance ${tolerance})`);
-// At most four Float32 ULPs at the largest participating value, with a 2 µm floor.
+
 const floatTolerance = (...values) => Math.max(2e-6, ...values.map(v => Math.abs(v) * 2 ** -22));
 const cubeCorners = [];
 for (const x of [-.5, .5]) for (const y of [-.5, .5]) for (const z of [-.5, .5]) cubeCorners.push(new THREE.Vector3(x, y, z));
@@ -100,8 +100,8 @@ check('The exact published v7 fixture and protected controller/artwork match the
   assert.equal(manifest.files.filter(row => row.protected).length, 6);
   assert.equal(manifest.files.filter(row => !row.protected).length, 5);
   return manifest.files.map(row => {
-    // The user explicitly requested new HUD artwork/styles in v17. Keep the
-    // historical CSS hash-locked here while mechanics and source art stay current.
+
+
     const filename = row.protected && row.file !== 'dist/vehicle-controls.css' ? path.join(root, row.file) : path.join(fixtureRoot, path.basename(row.file));
     const bytes = fs.readFileSync(filename);
     assert.equal(bytes.length, row.bytes, `${filename}: byte count`);
@@ -121,13 +121,13 @@ check('All 86 actual house transforms retain horizontal placement, footprint, ro
         const baseline = b.get(name), label = `seed ${seed}, ${name}`;
         assertPlainCube(actual.mesh.geometry, label);
         assertPlainCube(baseline.mesh.geometry, `${label} fixture`);
-        // Raw horizontal matrix columns and translation must be bit-exact.
+
         for (const index of [0, 1, 2, 3, 8, 9, 10, 11, 12, 14, 15])
           assert.equal(actual.matrix.elements[index], baseline.matrix.elements[index], `${label}: preserved matrix[${index}]`);
         for (const index of [4, 5, 6]) close(actual.matrix.elements[index], baseline.matrix.elements[index] * 2,
           `${label}: doubled vertical basis[${index}]`, floatTolerance(actual.matrix.elements[index]));
         close(Math.abs(actual.rotation.dot(baseline.rotation)), 1, `${label}: rotation`, 1e-7);
-        // Color is intentionally restyled in v17; protected geometry remains exact.
+
         assert.ok(actual.color.toArray().every(Number.isFinite), `${label}: valid updated palette`);
         close(actual.scale.x, baseline.scale.x, `${label}: width`, floatTolerance(actual.scale.x));
         close(actual.scale.z, baseline.scale.z, `${label}: frontage`, floatTolerance(actual.scale.z));
@@ -216,7 +216,7 @@ check('All six building/barrier faces use independent metric projections with 4 
       const expected = publishedSample(...meters, { panelMeters: 2, panelVariation: true });
       const actual = sampleEnvironmentSurface(position, normal, scale);
       actual.forEach((value, channel) => close(value, expected[channel], 'Barrier uses original metric grass shading', 1e-9));
-      // Roofs, bottoms and plain walls/margins cannot acquire facade window cells.
+
       if (building.tile !== 0) {
         sampleBuildingSurface(position, normal, scale).forEach((value, channel) => close(value, expected[channel], 'Plain building uses original metric grass shading', 1e-9));
         baseSampleChecks++;
@@ -337,9 +337,9 @@ check('Actual terrain vertex colors and rendered cuboid masses express five size
       data.weightedCenter = data.weightedCenter.divideScalar(data.summedBoxVolume).toArray();
     }
     assert.equal(new Set(Object.values(masses).map(data => JSON.stringify(data.colors))).size, 5, 'Five distinct actual mass palettes');
-    // Rotated median faces/endcaps can have overlapping global AABBs while the
-    // paired physical regions remain separate. Measure actual volume-weighted
-    // positions instead of incorrectly requiring disjoint global AABBs.
+
+
+
     assert.ok(masses.desert.weightedCenter[0] - masses.forest.weightedCenter[0] > 40, 'Forest and desert physical mass centers differ by >40 m laterally');
     assert.ok(masses.volcanic.weightedCenter[0] - masses.snow.weightedCenter[0] > 40, 'Snow and volcanic physical mass centers differ by >40 m laterally');
     assert.ok(masses.snow.bounds.min[2] < masses.forest.bounds.min[2] - 100, 'Highland physical masses extend over 100 m beyond the first biome pair');

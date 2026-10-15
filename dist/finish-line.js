@@ -1,5 +1,5 @@
-/** Decorative final delivery approach. Road paint is clipped from the actual
- * rendered road triangles; no new collision, trigger, asset or update loop. */
+
+
 import { DELIVERY_CHECKPOINTS } from './economy-config.js';
 import { ROAD_MESH, ROAD_SURFACE_OFFSET, ROUTE, routePointAtDistance,
   queryRoadSurface } from './route-network.js';
@@ -57,8 +57,8 @@ function bufferGeometry(THREE, positions, colors) {
   return geometry;
 }
 
-/** Exact clipping preserves triangle seams even on a curved, graded or crowned
- * road. A single flat rectangle would either float or disappear into a slope. */
+
+
 function paintGeometry(THREE, spec) {
   const positions = [], colors = [], c = Math.cos(spec.heading), s = Math.sin(spec.heading);
   const white = new THREE.Color(0xffffff), black = new THREE.Color(0x13151a);
@@ -66,7 +66,7 @@ function paintGeometry(THREE, spec) {
   const halfWidth = spec.lineWidth / 2, halfDepth = spec.lineDepth / 2;
   for (let i = 0; i < ROAD_MESH.indices.length; i += 3) {
     const ids = ROAD_MESH.indices.slice(i, i + 3);
-    // A conservative progress prefilter only; clipping uses real X/Y/Z.
+
     const progress = ids.map(id => ROAD_MESH.progress[id]);
     if (Math.min(...progress) > spec.progress + 12 || Math.max(...progress) < spec.progress - 12) continue;
     const source = ids.map(id => {
@@ -95,8 +95,8 @@ function paintGeometry(THREE, spec) {
   return geometry;
 }
 
-/** A small pair of rigid, faceted LEGO-style cloths; their shared checker
- * colours are geometry, so no canvas, texture download or animation is needed. */
+
+
 function flagGeometry(THREE, bases) {
   const positions = [], colors = [], white = new THREE.Color(0xffffff), black = new THREE.Color(0x13151a);
   const { poleOffset, flagWidth, flagHeight, flagTop } = FINISH_LINE_STYLE;

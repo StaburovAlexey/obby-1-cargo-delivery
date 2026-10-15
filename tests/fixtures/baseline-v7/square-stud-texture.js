@@ -1,5 +1,5 @@
-/** Reference-style shallow square studs, baked into color only.
- * x points right, y points up. No imported bitmap, normals or displacement. */
+
+
 export const SQUARE_STUD_STYLE = Object.freeze({
   shape: 'softened square',
   studPitch: 0.4,
@@ -44,8 +44,8 @@ function edgeLight(x, y) {
   else { nx = 0; ny = Math.sign(y); }
   return nx * -0.625 + ny * 0.781;
 }
-/** Deterministic grayscale RGBA at a metric point. Optional large floor panels
- * divide the ground only; walls never get masonry seams or panel boundaries. */
+
+
 export function sampleSquareStud(x, y, { panelMeters = 0, panelVariation = false } = {}) {
   const { studPitch, bevelWidth, shadowOffset, shadowSoftness } = SQUARE_STUD_STYLE;
   const dx = positiveMod(x, studPitch) - studPitch / 2;
@@ -61,12 +61,12 @@ export function sampleSquareStud(x, y, { panelMeters = 0, panelVariation = false
     const px = positiveMod(x, panelMeters), py = positiveMod(y, panelMeters);
     const seamDistance = Math.min(px, panelMeters - px, py, panelMeters - py);
     value -= 13 * (1 - smoothstep(0.004, 0.018, seamDistance));
-    // Very subtle plate tint, repeating every two panels without random grain.
+
     if (panelVariation) value += ((Math.floor(x / panelMeters) + Math.floor(y / panelMeters)) % 2 === 0 ? 2 : -2);
   }
   return [value, value, value, 255];
 }
-/** Box supersampling preserves the shallow bevel in dense 128px floor maps. */
+
 export function bakeSquareStudData({ width = 128, height = width, tileMeters = 2, panelMeters = 0, samples = 4 } = {}) {
   const data = new Uint8Array(width * height * 4);
   for (let py = 0; py < height; py++) for (let px = 0; px < width; px++) {
@@ -84,8 +84,8 @@ export function bakeSquareStudData({ width = 128, height = width, tileMeters = 2
 export function createSquareStudTextureData() {
   return { ...bakeSquareStudData(SQUARE_STUD_TEXTURE), metadata: SQUARE_STUD_TEXTURE };
 }
-/** Shared filter policy: trilinear mipmaps and moderate anisotropy, no nearest
- * filtering, so small squares average away instead of flickering at distance. */
+
+
 export function createPatternTexture(THREE, source, name) {
   const texture = new THREE.DataTexture(source.data, source.width, source.height, THREE.RGBAFormat, THREE.UnsignedByteType);
   texture.name = name;

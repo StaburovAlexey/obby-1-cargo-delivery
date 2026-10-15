@@ -1,5 +1,5 @@
-// Compares Site52's checked-in weather and the transition implementation with
-// identical one-second warmup/orbit inputs. CPU projection only, no GPU claims.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import * as THREE from '../../dist/vendor/three.module.js';

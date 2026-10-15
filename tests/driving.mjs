@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Portable source-backed tests. Node only: no HTTP server, browser, or WebGL.
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import * as THREE from '../dist/vendor/three.module.js';
@@ -59,8 +59,8 @@ check('Four-wheel fit stays finite and supported across route heights, curves, s
 });
 check('Uphill and cross-slope body orientation agrees with wheel contacts',()=>{
  const p=routePoint(285),uphill=fitTruckToGround(THREE,p.x,p.z,p.heading),reverse=fitTruckToGround(THREE,p.x,p.z,p.heading+Math.PI),sideways=fitTruckToGround(THREE,p.x,p.z,p.heading+Math.PI/2);
- // The extended route has gentler grades. Keep sign and wheel-support parity,
- // rather than requiring the removed 24% city ramp.
+
+
  const f=new THREE.Vector3(0,0,-1),r=new THREE.Vector3(1,0,0);assert.ok(f.clone().applyQuaternion(uphill.quaternion).y>.005);assert.ok(f.clone().applyQuaternion(reverse.quaternion).y<-.005);assert.ok(r.clone().applyQuaternion(sideways.quaternion).y>.005);near(uphill.normal.dot(new THREE.Vector3(0,1,0).applyQuaternion(uphill.quaternion)),1,1e-12);
 });
 

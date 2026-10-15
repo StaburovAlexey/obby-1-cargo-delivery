@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Rear-wall row regression using actual frozen GLB display meshes and gameplay.
-// No browser, socket, renderer or external fetch is needed.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import * as THREE from '../dist/vendor/three.module.js';
@@ -27,7 +27,7 @@ globalThis.fetch = async request => {
   return new Response(fs.readFileSync(new URL(url)), { status: 200 });
 };
 
-// Guard the installed path too: a correct loader must not be shrunk by app code.
+
 const appSource = fs.readFileSync(new URL('../dist/app.js', import.meta.url), 'utf8');
 const displaySetup = appSource.slice(appSource.indexOf('async function populateDisplays()'), appSource.indexOf('function standCharacter()'));
 assert.ok(displaySetup.includes('createCharacterDisplay(THREE,{id:spec.id})'), 'purchase displays must use canonical player-height default');
@@ -48,8 +48,8 @@ for (const [index, stand] of CHARACTER_STANDS.entries()) {
   assert.deepEqual(stand.trigger, { x: stand.x, z: 82 });
   assert.equal(stand.triggerRadius, 1.25);
 }
-// Initial yaw 0 faces the entrance. In the rear-facing orbit, world -X is
-// screen-right; compare actual Three.js projections rather than axis names.
+
+
 const camera = new THREE.PerspectiveCamera(50, 1440 / 900, .1, 1000);
 const target = new THREE.Vector3(GARAGE_LAYOUT.spawn.x, 1.6, GARAGE_LAYOUT.spawn.z);
 const rearCamera = createFollowCameraState({ mode: 'walking', heading: Math.PI });
@@ -149,10 +149,10 @@ for (const characterId of ['bacon', 'jandel']) {
       assert.equal(gameplay.state.blockedStand, stand.index);
       for (let step = 0; step < 600; step++) gameplay.walk(1 / 60, {});
       assert.equal(gameplay.events().filter(event => event.type === 'character').length, 0, `${label}: stationary retrigger`);
-      // Movement inside the marker after cooldown must also remain debounced.
+
       for (let step = 0; step < 40; step++) gameplay.walk(1 / 60, { x: step % 2 ? .1 : -.1, z: 0 });
       assert.equal(gameplay.events().filter(event => event.type === 'character').length, 0, `${label}: movement retrigger before departure`);
-      // Leave through the clear aisle, then return to the same model marker.
+
       for (let step = 0; step < 60; step++) gameplay.walk(1 / 60, { x: 0, z: -1 });
       assert.equal(gameplay.state.blockedStand, null, `${label}: failed to rearm`);
       assert.equal(gameplay.events().filter(event => event.type === 'character').length, 0, `${label}: wrong marker on departure`);

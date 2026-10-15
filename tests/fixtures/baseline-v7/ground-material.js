@@ -1,4 +1,4 @@
-/** Flat terrain carrying the same small square-stud pattern as the buildings. */
+
 import { SQUARE_STUD_STYLE, bakeSquareStudData, createPatternTexture } from './square-stud-texture.js';
 export const GROUND_TEXTURE = Object.freeze({
   grass: Object.freeze({ width: 128, height: 128, channels: 4, tileMeters: 4, panelMeters: 2, ...SQUARE_STUD_STYLE }),

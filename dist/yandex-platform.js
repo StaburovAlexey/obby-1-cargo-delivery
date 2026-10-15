@@ -1,7 +1,7 @@
-// Official APIs: https://yandex.com/dev/games/doc/en/sdk/sdk-player
-// https://yandex.com/dev/games/doc/en/sdk/sdk-events
-// https://yandex.com/dev/games/doc/en/sdk/sdk-purchases
-// https://yandex.com/dev/games/doc/en/sdk/sdk-adv
+
+
+
+
 export const CLOUD_SAVE_KEY = 'urbanRouteSave';
 
 export function resolveYandexLanguage(language) {
@@ -31,7 +31,7 @@ async function loadSdk(globals, document, timeoutMs) {
 }
 
 function developmentSdk(language) {
-  // Explicit local development only. No storage, fabricated purchases or ads.
+
   let data = {};
   const copy = value => JSON.parse(JSON.stringify(value));
   return {
@@ -43,8 +43,8 @@ function developmentSdk(language) {
   };
 }
 
-/** SDK initialization never silently falls back in production. An injected SDK
- * is an explicit test/development integration; production loads official /sdk.js. */
+
+
 export async function initializeYandexPlatform(options = {}) {
   const globals = options.global || globalThis;
   const timeoutMs = Math.max(1, Number(options.timeoutMs) || 15000);
@@ -76,7 +76,7 @@ export async function initializeYandexPlatform(options = {}) {
     if (!playing) return false;
     feature('GameplayAPI', 'stop'); playing = false; return true;
   };
-  // Subscribe before initializing player/payments, including startup advertising.
+
   subscribe('game_api_pause', () => { status.paused = true; stop(); options.onPause?.(); });
   subscribe('game_api_resume', () => { if (!status.reloadRequired && !status.accountSelection) { status.paused = false; options.onResume?.(); } });
   subscribe(sdk.EVENTS?.ACCOUNT_SELECTION_DIALOG_OPENED || 'ACCOUNT_SELECTION_DIALOG_OPENED', () => {
@@ -85,7 +85,7 @@ export async function initializeYandexPlatform(options = {}) {
   });
   subscribe(sdk.EVENTS?.ACCOUNT_SELECTION_DIALOG_CLOSED || 'ACCOUNT_SELECTION_DIALOG_CLOSED', () => {
     status.accountSelection = false;
-    // Never reuse an old account's memory, career or entitlements after selection.
+
     if (options.onAccountChange) options.onAccountChange();
     else globals.location?.reload?.();
   });
@@ -106,8 +106,8 @@ export async function initializeYandexPlatform(options = {}) {
     const object = await target(); ensureAccount();
     if (startedGeneration !== generation) throw new Error('Yandex account changed');
     if (typeof object[method] !== 'function') throw new Error(`Yandex ${method} unavailable`);
-    // A payment dialog is user-controlled and can remain open for minutes.
-    // Keep its eventual result instead of timing out and discarding a payment.
+
+
     const result = interactive ? await object[method](...args) : await bounded(() => object[method](...args), timeoutMs, `Yandex ${method}`);
     ensureAccount();
     if (startedGeneration !== generation) throw new Error('Yandex account changed');

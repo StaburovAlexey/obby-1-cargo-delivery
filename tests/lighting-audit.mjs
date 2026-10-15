@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Renderer-free audit: real Three shadow matrices and original skinned GLBs.
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import * as T from '../dist/vendor/three.module.js';
@@ -15,18 +15,18 @@ const points=[[0,0,60],[-41,0,85],[15,0,85],[0,0,-200]];
 const report={method:'CPU matrices and original GLB deformed vertices; no GPU or screenshot verification',baseline:points.map(p=>({point:p,shadow:uv(old,p),inside:inside(uv(old,p))})),garageCorners:[],characters:[]};
 for(const x of [-58,32])for(const y of [0,20.6])for(const z of [25,91]){const p=[x,y,z];const s=uv(garage,p);assert(inside(s),'Recentered garage contains all shell corners');report.garageCorners.push({point:p,shadow:s});}
 assert(!inside(uv(old,[-41,0,85])));assert(!inside(uv(old,[15,0,85])));
-// Mathematical intersection with the roof-height plane; not necessarily inside roof footprint.
+
 for(const p of [[0,0,60],[0,0,85],[-41,0,85]]) {const roof=[p[0]-35/3,20,p[2]+58/3]; report.baseline.push({receiver:p,roofRayIntersection:roof,shadow:uv(old,roof),inside:inside(uv(old,roof))});}
-// A translated light and target preserve both light direction and local coverage.
+
 for(const p of [[0,0,-200],[12000,80,-28000],[-10000,30,-16000]]){const l=lightAt(p,[p[0]-35,p[1]+60,p[2]+58]);for(const dx of [-15,15])for(const dz of [-25,25])assert(inside(uv(l,[p[0]+dx,p[1],p[2]+dz])));}
-// Proposed bounded moving-light setup; single existing 2048² map.
+
 const proposed=new T.DirectionalLight();proposed.position.set(-36,80,30);
 Object.assign(proposed.shadow.camera,{left:-75,right:75,bottom:-75,top:75,near:.5,far:220});
 proposed.shadow.camera.updateProjectionMatrix();proposed.updateMatrixWorld();proposed.target.updateMatrixWorld();proposed.shadow.updateMatrices(proposed);
 report.proposedLocalVolume=[];
 for(const x of [-35,35])for(const y of [0,20.6])for(const z of [-35,35]){const point=[x,y,z],shadow=uv(proposed,point);assert(inside(shadow));report.proposedLocalVolume.push({point,shadow});}
 report.proposedBias={normalFloorShift:.015*Math.hypot(36,30)/80,depthWorld:.00006*219.5,texelWidth:150/2048};
-// Exercise the production helper, every road branch and actual elevated anchors.
+
 const tracking=new T.DirectionalLight();Object.assign(tracking.shadow.camera,{left:-SHADOW_LAYOUT.halfExtent,right:SHADOW_LAYOUT.halfExtent,bottom:-SHADOW_LAYOUT.halfExtent,top:SHADOW_LAYOUT.halfExtent,near:SHADOW_LAYOUT.near,far:SHADOW_LAYOUT.far});tracking.shadow.camera.updateProjectionMatrix();
 const anchors=[{x:0,y:0,z:60},{x:-56,y:0,z:89},{x:30,y:0,z:27}];
 for(const e of NETWORK_EDGES)for(let q=e.progressFrom;q<=e.progressTo;q+=50){const r=routePointAtProgress(q,{branch:e.branch});anchors.push({x:r.x,y:r.height,z:r.z});}

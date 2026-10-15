@@ -6,7 +6,7 @@ try{
  app.frame();const panel=app.ids.get('career-panel'),select=app.ids.get('career-goal-select');
  assert.equal(panel.hidden,true);assert.equal(app.ids.get('career-goal-button').hidden,true);
  app.ids.get('career-goal-button').dispatch('click');assert.equal(panel.hidden,true);assert.equal(d.gameplay.getVehicleGoal(),null);
- // Existing saved goals remain valid even though the launcher is retired.
+
  d.gameplay.setVehicleGoal('citycourier');app.frame();assert.equal(d.gameplay.getVehicleGoal().id,'citycourier');
  select.value='rover';select.dispatch('change');assert.equal(d.gameplay.getVehicleGoal().id,'citycourier');
  let saved=JSON.parse(app.storage.getItem(ECONOMY_CONFIG.saveKey));assert.equal(saved.retention.goalVehicleId,'citycourier');

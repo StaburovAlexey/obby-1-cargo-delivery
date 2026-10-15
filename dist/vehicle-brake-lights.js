@@ -1,22 +1,22 @@
-/** Brake lamps for the eleven audited bundled GLBs. No scene lights or bloom.
- * Split only the existing lamp triangles; body paint, front lamps, wheel geometry
- * and the shared immutable Cosmo palette are never recolored or moved.
- */
+
+
+
+
 const BRAKE_EMISSION = 3;
 
 function isBrakeSwatch(uv, index, model) {
   const u = uv.getX(index), v = uv.getY(index);
-  // Original Cosmo red palette cells. White reversing lamps (jeep/armor)
-  // and the blue fenyr accents use different cells and are left untouched.
+
+
   if (model !== 'kamaro') return u >= 0 && u < .05 && v > .38 && v < .51;
-  // Kamaro's authored rear lenses are yellow. Only these rear triangles get
-  // the red brake material; their yellow emissive map retains a full red channel.
+
+
   return u > .12 && u < .17 && v > .23 && v < .28;
 }
 
-/** Called at rest after normalization, before the adapter is displayed.
- * Every new geometry/material is registered with the adapter's resource owner.
- */
+
+
+
 export function attachVehicleBrakeLights(THREE, { scene, normalized, model, resources }) {
   const lamps = [], meshes = [];
   const red = new THREE.Color(0xff0803);
@@ -54,8 +54,8 @@ export function attachVehicleBrakeLights(THREE, { scene, normalized, model, reso
     if (!rear.length) continue;
     const material = adoptLamp(mesh.material);
     if (normal.length) {
-      // Reorder the index only. Vertices, normals, UVs, transforms and bounds
-      // stay exact. The front/unselected faces retain their original material.
+
+
       const geometry = source.clone();
       geometry.setIndex([...normal, ...rear]);
       geometry.clearGroups();
@@ -73,8 +73,8 @@ export function attachVehicleBrakeLights(THREE, { scene, normalized, model, reso
   }
 
   if (model === 'lamb') {
-    // Lamb has only front lamp geometry. Add two restrained low-poly rear
-    // lenses, using the existing immutable red palette rather than a new texture.
+
+
     const original = candidates[0]?.material;
     if (!original?.emissiveMap) throw new Error('Lamb requires its audited lamp palette.');
     const material = adoptLamp(original);
@@ -86,8 +86,8 @@ export function attachVehicleBrakeLights(THREE, { scene, normalized, model, reso
     const ray = new THREE.Raycaster();
     const direction = new THREE.Vector3(0, 0, 1).transformDirection(normalized.matrixWorld);
     for (const side of [-1, 1]) {
-      // Fit the four lens corners to the actual sloped rear panel. A flat box
-      // at the bumper's deepest Z would float behind this tapered body shell.
+
+
       const corners = [[-.125, -.04], [.125, -.04], [.125, .04], [-.125, .04]].map(([dx, dy]) => {
         const point = new THREE.Vector3(side * .60 + dx, .65 + dy, -10);
         ray.set(point.clone().applyMatrix4(normalized.matrixWorld), direction);
@@ -139,8 +139,8 @@ export function attachVehicleBrakeLights(THREE, { scene, normalized, model, reso
       if (disposed) return;
       this.set(false);
       disposed = true;
-      // Resource ownership stays with the adapter, including both replaced
-      // source geometries and clones. Its disposal is already idempotent.
+
+
     },
   };
 }

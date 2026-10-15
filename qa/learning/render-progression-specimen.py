@@ -105,7 +105,7 @@ svg.append('</svg>')
 output=('\n'.join(svg)).encode()
 (HERE/'progression-hud-specimen.svg').write_bytes(output)
 
-# CPU-only native SVG rasterization. No browser, network, server, or GPU needed.
+
 rsvg=C.CDLL(ctypes.util.find_library('rsvg-2'))
 cairo=C.CDLL(ctypes.util.find_library('cairo'))
 gobj=C.CDLL(ctypes.util.find_library('gobject-2.0'))

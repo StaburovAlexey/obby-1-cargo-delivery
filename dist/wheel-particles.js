@@ -2,7 +2,7 @@ import { projectRoad } from './road-layout.js';
 import { biomeSurfaceBlend } from './biome-surfaces.js';
 const COLORS={city:0x777777,forest:0x885129,desert:0xeabd53,snow:0xdeefff,volcanic:0x48414c};
 export const WHEEL_PARTICLES=Object.freeze({capacity:96,maxRate:52,gravity:6.5,maxLife:.9});
-/** One bounded instanced cosmetic pool. It never reads or writes game economy. */
+
 export function createWheelParticles(THREE,{groundHeight=()=>0}={}){
  const geometry=new THREE.BoxGeometry(.19,.13,.21),material=new THREE.MeshLambertMaterial({color:0xffffff});
  const mesh=new THREE.InstancedMesh(geometry,material,WHEEL_PARTICLES.capacity);mesh.name='Bounded wheel dirt / sand / snow / ash';mesh.count=0;mesh.frustumCulled=false;mesh.castShadow=false;mesh.receiveShadow=false;

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Real application/state/geometry in a deliberately renderer-free DOM fixture.
-// This is not a browser, WebGL, touchscreen, or character GLB rendering test.
+
+
 import assert from 'node:assert/strict';
 import { createAppDom } from './fixtures/app-dom.mjs';
 import { createGameplay, GAMEPLAY, garageRoadContact, parkedVehicleContact, walkPointAllowed, isInGarage } from '../dist/gameplay.js';
@@ -35,7 +35,7 @@ check('all three parked cars auto-enter after a real walking approach', () => {
   for (const id of ['pickup', 'rover', 'van']) {
     reset();
     const car = app.debug.garage.vehicles.find(car => car.id === id);
-    // Walk up the clear right aisle, then toward the right-wall car nose.
+
     key('KeyD');for(let i=0;i<134;i++)app.frame();key('KeyD',false);
     const dz=car.park.z-app.debug.gameplay.state.player.z;
     const direction=dz<0?'KeyW':'KeyS'; key(direction);
@@ -210,7 +210,7 @@ check('repeated boarding, denied exits and garage returns never stack cars or re
     assert.equal(gameplay.exit(model.state, model.state.heading), false); assert.equal(gameplay.state.mode, 'driving');
     app.ids.get('garage-button').dispatch('click');
     advance(90); assert.equal(gameplay.state.mode, 'walking');
-    // Boarding after a garage return still uses the checked launch.
+
     gameplay.state.cooldown = 0;
     assert.equal(app.debug.enterVehicle(id), true);
     near(model.state.x, GAMEPLAY.roadSpawn.x); near(model.state.z, GAMEPLAY.roadSpawn.z);

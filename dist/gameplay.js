@@ -17,8 +17,8 @@ const premiumSkinIds = new Set(['spider-man','spyder-sammy','kreekcraft','jandel
 
 export const GAMEPLAY = Object.freeze({ spawn: Object.freeze({...GARAGE_LAYOUT.spawn,heading:0}), roadSpawn: Object.freeze({x:0,z:6,heading:0}), walkSpeed:4.5, runSpeed:7, entryRadius:5.2, fuelRange:460, fuelCapacity:100, exitCooldown:1.1,jumpSpeed:8,gravity:22,jumpDuration:16/22 });
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-/** Garage selection is a separate on-foot space. Vehicles use only the road;
- * boarding teleports them to a checked road spawn in app.js. */
+
+
 export function garageRoadContact(x,z,heading,roadContact) {
   return roadContact(x,z,heading);
 }
@@ -43,13 +43,13 @@ export function parkedVehicleContact(x,z,heading,vehicles,selectedId,footprint) 
     if(depth>0&&(!result||depth>result.depth))result={depth,normalX:nx,normalZ:nz,name:'Parked '+v.id};
   }return result;
 }
-/** Pure occupancy resolver. Unknown IDs are harmless; no server is simulated. */
+
 export function resolveFreeClassroomSeat(desks,occupiedSeatIds=[]) {
   const occupied=new Set(occupiedSeatIds);
   return [...desks].sort((a,b)=>a.id.localeCompare(b.id)).find(d=>!occupied.has(d.id))||null;
 }
-/** Renderer-free session state. Distance is actual displacement from the
- * four-wheel rigid-body model, so reverse costs fuel and idle/contact do not. */
+
+
 export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],stands=[],solids=[],characterId='bacon',occupiedSeatIds=[],career,persistence,hardBranches={},developerMode=false}={}) {
   const developerSession=developerMode===true;
   let loadedCareer=career, loadFailed=!!persistence?.status?.failed;
@@ -68,8 +68,8 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
   let saveWarningSent=false;
   const warnSave=()=>{state.saveFailed=true;if(!saveWarningSent){saveWarningSent=true;emit('save-warning',{reason:persistence?.status?.reason||'storage'});}};
   const persist=()=>{
-    // Keep unsaved progress dirty on failure, but bound automatic retries to
-    // the configured cadence instead of retrying storage on every frame.
+
+
     progressDirty=true;progressSinceSave=0;
     if(developerSession||!persistence){progressDirty=false;progressSinceSave=0;return true;}
     try {const result=persistence.save(snapshot());if(result===false||result?.ok===false||persistence.status?.failed){warnSave();return false;}state.saveFailed=false;progressDirty=false;progressSinceSave=0;return true;}
@@ -99,9 +99,9 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
     if(state.skinPurchaseCandidateId&&!nearSkin(state.skinPurchaseCandidateId))state.skinPurchaseCandidateId=null;
     if(state.schoolPurchaseCandidateId&&!nearSchool(state.schoolPurchaseCandidateId))state.schoolPurchaseCandidateId=null;
   };
-  // Enlarged showroom cars are approached from their clear front aisle.
-  // A small per-bay trigger avoids selecting a neighbor across the display row.
-  // Renderer-free/legacy vehicles retain the existing center-based radius.
+
+
+
   const vehicleDistance=v=>{
     const point=v.approachRadius>0&&v.approach?v.approach:pose(v);
     return Math.hypot(state.player.x-point.x,state.player.z-point.z);
@@ -119,14 +119,14 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
   const radius=()=>state.jump.airborne||state.landingCooldown>0?(state.characterId==='jandel'?2.05:1.8):(state.characterId==='jandel'?1.85:1.6);
   const canWalk=(x,z)=>walkPointAllowed(x,z,radius())&&!solids.some(b=>x>b.minX-radius()&&x<b.maxX+radius()&&z>b.minZ-radius()&&z<b.maxZ+radius())&&!stands.some(b=>Math.hypot(x-b.x,z-b.z)<1+radius())&&!vehicles.some(v=>{const p=pose(v),h=p.heading||0,dx=x-p.x,dz=z-p.z;const footprint=v.parkedFootprint||{halfWidth:1.75,halfLength:3.05};return Math.abs(dx*Math.cos(h)-dz*Math.sin(h))<footprint.halfWidth+radius()&&Math.abs(-dx*Math.sin(h)-dz*Math.cos(h))<footprint.halfLength+radius();});
   const bridgeIds=new Set(BRIDGES.map(bridge=>bridge.id));
-  // The scene prefixes trigger IDs with 'delivery-'; both scene triggers and
-  // renderer-free canonical fixtures resolve through this explicit whitelist.
+
+
   const checkpointIds=new Map(DELIVERY_CHECKPOINTS.flatMap(checkpoint=>[
     [checkpoint.id,checkpoint.id],[`delivery-${checkpoint.id}`,checkpoint.id],
   ]));
   const allowedHardBranches=new Map(FORK_DEFINITIONS.flatMap(fork=>{
-    // Configuration is supplied by the route's measured difficulty mapping;
-    // merely choosing an arm called 'alternate' never earns a hard bonus.
+
+
     const descriptor=hardBranches&&typeof hardBranches==='object'?Object.getOwnPropertyDescriptor(hardBranches,fork.id):null;
     const branch=descriptor&&Object.hasOwn(descriptor,'value')?descriptor.value:null;
     return branch==='main'||branch==='alternate'?[[fork.id,branch]]:[];
@@ -144,10 +144,10 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       BRIDGES.filter(bridge=>bridge.to<FINAL_DELIVERY_CHECKPOINT.progress).every(bridge=>route.bridgeIds.has(bridge.id));
   };
   const api={state,canWalk,isOwned,isSkinOwned,isSchoolOwned,snapshot,getVehicleAvailability,
-    // This is live run evidence, never a saved pending unlock. Every sample is
-    // independently projected onto the legal graph from the previous position.
-    // Starting late, leaving the road, skipping a bridge or teleporting consumes
-    // cargo immediately, so neither a final payout nor a reward can follow it.
+
+
+
+
     recordRouteSample(input){
       if(!acceptsTelemetry(input))return false;
       const fail=()=>{api.invalidateRun({runId:input.runId});return false;};
@@ -207,8 +207,8 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
     },
     flushProgress(){if(!progressDirty)return true;return persist();},
     tickProgress(dt,{distance=0,active=false}={}){
-      // Reject background/offline deltas outright. Never use throttle, wheel
-      // speed, saved timestamps or a clamped idle interval to create rewards.
+
+
       if(developerReward(state.selectedId))return 0;
       if(active!==true||typeof dt!=='number'||!Number.isFinite(dt)||dt<=0||dt>PROGRESSION_CONFIG.maxFrameSeconds)return 0;
       let rate=0;
@@ -222,8 +222,8 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       const earned=Math.min(PROGRESSION_CONFIG.maxBrains-state.brains,rate*dt);
       if(earned<=0)return 0;
       state.brains+=earned;
-      // Remove sub-nanobrain floating-point drift at whole-currency boundaries
-      // so exactly 20 earned brains can buy a 20-brain upgrade at any FPS.
+
+
       const whole=Math.round(state.brains);
       if(Math.abs(state.brains-whole)<1e-9)state.brains=whole;
       progressDirty=true;progressSinceSave+=dt;
@@ -277,8 +277,8 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       if(!offer)return deny('unknown');
       if(offer.maxed)return deny('maxed');
       if(state.brains<offer.price)return deny('funds');
-      // A larger tank never creates fuel. Only normal spawn/reset/refill paths
-      // fill the newly available space; buying also leaves the current run live.
+
+
       state.brains-=offer.price;state.upgrades[id][stat]=offer.nextLevel;
       persist();emit('upgrade-purchase',{id,stat,level:offer.nextLevel,price:offer.price,brains:state.brains,before:offer.current,after:offer.next,currentPerformance:offer.currentPerformance,nextPerformance:offer.nextPerformance});return true;
     },
@@ -301,8 +301,8 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       if(state.mode!=='walking'||state.seatedId||state.jump.airborne||state.jump.height>0)return deny('unavailable');
       if(vehicleDistance(vehicle)>=vehicleEntryRadius(vehicle))return deny('distance');
       if(state.money<spec.price)return deny('funds');
-      // Commit both money and ownership before emitting or persisting. A second
-      // click sees owned=true, even if saving failed. Buying itself never boards.
+
+
       state.money-=spec.price;state.ownedVehicleIds.push(id);state.blockedEntry=id;
       if(state.retention.goalVehicleId===id)state.retention.goalVehicleId=null;
       state.walked=0;clearPurchase();persist();emit('purchase',{id,price:spec.price,money:state.money});return true;
@@ -321,8 +321,8 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       if(state.mode!=='walking'||state.seatedId||state.jump.airborne||state.cooldown>0)return false;
       const v=vehicles.find(v=>v.id===id);if(!v||!isOwned(id))return false;
       clearShopPrompts();resetJump();state.landingCooldown=0;state.selectedId=id;state.mode='driving';state.stationId=null;state.testBiome=null;
-      // Explicit developer access is a session-only preview. Never load cargo,
-      // create route proof, or add this unearned car to the durable owned list.
+
+
       const preview=developerReward(id);state.testMode=preview;
       state.run=preview?null:{id:`${runtimeId}-${++runSequence}`,vehicleId:id,loaded:true};
       runProgress=preview?null:{runId:state.run.id,collisions:0,bridgeIds:new Set(),hardBranchIds:new Set(),route:{previous:null,startProgress:null,samples:0,bridgeIds:new Set()}};
@@ -330,13 +330,13 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
     },
     beginBiomeTest(id){
       if(state.mode!=='driving'||!BIOME_SEQUENCE.some(b=>b.id===id))return false;
-      // A preview never transports payable cargo. This flag is session-only;
-      // neither a reload nor repeated teleports can restore a loaded run.
+
+
       state.testMode=true;state.testBiome=id;state.run=null;runProgress=null;state.stationId=null;
       emit('biome-test',{id});return true;
     },
-    // Roadside disembarking is deliberately unavailable on every input route.
-    // Garage return and fuel-empty reset are the only driving-to-walking paths.
+
+
     exit() { return false; },
     walk(dt,input={}) {dt=clamp(Number(dt)||0,0,.05);state.elapsed+=dt;state.cooldown=Math.max(0,state.cooldown-dt);state.interactionCooldown=Math.max(0,state.interactionCooldown-dt);state.landingCooldown=Math.max(0,state.landingCooldown-dt);if(state.mode!=='walking'){clearShopPrompts();return;}
       const airborneAtStart=state.jump.airborne;
@@ -382,11 +382,11 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       if(state.mode!=='driving')return;
       clearPurchase();
       const id=state.selectedId,spec=vehicleConfig(id);
-      // The caller supplies actual signed displacement, never wheel spin or a
-      // requested throttle distance. Invalid input cannot create NaN fuel.
+
+
       const travelled=typeof distance==='number'&&Number.isFinite(distance)?Math.abs(distance):0;
       state.fuels[id]=Math.max(0,state.fuels[id]-travelled*spec.consumption*biomeSurfaceAt(Number.isFinite(x)&&Number.isFinite(z)?projectRoad(x,z).progress:0,id).fuelFactor);
-      // Empty wins atomically over coincident delivery and refuel circles.
+
       if(state.fuels[id]<=1e-9){api.returnToGarage('empty');return;}
       if(!Number.isFinite(x)||!Number.isFinite(z))return;
       const delivery=deliveries.find(d=>Number.isFinite(d.x)&&Number.isFinite(d.z)&&Number.isFinite(d.radius)&&d.radius>=0&&Number.isFinite(d.reward)&&d.reward>=0&&Math.hypot(x-d.x,z-d.z)<=d.radius);
@@ -396,8 +396,8 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
         const telemetry=runProgress?.runId===runId?runProgress:null;
         const finalDelivery=checkpointId===FINAL_DELIVERY_CHECKPOINT.id;
         if(finalDelivery&&!routeProofComplete(telemetry,x,z)){api.invalidateRun({runId});return;}
-        // Retention and wallet form one synchronous transaction. Consume cargo
-        // first; duplicate frames or re-entrant observers cannot claim again.
+
+
         state.run.loaded=false;
         const clean=!!telemetry&&telemetry.collisions===0;
         const hard=!!telemetry&&telemetry.hardBranchIds.size>0;

@@ -1,5 +1,5 @@
-// Shared fixture earns the BMW through production route validation. It does not
-// inject ownership or manufacture completion proof for app/integration tests.
+
+
 import {createGameplay} from '../../dist/gameplay.js';
 import {createCareerRouteTracker} from '../../dist/career-route-tracker.js';
 import {VEHICLE_CONFIG,FINAL_DELIVERY_CHECKPOINT,ECONOMY_CONFIG} from '../../dist/economy-config.js';

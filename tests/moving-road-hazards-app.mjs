@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-/** Real application integration with its actual driving solver and Three.js
- * scene graph. DOM, RAF and renderer are mocked; not a browser/GPU playtest. */
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -47,8 +47,8 @@ try{
    d.gameplay.recordRunCollision=input=>{const accepted=original(input);if(accepted)collisions++;return accepted;};
    try{for(let i=0;i<60;i++){tick();assertSynchronized(d);assert(!d.roadHazards.contact(s.x,s.z,s.heading),'No residual penetration after model step');assert([s.x,s.z,s.heading,s.velocityX,s.velocityZ].every(Number.isFinite));if(s.blocked){blocked=true;break;}}}finally{d.gameplay.recordRunCollision=original;}
    assert(blocked,car.id+' impact must stop');assert(collisions>0,car.id+' impact must invalidate clean bonus');assert(d.gameplay.state.run?.loaded,'Fixture setup is before first telemetry frame, not an in-run teleport');
-   // Reward calculation is invoked directly after the genuine collision; this
-   // checks the app's clean-run signal, not route completion or fuel range.
+
+
    const stop=d.garage.deliveries[0];d.gameplay.drive(0,stop.x,stop.z);const delivered=d.gameplay.events().find(e=>e.type==='delivery');assert(delivered);assert.equal(delivered.clean,false);assert.equal(delivered.breakdown.clean,0);assert.equal(delivered.breakdown.brains.clean,0);
    impacts.push({vehicle:car.id,gear:sign>0?'D':'R',collisionSignals:collisions,cleanBonus:delivered.breakdown.clean});
   }

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Real Three.js environment, mesh-free vehicle roots, gameplay and storage. No renderer,
-// network, browser, downloaded models or simulated performance claims.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import * as THREE from '../dist/vendor/three.module.js';
@@ -18,7 +18,7 @@ const near = (a, b, tolerance = 1e-5) => assert.ok(Math.abs(a-b) <= tolerance, `
 const originalIds = ['pickup','rover','van'];
 const ids = ['pickup','citycourier','rover','foresthauler','van','desertscout','snowgrip','snowrunner','lavacrawler','ashhauler'];
 const bayOrder = ids;
-// Stable storage order is retained while physical bay order defines the visible ladder.
+
 const meshOrder = [...originalIds,'citycourier','foresthauler','desertscout','snowgrip','snowrunner','lavacrawler','ashhauler'];
 const oldCareer = {version:1,money:93871,ownedVehicleIds:originalIds,characterId:'jandel',completedRuns:17};
 

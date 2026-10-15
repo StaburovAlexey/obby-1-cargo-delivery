@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-/** Independent obstacle-density audit. Actual Three.js CPU geometry and
- * perspective-frustum proxy; never a browser, GPU or human-playtest claim. */
+
+
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';

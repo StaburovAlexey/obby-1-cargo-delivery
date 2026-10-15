@@ -1,4 +1,4 @@
-/** Dedicated button/key edges. Camera owns only canvas pointers, never this UI. */
+
 export function createJumpInput({button,onJump=()=>{}}={}){
  if(!button)throw Error('Jump button required');const doc=button.ownerDocument,win=doc.defaultView,remove=[];
  let enabled=true,held=false,destroyed=false;

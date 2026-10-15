@@ -1,12 +1,12 @@
-/* Shared, renderer-independent road geometry. Logical coordinates: x, distance y,
- * height; Three.js uses x, height, -y. Road, terrain and vehicle fit share this
- * one continuous height field. There are no raised curb/sidewalk colliders. */
+
+
+
 export const ROUTE = Object.freeze({
   start: -23, fork: 74, end: 156, halfWidth: 15,
   splitEnd: 156, descentStart: 122, branchSpread: 40,
 });
 export const ROAD_SURFACE_OFFSET = 0.008;
-// Covers steering, sprung body roll, and pitched mirrors on the downhill bend.
+
 export const TRUCK_HALF_WIDTH = 2.9;
 export const TRUCK_HALF_LENGTH = 3.6;
 export const ROAD_MARGIN = 0.1;
@@ -15,8 +15,8 @@ export const smooth = (t) => {
   t = clamp(t, 0, 1);
   return t * t * (3 - 2 * t);
 };
-// Keep these legacy route utilities unchanged. Actual fork geometry uses the
-// explicit branch functions below, rather than extending the old main route.
+
+
 export const routeHeight = (y) => 11 * smooth((y - 13) / 61);
 export const routeCenter = (y) =>
   4.2 * Math.sin(Math.PI * smooth((y + 3) / 88));
@@ -33,7 +33,7 @@ export function branchHeight(id, y) {
   if (id !== 'left') throw new Error(`Unknown road branch: ${id}`);
   return 11 * (1 - smooth((y - ROUTE.descentStart) / (ROUTE.end - ROUTE.descentStart)));
 }
-/** Merged horizontal spans of the actual road union, not nearest-route guesses. */
+
 export function roadIntervals(y, halfWidth = ROUTE.halfWidth) {
   if (y < ROUTE.start || y > ROUTE.end || !Number.isFinite(y)) return [];
   if (y <= ROUTE.fork) return [{ min: routeCenter(y) - halfWidth, max: routeCenter(y) + halfWidth }];
@@ -45,10 +45,10 @@ export function roadIntervals(y, halfWidth = ROUTE.halfWidth) {
     { min: right - halfWidth, max: right + halfWidth },
   ];
 }
-/** Globally continuous terrain, including the space between and outside roads.
- * The fork ribbons overlap only while both are exactly 11 m high. Once separated,
- * the median is a smooth blend between their inner edges, with zero cross-slope
- * at each road edge. Outer terrain follows the adjacent road without a step. */
+
+
+
+
 export function surfaceHeight(x, y) {
   if (y <= ROUTE.fork) return routeHeight(y);
   const left = branchCenter('left', y), right = branchCenter('right', y);
@@ -58,8 +58,8 @@ export function surfaceHeight(x, y) {
   return leftHeight + (rightHeight - leftHeight) * smooth((x - lo) / (hi - lo));
 }
 const derivative = (id, y) => (branchCenter(id, y + 0.001) - branchCenter(id, y - 0.001)) / 0.002;
-/** Closest centerline metadata for labels/debugging. Never used to choose ground
- * height or to move the truck. An optional prior branch only breaks exact ties. */
+
+
 export function projectRoad(x, z, history) {
   const yy = -z;
   const previous = typeof history === 'string' ? history : history?.branch;
@@ -88,7 +88,7 @@ export function projectRoad(x, z, history) {
   }
   return best;
 }
-/** Ordered footprint corners in logical x/y space. */
+
 export function truckFootprint(x, z, heading) {
   const c = Math.cos(heading), s = Math.sin(heading), y = -z;
   return [[-1,-1],[1,-1],[1,1],[-1,1]].map(([a,b]) => ({
@@ -122,7 +122,7 @@ function convexHull(points) {
   for (let i=points.length-1;i>=0;i--) { const p=points[i]; while (upper.length>1 && cross(upper.at(-2),upper.at(-1),p)<=0) upper.pop(); upper.push(p); }
   lower.pop(); upper.pop(); return lower.concat(upper);
 }
-// First location where the two actual road ribbons stop overlapping.
+
 let splitLo = ROUTE.fork, splitHi = ROUTE.end;
 for (let i=0;i<50;i++) {
   const y = (splitLo+splitHi)/2;
@@ -156,11 +156,11 @@ function medianContact(points, minY, maxY) {
   }
   return Number.isFinite(depth) ? {normalX:nx,normalZ:-ny,depth,name:'Fork median'} : undefined;
 }
-/** Contact for the complete OBB against the road UNION. Outer sides are checked
- * across every footprint slice (plus every corner), and the fork gap uses SAT.
- * A straight-on approach contacts the median nose, rather than choosing a branch.
- * The tiny conservative hull of the nearby curved median keeps the entire body
- * clear; source substepping resolves contact/sliding without position snapping. */
+
+
+
+
+
 export function corridorContact(x, z, heading) {
   if (![x,z,heading].every(Number.isFinite)) return undefined;
   const points=truckFootprint(x,z,heading);
@@ -172,7 +172,7 @@ export function corridorContact(x, z, heading) {
   const ys=points.map(p=>p.y),steps=Math.max(1,Math.ceil((maxY-minY)/0.15));
   for(let i=0;i<=steps;i++) ys.push(minY+(maxY-minY)*i/steps);
   if(minY<ROUTE.fork && maxY>ROUTE.fork) ys.push(ROUTE.fork);
-  // 0.0002 m conservatively covers between-sample curvature error.
+
   const margin=ROAD_MARGIN+0.0002;
   for(const y of ys) {
     const span=footprintSpan(points,y);
@@ -190,8 +190,8 @@ export function corridorContact(x, z, heading) {
 export function truckInRoad(x,z,heading) {
   return [x,z,heading].every(Number.isFinite) && !corridorContact(x,z,heading);
 }
-/** Conservative footprint overlap used only to keep decorative prop colliders
- * off the drivable union. Renderer geometry is checked separately in tests. */
+
+
 export function obstacleIntersectsRoad(o, padding = 0.15) {
   const from=Math.max(ROUTE.start,-o.maxZ-padding),to=Math.min(ROUTE.end,-o.minZ+padding);
   if(to<from) return false;

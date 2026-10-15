@@ -1,4 +1,4 @@
-// Source contracts and renderer-free app behavior; not browser layout validation.
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createAppDom} from './fixtures/app-dom.mjs';

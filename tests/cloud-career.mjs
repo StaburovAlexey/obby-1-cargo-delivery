@@ -69,7 +69,7 @@ test('changes made while a write is in flight stay dirty and flush writes the la
   cloud.destroy(); const racing = createCloudCareer({ platform, writeDelayMs: 0, retryDelays: [], now: () => 1000, legacyStorage: null }); await racing.initialize();
   racing.store.save({ ...racing.store.load(), money: 200 }); const flushing = racing.flush(); await startedPromise;
   racing.store.save({ ...racing.store.load(), money: 300 }); release();
-  // A second write must be awaited by the same flush; release it when started.
+
   await new Promise(resolve => setImmediate(resolve)); release(); await flushing;
   assert.equal(f.data.career.money, 300); assert.equal(racing.status.unsaved, false); racing.destroy();
 });

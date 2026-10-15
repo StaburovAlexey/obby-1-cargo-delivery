@@ -1,7 +1,7 @@
-/** Shared road-surface tuning. All numbers are dimensionless multipliers of
- * the original four-tire solver, except cosmetic vibration and color/detail.
- * The route's existing longitudinal biome boundaries also drive the shader.
- * No shoulder mask: a surface covers the complete 30 m road width. */
+
+
+
+
 import { BIOMES } from './road-layout.js';
 import { VEHICLE_CONFIG } from './economy-config.js';
 
@@ -17,8 +17,8 @@ export const CITY_SURFACE = Object.freeze({
 const surface = (id, dynamics, color, detail) => Object.freeze({
   ...CITY_SURFACE, id, ...dynamics, color, detail: Object.freeze(detail),
 });
-/** Legacy diagnostic detail = [seam strength, mottling, ripples]. Kept for
- * inspection compatibility; the road uses the shared LEGO texture instead. */
+
+
 export const BIOME_SURFACES = Object.freeze({
   city: surface('city', {}, 0x72747a, [.19, .025, 0]),
   forest: surface('forest', {
@@ -38,12 +38,12 @@ export const BIOME_SURFACES = Object.freeze({
     engineFactor: .95, speedFactor: .95, coastingFactor: 1.02, vibration: 1,
   }, 0x45434d, [.32, .06, .012]),
 });
-/** Every bay is a strict improvement; biome tiers still provide the large step.
- * Supported surface grip grows 12% per bay, above the complete 10% upgrade cap.
- * Earlier terrain is 99% of the current tire package; own terrain is excellent.
- * Unsupported terrain keeps physically poor grip/traction, even fully upgraded.
- * Unsupported roads retain 75% speed with strong lateral sliding and high fuel burn.
- * Longitudinal traction is independent so low lateral grip cannot cripple acceleration. */
+
+
+
+
+
+
 const profile = (frictionFactor, lateralDampingFactor, rollingFactor,
   engineFactor, speedFactor, coastingFactor, vibration = 0, handlingFactor = 1, fuelFactor = 1, longitudinalGripFactor = 1) => Object.freeze({
   frictionFactor, lateralDampingFactor, rollingFactor, engineFactor,
@@ -56,7 +56,7 @@ const supported = Object.freeze({
   snow:     [.90, .55,  .75, 1,    1,     .69, 0],
   volcanic: [1.02,.95, 1.10, 1,    1,    1.02,.32],
 });
-// Distance beyond capability, [friction, lateral, engine, nominal-speed ratio].
+
 const unsupported = Object.freeze({
   1:[.28,.16,1,.75], 2:[.225,.125,1,.75],
   3:[.18,.09,1,.75], 4:[.14,.065,1,.75],
@@ -81,10 +81,10 @@ export const VEHICLE_SURFACE_PROFILES = Object.freeze(Object.fromEntries(
     return [vehicle.id,Object.freeze(Object.fromEntries(entries))];
   }),
 ));
-/** Compatibility export for existing inspection/UI callers. Derive modifiers
- * from the explicit effective profiles rather than stacking price/tier boosts.
- * Dynamics below read the profiles directly, avoiding round-off or zero-bob
- * division in a multiplicative reconstruction. */
+
+
+
+
 export const VEHICLE_SURFACE_MODIFIERS = Object.freeze(Object.fromEntries(
   Object.entries(VEHICLE_SURFACE_PROFILES).map(([vehicleId, profiles]) => [vehicleId,
     Object.freeze(Object.fromEntries(Object.entries(profiles).map(([id, dynamics]) => [id,
@@ -118,8 +118,8 @@ const vehicleSurfaces = Object.freeze(Object.fromEntries(
 export function surfaceForBiome(id, vehicleId = 'pickup') {
   return (vehicleSurfaces[vehicleId] || vehicleSurfaces.pickup)[id] || CITY_SURFACE;
 }
-/** Dynamics use chassis position, blended smoothly across the same 48 metres
- * as rendering. x is intentionally irrelevant: changing lanes keeps grip. */
+
+
 export function biomeSurfaceAt(logicalY, vehicleId = 'pickup') {
   const { from, to, blend } = biomeSurfaceBlend(logicalY);
   const a = surfaceForBiome(from, vehicleId), b = surfaceForBiome(to, vehicleId);
@@ -129,8 +129,8 @@ export function biomeSurfaceAt(logicalY, vehicleId = 'pickup') {
     ...Object.fromEntries(SURFACE_FACTOR_KEYS.map(key => [key, a[key] + (b[key] - a[key]) * blend])),
   };
 }
-/** Optional third-party callbacks cannot inject negative grip or NaN forces.
- * Missing properties retain exact flat-city behavior. */
+
+
 export function normalizeSurfaceDynamics(value) {
   const out = {};
   for (const key of SURFACE_FACTOR_KEYS) {

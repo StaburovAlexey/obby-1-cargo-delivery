@@ -1,4 +1,4 @@
-// Approved compact-route safety regression. Offline geometry and support only.
+
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';

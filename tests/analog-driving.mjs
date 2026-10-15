@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/** Offline QA of the production analog-speed force solver; no browser mock. */
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { createDrivingModel, VEHICLE_DYNAMICS as P, TOW_DRIVING } from '../dist/driving-model.js';

@@ -1,7 +1,7 @@
 import { CHARACTER_CATALOG } from './character-catalog.js';
 import {PREMIUM_SKIN_IDS,premiumProductId} from './premium-skins.js';
 
-/** Non-premium prices are fictional currency; premium prices come from SDK. */
+
 export const PROGRESSION_CONFIG = Object.freeze({
   drivingRate: 3,
   maxBrains: 1_000_000_000,

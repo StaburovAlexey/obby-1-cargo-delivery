@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Offline-only generator. Runtime never scans skinned vertices for support.
+
 import fs from 'node:fs';
 import * as THREE from '../dist/vendor/three.module.js';
 import { GLTFLoader } from '../dist/vendor/GLTFLoader.js';

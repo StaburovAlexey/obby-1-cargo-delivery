@@ -5,9 +5,9 @@ export const careerNumber=value=>String(Math.floor(boundedNumber(value))).replac
 const rewardParts=['base','clean','hard','first','mission'];
 const rewardLabels={base:'Доставка',clean:'Без аварий',hard:'Сложный рейс',first:'Первый визит',mission:'Задание'};
 
-/** One modal at a time. A successful delivery queues its receipt until the
- * player is back in the hangar and other dialogs have closed. The receipt stays
- * open until dismissed; opening either modal pauses and resets game input. */
+
+
+
 export function createRetentionUi(doc,{onSelectGoal=()=>{},onSkipMission=()=>{},onOpenChange=()=>{}}={}){
   const el=id=>doc.getElementById(id),menu=el('career-menu'),root=el('career-panel'),select=el('career-goal-select'),receipt=el('delivery-receipt'),receiptMenu=el('delivery-receipt-menu');
   const buttons={goal:el('career-goal-button'),mission:el('career-mission-button')};
@@ -43,7 +43,7 @@ export function createRetentionUi(doc,{onSelectGoal=()=>{},onSkipMission=()=>{},
       background=Array.from(doc.body.children||[]).filter(node=>node!==activeMenu()).map(node=>[node,node.inert]);
       for(const [node]of background)node.inert=true;
     }
-    // Update modal/inert state first: the callback can synchronously update us.
+
     if(wasOpen!==!!kind)onOpenChange(!!kind);
     if(kind&&openKind===kind)closeButton().focus?.();
     else if(!openKind&&restoreFocus&&eligible(lastView)&&focusTarget&&!focusTarget.hidden)focusTarget.focus?.();
@@ -68,7 +68,7 @@ export function createRetentionUi(doc,{onSelectGoal=()=>{},onSkipMission=()=>{},
   const close=({restoreFocus=true,showPending=true}={})=>{
     if(!openKind)return;
     activeReceipt=null;
-    // Switching from a task to a queued receipt never resumes game input.
+
     if(showPending&&openPendingReceipt())return;
     setModal(null,{restoreFocus});
   };
@@ -131,7 +131,7 @@ export function createRetentionUi(doc,{onSelectGoal=()=>{},onSkipMission=()=>{},
   };
   const showDelivery=breakdown=>{
     if(disposed||!breakdown||!Number.isFinite(Number(breakdown.totalCash)))return;
-    // Keep a snapshot while another modal or a hidden tab delays the receipt.
+
     pendingReceipts.push({...breakdown,brains:{...breakdown.brains}});
     if(lastView)update(lastView);
   };

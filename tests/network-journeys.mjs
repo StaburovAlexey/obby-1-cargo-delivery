@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-// Actual production Three.js, garage/checkpoint descriptors, driving forces,
-// graph/union contacts, triangle ground, hazard state and persistent economy.
-// No browser/renderer claims; no successful-route pose or fuel injection.
+
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -93,7 +93,7 @@ export function driveNetworkJourney({id='pickup',branch='primary',levels={},targ
   else {assert.equal(gameplay.state.money,0);assert.equal(gameplay.state.completedRuns,0);}
   assert.equal(gameplay.state.run,null);
   for(const v of VEHICLE_CONFIG)assert.equal(gameplay.state.fuels[v.id],getVehiclePerformance(v.id,levels).capacity);
-  // Repeated overlap/replayed frames cannot pay the consumed run again.
+
   const money=gameplay.state.money,runs=gameplay.state.completedRuns;
   for(let i=0;i<12;i++)gameplay.drive(0,model.state.x,model.state.z);
   assert.equal(gameplay.state.money,money);assert.equal(gameplay.state.completedRuns,runs);assert.equal(gameplay.events().filter(e=>e.type==='delivery').length,0);
@@ -109,11 +109,11 @@ export async function runNetworkJourneys({upgrades=['stock','max'],branches=['pr
   for(const c of DELIVERY_CHECKPOINTS){assert.ok(Number.isFinite(c.progress));const p=routePointAtProgress(c.progress);assert.ok(Math.abs(p.distance-c.distance)<1e-8);}
   const results=[],failures=[];
   const execute=options=>{try{const result=driveNetworkJourney(options);results.push(result);console.log(`PASS ${result.id} ${result.upgrade} ${result.branch} → ${result.target}: ${result.outcome}, ${result.refills} refills, ${result.actualTravel} m, ${result.frames} frames`);return result;}catch(error){failures.push({...options,error:error.stack});console.error(error.stack);return null;}};
-  // The free first car must reach its very first paying delivery.
+
   if(checkpoints)execute({id:'pickup',targetIndex:0,dt:.05});
   for(const upgrade of upgrades)for(const [b,branch] of branches.entries())for(const id of ids){const levels=upgrade==='max'?MAX_LEVELS:{},targetIndex=expectedTarget(id,levels),dt=(b+(upgrade==='max'?1:0))%2?.1:.05;execute({id,branch,levels,targetIndex,dt});if(negative&&targetIndex<DELIVERY_CHECKPOINTS.length-1)execute({id,branch,levels,targetIndex:targetIndex+1,dt,expect:'empty'});}
-  // Every payout is reached by driving from spawn; every intermediate refill
-  // is therefore exercised. The final gate is already covered by the matrix.
+
+
   if(checkpoints)for(let targetIndex=1;targetIndex<DELIVERY_CHECKPOINTS.length-1;targetIndex++)execute({id:'ashhauler',targetIndex,branch:targetIndex%2?'alternate':'primary',levels:MAX_LEVELS,dt:1/20});
   const report={passed:failures.length===0,sourceHashes,rendererFree:true,actualProductionModules:true,poseMutationsAfterSpawn:0,routeLength:ROUTE_LENGTH,biomes:BIOMES.map(b=>({id:b.id,from:b.from,to:b.to})),checkpoints:DELIVERY_CHECKPOINTS,checks:results,failures};
   fs.mkdirSync(outDir,{recursive:true});fs.writeFileSync(new URL(`${label}.json`,outDir),JSON.stringify(report,null,2)+'\n');

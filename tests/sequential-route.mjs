@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Current branching-world integration. Supersedes the old world-Z/no-fork
-// assumptions. Graph topology and exact union geometry have separate tests.
+
+
 import assert from 'node:assert/strict';
 import * as THREE from '../dist/vendor/three.module.js';
 import * as road from '../dist/road-layout.js';

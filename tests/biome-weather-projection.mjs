@@ -1,5 +1,5 @@
-// Offline projection/opacity evidence. Uses production Three.js and the actual
-// app's driving camera; it does not claim GPU, browser or device visual QA.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import * as THREE from '../dist/vendor/three.module.js';
@@ -35,8 +35,8 @@ function measure(weather,camera,plane,{width,height,dpr},before){
   const isHaze=!!haze.getX(i),peak=visibility*(isHaze?u.hazeOpacity.value:u.opacity.value);
   if(peak<(isHaze?.02:.08))continue;
   if(!isHaze)onScreen++;
-  // Infinite tangent ground/deck plane is conservative: even particles in
-  // bridge gaps are rejected below deck. Terrain/building meshes aren't drawn.
+
+
   if(plane.distanceToPoint(world)<=0){if(!isHaze)belowGround++;continue;}
   const max=before?(isHaze?112:20):(isHaze?180:52),size=Math.max(before?1:2,Math.min(max,(isHaze?u.hazeSize.value:u.particleSize.value)*(before?14:22)/Math.max(5,depth)));
   alphaArea+=size*size*peak*areaCache[before?1:0][u.kind.value][isHaze?1:0];
@@ -72,8 +72,8 @@ for(const viewport of [{width:390,height:844,dpr:1.6},{width:1440,height:900,dpr
    assert.ok(after.alphaFootprintUpperBoundPct<8,'particles and veils keep near-view contrast readable');
    report.defaultViews.push({biome,viewport:`${viewport.width}x${viewport.height}`,cameraHeightAbovePlane:round(plane.distanceToPoint(d.camera.position)),before,after});
    const target=d.controls.target.clone(),radius=FOLLOW_CAMERA.driving.radius*(viewport.width/viewport.height<.8?1.2:1);
-   // All cardinal yaws and both extreme legal pitches catch headwind depletion
-   // and top-down below-ground populations, not just the convenient default.
+
+
    for(const pitch of [FOLLOW_CAMERA.minPitch,FOLLOW_CAMERA.maxPitch])for(const yaw of [0,Math.PI/2,Math.PI,Math.PI*1.5]){
     const offset=computeFollowOffset({radius,pitch,yaw});d.camera.position.copy(target).add(new THREE.Vector3(offset.x,offset.y,offset.z));d.camera.lookAt(target);d.camera.updateMatrixWorld();
     const result=run(createBiomeWeather,biome,d.camera,plane,viewport,false);

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-/** CPU-only bridge support + actual ten-rig footprint contract. Static pose
- * probes are geometry tests, not driving proofs. Full input-only journeys live
- * in expanded-bridge-journeys.mjs. */
+
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -45,8 +45,8 @@ try{
    }
   }
  }
- // Shared wheel envelopes validated above; dense longitudinal/yaw probes need
- // only one pass per bridge rather than repeating identical rig footprints.
+
+
  for(const b of BRIDGES)for(let i=0;i<60;i++)for(const reverse of [0,Math.PI])for(const yaw of [-5,0,5]){
   const q=b.from-2+(b.to-b.from+4)*i/59,p=routePointAtProgress(q),state={x:p.x+p.right.x*b.offset,z:p.z+p.right.z*b.offset,heading:p.heading+reverse+yaw*Math.PI/180};
   assert.equal(bridgeSupport(state,p).fall,false,`${b.id} yaw ${yaw} reverse ${!!reverse} at ${q}`);report.yawSamples++;

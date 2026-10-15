@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Renderer-free garage, reachability, resource and mesh-free contact-pose checks.
+
 import assert from 'node:assert/strict';
 import * as THREE from '../dist/vendor/three.module.js';
 import { buildCity } from '../dist/scene.js';
@@ -134,8 +134,8 @@ check('hangar has a complete full-area roof, flush floor and genuinely open cent
     near(solid.min.z, wall.minZ); near(solid.max.z, wall.maxZ);
     assert.ok(solid.min.y <= floor.max.y && solid.max.y >= roof.min.y - 1e-5, `${wall.name}: floor-to-ceiling closure`);
   }
-  // Sample every boundary and every heading using a walking-sized capsule.
-  // Even the apparent front door remains a physically closed wall.
+
+
   const pedestrian = { halfWidth: 0.6, halfLength: 0.6 };
   for (let x = -57; x <= 31; x += 0.5) {
     for (const z of [26, 90]) for (let h = 0; h < Math.PI * 2; h += Math.PI / 8)

@@ -1,7 +1,7 @@
 import { ECONOMY_CONFIG, DELIVERY_CHECKPOINTS, VEHICLE_CONFIG } from './economy-config.js';
 import { BRIDGES } from './road-bridges.js';
 
-/** Small, trip-based rewards. No clocks, streaks, daily resets or live cargo are saved. */
+
 export const RETENTION_VERSION = 1;
 export const MAX_MISSION_SEQUENCE = 1_000_000_000;
 export const CAREER_MISSIONS = Object.freeze([
@@ -23,9 +23,9 @@ export function getActiveMission(retention) {
   const progress=integer(retention?.missionProgress,definition.target-1);
   return {...definition,sequence,progress,remaining:definition.target-progress};
 }
-/** Mutates only the bounded career retention record, after successful delivery.
- * Crossings from failed/aborted trips never become durable mission progress.
- * A run contributes to exactly the mission that was active for that delivery. */
+
+
+
 export function advanceCareerMission(retention,{clean=false,bridgeIds=[],hard=false}={}) {
   const mission=getActiveMission(retention);
   if(mission.sequence>=MAX_MISSION_SEQUENCE)return null;
@@ -40,8 +40,8 @@ export function advanceCareerMission(retention,{clean=false,bridgeIds=[],hard=fa
   retention.missionSequence=mission.sequence+1;retention.missionProgress=0;retention.missionBridgeIds=[];
   return {id:mission.id,name:mission.name,sequence:mission.sequence,cash:mission.cash,brains:mission.brains};
 }
-/** Rounding applies independently to approved bonuses. Mission and first-visit
- * rewards are separately labelled; they do not enlarge the 8% mastery cap. */
+
+
 export function calculateDeliveryReward(reward,{clean=false,hard=false,first=false,mission=null}={}) {
   const base=integer(Math.round(reward));
   const cleanBrains=clean?Math.floor(base*DELIVERY_BONUS_RATES.cleanBrains):0;
@@ -54,8 +54,8 @@ export function calculateDeliveryReward(reward,{clean=false,hard=false,first=fal
   result.brains.total=result.brains.clean+result.brains.hard+result.brains.first+result.brains.mission;
   return result;
 }
-/** At currency caps the receipt describes what was credited, not a larger
- * theoretical payout. Base reward is credited before its optional bonuses. */
+
+
 export function capDeliveryReward(reward,cashRoom,brainRoom) {
   const result={...reward,brains:{...reward.brains}};
   let cash=Math.max(0,cashRoom),brains=Math.max(0,brainRoom);

@@ -1,4 +1,4 @@
-/** Compact delivery route. Progress is a graph station, never world Z. */
+
 export const NETWORK_CONFIG = Object.freeze({
   "start": -17,
   "end": 15850,
@@ -90,10 +90,10 @@ export const FORK_DEFINITIONS = Object.freeze([
     "skew": -0.24
   }
 ].map(Object.freeze));
-// Heading changes use the network's C2 quintic easing. Begin a gentle city
-// bend after the 80 m departure apron, then alternate direction throughout
-// each biome. Fixed bridge approaches stay straight or below 0.0013/m;
-// fork backbones stay straight so both arms retain their welded geometry.
+
+
+
+
 const degrees = value => value * Math.PI / 180;
 export const TURN_DEFINITIONS = Object.freeze([
   [80, 345, 0, 18],

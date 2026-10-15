@@ -1,5 +1,5 @@
-// Renderer-free real-app regression, with explicit CSS/markup contracts.
-// No WebGL, browser layout or physical-touch claims.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createAppDom} from './fixtures/app-dom.mjs';
@@ -25,7 +25,7 @@ const app=createAppDom({startDriving:false,width:568,height:320}),d=app.debug,ge
 try{
  app.frame();assert.equal(get('delivery-receipt').hidden,true);assert.equal(d.careerMenuOpen,false);
  for(const reason of ['garage','empty','bridge']){d.returnToGarage(reason);assert.equal(get('delivery-receipt').hidden,true,reason+' never creates a receipt');}
- // A successful delivery arrives while a vehicle key and camera pointer are held.
+
  d.gameplay.state.cooldown=0;assert.equal(d.enterVehicle('pickup'),true);app.frame();
  app.win.dispatch('keydown',{code:'KeyW',key:'w'});assert.equal(d.input.state.active,true);
  const canvas=d.renderer.domElement;
@@ -39,7 +39,7 @@ try{
  assert.equal(canvas.hasPointerCapture(71),false);assert.equal(app.doc.activeElement,get('delivery-receipt-close'));
  const balance=d.gameplay.state.money,brains=d.gameplay.state.brains,player={...d.gameplay.state.player},camera=d.camera.position.clone();
  assert.equal(balance-balanceBefore,delivery.reward+Math.floor(delivery.reward*.2)+Math.floor(delivery.reward*.05));
- // Inputs and forced HUD clicks cannot move, buy, jump or replace the modal.
+
  app.win.dispatch('keydown',{code:'KeyW',key:'w'});app.win.dispatch('keydown',{code:'Space',key:' '});
  canvas.dispatch('pointerdown',{pointerId:72,button:0,clientX:100,clientY:100});
  canvas.dispatch('pointermove',{pointerId:72,clientX:180,clientY:160});
@@ -49,7 +49,7 @@ try{
  assert.deepEqual(d.gameplay.state.player,player);assert.deepEqual(d.camera.position,camera);assert.equal(d.gameplay.state.money,balance);assert.equal(d.gameplay.state.brains,brains);
  for(const id of ['buy-vehicle','buy-skin','buy-school'])assert.equal(get(id).hidden,true,id);
  app.frame(60000);assert.equal(get('delivery-receipt').hidden,false,'No automatic receipt expiry');
- // Replaying a delivery location cannot grant the same payout a second time.
+
  d.gameplay.drive(0,delivery.x,delivery.z);app.frame(60017);assert.equal(d.gameplay.state.money,balance);
  get('delivery-receipt-close').dispatch('click');assert.equal(d.careerMenuOpen,false);assert.equal(get('delivery-receipt').hidden,true);assert.equal(get('delivery-receipt-menu').hidden,true);
  assert.equal(d.walkInput.sample().active,false);assert.equal(d.lookInput.active,false);assert.equal(app.doc.activeElement,get('career-mission-button'));

@@ -1,7 +1,7 @@
 import {BRIDGES} from './road-bridges.js';
 import {FORK_DEFINITIONS} from './route-network-config.js';
 import {projectRoad,routePointAtProgress} from './route-network.js';
-// Ridge arms have higher ascent and peak grades at every fork. See the CPU audit.
+
 export const HARD_BRANCHES=Object.freeze(Object.fromEntries(FORK_DEFINITIONS.map(f=>[f.id,'main'])));
 export function createCareerRouteTracker(){
  let runId=null,previous=null,invalid=false,active=new Map(),done=new Set();

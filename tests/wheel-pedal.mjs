@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Renderer-free tests of the actual input module, independent fake event DOM,
-// production driving model and static HUD layout. No browser or touch-device claim.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { createVehicleInput, STEERING_MAX_ANGLE, shortestAngleDegrees, fingerAngleAt } from '../dist/vehicle-input.js';

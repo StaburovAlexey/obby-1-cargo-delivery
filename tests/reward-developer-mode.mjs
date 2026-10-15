@@ -25,13 +25,13 @@ assert.equal(g.recordBridgeCrossing({runId:'fake',bridgeId:'city-bridge-1'}),fal
 g.returnToGarage();g.state.cooldown=0;assert.equal(g.enter(REWARD_VEHICLE_ID),true);assert.equal(g.state.run,null);
 g.state.fuels[REWARD_VEHICLE_ID]=0;g.drive(1,0,6);assert.equal(g.state.mode,'walking');
 assert.equal(g.isOwned(REWARD_VEHICLE_ID),true);assert.deepEqual(g.snapshot(),baseline);
-// All developer-session writes are suppressed even if a caller supplies the
-// normal adapter: grants, mission rerolls, purchases and explicit flushes.
+
+
 g.claimVehicleFunds();g.skipMission();g.state.player={...vehicles[1].park};g.buy('citycourier');g.flushProgress();
 assert.equal(writes,0);assert.equal(raw,JSON.stringify(baseline));
 const normal=make({persistence});assert.equal(normal.isOwned(REWARD_VEHICLE_ID),false);assert.deepEqual(normal.snapshot(),baseline);
-// A legitimately earned car retains its normal loaded-run behavior, while
-// this developer session still cannot overwrite the ordinary save.
+
+
 const earned=make({developerMode:true,career:earnedRewardCareer(),persistence});
 assert.equal(earned.enter(REWARD_VEHICLE_ID),true);assert.equal(earned.state.testMode,false);assert.equal(earned.state.run.loaded,true);
 earned.returnToGarage();earned.flushProgress();assert.equal(writes,0);

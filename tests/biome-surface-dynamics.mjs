@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import {routePointAtProgress} from '../dist/road-layout.js';
-// Renderer-free physical checks. Actual fixed-step solver, no browser or GPU.
+
 import assert from 'node:assert/strict';
 import { createDrivingModel, evaluateVehicleForces, VEHICLE_DYNAMICS as P } from '../dist/driving-model.js';
 import { BIOMES } from '../dist/road-layout.js';
@@ -83,7 +83,7 @@ check('Unsupported tiers brake poorly; snow retains longer coasting for every ti
   const rows=[];
   for(const v of VEHICLE_CONFIG){
     const tier=BIOMES.findIndex(b=>b.id===v.specialty),result={car:v.id},brakes={};
-    // 1.5 m/s is attainable by all 50 combinations. No impossible entry speed.
+
     for(const b of BIOMES){
       const m=make(v,b.id);m.setInput({active:true});
       while(m.state.speed<1.5)m.step(P.fixedStep);
@@ -149,7 +149,7 @@ check('Canonical surface boundary crossings are fixed-step deterministic at 30/6
     const m=createDrivingModel({x:0,z:-(boundary-38),maxSpeed:17,vehicleId:'rover',groundSurface:(x,z,id)=>biomeSurfaceAt(-z,id)});m.setInput({active:true});const distance=run(m,30,fps);
     assert.ok(-m.state.z>boundary+24);results.push({...m.state,pathDistance:distance});
   }for(const state of results.slice(1))for(const[key,value]of Object.entries(state)){
-    if(key==='travel'||key==='movingSeconds')continue; // These are intentionally per-render-frame sums; aggregate timing is covered by upgrade tests.
+    if(key==='travel'||key==='movingSeconds')continue;
     if(typeof value==='number')near(value,results[0][key],1e-9);else assert.equal(value,results[0][key]);}}
 });
 console.log(`\n${checks} biome dynamics groups passed: ${matrix.length} car/surface combinations. No browser/GPU claim.`);

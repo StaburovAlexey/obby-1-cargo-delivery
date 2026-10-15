@@ -1,5 +1,5 @@
-/** Bounded, per-car brain-currency upgrades. No wallet, save, or fuel mutations.
- * The game owns the transaction; this module is also the UI/physics contract. */
+
+
 import { VEHICLE_CONFIG } from './economy-config.js';
 export const UPGRADE_MAX_LEVEL = 10;
 export const UPGRADE_STEP = .01;
@@ -11,7 +11,7 @@ export const UPGRADE_STATS = Object.freeze([
 ].map(Object.freeze));
 const statIds = new Set(UPGRADE_STATS.map(s=>s.id));
 const vehicles = new Map(VEHICLE_CONFIG.map(v=>[v.id,v]));
-// Descriptor-only reads never invoke JSON-adjacent getters or inherit values.
+
 const ownData = (value,key) => {
   if(!value || typeof value !== 'object' || Array.isArray(value)) return undefined;
   try { const d=Object.getOwnPropertyDescriptor(value,key);return d && Object.hasOwn(d,'value') ? d.value : undefined; }
@@ -35,7 +35,7 @@ export function getVehiclePerformance(vehicleId,levels) {
   const m=getUpgradeModifiers(levels);
   return {maxSpeed:v.maxSpeed*m.speed,acceleration:v.acceleration*m.engine,
     handling:v.handling*m.handling,steeringResponseSeconds:.22/(v.handling*m.handling),
-    // Tank size extends one-fill range; fuel burned per metre is unchanged.
+
     grip:v.grip*m.grip,range:v.range*m.fuel,capacity:v.capacity*m.fuel,consumption:v.consumption};
 }
 export function getUpgradeOffer(vehicleId,stat,levels) {
@@ -45,7 +45,7 @@ export function getUpgradeOffer(vehicleId,stat,levels) {
   const currentPerformance=getVehiclePerformance(vehicleId,clean);
   const nextPerformance=getVehiclePerformance(vehicleId,{...clean,[stat]:nextLevel});
   const value=p=>stat==='speed'?p.maxSpeed:stat==='fuel'?p.capacity:p[stat]*100;
-  // Each stat has the same ten-level curve; round the acquired level to 5 brains.
+
   const price=maxed?null:5*Math.round(40*1.35**currentLevel*1.2**(v.progressionOrder-1)/5);
   return {vehicleId,stat,level:currentLevel,nextLevel,maxLevel:UPGRADE_MAX_LEVEL,maxed,price,
     current:value(currentPerformance),next:value(nextPerformance),

@@ -1,11 +1,11 @@
-// Historical lower-body calibration generator, retained for provenance.
-// Do not rerun after the arm-frame correction: its absolute-wrist assumptions
-// are obsolete. Current calibration is validated by desk-pose-clearance.mjs
-// and seated-arm-axes.mjs against all 17 actual GLBs.
+
+
+
+
 throw new Error("Legacy absolute-wrist calibration is retired; validate the shipped anatomical profiles with tests/seated-arm-axes.mjs and tests/desk-pose-clearance.mjs.");
 
-// Rebuild only seated calibration from real GLBs; standing support stays untouched.
-// Requires the current seat profile for loading, then starts each solve at idle.
+
+
 import fs from'node:fs';import*as T from'../dist/vendor/three.module.js';import{loadCharacter,CHARACTER_CATALOG}from'../dist/character.js';import{makeSeatPose}from'../dist/character-seat-pose.js';globalThis.self=globalThis;globalThis.createImageBitmap=async()=>({width:1024,height:512,close(){}});
 const data={},seatHeight=.5,tableTop=1.35;
 for(let c of CHARACTER_CATALOG){const b=fs.readFileSync(c.url),a=await loadCharacter(T,{id:c.id,data:b.buffer.slice(b.byteOffset,b.byteOffset+b.byteLength)}),pivot=a.group.children[0],model=pivot.children[0];pivot.position.y=0;a.group.updateMatrixWorld(true);const handAngle=['pack3','jeff-the-killer','jandel'].includes(c.id)?-1.72:-1.5;const base=new Map();model.traverse(o=>{if(o.isBone)base.set(o,o.quaternion.clone());});const pos=s=>model.getObjectByName('mixamorig'+s).getWorldPosition(new T.Vector3());

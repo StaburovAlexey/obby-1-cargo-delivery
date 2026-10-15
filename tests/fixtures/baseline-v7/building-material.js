@@ -1,11 +1,11 @@
-/** Flat low-poly building and road surfaces. A metric square-stud base is
- * independent from the window overlay, so floors never interrupt stud spacing. */
+
+
 import { SQUARE_STUD_STYLE, sampleSquareStud, createSquareStudTexture,
   createPatternTexture, bakeSquareStudData } from './square-stud-texture.js';
 export { SQUARE_STUD_STYLE, SQUARE_STUD_TEXTURE, createSquareStudTextureData } from './square-stud-texture.js';
 export const BRICK_STYLE = Object.freeze({
   ...SQUARE_STUD_STYLE,
-  // Legacy dimension names are retained; they now describe a seamless square cell.
+
   blockWidth: SQUARE_STUD_STYLE.studPitch / 2,
   blockHeight: SQUARE_STUD_STYLE.studPitch / 2,
   jointWidth: 0,
@@ -55,7 +55,7 @@ function facadePixel(x, y) {
   const dy = Math.abs(y - centerY);
   const halfW = BRICK_STYLE.windowWidth / 2;
   const halfH = BRICK_STYLE.windowHeight / 2;
-  // Thin sill and its painted shadow also live entirely in the texture.
+
   if (dx < halfW + 0.075 && y > centerY - halfH - 0.095 && y < centerY - halfH) {
     return y < centerY - halfH - 0.06 ? [143, 149, 142, 0] : [217, 216, 198, 0];
   }
@@ -71,7 +71,7 @@ function writePixel(data, offset, pixel) {
   for (let c = 0; c < 4; c++) data[offset + c] = clampByte(pixel[c]);
 }
 
-/** Returns independent RGBA bytes and dimensions; safe to call without Three.js. */
+
 export function createBuildingTextureData() {
   const { width, height, tileSize } = BUILDING_TEXTURE;
   const data = new Uint8Array(width * height * 4);
@@ -98,11 +98,11 @@ export function createRoadTextureData() {
   return { ...bakeSquareStudData(ROAD_TEXTURE), metadata: ROAD_TEXTURE };
 }
 
-/** CPU equivalent of the metric vertex projection and atlas sampling.
- * Inputs are unit BoxGeometry coordinates/normal and positive instance axis
- * lengths in world metres. Use surfaceUv + tile to render separate repeating
- * tiles; atlasUv is the final coordinate for a single point in the full atlas.
- */
+
+
+
+
+
 export function projectBuildingSurface(position, normal, scale = [1, 1, 1]) {
   const size = scale.map(Math.abs);
   const meters = position.map((n, i) => (n + 0.5) * size[i]);
@@ -140,9 +140,9 @@ export function projectBuildingSurface(position, normal, scale = [1, 1, 1]) {
   return { tile, surfaceUv, atlasUv, studUv, sourceSurfaceUv: sourceSurfaceUv || surfaceUv.slice(), facadeLayout };
 }
 
-/** Continuous CPU counterpart for offline previews. RGB is the neutral surface
- * color and alpha is the same instance-tint mask used by the runtime shader.
- * Convert RGB to linear before applying the instance's linear RGB tint. */
+
+
+
 export function sampleBuildingSurface(position, normal, scale = [1, 1, 1]) {
   const projected = projectBuildingSurface(position, normal, scale);
   const base = sampleSquareStud(projected.studUv[0] * BRICK_STYLE.studPitch,
@@ -160,8 +160,8 @@ export function createRoadTexture(THREE) {
   return createPatternTexture(THREE, createRoadTextureData(), 'Neutral gray square-stud road · two metre repeat');
 }
 function ownTexture(material, texture) {
-  // Three.js does not automatically dispose material maps. The scene already
-  // disposes each unique material, so this also releases the texture on rebuild.
+
+
   let disposed = false;
   material.addEventListener('dispose', () => {
     if (!disposed) { texture.dispose(); disposed = true; }
@@ -224,7 +224,7 @@ export function createBrickPlasticMaterial(THREE) {
       varying vec2 urSurfaceUv;
       varying float urAtlasTile;
       varying vec3 urFacadeLayout;`)
-      // Atlas alpha is a tint mask. Never multiply it into surface opacity.
+
       .replace('#include <map_fragment>', '')
       .replace('#include <color_fragment>', `#include <color_fragment>
         // Compute gradients before any repeating or atlas-region selection.
@@ -257,7 +257,7 @@ export function createBrickPlasticMaterial(THREE) {
   return material;
 }
 
-/** Existing road UVs store world X/2 and logical forward Y/2 across the fork. */
+
 export function createRoadMaterial(THREE, color = 0x727a7d) {
   const texture = createRoadTexture(THREE);
   const material = new THREE.MeshStandardMaterial({

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-// Exercises the actual app.js with real Three math, meshes, state, input and
-// frame dispatch. Renderer/DOM are simulated: this does not verify a browser,
-// rasterized label layout, physical multi-touch or loaded character GLB poses.
+
+
+
 import assert from 'node:assert/strict';
 import { createAppDom } from './fixtures/app-dom.mjs';
 import { ECONOMY_CONFIG, VEHICLE_CONFIG, vehicleConfig } from '../dist/economy-config.js';

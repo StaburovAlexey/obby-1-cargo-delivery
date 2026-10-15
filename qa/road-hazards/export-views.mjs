@@ -1,5 +1,5 @@
-// Actual final Three.js hazard geometry for reproducible OFFLINE Blender views.
-// Road context uses source height/paint samplers. This is not a browser capture.
+
+
 import fs from 'node:fs';
 import crypto from 'node:crypto';
 import * as THREE from '../../dist/vendor/three.module.js';
@@ -30,8 +30,8 @@ for(const type of ['repair','log','dune','ice','rock'])for(const phase of (type=
   if(mesh.isInstancedMesh){for(let i=0;i<mesh.count;i++)if(mesh.userData.hazardIds[i]===h.id){const m=new THREE.Matrix4();mesh.getMatrixAt(i,m);entry.parts.push(part(mesh,m));}}
   else for(const r of mesh.geometry.userData.hazards)if(r.id===h.id)entry.parts.push(part(mesh,new THREE.Matrix4(),r.start,r.count));
  }
- // A 50m source-sampled road window, with exact original shader reference
- // colors and canonical square studs baked only for this offline renderer.
+
+
  const from=h.station-25,to=h.station+25,worldMin=entry.roadCenter-18,worldMax=entry.roadCenter+18;
  const W=768,H=1024,pixels=new Uint8Array(W*H*3),v=[],uv=[],f=[];
  for(let j=0;j<H;j++)for(let i=0;i<W;i++){

@@ -1,5 +1,5 @@
-/** Read-only finite-route fuel audit. Geometry lower bound is independent of
- * controller skill; sampled paths are geometric, not a physics success claim. */
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { CHECKPOINT_PROGRESS as checkpoints, NETWORK_CONFIG as config, FORK_DEFINITIONS as forks, TURN_DEFINITIONS as turns } from '../dist/route-network-config.js';
@@ -13,10 +13,10 @@ const finalForks=forks.filter(f=>f.to>from&&f.from<to);
 assert.ok(finalForks.every(f=>f.from>from+radius&&f.to<to-radius),'Service circles outside forks');
 assert.ok(finalForks.every(f=>!finalTurns.some(t=>t[1]>f.from&&t[0]<f.to)),'Fork excursions are on straight backbone spans');
 const absoluteTurn=finalTurns.reduce((s,t)=>s+Math.abs(t[3]-t[2]),0);
-// On each curved road strip ds >= (1 - halfWidth*abs(curvature))*dq.
-// Straight fork spans cannot cover longitudinal q faster than traveled XZ.
-// Using full road half-width (rather than the truck's stricter centre limit)
-// and the most generous two trigger-circle edges makes this conservative.
+
+
+
+
 const minimumLegalXZ=to-from-config.halfWidth*absoluteTurn-2*radius;
 const level9=getVehiclePerformance('ashhauler',{fuel:9}).range;
 const level10=getVehiclePerformance('ashhauler',{fuel:10}).range;

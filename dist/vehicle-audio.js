@@ -1,5 +1,5 @@
-// Cosmetic audio only. Call unlock() directly from a trusted pointer/key gesture.
-// update() never creates or resumes an AudioContext and never changes game state.
+
+
 export const VEHICLE_AUDIO_ASSETS = Object.freeze({
   engine: './assets/audio/engine.ogg',
   tire: './assets/audio/tire.ogg',
@@ -13,12 +13,12 @@ const smooth = (low, high, value) => {
   return t * t * (3 - 2 * t);
 };
 
-/**
- * speed/slip: metres per second (slip is measured lateral velocity, not steering).
- * throttle/braking/impact: 0..1. Impact is a frame-local contact impulse, not damage.
- * active must be false for hidden/blurred, modal, garage, fall and empty-fuel states.
- * Muting is kept here; the caller owns preference storage and the visible control.
- */
+
+
+
+
+
+
 export function createVehicleAudio({
   AudioContextClass = globalThis.AudioContext || globalThis.webkitAudioContext,
   fetch: fetchAsset = globalThis.fetch?.bind(globalThis),
@@ -38,9 +38,9 @@ export function createVehicleAudio({
   const pending = new Set();
   const timeoutMs = clamp(finite(loadTimeoutMs) || 8000, 10, 30000);
 
-  // Some browsers/devices never settle resume(), decodeAudioData() or a fetch.
-  // Every operation has a deadline and disposal cancellation; late results cannot
-  // create nodes or refill buffers after dispose. Rejections are always consumed.
+
+
+
   function bounded(operation, fallback, cancel = () => {}) {
     return new Promise(resolve => {
       let settled = false, timer;
@@ -80,7 +80,7 @@ export function createVehicleAudio({
   }
 
   function silence() {
-    // No fade here: lifecycle pauses must be silent even if RAF is now stopped.
+
     parameter(master?.gain, 0, true);
     release(engine); release(tire); release(impactVoice);
     engine = tire = impactVoice = null;
@@ -98,7 +98,7 @@ export function createVehicleAudio({
       master.connect(context.destination);
       return true;
     } catch {
-      // A partially initialized context must not leak even on a device failure.
+
       const failedContext = context;
       try { master?.disconnect(); } catch {}
       context = master = null;
@@ -119,7 +119,7 @@ export function createVehicleAudio({
         if (!response || response.ok === false || disposed || cancelled) return null;
         const data = await response.arrayBuffer();
         if (disposed || cancelled || !data || data.byteLength > 8 * 1024 * 1024) return null;
-        // Accept both current promise-based and older callback-based Web Audio.
+
         return await new Promise((resolve, reject) => {
           const decoded = owner.decodeAudioData(data, resolve, reject);
           decoded?.then?.(resolve, reject);
@@ -132,8 +132,8 @@ export function createVehicleAudio({
 
   function unlock() {
     if (disposed || !makeContext()) return Promise.resolve(false);
-    // Invoke resume synchronously within the user's gesture, before any await.
-    // Repeated pointer/key events reuse the same pending operation and loading.
+
+
     if (context.state !== 'running' && !resumePromise) {
       const owner = context;
       resumePromise = bounded(() => Promise.resolve(owner.resume()).then(() => true), false)
@@ -175,7 +175,7 @@ export function createVehicleAudio({
     if (!buffers.impact || time - lastImpactAt < .25) return;
     let source, gain;
     try {
-      // A single bounded one-shot voice, even during repeated pileups.
+
       release(impactVoice); impactVoice = null;
       source = context.createBufferSource(); gain = context.createGain();
       source.buffer = buffers.impact;
@@ -216,8 +216,8 @@ export function createVehicleAudio({
     const tireTarget = smooth(1.5, 7, speed) * (.29 * slipLoad + .12 * brakeLoad);
     tireGain += (tireTarget - tireGain) * blendTire;
     tireRate += (.9 + speedLoad * .35 + slipLoad * .12 - tireRate) * blendTire;
-    // Even simultaneous maximum engine (.44), tire (.41) and impact (.7)
-    // stay below unity at the output, without a compressor pumping the idle.
+
+
     parameter(master.gain, .6*volume, true);
     if (!engine) engine = loop('engine', engineGain, engineRate);
     if (engine) { parameter(engine.gain.gain, engineGain); parameter(engine.source.playbackRate, engineRate); }
@@ -231,8 +231,8 @@ export function createVehicleAudio({
 
   function stop() {
     silence();
-    // Suppress a stale collision on the first frame after a pause. A later zero
-    // impulse rearms it, so normal contacts after returning to play still sound.
+
+
     impactHeld = true;
   }
 

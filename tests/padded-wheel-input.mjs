@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Production controls and app, with modeled DOM capture/targets and CSS math.
-// These are renderer-free checks, not a browser or physical touchscreen test.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { createVehicleInput, STEERING_MAX_ANGLE } from '../dist/vehicle-input.js';
@@ -57,8 +57,8 @@ function layout(w,h,safe={top:0,right:0,bottom:0,left:0}) {
 }
 const contains=(b,x,y)=>x>=b.x&&x<=b.x+b.w&&y>=b.y&&y<=b.y+b.h;
 const insideWheel=(l,x,y)=>Math.hypot(x-l.wheel.x-l.wheel.w/2,y-l.wheel.y-l.wheel.h/2)<=l.wheel.w/2+l.padding;
-// Browser pseudo-element hits target its originating button. Pedals are sibling
-// stacking contexts at z-index 1, above the wheel's filter/transform context (0).
+
+
 function hit(l,x,y) {
   if(x<0||y<0||x>l.w||y>l.h) return 'outside';
   if(contains(l.reverse,x,y)) return 'reverse';
@@ -77,7 +77,7 @@ assert.equal(cascade(['.steering-wheel-image'],390,844)['pointer-events'],'none'
 assert.equal(cascade(['.steering-wheel'],390,844).transform,'rotate(var(--steering-angle, 0deg))');
 assert.equal(cascade(['.steering-wheel-image'],390,844).transform,undefined);
 assert.doesNotMatch(css,/--steering-requested|--steering-base|#walk-stick|#walk-thumb/);
-// Interactive HUD and full-screen dialogs remain above the entire controls layer.
+
 assert.match(baseCss,/\.topbar\s*\{[^}]*z-index:\s*7/s);
 assert.match(baseCss,/#biome-button\s*\{[^}]*z-index:\s*8/s);
 assert.match(baseCss,/#biome-menu\s*\{[^}]*z-index:\s*30/s);
@@ -91,14 +91,14 @@ for(const [w,h] of [[320,480],[320,568],[360,640],[375,667],[390,844],[500,700],
     near(b.w,originalDiameter);near(b.h,originalDiameter);
     assert.ok(l.padding>=24&&l.padding<=40);assert.equal(l.root['pointer-events'],'none');assert.equal(l.root['z-index'],'3');
     assert.equal(l.gas.style['z-index'],'1');assert.equal(l.reverse.style['z-index'],'1');
-    // Even the padded rim's lowest point stays above the fuel/speed band's top.
+
     assert.ok(b.y+b.h+l.padding<=h-safe.bottom-56,`${w}x${h} rim clears fuel/speed`);
     for(const [name,p] of [['pedal',l.gas],['reverse',l.reverse]]) {
       for(const dx of [.25,.5,.75])for(const dy of [.25,.5,.75]) {
         assert.equal(hit(l,p.x+p.w*dx,p.y+p.h*dy),name,`${w}x${h} ${name} remains independently tappable`);
       }
     }
-    // Test available top/side/bottom rim points and the untouched canvas beyond.
+
     let rimPoints=0;
     for(let angle=0;angle<360;angle+=15) {
       const radians=angle*Math.PI/180,r=b.w/2+l.padding-2;
@@ -174,7 +174,7 @@ for(const [width,height] of [[320,480],[390,844],[1366,768],[844,390]])for(const
     const start=h.point(0);assert.equal(hit(h.l,start.clientX,start.clientY),'wheel');
     const down=h.pointer('pointerdown',1,start);assert.ok(down.defaultPrevented&&down.stopped);assert.equal(h.api.state.wheelPointerId,1);assert.equal(h.look.active,false);
     assert.equal(h.wheel.hasPointerCapture(1),!captureFails);
-    // Far outside the rim, even over canvas: original owner keeps steering.
+
     const move=h.pointer('pointermove',1,h.point(90,300),h.canvas);near(h.api.state.steering,2/3);assert.ok(move.defaultPrevented&&move.stopped);assert.equal(h.lookChanges,0);
     h.pointer('pointerdown',2,{clientX:width-5,clientY:height-5},h.canvas);
     h.pointer('pointermove',2,{clientX:width-35,clientY:height-25},h.canvas);assert.equal(h.look.pointerId,2);assert.ok(h.lookChanges>0);
@@ -184,9 +184,9 @@ for(const [width,height] of [[320,480],[390,844],[1366,768],[844,390]])for(const
     h.pointer('pointerup',1,h.point(135,350),h.canvas);near(h.api.state.steering,0);assert.equal(h.api.state.active,true);assert.equal(h.look.pointerId,2);
     h.pointer('pointerup',4,{clientX:0,clientY:0},h.canvas);assert.equal(h.gears.at(-1),'D');
     h.pointer('pointerup',3,{clientX:0,clientY:0},h.canvas);h.pointer('pointerup',2,{clientX:0,clientY:0},h.canvas);neutral(h);
-    // A pointer originating on canvas remains a look pointer when crossing the rim.
+
     h.pointer('pointerdown',5,{clientX:width-5,clientY:height-5},h.canvas);h.pointer('pointermove',5,h.point());assert.equal(h.look.pointerId,5);assert.equal(h.api.state.wheelPointerId,undefined);h.pointer('pointerup',5,h.point());
-    // Regrab the current rendered angle, wrap ±180°, and preserve dead-center behavior.
+
     h.wheel.renderedTransform='rotate(45deg)';h.pointer('pointerdown',6,h.point(179),h.wheel);near(h.api.state.steering,1/3);h.wheel.renderedTransform=undefined;
     h.pointer('pointermove',6,h.point(-179,300),h.canvas);near(h.api.state.steering,47/135);
     h.pointer('pointermove',6,h.point(0,0),h.canvas);h.pointer('pointermove',6,h.point(90,300),h.canvas);near(h.api.state.steering,47/135);
@@ -213,8 +213,8 @@ for(const end of ['pointerup','pointercancel','lostpointercapture','reset','disa
 }
 console.log('PASS wheel ownership is cleared on up/cancel/lost capture, reset/disable/destroy, blur/pagehide/resize, hidden tab and editable focus; stale moves never reacquire camera.');
 
-// Actual app wiring; its fixture is intentionally layout-free, so the static
-// pseudo-element contract above determines the original button target here.
+
+
 const app=createAppDom(),d=app.debug,canvas=d.renderer.domElement,reverse=app.ids.get('reverse-pedal');
 const touch=(target,type,id,x,y)=>target.dispatch(type,{pointerId:id,button:0,clientX:x,clientY:y,isPrimary:id===1});
 const b=app.wheel.bounds,cx=b.left+b.width/2,cy=b.top+b.height/2,r=b.width/2+30;
@@ -229,7 +229,7 @@ try {
   }
   for(const type of ['resize','blur','pagehide']){app.win.dispatch(type);idle();app.win.dispatch('focus');start();}
   app.doc.hidden=true;app.doc.dispatch('visibilitychange');idle();app.doc.hidden=false;app.doc.dispatch('visibilitychange');app.win.dispatch('focus');start();
-  // Receipt opening resets held rim/gas/look pointers through the real app path.
+
   const delivery=d.garage.deliveries[0];d.gameplay.drive(0,delivery.x,delivery.z);app.frame();idle();assert.equal(d.careerMenuOpen,true);assert.equal(app.ids.get('delivery-receipt-menu').hidden,false);
   touch(app.wheel,'pointerdown',10,cx+r,cy);touch(canvas,'pointerdown',11,250,100);idle();
   app.ids.get('delivery-receipt-close').dispatch('click');idle();assert.equal(app.root.hidden,true);assert.equal(app.ids.get('career-goal-button').hidden,true);

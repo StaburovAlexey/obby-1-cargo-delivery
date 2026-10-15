@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-/** Production Three.js geometry and buffers on the CPU. These tests do not
- * create a browser, compile WebGL shaders, measure GPU FPS or test a phone. */
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -108,7 +108,7 @@ check('Pause, reset, late scene creation, descriptor-only previews and disposal 
  for(let i=0;i<5;i++){system.update(100,player,false);scene.update();}near(system.elapsed,time,1e-10);assert.deepEqual(allBuffers(scene),paused);assert.deepEqual(scene.group.children.filter(m=>!m.isInstancedMesh).map(m=>m.geometry.attributes.position.version),patchVersions);
  const late=createRoadHazardsScene(THREE,{system});assert.deepEqual(allBuffers(late),allBuffers(scene));late.dispose();
  system.reset();scene.update();assert.deepEqual(allBuffers(scene),initial);stableResources(scene,before);
- // Read-only scene consumers may pass descriptors without a runtime pose API.
+
  const preview=createRoadHazardsScene(THREE,{system:{hazards:system.hazards,rocks:system.rocks}});for(const mesh of preview.group.children){assert(Array.from(mesh.geometry.attributes.position.array).every(Number.isFinite));if(mesh.instanceMatrix)assert(Array.from(mesh.instanceMatrix.array).every(Number.isFinite));}preview.dispose();
  let geometryDisposals=0,materialDisposals=0;for(const r of before){r.geometry.addEventListener('dispose',()=>geometryDisposals++);r.material.addEventListener('dispose',()=>materialDisposals++);}
  scene.dispose();scene.dispose();scene.update();assert.equal(geometryDisposals,8);assert.equal(materialDisposals,8);assert.equal(scene.group.children.length,0);assert.equal(scene.stats.drawCalls,0);return{pauseChecks:5,lateSceneSynchronized:true,resetExact:true,disposedGeometries:geometryDisposals,disposedMaterials:materialDisposals};

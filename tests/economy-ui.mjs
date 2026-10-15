@@ -48,7 +48,7 @@ try{
  });
  test('Character poses, base checker and input/camera modules are byte-identical to v21',()=>{
   const expected=JSON.parse(fs.readFileSync(new URL('./fixtures/economy-unchanged-v21.json',import.meta.url)));
-  // v24 explicitly replaces the first-floor building overlay with shops.
+
   for(const [file,hash]of Object.entries(expected)){if(file==='building-material.js')continue;const data=fs.readFileSync(new URL('../dist/'+file,import.meta.url));assert.equal(crypto.createHash('sha256').update(data).digest('hex'),hash,file);}
  });
  test('Scene metrics include all visible procedural vehicles and checkpoints, with no geometric studs',()=>{

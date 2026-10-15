@@ -3,7 +3,7 @@ import {loadCosmoVehicle} from './cosmo-vehicles.js';
 import {loadBMWVehicle} from './bmw-vehicle.js';
 import {createRemoteMotion} from './remote-motion.js';
 
-/** Visual replicas only; no gameplay models, colliders or economy callbacks. */
+
 export function createRemotePlayers(THREE,{scene,onError=console.warn}={}){
   const group=new THREE.Group();group.name='Online visual replicas';scene.add(group);
   const motion=createRemoteMotion(),records=new Map(),queue=[];

@@ -1,9 +1,9 @@
 import { BIOME_DEFINITIONS } from './route-network-config.js';
 
-// Two reusable layers crossfade real weather types without changing a visible
-// particle's shader kind. Only one 768-sprite layer draws in settled weather;
-// transitions use at most two. Camera-oriented coverage and world-axis motion
-// are identical in both layers, including the soft off-screen recycle reserve.
+
+
+
+
 const CAPACITY = 768;
 const NEAR = 3;
 const FAR = 40;
@@ -21,8 +21,8 @@ function createWeatherLayer(THREE, seedOffset = 0) {
   const positions = new Float32Array(CAPACITY * 3);
   const phases = new Float32Array(CAPACITY);
   const life = new Float32Array(CAPACITY);
-  // Soft local veils share the precipitation draw call. Scene fog supplies the
-  // distant storm; these capped sprites never become a full-screen overlay.
+
+
   const haze = new Float32Array(CAPACITY);
   for (let i = 0; i < CAPACITY; i += 32) haze[i] = 1;
   const geometry = new THREE.BufferGeometry();
@@ -120,23 +120,23 @@ function createWeatherLayer(THREE, seedOffset = 0) {
   }
   function spawn(index, scatter, count, upstream = false) {
     let depth = NEAR + random() ** 2 * (FAR - NEAR);
-    // Stratify the first cloud across the padded view. Recycled particles
-    // fade in over 300 ms, so a newly exposed side of the volume can refill
-    // without hard pops or a visible wall of incoming drops.
+
+
+
     let nx = ((index % 16 + random()) / 16 * 2 - 1) * VIEW_MARGIN;
     let ny = ((Math.floor(index / 16) + random()) / Math.ceil(count / 16) * 2 - 1) * VIEW_MARGIN;
     if (!scatter) {
       nx = (random() * 2 - 1) * VIEW_MARGIN;
       ny = (random() * 2 - 1) * VIEW_MARGIN;
     }
-    // Slightly favor the central view while retaining the wide reserve. This
-    // keeps portrait and steep downward views dense without a larger pool.
+
+
     nx = Math.sign(nx) * (Math.abs(nx) / VIEW_MARGIN) ** 1.4 * VIEW_MARGIN;
     ny = Math.sign(ny) * (Math.abs(ny) / VIEW_MARGIN) ** 1.4 * VIEW_MARGIN;
     if (upstream) {
-      // Fast rain needs a full crossing of the cloud rather than repeatedly
-      // being born near its exit. During camera turns the soft scattered
-      // replacement above replenishes newly revealed areas instead.
+
+
+
       const horizontal = Math.abs(velocityInView.x) / halfWidth;
       const vertical = Math.abs(velocityInView.y) / halfHeight;
       if (Math.abs(velocityInView.z) > Math.max(horizontal, vertical)) depth = velocityInView.z > 0 ? FAR : NEAR;
@@ -163,7 +163,7 @@ function createWeatherLayer(THREE, seedOffset = 0) {
     changedView = Math.abs(previousRotation.dot(rotation)) < 0.999999;
   }
   function configure(id) {
-    // Called only at zero layer weight, never to morph visible precipitation.
+
     style = STYLES[id];
     layer.id = id;
     time = 0;
@@ -197,8 +197,8 @@ function createWeatherLayer(THREE, seedOffset = 0) {
       positions[offset + 2] += sway * step * 0.7;
       vector.fromArray(positions, offset).applyQuaternion(inverseRotation);
       const depth = -vector.z;
-      // Surviving particles retain their world-axis trajectories on camera
-      // turns. Replacement particles start transparent, even inside the view.
+
+
       if (depth < NEAR || depth > FAR || Math.abs(vector.x) > depth * halfWidth * VIEW_MARGIN
         || Math.abs(vector.y) > depth * halfHeight * VIEW_MARGIN) spawn(i, false, style.count, style.kind === 0 && !haze[i] && !changedView);
     }
@@ -257,8 +257,8 @@ export function createBiomeWeather(THREE) {
       const current = BIOME_DEFINITIONS.find(item => progress < item.to) || BIOME_DEFINITIONS.at(-1);
       setTarget(current.id, 1);
     } else {
-      // Standalone callers can still provide a biome string or {id} object.
-      // They get the same temporal fade, without route-distance anticipation.
+
+
       setTarget(typeof biome === 'string' ? biome : biome?.id, 1);
     }
   }
@@ -277,8 +277,8 @@ export function createBiomeWeather(THREE) {
       fog.near += STYLES[layer.id].fog.near * layer.weight;
       fog.far += STYLES[layer.id].fog.far * layer.weight;
     }
-    // Three.js colors interpolate in linear light, matching the scene's fog
-    // and background. Reuse this one public fog object throughout transitions.
+
+
     fog.color = fogColor.getHex();
     group.visible = total > 0;
   }
@@ -293,22 +293,22 @@ export function createBiomeWeather(THREE) {
       clear();
       return;
     }
-    // Hidden/modal time must neither clear the storm nor advance its blend.
+
     if (paused) return;
     const step = Number.isFinite(dt) ? Math.max(0, Math.min(dt, 0.1)) : 0;
     findTargets(progress, biome);
     for (const layer of layers) layer.updateView(camera);
-    // Reuse only completely invisible layers. If a rapid teleport asks for a
-    // third type, it waits for an outgoing layer to fade, rather than replacing
-    // visible rain/sand/snow/ash or allocating a third cloud.
+
+
+
     for (let i = 0; i < ids.length; i++) {
       if (!targets[i] || layers.some(layer => layer.id === ids[i])) continue;
       const free = layers.find(layer => layer.weight === 0 && !targets[ids.indexOf(layer.id)]);
       if (free) free.configure(ids[i]);
     }
-    // A jump from one mixed boundary to an unrelated weather type can need
-    // three kinds. Keep the stronger old layer while freeing the weaker one,
-    // so the bounded two-pool handover never passes through a clear flash.
+
+
+
     const waiting = ids.some((id, i) => targets[i] && !layers.some(layer => layer.id === id));
     const hold = waiting && layers.every(layer => layer.weight > 0 && !targets[ids.indexOf(layer.id)])
       ? (layers[0].weight >= layers[1].weight ? layers[0] : layers[1]) : null;
@@ -319,8 +319,8 @@ export function createBiomeWeather(THREE) {
       layer.setWeight(amount === Math.abs(difference) ? target : layer.weight + Math.sign(difference) * amount);
       layer.advance(step);
     }
-    // The cloud is already camera-relative. A world-position teleport needs no
-    // reseed, so a zero-time/resume frame cannot flash fresh full-alpha sprites.
+
+
     group.position.set(x, y, z);
     updateFog();
   }

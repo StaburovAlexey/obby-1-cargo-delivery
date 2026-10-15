@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-/** Expanded route input-only journeys; 25-bridge approved configuration. Production solver + gameplay + actual service
- * circles at the application's 20 Hz maximum simulation delta. Only ordinary
- * steering/throttle after spawn: no pose, speed, fuel or progression injection.
- * --set=final|stock|typical partitions independent runs into fresh reports.
- * Test-owned vehicles/upgrades are initial setup, not acquisition evidence. */
+
+
+
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -49,9 +49,9 @@ function createBridgeAwareController({branch,stations,target,vehicleId,levels,ha
   history=projectRoad(state.x,state.z,history);
   const distance=history.distance+12+Math.abs(state.speed)*.65,next=routePointAtDistance(distance,{branch:graphBranch(branch)});
   let offset=0,obstacleWeight=0,nearMovingObstacle=false;
-  // Read only authored envelopes and the same shared runtime poses used by
-  // contact/rendering. Movers continue advancing normally. A whole-envelope
-  // bypass is deliberately conservative and is not an optimal/human driver.
+
+
+
   for(const descriptor of hazards.hazards){
    if(!descriptor.expanded||!descriptor.solid||descriptor.edgeId!==next.edgeId)continue;
    const pose=hazards.poseFor?.(descriptor.id)||descriptor;
@@ -59,15 +59,15 @@ function createBridgeAwareController({branch,stations,target,vehicleId,levels,ha
    if(Math.abs(separation)>100)continue;
    const width=Math.abs(Math.cos(descriptor.headingDelta||0))*descriptor.width/2+Math.abs(Math.sin(descriptor.headingDelta||0))*descriptor.length/2;
    const low=(descriptor.motion?.minOffset??pose.offset)-width,high=(descriptor.motion?.maxOffset??pose.offset)+width;
-   // The real 3.1 m wide vehicle needs yaw/return-to-lane margin as well as
-   // half-width. Near-center static props deserve the same conservative
-   // approach as a shuttle, without changing collision or vehicle state.
+
+
+
    if(low>3.1||high< -3.1)continue;
    let choices=[low-2.3,high+2.3].filter(value=>Math.abs(value)<12.2).sort((a,b)=>Math.abs(a)-Math.abs(b));
    if(descriptor.motion?.travelSeconds){
-    // Read-only phase-aware planning: no runtime clock/pose changes. Choose the
-    // wide side predicted through the body's crossing interval, not a fictional
-    // permanent lane outside a full-width moving envelope.
+
+
+
     const remaining=descriptor.distance-history.distance;
     const eta=Math.max(0,remaining/Math.max(3,Math.min(moverSpeed,Math.abs(state.speed))));
     const predicted=[-.8,0,.8].map(t=>predictOffset(descriptor.motion,hazards.elapsed+Math.max(0,eta+t)));
@@ -120,8 +120,8 @@ function runJourney({id='pickup',max=false,target=2,expect='delivery',slalom=fal
  gameplay.events();
  while(gameplay.state.mode==='driving'&&frames<120000){
   const state=model.state,input=controller.sample(state),before={x:state.x,z:state.z,h:context.height,fuel:gameplay.state.fuels[id]};
-  // Small real steering oscillation away from service circles. This consumes
-  // additional measured path length rather than synthetic graph progress.
+
+
   if(slalom&&!BRIDGES.some(b=>Math.abs(context.progress-(b.from+b.to)/2)<140)&&!g.stations.some(s=>Math.abs(context.distance-s.distance)<70))input.steering+=.12*Math.sin(frames*dt*1.8);
   if(input.carefulPedal)carefulPedalFrames++;
   model.setInput(input);hazards.update(dt,{...state,routeContext:context},true);model.step(dt);frames++;

@@ -1,5 +1,5 @@
-// Runtime-authored sitting pose, independent of the source locomotion clips.
-// Targets use each rig's own joints, lengths, and bone coordinate frames.
+
+
 export function makeSeatPose(THREE, model, options = {}) {
   const initial = new Map();
   model.traverse(o => { if (o.isBone) initial.set(o, o.quaternion.clone()); });

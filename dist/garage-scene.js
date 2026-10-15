@@ -1,7 +1,7 @@
-/* Procedural garage scenery and transform-only imported-vehicle slots.
- * Three.js axes: +Y up, -Z forward. GLB adapters own vehicle rendering.
- * This module owns its scenery resources; city resources are never mutated.
- */
+
+
+
+
 import { createEnvironmentMaterial } from './building-material.js';
 import { createVehicleRig } from './vehicle-rig.js';
 import { groundHeight, fitTruckToGround } from './city-driving.js';
@@ -13,10 +13,10 @@ const PARKING_BAYS = Object.freeze(Array.from({length:10},(_,i)=>Object.freeze({
   id:`parking-${String(i+1).padStart(2,'0')}`,row:'right',column:i+1,
   x:24,z:30+i*4.8,heading:Math.PI/2,halfWidth:4.5,halfLength:2.25,
 })));
-// A separate reward display closes the right-wall row without moving its ten
-// original bays, the classroom, the open entrance, or any character stand.
-// Midpoint of the actual Fenyr side edge (z=75.169616825) and rear wall z=90.
-// The 4.9m rotating pedestal envelope then leaves equal clear gaps on both ends.
+
+
+
+
 const REWARD_CENTER_Z=(75.169616825+HANGAR_BOUNDS.maxZ)/2;
 export const REWARD_PEDESTAL = Object.freeze({
   id:'reward-pedestal',x:24,z:REWARD_CENTER_Z,heading:Math.PI/2,radius:4.9,height:.65,
@@ -24,21 +24,21 @@ export const REWARD_PEDESTAL = Object.freeze({
   approach:Object.freeze({x:16.8,z:REWARD_CENTER_Z-1.8}),approachRadius:.9,
 });
 export const CHARACTER_STANDS = Object.freeze(Array.from({length:17},(_,i)=>Object.freeze({
-  // Shift the rear-wall row 5 m toward screen-right when facing it from spawn
-  // (world -X), leaving a wider aisle beside the cars and reward pedestal.
+
+
   index:i,x:-46+i*3.5,z:85,
   heading:0,triggerRadius:1.25,
 })).map(s=>Object.freeze({...s,trigger:Object.freeze({x:s.x,z:s.z-3})})));
-// Stable row-major IDs are reserved for future occupancy synchronization.
-// All twenty desks form one shared pool. Teaching rate belongs to the chosen
-// entrance, never to a desk, column or furniture color.
+
+
+
 export const CLASSROOM_DESKS = Object.freeze([38,44,50,56].flatMap((z,row)=>[-51,-46,-41,-36,-31].map((x,col)=>Object.freeze({
   id:`desk-${String(row*5+col+1).padStart(2,'0')}`,row:row+1,column:col+1,x,z,width:2.4,depth:2,
   seat:Object.freeze({x,z:z+1.5,heading:0,height:.50}),
   bounds:Object.freeze({minX:x-1.2,maxX:x+1.2,minZ:z-1,maxZ:z+1,minY:0,maxY:1.35}),
 }))));
-// The entry row sits behind every chair. The open z=70 aisle reaches every
-// school without crossing furniture or another trigger, even for Jandel.
+
+
 const CLASSROOM_EXIT = Object.freeze({x:-22,z:65.5,heading:0});
 const SCHOOL_COLORS = [0x80d46b,0x52c7e8,0x779dff,0xc18af3,0xffb65b];
 export const CLASSROOM_ENTRIES = Object.freeze([-51,-46,-41,-36,-31].map((x,index)=>Object.freeze({
@@ -53,8 +53,8 @@ export const GARAGE_LAYOUT = Object.freeze({
   rewardPedestal:REWARD_PEDESTAL,
 });
 
-// Paired checkpoints share one centerline arc coordinate. Unload is always
-// left and fuel right when facing away from the starting hangar.
+
+
 export const FUEL_STATION_SPECS = Object.freeze(DELIVERY_CHECKPOINTS.map(p=>Object.freeze({...p,id:`fuel-${p.id}`,checkpointId:p.id,branch:'main'})));
 export const DELIVERY_SPECS = Object.freeze(DELIVERY_CHECKPOINTS.map(p=>Object.freeze({...p,id:`delivery-${p.id}`,checkpointId:p.id,branch:'main'})));
 
@@ -72,12 +72,12 @@ const VEHICLES = Object.freeze([
   { id: 'bmwreward', color: 0x274c86, shape: 'rover', rewardDisplay: true },
 ].map(spec=>Object.freeze({...spec,name:vehicleConfig(spec.id).name})));
 
-/** Parked-display pose only. App code opts into this while the reward car is
- * idle; road driving continues to use the normal ground-fit pose. Pitch is
- * around the car's local X axis after yaw, so its nose remains slightly down
- * throughout the turn. Imported bounds may raise the root, never lower it into
- * the platform. This also works before the asynchronous model is available.
- */
+
+
+
+
+
+
 export function rewardDisplayPose(THREE, vehicle, time = 0) {
   if (!vehicle?.rewardDisplay || !vehicle.pedestal) return null;
   const pedestal=vehicle.pedestal;
@@ -98,10 +98,10 @@ export function rewardDisplayPose(THREE, vehicle, time = 0) {
   };
 }
 
-/** A finite OBB/AABB contact against all four solid hangar walls. This does
- * not connect the hangar to the road or enforce walking bounds between them.
- * Supply halfWidth/halfLength for an on-foot character's smaller body.
- */
+
+
+
+
 export function garageWallContact(x, z, heading = 0, walls = [], {
   halfWidth = TRUCK_HALF_WIDTH, halfLength = TRUCK_HALF_LENGTH, padding = 0.04,
 } = {}) {
@@ -207,8 +207,8 @@ export function createGarageScene(THREE, city) {
     hangarParts.push(entry('Garage ceiling strip', [x, 19.85, 58], [0.22, 0.08, 55], 0xe8f5cc));
   const classroomSolids=[];
   hangarParts.push(entry('Separate classroom floor',[-41,floorY+.007,47],[26,.012,32],0xc69b4d));
-  // Entrance numbers remain beside the five access markers. The common
-  // classroom has no color-coded row borders or divided seating zones.
+
+
   const digitSegments = ['bc','abged','abgcd','fgbc','afgcd'];
   const segmentShapes = {
     a:[0,-.68,.76,.15],b:[.38,-.34,.15,.57],c:[.38,.34,.15,.57],
@@ -234,7 +234,7 @@ export function createGarageScene(THREE, city) {
     classroomSolids.push({id:desk.id,type:'chair',minX:x-.92,maxX:x+.92,minZ:seat.z-.12,maxZ:seat.z+.92,minY:0,maxY:2.05});
   }
   hangarParts.push(entry('PDD classroom board',[-41,4.2,32],[16,5,.25],0x104b30));
-  // A simple junction diagram and traffic signals, made from shared cubes.
+
   hangarParts.push(entry('Board road vertical',[-41,4.2,32.15],[1.1,4.4,.03],0xd4e5d5));
   hangarParts.push(entry('Board road horizontal',[-41,4.2,32.16],[14,1.1,.03],0xd4e5d5));
   for(const [y,color] of [[5.7,0xe44934],[4.8,0xe9bb3f],[3.9,0x58b577]])hangarParts.push(entry('PDD traffic light',[-35,y,32.2],[.55,.55,.06],color));
@@ -295,7 +295,7 @@ export function createGarageScene(THREE, city) {
     root.userData.vehicleId = spec.id;
     root.userData.specialty = vehicleConfig(spec.id).specialty;
     root.userData.pairRole = vehicleConfig(spec.id).pairRole;
-    // Gameplay still owns cargo state; its attachment anchor has no box mesh.
+
     const cargo=new THREE.Group();cargo.name='Delivery cargo anchor';cargo.visible=false;root.add(cargo);
     return { id: spec.id, name: spec.name, color: spec.color, shape: spec.shape,
       rig, root, cargo, config:vehicleConfig(spec.id), group: rigContainer, parkingId: parked.id, park: { ...parked },

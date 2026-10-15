@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Current GLB-only fleet contract. CPU Three.js + mocked DOM, no GPU/browser.
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import crypto from 'node:crypto';

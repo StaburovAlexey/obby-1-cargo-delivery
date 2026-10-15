@@ -2,9 +2,9 @@ const MOVEMENT_KEYS = new Set(['KeyW', 'KeyA', 'KeyS', 'KeyD', 'ArrowUp', 'Arrow
 const RUN_KEYS = new Set(['ShiftLeft', 'ShiftRight']);
 const DEAD_ZONE = 0.12;
 
-/** Convert screen-relative input to world XZ. Vector length is <= 1, retaining
- * analog joystick strength; magnitude is its length, not an extra multiplier.
- */
+
+
+
 export function cameraRelativeAxes(x, forward, cameraForward = { x: 0, z: -1 }) {
   const length = Math.hypot(x, forward);
   const divisor = Math.max(1, length);
@@ -55,7 +55,7 @@ export function createWalkInput({
     stickX = stickY = 0; mobileRunning = false;
     keys.clear();
     if (previous !== undefined && joystick.hasPointerCapture?.(previous)) {
-      try { joystick.releasePointerCapture(previous); } catch { /* An interrupted pointer may already be gone. */ }
+      try { joystick.releasePointerCapture(previous); } catch {                                                   }
     }
     positionThumb(0, 0);
     if (notify) emit();
@@ -80,7 +80,7 @@ export function createWalkInput({
     event.preventDefault();
     if (!enabled || destroyed || pointer !== undefined || event.button !== 0) return;
     pointer = event.pointerId;
-    try { joystick.setPointerCapture?.(pointer); } catch { /* Window listeners still release this pointer. */ }
+    try { joystick.setPointerCapture?.(pointer); } catch {                                                    }
     move(event);
   });
   listen(joystick, 'pointermove', (event) => {
@@ -96,14 +96,14 @@ export function createWalkInput({
     pointer = undefined;
     stickX = stickY = 0; mobileRunning = false;
     if (joystick.hasPointerCapture?.(previous)) {
-      try { joystick.releasePointerCapture(previous); } catch { /* Already released by the browser. */ }
+      try { joystick.releasePointerCapture(previous); } catch {                                        }
     }
     positionThumb(0, 0);
     emit();
   }
   for (const event of ['pointerup', 'pointercancel', 'lostpointercapture']) listen(joystick, event, release);
   for (const event of ['pointerup', 'pointercancel']) listen(win, event, release);
-  // UI touches are not allowed to bubble into a document-level orbit handler.
+
   for (const event of ['pointerdown', 'pointermove', 'pointerup', 'click', 'dblclick', 'wheel']) {
     listen(root, event, (e) => e.stopPropagation());
   }
@@ -112,7 +112,7 @@ export function createWalkInput({
     if (!MOVEMENT_KEYS.has(event.code) && !RUN_KEYS.has(event.code)) return;
     event.preventDefault();
     event.stopImmediatePropagation();
-    // A held key must not resume after seating/teleport reset until pressed anew.
+
     if (event.repeat) return;
     keys.add(event.code);
     emit();

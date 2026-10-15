@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Actual Three.js CPU geometry and shader-source audit. No browser, WebGL,
-// device, GPU shader-compilation, mobile performance or screenshot claims.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import * as THREE from '../dist/vendor/three.module.js';

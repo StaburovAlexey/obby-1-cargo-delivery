@@ -1,4 +1,4 @@
-/** Five narrow crossings per biome; saved bridge identifiers remain stable. */
+
 import {projectRoad} from './route-network.js';
 const biomeIds=['city','forest','desert','snow','volcanic'];
 const centers=[
@@ -8,8 +8,8 @@ const centers=[
   [8820,9040,9620,10470,10690],
   [11320,11540,12180,13500,13180],
 ];
-// Authored safe station slots are fixed. Seeded left/centre/right offsets
-// vary the crossing without moving it into a service or junction approach.
+
+
 export function buildBridges(seed=42){
   let state=seed>>>0||1;
   const random=()=>{state^=state<<13;state^=state>>>17;state^=state<<5;state>>>=0;return state/4294967296;};
@@ -20,8 +20,8 @@ export function buildBridges(seed=42){
 }
 export const BRIDGES=buildBridges(42);
 export const bridgeAtProgress=q=>BRIDGES.find(b=>q>=b.from&&q<=b.to);
-// Imported visuals expose immutable, scaled tire geometry in root-local axes
-// (+X right, +Y up, -Z front). Missing data keeps the original procedural rig.
+
+
 function importedWheels(metadata){
   const wheels=metadata?.wheels??metadata?.wheelContacts;
   return Array.isArray(wheels)&&wheels.length===4&&wheels.every(w=>
@@ -37,9 +37,9 @@ function convexHull(points){
 export function bridgeSupport(pose,history,metadata){
   const c=Math.cos(pose.heading),s=Math.sin(pose.heading);let bridge=null,unsupported=0;const lost=[];
   const wheels=importedWheels(metadata),steer=pose.frontWheelAngle??pose.steerAngle??0;
-  // The contact patch spans the tire's width, not its circular silhouette.
-  // Steering rotates that line around the actual axle center. This avoids the
-  // old wide-truck envelope making narrow imported cars fall before their tires.
+
+
+
   const contacts=wheels?wheels.flatMap((wheel,index)=>[-1,1].map(end=>{
     const angle=wheel.front?steer:0,width=end*wheel.halfWidth;
     return {dx:wheel.center[0]+width*Math.cos(angle),dz:-wheel.center[2]+width*Math.sin(angle),wheel:index};
@@ -62,9 +62,9 @@ export function bridgeSupport(pose,history,metadata){
       const a=poly[i],b=poly[(i+1)%poly.length],da=sign*(a[key]-bound),db=sign*(b[key]-bound);
       if(da>=0)out.push(a);if((da>=0)!==(db>=0)){const t=da/(da-db);out.push(Object.fromEntries(Object.keys(a).map(k=>[k,a[k]+(b[k]-a[k])*t])));}
     }return out;};
-    // Union of the wide approaches and narrow deck, then its convex support
-    // hull. At a corner this produces a diagonal hinge instead of dipping a
-    // rear wheel through the still-wide approach road.
+
+
+
     const hull=convexHull([...clip(corners,'q',bridge.from,-1),...clip(corners,'q',bridge.to,1),
       ...clip(clip(corners,'offset',-bridge.halfWidth,1),'offset',bridge.halfWidth,-1)]);
     const side=Math.sign(lost.reduce((sum,w)=>sum+w.p.offset,0))||Math.sign(lost[0].p.offset)||1;
@@ -89,8 +89,8 @@ export function bridgeSupport(pose,history,metadata){
 function tireVertices(wheels,steer,spin,sourceRadius){
   return wheels.flatMap(wheel=>{
     const angle=wheel.front?steer:0,cs=Math.cos(angle),ss=Math.sin(angle),roll=-spin*sourceRadius/wheel.radius,cr=Math.cos(roll),sr=Math.sin(roll);
-    // Real mesh vertices preserve the authored tire cross-section. A circular
-    // fallback supports callers that only provide the documented dimensions.
+
+
     const vertices=wheel.vertices?.length?wheel.vertices:[-1,1].flatMap(end=>Array.from({length:24},(_,i)=>[end*wheel.halfWidth,wheel.radius*Math.cos(i*Math.PI/12),wheel.radius*Math.sin(i*Math.PI/12)]));
     return vertices.map(([x,y,z])=>{
       const ry=y*cr-z*sr,rz=y*sr+z*cr;
@@ -117,15 +117,15 @@ export function createBridgeFall(){let state=null;return{
  step(dt){
   if(!state)return false;state.time+=Math.max(0,Math.min(.05,dt));
   const t=state.time,hold=.42,u=Math.min(t/hold,1),air=Math.max(0,t-hold);
-  // Accelerating tip starts at zero angular velocity; angular velocity remains
-  // continuous at release. Outward slip/gravity also start with zero velocity.
+
+
   state.angle=.55*u*u+(1.1/hold)*air;
   state.slide=2.8*air*air;state.drop=7*air*air;
   return t>=1.55;
  },
  reset(){state=null;}
 };}
-/** Exact visual transform shared by runtime and offline pose-sequence tests. */
+
 export function bridgeFallPose(THREE,state){
   const pivot=new THREE.Vector3(state.pivot.x,state.pivot.y,state.pivot.z);
   const normal=new THREE.Vector3(state.normal.x,state.normal.y,state.normal.z).normalize();
@@ -136,9 +136,9 @@ export function bridgeFallPose(THREE,state){
   const position=new THREE.Vector3(state.origin.x,state.origin.y,state.origin.z).sub(pivot).applyQuaternion(rotation).add(pivot)
     .addScaledVector(outward,state.slide).add(new THREE.Vector3(0,-state.drop,0));
   const quaternion=rotation.clone().multiply(new THREE.Quaternion(state.orientation.x,state.orientation.y,state.orientation.z,state.orientation.w));
-  // A rolling tire does not rotate through its supporting plane. Resolve only
-  // the visual clearance needed by actual imported tire vertices, or the old
-  // 12-sided cylinders. This never affects the driving solver or progression.
+
+
+
   let clearanceLift=0;
   if(state.bridge){
     const check=local=>{

@@ -1,12 +1,12 @@
-/** Real BMW G80 M3 reward visual, CC BY 4.0 by SharkyStudios.
- * See ./assets/vehicles/bmw/README.md for attribution and the source audit.
- * Adapter-owned resources; identity root, metres, +Y up and -Z forward.
- */
+
+
+
+
 import { GLTFLoader } from './vendor/GLTFLoader.js';
 import { attachVehicleBrakeLights } from './vehicle-brake-lights.js';
 
 const TAU = Math.PI * 2;
-const SOURCE_WHEEL_RADIUS = .68; // The existing simulation's distance/spin unit.
+const SOURCE_WHEEL_RADIUS = .68;
 const GROUND_CLEARANCE = .05;
 const MAX_WIDTH = 4.65;
 export const BMW_VEHICLE_LENGTH = 8;
@@ -59,11 +59,11 @@ function materialList(node) {
   return Array.isArray(node.material) ? node.material : node.material ? [node.material] : [];
 }
 
-/** Tiny local IBL, generated entirely on the CPU. No HDR download, canvas,
- * renderer or PMREM setup is needed to create the adapter. The renderer handles
- * ordinary equirectangular envMap filtering when it first draws the gold paint.
- * It belongs only to this adapter's paint, never to scene.environment or glass.
- */
+
+
+
+
+
 function createGoldReflectionEnvironment(THREE) {
   const width = 128, height = 64, data = new Uint8Array(width * height * 4);
   const direction = new THREE.Vector3();
@@ -105,8 +105,8 @@ function applyGoldPaint(THREE, body, resources) {
   body.traverse(node => {
     if (!node.material) return;
     const recolor = original => {
-      // This is the source's green exterior ONLY. Material.016 is shared by
-      // black body trim and tires; windows are Material.020 and remain intact.
+
+
       if (original.name !== 'Material.015') return original;
       if (paints.has(original)) return paints.get(original);
       if (!environment) {
@@ -138,12 +138,12 @@ export async function loadBMWVehicle(THREE, vehicleId = BMW_VEHICLE.id) {
   return createBMWVehicleAdapter(THREE, vehicleId, gltf);
 }
 
-/** Cached source bytes are immutable; active adapters own separate GPU resources. */
+
 export function clearBMWVehicleCache() { byteCache.clear(); }
 
-/** Adopt one fresh real GLTF parse. Call update(lastPose) before revealing it.
- * The caller owns attachment and must dispose stale asynchronous results.
- */
+
+
+
 export function createBMWVehicleAdapter(THREE, vehicleId, gltf) {
   const spec = vehicleSpec(vehicleId);
   const scene = gltf?.scene;
@@ -176,8 +176,8 @@ export function createBMWVehicleAdapter(THREE, vehicleId, gltf) {
     const restBounds = new THREE.Box3().setFromObject(group, true);
     const wheelNodes = [];
     scene.traverse(node => {
-      // GLTFLoader sanitizes dots from node names; retain original-name support
-      // for a direct parser that preserves the authoring names.
+
+
       if (/^Plane\.?00[3-6]$/.test(node.name)) wheelNodes.push(node);
     });
     if (wheelNodes.length !== 4) throw new Error(`BMW expected four wheels; found ${wheelNodes.length}.`);
@@ -207,8 +207,8 @@ export function createBMWVehicleAdapter(THREE, vehicleId, gltf) {
       const spin = new THREE.Group();
       spin.name = 'BMW wheel roll about local -X';
       pivot.add(spin);
-      // All original wheel origins coincide with the body origin. Reparent
-      // beneath their measured geometry centers, retaining the whole transform.
+
+
       spin.attach(node);
       return { name: `${front ? 'front' : 'rear'}-${side}`, front, side, localPosition,
         radius, halfWidth, contactVertices: Object.freeze(contactVertices),
@@ -226,8 +226,8 @@ export function createBMWVehicleAdapter(THREE, vehicleId, gltf) {
       primitives += materialList(mesh).length;
     });
     for (const material of resources.materials) {
-      // Match the existing solid-vehicle shadow fix without changing viewing
-      // sidedness, glass/trim colors, tire roughness or original material maps.
+
+
       if (material.side === THREE.DoubleSide && !material.transparent &&
           material.opacity === 1 && material.alphaTest === 0) material.shadowSide = THREE.BackSide;
       if (typeof material.emissiveIntensity === 'number')
@@ -236,8 +236,8 @@ export function createBMWVehicleAdapter(THREE, vehicleId, gltf) {
     applyGoldPaint(THREE, body, resources);
     const brakeLights = attachVehicleBrakeLights(THREE, { scene, normalized, model: spec.model, resources });
     const dimensions = restBounds.getSize(new THREE.Vector3());
-    // Cargo is currently hidden. A conservative roof-safe position preserves
-    // the shared adapter contract if an external caller attaches a crate.
+
+
     const cargoPosition = new THREE.Vector3(0, restBounds.max.y + .55 + .025, 0);
     const wheelContacts = Object.freeze(wheels.map(wheel => Object.freeze({
       name: wheel.name, front: wheel.front, side: wheel.side,
@@ -276,7 +276,7 @@ export function createBMWVehicleAdapter(THREE, vehicleId, gltf) {
         for (const key of Object.keys(state)) if (pose[key] !== undefined && !Number.isFinite(pose[key]))
           throw new TypeError(`BMW ${key} must be finite.`);
         for (const key of Object.keys(state)) if (pose[key] !== undefined) state[key] = pose[key];
-        // The authoritative game rig owns world pose and movement.
+
         body.position.y = state.bodyBob;
         body.rotation.set(state.bodyPitch % TAU, 0, state.bodyRoll % TAU, 'XYZ');
         for (const wheel of wheels) {

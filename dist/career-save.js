@@ -41,8 +41,8 @@ function validRecord(value) {
     !forbiddenKeys.some(key => owns(value, key));
 }
 
-// Read only own data descriptors, never inherited values or accessors. These
-// helpers also cover nested arrays and per-car upgrade records.
+
+
 function readData(value, keys) {
   if (!validRecord(value)) return null;
   const result = Object.create(null);
@@ -67,9 +67,9 @@ function readIds(value) {
   return ids;
 }
 
-// Only an explicit successful, continuously validated final delivery is proof.
-// Old claimedCheckpointIds can be synthesized during legacy migration, and are
-// deliberately never used to infer completion (nor are money or car ownership).
+
+
+
 function sanitizeRouteCompletion(value) {
   const data=readData(value,['version','proof','checkpointId','runId','startProgress','endProgress','sampleCount','bridgeIds']);
   if(!data||data.version!==1||data.proof!==ROUTE_COMPLETION_PROOF||
@@ -87,8 +87,8 @@ function sanitizeRouteCompletion(value) {
 }
 
 function sanitizeRetention(value, ownedVehicleIds) {
-  // Old saves cannot tell which gates were visited. Claim them conservatively
-  // instead of flooding an established wallet with sixteen retroactive awards.
+
+
   const result=freshRetention({migrated:true});
   const data=readData(value,['version','missionSequence','missionProgress','missionBridgeIds','claimedCheckpointIds','goalVehicleId','careerCashEarned','testCashGranted']);
   if(!data||data.version!==RETENTION_VERSION)return result;
@@ -98,11 +98,11 @@ function sanitizeRetention(value, ownedVehicleIds) {
   if(mission.id==='clean-bridges'){
     const crossed=readIds(data.missionBridgeIds);
     result.missionBridgeIds=BRIDGES.filter(bridge=>crossed.has(bridge.id)).map(bridge=>bridge.id).slice(0,mission.target-1);
-    // Counts without the actual distinct bridge history cannot be trusted.
+
     result.missionProgress=result.missionBridgeIds.length;
   }
-  // Missing/malformed history is conservative too. A valid new career always
-  // supplies its explicit empty array, never an absent field.
+
+
   const history=data.claimedCheckpointIds;
   let validHistory=Array.isArray(history)&&Object.getPrototypeOf(history)===Array.prototype&&
     !forbiddenKeys.some(key=>owns(history,key))&&history.length<=1000;
@@ -121,8 +121,8 @@ function sanitizeRetention(value, ownedVehicleIds) {
   return result;
 }
 
-/** Schema 1 migrates in place on the original storage key. Schema 2 contains
- * career data only: no position, cargo, pending rewards, timestamps or clocks. */
+
+
 export function sanitizeCareer(value, fallbackCharacterId = DEFAULT_CHARACTER_ID) {
   const result = freshCareer(fallbackCharacterId);
   try {
@@ -138,8 +138,8 @@ export function sanitizeCareer(value, fallbackCharacterId = DEFAULT_CHARACTER_ID
     if(result.routeCompletion)result.ownedVehicleIds.push(REWARD_VEHICLE_ID);
     result.retention = sanitizeRetention(data.retention, result.ownedVehicleIds);
     if (data.version === 1) {
-      // Previously all avatars were free. Retain the selected avatar as a
-      // permanent owned skin without silently granting the other paid skins.
+
+
       result.characterId = selected;
       result.ownedSkinIds = CHARACTER_CATALOG.filter(skin => skin.id === DEFAULT_CHARACTER_ID || skin.id === selected).map(skin => skin.id);
       return result;
@@ -164,8 +164,8 @@ export function sanitizeCareer(value, fallbackCharacterId = DEFAULT_CHARACTER_ID
   return result;
 }
 
-/** Small synchronous adapter. Accessing localStorage itself can throw (private
- * browsing, sandboxed iframes), not just getItem/setItem. All failures are local. */
+
+
 export function createCareerStore(options = {}) {
   const key = typeof options.key === 'string' && options.key ? options.key : ECONOMY_CONFIG.saveKey;
   const status = { available: true, failed: false, reason: null, operation: null };

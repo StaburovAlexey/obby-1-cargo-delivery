@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Pure camera state, real Three math and controls with explicit DOM mocks.
-// No browser/WebGL or physical touchscreen validation is implied.
+
+
 import assert from 'node:assert/strict';
 import * as THREE from '../dist/vendor/three.module.js';
 import { FOLLOW_CAMERA, createFollowCameraState, computeFollowOffset, shortestAngleDelta } from '../dist/follow-camera.js';
@@ -109,7 +109,7 @@ check('held look never credits travel; every new touch cancels return and resets
   camera.lookEnd();
   camera.update({ dt: 60, heading: -1, distance: 5.9 });
   near(camera.state.yaw, before);
-  // Duplicate/global releases do not erase distance already accumulated.
+
   camera.lookEnd(); near(camera.state.distanceSinceLook, 5.9);
 });
 
@@ -408,8 +408,8 @@ for (const viewport of [{ width: 390, height: 844, name: 'portrait' }, { width: 
       const rate = mode === 'driving' ? 7 : 8;
       try {
         for (const pointerType of ['touch', 'mouse']) {
-          // A one-metre step left 0.875173 m / 0.889882 m of target lag.
-          // Previously, merely acquiring the pointer applied ALL of it at dt=0.
+
+
           if (mode === 'driving') { d.model.state.x += 1; d.applyTruckPose(); }
           else d.gameplay.state.player.x += 1;
           follow(1 / 60);
@@ -429,7 +429,7 @@ for (const viewport of [{ width: 390, height: 844, name: 'portrait' }, { width: 
           near(d.controls.target.distanceTo(before.target), 0);
           assert.ok(d.camera.position.distanceTo(before.position) > 0 && d.camera.position.distanceTo(before.position) < .06);
           assertRenderedOrbit(d, scale);
-          // Rotation remains direct, while translation retains its usual damping.
+
           const targetBeforeFrame = d.controls.target.clone(), yaw = d.cameraState.state.yaw;
           follow(1 / 60);
           near(d.controls.target.x, targetBeforeFrame.x + (subject.x - targetBeforeFrame.x) * (1 - Math.exp(-rate / 60)));

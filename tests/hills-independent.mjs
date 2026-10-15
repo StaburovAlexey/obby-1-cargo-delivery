@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Independent audit. Real solver, uploaded Float32 geometry and actual app code;
-// mocked DOM/renderer only. No browser, WebGL, GPU or Android verification.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import crypto from 'node:crypto';
@@ -77,9 +77,9 @@ check('Every actual uploaded road triangle respects the 7.5% full-width cap and 
 check('Fork quantization stays bounded and does not create vehicle-support steps',()=>{
  let maxGradientError=0,maxHeightError=0,triangles=0,maxSupportResidual=0,supportChecks=0;const rows=[],thinProgress=new Map();
  for(const[kind,data]of [['road',N.ROAD_MESH],['ground',N.GROUND_MESH]])for(let i=0;i<data.indices.length;i+=3){const ids=data.indices.slice(i,i+3),qs=ids.map(j=>data.progress[j]),fork=N.FORKS.find(f=>qs.every(q=>q>=f.from&&q<=f.to));if(!fork)continue;const v=triangleAt(data.positions,ids),f=triInfo(v),p=v.reduce((a,b)=>({x:a.x+b.x/3,y:a.y+b.y/3,z:a.z+b.z/3}),{x:0,y:0,z:0}),origin=N.routePointAtProgress(fork.from),q=fork.from+(p.x-origin.x)*origin.tangent.x+(p.z-origin.z)*origin.tangent.z,grade=N.routeGrade(q),gradientError=Math.hypot(f.gradient.x-grade*origin.tangent.x,f.gradient.z-grade*origin.tangent.z),heightError=Math.abs(p.y-N.routeHeight(q));maxGradientError=Math.max(maxGradientError,gradientError);maxHeightError=Math.max(maxHeightError,heightError);triangles++;if(gradientError>.001)rows.push({kind,triangle:i/3,fork:fork.id,q,gradientError,heightError,area:f.area});if(kind==='road'&&Math.max(...qs)-Math.min(...qs)<.02)thinProgress.set(`${fork.id}:${q.toFixed(3)}`,{fork,q});}
- // A sub-mm Float32 facet can have ~0.22 degree normal error. The authoritative
- // query matches the rendered triangle; verify bounded support, not fake C1
- // flat-face normals. The analytic route itself is separately checked C1.
+
+
+
  assert.ok(maxGradientError<.004);assert.ok(maxHeightError<.0005);
  for(const{fork,q}of thinProgress.values())for(const branch of ['main','alternate'])for(const side of [-10,0,10]){
   const fits=[-.02,0,.02].map(dq=>{const p=N.routePointAtProgress(q+dq,{branch}),x=p.x+p.right.x*side,z=p.z+p.right.z*side;return fitTruckToGround(THREE,x,z,p.heading,p).position.y;});const residual=Math.abs(fits[0]-2*fits[1]+fits[2]);maxSupportResidual=Math.max(maxSupportResidual,residual);assert.ok(residual<.0006,`Fork support jerk ${fork.id}/${q}/${side}: ${residual}`);supportChecks++;

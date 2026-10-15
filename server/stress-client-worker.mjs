@@ -1,4 +1,4 @@
-// Real WebSocket clients, isolated from orchestration and server metrics.
+
 import {performance,monitorEventLoopDelay} from 'node:perf_hooks';
 import WebSocket from 'ws';
 import {createInitialPlayerState} from '../dist/online-protocol.js';

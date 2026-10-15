@@ -57,8 +57,8 @@ assert.equal(offers,400);assert.equal(total,226780);
 assert.equal(VEHICLE_CONFIG.reduce((s,v)=>s+v.price,0),285000);
 assert.equal(SCHOOL_CONFIG.reduce((s,v)=>s+v.price,0),47000);
 
-// Exact funds, denied insufficient funds and double-clicks. Any paid car and
-// school remains directly purchasable without earlier purchases or new locks.
+
+
 for(const v of vehicles.slice(1)){
   const g=make({...freshCareer(),money:v.price-1});g.state.player={...v.park};
   assert.equal(g.buy(v.id),false);assert.deepEqual(g.state.ownedVehicleIds,['pickup']);

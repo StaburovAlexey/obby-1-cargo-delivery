@@ -38,7 +38,7 @@ def material(part):
  if color:
   mult=n.new('ShaderNodeMixRGB');mult.blend_type='MULTIPLY';mult.inputs[0].default_value=1;mult.inputs[2].default_value=(*part.get('color',[1,1,1]),1);links.new(color,mult.inputs[1]);links.new(mult.outputs[0],bsdf.inputs['Base Color'])
  if part.get('opacity',1)<1:
-  # Preserve the source shadow opacity in the offline renderer.
+
   transparent=n.new('ShaderNodeBsdfTransparent');mix=n.new('ShaderNodeMixShader');mix.inputs[0].default_value=part['opacity'];links.new(transparent.outputs[0],mix.inputs[1]);links.new(bsdf.outputs[0],mix.inputs[2]);links.new(mix.outputs[0],n.get('Material Output').inputs['Surface'])
  return m
 selected=sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else []

@@ -1,6 +1,6 @@
-/** Procedural interlocking-toy-brick plastic. No image, model, or logo assets.
- * Pattern uses metre-scaled local scene coordinates, not stretched unit-box UVs.
- * One shared PBR shader serves all colored building instances. */
+
+
+
 export const BRICK_STYLE = Object.freeze({
   blockWidth: 1.6,
   blockHeight: 0.8,

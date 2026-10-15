@@ -1,10 +1,10 @@
-/** Driving port from StaburovAlexey/worker-play-ads, branch tow-confiscator.
- * Source commit 6c52e417cd499c7b9d9c6f450961c8ca0956063c.
- * Config: playable.config.ts. Dynamics: src/engines/three/scene.ts updateVehicle.
- * Collision stepping: src/engines/three/vehicle-collision-response.ts.
- * Adaptations: this procedural truck faces -Z, ground fit lives in city-driving.js,
- * and rolling uses this mesh's 0.68 m tire radius. No engine or imported model.
- */
+
+
+
+
+
+
+
 export const TOW_DRIVING = Object.freeze({
   maxSpeed: 11,
   accelerationSeconds: 1.3,
@@ -38,7 +38,7 @@ export function steeringTarget(input) {
   );
 }
 
-/** Same substep/contact response as tow-confiscator, with -Z forward conversion. */
+
 export function moveWithContacts(
   position,
   rotation,
@@ -100,8 +100,8 @@ export function createDrivingModel({
   contact = () => undefined,
   maxSpeed = TOW_DRIVING.maxSpeed,
 } = {}) {
-  // Vehicle progression changes only the top-speed scale; Tow input, steering,
-  // acceleration timing, coasting and contact stepping remain the same.
+
+
   maxSpeed = Math.max(1,Math.min(30,Number(maxSpeed)||TOW_DRIVING.maxSpeed));
   const spawn = { x, z, heading };
   const state = {

@@ -1,4 +1,4 @@
-// The shipped Three loader, pose, skinning, and installed furniture. No browser.
+
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import * as T from '../dist/vendor/three.module.js';

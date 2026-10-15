@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Independent renderer-free fork, flush-surface, vehicle and actual-mesh checks.
-// No browser, server, WebGL or physical Android input is used or claimed.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import * as THREE from '../dist/vendor/three.module.js';
@@ -22,7 +22,7 @@ const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 const smooth = t => { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); };
 const oldCenter = y => 4.2 * Math.sin(Math.PI * smooth((y + 3) / 88));
 const junctionX = oldCenter(74);
-// This oracle uses the requested dimensions, not exported roadIntervals/contact helpers.
+
 const spread = y => y <= 74 ? 0 : y <= 156 ? 40 * smooth((y-74)/82) : y <= 250 ? 40 : y <= 330 ? 40*(1-smooth((y-250)/80)) : y <= 350 ? 0 : y <= 435 ? 54*smooth((y-350)/85) : y <= 505 ? 54 : y <= 590 ? 54*(1-smooth((y-505)/85)) : 0;
 const center = (id, y) => y <= 74 ? oldCenter(y) : junctionX + (id === 'main' ? 0 : id === 'left' ? -spread(y) : spread(y));
 const height = (id, y) => y <= 74 ? 11*smooth((y-13)/61) : y <= 170 ? id === 'left' ? 11*(1-smooth((y-122)/34)) : 11 : y < 265 ? (id === 'left' ? 0 : 11)+(id === 'left' ? 5 : -6)*smooth((y-170)/95) : id === 'left' && y > 390 && y < 535 ? 5+13*(smooth((y-390)/45)-smooth((y-470)/65)) : 5;
@@ -49,7 +49,7 @@ function assertBodyInRoad(s, label, dense = false) {
       assert.ok(pointInRoad(p.x, p.z), `${label}: body edge leaves road at ${JSON.stringify(p)}, pose ${JSON.stringify(s)}`);
     }
   }
-  // Interior checks catch a long footprint straddling the disconnected branches.
+
   for (const dx of [-.8, 0, .8]) for (const dz of [-2, -1, 0, 1, 2]) {
     const p = bodyPoint(s.x, s.z, s.heading, dx, dz);
     assert.ok(pointInRoad(p.x, p.z), `${label}: body interior crosses median`);
@@ -113,15 +113,15 @@ check('Fork, downhill entry and branch ends have continuous elevation and ground
     const a = fitTruckToGround(THREE, center(id, y - .001), -y + .001, headingAt(id, y - .001));
     const b = fitTruckToGround(THREE, center(id, y + .001), -y - .001, headingAt(id, y + .001));
     assert.ok(Math.abs(a.position.y - b.position.y) < .002);
-    // The pre-existing horizontal approach may meet the branch at an angle;
-    // comparing normals isolates the terrain pitch/roll continuity requested here.
+
+
     const angle = a.normal.angleTo(b.normal); assert.ok(angle < .003, `${id} normal snaps at ${y}: ${angle}`);
     details.push({ branch: id, station: y, verticalStep: Math.abs(a.position.y - b.position.y), normalAngle: angle });
   }
   return details;
 });
 
-// Actual transformed geometry witnesses, independent of feature metadata and collider filtering.
+
 function convexHull(points) {
   const unique = [...new Map(points.map(p => [`${p.x.toFixed(7)},${p.y.toFixed(7)}`, p])).values()].sort((a, b) => a.x - b.x || a.y - b.y);
   const cross = (a, b, c) => (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x), lower = [], upper = [];
@@ -182,7 +182,7 @@ check('Visible building rows line every main and fork edge without a truck-sized
     for (let r = 0; r < roads.length; r++) for (const side of [-1, 1]) {
       const edge = side < 0 ? roads[r].min : roads[r].max, inner = roads.length === 2 && (r === 0 && side === 1 || r === 1 && side === -1);
       const key = inner ? `inner-${side}` : `outer-${side}`, record = records.get(key) || { samples: 0, misses: 0, run: 0, maxRun: 0, maxSetback: 0 };
-      // The infinitesimal tip before a median can contain any physical building is narrower than a tire.
+
       if (inner && roads[1].min - roads[0].max < .25) continue;
       const candidates = slices.filter(o => side < 0 ? o.max <= edge + .00002 : o.min >= edge - .00002).map(o => ({ ...o, gap: side < 0 ? edge - o.max : o.min - edge })).sort((a, b) => a.gap - b.gap);
       const nearest = candidates[0], shielded = nearest && nearest.gap <= 1.25;
@@ -298,7 +298,7 @@ check('D and R can choose either fork and return through the junction without pr
       const s = model.state, y = -s.z;
       if (phase === 'out' && y > 143) { phase = 'return'; model.setGear(outboundGear === 'D' ? 'R' : 'D'); }
       if (phase === 'return' && y < 56) break;
-      // During a D/R change, keep tracking the actual travel direction until it brakes through zero.
+
       const outward = phase === 'out' || Math.sign(s.speed) === (outboundGear === 'D' ? 1 : -1);
       const targetY = clamp(y + (outward ? 5.5 : -5.5), -20, 153);
       model.setInput({ active: true, steering: steeringForTarget(s, center(id, targetY), targetY) });
@@ -411,8 +411,8 @@ check('Fixed-radius third-person orbit frames the truck without geometry-depende
         assert.ok(Math.abs(centered.x)<1e-8&&Math.abs(centered.y)<1e-8,'Camera anchor is not centred');
         const forward = new THREE.Vector3(-Math.sin(heading), 0, -Math.cos(heading)), behind = camera.position.clone().sub(rig.root.position).dot(forward);
         assert.ok(behind < -.05, 'Third-person camera must remain behind the vehicle');
-        // Observe actual visible triangles without correcting or rejecting an
-        // obstruction: the requested camera is allowed through walls/terrain.
+
+
         for (const local of [[0, 1.8, 0], [0, 2.5, -1.5], [0, 1.7, 1.5]]) {
           const target = new THREE.Vector3(...local).applyQuaternion(rig.root.quaternion).add(rig.root.position), direction = target.clone().sub(camera.position);
           ray.set(camera.position, direction.clone().normalize()); ray.far = direction.length() - .02;

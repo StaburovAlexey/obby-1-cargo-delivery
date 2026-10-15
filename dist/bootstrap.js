@@ -11,7 +11,7 @@ const platform=await initializeYandexPlatform({development,
 const cloud=createCloudCareer({platform,onReplace:()=>{pause.set('cloud-reload',true);location.reload();}});
 const initial=await cloud.initialize();
 const premium=createPremiumSkins({platform,onBusy:value=>pause.set('payment',value)});
-// Catalog failures leave premium buttons unavailable and ordinary play usable.
+
 await premium.initialize().catch(error=>console.warn('Purchases currently unavailable',error));
 const cached=premium.status.failed?initial.career.ownedSkinIds.filter(id=>PREMIUM_SKIN_IDS.includes(id)):[];
 const allowed=new Set([...cached,...premium.ownedIds,...cloud.legacyPremiumIds]);

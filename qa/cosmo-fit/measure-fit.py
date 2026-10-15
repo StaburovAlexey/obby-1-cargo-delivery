@@ -32,7 +32,7 @@ for name in MODELS:
   mn=min(samples);mx=max(samples)
   candidates.append({'z':round(float(z),3),'bottom':mx+.02,'lowestSupport':mn,'spread':mx-mn,'score':mn-.5*(mx-mn)})
  best=sorted(candidates,key=lambda c:-c['score'])[:3]
- # The police lightbar sits near the middle of the roof: also report front/rear alternatives.
+
  alternatives=sorted([c for c in candidates if abs(c['z'])>.55],key=lambda c:-c['score'])[:4] if name=='police' else []
  wheel_report=[]
  for w in wheels:

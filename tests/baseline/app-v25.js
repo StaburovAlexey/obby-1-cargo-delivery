@@ -223,8 +223,8 @@ function applyTruckPose() {
   if (biomeLabel) biomeLabel.textContent = biome?.name || biome?.label || "Город";
   data.biome = biome?.id || "city";
 }
-// Requested unrestricted orbital camera: no wall raycasts, roof/terrain
-// clamping, near-wall pushes or corrective zoom. A fixed radius is preserved.
+
+
 const smoothedCameraTarget=new THREE.Vector3();
 let renderedCameraScale=1;
 function followTruck(dt,snap=false,distance=0){
@@ -234,8 +234,8 @@ function followTruck(dt,snap=false,distance=0){
   const scale=innerWidth/innerHeight<.8?1.2:1;
   desiredTarget.copy(rig.root.position);desiredTarget.y+=1.7;
   desiredCamera.set(offset.x*scale,offset.y*scale,offset.z*scale).add(desiredTarget);
-  // A look gesture changes angles immediately, never translation damping.
-  // Bypassing damping on pointerdown snapped the remaining follow-target lag.
+
+
   const blend=snap?1:1-Math.exp(-7*Math.max(0,dt));
   smoothedCameraTarget.lerp(desiredTarget,blend);
   camera.position.set(offset.x*scale,offset.y*scale,offset.z*scale).add(smoothedCameraTarget);
@@ -354,8 +354,8 @@ function syncMode(snap=false){
   const walking=playing&&gameplay?.state.mode==='walking';
   controls.enabled=!playing;
   scene.fog.near=playing?500:5000;scene.fog.far=playing?1600:12000;
-  // A useful near plane preserves depth precision over the long road. This
-  // changes clipping only; it never moves, pushes or zooms the camera.
+
+
   camera.near=playing?.5:2;camera.far=playing?1800:10000;camera.updateProjectionMatrix();
   const vehicleLocked=gameplay?.state.mode==='driving';
   document.getElementById('regenerate').disabled=vehicleLocked;
@@ -384,14 +384,14 @@ function enterVehicle(id){
   const vehicle=garage.vehicles.find(v=>v.id===id);
   if(!vehicle||!gameplay.isOwned(id)||(gameplay.state.mode==='driving'&&gameplay.state.selectedId!==id))return false;
   const spawn=GAMEPLAY.roadSpawn;
-  // Check the full conservative vehicle envelope before changing the session.
+
   if(getTruckContact(spawn.x,spawn.z,spawn.heading,obstacles)){
     returnToGarage('blocked');notify('Стартовая полоса занята. Вы возвращены в ангар.');return false;
   }
   if(gameplay.state.mode!=='driving'&&!gameplay.enter(id))return false;
   inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();lastTime=0;
-  // Only the selected car is on the network. Park the previous selection first
-  // so repeated entries can never create a stack of cars on the launch point.
+
+
   for(const v of garage.vehicles){v.model.reset();poseVehicle(v);}
   model=vehicle.model;rig=vehicle.rig;
   Object.assign(model.state,spawn);model.pause();model.setGear('D');
@@ -447,7 +447,7 @@ function selectCharacter(id,initial=false){
 }
 async function populateDisplays(){
   const generation=displayGeneration,stands=garage.stands;
-  // Sequential cached static snapshots avoid seventeen simultaneous animation mixers.
+
   for(const stand of stands){
     try{
       const spec=CHARACTER_CATALOG[stand.index];if(!spec)continue;

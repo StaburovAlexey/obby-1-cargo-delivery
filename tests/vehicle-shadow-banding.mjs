@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// CPU diagnostic against actual GLBs and the shipped Three shadow matrices.
-// Reproduces depth-map self-occlusion; it is not a GPU/mobile appearance test.
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import * as T from '../dist/vendor/three.module.js';
@@ -83,8 +83,8 @@ function rasterize(triangles, corrected) {
   }};
 }
 
-// Compare only unambiguously false same-triangle self-occlusion on surfaces
-// facing the sun. Actual shadows from roofs, spoilers and other cars are allowed.
+
+
 function selfOcclusion(triangles, light, map) {
   let sampledArea = 0, acneArea = 0;
   triangles.forEach((triangle, id) => {
@@ -92,7 +92,7 @@ function selfOcclusion(triangles, light, map) {
     for (const weights of [[1/3, 1/3, 1/3], [.6, .2, .2], [.2, .6, .2], [.2, .2, .6]]) {
       const point = new T.Vector3(), normal = new T.Vector3();
       weights.forEach((w, i) => {point.addScaledVector(triangle.world[i], w); normal.addScaledVector(triangle.normals[i], w);});
-      // Three interpolates normal-biased vertex positions in the shadow varying.
+
       point.addScaledVector(normal, P.normalBias).applyMatrix4(light.shadow.matrix);
       const i = map.index(point.x * P.mapSize, point.y * P.mapSize);
       sampledArea += triangle.area / 4;
@@ -102,9 +102,9 @@ function selfOcclusion(triangles, light, map) {
   return {sampledArea, acneArea};
 }
 
-// Every shadow-map texel corresponds to a parallel light ray. Reconstruct its
-// ground intersection and test the real ground receiver's bias. This verifies
-// that car shadows remain cast, including near the four tire contacts.
+
+
+
 function groundCoverage(map, light) {
   const inverse = light.shadow.matrix.clone().invert();
   const ground = new Set();

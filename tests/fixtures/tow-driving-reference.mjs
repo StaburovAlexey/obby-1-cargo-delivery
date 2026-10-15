@@ -1,9 +1,9 @@
-// Source-backed numeric oracle. DO NOT derive expected results from the port.
-// Mechanics below are copied verbatim (TypeScript types stripped only) from
-// StaburovAlexey/worker-play-ads@6c52e417cd499c7b9d9c6f450961c8ca0956063c:
-// src/engines/three/scene.ts (updateVehicle, updateVehicleSuspension, helpers) and
-// src/engines/three/vehicle-collision-response.ts. Source uses +Z forward.
-// City colliderReach=3.3 is the only collision-shape adapter in this fixture.
+
+
+
+
+
+
 import * as THREE from '../../dist/vendor/three.module.js';
 function moveTowards(current        , target        , maxDelta        )         {
   if (Math.abs(target - current) <= maxDelta) return target;
@@ -29,7 +29,7 @@ const MAX_STEP_DISTANCE = 0.15;
 const CONTACT_EPSILON = 0.00001;
 const MAX_CONTACT_PASSES = 6;
 
-/** Move in small steps and remove penetration along obstacle normals, retaining tangent motion. */
+
 function moveVehicleWithCollisions(
   position                          ,
   rotation               ,
@@ -50,7 +50,7 @@ function moveVehicleWithCollisions(
       collided = true;
       const correction = contact.depth + CONTACT_EPSILON;
       correctionDistance += correction;
-      // Confined corners must not teleport the vehicle to the far side of a wall.
+
       if (correctionDistance > MAX_STEP_DISTANCE * 3) return false;
       position.x += contact.normalX * correction;
       position.z += contact.normalZ * correction;
@@ -63,7 +63,7 @@ function moveVehicleWithCollisions(
     position.x += Math.sin(rotation.y) * stepTravel;
     position.z += Math.cos(rotation.y) * stepTravel;
     if (resolveContacts()) continue;
-    // If turning wedges the long body into a corner, try translation at its last safe heading.
+
     rotation.y = previousYaw;
     position.x = previousX + Math.sin(previousYaw) * stepTravel;
     position.z = previousZ + Math.cos(previousYaw) * stepTravel;
@@ -130,12 +130,12 @@ const camera={position:new THREE.Vector3(),lookAt(){}};
     const throttleActive = vehicleInput.active;
     const direction = gear === "D" ? 1 : -1;
     const effectiveThrottle = throttleActive;
-    // Screen-space steering is opposite Three.js positive Y rotation:
-    // dragging the wheel right must produce a right-hand vehicle turn.
+
+
     const steeringMagnitude = Math.max(0, (Math.abs(steering) - 0.08) / 0.92);
     const steeringResponse = Math.sign(steering) * steeringMagnitude * (0.55 + 0.45 * steeringMagnitude);
     const targetWheelAngle = -steeringResponse * MAX_FRONT_WHEEL_ANGLE * Math.max(0, vehicleConfig.steeringStrength);
-    // Build up steering gradually, with a gentler response near the centre.
+
     vehicleFrontWheelAngle += (targetWheelAngle - vehicleFrontWheelAngle)
       * (1 - Math.exp(-Math.max(0, deltaSeconds) / 0.22));
     const frontWheelAngle = vehicleFrontWheelAngle;

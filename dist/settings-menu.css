@@ -1,14 +1,14 @@
-/* A single compact HUD entry opens a centered, scrollable settings dialog. */
+
 .top-actions #settings-button{--action-color:#6585bb;--action-hover:#85a5db;position:static;inset:auto;padding:0;border:0;background:none;min-height:var(--top-icon-size);gap:0;flex-shrink:0}
 .top-actions #settings-button>.hud-circle{position:relative;display:block;overflow:hidden;isolation:isolate}
 .top-actions #settings-button>.hud-circle>.hud-art{position:absolute;inset:15%;width:70%;height:70%;max-width:70%;max-height:70%;margin:0;transform:none;overflow:hidden}
-/* Reserve the extra icon in horizontal modes; the hangar stays a left column. */
+
 body:not(.is-walking) .topbar,body:not(.is-walking) #wallet-hud{--top-actions-width:284px}
 body.is-driving .topbar,body.is-driving #wallet-hud{--top-actions-width:383px}
 @media(max-width:760px){body:not(.is-walking) .topbar,body:not(.is-walking) #wallet-hud{--top-actions-width:228px}body.is-driving .topbar,body.is-driving #wallet-hud{--top-actions-width:307px}}
 @media(max-height:500px) and (min-width:501px){body:not(.is-walking) .topbar,body:not(.is-walking) #wallet-hud{--top-actions-width:199px}body.is-driving .topbar,body.is-driving #wallet-hud{--top-actions-width:268px}}
 @media(max-width:500px){
- /* Four round actions form two rows, retaining room for money and brains. */
+
  body.is-driving .top-actions{display:grid;grid-template-columns:repeat(2,48px);width:102px;gap:6px}
  body.is-driving .topbar,body.is-driving .top-actions,body.is-driving #wallet-hud{--top-actions-width:102px;--top-icon-size:44px}
  body.is-driving .top-actions .hud-menu-button{min-height:44px;height:44px}
@@ -46,13 +46,13 @@ body.is-driving .topbar,body.is-driving #wallet-hud{--top-actions-width:383px}
 @media(max-width:360px){.settings-heading{padding:10px 12px}.settings-scroll{padding:12px}#settings-title{font-size:22px}.settings-credit-list>li{padding:10px}}
 @media(max-height:500px){#settings-panel{border-radius:16px}.settings-heading{padding:7px 12px}#settings-title{font-size:20px}#settings-close{width:36px;height:36px}.settings-scroll{padding:12px}.settings-credits h3{margin-top:16px}}
 
-/* The developer-only Overview button adds one action to the horizontal row. */
+
 @media(min-width:501px){body.developer-mode.is-driving .topbar,body.developer-mode.is-driving #wallet-hud{--top-actions-width:482px}}
 @media(min-width:501px) and (max-width:760px){body.developer-mode.is-driving .topbar,body.developer-mode.is-driving #wallet-hud{--top-actions-width:386px}}
 @media(min-width:501px) and (max-height:500px){body.developer-mode.is-driving .topbar,body.developer-mode.is-driving #wallet-hud{--top-actions-width:337px}}
 
-/* Readable, in-panel instructions. Every sample reuses real HUD symbols,
-   the wheel asset or the existing control artwork, without gameplay handlers. */
+
+
 body.settings-menu-open{overflow:hidden;overscroll-behavior:none}
 .settings-jump-nav{display:flex;flex-wrap:wrap;gap:6px;padding:8px 18px 10px;border-bottom:1px solid #a4c8ff3d;flex:none}
 .settings-jump-nav button{flex:1 1 auto;min-height:36px;padding:6px 9px;border:1px solid #91bbef78;border-radius:9px;background:#244c87;color:#fff4cb;font:inherit;font-size:12px;font-weight:800;line-height:1.25;touch-action:manipulation}

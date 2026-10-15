@@ -1,4 +1,4 @@
-/** Static content/artwork and responsive contracts, not browser/GPU validation. */
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {translateGameText} from '../dist/localization.js';

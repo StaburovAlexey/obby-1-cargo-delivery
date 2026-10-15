@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Original-solver checks. Pure Node: no browser, network, or WebGL context.
+
 import assert from 'node:assert/strict';
 import {
   createDrivingModel, evaluateVehicleForces, VEHICLE_DYNAMICS as P,
@@ -207,8 +207,8 @@ check('30 / 60 / 120 Hz rendering produces equivalent rigid-body state and path 
     return { ...m.state, travel, pathDistance: path };
   });
   for (const s of snapshots.slice(1)) for (const key of Object.keys(snapshots[0])) {
-    // Like raw pathDistance/travel, this is a per-render-frame accumulator.
-    // Continuous physics state remains compared across every frame rate.
+
+
     if (key === 'movingSeconds') continue;
     if (typeof s[key] === 'number') near(s[key], snapshots[0][key], 2e-10);
     else assert.equal(s[key], snapshots[0][key]);

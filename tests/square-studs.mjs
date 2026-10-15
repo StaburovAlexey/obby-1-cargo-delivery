@@ -1,5 +1,5 @@
-// Renderer-free regression helpers for the square-stud material correction.
-// Imported by materials.mjs so `npm test` exercises these checks automatically.
+
+
 import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
 import fs from 'node:fs';
@@ -16,7 +16,7 @@ const attributeRecord = (attribute) => attribute ? {
   sha256: sha256(Buffer.from(attribute.array.buffer, attribute.array.byteOffset, attribute.array.byteLength)),
 } : null;
 
-/** All scene data that a material-only change must leave byte-exact. */
+
 export function sceneSnapshot(THREE, city, collectObstacles) {
   city.group.updateMatrixWorld(true);
   const hierarchy = [], geometry = [], instances = [];
@@ -55,8 +55,8 @@ export function sceneSnapshot(THREE, city, collectObstacles) {
 export function checkProtectedFiles(root, manifest) {
   assert.equal(manifest.commit, MATERIAL_BASELINE_COMMIT);
   return manifest.files.filter((record) => record.protected).map((record) => {
-    // HUD CSS is intentionally restyled by later UI requests. Preserve and hash
-    // its exact v7 fixture; continue protecting live Tow logic and original art.
+
+
     const source = record.file === 'dist/vehicle-controls.css'
       ? path.join(root, 'tests/fixtures/baseline-v7/vehicle-controls.css')
       : path.join(root, record.file);
@@ -127,7 +127,7 @@ export function checkSquareStudSurfaces({ check, THREE, api, squareApi, groundAp
       const measured = pixelFootprint(footprintSource, 2, style.studPitch);
       assert.ok(measured.filledFraction > minFill, `${name}: ${measured.filledFraction} contour coverage looks rounded; reference has filled square corners`);
       assert.ok(Math.abs(measured.widthPixels / measured.heightPixels - 1) < .13, `${name}: stretched stud footprint`);
-      // These four points lie outside a same-width circle but inside the square.
+
       for (const x of [.12, .28]) for (const y of [.12, .28]) assert.ok(metricPixel(footprintSource, 2, x, y) > measured.background + 1, `${name}: empty circular corner at ${x}, ${y}`);
       measurements.push({ surface: name, ...measured });
     }
@@ -178,7 +178,7 @@ export function checkSquareStudSurfaces({ check, THREE, api, squareApi, groundAp
     assert.match(shader.vertexShader, /urStudUv\s*=\s*urMeters\.xz\s*\/\s*4\.0/);
     assert.match(shader.vertexShader, /urStudUv\s*=\s*urWall\s*\/\s*4\.0/);
     assert.ok(!/urStudUv\s*[-+*]?=/.test(shader.fragmentShader), 'Fragment shader must not reset or scale base stud coordinates at window edges');
-    // The analytic preview also keeps the protected glass blue and untinted.
+
     const glass = sampleBuildingSurface([.95 / 2.4 - .5, 1.4 / 3.1 - .5, .5], [0, 0, 1], [2.4, 3.1, 1]);
     assert.equal(glass[3], 0); assert.ok(glass[2] > glass[1] && glass[1] > glass[0]);
     return { metricChecks, windowFloorAndMarginChecks: boundaryChecks, windowPitchMeters: [atlasMetadata.facadeWidth, atlasMetadata.facadeHeight], independentSquarePitchMeters: style.studPitch };

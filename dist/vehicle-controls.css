@@ -1,4 +1,4 @@
-/* Independent angular wheel and hold-to-drive gas pedal. */
+
 .vehicle-controls {
   position: fixed;
   inset: 0;
@@ -39,9 +39,9 @@
 }
 .steering-wheel.is-returning { transition: transform 260ms cubic-bezier(.22, .8, .3, 1); }
 .steering-wheel.is-active { cursor: grabbing; }
-/* Invisible circular rim belongs to the same captured steering pointer. Its
-   center and hit shape stay fixed as the wheel turns; the artwork stays its
-   original size. Overflow allows near-edge touches to start on this button. */
+
+
+
 .steering-wheel::before {
   content: "";
   position: absolute;
@@ -55,7 +55,7 @@
 .steering-wheel-image { width: 100%; height: 100%; display: block; object-fit: contain; pointer-events: none; }
 .gas-pedal {
   position: absolute;
-  /* D/R always win hit testing where a cramped safe-area layout meets the rim. */
+
   z-index: 1;
   right: max(25px, calc(env(safe-area-inset-right, 0px) + 14px));
   bottom: var(--control-bottom);
@@ -121,7 +121,7 @@ body.is-driving canvas { touch-action: none; }
   .vehicle-controls { --pedal-height: min(100px, 28.75cqh); }
 }
 
-/* A single nowrap bottom line: fuel left, live speed right. */
+
 .drive-readout {
   position: fixed;
   left: calc(env(safe-area-inset-left, 0px) + 12px);
@@ -150,8 +150,8 @@ body.is-driving canvas { touch-action: none; }
 .drive-bottom-row .drive-speed strong { font-size: 26px; }
 .drive-bottom-row .drive-speed small { font-size: 10px; }
 .drive-bottom-row #drive-status { min-width: 12px; font-size: 12px; }
-/* Keep both integer slots and the slash still as fuel crosses 100, 99 and 9.
-   The canister retains its independent absolute position in style.css. */
+
+
 #fuel-hud { container-type: inline-size; }
 #fuel-value {
   grid-template-columns: calc(var(--fuel-digits, 3) * 1ch) 1ch calc(var(--fuel-digits, 3) * 1ch);
@@ -200,7 +200,7 @@ body.is-driving canvas { touch-action: none; }
 @media (min-height: 501px) and (min-width: 501px) and (max-width: 760px) {
   .vehicle-controls { --control-bottom: calc(env(safe-area-inset-bottom, 0px) + 158px); }
 }
-/* Short landscape phones leave room below the top Overview button. */
+
 @media (max-height: 420px) and (min-width: 501px) {
   .vehicle-controls { --steering-size: min(112px, 28.75cqh); --steering-hit-padding: 24px; --control-bottom: calc(env(safe-area-inset-bottom, 0px) + 82px); }
 }
@@ -208,8 +208,8 @@ body.is-driving canvas { touch-action: none; }
   .steering-wheel.is-returning, .gas-pedal { transition: none; }
 }
 
-/* The small reverse pedal remains below gas, above the fuel/speed readout.
-   Reserve the full stack even on short landscape screens with safe insets. */
+
+
 .vehicle-controls:has(.reverse-pedal) .gas-pedal:not(.reverse-pedal) {
   bottom: max(var(--control-bottom), calc(env(safe-area-inset-bottom, 0px) + 142px));
 }
@@ -224,14 +224,14 @@ body.is-driving canvas { touch-action: none; }
   font-size: 17px;
   background: linear-gradient(145deg, #8eb6dd, #537aa8 45%, #355980);
 }
-/* Short landscape: inset the stack from the two top-right currency icons. */
+
 @media (max-height: 420px) and (min-width: 501px) {
   .vehicle-controls:has(.reverse-pedal) .gas-pedal {
     right: max(120px, calc(env(safe-area-inset-right, 0px) + 110px));
   }
 }
-/* Compact landscape stack clears the entire two-line currency readout,
-   including long values, rather than relying on horizontal icon clearance. */
+
+
 @media (max-height: 420px) and (min-width: 501px) {
   .vehicle-controls:has(.reverse-pedal) .gas-pedal:not(.reverse-pedal) {
     bottom: calc(env(safe-area-inset-bottom, 0px) + 114px);

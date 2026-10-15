@@ -1,6 +1,6 @@
-// Deliberately small renderer-free DOM/event fixture for the controls module.
-// It models listener bubbling, pointer capture bookkeeping and supplied computed
-// transforms. It is not a browser, layout engine or physical touchscreen test.
+
+
+
 class Target {
  constructor(){this.listeners=new Map();this.parent=null;}
  addEventListener(type,fn){if(!this.listeners.has(type))this.listeners.set(type,new Set());this.listeners.get(type).add(fn);}

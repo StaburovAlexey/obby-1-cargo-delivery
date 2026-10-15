@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-/** Offline deterministic placement, live collision, actual Three.js matrices,
- * interrupted clocks, resource reuse, and CPU work. No browser/GPU claim. */
+
+
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -70,8 +70,8 @@ check('Live poses and collisions track the same bounded road-local sweep at ever
   for(const [i,h]of s.movers.entries()){
    const p=pointOnEdge(h.edgeId,h.edgeDistance);near(h.x,p.x+p.right.x*h.offset);near(h.z,p.z+p.right.z*h.offset);near(h.groundHeight,queryRoadSurface(h.x,h.z,p).height);assert(h.offset>=h.motion.minOffset-1e-8&&h.offset<=h.motion.maxOffset+1e-8);
    assert.equal(s.poseFor(h.id),h);assert(s.contact(h.x,h.z,h.heading));maximumStep=Math.max(maximumStep,Math.abs(h.offset-previous[i]));assert(Math.abs(h.offset-previous[i])<=R.maximumMoverSpeed*.05+1e-7);previous[i]=h.offset;
-   // Full road width minus the occupied half-span on the wider side. An 8 m
-   // physical opening includes the 3.1 m car and generous steering margin.
+
+
    const largestPassage=15-h.width/2+Math.abs(h.offset);minimumLargestPassage=Math.min(minimumLargestPassage,largestPassage);assert(largestPassage>=R.minimumFreeCorridor);
    for(const lx of [-h.width/2,h.width/2])for(const lz of [-h.length/2,h.length/2])assert(pointInRoad(h.x+Math.cos(h.heading)*lx+Math.sin(h.heading)*lz,h.z-Math.sin(h.heading)*lx+Math.cos(h.heading)*lz,.5));
    if(h.motion.crossesCenter){if(roadHazardContact(h,p.x,p.z,p.heading))seenCenter.add(h.id);const side=h.offset<=0?1:-1;assert.equal(h.bypassSide,side);const x=p.x+p.right.x*10.4*side,z=p.z+p.right.z*10.4*side;assert(!s.contact(x,z,p.heading));assert(truckInRoad(x,z,p.heading,p));}

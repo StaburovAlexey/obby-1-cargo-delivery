@@ -1,5 +1,5 @@
-// Runtime-authored sitting pose, independent of the source locomotion clips.
-// Targets use each rig's own joints, lengths, and bone coordinate frames.
+
+
 export function makeSeatPose(THREE, model, options = {}) {
   const initial = new Map();
   model.traverse(o => { if (o.isBone) initial.set(o, o.quaternion.clone()); });
@@ -17,8 +17,8 @@ export function makeSeatPose(THREE, model, options = {}) {
     const turn=new THREE.Quaternion().setFromUnitVectors(current,new THREE.Vector3(...direction).normalize());
     worldRotation(bone,turn.multiply(bone.getWorldQuaternion(new THREE.Quaternion())));
   }
-  // Build anatomical frames from the original inverse binds. Bone axes are
-  // different on the two wrists: a shared absolute quaternion twists the skin.
+
+
   const inverseBinds = new Map();
   model.traverse(mesh => { if(mesh.isSkinnedMesh) mesh.skeleton.bones.forEach((bone,i)=> {
     if(!inverseBinds.has(bone)) inverseBinds.set(bone,mesh.skeleton.boneInverses[i].clone().invert());

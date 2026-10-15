@@ -2,8 +2,8 @@ export const PREMIUM_SKIN_IDS = Object.freeze(['dancing-npc-girl', 'jandel', 'kr
 export const premiumProductId = characterId => `skin_${characterId}`;
 const productCharacters = new Map(PREMIUM_SKIN_IDS.map(id => [premiumProductId(id), id]));
 
-/** Non-consumable ownership is SDK-confirmed and held only in memory. Never
- * consume purchases: getPurchases restores permanent products on every launch. */
+
+
 export function createPremiumSkins({ platform, onChange, onBusy } = {}) {
   if (!platform) throw new Error('Premium platform required');
   const ownedIds = new Set(), catalog = new Map();
@@ -49,8 +49,8 @@ export function createPremiumSkins({ platform, onChange, onBusy } = {}) {
           if (purchase?.productID === premiumProductId(characterId)) ownedIds.add(characterId);
           else purchaseError = new Error('Unconfirmed Yandex purchase');
         } catch (error) { purchaseError = error; }
-        // A lost payment callback can still represent a successful payment.
-        // Refresh restores it and also catches previously unresolved purchases.
+
+
         try { restore(await platform.getPurchases()); }
         catch (error) { purchaseError ||= error; }
         const owned = ownedIds.has(characterId);
