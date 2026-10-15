@@ -1,0 +1,29 @@
+{
+  "mode": "production build with injected SDK mock, no real payments/ads",
+  "boot": {
+    "ready": [
+      {
+        "playable": true,
+        "frame": 16
+      }
+    ],
+    "development": false,
+    "language": "en"
+  },
+  "price": "Buy 39 TST",
+  "pending": {
+    "paused": true,
+    "owned": false
+  },
+  "countdown": "Advertisement in 3",
+  "result": {
+    "writes": 2,
+    "localWrites": 0,
+    "cloudOwnsPremium": true,
+    "ads": 1,
+    "purchases": 1,
+    "pauseReasons": []
+  },
+  "errors": [],
+  "missing": []
+}

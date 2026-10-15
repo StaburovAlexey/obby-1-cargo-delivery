@@ -1,0 +1,16 @@
+{
+  "command": "node tests/physics-app-integration.mjs",
+  "baselinePassed": 6,
+  "currentPassed": 6,
+  "total": 11,
+  "normalizedLogsEqual": true,
+  "failures": [
+    "Held wheel plus a second-pointer gear change brakes before rolling in reverse",
+    "Blur, resize and hidden-tab safety resets clear every planar momentum channel",
+    "Overview pause, garage return and re-entry clear stale forces, spin and teleport distance",
+    "Empty fuel with sideways/angular momentum returns safely and cannot pay a coincident delivery",
+    "All ten vehicle configurations retain finite dynamics and their own fuel accounting"
+  ],
+  "baselineSha256": "c4f6d2ad9c10035a83f56ea6e2532cb31d3807dae103088881c71fedc306d93c",
+  "normalizedSha256": "61f4d5c3309e1bdbdf02b704ad8a4128329af87703155cd3f8db135e94a9fc60"
+}

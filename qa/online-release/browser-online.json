@@ -1,0 +1,12 @@
+{
+  "mode": "Chrome headless WebGL with 19 synthetic WebSocket peers and one actual game",
+  "mapSeed": 42,
+  "roomSize": 20,
+  "loadedPeerVisuals": 19,
+  "exclusiveDeskCount": 20,
+  "actualGameDesk": "desk-20",
+  "allPeerDesksUnique": true,
+  "snapshotFrequencyHz": 10,
+  "rendererTrianglesAtSample": 286684,
+  "note": "Functional visual/seat integration only; no physical device or GPU capacity claim. Screenshot in ignored output/playwright/online-20-players.png; labels removed after review to avoid clutter."
+}

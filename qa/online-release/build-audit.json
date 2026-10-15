@@ -1,0 +1,74 @@
+{
+  "build": "/home/gilbertfrost/storage/dev/obby-cargo-delivery/build",
+  "fileCount": 51,
+  "totalBytes": 16812258,
+  "findings": [
+    {
+      "id": "build.index",
+      "status": "PASS",
+      "title": "index.html exists at the build root",
+      "evidence": "index.html",
+      "remediation": ""
+    },
+    {
+      "id": "build.references",
+      "status": "PASS",
+      "title": "Local index.html references resolve inside the build",
+      "evidence": "135 references checked.",
+      "remediation": ""
+    },
+    {
+      "id": "build.sdk",
+      "status": "PASS",
+      "title": "Yandex Games SDK integration exists in the bundle",
+      "evidence": "static/js/async/d.95395a36b0.js",
+      "remediation": ""
+    },
+    {
+      "id": "build.local-paths",
+      "status": "PASS",
+      "title": "No obvious local filesystem paths were found",
+      "evidence": "7 text assets scanned.",
+      "remediation": ""
+    },
+    {
+      "id": "build.insecure-urls",
+      "status": "PASS",
+      "title": "No insecure HTTP resource URLs were found",
+      "evidence": "",
+      "remediation": ""
+    },
+    {
+      "id": "build.source-maps",
+      "status": "PASS",
+      "title": "No source maps are included",
+      "evidence": "",
+      "remediation": ""
+    },
+    {
+      "id": "build.large-files",
+      "status": "PASS",
+      "title": "No individual file is 20 MiB or larger",
+      "evidence": "Largest files were evaluated across 51 assets.",
+      "remediation": ""
+    },
+    {
+      "id": "build.runtime",
+      "status": "MANUAL",
+      "title": "The production bundle requires runtime testing",
+      "evidence": "Serve it over HTTP and inspect loading, input, SDK events, ads, audio, saves, requests, and console output.",
+      "remediation": ""
+    },
+    {
+      "id": "build.platform",
+      "status": "MANUAL",
+      "title": "A Yandex draft requires platform testing",
+      "evidence": "Test every declared browser, OS, device class, and orientation.",
+      "remediation": ""
+    }
+  ],
+  "summary": {
+    "PASS": 7,
+    "MANUAL": 2
+  }
+}

@@ -1,0 +1,726 @@
+{
+  "command": "node scripts/stress-online.mjs --users=100,200,500,1000 --duration=30",
+  "source": "output/online-implementation/stress-1000.json",
+  "completion": {
+    "event": "complete",
+    "ok": true,
+    "targetMet": true,
+    "steps": 4,
+    "scope": "loopback; server and client batches use separate processes; host contention recorded; ok=protocol/count checks; targetMet=at least95%of10Hz input/output; no VPS capacity claim"
+  },
+  "table": [
+    {
+      "users": 100,
+      "rooms": 5,
+      "ok": true,
+      "targetMet": true,
+      "serverCpuPercentOfOneCore": 4.18,
+      "serverRssMiB": 127.98,
+      "snapshotsPerClientSecond": 9.96,
+      "statesPerClientSecond": 9.99,
+      "outgoingMbitPerSecond": 87.83,
+      "eventLoopP95Ms": 20.73,
+      "snapshotGapP95Ms": 101.27,
+      "seatsDuringMovement": 20,
+      "reconnects": 1,
+      "errorCount": 0
+    },
+    {
+      "users": 200,
+      "rooms": 10,
+      "ok": true,
+      "targetMet": true,
+      "serverCpuPercentOfOneCore": 7.36,
+      "serverRssMiB": 127.7,
+      "snapshotsPerClientSecond": 9.99,
+      "statesPerClientSecond": 9.99,
+      "outgoingMbitPerSecond": 176.1,
+      "eventLoopP95Ms": 20.87,
+      "snapshotGapP95Ms": 101.98,
+      "seatsDuringMovement": 40,
+      "reconnects": 2,
+      "errorCount": 0
+    },
+    {
+      "users": 500,
+      "rooms": 25,
+      "ok": true,
+      "targetMet": true,
+      "serverCpuPercentOfOneCore": 36.12,
+      "serverRssMiB": 162.14,
+      "snapshotsPerClientSecond": 9.96,
+      "statesPerClientSecond": 9.96,
+      "outgoingMbitPerSecond": 438.7,
+      "eventLoopP95Ms": 29.64,
+      "snapshotGapP95Ms": 105.95,
+      "seatsDuringMovement": 100,
+      "reconnects": 5,
+      "errorCount": 0
+    },
+    {
+      "users": 1000,
+      "rooms": 50,
+      "ok": true,
+      "targetMet": true,
+      "serverCpuPercentOfOneCore": 76.96,
+      "serverRssMiB": 172.5,
+      "snapshotsPerClientSecond": 9.62,
+      "statesPerClientSecond": 9.94,
+      "outgoingMbitPerSecond": 847.62,
+      "eventLoopP95Ms": 89.26,
+      "snapshotGapP95Ms": 120.95,
+      "seatsDuringMovement": 200,
+      "reconnects": 10,
+      "errorCount": 0
+    }
+  ],
+  "notes": [
+    "Loopback measurement on this workstation, not VPS or public-network capacity.",
+    "All seats were claimed and checked before movement; during movement twenty percent remain studying.",
+    "1000 clients means 50 full rooms; all 1000 initial seat claims passed, with 200 retained during movement and 10 reconnects.",
+    "Server CPU is percent of one logical CPU; RSS values labelled MiB use 1048576 bytes.",
+    "Application payload throughput excludes TLS, WebSocket and TCP overhead.",
+    "Original run had heavy SwiftShader and unrelated test contention; the rerun began after that Chrome session closed. Host load/swap/top CPU are preserved per step.",
+    "At 1000 clients server event-loop p95 was 89.26 ms and maximum 346.03 ms; passing 95 percent of 10 Hz does not guarantee exact 10 Hz under production conditions."
+  ],
+  "steps": [
+    {
+      "event": "step",
+      "users": 100,
+      "rooms": 5,
+      "durationSeconds": 30.02,
+      "ok": true,
+      "targetMet": true,
+      "reconnects": 1,
+      "errors": [],
+      "server": {
+        "pid": 123598,
+        "cpuPercent": 4.18,
+        "rssMB": 127.98,
+        "peakRssMB": 128.25,
+        "eventLoopP95Ms": 20.73,
+        "eventLoopMaxMs": 33.11,
+        "meanTickDurationMs": 1.28,
+        "maxTickDurationMs": 3.53,
+        "skippedSnapshots": 0,
+        "backpressureDisconnects": 0,
+        "players": 100,
+        "seats": 20
+      },
+      "generator": {
+        "processes": 1,
+        "pids": [
+          123608
+        ],
+        "clientsPerProcess": 100,
+        "cpuPercent": 9.24,
+        "rssMB": 129.84,
+        "peakRssMB": 130.43,
+        "eventLoopP95Ms": 20.71,
+        "eventLoopMaxMs": 26.59
+      },
+      "host": {
+        "before": {
+          "at": "2026-10-15T06:33:38.175Z",
+          "logicalCpus": 20,
+          "loadAverage": [
+            5.71,
+            14.82,
+            14.55
+          ],
+          "availableMemoryMB": 5932.34,
+          "totalMemoryMB": 15709.09,
+          "swapUsedMB": 7432.05,
+          "topCpu": [
+            {
+              "command": "node",
+              "cpuPercent": 66.6
+            },
+            {
+              "command": "ChatGPT",
+              "cpuPercent": 27.8
+            },
+            {
+              "command": "ChatGPT",
+              "cpuPercent": 26.6
+            },
+            {
+              "command": "yandex_browser",
+              "cpuPercent": 11.9
+            },
+            {
+              "command": "yandex_browser",
+              "cpuPercent": 10.2
+            },
+            {
+              "command": "code",
+              "cpuPercent": 9.4
+            },
+            {
+              "command": "Xorg",
+              "cpuPercent": 9.4
+            },
+            {
+              "command": "ChatGPT",
+              "cpuPercent": 8.6
+            }
+          ],
+          "cpu": {
+            "total": 128895260,
+            "idle": 99805280
+          }
+        },
+        "after": {
+          "at": "2026-10-15T06:34:09.166Z",
+          "logicalCpus": 20,
+          "loadAverage": [
+            4.1,
+            13.56,
+            14.14
+          ],
+          "availableMemoryMB": 5861.64,
+          "totalMemoryMB": 15709.09,
+          "swapUsedMB": 7430.97,
+          "topCpu": [
+            {
+              "command": "ps",
+              "cpuPercent": 200
+            },
+            {
+              "command": "gh",
+              "cpuPercent": 60
+            },
+            {
+              "command": "ChatGPT",
+              "cpuPercent": 27.5
+            },
+            {
+              "command": "ChatGPT",
+              "cpuPercent": 26.4
+            },
+            {
+              "command": "node",
+              "cpuPercent": 11.8
+            },
+            {
+              "command": "yandex_browser",
+              "cpuPercent": 11.5
+            },
+            {
+              "command": "yandex_browser",
+              "cpuPercent": 9.9
+            },
+            {
+              "command": "code",
+              "cpuPercent": 9.4
+            }
+          ],
+          "cpu": {
+            "total": 129510410,
+            "idle": 100401320
+          }
+        },
+        "busyCpuPercent": 3.11
+      },
+      "delivery": {
+        "receivedSnapshots": 29900,
+        "snapshotsPerClientSecond": 9.96,
+        "tickDeliveryRatio": 1,
+        "statesPerClientSecond": 9.99,
+        "minClientTicks": 194,
+        "gapP95Ms": 101.27,
+        "gapMaxMs": 105.42,
+        "ageP95Ms": 6
+      },
+      "throughput": {
+        "sentStates": 30000,
+        "uploadBytesPerSecond": 507908.59,
+        "sentMessagesPerSecond": 996.08,
+        "sentBytesPerSecond": 10979231.76,
+        "receivedBytesPerSecond": 10978862.2
+      }
+    },
+    {
+      "event": "step",
+      "users": 200,
+      "rooms": 10,
+      "durationSeconds": 30.03,
+      "ok": true,
+      "targetMet": true,
+      "reconnects": 2,
+      "errors": [],
+      "server": {
+        "pid": 123890,
+        "cpuPercent": 7.36,
+        "rssMB": 127.7,
+        "peakRssMB": 127.98,
+        "eventLoopP95Ms": 20.87,
+        "eventLoopMaxMs": 31.21,
+        "meanTickDurationMs": 2.63,
+        "maxTickDurationMs": 12.3,
+        "skippedSnapshots": 0,
+        "backpressureDisconnects": 0,
+        "players": 200,
+        "seats": 40
+      },
+      "generator": {
+        "processes": 2,
+        "pids": [
+          123898,
+          123899
+        ],
+        "clientsPerProcess": 100,
+        "cpuPercent": 21.08,
+        "rssMB": 256.12,
+        "peakRssMB": 257.64,
+        "eventLoopP95Ms": 21.07,
+        "eventLoopMaxMs": 31.38
+      },
+      "host": {
+        "before": {
+          "at": "2026-10-15T06:34:09.229Z",
+          "logicalCpus": 20,
+          "loadAverage": [
+            4.1,
+            13.56,
+            14.14
+          ],
+          "availableMemoryMB": 6004.46,
+          "totalMemoryMB": 15709.09,
+          "swapUsedMB": 7430.97,
+          "topCpu": [
+            {
+              "command": "gh",
+              "cpuPercent": 37.5
+            },
+            {
+              "command": "ChatGPT",
+              "cpuPercent": 27.5
+            },
+            {
+              "command": "ChatGPT",
+              "cpuPercent": 26.4
+            },
+            {
+              "command": "yandex_browser",
+              "cpuPercent": 11.5
+            },
+            {
+              "command": "yandex_browser",
+              "cpuPercent": 9.9
+            },
+            {
+              "command": "code",
+              "cpuPercent": 9.4
+            },
+            {
+              "command": "Xorg",
+              "cpuPercent": 9.4
+            },
+            {
+              "command": "ChatGPT",
+              "cpuPercent": 8.6
+            }
+          ],
+          "cpu": {
+            "total": 129511640,
+            "idle": 100402460
+          }
+        },
+        "after": {
+          "at": "2026-10-15T06:34:40.691Z",
+          "logicalCpus": 20,
+          "loadAverage": [
+            3.68,
+            12.55,
+            13.78
+          ],
+          "availableMemoryMB": 5646.68,
+          "totalMemoryMB": 15709.09,
+          "swapUsedMB": 7425.75,
+          "topCpu": [
+            {
+              "command": "ps",
+              "cpuPercent": 700
+            },
+            {
+              "command": "ChatGPT",
+              "cpuPercent": 27.3
+            },
+            {
+              "command": "ChatGPT",
+              "cpuPercent": 26.2
+            },
+            {
+              "command": "node",
+              "cpuPercent": 14.9
+            },
+            {
+              "command": "node",
+              "cpuPercent": 14.7
+            },
+            {
+              "command": "yandex_browser",
+              "cpuPercent": 11.1
+            },
+            {
+              "command": "node",
+              "cpuPercent": 10.2
+            },
+            {
+              "command": "yandex_browser",
+              "cpuPercent": 9.6
+            }
+          ],
+          "cpu": {
+            "total": 130134100,
+            "idle": 100998370
+          }
+        },
+        "busyCpuPercent": 4.27
+      },
+      "delivery": {
+        "receivedSnapshots": 60000,
+        "snapshotsPerClientSecond": 9.99,
+        "tickDeliveryRatio": 1,
+        "statesPerClientSecond": 9.99,
+        "minClientTicks": 195,
+        "gapP95Ms": 101.98,
+        "gapMaxMs": 109.06,
+        "ageP95Ms": 6
+      },
+      "throughput": {
+        "sentStates": 60000,
+        "uploadBytesPerSecond": 1014914.21,
+        "sentMessagesPerSecond": 1997.81,
+        "sentBytesPerSecond": 22012984.65,
+        "receivedBytesPerSecond": 22012260.38
+      }
+    },
+    {
+      "event": "step",
+      "users": 500,
+      "rooms": 25,
+      "durationSeconds": 30.14,
+      "ok": true,
+      "targetMet": true,
+      "reconnects": 5,
+      "errors": [],
+      "server": {
+        "pid": 124215,
+        "cpuPercent": 36.12,
+        "rssMB": 162.14,
+        "peakRssMB": 163.79,
+        "eventLoopP95Ms": 29.64,
+        "eventLoopMaxMs": 117.44,
+        "meanTickDurationMs": 11.86,
+        "maxTickDurationMs": 53.57,
+        "skippedSnapshots": 0,
+        "backpressureDisconnects": 0,
+        "players": 500,
+        "seats": 100
+      },
+      "generator": {
+        "processes": 5,
+        "pids": [
+          124243,
+          124244,
+          124245,
+          124246,
+          124252
+        ],
+        "clientsPerProcess": 100,
+        "cpuPercent": 103.21,
+        "rssMB": 639.19,
+        "peakRssMB": 642.69,
+        "eventLoopP95Ms": 23.25,
+        "eventLoopMaxMs": 73.73
+      },
+      "host": {
+        "before": {
+          "at": "2026-10-15T06:34:40.875Z",
+          "logicalCpus": 20,
+          "loadAverage": [
+            3.68,
+            12.55,
+            13.78
+          ],
+          "availableMemoryMB": 5851.48,
+          "totalMemoryMB": 15709.09,
+          "swapUsedMB": 7425.71,
+          "topCpu": [
+            {
+              "command": "ps",
+              "cpuPercent": 700
+            },
+            {
+              "command": "ChatGPT",
+              "cpuPercent": 27.3
+            },
+            {
+              "command": "ChatGPT",
+              "cpuPercent": 26.2
+            },
+            {
+              "command": "yandex_browser",
+              "cpuPercent": 11.1
+            },
+            {
+              "command": "yandex_browser",
+              "cpuPercent": 9.6
+            },
+            {
+              "command": "Xorg",
+              "cpuPercent": 9.3
+            },
+            {
+              "command": "code",
+              "cpuPercent": 9.3
+            },
+            {
+              "command": "ChatGPT",
+              "cpuPercent": 8.5
+            }
+          ],
+          "cpu": {
+            "total": 130137610,
+            "idle": 101001070
+          }
+        },
+        "after": {
+          "at": "2026-10-15T06:35:15.427Z",
+          "logicalCpus": 20,
+          "loadAverage": [
+            4.66,
+            11.81,
+            13.49
+          ],
+          "availableMemoryMB": 5157.36,
+          "totalMemoryMB": 15709.09,
+          "swapUsedMB": 7416.09,
+          "topCpu": [
+            {
+              "command": "node",
+              "cpuPercent": 42.7
+            },
+            {
+              "command": "node",
+              "cpuPercent": 33
+            },
+            {
+              "command": "node",
+              "cpuPercent": 32
+            },
+            {
+              "command": "node",
+              "cpuPercent": 31.8
+            },
+            {
+              "command": "node",
+              "cpuPercent": 31.5
+            },
+            {
+              "command": "node",
+              "cpuPercent": 30.9
+            },
+            {
+              "command": "ChatGPT",
+              "cpuPercent": 27
+            },
+            {
+              "command": "ChatGPT",
+              "cpuPercent": 26
+            }
+          ],
+          "cpu": {
+            "total": 130816760,
+            "idle": 101553620
+          }
+        },
+        "busyCpuPercent": 18.64
+      },
+      "delivery": {
+        "receivedSnapshots": 149999,
+        "snapshotsPerClientSecond": 9.96,
+        "tickDeliveryRatio": 1,
+        "statesPerClientSecond": 9.96,
+        "minClientTicks": 194,
+        "gapP95Ms": 105.95,
+        "gapMaxMs": 156.77,
+        "ageP95Ms": 11
+      },
+      "throughput": {
+        "sentStates": 150099,
+        "uploadBytesPerSecond": 2530640.9,
+        "sentMessagesPerSecond": 4977.73,
+        "sentBytesPerSecond": 54837234.3,
+        "receivedBytesPerSecond": 54835444.57
+      }
+    },
+    {
+      "event": "step",
+      "users": 1000,
+      "rooms": 50,
+      "durationSeconds": 31.07,
+      "ok": true,
+      "targetMet": true,
+      "reconnects": 10,
+      "errors": [],
+      "server": {
+        "pid": 124876,
+        "cpuPercent": 76.96,
+        "rssMB": 172.5,
+        "peakRssMB": 172.5,
+        "eventLoopP95Ms": 89.26,
+        "eventLoopMaxMs": 346.03,
+        "meanTickDurationMs": 30.03,
+        "maxTickDurationMs": 99.96,
+        "skippedSnapshots": 0,
+        "backpressureDisconnects": 0,
+        "players": 1000,
+        "seats": 200
+      },
+      "generator": {
+        "processes": 10,
+        "pids": [
+          124884,
+          124885,
+          124886,
+          124887,
+          124888,
+          124889,
+          124895,
+          124906,
+          124907,
+          124923
+        ],
+        "clientsPerProcess": 100,
+        "cpuPercent": 299.61,
+        "rssMB": 1282.67,
+        "peakRssMB": 1290.38,
+        "eventLoopP95Ms": 24.97,
+        "eventLoopMaxMs": 60.56
+      },
+      "host": {
+        "before": {
+          "at": "2026-10-15T06:35:15.535Z",
+          "logicalCpus": 20,
+          "loadAverage": [
+            4.66,
+            11.81,
+            13.49
+          ],
+          "availableMemoryMB": 5704.82,
+          "totalMemoryMB": 15709.09,
+          "swapUsedMB": 7416.09,
+          "topCpu": [
+            {
+              "command": "ChatGPT",
+              "cpuPercent": 27
+            },
+            {
+              "command": "ChatGPT",
+              "cpuPercent": 26
+            },
+            {
+              "command": "yandex_browser",
+              "cpuPercent": 10.7
+            },
+            {
+              "command": "code",
+              "cpuPercent": 9.3
+            },
+            {
+              "command": "Xorg",
+              "cpuPercent": 9.3
+            },
+            {
+              "command": "yandex_browser",
+              "cpuPercent": 9.3
+            },
+            {
+              "command": "ChatGPT",
+              "cpuPercent": 8.4
+            },
+            {
+              "command": "gnome-shell",
+              "cpuPercent": 7.3
+            }
+          ],
+          "cpu": {
+            "total": 130818880,
+            "idle": 101555440
+          }
+        },
+        "after": {
+          "at": "2026-10-15T06:35:53.872Z",
+          "logicalCpus": 20,
+          "loadAverage": [
+            7.71,
+            11.72,
+            13.39
+          ],
+          "availableMemoryMB": 4837.08,
+          "totalMemoryMB": 15709.09,
+          "swapUsedMB": 7401,
+          "topCpu": [
+            {
+              "command": "node",
+              "cpuPercent": 78.4
+            },
+            {
+              "command": "node",
+              "cpuPercent": 41.5
+            },
+            {
+              "command": "node",
+              "cpuPercent": 41
+            },
+            {
+              "command": "node",
+              "cpuPercent": 40.8
+            },
+            {
+              "command": "node",
+              "cpuPercent": 40.6
+            },
+            {
+              "command": "node",
+              "cpuPercent": 40.5
+            },
+            {
+              "command": "node",
+              "cpuPercent": 40.2
+            },
+            {
+              "command": "node",
+              "cpuPercent": 40.2
+            }
+          ],
+          "cpu": {
+            "total": 131565340,
+            "idle": 102055060
+          }
+        },
+        "busyCpuPercent": 33.07
+      },
+      "delivery": {
+        "receivedSnapshots": 298990,
+        "snapshotsPerClientSecond": 9.62,
+        "tickDeliveryRatio": 0.96,
+        "statesPerClientSecond": 9.94,
+        "minClientTicks": 187,
+        "gapP95Ms": 120.95,
+        "gapMaxMs": 337,
+        "ageP95Ms": 10
+      },
+      "throughput": {
+        "sentStates": 308990,
+        "uploadBytesPerSecond": 5054800.88,
+        "sentMessagesPerSecond": 9623.3,
+        "sentBytesPerSecond": 105952396.31,
+        "receivedBytesPerSecond": 105947867.87
+      }
+    }
+  ]
+}
