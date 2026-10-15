@@ -8,6 +8,22 @@
 
 Сборка для портала: `PUBLIC_MULTIPLAYER_URL=wss://YOUR_DOMAIN/ws npm run build`; результат в `build/`. Без URL комнаты отключены. Локальная сборка с явным SDK в памяти: `npm run build:demo`. Сервер можно запустить без Docker; [шаблоны systemd/nginx и Docker](deployment/README.md). Результаты текущей проверки: [qa/online-release/README.md](qa/online-release/README.md).
 
+## Инап-покупки: ID и иконки
+
+В Консоли Яндекс Игр создайте пять постоянных покупок с этими ID — они уже используются в `dist/premium-skins.js`. Один товар открывает одного персонажа навсегда; покупку не нужно расходовать через `consumePurchase`.
+
+| Персонаж / название товара RU и EN | ID инап-покупки | Иконка PNG 256×256 |
+| --- | --- | --- |
+| Dancing NPC Girl | `skin_dancing-npc-girl` | [Скачать](publishing/yandex/inapp/icons/skin_dancing-npc-girl.png) |
+| Jandel | `skin_jandel` | [Скачать](publishing/yandex/inapp/icons/skin_jandel.png) |
+| KreekCraft | `skin_kreekcraft` | [Скачать](publishing/yandex/inapp/icons/skin_kreekcraft.png) |
+| Spyder Sammy | `skin_spyder-sammy` | [Скачать](publishing/yandex/inapp/icons/skin_spyder-sammy.png) |
+| Spider-Man | `skin_spider-man` | [Скачать](publishing/yandex/inapp/icons/skin_spider-man.png) |
+
+Для массового добавления подготовлен [products.csv](publishing/yandex/inapp/products.csv): ID, названия и описания RU/EN, цена 39 в портальной валюте. После импорта загрузите каждому товару его иконку из таблицы. Фактическую цену в рублях проверьте в консоли: число 39 в поле стоимости в янах не означает автоматически 39 ₽. Отображаемые игроку цену и валюту игра получает из SDK.
+
+Иконки созданы по текущим моделям персонажей из игры, без текста и цены. Готовые изображения и сведения о генерации: [publishing/yandex/inapp](publishing/yandex/inapp/README.md). По [требованиям к инапам](https://yandex.ru/dev/games/doc/ru/console/purchases) иконка товара должна быть PNG 256×256.
+
 ## Запуск
 
 `npm ci`, затем `npm run dev` и `npm run server` в двух терминалах. Локальный SDK работает в памяти; покупок за реальные деньги и настоящих рекламных показов в этом режиме нет. Нужны Node.js 22 и браузер с WebGL 2. `npm start` оставлен для запуска исходников через Python 3. Для хостинга достаточно содержимого `dist/`. Three.js, иконки и модели включены; CDN не требуется. Открытие через `file://` не поддерживает загрузку ES-модулей/GLB.
