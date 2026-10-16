@@ -51,7 +51,7 @@ for(const entry of CHARACTER_CATALOG){
  character.setSeated(false);for(let i=0;i<180;i++)character.update(1/60,0,0);assert.ok(character.seatedWeight<1e-10);
  character.dispose();
  metrics.push({id:entry.id,meshPrimitives:meshes,parsedVertices:skinVertices,validationErrors:validation.issues.numErrors,validationWarnings:validation.issues.numWarnings,minFoot,maxFoot,maxSteadyPivotStep,maxPivotStep:maxStep,seatedFeetY:seated.min.y,lowerTableMax:Number.isFinite(lowerTableMax)?lowerTableMax:null,seatAnchor:character.seatAnchor.toArray()});
- console.log(`PASS ${entry.id}: original GLB, 22-bone rig, native materials/UV, idle/run floor, stable support, seated knees + feet + desk`);
+ console.log(`PASS ${entry.id}: shipped GLB, 22-bone rig, native UV, idle/run floor, stable support, seated knees + feet + desk`);
 }
 
 
@@ -68,4 +68,4 @@ const urlOnly=await loadCharacter(THREE,{url:CHARACTER_CATALOG.find(c=>c.id==='p
 assert.equal(urlOnly.id,'pirate');urlOnly.dispose();clearCharacterCache();
 await assert.rejects(loadCharacter(THREE,{id:'missing'}));
 console.log('PASS cached parse, independent active rigs, frozen snapshots, shared resources and safe cache teardown');
-fs.writeFileSync(new URL('./latest-character-catalog-report.json',import.meta.url),JSON.stringify({all17Validated:true,nativeUV:true,sourceUnmodified:true,browserRun:false,metrics,cacheChecks:true},null,2));
+fs.writeFileSync(new URL('./latest-character-catalog-report.json',import.meta.url),JSON.stringify({all17Validated:true,nativeUV:true,geometryUnmodified:true,customTextures:true,browserRun:false,metrics,cacheChecks:true},null,2));

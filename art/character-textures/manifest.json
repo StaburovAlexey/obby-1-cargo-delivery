@@ -1,0 +1,478 @@
+{
+  "style": "New Roblox-style costumes and colors",
+  "generator": "built-in image_gen",
+  "excludedId": "jeff-the-killer",
+  "excludedSha256": "ce20af73f26dd3c81746b9a01496e8b0bf1d77409e5034252b375f7c5e808231",
+  "characters": [
+    {
+      "id": "bacon",
+      "design": "Electric Courier",
+      "glb": "dist/assets/bacon.glb",
+      "originalSha256": "eb78b0d387d323905bc0151d4a533a07acf61cea6d98de417c105079750a6415",
+      "sha256": "1e35da383fa186bab4a557bede599df48e65520751acceaefc231e1db722632a",
+      "bytes": 924632,
+      "geometryContract": "d55eef0ff067054d3908277e93d08de3a44cec0b61afd2b7540b595237ea2d89",
+      "originalBinBytes": 655500,
+      "originalBinSha256": "7682654e7b611788806d6b0021cc2189bfc67282ef796a19afce69e446ac96af",
+      "textures": [
+        {
+          "imageIndex": 0,
+          "file": "bacon-0.png",
+          "width": 1024,
+          "height": 512,
+          "sha256": "406a8da5266fe2b342cd297796bf42e45b5f74263f3473eb3e71b99f314bd124",
+          "originalImageSha256": "cf54a4585821a2cbf4aa287f26d609db5a5971b13a800b1ea1dd60cde1c1e7e5"
+        }
+      ]
+    },
+    {
+      "id": "pack1",
+      "design": "Solar Racer",
+      "glb": "dist/assets/characters/Obby_pack1.glb",
+      "originalSha256": "ceb7a729d38d976318fc5768142be42387c7e753b329ac025b58d24a9e73b95c",
+      "sha256": "be8a5bfa2ab86b116304ecaa3509c836ca48f962394799d73839f333287f0c64",
+      "bytes": 1008680,
+      "geometryContract": "ec2321fa59838930e988b57451b8c122669aa294fab4782e3441b23bac682a12",
+      "originalBinBytes": 662576,
+      "originalBinSha256": "8cdc7a5616f79a089f44702ba72eda2f371ab1d31071171be1e8a151e2d57497",
+      "textures": [
+        {
+          "imageIndex": 0,
+          "file": "pack1-0.png",
+          "width": 1024,
+          "height": 512,
+          "sha256": "603b9d2c1034bf1c5328f29b46b275cb123029b21829f74cf9f10b7855ba5ef5",
+          "originalImageSha256": "b542b9abe342b6eed343ab1506662597d6cef757a2d03feb30cf0925c7e4daff"
+        }
+      ]
+    },
+    {
+      "id": "pack2",
+      "design": "Neon Hacker",
+      "glb": "dist/assets/characters/Obby_pack2.glb",
+      "originalSha256": "727b6dca8907df22120bb1bc2e8e9e1538f346e64103cb2ed3b16ff0873be4f1",
+      "sha256": "6e0289626c9b487049accdc8f9b376395d9dbfec3fa919865f641c6bb5b1a850",
+      "bytes": 832592,
+      "geometryContract": "5ba6710b6804dd1358b4d6b93f1a6ceee9b1ee030f7e13e4172af65431d36949",
+      "originalBinBytes": 521224,
+      "originalBinSha256": "8d2bc3aa5459d1bdb4169e0cbbb488931f7fba81e705e98135aa0bd92c009a75",
+      "textures": [
+        {
+          "imageIndex": 0,
+          "file": "pack2-0.png",
+          "width": 1024,
+          "height": 512,
+          "sha256": "bc18cc77ef2074c91eb4be4a024af11cf43ae1b5f35b02db5f5b4c3ae06d674f",
+          "originalImageSha256": "c4496d5047fbc5cfe9c50e2ccde56673af5a17b81a9cbfe25052ddcb447ec6d5"
+        }
+      ]
+    },
+    {
+      "id": "pack3",
+      "design": "Mint Tech Medic",
+      "glb": "dist/assets/characters/Obby_pack3.glb",
+      "originalSha256": "6bc5c996700cf7d63187245deb6a3c7a8453143db47e0e1d4b8ae5c3634fecc4",
+      "sha256": "ff8486a64c26f4f9cc78964b49590ec7cfcda6e0dfd8982bdc912a848580c55e",
+      "bytes": 926348,
+      "geometryContract": "7d9072a992022cdb1e029389424c097800736ec13b069370ce3eb53f914cbd87",
+      "originalBinBytes": 588428,
+      "originalBinSha256": "855fe500c6239cedddf8e131014be3eb1a4395a5b6a48da49bd3dca52de12bd1",
+      "textures": [
+        {
+          "imageIndex": 0,
+          "file": "pack3-0.png",
+          "width": 1024,
+          "height": 512,
+          "sha256": "2162f16d919b8f57711acc3bbaa4b08b35d6b3902e13f6972806b52c0cf5316d",
+          "originalImageSha256": "b7291c358a7c9ec19824d0020044f7a61d25ff93a84b33a7f1e20cd8497587f2"
+        }
+      ]
+    },
+    {
+      "id": "pack4",
+      "design": "Cherry Varsity",
+      "glb": "dist/assets/characters/Obby_pack4.glb",
+      "originalSha256": "b21927e282545cb160359adab6cd8af93cc9de64b2a87eda8febb9566b985fd1",
+      "sha256": "5bd110921fc3c227d8690516a7563697eea330d69bef229d1d323d5dd2093240",
+      "bytes": 1050236,
+      "geometryContract": "84848830035843b05b51995b70d71b22ba0631d329b5933b071c53044a5b9edd",
+      "originalBinBytes": 712812,
+      "originalBinSha256": "abf295cfd83434cc95f79318af4f5e3e5b5c37647ab66c3df1ba45f702a94838",
+      "textures": [
+        {
+          "imageIndex": 0,
+          "file": "pack4-0.png",
+          "width": 1024,
+          "height": 512,
+          "sha256": "2cc6bbb28684474b2c185cc50a5313a619467188eeffb8c8e748d0ec75812091",
+          "originalImageSha256": "f99808b2700516a8f48f4e62cc9e5a0166d8f37a1f59cc9f67efb00569028e09"
+        }
+      ]
+    },
+    {
+      "id": "pack5",
+      "design": "Lilac Skater",
+      "glb": "dist/assets/characters/Obby_pack5.glb",
+      "originalSha256": "e0e6f596b5d0f1f86494f2a4c6b06b910c8224a5ae8bb153ab38c514b3e3399e",
+      "sha256": "ca6b84de7b7c75bff4ebc397ffe46304708331196f60c7d863b0883ec093a523",
+      "bytes": 955472,
+      "geometryContract": "385a66f53763209628bb4f021bfed0151425723413fa97961c271e101bf4fa50",
+      "originalBinBytes": 633204,
+      "originalBinSha256": "1f73a29121aabd3fde26fae52b46db13d751159300d03955b51b7e4940d49a88",
+      "textures": [
+        {
+          "imageIndex": 0,
+          "file": "pack5-0.png",
+          "width": 1024,
+          "height": 512,
+          "sha256": "20aee9fa3f3424d9fe39e461cd1cebba827bdfefa4b8a592d8259c789c198d67",
+          "originalImageSha256": "b4e2eda52bb327564dddf6c684156f6ca22a836746fc3128c7eb681244c2f3aa"
+        }
+      ]
+    },
+    {
+      "id": "pack6",
+      "design": "Golden Explorer",
+      "glb": "dist/assets/characters/Obby_pack6.glb",
+      "originalSha256": "3305f8032e8e9352fb042c9abb30b2101a379ad42188a696b905245d22580076",
+      "sha256": "5da6d58f72416b30f5639b0b749041470e5a39c0c602dff6816bd10dbd93cb0b",
+      "bytes": 1079252,
+      "geometryContract": "fa7cd30b67af65e16e7b26b6e0fb0a7f3f92971b90279880f2bd2f6b75dfebe5",
+      "originalBinBytes": 799148,
+      "originalBinSha256": "6dea2668bc0973073994f7c807be4719488a278e7592ad79d59dfdd7a4c86420",
+      "textures": [
+        {
+          "imageIndex": 0,
+          "file": "pack6-0.png",
+          "width": 1024,
+          "height": 512,
+          "sha256": "e8db0f1bdbaf05882d4519ab71b1e7431b9418f10545d0f87a6884fbf8087a22",
+          "originalImageSha256": "cfd0063eb4ee8a7d755c64a45da25030ef7608b66c8ddfa88ba7de519a6fe657"
+        }
+      ]
+    },
+    {
+      "id": "pack7",
+      "design": "Glacier Adventurer",
+      "glb": "dist/assets/characters/Obby_pack7.glb",
+      "originalSha256": "5f6b06c9c1a2ea62913066c599d31a1eb6f8aabfa268620eeb814363f61fc538",
+      "sha256": "082e6f84003314fbd04360b9375ed8e91dbe811de61dc1743956ade908c82e19",
+      "bytes": 941748,
+      "geometryContract": "8c6fa27395408cd3d8e584f6ed9a11b0ced0887fb9c75f935227e98f8f6710c2",
+      "originalBinBytes": 630324,
+      "originalBinSha256": "995d91b18cd291ceef2e0b11ef8fd13c87de6eb2139237460f280f0696164fd8",
+      "textures": [
+        {
+          "imageIndex": 0,
+          "file": "pack7-0.png",
+          "width": 1024,
+          "height": 512,
+          "sha256": "0843b42f198b189c75020de0532525d3ed4cc57e81e7ceacbd046ec3e20bb8a2",
+          "originalImageSha256": "bda468f7c20c52f629d799b962472d4413344e0d0b59878d423011ea90f25de7"
+        }
+      ]
+    },
+    {
+      "id": "pack9",
+      "design": "Midnight Ninja",
+      "glb": "dist/assets/characters/Obby_pack9.glb",
+      "originalSha256": "baab2654c98b9198df8a8a66f1c61377426d7e0037a74b876762a471aa1798a1",
+      "sha256": "98d49dfdc70b84bb4628aebf89a87dde704d95a21769497738e84ede456a1e57",
+      "bytes": 989056,
+      "geometryContract": "858a07579bb33cfec5357ea0d2c18b98a53ab65df38f16d801a28da323d8c1ba",
+      "originalBinBytes": 668456,
+      "originalBinSha256": "9a81c9e0a755da1317bf8925cfe87a951710fd25bbc43a965ec3baa05f192cc8",
+      "textures": [
+        {
+          "imageIndex": 0,
+          "file": "pack9-0.png",
+          "width": 1024,
+          "height": 512,
+          "sha256": "9bf560e1729a9f2d3022bac2f8ac824d1d22520a62f546e36cda085f611e249e",
+          "originalImageSha256": "ae921fe55de7e310bee83bd1e0394aced1f5e28ab12d0f45c7c645ed6dd11ee1"
+        }
+      ]
+    },
+    {
+      "id": "pirate",
+      "design": "Celestial Pirate",
+      "glb": "dist/assets/characters/Obby_Pirate.glb",
+      "originalSha256": "8dbc5eb3408eb4be098377cf402ede65ff1bf8ff64a8991449c0bb9c6253ae1f",
+      "sha256": "81bff3759520f6f0ee3788aa2367410b8f02b6fc936419220d25360878873716",
+      "bytes": 850344,
+      "geometryContract": "638e9986cef5e93641cd70409f02b80f6d58a1ca84c34fc322c962c2982c9107",
+      "originalBinBytes": 500668,
+      "originalBinSha256": "f027dfe3e21d99b212ef99a8d547df33d10342e0db7bc8e7b2d747ca4fb4c37c",
+      "textures": [
+        {
+          "imageIndex": 0,
+          "file": "pirate-0.png",
+          "width": 256,
+          "height": 256,
+          "sha256": "e1f4b629d4c8712fcce2f5cb44ccbab7388eb6d8f6fd5694ecb29b514982ce0e",
+          "originalImageSha256": "a568de0e0261be430eb57d84eac17ebf3e21bc464f3687bee92ff729fb88f8da"
+        },
+        {
+          "imageIndex": 1,
+          "file": "pirate-1.png",
+          "width": 256,
+          "height": 256,
+          "sha256": "f9dc1844d78171a3c6e496128c6373db0b04dc1b55286beaba35e54e63d8db6b",
+          "originalImageSha256": "7f71e438205494b0291cddd62adab9dd75050b028a657eaaaebb8b26bad12ff4"
+        },
+        {
+          "imageIndex": 2,
+          "file": "pirate-2.png",
+          "width": 1024,
+          "height": 512,
+          "sha256": "13e1f49d7d80b04a3903101b06b336104a587d458419127684f9ecb4efcb0569",
+          "originalImageSha256": "712ce375a87701df018e64e8d7f25cf008d7ec1cd7213a85f8acbcef996cef80"
+        }
+      ]
+    },
+    {
+      "id": "robux-man",
+      "design": "Arcade Mogul",
+      "glb": "dist/assets/characters/Obby_Robux_Man.glb",
+      "originalSha256": "f15829276986d2857434f6e159a59ba5869c4ff490ff8c5fe76234cf5efe4000",
+      "sha256": "45cc04bbbf5ed001ba8c737e121e01d7fd784f5698ec37fb6c824da13f6c037a",
+      "bytes": 1369376,
+      "geometryContract": "326037969df55041b8adc949bff159f06f5866e83c710c7ef2a9c54844e59f2d",
+      "originalBinBytes": 987344,
+      "originalBinSha256": "d3297155e21380ffb1ce36067a6396f1000e65e0b34810fb2aff3238fe406b9d",
+      "textures": [
+        {
+          "imageIndex": 0,
+          "file": "robux-man-0.png",
+          "width": 1024,
+          "height": 512,
+          "sha256": "ffe13807aea575d6e9d7e32970c4a75ee0cba94869378c24ce08ce169c67457f",
+          "originalImageSha256": "2970dec41d68acd0d37163a8efed1b928a5c070d4d10ede96e7e9bd0d7d10577"
+        },
+        {
+          "imageIndex": 1,
+          "file": "robux-man-1.png",
+          "width": 256,
+          "height": 256,
+          "sha256": "6ce863e54608e3c518719cb848afaf554252a4857c73b09d3da6af6fb59b1c92",
+          "originalImageSha256": "26d4e3cb4378db2269542bb0bd5f78b7ec625930e3543531bbce4c18fa4b8e11"
+        },
+        {
+          "imageIndex": 2,
+          "file": "robux-man-2.png",
+          "width": 128,
+          "height": 128,
+          "sha256": "6d5ae9d5e71b29e2cdf425cc8d02447b7fd5399d364ba57b803a01c76bfffb62",
+          "originalImageSha256": "284165d222a332ee884e69dde7321588c9ee23ff8d688d47c548f48447c6313f"
+        },
+        {
+          "imageIndex": 3,
+          "file": "robux-man-3.png",
+          "width": 256,
+          "height": 256,
+          "sha256": "5569feb10a8dd379abe766e59271e73caf0ff7962379614824e8579ba49ef11e",
+          "originalImageSha256": "f3b1035ab36ff5537ddc0178c3c483d26c18a8d00fa07cade778aaafcf9a1187"
+        }
+      ]
+    },
+    {
+      "id": "spider-man",
+      "design": "Future Hero",
+      "glb": "dist/assets/characters/Obby_Spider-Man.glb",
+      "originalSha256": "1f5a5e52b0f591060efc06a127682884b403036560e8f1d4a79f108f80df5e82",
+      "sha256": "102ccb2e3a912b88b59dc97b00af1aa07b0f1d99ae4f9ff319a82cca3f649f71",
+      "bytes": 1497068,
+      "geometryContract": "587eff2ec79b540e8aeb5603e9ee178b14e093f7c176540e6bc6d0677625e55a",
+      "originalBinBytes": 538148,
+      "originalBinSha256": "7a86678c53162935afde84d886ed49882fabb6bc35f96e6dc8f7105f4e85c00a",
+      "textures": [
+        {
+          "materialIndex": 0,
+          "file": "spider-man-material-0.png",
+          "width": 1024,
+          "height": 1024,
+          "sha256": "70115114f0ae02716377f534b31b7123295d104e0a8c9ecb8ba5224b6237770d"
+        },
+        {
+          "materialIndex": 1,
+          "file": "spider-man-material-1.png",
+          "width": 1024,
+          "height": 1024,
+          "sha256": "6970fa6b0ae2e5b4ea7c3e26caa12d8a92095bbe733cea9f6d4d9f6b9bcb07ae"
+        }
+      ]
+    },
+    {
+      "id": "spyder-sammy",
+      "design": "Hazard Tech",
+      "glb": "dist/assets/characters/Obby_Spyder_Sammy.glb",
+      "originalSha256": "6451e12435bee6077e90953eb8155ee002c05bb2aad3da97425d54faffd49c8e",
+      "sha256": "2852b03da7f8b43d71af424dcbf696f0cd9d377aace4062276dd74c09e4615a2",
+      "bytes": 1738980,
+      "geometryContract": "4258b8e6d056839e6c918878618f1e1c6e5f43eea4008197cfa7139632a7aec5",
+      "originalBinBytes": 992496,
+      "originalBinSha256": "a5adb47d6463585da1f618a37427830daae6ad29735e75212883124d36d077bc",
+      "textures": [
+        {
+          "imageIndex": 0,
+          "file": "spyder-sammy-0.png",
+          "width": 1024,
+          "height": 512,
+          "sha256": "632b121bb164009abebe2b54c9d8bc7186ad4a6f4cfae5307770924594703bee",
+          "originalImageSha256": "e97bc630132da506c839d1b404f856a66247d01f00ce008897db6c66bc085a1c"
+        },
+        {
+          "imageIndex": 1,
+          "file": "spyder-sammy-1.png",
+          "width": 256,
+          "height": 256,
+          "sha256": "1e0491da5487d15a0de17f961025274b39ada63b054b7d975f2f22ef98875ef8",
+          "originalImageSha256": "f63cd8f8abd76313ec98a0e44f0c6bd786a1ba27f67369ada81c85b9fe068cd4"
+        },
+        {
+          "imageIndex": 2,
+          "file": "spyder-sammy-0.png",
+          "width": 1024,
+          "height": 512,
+          "sha256": "632b121bb164009abebe2b54c9d8bc7186ad4a6f4cfae5307770924594703bee",
+          "originalImageSha256": "e97bc630132da506c839d1b404f856a66247d01f00ce008897db6c66bc085a1c"
+        },
+        {
+          "imageIndex": 3,
+          "file": "spyder-sammy-3.png",
+          "width": 512,
+          "height": 512,
+          "sha256": "3a08b501a47483a306479ffd91b32d9e5cd0235ea161510e7d892afb34aa9f7c",
+          "originalImageSha256": "b831b03aebe47e493912736bcd2df0666d6257f2db240483944755ef9b46b721"
+        }
+      ]
+    },
+    {
+      "id": "kreekcraft",
+      "design": "Emerald Cyber Plaid",
+      "glb": "dist/assets/characters/Obby_KreekCraft.glb",
+      "originalSha256": "ef26b7bb55a2a1f655dacdc6d8821ba584451c0650f6eb9b7e4d14b39bf29de7",
+      "sha256": "788783b13fb01590ec36782c8430a61c2984125744c6f6f5221ae66fc30d82f9",
+      "bytes": 1271828,
+      "geometryContract": "e76761ce81e666c061b53b8427226d28d4aaad292ed02b8d3bacc5549c6b8593",
+      "originalBinBytes": 852156,
+      "originalBinSha256": "ab78be681b0603c7e14f560ede810b42ef8ddd8bc2fb5e8c473cee8e383a64d6",
+      "textures": [
+        {
+          "imageIndex": 0,
+          "file": "kreekcraft-0.png",
+          "width": 1024,
+          "height": 512,
+          "sha256": "57960f4c12c011c0b5fceb67ba1ca4ce951a23cb0fb1edbede66eb67f46eed75",
+          "originalImageSha256": "be074d37b1fd5f8e57120752629f4f0a2bc3207fd77933eb1cd002b7a6b2f3ad"
+        },
+        {
+          "imageIndex": 1,
+          "file": "kreekcraft-1.png",
+          "width": 256,
+          "height": 256,
+          "sha256": "77322479488b4bc9666b0151406aa820bae7ba17260c8a9c39b6a56754dc8944",
+          "originalImageSha256": "cae68cb8a7c517e333e192d66d3e9b846aa195053b95a60ce5068542ed6c7ed9"
+        },
+        {
+          "imageIndex": 2,
+          "file": "kreekcraft-2.png",
+          "width": 256,
+          "height": 256,
+          "sha256": "d8839ce10babf2e97bca7efb1b6294ef34311484a3dd406b4ec7775b8b1361ad",
+          "originalImageSha256": "ec3db76b3ca7ce09d866106877cebab17dfe78b18246dc6f4824223da3c4f4dc"
+        }
+      ]
+    },
+    {
+      "id": "jandel",
+      "design": "Space Gardener",
+      "glb": "dist/assets/characters/Obby_Jandel.glb",
+      "originalSha256": "76a11e1ac5215ea8ab58db384cf8dbaca83bf90217afc2e9a3c9cf6466157095",
+      "sha256": "6bef202d1169558d3863b5c10e6fa7ffd34f473e01b63033e50cd89dc307a5c7",
+      "bytes": 1107888,
+      "geometryContract": "02b7ab6bba369cd56252dde2efa539b5d80824b716d3572b11943113ba21c161",
+      "originalBinBytes": 585508,
+      "originalBinSha256": "28f19cc4792771403a7825410ae88b8799607a1e0666c6e62d98e3f7376cb98b",
+      "textures": [
+        {
+          "imageIndex": 0,
+          "file": "jandel-0.png",
+          "width": 1024,
+          "height": 512,
+          "sha256": "79f930c281317a8c507ed67ce22bed643cb16abd60f7837fa6de278196033cac",
+          "originalImageSha256": "f337670d7e56eb0b37538f73632f3e69600ae0a20e7111c75f3ec80cae0d5d88"
+        },
+        {
+          "imageIndex": 1,
+          "file": "jandel-0.png",
+          "width": 1024,
+          "height": 512,
+          "sha256": "79f930c281317a8c507ed67ce22bed643cb16abd60f7837fa6de278196033cac",
+          "originalImageSha256": "f337670d7e56eb0b37538f73632f3e69600ae0a20e7111c75f3ec80cae0d5d88"
+        }
+      ]
+    },
+    {
+      "id": "dancing-npc-girl",
+      "design": "Coral Pop Idol",
+      "glb": "dist/assets/characters/Obby_dancing_NPC_girl.glb",
+      "originalSha256": "4eeeee6877bf5502f23cd06299dd23a6307d8ee4c1d57c2eb075b7c453fbcd90",
+      "sha256": "cd38c7ce10e8aa82955396169f0fefcba17bd46888b8724dc4c6267a7ef5f27d",
+      "bytes": 1437276,
+      "geometryContract": "80948f01bd698794906fc36142df0eb04bd18875d850b421d51211ba74b06f5a",
+      "originalBinBytes": 983808,
+      "originalBinSha256": "9e2ee9b886fc75d6a48c96434272e8c311efd9855d3f5e3c0b2cef60a887ffb0",
+      "textures": [
+        {
+          "imageIndex": 0,
+          "file": "dancing-npc-girl-0.png",
+          "width": 256,
+          "height": 256,
+          "sha256": "580f6ce0cbda928d0662957129f5552af4f90fe374604a8d14b2b40da5938673",
+          "originalImageSha256": "9a117b234e8de6d62753100d58cdad3ca54991cd309e3282516ad9edd528ee2e"
+        },
+        {
+          "imageIndex": 1,
+          "file": "dancing-npc-girl-1.png",
+          "width": 128,
+          "height": 128,
+          "sha256": "c1f9d7e624507695e6778d3c41fd8e11847dae39a6a0f5f35b6262ba95589fac",
+          "originalImageSha256": "54d0c16a646365bcf2ec668952f61365d96a80e761b48fe767d21da52ef52697"
+        },
+        {
+          "imageIndex": 2,
+          "file": "dancing-npc-girl-2.png",
+          "width": 256,
+          "height": 256,
+          "sha256": "7c536e36cc21fac3cad91441949000f410ee664acddaab5274462574cf427686",
+          "originalImageSha256": "9d29b585f6580593c13354f01d2ad69203b024231b8a98f74a4c85c3ec6bb4d1"
+        },
+        {
+          "imageIndex": 3,
+          "file": "dancing-npc-girl-3.png",
+          "width": 256,
+          "height": 256,
+          "sha256": "e00a9d4131143df842a6bf053731382c5d43af9be10a95c4a4a4d1eef83f2324",
+          "originalImageSha256": "55419e3761e7dbce950a6411ec2e1815b06aa5b328ebc67f8a5dcea8bf09851b"
+        },
+        {
+          "imageIndex": 4,
+          "file": "dancing-npc-girl-4.png",
+          "width": 1024,
+          "height": 512,
+          "sha256": "5b88a70e5095eedef8c87a457b2b3b835d8889718be2a90a15f3d00b0ed7296d",
+          "originalImageSha256": "3ae79e969dcc3073d4ccb03f475312842867752fc131c31b0499cd740445bae6"
+        },
+        {
+          "imageIndex": 5,
+          "file": "dancing-npc-girl-5.png",
+          "width": 256,
+          "height": 256,
+          "sha256": "d9067c7fbe538bc03970276e9d44dc5f5bcbaf272aa60c28f3c3b4f10f67826d",
+          "originalImageSha256": "8b4eaab168e74851ef438c4ece4329b1df87b772453162473c99272a5c027e90"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Character texture QA</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#e6ebf2;color:#192332;font:14px system-ui,sans-serif}
+    header{height:64px;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;background:#fff;border-bottom:1px solid #cad2de}
+    h1{font-size:19px;margin:0}nav{display:flex;gap:12px;align-items:center}a{color:#154db0;text-decoration:none}a.active{font-weight:800;text-decoration:underline}
+    #status{font-size:12px;color:#54657b}main{padding:16px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:14px;height:calc(100vh - 64px)}
+    article{position:relative;min-height:0;border:1px solid #c8d2e0;border-radius:10px;background:#f8faff;overflow:hidden;box-shadow:0 2px 6px #18253810}
+    article canvas{display:block;width:100%;height:100%}h2{position:absolute;top:10px;left:14px;margin:0;font-size:16px;z-index:1}small{font-weight:400;color:#617187;font-size:12px;margin-left:6px}
+    .error{padding:45px 15px;color:#a92335}footer{position:absolute;bottom:9px;left:14px;font-size:11px;color:#617187}
+  </style>
+</head>
+<body>
+  <header><div><h1>Character texture QA · <span id="viewLabel"></span></h1><span id="status">Loading…</span></div><nav id="nav"></nav></header>
+  <main id="grid"></main>
+  <script type="module">
+    import * as THREE from '../../dist/vendor/three.module.js';
+    import { CHARACTER_CATALOG, createCharacterDisplay } from '../../dist/character.js';
+
+    const query = new URLSearchParams(location.search);
+    const group = Math.max(0, Math.min(2, Number(query.get('group') || 0)));
+    const view = query.get('view') === 'back' ? 'back' : 'front';
+    const selectedIds = query.get('ids')?.split(',').filter(Boolean);
+    const entries = selectedIds ? CHARACTER_CATALOG.filter(entry => selectedIds.includes(entry.id)).slice(0, 8) : CHARACTER_CATALOG.slice(group * 8, group * 8 + 8);
+    document.querySelector('#viewLabel').textContent = view === 'front' ? 'спереди' : 'сзади';
+    const nav = document.querySelector('#nav');
+    const link = (label, params, active) => {
+      const a = document.createElement('a'); a.textContent = label;
+      a.href = '?' + new URLSearchParams(params); a.className = active ? 'active' : ''; nav.append(a);
+    };
+    for (let i = 0; i < 3; i++) link(`${i * 8 + 1}–${Math.min(17, i * 8 + 8)}`, { group: i, view }, i === group && !selectedIds);
+    link('Спереди', { group, view: 'front', ...(selectedIds ? { ids: selectedIds.join(',') } : {}) }, view === 'front');
+    link('Сзади', { group, view: 'back', ...(selectedIds ? { ids: selectedIds.join(',') } : {}) }, view === 'back');
+    const renders = [];
+    window.qa = { ready: false, errors: [], entries: entries.map(entry => entry.id), view };
+    for (const entry of entries) {
+      const card = document.createElement('article');
+      const title = document.createElement('h2'); title.textContent = entry.name;
+      const label = document.createElement('small'); label.textContent = `#${CHARACTER_CATALOG.indexOf(entry) + 1}`; title.append(label); card.append(title);
+      const foot = document.createElement('footer'); foot.textContent = entry.id === 'jeff-the-killer' ? 'Jeff · исходный костюм' : 'Реальный GLB · игровой загрузчик'; card.append(foot);
+      document.querySelector('#grid').append(card);
+      try {
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.1;
+        card.append(renderer.domElement);
+        const scene = new THREE.Scene(); scene.background = new THREE.Color('#f8faff');
+        scene.add(new THREE.HemisphereLight(0xe7f1ff, 0xa9a3a0, 2.0));
+        const key = new THREE.DirectionalLight(0xfff5e7, 2.7); key.position.set(-3, 5, -5); scene.add(key);
+        const fill = new THREE.DirectionalLight(0xcddfff, 1.2); fill.position.set(4, 3, 4); scene.add(fill);
+        const assetUrl = new URL(entry.url);
+        assetUrl.searchParams.set('qa', query.get('revision') || Date.now().toString());
+        const display = await createCharacterDisplay(THREE, { id: entry.id, url: assetUrl });
+        scene.add(display.group);
+        if (view === 'back') display.group.rotation.y = Math.PI;
+        const camera = new THREE.PerspectiveCamera(30, 1, 0.05, 40);
+        camera.position.set(0, 1.85, -8.2); camera.lookAt(0, 1.75, 0);
+        renders.push({ renderer, scene, camera, card, display });
+      } catch (error) {
+        window.qa.errors.push({ id: entry.id, message: error.message });
+        const message = document.createElement('p'); message.className = 'error'; message.textContent = error.message; card.append(message);
+      }
+    }
+    function render() {
+      for (const { renderer, scene, camera, card } of renders) {
+        const width = card.clientWidth, height = card.clientHeight;
+        renderer.setSize(width, height, false); camera.aspect = width / height;
+        camera.updateProjectionMatrix(); renderer.render(scene, camera);
+      }
+    }
+    window.addEventListener('resize', render); render();
+    window.qa.ready = true; window.qa.render = render;
+    document.querySelector('#status').textContent = `${renders.length}/${entries.length} загружено · высота 3,5 м · ${window.qa.errors.length} ошибок`;
+  </script>
+</body>
+</html>

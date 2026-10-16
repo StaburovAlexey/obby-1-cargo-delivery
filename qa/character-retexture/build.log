@@ -1,0 +1,60 @@
+npm notice run urban-route-procedural-three@1.70.0 build
+npm notice run rsbuild build
+Rsbuild v2.2.13
+
+info    build started...
+ready   built in 3.54s
+
+File (web)                                                 Size         Gzip
+build/assets/vehicles/bmw/manifest.json                    0.47 kB      0.32 kB
+build/assets/hud-gear-panel.svg                            0.48 kB      0.27 kB
+build/assets/vehicles/cosmo/License.txt                    0.50 kB      0.29 kB
+build/assets/audio/Kenney-License.txt                      0.61 kB      0.34 kB
+build/assets/hud-steering.svg                              0.97 kB      0.35 kB
+build/assets/audio/CREDITS.txt                             0.97 kB      0.51 kB
+build/licenses/THREE-LICENSE.txt                           1.1 kB       0.67 kB
+build/assets/vehicles/bmw/License.txt                      1.2 kB       0.63 kB
+build/assets/vehicles/cosmo/manifest.json                  1.5 kB       0.63 kB
+build/assets/vehicles/bmw/README.md                        3.5 kB       1.9 kB
+build/static/js/index.00e54d9ad9.js                        3.9 kB       2.0 kB
+build/assets/vehicles/cosmo/README.md                      4.3 kB       2.2 kB
+build/assets/audio/impact.ogg                              7.3 kB
+build/assets/characters/README.txt                         8.1 kB       3.1 kB
+build/assets/vehicle-gear-panel-cropped.webp               17.3 kB
+build/assets/audio/tire.ogg                                36.0 kB
+build/assets/audio/engine.ogg                              44.5 kB
+build/static/js/async/d.44f3024ae5.js                      56.4 kB      21.3 kB
+build/static/css/index.f8e93f97fe.css                      57.8 kB      11.3 kB
+build/index.html                                           64.6 kB      13.6 kB
+build/static/assets/rally.efea6f9a3e.glb                   153.8 kB
+build/static/assets/ghini.06fe60745e.glb                   154.8 kB
+build/static/assets/coupe.c6ca33eab4.glb                   157.7 kB
+build/static/assets/van.4a10ad6acf.glb                     159.9 kB
+build/static/assets/armor.0047e3d404.glb                   163.0 kB
+build/static/assets/lamb.e882df5cf1.glb                    171.4 kB
+build/static/assets/police.17fd00f818.glb                  187.8 kB
+build/static/assets/jeep.b3bbaa42f0.glb                    192.7 kB
+build/static/assets/fenyr.fe28760aef.glb                   198.3 kB
+build/static/assets/kamaro.75065dc068.glb                  211.8 kB
+build/assets/vehicle-steering.png                          262.2 kB
+build/static/assets/low-poly-bmw-g80-m3.462517317d.glb     353.1 kB
+build/static/assets/Obby_Jeff_The_Killer.5f942bdaa2.glb    825.1 kB
+build/static/assets/Obby_pack2.82a3d4b015.glb              832.6 kB
+build/static/assets/Obby_Pirate.f25cab524f.glb             850.3 kB
+build/static/assets/bacon.7be0425ac6.glb                   924.6 kB
+build/static/assets/Obby_pack3.ac3f270d70.glb              926.3 kB
+build/static/assets/Obby_pack7.040f7e6806.glb              941.7 kB
+build/static/assets/Obby_pack5.e564dbde55.glb              955.5 kB
+build/static/assets/Obby_pack9.29903f8f7f.glb              989.1 kB
+build/static/assets/Obby_pack1.b8f88b6cdb.glb              1008.7 kB
+build/static/assets/Obby_pack4.07b75b3c89.glb              1050.2 kB
+build/static/assets/Obby_pack6.8319da6515.glb              1079.3 kB
+build/static/assets/Obby_Jandel.ef1aefb47c.glb             1107.9 kB
+build/static/js/async/c.aeb836b1ba.js                      1211.9 kB    348.7 kB
+build/static/assets/Obby_KreekCraft.0274ffb207.glb         1271.8 kB
+build/static/assets/Obby_Robux_Man.83319ea995.glb          1369.4 kB
+build/static/assets/Obby_dancing_NPC_girl.523f0aebce.glb   1437.3 kB
+build/static/assets/Obby_Spider-Man.ef8480823f.glb         1497.1 kB
+build/static/assets/Obby_Spyder_Sammy.848f7309a1.glb       1739.0 kB
+
+                                                  Total:   22696.1 kB   21685.8 kB

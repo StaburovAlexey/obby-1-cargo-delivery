@@ -7,6 +7,7 @@ import { createHash } from 'node:crypto';
 import { createRequire } from 'node:module';
 import * as THREE from '../dist/vendor/three.module.js';
 import { loadBacon, BACON_HEIGHT } from '../dist/character.js';
+import { getCharacterEntry } from '../dist/character-catalog.js';
 import { createWalkInput, cameraRelativeAxes } from '../dist/walk-input.js';
 const require = createRequire(import.meta.url);
 let validator;
@@ -19,14 +20,15 @@ const bytes = fs.readFileSync(new URL('../dist/assets/bacon.glb', import.meta.ur
 const json = JSON.parse(bytes.subarray(20, 20 + bytes.readUInt32LE(12)).toString());
 if (validator) {
   const report = await validator.validateBytes(new Uint8Array(bytes), { uri: 'bacon.glb' });
-  check('Original Bacon GLB passes Khronos validation without warnings', () => {
+  check('Textured Bacon GLB passes Khronos validation without warnings', () => {
     assert.equal(report.issues.numErrors, 0);
     assert.equal(report.issues.numWarnings, 0);
   });
 } else console.log('SKIP Khronos validation: install the optional gltf-validator package to run it.');
-check('Shipped asset matches original GLB hash, clips and embedded PNG', () => {
-  assert.equal(bytes.length, 704152);
-  assert.equal(createHash('sha256').update(bytes).digest('hex'), 'eb78b0d387d323905bc0151d4a533a07acf61cea6d98de417c105079750a6415');
+check('Shipped Bacon matches catalog integrity, clips and embedded PNG', () => {
+  const entry = getCharacterEntry('bacon');
+  assert.equal(bytes.length, entry.bytes);
+  assert.equal(createHash('sha256').update(bytes).digest('hex'), entry.sha256);
   assert.deepEqual(json.animations.map(a => a.name), ['Jumping', 'Orc Idle', 'FlyingEdit', 'running']);
   assert.equal(json.images[0].mimeType, 'image/png');
   assert.equal(json.images[0].uri, undefined);

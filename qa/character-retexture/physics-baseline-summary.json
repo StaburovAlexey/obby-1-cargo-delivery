@@ -1,0 +1,14 @@
+{
+  "head": "dcdd8b23e056827657834c3bf2dd99252746e6ed",
+  "command": "node tests/physics-app-integration.mjs",
+  "cwd": "/tmp/obby-new-textures/head-physics",
+  "exitCode": 130,
+  "interrupted": true,
+  "naturalExitObserved": false,
+  "passCountBeforeInterrupt": 6,
+  "failures": [
+    "FAIL Held wheel plus a second-pointer gear change brakes before rolling in reverse: AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:",
+    "FAIL Blur, resize and hidden-tab safety resets clear every planar momentum channel: AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:",
+    "FAIL Overview pause, garage return and re-entry clear stale forces, spin and teleport distance: AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+  ]
+}

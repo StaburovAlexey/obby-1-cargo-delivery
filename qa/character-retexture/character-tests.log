@@ -1,0 +1,59 @@
+npm notice run urban-route-procedural-three@1.70.0 test:character-textures
+npm notice run node tests/character-texture-replacement.mjs && node tests/character-retextures.mjs && node tests/character.mjs && node tests/character-catalog.mjs
+PASS embedded replacement preserves geometry, UVs, rig, animations, offsets and original BIN prefix
+PASS explicit untextured material mapping adds PNG and resets dark tint without changing other materials
+PASS invalid PNGs, indices, image references, UVs and already textured mappings are rejected
+PASS manifest CLI resolves paths relative to manifest and writes the requested output
+PASS bacon: complete new texture set; original geometry, UV, rig and animation bytes retained
+PASS pack1: complete new texture set; original geometry, UV, rig and animation bytes retained
+PASS pack2: complete new texture set; original geometry, UV, rig and animation bytes retained
+PASS pack3: complete new texture set; original geometry, UV, rig and animation bytes retained
+PASS pack4: complete new texture set; original geometry, UV, rig and animation bytes retained
+PASS pack5: complete new texture set; original geometry, UV, rig and animation bytes retained
+PASS pack6: complete new texture set; original geometry, UV, rig and animation bytes retained
+PASS pack7: complete new texture set; original geometry, UV, rig and animation bytes retained
+PASS pack9: complete new texture set; original geometry, UV, rig and animation bytes retained
+PASS pirate: complete new texture set; original geometry, UV, rig and animation bytes retained
+PASS robux-man: complete new texture set; original geometry, UV, rig and animation bytes retained
+PASS spider-man: complete new texture set; original geometry, UV, rig and animation bytes retained
+PASS spyder-sammy: complete new texture set; original geometry, UV, rig and animation bytes retained
+PASS kreekcraft: complete new texture set; original geometry, UV, rig and animation bytes retained
+PASS jandel: complete new texture set; original geometry, UV, rig and animation bytes retained
+PASS dancing-npc-girl: complete new texture set; original geometry, UV, rig and animation bytes retained
+PASS all 16 redesigned characters and byte-identical Jeff the Killer
+PASS Textured Bacon GLB passes Khronos validation without warnings
+PASS Shipped Bacon matches catalog integrity, clips and embedded PNG
+PASS Invalid GLB rejects instead of producing a stand-in
+PASS Loader uses actual 2,897-vertex skinned Bacon and embedded color texture
+PASS Standing character is 3.5 m tall, centered, with feet at zero
+PASS Actual feet point toward -Z at heading zero
+PASS Original animations advance with natural running flight and no floor penetration
+PASS World position, heading and paused-frame safety stay under caller control
+PASS Teleport reset snaps heading and restores the exact grounded idle pose
+PASS Character disposal releases geometry/material/texture exactly once
+PASS Camera-relative movement is normalized, analog and stable overhead
+PASS Keyboard WASD/arrows combine without diagonal speed bonus; Shift runs
+PASS Joystick owns one pointer; other fingers cannot hijack or release movement
+PASS Joystick dead zone, diagonal normalization and interrupted capture reset
+PASS Blur, resize, hidden page, focus in input, disable and pagehide clear sticky movement
+PASS Modifier shortcuts ignored; root pointer events do not reach orbit; destroy cleans up
+
+16 character/input checks passed. Browser image decode, rendering and touch-device usability not run.
+PASS bacon: shipped GLB, 22-bone rig, native UV, idle/run floor, stable support, seated knees + feet + desk
+PASS pack1: shipped GLB, 22-bone rig, native UV, idle/run floor, stable support, seated knees + feet + desk
+PASS pack2: shipped GLB, 22-bone rig, native UV, idle/run floor, stable support, seated knees + feet + desk
+PASS pack3: shipped GLB, 22-bone rig, native UV, idle/run floor, stable support, seated knees + feet + desk
+PASS pack4: shipped GLB, 22-bone rig, native UV, idle/run floor, stable support, seated knees + feet + desk
+PASS pack5: shipped GLB, 22-bone rig, native UV, idle/run floor, stable support, seated knees + feet + desk
+PASS pack6: shipped GLB, 22-bone rig, native UV, idle/run floor, stable support, seated knees + feet + desk
+PASS pack7: shipped GLB, 22-bone rig, native UV, idle/run floor, stable support, seated knees + feet + desk
+PASS pack9: shipped GLB, 22-bone rig, native UV, idle/run floor, stable support, seated knees + feet + desk
+PASS pirate: shipped GLB, 22-bone rig, native UV, idle/run floor, stable support, seated knees + feet + desk
+PASS robux-man: shipped GLB, 22-bone rig, native UV, idle/run floor, stable support, seated knees + feet + desk
+PASS jeff-the-killer: shipped GLB, 22-bone rig, native UV, idle/run floor, stable support, seated knees + feet + desk
+PASS spider-man: shipped GLB, 22-bone rig, native UV, idle/run floor, stable support, seated knees + feet + desk
+PASS spyder-sammy: shipped GLB, 22-bone rig, native UV, idle/run floor, stable support, seated knees + feet + desk
+PASS kreekcraft: shipped GLB, 22-bone rig, native UV, idle/run floor, stable support, seated knees + feet + desk
+PASS jandel: shipped GLB, 22-bone rig, native UV, idle/run floor, stable support, seated knees + feet + desk
+PASS dancing-npc-girl: shipped GLB, 22-bone rig, native UV, idle/run floor, stable support, seated knees + feet + desk
+PASS cached parse, independent active rigs, frozen snapshots, shared resources and safe cache teardown
