@@ -904,6 +904,7 @@ advertising=services?createAdvertising({showAd:callbacks=>services.platform.show
   }}):null;
 if(services?.serverUrl){
   onlineSession=createOnlineSession({THREE,scene,document,serverUrl:services.serverUrl,pause:pauseState,
+    onSeatChange:()=>{handleGameplayEvents();updateEconomyHud();updateJumpHud();},
     getContext:()=>({gameplay,garage,character,model,rig,paused:gameplayPaused(),walkSpeed:lastWalkSpeed,teleportId})});
   onlineSession.bindGameplay(gameplay);
 }

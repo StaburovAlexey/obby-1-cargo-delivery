@@ -142,7 +142,7 @@ export function createRoomServer(options={}) {
 }
 
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href) {
-  const app=createRoomServer({port:Number(process.env.PORT||8081),host:process.env.HOST||'127.0.0.1',allowedOrigins:(process.env.ALLOWED_ORIGINS||'').split(',').map(s=>s.trim()).filter(Boolean),maxConnections:positive(process.env.MAX_CONNECTIONS,2000),maxRooms:positive(process.env.MAX_ROOMS,100)});
+  const app=createRoomServer({port:Number(process.env.PORT||8082),host:process.env.HOST||'127.0.0.1',allowedOrigins:(process.env.ALLOWED_ORIGINS||'').split(',').map(s=>s.trim()).filter(Boolean),maxConnections:positive(process.env.MAX_CONNECTIONS,2000),maxRooms:positive(process.env.MAX_ROOMS,100)});
   const address=await app.listen();console.log(JSON.stringify({event:'listening',...address,worldId:WORLD_ID}));
   for(const signal of ['SIGINT','SIGTERM'])process.once(signal,async()=>{await app.close();process.exitCode=0;});
 }

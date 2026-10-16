@@ -1,4 +1,4 @@
-export function createRemoteMotion({delayMs=150}={}){
+export function createRemoteMotion({delayMs=200}={}){
   const histories=new Map();
   return {
     receive(players,time){
@@ -7,6 +7,8 @@ export function createRemoteMotion({delayMs=150}={}){
         if(!state?.position||!state.quaternion)continue;present.add(id);
         let history=histories.get(id)||[];const last=history.at(-1)?.state;
         if(last&&(last.teleportId!==state.teleportId||last.mode!==state.mode||last.vehicleId!==state.vehicleId||last.characterId!==state.characterId))history=[];
+        // Server ticks can repeat a player's last update; these are not new motion samples.
+        if(history.length&&Number.isInteger(state.seq)&&last.seq===state.seq&&last.seatId===state.seatId)continue;
         history.push({time,state});if(history.length>8)history.shift();histories.set(id,history);
       }
       for(const id of histories.keys())if(!present.has(id))histories.delete(id);

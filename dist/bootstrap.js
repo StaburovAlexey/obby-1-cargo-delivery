@@ -4,7 +4,7 @@ import {createPremiumSkins,PREMIUM_SKIN_IDS} from './premium-skins.js';
 import {createPauseState} from './pause-state.js';
 
 const development=typeof __URBAN_DEVELOPMENT__==='undefined'?true:__URBAN_DEVELOPMENT__;
-const serverUrl=typeof __MULTIPLAYER_URL__==='undefined'?'ws://127.0.0.1:8081/ws':__MULTIPLAYER_URL__;
+const serverUrl=typeof __MULTIPLAYER_URL__==='undefined'?'ws://127.0.0.1:8082/ws':__MULTIPLAYER_URL__;
 const pause=createPauseState();
 const platform=await initializeYandexPlatform({development,
   onPause:()=>pause.set('platform',true),onResume:()=>pause.set('platform',false)});

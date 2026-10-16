@@ -1,7 +1,7 @@
 import {createOnlineClient} from './online-client.js';
 import {createRemotePlayers} from './remote-players.js';
 
-export function createOnlineSession({THREE,scene,document:doc,serverUrl,pause,getContext}={}){
+export function createOnlineSession({THREE,scene,document:doc,serverUrl,pause,getContext,onSeatChange=()=>{}}={}){
   const remotes=createRemotePlayers(THREE,{scene,document:doc});
   let binding=0,connected=false,claiming=false;
   const client=createOnlineClient({url:serverUrl,getState(){
@@ -26,6 +26,7 @@ export function createOnlineSession({THREE,scene,document:doc,serverUrl,pause,ge
       if(g?.state.seatedId){const epoch=binding;pause.set('seat-sync',true);client.claimSeat().then(seat=>{
         if(epoch!==binding)return;
         if(seat&&client.connected)g.reassignSeat(seat);else g.stand();
+        onSeatChange();
       }).finally(()=>pause.set('seat-sync',false));}
     }else if(!status.connected){connected=false;pause.set('seat-sync',false);}
   }});
@@ -41,6 +42,7 @@ export function createOnlineSession({THREE,scene,document:doc,serverUrl,pause,ge
         client.claimSeat().then(seat=>{
           if(epoch!==binding||client.id!==connectionId)return;
           if(!seat||getContext().paused||!sit(id,seat))client.releaseSeat();
+          else onSeatChange();
         }).finally(()=>{if(epoch===binding)claiming=false;});return false;
       };
       g.stand=()=>{const result=stand();if(result)client.releaseSeat();return result;};

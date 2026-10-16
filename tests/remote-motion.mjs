@@ -11,3 +11,14 @@ motion.receive([{id:'b',state:{...state(0),airborne:true,jumpElapsed:.65}}],1500
 motion.receive([{id:'b',state:{...state(0),airborne:false,jumpElapsed:0}}],1600);
 assert(motion.sample('b',1700).jumpElapsed>=.65,'landing must not rewind the airborne animation');
 console.log('PASS remote motion: buffered interpolation, teleport discontinuity and departed-player removal.');
+const walking=createRemoteMotion();
+const walker=(seq,x)=>[{id:'walker',state:{...state(x),seq}}];
+walking.receive(walker(1,0),1000);
+walking.receive(walker(2,.45),1100);
+walking.receive(walker(2,.45),1200);
+assert(Math.abs(walking.sample('walker',1250).position[0]-.225)<1e-9,
+  'the playback buffer must cover one repeated 10Hz snapshot');
+walking.receive(walker(4,1.35),1300);
+assert(Math.abs(walking.sample('walker',1400).position[0]-.9)<1e-9,
+  'a repeated server snapshot must not insert a stop into steady walking');
+console.log('PASS steady remote walking across repeated server snapshots');
