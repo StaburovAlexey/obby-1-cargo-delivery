@@ -6,6 +6,7 @@
 import { CITY_SURFACE, normalizeSurfaceDynamics } from './biome-surfaces.js';
 import { vehicleConfig } from './economy-config.js';
 import { getUpgradeModifiers } from './vehicle-upgrades.js';
+import {BMW_DRIFT,evaluateDriftDynamics,driftTelemetry,driftWheelTarget} from './drift-dynamics.js';
 
 
 export const TOW_DRIVING = Object.freeze({
@@ -197,7 +198,7 @@ export function evaluateVehicleForces(state, {
   const normalLoad = p.mass * p.gravity / Math.sqrt(1 + slopeSquared) / VEHICLE_WHEELS.length;
   const grip = normalLoad * p.tireFriction * ground.frictionFactor;
   const tires = [];
-  for (const wheel of VEHICLE_WHEELS) {
+  for (const wheel of rewardDrift?BMW_DRIFT.wheels:VEHICLE_WHEELS) {
     const rx = c * wheel.x + s * wheel.z;
     const rz = -s * wheel.x + c * wheel.z;
     const pointVelocityX = state.velocityX + state.angularVelocity * rz;
@@ -207,7 +208,7 @@ export function evaluateVehicleForces(state, {
     const rightX = Math.cos(angle), rightZ = -Math.sin(angle);
     const longitudinalSpeed = pointVelocityX * fx + pointVelocityZ * fz;
     const lateralSpeed = pointVelocityX * rightX + pointVelocityZ * rightZ;
-    let longitudinalForce = p.mass * driveAcceleration / VEHICLE_WHEELS.length -
+    let longitudinalForce = p.mass * driveAcceleration * (rewardDrift?(wheel.front?.05:.45):1/VEHICLE_WHEELS.length) -
       p.mass * drag * longitudinalSpeed / VEHICLE_WHEELS.length -
       normalLoad * rollingCoefficient * Math.tanh(longitudinalSpeed / p.rollingTransitionSpeed);
     if (braking) longitudinalForce += clamp(
@@ -251,8 +252,8 @@ export function createDrivingModel({
   getUpgrades = () => undefined,
   maxSpeed = TOW_DRIVING.maxSpeed,
 } = {}) {
-  const p = VEHICLE_DYNAMICS;
   const spec = vehicleConfig(vehicleId);
+  const p = spec.rewardDrift?{...VEHICLE_DYNAMICS,yawInertia:BMW_DRIFT.yawInertia,halfWidth:BMW_DRIFT.halfWidth,halfLength:BMW_DRIFT.halfLength,colliderReach:Math.hypot(BMW_DRIFT.halfWidth,BMW_DRIFT.halfLength)}:VEHICLE_DYNAMICS;
   maxSpeed = normalizeMaxSpeed(maxSpeed,!!spec.rewardDrift);
 
 
@@ -271,6 +272,7 @@ export function createDrivingModel({
     frontWheelAngle: 0, wheelSpin: 0,
     gear: "D", steering: 0, active: false, speedDemand: null,
     moving: false, blocked: false, braking: 0, impactSpeed: 0,
+    brake:0,handbrake:0,slipAngle:0,driftIntensity:0,driftBlend:0,
     travel: 0, pathDistance: 0, movingSeconds: 0,
     bodyPitch: 0, bodyRoll: 0, bodyBob: 0,
   };
@@ -412,7 +414,7 @@ export function createDrivingModel({
 
     const steeringGripScale = Math.sqrt(Math.min(1, surface.frictionFactor * surface.longitudinalGripFactor));
     const reverseGripScale = state.gear === 'R' ? Math.min(1, surface.frictionFactor) : 1;
-    const targetWheelAngle = roadWheelTarget(state.steering, state.linearSpeed * (spec.rewardDrift?.steeringSpeedRatio ?? 1) / steeringGripScale) * reverseGripScale;
+    const targetWheelAngle = spec.rewardDrift&&state.gear!=='R'?driftWheelTarget(state.steering,state.linearSpeed,state.slipAngle):roadWheelTarget(state.steering, state.linearSpeed / steeringGripScale) * reverseGripScale;
     state.frontWheelAngle += (targetWheelAngle - state.frontWheelAngle) *
       (1 - Math.exp(-dt / responseSeconds));
     const analog = Number.isFinite(state.speedDemand);
@@ -436,8 +438,9 @@ export function createDrivingModel({
     const targetSpeed = normalizeMaxSpeed(effectiveMaxSpeed,!!spec.rewardDrift) * surface.speedFactor * speedFraction;
     const excessSpeed = state.speed * direction - targetSpeed;
     const analogBrake = analog ? (speedFraction < .001 ? 1 : clamp((excessSpeed - .04) * .7, 0, 1)) : 0;
-    state.braking = gearBraking ? 1 : analogBrake;
-    const forces = evaluateVehicleForces(state, { maxSpeed: effectiveMaxSpeed, gradient, braking: state.braking, speedFraction, surface,
+    state.braking = Math.max(state.brake,gearBraking ? 1 : analogBrake);
+    const assisted=spec.rewardDrift&&state.gear==='D'&&!gearBraking;
+    const forces = assisted?evaluateDriftDynamics(state,{maxSpeed:targetSpeed,engineAcceleration:catalogAcceleration*upgrades.engine*surface.engineFactor,surface,gradient,braking:state.braking,dt,mass:p.mass,inertia:p.yawInertia}):evaluateVehicleForces(state, { maxSpeed: effectiveMaxSpeed, gradient, braking: state.braking, speedFraction, surface,
       engineAcceleration: catalogAcceleration * upgrades.engine, brakeFactor: spec.grip * upgrades.grip, rewardDrift:spec.rewardDrift });
     state.velocityX += forces.forceX / p.mass * dt;
     state.velocityZ += forces.forceZ / p.mass * dt;
@@ -452,6 +455,7 @@ export function createDrivingModel({
     const previousDistance = state.pathDistance;
     moveRigidBody(dt);
     updateSpeed();
+    if(spec.rewardDrift)Object.assign(state,driftTelemetry(state));
     const actualTravel = state.travel - previousTravel;
     const actualDistance = state.pathDistance - previousDistance;
 
@@ -478,10 +482,11 @@ export function createDrivingModel({
   };
   return {
     state,
-    setInput({ steering = 0, active = false, speedDemand }) {
+    setInput({ steering = 0, active = false, speedDemand,brake=0,handbrake=0 }) {
       state.steering = clamp(finite(Number(steering)), -1, 1);
       state.speedDemand = Number.isFinite(speedDemand) ? clamp(speedDemand, -1, 1) : null;
       state.active = state.speedDemand === null ? !!active : Math.abs(state.speedDemand) > .001;
+      state.brake=clamp(finite(Number(brake)),0,1);state.handbrake=spec.rewardDrift?clamp(finite(Number(handbrake)),0,1):0;
     },
     setGear(gear) {
       if (gear !== "D" && gear !== "R") throw new Error("Gear must be D or R");
@@ -494,6 +499,7 @@ export function createDrivingModel({
       state.steering = state.frontWheelAngle = 0;
       state.travel = state.pathDistance = state.movingSeconds = 0;
       state.blocked = false;state.impactSpeed=0;state.braking=0;
+      state.brake=state.handbrake=state.slipAngle=state.driftIntensity=state.driftBlend=0;
       accumulator = 0;
       gearBraking = false;
       stopMotion();
@@ -503,6 +509,7 @@ export function createDrivingModel({
       Object.assign(state, spawn, {
         frontWheelAngle: 0, wheelSpin: 0, gear: "D", steering: 0,
         active: false, speedDemand: null, blocked: false, braking:0, impactSpeed:0, travel: 0, pathDistance: 0, movingSeconds: 0,
+        brake:0,handbrake:0,slipAngle:0,driftIntensity:0,driftBlend:0,
       });
       accumulator = 0;
       gearBraking = false;

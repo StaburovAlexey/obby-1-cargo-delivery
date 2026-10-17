@@ -206,6 +206,8 @@ const rx = source => new RegExp('^' + source + '$', 'u');
 
 
 const templates = [
+  [/^Тормоз$/u,()=> 'Brake'],
+  [/^Ручник$/u,()=> 'Handbrake'],
   [/^Проедьте немного дальше, чтобы открыть биом «(.+)»\.$/u, (_, biome) => `Drive a little farther to discover the ${translateCore(biome)} biome.`],
   [/^Сначала доедьте до биома «(.+)» на машине прошлого биома\.$/u, (_, biome) => `First reach the ${translateCore(biome)} biome in a vehicle from the previous biome.`],
   [/^Откройте: (.+)$/u, (_, biome) => `Discover: ${translateCore(biome)}`],

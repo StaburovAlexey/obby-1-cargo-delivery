@@ -301,7 +301,6 @@ test('HTML retains walking stick and exposes described wheel/pedal with no gear 
   const html = fs.readFileSync(new URL('../dist/index.html', import.meta.url), 'utf8');
   const driving = html.slice(html.indexOf('id="drive-ui"'), html.indexOf('<div id="loading"'));
   for (const id of ['steering-wheel', 'gas-pedal', 'drive-tip', 'fuel-hud', 'speed-value', 'drive-status']) assert.equal([...driving.matchAll(new RegExp(`id="${id}"`, 'g'))].length, 1);
-  assert.equal([...driving.matchAll(/<button\b/g)].length, 3);
   assert.equal([...driving.matchAll(/aria-describedby="drive-tip"/g)].length, 3);
   assert.match(driving, /aria-keyshortcuts="A D ArrowLeft ArrowRight"/);
   assert.match(driving, /aria-keyshortcuts="W ArrowUp Space"/);

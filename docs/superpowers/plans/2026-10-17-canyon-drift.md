@@ -30,7 +30,7 @@
 
 ### Task 1: BMW control and physics
 
-**Files:** dist/drift-dynamics.js, dist/driving-model.js, dist/vehicle-input.js, dist/follow-camera.js, dist/vehicle-controls.css; tests/canyon-driving.mjs; tests/reward-driving.mjs.
+**Files:** dist/drift-dynamics.js, dist/driving-model.js, dist/vehicle-input.js, dist/follow-camera.js, dist/vehicle-controls.css, dist/index.html, dist/app.js, dist/localization.js, tests/fixtures/app-dom.mjs; tests/canyon-driving.mjs; tests/reward-driving.mjs.
 
 **Interfaces:** Consumes existing createDrivingModel and wheel metadata. Produces brake and handbrake input channels, BMW slipAngle/driftIntensity telemetry and a dedicated BMW tuning profile; ordinary calls retain existing behavior.
 

@@ -364,7 +364,7 @@ const smoothedCameraTarget=new THREE.Vector3();
 let renderedCameraScale=1;
 function followTruck(dt,snap=false,distance=0){
   if(snap)cameraState.reset({mode:'driving',heading:model.state.heading});
-  cameraState.update({dt,heading:model.state.heading,distance});
+  cameraState.update({dt,heading:model.state.heading,distance,drifting:model.state.driftIntensity>.15,velocityX:model.state.velocityX,velocityZ:model.state.velocityZ});
   const offset=computeFollowOffset(cameraState.state);
   const scale=drivingCameraScale(camera.aspect);
   desiredTarget.copy(rig.root.position);desiredTarget.y+=1.7;
@@ -584,6 +584,7 @@ function syncMode(snap=false){
   (document.getElementById('mode-label')||document.getElementById('mode-toggle')).textContent=playing?'Обзор':'Вернуться';
   document.getElementById('mode-toggle').setAttribute('aria-pressed',String(playing));
   inputController?.setEnabled(driving&&startup.ready&&characterReady&&!graphicsLost&&!biomeMenuOpen&&!upgradeMenuOpen&&!careerMenuOpen&&!settingsMenuOpen);
+  inputController?.setDriftEnabled?.(driving&&gameplay.state.selectedId==='bmwreward');
   walkInput?.setEnabled(walking&&startup.ready&&characterReady&&!graphicsLost&&!upgradeMenuOpen&&!careerMenuOpen&&!settingsMenuOpen);
   jumpInput?.setEnabled(walking&&startup.ready&&characterReady&&!graphicsLost&&!upgradeMenuOpen&&!careerMenuOpen&&!settingsMenuOpen);
   lookInput?.setEnabled(playing&&startup.ready&&characterReady&&!graphicsLost&&!biomeMenuOpen&&!upgradeMenuOpen&&!careerMenuOpen&&!settingsMenuOpen);

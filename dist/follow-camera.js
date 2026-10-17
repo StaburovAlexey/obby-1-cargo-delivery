@@ -97,7 +97,7 @@ export function createFollowCameraState({ mode = 'walking', heading = 0 } = {}) 
 
 
 
-    update({ dt = 0, heading = state.yaw, distance = 0, teleported = false } = {}) {
+    update({ dt = 0, heading = state.yaw, distance = 0, teleported = false,drifting=false,velocityX=0,velocityZ=0 } = {}) {
       if (teleported) return reset({ heading, mode: state.mode });
       if (state.mode !== 'driving' || state.looking) return state;
       const travelled = Math.abs(finite(distance));
@@ -114,7 +114,8 @@ export function createFollowCameraState({ mode = 'walking', heading = 0 } = {}) 
         returnDt *= Math.min(1, pastThreshold / travelled);
       }
       const alpha = -Math.expm1(-FOLLOW_CAMERA.returnRate * returnDt);
-      state.yaw = wrapAngle(state.yaw + shortestAngleDelta(state.yaw, finite(heading, state.yaw)) * alpha);
+      const viewHeading=drifting&&Math.hypot(velocityX,velocityZ)>4?heading+shortestAngleDelta(heading,Math.atan2(-velocityX,-velocityZ))*.75:heading;
+      state.yaw = wrapAngle(state.yaw + shortestAngleDelta(state.yaw, finite(viewHeading, state.yaw)) * alpha);
       state.pitch += (FOLLOW_CAMERA.driving.pitch - state.pitch) * alpha;
       return state;
     },
