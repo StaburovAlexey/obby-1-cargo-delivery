@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Иконки актуальных игровых скинов</title>
+<style>
+  *{box-sizing:border-box}body{margin:0;padding:28px;background:#101a2c;color:#edf4ff;font:15px system-ui,sans-serif}
+  h1{margin:0 0 8px;font-size:25px}p{color:#aabdd7;margin:8px 0 22px}main{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px}
+  article{min-width:0;background:#1b2b44;border-radius:12px;overflow:hidden}canvas{display:block;width:100%;height:auto;aspect-ratio:1}
+  h2{font-size:16px;margin:15px 14px 6px}small{display:block;color:#aabdd7;margin:0 14px 16px;font-size:12px}a{display:block;color:#101a2c;background:#a5deff;text-align:center;padding:10px;margin:14px;border-radius:7px;font-weight:700;text-decoration:none}
+  #status{font-weight:600;color:#a5deff}.error{color:#ffb1a8;padding:14px}@media(max-width:850px){main{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+<h1>Иконки актуальных игровых скинов</h1>
+<p>Портреты из игровых GLB с текущими текстурами. Персонажи и материалы сохранены без изменений.</p>
+<p id="status" role="status">Загрузка моделей…</p>
+<main id="grid"></main>
+<script type="module">
+  import * as THREE from '../../../dist/vendor/three.module.js';
+  import { CHARACTER_CATALOG, createCharacterDisplay } from '../../../dist/character.js';
+  const ids=['dancing-npc-girl','jandel','kreekcraft','spyder-sammy','spider-man','jeff-the-killer'];
+  const looks={
+    'dancing-npc-girl':'Coral Pop Idol',
+    'jandel':'Space Gardener',
+    'kreekcraft':'Emerald Cyber Plaid',
+    'spyder-sammy':'Hazard Tech',
+    'spider-man':'Future Hero',
+    'jeff-the-killer':'Оригинальный игровой костюм'
+  };
+  const background=await new THREE.TextureLoader().loadAsync('./background.png');
+  background.colorSpace=THREE.SRGBColorSpace;
+  let loaded=0;
+  for(const id of ids){
+    const entry=CHARACTER_CATALOG.find(item=>item.id===id);
+    const card=document.createElement('article');card.dataset.characterId=id;card.dataset.sourceSha256=entry.sha256;
+    document.querySelector('#grid').append(card);
+    try{
+      const renderer=new THREE.WebGLRenderer({antialias:true,alpha:false,preserveDrawingBuffer:true});
+      renderer.setPixelRatio(1);renderer.setSize(1024,1024,false);
+      renderer.outputColorSpace=THREE.SRGBColorSpace;
+      renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.1;
+      renderer.domElement.setAttribute('aria-label',entry.name+' — актуальная игровая модель');card.append(renderer.domElement);
+      const scene=new THREE.Scene();scene.background=background;
+      scene.add(new THREE.HemisphereLight(0xe7f1ff,0xa9a3a0,2.0));
+      const key=new THREE.DirectionalLight(0xfff5e7,2.7);key.position.set(-3,5,-5);scene.add(key);
+      const fill=new THREE.DirectionalLight(0xcddfff,1.2);fill.position.set(4,3,4);scene.add(fill);
+      const assetUrl=new URL(entry.url);assetUrl.searchParams.set('icon-source',entry.sha256);
+      const display=await createCharacterDisplay(THREE,{id,url:assetUrl});scene.add(display.group);
+      const camera=new THREE.OrthographicCamera(-1.4,1.4,1.4,-1.4,.05,40);
+      camera.position.set(.30,2.45,-8);camera.lookAt(0,2.45,0);camera.updateProjectionMatrix();
+      renderer.render(scene,camera);
+      const title=document.createElement('h2');title.textContent=entry.name;card.append(title);
+      const subtitle=document.createElement('small');subtitle.textContent=looks[id];card.append(subtitle);
+      const download=document.createElement('a');download.href=renderer.domElement.toDataURL('image/png');download.download='skin_'+id+'.png';download.textContent='Скачать '+entry.name;card.append(download);
+      loaded++;card.dataset.ready='true';
+    }catch(error){const message=document.createElement('p');message.className='error';message.textContent=entry.name+': '+error.message;card.append(message);}
+  }
+  document.querySelector('#status').textContent=`Готово: ${loaded}/${ids.length} · мастера PNG 1024×1024 · финальные иконки 256×256`;
+</script>
+</html>

@@ -1,15 +1,15 @@
 {
   "name": "urban-route-procedural-three",
-  "version": "1.70.0",
+  "version": "1.70.2",
   "private": true,
   "type": "module",
   "description": "Five-biome delivery driving game with ten progressive vehicles, brain-funded upgrades, five schools and saved skin purchases",
   "scripts": {
     "start": "python3 -m http.server 8080 --bind 127.0.0.1 -d dist",
-    "dev": "rsbuild dev",
-    "build": "rsbuild build",
-    "preview": "rsbuild preview",
-    "test": "node tests/tow-baseline.mjs && node tests/vehicle-dynamics.mjs && node tests/physics-app-integration.mjs && node tests/vehicle-rig.mjs && node tests/driving.mjs && node tests/route-network.mjs && node tests/network-scene.mjs && node tests/sequential-route.mjs && node tests/economy-session.mjs && node tests/economy-integration.mjs && node tests/economy-progression.mjs && node tests/economy-ui.mjs && node tests/compact-fuel-hud.mjs && node tests/hud-style.mjs && node tests/bare-currency-hud.mjs && node tests/follow-camera.mjs && node tests/jump-integration.mjs && node tests/twenty-desks.mjs && node tests/character-row.mjs && node tests/seated-arm-axes.mjs && node tests/storefront-material.mjs && node tests/ten-vehicle-catalog.mjs && node tests/biome-surface-dynamics.mjs && node tests/biome-preview-integration.mjs && node tests/biome-road-shader.mjs && node tests/ordered-biome-tiers.mjs && node tests/learning-career.mjs && node tests/vehicle-upgrades.mjs && node tests/five-training-zones.mjs && node tests/progression-independent-state.mjs && node tests/progression-independent-app.mjs && node tests/progression-hud.mjs && node tests/tank-upgrades.mjs && node tests/road-hazards.mjs && node tests/road-hazards-scene.mjs && node tests/road-hazards-app.mjs && node tests/school-anchor-review.mjs && node tests/network-hazards.mjs && node tests/network-independent.mjs && node tests/route-hills.mjs && node tests/hills-independent.mjs && node tests/halved-handling.mjs && node tests/bridge-independent.mjs",
+    "dev": "rsbuild dev --host",
+    "build": "npm run build:yandex",
+    "preview": "GAME_PLATFORM=yandex rsbuild preview",
+    "test": "npm run test:biome-progression && node tests/tow-baseline.mjs && node tests/vehicle-dynamics.mjs && node tests/physics-app-integration.mjs && node tests/vehicle-rig.mjs && node tests/driving.mjs && node tests/route-network.mjs && node tests/network-scene.mjs && node tests/sequential-route.mjs && node tests/economy-session.mjs && node tests/economy-integration.mjs && node tests/economy-progression.mjs && node tests/economy-ui.mjs && node tests/compact-fuel-hud.mjs && node tests/hud-style.mjs && node tests/bare-currency-hud.mjs && node tests/follow-camera.mjs && node tests/jump-integration.mjs && node tests/twenty-desks.mjs && node tests/character-row.mjs && node tests/seated-arm-axes.mjs && node tests/storefront-material.mjs && node tests/ten-vehicle-catalog.mjs && node tests/biome-surface-dynamics.mjs && node tests/biome-preview-integration.mjs && node tests/biome-road-shader.mjs && node tests/ordered-biome-tiers.mjs && node tests/learning-career.mjs && node tests/vehicle-upgrades.mjs && node tests/five-training-zones.mjs && node tests/progression-independent-state.mjs && node tests/progression-independent-app.mjs && node tests/progression-hud.mjs && node tests/tank-upgrades.mjs && node tests/road-hazards.mjs && node tests/road-hazards-scene.mjs && node tests/road-hazards-app.mjs && node tests/school-anchor-review.mjs && node tests/network-hazards.mjs && node tests/network-independent.mjs && node tests/route-hills.mjs && node tests/hills-independent.mjs && node tests/halved-handling.mjs && node tests/bridge-independent.mjs",
     "test:upgraded-routes": "node tests/progression-max-upgrade-routes.mjs",
     "test:study-clock": "node tests/study-clock.mjs",
     "test:hazards": "node tests/road-hazards.mjs && node tests/road-hazards-scene.mjs && node tests/road-hazards-app.mjs",
@@ -25,6 +25,8 @@
     "test:future-drift": "node tests/future-biome-drift.mjs && node tests/balance-route-review.mjs --quick && node tests/vehicle-dynamics.mjs && node tests/wheel-pedal-app.mjs",
     "test:expanded-map": "node tests/expanded-route.mjs && node tests/expanded-balance-geometry.mjs && node tests/expanded-balance.mjs && node tests/brain-currency-hud.mjs && node tests/bridge-independent.mjs && node tests/weather-fall.mjs && node tests/expanded-scene.mjs && node tests/expanded-balance.mjs --mastery",
     "test:quiet-hangar": "node tests/quiet-hangar.mjs && node tests/character-row.mjs && node tests/lighting-audit.mjs && node tests/reverse-pedal.mjs && node tests/reverse-pedal-app.mjs",
+    "test:biome-progression": "node --test tests/biome-progression.mjs tests/biome-progression-ui.mjs tests/cloud-career.mjs && node tests/career-route-tracker.mjs && node tests/reward-developer-mode.mjs",
+    "test:biome-journeys": "node tests/run-biome-journeys.mjs",
     "test:career-retention": "node tests/approved-economy-curves.mjs && node tests/career-retention.mjs && node tests/retention-payout-independent.mjs && node tests/retention-ui.mjs && node tests/career-route-tracker.mjs && node tests/retention-app-integration.mjs && node tests/hard-branch-route-audit.mjs && node tests/ten-level-upgrades.mjs && node tests/economy-budget-model.mjs",
     "test:career-dialogs": "node tests/retention-ui.mjs && node tests/retention-app-integration.mjs && node tests/career-modal-input.mjs && node tests/reverse-pedal-app.mjs && node tests/quiet-hangar.mjs",
     "test:compact-route": "node tests/compact-route-contracts.mjs && node tests/compact-route-geometry.mjs && node tests/compact-route-scene.mjs && node tests/moving-road-hazards.mjs && node tests/compact-static-hazards.mjs && node tests/moving-road-hazards-app.mjs && node tests/career-route-tracker.mjs && node tests/retention-payout-independent.mjs && node tests/retention-app-integration.mjs",
@@ -45,10 +47,20 @@
     "test:vehicle-cleanup": "node tests/vehicle-cleanup.mjs && node tests/vehicle-rig.mjs && node tests/cosmo-garage.mjs",
     "test:character-textures": "node tests/character-texture-replacement.mjs && node tests/character-retextures.mjs && node tests/character.mjs && node tests/character-catalog.mjs",
     "server": "node server/room-server.mjs",
-    "build:demo": "PUBLIC_YANDEX_DEVELOPMENT=1 rsbuild build --dist-path build-demo",
-    "preview:demo": "rsbuild preview --dist-path build-demo",
-    "test:online": "node --test tests/online-server*.mjs tests/online-seat-session.mjs tests/online-client.mjs tests/remote-motion.mjs tests/online-gameplay.mjs tests/pause-state.mjs tests/advertising-*.mjs tests/yandex-platform.mjs tests/cloud-career.mjs tests/premium-skins.mjs tests/premium-hud.mjs tests/yandex-app.mjs tests/strip-code-comments.mjs",
-    "stress:online": "node scripts/stress-online.mjs --users=100,200,500,1000 --duration=30"
+    "build:demo": "GAME_PLATFORM=yandex PUBLIC_YANDEX_DEVELOPMENT=1 rsbuild build --dist-path build-demo",
+    "preview:demo": "GAME_PLATFORM=yandex rsbuild preview --dist-path build-demo",
+    "test:online": "node --test tests/online-server*.mjs tests/online-seat-session.mjs tests/online-client.mjs tests/remote-motion.mjs tests/online-gameplay.mjs tests/pause-state.mjs tests/advertising-*.mjs tests/yandex-platform.mjs tests/cloud-career.mjs tests/premium-skins.mjs tests/jeff-premium.mjs tests/premium-hud.mjs tests/yandex-app.mjs tests/strip-code-comments.mjs",
+    "stress:online": "node scripts/stress-online.mjs --users=100,200,500,1000 --duration=30",
+    "build:yandex": "GAME_PLATFORM=yandex rsbuild build",
+    "build:vk": "GAME_PLATFORM=vk rsbuild build",
+    "build:all": "npm run build:yandex && npm run build:vk",
+    "dev:yandex": "GAME_PLATFORM=yandex rsbuild dev --host",
+    "dev:vk": "GAME_PLATFORM=vk rsbuild dev --host",
+    "preview:vk": "GAME_PLATFORM=vk rsbuild preview",
+    "build:vk:demo": "GAME_PLATFORM=vk PUBLIC_GAME_DEVELOPMENT=1 rsbuild build --dist-path build-vk-demo",
+    "preview:vk:demo": "GAME_PLATFORM=vk rsbuild preview --dist-path build-vk-demo",
+    "server:vk": "node server/vk-server.mjs",
+    "test:platforms": "node --test tests/platform-builds.mjs tests/vk-platform.mjs tests/vk-payments.mjs tests/vk-ui.mjs tests/vk-recovery.mjs tests/yandex-platform.mjs tests/cloud-career.mjs tests/premium-skins.mjs tests/jeff-premium.mjs tests/premium-hud.mjs tests/yandex-app.mjs"
   },
   "devDependencies": {
     "@rsbuild/core": "2.2.13",
@@ -56,6 +68,7 @@
     "gltf-validator": "2.0.0-dev.3.10"
   },
   "dependencies": {
+    "@vkontakte/vk-bridge": "3.0.2",
     "ws": "8.22.0"
   }
 }

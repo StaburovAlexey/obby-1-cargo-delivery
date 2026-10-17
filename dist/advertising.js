@@ -161,9 +161,8 @@ export function createAdvertising({showAd=()=>false,pause=()=>{},resume=()=>{},o
       if(!safe){defer('unsafe');return;}
       if(!Number.isFinite(dt)||dt<0)return;
       countdownElapsed+=dt;
-      if(countdownElapsed>=1-EPSILON&&countdown===3)warning(2);
-      if(countdownElapsed>=2-EPSILON&&countdown===2)warning(1);
-      if(countdownElapsed>=3-EPSILON)dispatch();
+      if(countdownElapsed>=1-EPSILON&&countdown===2)warning(1);
+      if(countdownElapsed>=2-EPSILON)dispatch();
       return;
     }
     if(!active)return;
@@ -172,7 +171,7 @@ export function createAdvertising({showAd=()=>false,pause=()=>{},resume=()=>{},o
       if(activeSeconds>=intervalSeconds-EPSILON)status('pending');
     }
     if(phase==='pending'&&safe){
-      phase='countdown';countdownElapsed=0;ownsPause=true;pause();warning(3);status('countdown');
+      phase='countdown';countdownElapsed=0;ownsPause=true;pause();warning(2);status('countdown');
     }
   }
   function setSuspended(value){

@@ -9,9 +9,11 @@ const premium={catalog:new Map(SKIN_CONFIG.filter(s=>s.premium).map(s=>[s.id,pro
 const garage={classroomEntries:[],stands:SKIN_CONFIG.map(()=>({x:0,z:0}))};
 const gameplay={state:{mode:'walking'},isSkinOwned:()=>false};
 for(let i=0;i<60;i++)updateProgressionWorldLabels(doc,{gameplay,garage,playing:true,premium,project(){}});
-assert.equal(imageCreates,5,'stable prices must retain their icon nodes across frames');
+assert.equal(imageCreates,6,'stable prices must retain their icon nodes across frames');
 assert.equal(iconCalls,1,'currency metadata is cached per product');
 const node=doc.getElementById('skin-price-17');assert.equal(node.textContent,'39 TST');assert.equal(node.children.length,1);
+const jeff=doc.getElementById('skin-price-12');assert.equal(jeff.textContent,'39 TST');assert.equal(jeff.children.length,1);
 premium.catalog.clear();updateProgressionWorldLabels(doc,{gameplay,garage,playing:true,premium,project(){}});
 assert.equal(node.textContent,'—');assert.equal(node.children.length,0);
+assert.equal(jeff.textContent,'—');assert.equal(jeff.children.length,0);
 console.log('PASS premium HUD: SDK currency, retained icon nodes and unavailable catalogue.');

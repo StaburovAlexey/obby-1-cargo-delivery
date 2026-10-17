@@ -1,4 +1,4 @@
-import { ECONOMY_CONFIG, VEHICLE_CONFIG, DELIVERY_CHECKPOINTS, REWARD_VEHICLE_ID, ROUTE_COMPLETION_PROOF, FINAL_DELIVERY_CHECKPOINT } from './economy-config.js';
+import { ECONOMY_CONFIG, VEHICLE_CONFIG, BIOME_SEQUENCE, DELIVERY_CHECKPOINTS, REWARD_VEHICLE_ID, ROUTE_COMPLETION_PROOF, FINAL_DELIVERY_CHECKPOINT } from './economy-config.js';
 import { CHARACTER_CATALOG, DEFAULT_CHARACTER_ID } from './character-catalog.js';
 import { SCHOOL_CONFIG, PROGRESSION_CONFIG } from './progression-config.js';
 import { UPGRADE_STATS } from './vehicle-upgrades.js';
@@ -22,6 +22,7 @@ export function freshCareer(characterId = DEFAULT_CHARACTER_ID) {
     version: ECONOMY_CONFIG.saveVersion,
     money: ECONOMY_CONFIG.startingMoney,
     ownedVehicleIds: ['pickup'],
+    discoveredBiomeIds: ['city'],
     characterId: selected,
     completedRuns: 0,
     routeCompletion: null,
@@ -127,7 +128,7 @@ export function sanitizeCareer(value, fallbackCharacterId = DEFAULT_CHARACTER_ID
   const result = freshCareer(fallbackCharacterId);
   try {
     const data = readData(value, ['version', 'money', 'ownedVehicleIds', 'characterId', 'completedRuns',
-      'brains', 'ownedSkinIds', 'ownedSchoolIds', 'upgrades', 'vehicleGrantClaimed', 'retention', 'routeCompletion']);
+      'brains', 'ownedSkinIds', 'ownedSchoolIds', 'upgrades', 'vehicleGrantClaimed', 'retention', 'routeCompletion', 'discoveredBiomeIds']);
     if (!data || (data.version !== 1 && data.version !== ECONOMY_CONFIG.saveVersion)) return result;
     result.money = counter(data.money, ECONOMY_CONFIG.maxSavedMoney);
     const ownedVehicles = readIds(data.ownedVehicleIds);
@@ -136,6 +137,14 @@ export function sanitizeCareer(value, fallbackCharacterId = DEFAULT_CHARACTER_ID
     result.completedRuns = counter(data.completedRuns, ECONOMY_CONFIG.maxSavedMoney);
     result.routeCompletion = result.completedRuns>0?sanitizeRouteCompletion(data.routeCompletion):null;
     if(result.routeCompletion)result.ownedVehicleIds.push(REWARD_VEHICLE_ID);
+    const visited = readIds(data.discoveredBiomeIds);
+    const ownedTier = Math.max(0, ...VEHICLE_CONFIG.filter(vehicle => result.ownedVehicleIds.includes(vehicle.id))
+      .map(vehicle => BIOME_SEQUENCE.findIndex(biome => biome.id === vehicle.specialty)));
+    for (let index = 1; index < BIOME_SEQUENCE.length; index++) {
+      const biome = BIOME_SEQUENCE[index];
+      if (index > ownedTier && !visited.has(biome.id)) break;
+      result.discoveredBiomeIds.push(biome.id);
+    }
     result.retention = sanitizeRetention(data.retention, result.ownedVehicleIds);
     if (data.version === 1) {
 

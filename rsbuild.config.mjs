@@ -1,12 +1,17 @@
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from '@rsbuild/core';
 
-export default defineConfig(({env})=>({
+export default defineConfig(({env})=>{
+  const platform=process.env.GAME_PLATFORM||'yandex';
+  if(!['yandex','vk'].includes(platform))throw new Error('Unknown game platform: '+platform);
+  const vk=platform==='vk';
+  return {
   source: {
     entry: { index: './scripts/rsbuild-entry.js' },
     assetsInclude: /\.glb$/,
     define: {
-      __URBAN_DEVELOPMENT__: JSON.stringify(env==='development'||process.env.PUBLIC_YANDEX_DEVELOPMENT==='1'),
+      __URBAN_DEVELOPMENT__: JSON.stringify(env==='development'||process.env.PUBLIC_GAME_DEVELOPMENT==='1'||(!vk&&process.env.PUBLIC_YANDEX_DEVELOPMENT==='1')),
+      __VK_API_URL__: JSON.stringify(process.env.PUBLIC_VK_API_URL||''),
       __MULTIPLAYER_URL__: process.env.PUBLIC_MULTIPLAYER_URL
         ? JSON.stringify(process.env.PUBLIC_MULTIPLAYER_URL)
         : env==='development'
@@ -16,23 +21,25 @@ export default defineConfig(({env})=>({
   },
   resolve: {
 
-    alias: { three: fileURLToPath(new URL('./dist/vendor/three.module.js', import.meta.url)) },
+    alias: { three: fileURLToPath(new URL('./dist/vendor/three.module.js', import.meta.url)), '@game-bootstrap':fileURLToPath(new URL(vk?'./dist/bootstrap-vk.js':'./dist/bootstrap.js',import.meta.url)) },
   },
   html: { template: './dist/index.html' },
   output: {
 
-    distPath: { root: 'build' },
+    distPath: { root: vk?'build-vk':'build' },
     assetPrefix: './',
     copy: [
 
 
       { from: './dist/assets', to: 'assets', globOptions: { ignore: ['**/*.glb'] } },
       { from: './dist/vendor/THREE-LICENSE.txt', to: 'licenses/THREE-LICENSE.txt' },
+      ...(vk?[{from:'./publishing/yandex/inapp/icons',to:'assets/inapp'}]:[]),
+      ...(vk?[{from:'./node_modules/@vkontakte/vk-bridge/LICENSE',to:'licenses/VK-BRIDGE-LICENSE.txt'}]:[]),
     ],
   },
   server: {
-    host: '127.0.0.1', port: 8083, strictPort: true,
-    proxy: { '/ws': { target: `http://127.0.0.1:${process.env.PORT||8082}`, ws: true } },
+    host: '127.0.0.1', port: vk?8084:8083, strictPort: true,
+    proxy: { '/ws': { target: `http://127.0.0.1:${process.env.PORT||8082}`, ws: true },'/api/vk':{target:`http://127.0.0.1:${process.env.VK_PORT||8085}`} },
   },
   plugins: [{
     name: 'urban-route-html',
@@ -44,4 +51,4 @@ export default defineConfig(({env})=>({
         .replace(/\s*<script type="module">[\s\S]*?<\/script>/g, ''));
     },
   }],
-}));
+};});

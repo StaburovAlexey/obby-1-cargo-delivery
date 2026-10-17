@@ -1,4 +1,5 @@
 import { VEHICLE_CONFIG } from './economy-config.js';
+import { vehicleUnlockHint } from './biome-progression.js';
 
 const boundedNumber=value=>Math.max(0,Number.isFinite(Number(value))?Number(value):0);
 export const careerNumber=value=>String(Math.floor(boundedNumber(value))).replace(/\B(?=(\d{3})+(?!\d))/g,'\u202f');
@@ -100,12 +101,13 @@ export function createRetentionUi(doc,{onSelectGoal=()=>{},onSkipMission=()=>{},
     el('career-goal-progress').hidden=!goal;
     if(!goal){select.value='';text('career-goal-remaining','Выбери следующую машину');el('career-goal-content').dataset.ready='false';}
     if(goal){
+      const availability=gameplay.getVehicleAvailability?.(goal.id),locked=availability?.purchasable===false;
       if(select.value!==goal.id)select.value=goal.id;
       text('career-goal-amount',careerNumber(goal.money)+' / '+careerNumber(goal.price));
-      text('career-goal-remaining',goal.remaining>0?'Осталось '+careerNumber(goal.remaining):'Можно купить в ангаре');
+      text('career-goal-remaining',locked?vehicleUnlockHint(availability):goal.remaining>0?'Осталось '+careerNumber(goal.remaining):'Можно купить в ангаре');
       const progress=el('career-goal-progress');progress.max=Math.max(1,boundedNumber(goal.price));progress.value=Math.min(progress.max,boundedNumber(goal.money));
       progress.setAttribute('aria-label',`Накопления на ${goal.name}: ${careerNumber(goal.money)} из ${careerNumber(goal.price)}`);
-      el('career-goal-content').dataset.ready=String(goal.remaining<=0);
+      el('career-goal-content').dataset.ready=String(!locked&&goal.remaining<=0);
     }
     const mission=gameplay.getCareerMission?.()||null;
     el('career-mission-details').hidden=!mission;el('career-mission-empty').hidden=!!mission;

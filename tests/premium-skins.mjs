@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import { createPremiumSkins, PREMIUM_SKIN_IDS, premiumProductId } from '../dist/premium-skins.js';
 import { initializeYandexPlatform } from '../dist/yandex-platform.js';
 
-test('five permanent skin products use catalog prices and restored platform entitlements', async () => {
-  assert.deepEqual(PREMIUM_SKIN_IDS, ['dancing-npc-girl', 'jandel', 'kreekcraft', 'spyder-sammy', 'spider-man']);
+test('six permanent skin products use catalog prices and restored platform entitlements', async () => {
+  assert.deepEqual(PREMIUM_SKIN_IDS, ['dancing-npc-girl', 'jandel', 'kreekcraft', 'spyder-sammy', 'spider-man', 'jeff-the-killer']);
   const item = { id: 'skin_jandel', price: '39 custom', priceValue: '39', priceCurrencyCode: 'custom', getPriceCurrencyImage: () => '/currency.svg' };
   const premium = createPremiumSkins({ platform: { getCatalog: async () => [item], getPurchases: async () => [{ productID: 'skin_jandel' }, { productID: 'unknown' }] } });
   await premium.initialize(); assert.equal(premiumProductId('jandel'), 'skin_jandel');

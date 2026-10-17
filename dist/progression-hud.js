@@ -1,6 +1,7 @@
 import { PROGRESSION_CONFIG, SCHOOL_CONFIG, SKIN_CONFIG, schoolConfig, skinConfig } from './progression-config.js';
 import { UPGRADE_STATS, getUpgradeOffer } from './vehicle-upgrades.js';
 import { vehicleConfig } from './economy-config.js';
+import { biomeForProgress, vehicleSupportsBiome } from './biome-progression.js';
 
 
 export const brainDisplay = n => {
@@ -37,7 +38,7 @@ export function upgradeValuePresentation(stat,offer){
       (offer.maxed?'':` (+${compactDecimal(next.range-current.range)} м)`)+'. Заправка отдельно.',
   };
 }
-export function updateProgressionHud(doc,{gameplay,playing,driving,upgradeMenuOpen,premium}){
+export function updateProgressionHud(doc,{gameplay,playing,driving,upgradeMenuOpen,premium,routeProgress}){
   const s=gameplay.state,el=id=>doc.getElementById(id),brains=brainDisplay(s.brains);
   el('brain-value').textContent=brains;
   el('brain-hud').style.setProperty('--brain-digits',String(brains.length));
@@ -48,6 +49,17 @@ export function updateProgressionHud(doc,{gameplay,playing,driving,upgradeMenuOp
   doc.body.classList.toggle('upgrade-menu-open',upgradeMenuOpen);
   el('vehicle-funds-button').hidden=!playing||driving||!!s.seatedId||s.vehicleGrantClaimed;
   const canBuy=playing&&!driving&&!s.seatedId&&!s.jump.airborne;
+  const notice=el('biome-progress-notice');
+  if(notice){
+    let message='';
+    if(driving&&!s.testMode&&Number.isFinite(routeProgress)){
+      const biome=biomeForProgress(routeProgress);
+      if(!vehicleSupportsBiome(s.selectedId,biome.id))message=s.discoveredBiomeIds?.includes(biome.id)
+        ?`Для доставок в биоме «${biome.name}» нужна местная машина. Вернитесь в ангар.`
+        :`Проедьте немного дальше, чтобы открыть биом «${biome.name}».`;
+    }
+    notice.textContent=message;notice.hidden=!playing||upgradeMenuOpen||!message;
+  }
   for(const kind of ['skin','school']){
     const id=s[kind+'PurchaseCandidateId'],spec=kind==='skin'?skinConfig(id):schoolConfig(id),owned=kind==='skin'?gameplay.isSkinOwned(id):gameplay.isSchoolOwned(id);
     const button=el('buy-'+kind);button.hidden=!canBuy||!spec;
@@ -108,6 +120,7 @@ export function updateProgressionWorldLabels(doc,{gameplay,garage,playing,projec
 
 const priceContent=new WeakMap(),currencyImages=new WeakMap();
 function setPortalPrice(doc,node,text,product){
+  if(product?.currencyLabel)text+=' '+product.currencyLabel;
   let icon='';
   if(product&&typeof product.getPriceCurrencyImage==='function'){
     if(!currencyImages.has(product)){try{currencyImages.set(product,product.getPriceCurrencyImage('small')||'');}catch{currencyImages.set(product,'');}}

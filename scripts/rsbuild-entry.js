@@ -5,7 +5,7 @@ import '../dist/settings-menu.css';
 import '../dist/online-ui.css';
 
 
-import('../dist/bootstrap.js').catch(error => {
+import('@game-bootstrap').catch(error => {
   document.getElementById('loading').hidden = true;
   document.getElementById('error').hidden = false;
   document.getElementById('error-text').textContent =

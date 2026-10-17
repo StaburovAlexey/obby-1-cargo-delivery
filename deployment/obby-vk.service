@@ -1,0 +1,27 @@
+[Unit]
+Description=Obby VK permanent purchases
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=obby-online
+Group=obby-online
+WorkingDirectory=/opt/obby-cargo-delivery
+Environment=NODE_ENV=production
+EnvironmentFile=/etc/obby-vk.env
+ExecStart=/usr/bin/node server/vk-server.mjs
+StateDirectory=obby-vk
+StateDirectoryMode=0700
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=10
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

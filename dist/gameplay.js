@@ -3,17 +3,19 @@ import { projectRoad, pointInRoad, TRUCK_HALF_WIDTH, TRUCK_HALF_LENGTH } from '.
 import { GARAGE_LAYOUT, CLASSROOM_ENTRY, CLASSROOM_ENTRIES } from './garage-scene.js';
 import { ECONOMY_CONFIG, VEHICLE_CONFIG, vehicleConfig, BIOME_SEQUENCE, DELIVERY_CHECKPOINTS, REWARD_VEHICLE_ID, ROUTE_COMPLETION_PROOF, FINAL_DELIVERY_CHECKPOINT } from './economy-config.js';
 import { CHARACTER_CATALOG } from './character-catalog.js';
+import { PREMIUM_SKIN_IDS } from './premium-skins.js';
 import { freshCareer, sanitizeCareer } from './career-save.js';
 import { PROGRESSION_CONFIG, schoolConfig, skinConfig } from './progression-config.js';
 import { getUpgradeOffer, getVehiclePerformance } from './vehicle-upgrades.js';
 import { BRIDGES, bridgeAtProgress } from './road-bridges.js';
 import { FORK_DEFINITIONS } from './route-network-config.js';
 import { getActiveMission, advanceCareerMission, calculateDeliveryReward, capDeliveryReward, getVehicleGoal, MAX_MISSION_SEQUENCE } from './career-missions.js';
+import { BIOME_DISCOVERY_OFFSET, biomeForProgress, biomeVehicle, vehicleSupportsBiome } from './biome-progression.js';
 
 const runtimeId = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
 let runSequence = 0;
 const characterIds = new Set(CHARACTER_CATALOG.map(character => character.id));
-const premiumSkinIds = new Set(['spider-man','spyder-sammy','kreekcraft','jandel','dancing-npc-girl']);
+const premiumSkinIds = new Set(PREMIUM_SKIN_IDS);
 
 export const GAMEPLAY = Object.freeze({ spawn: Object.freeze({...GARAGE_LAYOUT.spawn,heading:0}), roadSpawn: Object.freeze({x:0,z:6,heading:0}), walkSpeed:4.5, runSpeed:7, entryRadius:5.2, fuelRange:460, fuelCapacity:100, exitCooldown:1.1,jumpSpeed:8,gravity:22,jumpDuration:16/22 });
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
@@ -59,12 +61,12 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
   }
   const saved=loadedCareer===undefined?freshCareer(characterId):sanitizeCareer(loadedCareer,characterId);
   const state={mode:'walking',selectedId:null,player:{...GAMEPLAY.spawn},fuels:Object.fromEntries(vehicles.map(v=>[v.id,getVehiclePerformance(vehicleConfig(v.id).id,saved.upgrades[v.id]).capacity])),cooldown:0,blockedEntry:null,walked:0,stationId:null,elapsed:0,lastEvent:'start',characterId:saved.characterId,seatedId:null,interactionCooldown:0,classroomArmed:true,occupiedSeatIds:[...new Set(occupiedSeatIds)],blockedStand:null,doorNotified:false,landingCooldown:0,jump:{height:0,velocity:0,elapsed:0,airborne:false},money:saved.money,ownedVehicleIds:saved.ownedVehicleIds,completedRuns:saved.completedRuns,purchaseCandidateId:null,run:null,testMode:false,testBiome:null,saveFailed:loadFailed};
-  Object.assign(state,{developerMode:developerSession,routeCompletion:saved.routeCompletion,brains:saved.brains,ownedSkinIds:saved.ownedSkinIds,ownedSchoolIds:saved.ownedSchoolIds,upgrades:saved.upgrades,vehicleGrantClaimed:saved.vehicleGrantClaimed,retention:saved.retention,skinPurchaseCandidateId:null,schoolPurchaseCandidateId:null,seatedSchoolId:null});
+  Object.assign(state,{developerMode:developerSession,discoveredBiomeIds:saved.discoveredBiomeIds,routeCompletion:saved.routeCompletion,brains:saved.brains,ownedSkinIds:saved.ownedSkinIds,ownedSchoolIds:saved.ownedSchoolIds,upgrades:saved.upgrades,vehicleGrantClaimed:saved.vehicleGrantClaimed,retention:saved.retention,skinPurchaseCandidateId:null,schoolPurchaseCandidateId:null,seatedSchoolId:null});
   const fuelCapacity=id=>getVehiclePerformance(vehicleConfig(id).id,state.upgrades[id]).capacity;
   let events=[],progressDirty=false,progressSinceSave=0,rewardEarned=!!saved.routeCompletion;
   const emit=(type,extra={})=>{state.lastEvent=type;events.push({type,...extra});};
   const pose=v=>v.position || v.park;
-  const snapshot=()=>sanitizeCareer({version:ECONOMY_CONFIG.saveVersion,money:state.money,ownedVehicleIds:state.ownedVehicleIds,characterId:state.characterId,completedRuns:state.completedRuns,routeCompletion:state.routeCompletion,brains:state.brains,ownedSkinIds:state.ownedSkinIds,ownedSchoolIds:state.ownedSchoolIds,upgrades:state.upgrades,vehicleGrantClaimed:state.vehicleGrantClaimed,retention:state.retention});
+  const snapshot=()=>sanitizeCareer({version:ECONOMY_CONFIG.saveVersion,money:state.money,ownedVehicleIds:state.ownedVehicleIds,discoveredBiomeIds:state.discoveredBiomeIds,characterId:state.characterId,completedRuns:state.completedRuns,routeCompletion:state.routeCompletion,brains:state.brains,ownedSkinIds:state.ownedSkinIds,ownedSchoolIds:state.ownedSchoolIds,upgrades:state.upgrades,vehicleGrantClaimed:state.vehicleGrantClaimed,retention:state.retention});
   let saveWarningSent=false;
   const warnSave=()=>{state.saveFailed=true;if(!saveWarningSent){saveWarningSent=true;emit('save-warning',{reason:persistence?.status?.reason||'storage'});}};
   const persist=()=>{
@@ -81,9 +83,19 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
     const spec=VEHICLE_CONFIG.find(vehicle=>vehicle.id===id);
     if(!spec)return null;
     const owned=isOwned(id),rewardOnly=spec.rewardOnly===true;
-    return {id,owned,rewardOnly,purchasable:!owned&&!rewardOnly,
-      status:owned?'owned':rewardOnly?'locked':'purchasable',price:rewardOnly?null:spec.price,
-      reason:!owned&&rewardOnly?'complete-full-route':null};
+    const lockedBiome=!owned&&!rewardOnly&&!state.discoveredBiomeIds.includes(spec.specialty);
+    return {id,owned,rewardOnly,purchasable:!owned&&!rewardOnly&&!lockedBiome,
+      status:owned?'owned':rewardOnly||lockedBiome?'locked':'purchasable',price:rewardOnly?null:spec.price,
+      reason:!owned&&rewardOnly?'complete-full-route':lockedBiome?'discover-biome':null,
+      ...(lockedBiome?{biomeId:spec.specialty,biomeName:BIOME_SEQUENCE.find(biome=>biome.id===spec.specialty).name}:{})};
+  };
+  const deliveryBiomes=new Map(deliveries.map(delivery=>[delivery.id,
+    biomeForProgress(Number.isFinite(delivery.progress)?delivery.progress:projectRoad(delivery.x,delivery.z).progress)]));
+  const getDeliveryAvailability=id=>{
+    const biome=deliveryBiomes.get(id);
+    if(!biome)return null;
+    const allowed=vehicleSupportsBiome(state.selectedId,biome.id);
+    return {allowed,reason:allowed?null:'vehicle-biome',biomeId:biome.id,biomeName:biome.name,vehicleId:biomeVehicle(biome.id).id};
   };
   const isSkinOwned=id=>state.ownedSkinIds.includes(id);
   const isSchoolOwned=id=>state.ownedSchoolIds.includes(id);
@@ -131,7 +143,7 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
     const branch=descriptor&&Object.hasOwn(descriptor,'value')?descriptor.value:null;
     return branch==='main'||branch==='alternate'?[[fork.id,branch]]:[];
   }));
-  let runProgress=null;
+  let runProgress=null,blockedDeliveryId=null;
   const acceptsTelemetry=input=>!!input&&typeof input==='object'&&state.mode==='driving'&&!state.testMode&&
     !!state.run?.loaded&&state.run.vehicleId===state.selectedId&&isOwned(state.selectedId)&&
     input.runId===state.run.id&&runProgress?.runId===state.run.id;
@@ -143,7 +155,7 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       Math.hypot(x-previous.x,z-previous.z)<.05&&
       BRIDGES.filter(bridge=>bridge.to<FINAL_DELIVERY_CHECKPOINT.progress).every(bridge=>route.bridgeIds.has(bridge.id));
   };
-  const api={state,canWalk,isOwned,isSkinOwned,isSchoolOwned,snapshot,getVehicleAvailability,
+  const api={state,canWalk,isOwned,isSkinOwned,isSchoolOwned,snapshot,getVehicleAvailability,getDeliveryAvailability,
 
 
 
@@ -171,7 +183,15 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
         if(projection.progress < -17||projection.progress>12)return fail();
         route.startProgress=projection.progress;
       }
-      route.samples++;route.previous={x,z,progress:projection.progress,projection};return true;
+      route.samples++;route.previous={x,z,progress:projection.progress,projection};
+      for(const biome of BIOME_SEQUENCE.slice(1)){
+        if(projection.progress<biome.from+BIOME_DISCOVERY_OFFSET||state.discoveredBiomeIds.includes(biome.id))continue;
+        state.discoveredBiomeIds.push(biome.id);
+        const saved=persist();
+        emit('biome-discovered',{id:biome.id,name:biome.name,vehicleId:biomeVehicle(biome.id).id,
+          saved:!developerSession&&!!persistence&&saved});
+      }
+      return true;
     },
     getCareerMission(){return getActiveMission(state.retention);},
     getVehicleGoal(){return getVehicleGoal(state.retention,state.money,state.ownedVehicleIds);},
@@ -251,6 +271,15 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       state.money-=spec.price;state.ownedSchoolIds.push(id);state.schoolPurchaseCandidateId=id;
       persist();emit('school-purchase',{id,price:spec.price,money:state.money});return true;
     },
+    reconcilePremiumSkins(ids){
+      const allowed=new Set(ids),next=state.ownedSkinIds.filter(id=>!premiumSkinIds.has(id)||allowed.has(id));
+      for(const id of allowed)if(premiumSkinIds.has(id)&&!next.includes(id))next.push(id);
+      const fallback=!next.includes(state.characterId);
+      if(!fallback&&next.length===state.ownedSkinIds.length&&next.every(id=>state.ownedSkinIds.includes(id)))return false;
+      state.ownedSkinIds=next;
+      if(fallback){state.characterId='bacon';emit('character',{id:'bacon'});}
+      persist();return true;
+    },
     grantPremiumSkin(id){
       if(!premiumSkinIds.has(id))return false;
       if(!isSkinOwned(id)){state.ownedSkinIds.push(id);persist();}
@@ -298,6 +327,7 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       if(!vehicle||!spec)return deny('unknown');
       if(isOwned(id))return deny('owned');
       if(spec.rewardOnly)return deny('reward-locked');
+      if(!getVehicleAvailability(id).purchasable)return deny('discover-biome');
       if(state.mode!=='walking'||state.seatedId||state.jump.airborne||state.jump.height>0)return deny('unavailable');
       if(vehicleDistance(vehicle)>=vehicleEntryRadius(vehicle))return deny('distance');
       if(state.money<spec.price)return deny('funds');
@@ -321,6 +351,7 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       if(state.mode!=='walking'||state.seatedId||state.jump.airborne||state.cooldown>0)return false;
       const v=vehicles.find(v=>v.id===id);if(!v||!isOwned(id))return false;
       clearShopPrompts();resetJump();state.landingCooldown=0;state.selectedId=id;state.mode='driving';state.stationId=null;state.testBiome=null;
+      blockedDeliveryId=null;
 
 
       const preview=developerReward(id);state.testMode=preview;
@@ -390,7 +421,12 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       if(state.fuels[id]<=1e-9){api.returnToGarage('empty');return;}
       if(!Number.isFinite(x)||!Number.isFinite(z))return;
       const delivery=deliveries.find(d=>Number.isFinite(d.x)&&Number.isFinite(d.z)&&Number.isFinite(d.radius)&&d.radius>=0&&Number.isFinite(d.reward)&&d.reward>=0&&Math.hypot(x-d.x,z-d.z)<=d.radius);
-      if(delivery&&!state.testMode&&state.run?.loaded){
+      const deliveryAvailability=delivery?getDeliveryAvailability(delivery.id):null;
+      if(!delivery)blockedDeliveryId=null;
+      if(delivery&&!state.testMode&&state.run?.loaded&&!deliveryAvailability.allowed&&blockedDeliveryId!==delivery.id){
+        blockedDeliveryId=delivery.id;emit('delivery-denied',{id:delivery.id,...deliveryAvailability});
+      }
+      if(delivery&&deliveryAvailability.allowed&&!state.testMode&&state.run?.loaded){
         const runId=state.run.id;
         const checkpointId=checkpointIds.get(delivery.id)||null;
         const telemetry=runProgress?.runId===runId?runProgress:null;

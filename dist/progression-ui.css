@@ -11,6 +11,8 @@
 #biome-button{top:calc(max(14px,env(safe-area-inset-top) + 8px) + var(--top-icon-size)*2 + 12px)}
 #biome-test-note{top:calc(max(14px,env(safe-area-inset-top) + 8px) + var(--top-icon-size)*2 + 61px)}
 #save-notice{top:calc(max(14px,env(safe-area-inset-top) + 8px) + var(--top-icon-size)*2 + 5px)}
+#biome-progress-notice{position:fixed;z-index:8;top:30%;left:50%;transform:translateX(-50%);width:min(520px,calc(100% - 32px));box-sizing:border-box;padding:10px 14px;border:2px solid #ffd558;border-radius:12px;background:#142433ed;color:#fff4c6;font-size:14px;font-weight:700;line-height:1.35;text-align:center;pointer-events:none}
+#biome-progress-notice[hidden]{display:none}
 #upgrade-menu{position:fixed;z-index:32;inset:0;display:grid;place-items:center;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));background:#07132ad9;touch-action:pan-y}
 #upgrade-panel{width:min(780px,100%);max-height:100%;overflow:auto;overscroll-behavior:contain;touch-action:pan-y;padding:14px;border:4px solid var(--hud-ink);border-radius:22px;background:#5143ac;box-shadow:inset 0 4px #dcb6ff;text-align:center}
 #upgrade-panel h2{margin:0 0 4px;font-size:24px;text-shadow:var(--hud-shadow)}
@@ -190,3 +192,4 @@ body.career-menu-open .buy-button{display:none!important}
 
 
 #buy-skin[data-owned="true"] .hud-art{display:none}
+@media(max-height:500px){#biome-progress-notice{top:72px;width:min(520px,calc(100% - 144px))}}

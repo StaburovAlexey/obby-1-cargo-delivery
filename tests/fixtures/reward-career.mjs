@@ -1,6 +1,7 @@
 
 
 import {createGameplay} from '../../dist/gameplay.js';
+import {freshCareer} from '../../dist/career-save.js';
 import {createCareerRouteTracker} from '../../dist/career-route-tracker.js';
 import {VEHICLE_CONFIG,FINAL_DELIVERY_CHECKPOINT,ECONOMY_CONFIG} from '../../dist/economy-config.js';
 import {routePointAtProgress} from '../../dist/route-network.js';
@@ -29,10 +30,11 @@ export function completeRewardRoute(game,{branch='main',tracker=createCareerRout
 }
 export function earnedRewardCareer({career,branch='main'}={}) {
   const final=rewardRoutePose(FINAL_DELIVERY_CHECKPOINT.progress);
-  const game=createGameplay({career,
+  const initial=career||freshCareer();
+  const game=createGameplay({career:{...initial,ownedVehicleIds:[...new Set([...initial.ownedVehicleIds,'ashhauler'])]},
     vehicles:VEHICLE_CONFIG.map((v,i)=>({id:v.id,park:{x:24,z:44+11*i}})),
     deliveries:[{...FINAL_DELIVERY_CHECKPOINT,x:final.x,z:final.z,radius:ECONOMY_CONFIG.checkpointRadius}],
   });
-  if(!game.enter('pickup'))throw Error('Reward fixture could not start');
+  if(!game.enter('ashhauler'))throw Error('Reward fixture could not start');
   completeRewardRoute(game,{branch});return game.snapshot();
 }

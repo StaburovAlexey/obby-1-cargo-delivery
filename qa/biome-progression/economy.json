@@ -1,0 +1,743 @@
+{
+  "generatedAt": "2026-10-17T17:46:15.517Z",
+  "scope": "Measured current production-physics trips with live price/reward/mission rules. Fixed progression paths, not global optimization or observed human averages. Same new stats and payouts for old/new price comparisons.",
+  "journeyReportGeneratedAt": "2026-10-17T17:41:03.144767+00:00",
+  "validatedPhysicsFiles": [
+    "biome-progression.js",
+    "biome-surfaces.js",
+    "building-material.js",
+    "career-missions.js",
+    "career-route-tracker.js",
+    "career-save.js",
+    "character-catalog.js",
+    "city-driving.js",
+    "driving-ground.js",
+    "driving-model.js",
+    "economy-config.js",
+    "gameplay.js",
+    "garage-scene.js",
+    "premium-skins.js",
+    "progression-config.js",
+    "road-bridges.js",
+    "road-hazards.js",
+    "road-layout.js",
+    "route-network-config.js",
+    "route-network.js",
+    "square-stud-texture.js",
+    "vehicle-rig.js",
+    "vehicle-upgrades.js"
+  ],
+  "assumptions": {
+    "clean": {
+      "clean": 1,
+      "hard": 1,
+      "speed": 1,
+      "restart": 15,
+      "fail": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "illustrative": {
+      "clean": 0.6,
+      "hard": 0.5,
+      "speed": 1.15,
+      "restart": 20,
+      "fail": [
+        0.03,
+        0.05,
+        0.06,
+        0.08,
+        0.09,
+        0.1,
+        0.12,
+        0.13,
+        0.14,
+        0.15
+      ]
+    }
+  },
+  "prices": [
+    0,
+    1300,
+    3200,
+    6500,
+    10000,
+    16000,
+    25000,
+    30000,
+    50000,
+    85000
+  ],
+  "totalPrice": 227000,
+  "oldTotalPrice": 285000,
+  "standalone": [
+    {
+      "id": "citycourier",
+      "price": 1300,
+      "predecessor": "pickup",
+      "checkpoint": 2,
+      "base": 260,
+      "cleanRepeat": 312,
+      "runsFromZeroWithBonuses": 5,
+      "runsFromZeroBaseOnly": 5
+    },
+    {
+      "id": "rover",
+      "price": 3200,
+      "predecessor": "citycourier",
+      "checkpoint": 7,
+      "base": 2180,
+      "cleanRepeat": 2616,
+      "runsFromZeroWithBonuses": 2,
+      "runsFromZeroBaseOnly": 2
+    },
+    {
+      "id": "foresthauler",
+      "price": 6500,
+      "predecessor": "rover",
+      "checkpoint": 9,
+      "base": 4090,
+      "cleanRepeat": 4908,
+      "runsFromZeroWithBonuses": 2,
+      "runsFromZeroBaseOnly": 2
+    },
+    {
+      "id": "van",
+      "price": 10000,
+      "predecessor": "foresthauler",
+      "checkpoint": 11,
+      "base": 6780,
+      "cleanRepeat": 9153,
+      "runsFromZeroWithBonuses": 2,
+      "runsFromZeroBaseOnly": 2
+    },
+    {
+      "id": "desertscout",
+      "price": 16000,
+      "predecessor": "van",
+      "checkpoint": 12,
+      "base": 8460,
+      "cleanRepeat": 11421,
+      "runsFromZeroWithBonuses": 2,
+      "runsFromZeroBaseOnly": 2
+    },
+    {
+      "id": "snowgrip",
+      "price": 25000,
+      "predecessor": "desertscout",
+      "checkpoint": 13,
+      "base": 12000,
+      "cleanRepeat": 16200,
+      "runsFromZeroWithBonuses": 2,
+      "runsFromZeroBaseOnly": 3
+    },
+    {
+      "id": "snowrunner",
+      "price": 30000,
+      "predecessor": "snowgrip",
+      "checkpoint": 14,
+      "base": 14500,
+      "cleanRepeat": 19575,
+      "runsFromZeroWithBonuses": 2,
+      "runsFromZeroBaseOnly": 3
+    },
+    {
+      "id": "lavacrawler",
+      "price": 50000,
+      "predecessor": "snowrunner",
+      "checkpoint": 14,
+      "base": 14500,
+      "cleanRepeat": 19575,
+      "runsFromZeroWithBonuses": 3,
+      "runsFromZeroBaseOnly": 4
+    },
+    {
+      "id": "ashhauler",
+      "price": 85000,
+      "predecessor": "lavacrawler",
+      "checkpoint": 15,
+      "base": 18000,
+      "cleanRepeat": 24300,
+      "runsFromZeroWithBonuses": 4,
+      "runsFromZeroBaseOnly": 5
+    }
+  ],
+  "scenarios": [
+    {
+      "assumption": "clean",
+      "path": "allTen",
+      "curve": "oldPrices",
+      "minutes": 245.26,
+      "successfulDeliveries": 23,
+      "discoveries": 4,
+      "expectedFailures": 0,
+      "purchaseCash": 285000,
+      "firstCash": 4613,
+      "missionCash": 1440,
+      "phases": [
+        {
+          "car": "pickup",
+          "purpose": "buy citycourier",
+          "deliveries": 4,
+          "minutes": 4.1,
+          "cashAfter": 51
+        },
+        {
+          "car": "citycourier",
+          "purpose": "buy rover",
+          "deliveries": 2,
+          "minutes": 15.06,
+          "cashAfter": 2312
+        },
+        {
+          "car": "rover",
+          "purpose": "buy foresthauler",
+          "deliveries": 1,
+          "minutes": 6.04,
+          "cashAfter": 924
+        },
+        {
+          "car": "foresthauler",
+          "purpose": "buy van",
+          "deliveries": 1,
+          "minutes": 17.34,
+          "cashAfter": 566
+        },
+        {
+          "car": "van",
+          "purpose": "buy desertscout",
+          "deliveries": 2,
+          "minutes": 17.29,
+          "cashAfter": 7831
+        },
+        {
+          "car": "desertscout",
+          "purpose": "buy snowgrip",
+          "deliveries": 2,
+          "minutes": 33.5,
+          "cashAfter": 16041
+        },
+        {
+          "car": "snowgrip",
+          "purpose": "buy snowrunner",
+          "deliveries": 2,
+          "minutes": 23.95,
+          "cashAfter": 11066
+        },
+        {
+          "car": "snowrunner",
+          "purpose": "buy lavacrawler",
+          "deliveries": 4,
+          "minutes": 59.27,
+          "cashAfter": 11726
+        },
+        {
+          "car": "lavacrawler",
+          "purpose": "buy ashhauler",
+          "deliveries": 4,
+          "minutes": 52.75,
+          "cashAfter": 10036
+        },
+        {
+          "car": "ashhauler",
+          "purpose": "finish",
+          "deliveries": 1,
+          "minutes": 15.95,
+          "cashAfter": 46586
+        }
+      ]
+    },
+    {
+      "assumption": "clean",
+      "path": "allTen",
+      "curve": "newPrices",
+      "minutes": 208.77,
+      "successfulDeliveries": 20,
+      "discoveries": 4,
+      "expectedFailures": 0,
+      "purchaseCash": 227000,
+      "firstCash": 4613,
+      "missionCash": 1080,
+      "phases": [
+        {
+          "car": "pickup",
+          "purpose": "buy citycourier",
+          "deliveries": 4,
+          "minutes": 4.1,
+          "cashAfter": 51
+        },
+        {
+          "car": "citycourier",
+          "purpose": "buy rover",
+          "deliveries": 2,
+          "minutes": 15.06,
+          "cashAfter": 2312
+        },
+        {
+          "car": "rover",
+          "purpose": "buy foresthauler",
+          "deliveries": 1,
+          "minutes": 6.04,
+          "cashAfter": 924
+        },
+        {
+          "car": "foresthauler",
+          "purpose": "buy van",
+          "deliveries": 1,
+          "minutes": 17.34,
+          "cashAfter": 566
+        },
+        {
+          "car": "van",
+          "purpose": "buy desertscout",
+          "deliveries": 2,
+          "minutes": 17.29,
+          "cashAfter": 7831
+        },
+        {
+          "car": "desertscout",
+          "purpose": "buy snowgrip",
+          "deliveries": 2,
+          "minutes": 33.5,
+          "cashAfter": 16041
+        },
+        {
+          "car": "snowgrip",
+          "purpose": "buy snowrunner",
+          "deliveries": 1,
+          "minutes": 11.97,
+          "cashAfter": 6491
+        },
+        {
+          "car": "snowrunner",
+          "purpose": "buy lavacrawler",
+          "deliveries": 3,
+          "minutes": 47.95,
+          "cashAfter": 15306
+        },
+        {
+          "car": "lavacrawler",
+          "purpose": "buy ashhauler",
+          "deliveries": 3,
+          "minutes": 39.56,
+          "cashAfter": 4376
+        },
+        {
+          "car": "ashhauler",
+          "purpose": "finish",
+          "deliveries": 1,
+          "minutes": 15.95,
+          "cashAfter": 40776
+        }
+      ]
+    },
+    {
+      "assumption": "clean",
+      "path": "sixCars",
+      "curve": "oldPrices",
+      "minutes": 172.73,
+      "successfulDeliveries": 17,
+      "discoveries": 4,
+      "expectedFailures": 0,
+      "purchaseCash": 148800,
+      "firstCash": 3086,
+      "missionCash": 930,
+      "phases": [
+        {
+          "car": "pickup",
+          "purpose": "buy citycourier",
+          "deliveries": 4,
+          "minutes": 4.1,
+          "cashAfter": 51
+        },
+        {
+          "car": "citycourier",
+          "purpose": "buy foresthauler",
+          "deliveries": 3,
+          "minutes": 19.47,
+          "cashAfter": 1628
+        },
+        {
+          "car": "foresthauler",
+          "purpose": "buy desertscout",
+          "deliveries": 2,
+          "minutes": 25.08,
+          "cashAfter": 4423
+        },
+        {
+          "car": "desertscout",
+          "purpose": "buy snowgrip",
+          "deliveries": 2,
+          "minutes": 33.5,
+          "cashAfter": 12513
+        },
+        {
+          "car": "snowgrip",
+          "purpose": "buy ashhauler",
+          "deliveries": 5,
+          "minutes": 74.62,
+          "cashAfter": 11473
+        },
+        {
+          "car": "ashhauler",
+          "purpose": "finish",
+          "deliveries": 1,
+          "minutes": 15.95,
+          "cashAfter": 47993
+        }
+      ]
+    },
+    {
+      "assumption": "clean",
+      "path": "sixCars",
+      "curve": "newPrices",
+      "minutes": 160.76,
+      "successfulDeliveries": 16,
+      "discoveries": 4,
+      "expectedFailures": 0,
+      "purchaseCash": 133800,
+      "firstCash": 3086,
+      "missionCash": 810,
+      "phases": [
+        {
+          "car": "pickup",
+          "purpose": "buy citycourier",
+          "deliveries": 4,
+          "minutes": 4.1,
+          "cashAfter": 51
+        },
+        {
+          "car": "citycourier",
+          "purpose": "buy foresthauler",
+          "deliveries": 3,
+          "minutes": 19.47,
+          "cashAfter": 1628
+        },
+        {
+          "car": "foresthauler",
+          "purpose": "buy desertscout",
+          "deliveries": 2,
+          "minutes": 25.08,
+          "cashAfter": 4423
+        },
+        {
+          "car": "desertscout",
+          "purpose": "buy snowgrip",
+          "deliveries": 2,
+          "minutes": 33.5,
+          "cashAfter": 12513
+        },
+        {
+          "car": "snowgrip",
+          "purpose": "buy ashhauler",
+          "deliveries": 4,
+          "minutes": 62.65,
+          "cashAfter": 6808
+        },
+        {
+          "car": "ashhauler",
+          "purpose": "finish",
+          "deliveries": 1,
+          "minutes": 15.95,
+          "cashAfter": 43298
+        }
+      ]
+    },
+    {
+      "assumption": "illustrative",
+      "path": "allTen",
+      "curve": "oldPrices",
+      "minutes": 339.43,
+      "successfulDeliveries": 26,
+      "discoveries": 4,
+      "expectedFailures": 3.22,
+      "purchaseCash": 285000,
+      "firstCash": 4613,
+      "missionCash": 1163.72,
+      "phases": [
+        {
+          "car": "pickup",
+          "purpose": "buy citycourier",
+          "deliveries": 5,
+          "minutes": 6.26,
+          "cashAfter": 259
+        },
+        {
+          "car": "citycourier",
+          "purpose": "buy rover",
+          "deliveries": 2,
+          "minutes": 18.08,
+          "cashAfter": 2152
+        },
+        {
+          "car": "rover",
+          "purpose": "buy foresthauler",
+          "deliveries": 1,
+          "minutes": 7.29,
+          "cashAfter": 448.32
+        },
+        {
+          "car": "foresthauler",
+          "purpose": "buy van",
+          "deliveries": 2,
+          "minutes": 30.65,
+          "cashAfter": 7106.15
+        },
+        {
+          "car": "van",
+          "purpose": "buy desertscout",
+          "deliveries": 1,
+          "minutes": 10.64,
+          "cashAfter": 1659.73
+        },
+        {
+          "car": "desertscout",
+          "purpose": "buy snowgrip",
+          "deliveries": 2,
+          "minutes": 41.5,
+          "cashAfter": 6054.73
+        },
+        {
+          "car": "snowgrip",
+          "purpose": "buy snowrunner",
+          "deliveries": 3,
+          "minutes": 45.17,
+          "cashAfter": 13937.54
+        },
+        {
+          "car": "snowrunner",
+          "purpose": "buy lavacrawler",
+          "deliveries": 4,
+          "minutes": 75.12,
+          "cashAfter": 5460.4
+        },
+        {
+          "car": "lavacrawler",
+          "purpose": "buy ashhauler",
+          "deliveries": 5,
+          "minutes": 84.19,
+          "cashAfter": 14177.49
+        },
+        {
+          "car": "ashhauler",
+          "purpose": "finish",
+          "deliveries": 1,
+          "minutes": 20.52,
+          "cashAfter": 46603.12
+        }
+      ]
+    },
+    {
+      "assumption": "illustrative",
+      "path": "allTen",
+      "curve": "newPrices",
+      "minutes": 293.18,
+      "successfulDeliveries": 23,
+      "discoveries": 4,
+      "expectedFailures": 2.77,
+      "purchaseCash": 227000,
+      "firstCash": 4613,
+      "missionCash": 1000.58,
+      "phases": [
+        {
+          "car": "pickup",
+          "purpose": "buy citycourier",
+          "deliveries": 5,
+          "minutes": 6.26,
+          "cashAfter": 259
+        },
+        {
+          "car": "citycourier",
+          "purpose": "buy rover",
+          "deliveries": 2,
+          "minutes": 18.08,
+          "cashAfter": 2152
+        },
+        {
+          "car": "rover",
+          "purpose": "buy foresthauler",
+          "deliveries": 1,
+          "minutes": 7.29,
+          "cashAfter": 448.32
+        },
+        {
+          "car": "foresthauler",
+          "purpose": "buy van",
+          "deliveries": 2,
+          "minutes": 30.65,
+          "cashAfter": 7106.15
+        },
+        {
+          "car": "van",
+          "purpose": "buy desertscout",
+          "deliveries": 1,
+          "minutes": 10.64,
+          "cashAfter": 1659.73
+        },
+        {
+          "car": "desertscout",
+          "purpose": "buy snowgrip",
+          "deliveries": 2,
+          "minutes": 41.5,
+          "cashAfter": 6054.73
+        },
+        {
+          "car": "snowgrip",
+          "purpose": "buy snowrunner",
+          "deliveries": 2,
+          "minutes": 30.11,
+          "cashAfter": 11562.9
+        },
+        {
+          "car": "snowrunner",
+          "purpose": "buy lavacrawler",
+          "deliveries": 3,
+          "minutes": 60.77,
+          "cashAfter": 13689.54
+        },
+        {
+          "car": "lavacrawler",
+          "purpose": "buy ashhauler",
+          "deliveries": 4,
+          "minutes": 67.36,
+          "cashAfter": 15853.77
+        },
+        {
+          "car": "ashhauler",
+          "purpose": "finish",
+          "deliveries": 1,
+          "minutes": 20.52,
+          "cashAfter": 48274.98
+        }
+      ]
+    },
+    {
+      "assumption": "illustrative",
+      "path": "sixCars",
+      "curve": "oldPrices",
+      "minutes": 231.18,
+      "successfulDeliveries": 19,
+      "discoveries": 4,
+      "expectedFailures": 2.09,
+      "purchaseCash": 148800,
+      "firstCash": 3086,
+      "missionCash": 781.92,
+      "phases": [
+        {
+          "car": "pickup",
+          "purpose": "buy citycourier",
+          "deliveries": 5,
+          "minutes": 6.26,
+          "cashAfter": 259
+        },
+        {
+          "car": "citycourier",
+          "purpose": "buy foresthauler",
+          "deliveries": 3,
+          "minutes": 23.37,
+          "cashAfter": 1305.12
+        },
+        {
+          "car": "foresthauler",
+          "purpose": "buy desertscout",
+          "deliveries": 2,
+          "minutes": 30.65,
+          "cashAfter": 1962.95
+        },
+        {
+          "car": "desertscout",
+          "purpose": "buy snowgrip",
+          "deliveries": 2,
+          "minutes": 41.5,
+          "cashAfter": 6316.78
+        },
+        {
+          "car": "snowgrip",
+          "purpose": "buy ashhauler",
+          "deliveries": 6,
+          "minutes": 108.87,
+          "cashAfter": 11341.14
+        },
+        {
+          "car": "ashhauler",
+          "purpose": "finish",
+          "deliveries": 1,
+          "minutes": 20.52,
+          "cashAfter": 43767.92
+        }
+      ]
+    },
+    {
+      "assumption": "illustrative",
+      "path": "sixCars",
+      "curve": "newPrices",
+      "minutes": 216.13,
+      "successfulDeliveries": 18,
+      "discoveries": 4,
+      "expectedFailures": 1.95,
+      "purchaseCash": 133800,
+      "firstCash": 3086,
+      "missionCash": 725.14,
+      "phases": [
+        {
+          "car": "pickup",
+          "purpose": "buy citycourier",
+          "deliveries": 5,
+          "minutes": 6.26,
+          "cashAfter": 259
+        },
+        {
+          "car": "citycourier",
+          "purpose": "buy foresthauler",
+          "deliveries": 3,
+          "minutes": 23.37,
+          "cashAfter": 1305.12
+        },
+        {
+          "car": "foresthauler",
+          "purpose": "buy desertscout",
+          "deliveries": 2,
+          "minutes": 30.65,
+          "cashAfter": 1962.95
+        },
+        {
+          "car": "desertscout",
+          "purpose": "buy snowgrip",
+          "deliveries": 2,
+          "minutes": 41.5,
+          "cashAfter": 6316.78
+        },
+        {
+          "car": "snowgrip",
+          "purpose": "buy ashhauler",
+          "deliveries": 5,
+          "minutes": 93.82,
+          "cashAfter": 8962.86
+        },
+        {
+          "car": "ashhauler",
+          "purpose": "finish",
+          "deliveries": 1,
+          "minutes": 20.52,
+          "cashAfter": 41383.64
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Four unpaid discovery trips; all prices paid in full; no trade-in, cash grants, discovery bonuses, optional schools or cosmetics.",
+    "Car upgrades use brains and are optional here: all required witness trips are stock. Cheaper partial tank-upgrade strategies may skip more cars.",
+    "Success bonuses are probabilistic expected awards in the illustrative scenario. Failures pay zero and occur at 65% of a trip; slowdown, restart and failure assumptions are illustrative.",
+    "First-visit claims and sequential mission state persist across purchases. A delivery pays only its endpoint.",
+    "The second snow car remains optional: comfort/speed/range value does not make it the fastest cash strategy."
+  ]
+}

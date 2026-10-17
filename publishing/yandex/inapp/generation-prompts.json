@@ -1,18 +1,110 @@
 {
-  "tool": "built-in imagegen",
-  "generatedAt": "2026-10-15",
-  "referenceSource": "Actual GLB character renders made with the project Three.js loader",
+  "updatedAt": "2026-10-17",
+  "method": "Exact current game GLB renders; no generated character art",
+  "renderer": "render-icons.html",
+  "background": {
+    "tool": "built-in image_gen",
+    "file": "background.png",
+    "prompt": "Use case: stylized-concept. Asset type: shared square background plate for five 256x256 in-app purchase icons. Generate ONLY the EMPTY BACKGROUND, no character or object. It will sit behind exact 3D renders of game avatars. Smooth saturated deep cobalt blue edges blending to turquoise blue toward center, very restrained soft warm pale gold halo centered just above the middle at the position of a character's head. Clean modern toy-game studio lighting, broad soft gradients, subtle depth, no bright starbursts, no busy detail. Opaque square full-bleed image. Absolutely no people, no faces, no objects, no text, no numbers, no badges, no currency, no border, no watermark."
+  },
   "export": {
     "format": "PNG",
     "width": 256,
     "height": 256,
-    "background": "opaque"
+    "background": "opaque",
+    "masterSize": 1024
   },
-  "prompts": {
-    "dancing-npc-girl": "Use case: stylized-concept. Edit target: supplied actual in-game character render. Transform it into one finished square in-app purchase icon for a mobile blocky 3D delivery game. Subject: The exact white-haired female blocky avatar in the reference: long flowing snow-white hair with bangs and small side hair loops, pale porcelain face, simple black eyes, black collared suit with black tie and white sleeve accents. Preserve the outfit and hair silhouette. Style: premium polished toy-like 3D game render, retain the reference's blocky avatar anatomy and flat simple face, crisp clean edges, appealing soft key light with warm rim light. Composition: head and upper body portrait, character fills 85 percent of square, both shoulders visible, top of all hair/hat/ears inside a 7 percent safe margin. Subtle confident friendly pose with a slight three-quarter turn, looking toward viewer where the character has eyes. Backdrop: saturated deep cobalt blue to turquoise radial gradient, restrained warm golden halo behind the head, a few subtle soft light flecks. The background fills the entire square, opaque. Keep silhouette and costume highly legible at 256x256. Match a consistent five-icon set with identical framing and lighting. No text, no name, no numerals, no price, no currency, no UI buttons, no purchase badge, no watermark, no extra characters or props. Final square PNG.",
-    "jandel": "Use case: stylized-concept. Edit target: supplied actual in-game character render. Transform it into one finished square in-app purchase icon for a mobile blocky 3D delivery game. Subject: The exact playful monkey-headed blocky avatar in the reference: friendly brown monkey face with beige muzzle, round beige inner ears, rosy cheeks, bright red top hat with white band, black tuxedo jacket, brown-gold waistcoat, golden tie and white cuffs. Preserve all these features, no new accessories. Style: premium polished toy-like 3D game render, retain the reference's blocky avatar anatomy and flat simple face, crisp clean edges, appealing soft key light with warm rim light. Composition: head and upper body portrait, character fills 85 percent of square, both shoulders visible, top of all hair/hat/ears inside a 7 percent safe margin. Subtle confident friendly pose with a slight three-quarter turn, looking toward viewer where the character has eyes. Backdrop: saturated deep cobalt blue to turquoise radial gradient, restrained warm golden halo behind the head, a few subtle soft light flecks. The background fills the entire square, opaque. Keep silhouette and costume highly legible at 256x256. Match a consistent five-icon set with identical framing and lighting. No text, no name, no numerals, no price, no currency, no UI buttons, no purchase badge, no watermark, no extra characters or props. Final square PNG.",
-    "kreekcraft": "Use case: stylized-concept. Edit target: supplied actual in-game character render. Transform it into one finished square in-app purchase icon for a mobile blocky 3D delivery game. Subject: The exact youthful blocky avatar in the reference: brown side-swept hair, navy knit hat with two oversized round ears with red centers and red angular goggles on hat, red-and-black plaid open shirt over a white hoodie, simple face. Preserve the distinctive hat geometry and outfit. Style: premium polished toy-like 3D game render, retain the reference's blocky avatar anatomy and flat simple face, crisp clean edges, appealing soft key light with warm rim light. Composition: head and upper body portrait, character fills 85 percent of square, both shoulders visible, top of all hair/hat/ears inside a 7 percent safe margin. Subtle confident friendly pose with a slight three-quarter turn, looking toward viewer where the character has eyes. Backdrop: saturated deep cobalt blue to turquoise radial gradient, restrained warm golden halo behind the head, a few subtle soft light flecks. The background fills the entire square, opaque. Keep silhouette and costume highly legible at 256x256. Match a consistent five-icon set with identical framing and lighting. No text, no name, no numerals, no price, no currency, no UI buttons, no purchase badge, no watermark, no extra characters or props. Final square PNG.",
-    "spyder-sammy": "Use case: stylized-concept. Edit target: supplied actual in-game character render. Transform it into one finished square in-app purchase icon for a mobile blocky 3D delivery game. Subject: The exact yellow-headed blocky avatar in the reference: red top hat with white band, white headphones, yellow happy face with black spider mark across one eye, plain bright red outfit, silver chain with spider pendant and two crossed red sheathed swords rising behind shoulders. Preserve outfit, expression and accessories; swords remain sheathed behind shoulders. Style: premium polished toy-like 3D game render, retain the reference's blocky avatar anatomy and flat simple face, crisp clean edges, appealing soft key light with warm rim light. Composition: head and upper body portrait, character fills 85 percent of square, both shoulders visible, top of all hair/hat/ears inside a 7 percent safe margin. Subtle confident friendly pose with a slight three-quarter turn, looking toward viewer where the character has eyes. Backdrop: saturated deep cobalt blue to turquoise radial gradient, restrained warm golden halo behind the head, a few subtle soft light flecks. The background fills the entire square, opaque. Keep silhouette and costume highly legible at 256x256. Match a consistent five-icon set with identical framing and lighting. No text, no name, no numerals, no price, no currency, no UI buttons, no purchase badge, no watermark, no extra characters or props. Final square PNG.",
-    "spider-man": "Use case: stylized-concept. Edit target: supplied actual in-game character render. Transform it into one finished square in-app purchase icon for a mobile blocky 3D delivery game. Subject: The exact faceless blocky mannequin avatar in the reference: a smooth blank light gray rounded cuboid head with no facial features, charcoal-black muscular blocky torso and black arms and outfit. This unusual monochrome design is intentional. Preserve the blank head and black outfit. DO NOT turn this into a red-and-blue superhero, DO NOT add a mask, eyes, webs, spider emblems, logos, or accessories. Style: premium polished toy-like 3D game render, retain the reference's blocky avatar anatomy and flat simple face, crisp clean edges, appealing soft key light with warm rim light. Composition: head and upper body portrait, character fills 85 percent of square, both shoulders visible, top of all hair/hat/ears inside a 7 percent safe margin. Subtle confident friendly pose with a slight three-quarter turn, looking toward viewer where the character has eyes. Backdrop: saturated deep cobalt blue to turquoise radial gradient, restrained warm golden halo behind the head, a few subtle soft light flecks. The background fills the entire square, opaque. Keep silhouette and costume highly legible at 256x256. Match a consistent five-icon set with identical framing and lighting. No text, no name, no numerals, no price, no currency, no UI buttons, no purchase badge, no watermark, no extra characters or props. Final square PNG."
-  }
+  "characters": [
+    {
+      "id": "dancing-npc-girl",
+      "productId": "skin_dancing-npc-girl",
+      "model": "Obby_dancing_NPC_girl.glb",
+      "modelSha256": "cd38c7ce10e8aa82955396169f0fefcba17bd46888b8724dc4c6267a7ef5f27d",
+      "releaseArchiveEntry": "static/assets/Obby_dancing_NPC_girl.523f0aebce.glb",
+      "releaseMatches": true,
+      "master": "masters/skin_dancing-npc-girl.png",
+      "icon": "icons/skin_dancing-npc-girl.png",
+      "iconSha256": "bccb204293483e5f0c43d299c912f32dfe2bfad2950151d1fbfd3dbb9118f866",
+      "width": 256,
+      "height": 256,
+      "format": "png",
+      "opaque": true
+    },
+    {
+      "id": "jandel",
+      "productId": "skin_jandel",
+      "model": "Obby_Jandel.glb",
+      "modelSha256": "6bef202d1169558d3863b5c10e6fa7ffd34f473e01b63033e50cd89dc307a5c7",
+      "releaseArchiveEntry": "static/assets/Obby_Jandel.ef1aefb47c.glb",
+      "releaseMatches": true,
+      "master": "masters/skin_jandel.png",
+      "icon": "icons/skin_jandel.png",
+      "iconSha256": "a05a6c310654cfc2dbb243686caeff482630df78fd4e9daacc8263e920add40c",
+      "width": 256,
+      "height": 256,
+      "format": "png",
+      "opaque": true
+    },
+    {
+      "id": "kreekcraft",
+      "productId": "skin_kreekcraft",
+      "model": "Obby_KreekCraft.glb",
+      "modelSha256": "788783b13fb01590ec36782c8430a61c2984125744c6f6f5221ae66fc30d82f9",
+      "releaseArchiveEntry": "static/assets/Obby_KreekCraft.0274ffb207.glb",
+      "releaseMatches": true,
+      "master": "masters/skin_kreekcraft.png",
+      "icon": "icons/skin_kreekcraft.png",
+      "iconSha256": "a32dc24299408693bf72c7d56c44075d5e36db090c5bde1b346b1911dc9b647e",
+      "width": 256,
+      "height": 256,
+      "format": "png",
+      "opaque": true
+    },
+    {
+      "id": "spyder-sammy",
+      "productId": "skin_spyder-sammy",
+      "model": "Obby_Spyder_Sammy.glb",
+      "modelSha256": "2852b03da7f8b43d71af424dcbf696f0cd9d377aace4062276dd74c09e4615a2",
+      "releaseArchiveEntry": "static/assets/Obby_Spyder_Sammy.848f7309a1.glb",
+      "releaseMatches": true,
+      "master": "masters/skin_spyder-sammy.png",
+      "icon": "icons/skin_spyder-sammy.png",
+      "iconSha256": "d8f8f43557b5846403a4887a06d4d78985fbb1ab2b3242f6ba0754f5d36501d6",
+      "width": 256,
+      "height": 256,
+      "format": "png",
+      "opaque": true
+    },
+    {
+      "id": "spider-man",
+      "productId": "skin_spider-man",
+      "model": "Obby_Spider-Man.glb",
+      "modelSha256": "102ccb2e3a912b88b59dc97b00af1aa07b0f1d99ae4f9ff319a82cca3f649f71",
+      "releaseArchiveEntry": "static/assets/Obby_Spider-Man.ef8480823f.glb",
+      "releaseMatches": true,
+      "master": "masters/skin_spider-man.png",
+      "icon": "icons/skin_spider-man.png",
+      "iconSha256": "abd8d71b00527efe25d3a341abd4c367212d4f31a972477f5ae331bd0881e6ed",
+      "width": 256,
+      "height": 256,
+      "format": "png",
+      "opaque": true
+    },
+    {
+      "id": "jeff-the-killer",
+      "productId": "skin_jeff-the-killer",
+      "model": "Obby_Jeff_The_Killer.glb",
+      "modelSha256": "ce20af73f26dd3c81746b9a01496e8b0bf1d77409e5034252b375f7c5e808231",
+      "master": "masters/skin_jeff-the-killer.png",
+      "icon": "icons/skin_jeff-the-killer.png",
+      "iconSha256": "353afeeace31b9465a49028fec7398f1998e4c4b2e0deca5fe530d66569b28a0",
+      "width": 256,
+      "height": 256,
+      "format": "png",
+      "opaque": true,
+      "releaseArchiveEntry": "static/assets/Obby_Jeff_The_Killer.5f942bdaa2.glb",
+      "releaseMatches": true
+    }
+  ],
+  "releaseArchive": "output/yandex-1.70.1.zip"
 }

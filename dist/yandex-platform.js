@@ -114,7 +114,7 @@ export async function initializeYandexPlatform(options = {}) {
     return result;
   };
   return {
-    sdk, development, language: resolveYandexLanguage(sdk.environment?.i18n?.lang), status,
+    id:'yandex', name:'Яндекс Игры', sdk, development, language: resolveYandexLanguage(sdk.environment?.i18n?.lang), status,
     ready() { if (readySent) return false; feature('LoadingAPI', 'ready'); readySent = true; return true; },
     gameplayStart() { if (playing || status.paused || status.reloadRequired || destroyed) return false; feature('GameplayAPI', 'start'); playing = true; return true; },
     gameplayStop: stop,

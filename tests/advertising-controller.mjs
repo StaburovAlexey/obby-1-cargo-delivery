@@ -13,9 +13,9 @@ function harness(options={}){
   return {controller,events,shows};
 }
 const active={active:true,safe:true};
-const finishCountdown=c=>{for(let i=0;i<3;i++)c.update(1,{active:false,safe:true});};
+const finishCountdown=c=>{for(let i=0;i<2;i++)c.update(1,{active:false,safe:true});};
 
-test('advertising starts after 240 active seconds and pauses before showing the full three second warning',()=>{
+test('advertising starts after 240 active seconds and pauses for the full two second warning',()=>{
   const {controller:c,events,shows}=harness();
   assert.ok(c,'createAdvertising returns a controller');
   c.update(239,active);
@@ -24,21 +24,17 @@ test('advertising starts after 240 active seconds and pauses before showing the 
   c.update(1,active);
   assert.equal(c.getState().phase,'countdown');
   assert.equal(events.filter(e=>e==='pause').length,1);
-  assert.deepEqual(events.filter(e=>typeof e==='number'),[3]);
+  assert.deepEqual(events.filter(e=>typeof e==='number'),[2]);
   c.update(.99,{active:false,safe:true});
   assert.equal(shows.length,0);
   c.update(.01,{active:false,safe:true});
-  assert.deepEqual(events.filter(e=>typeof e==='number'),[3,2]);
-  c.update(.99,{active:false,safe:true});
-  assert.equal(shows.length,0);
-  c.update(.01,{active:false,safe:true});
-  assert.deepEqual(events.filter(e=>typeof e==='number'),[3,2,1]);
+  assert.deepEqual(events.filter(e=>typeof e==='number'),[2,1]);
   assert.equal(shows.length,0);
   c.update(.99,{active:false,safe:true});
   assert.equal(shows.length,0);
   c.update(.01,{active:false,safe:true});
   assert.equal(shows.length,1);
-  assert(events.indexOf('pause')<events.indexOf(3));
+  assert(events.indexOf('pause')<events.indexOf(2));
   assert(events.indexOf(1)<events.indexOf('show'));
 });
 
@@ -72,7 +68,7 @@ test('one pending attempt waits indefinitely for an active safe moment',()=>{
   assert.equal(shows.length,1);
 });
 
-test('direct suspension cancels a partial warning and restarts all three seconds on return',()=>{
+test('direct suspension cancels a partial warning and restarts both seconds on return',()=>{
   const {controller:c,shows,events}=harness();
   c.update(240,active);c.update(1.8,{active:false,safe:true});
   c.setSuspended(true);
@@ -83,17 +79,16 @@ test('direct suspension cancels a partial warning and restarts all three seconds
   c.update(1000,active);
   assert.equal(shows.length,0);
   c.setSuspended(false);c.update(0,active);
-  assert.equal(c.getState().countdown,3);
+  assert.equal(c.getState().countdown,2);
   c.update(1,{active:false,safe:true});
   assert.equal(shows.length,0);
-  c.update(1,{active:false,safe:true});
   assert.equal(c.getState().countdown,1);
   assert.equal(shows.length,0);
   c.update(.99,{active:false,safe:true});
   assert.equal(shows.length,0);
   c.update(.01,{active:false,safe:true});
   assert.equal(shows.length,1);
-  assert.deepEqual(events.filter(e=>typeof e==='number'),[3,2,3,2,1]);
+  assert.deepEqual(events.filter(e=>typeof e==='number'),[2,1,2,1]);
   shows[0].onClose();
   assert.equal(events.filter(e=>e==='resume').length,2);
 });
@@ -162,7 +157,7 @@ test('invalid time deltas cannot bypass the active interval or warning',()=>{
   assert.equal(c.getState().activeSeconds,0);
   c.update(4,active);
   for(const dt of [NaN,Infinity,-4])c.update(dt,{active:false,safe:true});
-  assert.equal(c.getState().countdown,3);
+  assert.equal(c.getState().countdown,2);
   assert.equal(shows.length,0);
   finishCountdown(c);
   assert.equal(shows.length,1);
@@ -170,9 +165,9 @@ test('invalid time deltas cannot bypass the active interval or warning',()=>{
 
 test('fractional frames never repeat earlier countdown numbers',()=>{
   const {controller:c,events,shows}=harness();
-  c.update(240,active);c.update(2.4,{active:false,safe:true});
+  c.update(240,active);c.update(1.4,{active:false,safe:true});
   c.update(.3,{active:false,safe:true});
-  assert.deepEqual(events.filter(e=>typeof e==='number'),[3,2,1]);
+  assert.deepEqual(events.filter(e=>typeof e==='number'),[2,1]);
   assert.equal(shows.length,0);
   c.update(.3,{active:false,safe:true});
   assert.equal(shows.length,1);

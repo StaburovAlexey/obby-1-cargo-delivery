@@ -28,7 +28,7 @@ State: seq, mode walking/driving/studying, characterId, vehicleId or null, posit
 - Ruling: fixed current map uses existing seed 42 and protocol compatibility, not multi-map matchmaking.
 
 - Git ruling: preserve remote main ancestry; push to git@github.com:StaburovAlexey/obby-1-cargo-delivery.git after review. User requested logical commits with varied October 1–15 timestamps and removal of ordinary code comments; copyright/license notices retained.
-- Review: fixed missing bridge safety import, hidden-time accounting, synchronous countdown suspension, interactive payment timeout, cached premium ownership on SDK failure, and premium prompt pricing. Countdown follows the original explicit 3,2,1 request.
+- Review: fixed missing bridge safety import, hidden-time accounting, synchronous countdown suspension, interactive payment timeout, cached premium ownership on SDK failure, and premium prompt pricing. Countdown uses 2,1 over two seconds before the SDK call.
 
 - Verification: 79/79 focused checks, production Rsbuild + build audit passed. Browser verified20-player room/20unique desks/19loaded replicas and production SDKmock payment/cloud/ad lifecycle. All five general physics-suite failures reproduced identically on pre-change backup.
 - Stress: all100/200/500/1000 steps passed30seconds. At1000:50rooms,9.62snapshots/client/s,172.5MiBRSS,76.96%ofoneCPUcore,847.62Mbit/s outgoing payload. Loopback only; publicWSS/VPS/Yandexdraft/device checks pending.

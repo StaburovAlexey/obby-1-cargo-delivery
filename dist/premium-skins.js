@@ -1,4 +1,4 @@
-export const PREMIUM_SKIN_IDS = Object.freeze(['dancing-npc-girl', 'jandel', 'kreekcraft', 'spyder-sammy', 'spider-man']);
+export const PREMIUM_SKIN_IDS = Object.freeze(['dancing-npc-girl', 'jandel', 'kreekcraft', 'spyder-sammy', 'spider-man', 'jeff-the-killer']);
 export const premiumProductId = characterId => `skin_${characterId}`;
 const productCharacters = new Map(PREMIUM_SKIN_IDS.map(id => [premiumProductId(id), id]));
 
@@ -7,15 +7,18 @@ const productCharacters = new Map(PREMIUM_SKIN_IDS.map(id => [premiumProductId(i
 export function createPremiumSkins({ platform, onChange, onBusy } = {}) {
   if (!platform) throw new Error('Premium platform required');
   const ownedIds = new Set(), catalog = new Map();
-  const status = { available: false, failed: false, reason: null, busy: false };
+  const status = { available: false, failed: false, reason: null, busy: false, entitlementsConfirmed:false };
+  const listeners=new Set();
   let refreshing, buying;
-  const changed = () => onChange?.({ ownedIds, catalog, status });
+  const changed = () => {const value={ownedIds,catalog,status};onChange?.(value);for(const listener of listeners)listener(value);};
   const restore = purchases => {
     if (!Array.isArray(purchases)) throw new Error('Invalid Yandex purchases response');
+    if(platform.id==='vk')ownedIds.clear();
     for (const purchase of purchases) {
       const characterId = productCharacters.get(purchase?.productID);
       if (characterId) ownedIds.add(characterId);
     }
+    status.entitlementsConfirmed=true;
   };
   const initialize = () => {
     if (refreshing) return refreshing;
@@ -38,6 +41,7 @@ export function createPremiumSkins({ platform, onChange, onBusy } = {}) {
   };
   return {
     ownedIds, catalog, status, initialize,
+    subscribe(listener){listeners.add(listener);return ()=>listeners.delete(listener);},
     async purchase(characterId) {
       if (ownedIds.has(characterId)) return true;
       if (!PREMIUM_SKIN_IDS.includes(characterId) || !catalog.has(characterId) || buying) return false;

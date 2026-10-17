@@ -420,9 +420,9 @@ function updateEconomyHud(){
   if(!gameplay||!garage)return;
   const state=gameplay.state;
   garage.setVehicleDisplayMode?.(state.mode==='driving'?state.selectedId:null);
-  updateProgressionHud(document,{gameplay,playing,driving,upgradeMenuOpen,premium:services?.premium});
+  updateProgressionHud(document,{gameplay,playing,driving,upgradeMenuOpen,premium:services?.premium,routeProgress:driving?projectRoad(model.state.x,model.state.z,model.state.routeContext).progress:undefined});
   retentionUi.update({gameplay,playing,driving,inGarage:!!gameplay&&isInGarage(gameplay.state.player.x,gameplay.state.player.z),menuOpen:upgradeMenuOpen||biomeMenuOpen||settingsMenuOpen});
-  if(careerMenuOpen||settingsMenuOpen)for(const id of ['buy-vehicle','buy-skin','buy-school'])document.getElementById(id).hidden=true;
+  if(careerMenuOpen||settingsMenuOpen||biomeMenuOpen)for(const id of ['buy-vehicle','buy-skin','buy-school','biome-progress-notice'])document.getElementById(id).hidden=true;
   document.getElementById('wallet-value').textContent=String(state.money);
   document.getElementById('biome-test-note').hidden=true;
   document.getElementById('wallet-hud').dataset.long=String(String(state.money).length>6);
@@ -433,11 +433,18 @@ function updateEconomyHud(){
   document.getElementById('wallet-hud').setAttribute('aria-label',`Заработанные деньги: ${state.money}`);
   const candidate=state.purchaseCandidateId,button=document.getElementById('buy-vehicle');
   button.hidden=settingsMenuOpen||careerMenuOpen||!playing||state.mode!=='walking'||!candidate||!!state.seatedId||state.jump.airborne||!!(candidate&&vehicleConfig(candidate).rewardOnly);
-  if(candidate&&!vehicleConfig(candidate).rewardOnly){const spec=vehicleConfig(candidate),affordable=state.money>=spec.price;document.getElementById('buy-label').textContent=`Купить ${spec.price}`;button.dataset.affordable=String(affordable);button.setAttribute('aria-label',`Купить ${spec.name} за ${spec.price}. ${affordable?'Средств достаточно':'Недостаточно денег'}`);}
+  if(candidate&&!vehicleConfig(candidate).rewardOnly){
+    const spec=vehicleConfig(candidate),availability=gameplay.getVehicleAvailability(candidate),affordable=availability.purchasable&&state.money>=spec.price;
+    const locked=availability.reason==='discover-biome';button.disabled=!availability.purchasable;
+    document.getElementById('buy-label').textContent=locked?`Откройте: ${availability.biomeName}`:`Купить ${spec.price}`;
+    button.dataset.affordable=String(affordable);
+    button.setAttribute('aria-label',locked?`Сначала доедьте до биома «${availability.biomeName}» на машине прошлого биома.`:`Купить ${spec.name} за ${spec.price}. ${affordable?'Средств достаточно':'Недостаточно денег'}`);
+  }
   for(let i=0;i<garage.vehicles.length;i++){
     const v=garage.vehicles[i],owned=gameplay.isOwned(v.id),label=document.getElementById(`vehicle-price-${i+1}`);
     label.hidden=owned||!playing||state.mode!=='walking';
-    document.getElementById(`vehicle-price-value-${i+1}`).textContent=v.rewardDisplay?'Заблокировано':String(vehicleConfig(v.id).price);
+    const availability=gameplay.getVehicleAvailability(v.id);
+    document.getElementById(`vehicle-price-value-${i+1}`).textContent=v.rewardDisplay?'Заблокировано':availability.reason==='discover-biome'?`${availability.biomeName} · ${vehicleConfig(v.id).price}`:String(vehicleConfig(v.id).price);
     v.cargo.visible=false;
   }
 }
@@ -471,7 +478,11 @@ function updateWorldLabels(){
   updateProgressionWorldLabels(document,{gameplay,garage,playing,project:projectWorldLabel,viewportWidth:labelCanvasRect.width,premium:services?.premium});
   const routeProgress=driving?projectRoad(model.state.x,model.state.z,model.state.routeContext).progress:-Infinity;
   for(const fork of FORK_DEFINITIONS){const q=fork.from+(fork.to-fork.from)*.25,p=routePointAtProgress(q,{branch:HARD_BRANCHES[fork.id]}),el=document.getElementById('hard-route-'+fork.id);if(el)projectWorldLabel(el,p.x,p.height+7,p.z,playing&&driving&&!gameplay.state.testMode&&routeProgress>fork.from-400&&routeProgress<q+40,1000);}
-  for(let i=0;i<garage.deliveries.length;i++){const d=garage.deliveries[i],el=document.getElementById(`delivery-label-${i+1}`);document.getElementById(`delivery-value-${i+1}`).textContent=String(d.reward);projectWorldLabel(el,d.x,d.y+7.2,d.z,driving&&!gameplay.state.testMode);}
+  for(let i=0;i<garage.deliveries.length;i++){
+    const d=garage.deliveries[i],el=document.getElementById(`delivery-label-${i+1}`),availability=gameplay.getDeliveryAvailability(d.id);
+    document.getElementById(`delivery-value-${i+1}`).textContent=driving&&!availability.allowed?`${availability.biomeName} · ${d.reward}`:String(d.reward);
+    projectWorldLabel(el,d.x,d.y+7.2,d.z,driving&&!gameplay.state.testMode);
+  }
   for(let i=0;i<garage.vehicles.length;i++){const v=garage.vehicles[i],anchor=v.priceAnchor||{x:v.park.x,y:groundHeight(v.park.x,v.park.z)+6.1,z:v.park.z};projectWorldLabel(document.getElementById(`vehicle-price-${i+1}`),anchor.x,anchor.y-WORLD_LABEL_DROP,anchor.z,playing&&gameplay.state.mode==='walking'&&!gameplay.isOwned(v.id),45);}
 }
 function handleGameplayEvents(){
@@ -484,7 +495,7 @@ function handleGameplayEvents(){
     if(event.type==='purchase-prompt'){const v=vehicleConfig(event.id);notify(`${v.name} · ${v.price}. Покупка только кнопкой.`);}
     if(event.type==='purchase')notify(`${vehicleConfig(event.id).name} куплен. Отойдите и подойдите снова, чтобы сесть.`);
     if(event.type==='purchase-denied')notify(event.reason==='funds'||event.reason==='insufficient'||event.reason==='insufficient-funds'?'Недостаточно денег. Выполните доставку на пикапе.':'Подойдите к машине для покупки.');
-    if(event.type==='skin-purchase-prompt'){const skin=skinConfig(event.id);notify(skin?.premium?`${skin.name}. Покупка через Яндекс Игры.`:`${skin?.name} · ${event.price}. Покупка только кнопкой.`);}
+    if(event.type==='skin-purchase-prompt'){const skin=skinConfig(event.id);if(skin?.premium&&services?.platform?.id==='vk'&&!services.premium.status.busy)void services.premium.initialize();notify(skin?.premium?`${skin.name}. Покупка через ${services?.platform?.name||'Яндекс Игры'}.`:`${skin?.name} · ${event.price}. Покупка только кнопкой.`);}
     if(event.type==='school-purchase-prompt')notify(`${schoolConfig(event.id)?.name} · ${event.price}. Доступ покупается один раз.`);
     if(event.type==='skin-purchase')notify('Образ куплен. Нажмите «Выбрать» или подойдите снова.');
     if(event.type==='school-purchase')notify('Доступ открыт. Нажмите «Сесть» или подойдите снова.');
@@ -503,8 +514,10 @@ function handleGameplayEvents(){
   }
 }
 function refreshPremiumUi(){
+  if(services?.platform?.id==='vk'&&services.premium?.status.entitlementsConfirmed){gameplay.reconcilePremiumSkins(services.premium.ownedIds);return;}
   for(const id of services?.premium?.ownedIds||[])gameplay.grantPremiumSkin(id);
 }
+services?.premium?.subscribe?.(()=>{if(gameplay){refreshPremiumUi();handleGameplayEvents();updateEconomyHud();}});
 function followCharacter(dt,snap=false){
   const p=gameplay.state.player,y=groundHeight(p.x,p.z)+gameplay.state.jump.height;
   if(snap)cameraState.reset({mode:'walking',heading:p.heading});

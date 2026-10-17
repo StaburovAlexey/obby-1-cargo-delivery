@@ -3,9 +3,11 @@
 
 
 const phrases = Object.freeze({
+  "Открывайте биомы": "Discover biomes",
+  "Доедьте до следующего биома на машине прошлого биома. После въезда его машины откроются для покупки в ангаре. Для доставки груза в новом биоме нужна местная машина или машина более позднего биома. Вторая машина каждого биома быстрее и имеет больший запас хода; улучшения бака позволяют выбрать другой путь развития.": "Reach the next biome in a vehicle from the previous biome. Entering unlocks its vehicles for purchase in the hangar. Deliveries in a new biome require a local vehicle or one from a later biome. Each biome’s second vehicle is faster and has more range; tank upgrades offer another progression path.",
   "Не удалось загрузить игру": "Unable to load the game",
   "Прогресс и настройки сохраняются в облаке Яндекс Игр. Без соединения изменения останутся до закрытия страницы. Сам рейс и положение машины не сохраняются. Настройки, потеря фокуса и фоновая вкладка ставят игру и заработок на паузу.": "Progress and settings are saved in the Yandex Games cloud. Without a connection, changes last until this page is closed. The current trip and vehicle position are not saved. Settings, loss of focus and background tabs pause the game and earnings.",
-  "Монета вверху показывает ваш баланс. Над машиной или персонажем она обозначает цену; у выгрузки — награду за груз. В ангаре подойдите к товару и нажмите «Купить». Обычные покупки используют игровые деньги. Последние пять персонажей покупаются за портальную валюту Яндекс Игр; цена указана рядом с её значком.": "The top coin shows your balance. Above a vehicle or character it shows a price; at an unloading point it shows the cargo reward. Approach an item and press Buy. Ordinary purchases use game money. The last five characters use Yandex Games portal currency; the price is shown with its icon.",
+  "Монета вверху показывает ваш баланс. Над машиной или персонажем она обозначает цену; у выгрузки — награду за груз. В ангаре подойдите к товару и нажмите «Купить». Обычные покупки используют игровые деньги. Последние шесть персонажей покупаются за портальную валюту Яндекс Игр; цена указана рядом с её значком.": "The top coin shows your balance. Above a vehicle or character it shows a price; at an unloading point it shows the cargo reward. Approach an item and press Buy. Ordinary purchases use game money. The last six characters use Yandex Games portal currency; the price is shown with its icon.",
   "Подключение к комнате…": "Connecting to a room…",
   "Одиночный режим": "Single player",
   "Покупки недоступны": "Purchases unavailable",
@@ -204,10 +206,18 @@ const rx = source => new RegExp('^' + source + '$', 'u');
 
 
 const templates = [
+  [/^Проедьте немного дальше, чтобы открыть биом «(.+)»\.$/u, (_, biome) => `Drive a little farther to discover the ${translateCore(biome)} biome.`],
+  [/^Сначала доедьте до биома «(.+)» на машине прошлого биома\.$/u, (_, biome) => `First reach the ${translateCore(biome)} biome in a vehicle from the previous biome.`],
+  [/^Откройте: (.+)$/u, (_, biome) => `Discover: ${translateCore(biome)}`],
+  [/^Для доставок в биоме «(.+)» нужна местная машина\. Вернитесь в ангар\.$/u, (_, biome) => `Deliveries in the ${translateCore(biome)} biome require a local vehicle. Return to the hangar.`],
+  [/^Открыт биом «(.+)»\. Для доставок здесь нужна местная машина\. В ангаре доступен (.+)\.$/u, (_, biome, vehicle) => `${translateCore(biome)} biome discovered. Deliveries here require a local vehicle. ${translateCore(vehicle)} is available in the hangar.`],
   [/^Купить ([\d.,\s\u00a0\u202f]+[A-Za-zА-Яа-я₽$€¥]+)$/u, (_, price) => `Buy ${price}`],
   [/^Онлайн: (\d+)\/20$/u, (_, n) => `Online: ${n}/20`],
   [/^Игрок (.+)$/u, (_, id) => `Player ${id}`],
   [/^(.+)\. Покупка через Яндекс Игры\.$/u, (_, name) => `${name}. Purchase through Yandex Games.`],
+  [/^(.+)\. Покупка через ВКонтакте\.$/u, (_, name) => `${name}. Purchase through VK.`],
+  [/^Купить (.+) гол\.$/u, (_, price) => `Buy ${price} votes`],
+  [/^(.+) гол\.$/u, (_, price) => `${price} votes`],
   [/^Класс (\d+)$/u, (_, n) => `Class ${n}`],
   [rx(`Купить ${quantity}`), (_, n) => `Buy ${n}`],
   [rx(`Купить (.+) за ${quantity}\\. (Средств достаточно|Недостаточно денег)`), (_, name, n, status) => `Buy ${translateCore(name)} for ${n}. ${status === 'Средств достаточно' ? 'Enough money' : 'Not enough money'}`],

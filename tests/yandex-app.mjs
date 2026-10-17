@@ -30,7 +30,7 @@ try{
   assert.equal(ad.getState().phase,'pending','blur must cancel a warning even while RAF is suspended');
   assert(!pause.reasons.has('advertising'));
   f.win.dispatch('focus');f.frame(121000);
-  assert.equal(ad.getState().countdown,3,'returning must show the full 3,2,1 warning');
+  assert.equal(ad.getState().countdown,2,'returning must show the full 2,1 warning');
   assert.equal(adCalls,0);
   const p={...d.gameplay.state.player},brains=d.gameplay.state.brains;
   f.frame(121500);
@@ -39,7 +39,7 @@ try{
   assert.equal(ad.getState().phase,'pending','SDK pause must synchronously cancel the warning');
   f.frame(180000);assert.equal(adCalls,0);assert(stops>0);
   pause.set('platform',false);f.frame(180016);
-  assert.equal(ad.getState().countdown,3);
+  assert.equal(ad.getState().countdown,2);
   assert.equal(d.developerMode,false);
   console.log('PASS app integration: active-time ads, synchronous warning suspension, SDK pause, frozen progression, cloud-only settings and production mode.');
 }finally{f.dispose();}

@@ -1,6 +1,10 @@
 node_modules/
 /build/
 /build-demo/
+/build-vk/
+/build-vk-demo/
+/data/
+/deployment/obby-vk.env
 /output/online-implementation/
 .env
 .env.*

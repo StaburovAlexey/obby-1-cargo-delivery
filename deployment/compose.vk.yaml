@@ -1,0 +1,22 @@
+services:
+  vk-purchases:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile.vk
+    restart: unless-stopped
+    init: true
+    env_file: ./obby-vk.env
+    environment:
+      VK_HOST: 0.0.0.0
+      VK_PORT: 8085
+      VK_DATABASE_PATH: /data/purchases.sqlite
+    ports:
+      - "127.0.0.1:8085:8085"
+    volumes:
+      - vk-purchases:/data
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    tmpfs: [/tmp]
+volumes:
+  vk-purchases:

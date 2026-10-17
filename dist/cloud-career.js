@@ -114,7 +114,7 @@ export function createCloudCareer(options = {}) {
           const cloud = envelopeValue(await platform.loadSave(), platform.language);
           if (destroyed) return false;
           const union = rights([...envelope.legacyPremiumIds, ...(cloud?.legacyPremiumIds || [])]);
-          const permanentIds = rights([...envelope.career.ownedSkinIds, ...(cloud?.career.ownedSkinIds || [])]);
+          const permanentIds = platform.id==='vk'?[]:rights([...envelope.career.ownedSkinIds, ...(cloud?.career.ownedSkinIds || [])]);
           if (cloud && cloud.updatedAt >= envelope.updatedAt) {
             const changed = contents(cloud) !== contents(envelope);
             envelope = { ...cloud, legacyPremiumIds: union, career: careerValue(cloud.career, union, permanentIds) }; revision++; syncRights();

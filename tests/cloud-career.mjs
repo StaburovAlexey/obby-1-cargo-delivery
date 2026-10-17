@@ -130,3 +130,12 @@ test('future career schema is rejected instead of replacing progress with a fres
   const f = fixture(data), cloud = f.create();
   await assert.rejects(cloud.initialize(), /cloud career/i); assert.equal(f.writes.length, 0); cloud.destroy();
 });
+
+test('discovered biomes survive a cloud save, reload and legacy ownership migration', async () => {
+  const f=fixture(snapshot(123,100));const cloud=f.create();await cloud.initialize();
+  cloud.store.save({...cloud.store.load(),discoveredBiomeIds:['city','forest','desert']});assert.equal(await cloud.flush(),true);
+  assert.deepEqual(f.data.career.discoveredBiomeIds,['city','forest','desert']);cloud.destroy();
+  const reload=f.create();const loaded=await reload.initialize();assert.deepEqual(loaded.career.discoveredBiomeIds,['city','forest','desert']);assert.equal(loaded.career.money,123);reload.destroy();
+  const legacy=snapshot(999,100);delete legacy.career.discoveredBiomeIds;legacy.career.ownedVehicleIds=['pickup','snowgrip'];f.data=legacy;
+  const migrated=f.create();const value=await migrated.initialize();assert.deepEqual(value.career.discoveredBiomeIds,['city','forest','desert','snow']);assert.equal(value.career.money,999);migrated.destroy();
+});
