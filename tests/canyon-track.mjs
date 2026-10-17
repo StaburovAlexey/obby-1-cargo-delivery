@@ -3,14 +3,17 @@ import assert from 'node:assert/strict';
 import * as THREE from '../dist/vendor/three.module.js';
 import {freshCareer} from '../dist/career-save.js';
 import {earnedRewardCareer} from './fixtures/reward-career.mjs';
-import {CANYON_TRACK,canyonPointAt,projectCanyon,canyonHeight,canyonContact,canyonPose} from '../dist/canyon-track.js';
+import {CANYON_TRACK,canyonPointAt,projectCanyon,canyonHeight,canyonContact,canyonPose,canyonContains,canyonSurface} from '../dist/canyon-track.js';
+import {canyonApproachPoint,CANYON_APPROACH_LENGTH} from '../dist/canyon-approach.js';
+import {createRoadFootprintIndex} from '../dist/network-scene.js';
+import {ROAD_MESH,GROUND_MESH} from '../dist/route-network.js';
 import {createCanyonEntrance,canEnterCanyon} from '../dist/canyon-entrance.js';
 import {createCanyonScene} from '../dist/canyon-scene.js';
 
 test('the canyon is continuous, downhill and wide enough for the reward car',()=>{
  let previous=canyonPointAt(0);const first=previous;
  for(let s=2;s<=CANYON_TRACK.length;s+=2){const p=canyonPointAt(s),d=Math.hypot(p.x-previous.x,p.z-previous.z);assert.ok(d>1.99&&d<2.01);assert.ok(p.height<=previous.height+1e-8);assert.ok(Math.hypot(p.gradient.x,p.gradient.z)<.105);assert.ok(Math.abs(p.heading-previous.heading)<.06);if(s>=6&&s<=CANYON_TRACK.length-6)assert.ok(!canyonContact(p.x,p.z,p.heading,{halfWidth:1.7,halfLength:4.05}));previous=p;}
- assert.ok(first.height-previous.height>=80);assert.ok(CANYON_TRACK.length>=1600);assert.ok(first.x>1500);
+ assert.ok(first.height-previous.height>=80);assert.ok(CANYON_TRACK.length>=1600);const join=canyonApproachPoint(CANYON_APPROACH_LENGTH);assert.equal(first.x,join.x);assert.equal(first.z,join.z);assert.equal(first.height,join.height);assert.equal(first.heading,join.heading);assert.deepEqual(first.gradient,{x:-0,z:0});
 });
 
 test('projection, tire support and contact follow the same sloping road',()=>{
@@ -30,12 +33,47 @@ test('the visible entrance blocks uncompleted careers and a forged saved develop
   assert.ok(gate.contact(30,-65,-Math.PI/2,{halfWidth:1.7,halfLength:4}));
   const completed=earnedRewardCareer();assert.equal(canEnterCanyon(completed,'bmwreward'),true);assert.equal(canEnterCanyon(completed,'pickup'),false);
   gate.updateAccess(completed);assert.equal(gate.unlocked,true);assert.equal(gate.contact(32,-65,-Math.PI/2,{halfWidth:1.7,halfLength:4}),undefined);
-  assert.equal(gate.shouldEnter({x:85,z:-65},'bmwreward'),true);
-  assert.equal(gate.shouldEnter({x:85,z:-65},'pickup'),false);
+  assert.equal(gate.shouldEnter(canyonPointAt(12),'bmwreward'),true);
+  assert.equal(gate.shouldEnter(canyonPointAt(12),'pickup'),false);
  }finally{gate.dispose();}
 });
 
 test('canyon scene owns its road and releases shared render resources once',()=>{
  const scene=createCanyonScene(THREE);let meshes=0;scene.group.traverse(o=>{if(o.isMesh)meshes++;});assert.ok(meshes>=5);assert.ok(scene.group.getObjectByName('Canyon asphalt'));
  const geometry=scene.group.getObjectByName('Canyon asphalt').geometry;let disposed=0;geometry.addEventListener('dispose',()=>disposed++);scene.dispose();scene.dispose();assert.equal(disposed,1);
+});
+
+
+test('the canyon lookup is bounded and its shared approach seam has no wall in either direction',()=>{
+ const gate=createCanyonEntrance(THREE);gate.updateAccess({}, {developerMode:true});
+ try{
+  assert.equal(canyonContains(0,-65),false);assert.equal(canyonContains(109,-65),false);assert.equal(canyonSurface(110,-65)?.progress,0);
+  assert.equal(canyonContains(NaN,0),false);assert.equal(canyonContains(110,1000),false);
+  const end=canyonPointAt(CANYON_TRACK.length);assert.equal(canyonContains(end.x+1,end.z),false);
+  for(let x=100;x<=130;x+=.25)for(const heading of [-Math.PI/2,Math.PI/2]){
+   assert.equal(canyonContact(x,-65,heading),undefined,`open canyon join x=${x} heading=${heading}`);
+   assert.equal(gate.contact(x,-65,heading),undefined,`open approach join x=${x} heading=${heading}`);
+  }
+  for(let s=0;s<=CANYON_TRACK.length;s+=10){const p=canyonPointAt(s);assert.ok(canyonContains(p.x,p.z));assert.ok(canyonSurface(p.x+p.right.x*8,p.z+p.right.z*8));assert.equal(canyonContains(p.x+p.right.x*20,p.z+p.right.z*20),false);}
+ }finally{gate.dispose();}
+});
+
+test('persistent canyon asphalt, basin and scenery stay outside all main-world surfaces',()=>{
+ const scene=createCanyonScene(THREE),indices=[ROAD_MESH,GROUND_MESH].map(data=>createRoadFootprintIndex(data));
+ const matrix=new THREE.Matrix4(),point=new THREE.Vector3();
+ try{
+  for(const name of ['Canyon asphalt','Canyon left shoulder','Canyon right shoulder','Canyon basin floor']){
+   const mesh=scene.group.getObjectByName(name),p=mesh.geometry.getAttribute('position'),index=mesh.geometry.index;
+   for(let i=0;i<index.count;i+=3){const tri=[0,1,2].map(j=>({x:p.getX(index.getX(i+j)),z:p.getZ(index.getX(i+j))}));for(const world of indices)assert.equal(world.intersects(tri),false,`${name} triangle ${i/3} intersects main world`);}
+  }
+  for(let layer=0;layer<3;layer++){
+   const mesh=scene.group.getObjectByName('Canyon sandstone stratum '+layer),p=mesh.geometry.getAttribute('position');
+   for(let i=0;i<mesh.count;i++){
+    mesh.getMatrixAt(i,matrix);const points=[];
+    for(let j=0;j<p.count;j++){point.fromBufferAttribute(p,j).applyMatrix4(matrix);points.push({x:point.x,z:point.z});}
+    const minX=Math.min(...points.map(p=>p.x)),maxX=Math.max(...points.map(p=>p.x)),minZ=Math.min(...points.map(p=>p.z)),maxZ=Math.max(...points.map(p=>p.z)),rect=[{x:minX,z:minZ},{x:maxX,z:minZ},{x:maxX,z:maxZ},{x:minX,z:maxZ}];
+    for(const world of indices)assert.equal(world.intersects(rect),false,`stratum ${layer} outcrop ${i} overlaps main world`);
+   }
+  }
+ }finally{scene.dispose();}
 });

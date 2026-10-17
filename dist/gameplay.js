@@ -364,8 +364,9 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
     },
     beginCanyonRun(){
       if(!isOwned(REWARD_VEHICLE_ID)||(!developerSession&&(!state.routeCompletion||!sanitizeCareer(snapshot()).routeCompletion)))return false;
-      api.flushProgress();clearShopPrompts();resetJump();state.run=null;runProgress=null;state.testMode=false;state.testBiome=null;state.stationId=null;state.seatedId=null;state.seatedSchoolId=null;state.eventMode='canyon';state.mode='driving';state.selectedId=REWARD_VEHICLE_ID;state.fuels[REWARD_VEHICLE_ID]=vehicleConfig(REWARD_VEHICLE_ID).capacity;return true;
+      api.flushProgress();clearShopPrompts();resetJump();state.run=null;runProgress=null;state.testMode=false;state.testBiome=null;state.stationId=null;state.seatedId=null;state.seatedSchoolId=null;state.eventMode='canyon';state.mode='driving';state.selectedId=REWARD_VEHICLE_ID;return true;
     },
+    endCanyonRun(){if(state.eventMode!=='canyon')return false;state.eventMode=null;state.testMode=developerVehicle(state.selectedId);return true;},
     beginBiomeTest(id){
       if(state.eventMode)return false;
       if(state.mode!=='driving'||!BIOME_SEQUENCE.some(b=>b.id===id))return false;

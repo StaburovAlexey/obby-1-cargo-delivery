@@ -269,15 +269,17 @@ function rebuild(value) {
     vehicle.model=createDrivingModel({
       ...vehicle.park,maxSpeed:vehicleConfig(vehicle.id).maxSpeed,
       groundGradient:(x,z)=>{
+        const canyonSurface=canyonMode?.surface(x,z,8);if(canyonSurface)return canyonSurface.gradient;
         vehicle.routeContext=projectRoad(x,z,vehicle.routeContext);
         return roadGroundGradient(x,z,vehicle.routeContext);
       },
-      groundSurface:(x,z,id)=>roadHazards.surfaceAt(x,z,roadGroundSurface(x,z,id,vehicle.routeContext)),
+      groundSurface:(x,z,id)=>canyonMode?.surface(x,z,8)?canyonMode.groundSurface():roadHazards.surfaceAt(x,z,roadGroundSurface(x,z,id,vehicle.routeContext)),
       vehicleId:vehicle.id,getUpgrades:()=>gameplay.state.upgrades[vehicle.id],
       contact:(x,z,h)=>{
-        if(bridgeAtProgress(projectRoad(x,z,vehicle.routeContext).progress))return null;
         const footprint=vehicleFootprint(vehicle.visual?.metadata,vehicle.model?.state.frontWheelAngle,vehicle.contactFootprint??={});
         if(canyonMode?.entrance.near(x,z))return canyonMode.entrance.contact(x,z,h,footprint);
+        if(canyonMode?.surface(x,z,24))return canyonMode.contact(x,z,h,footprint);
+        if(bridgeAtProgress(projectRoad(x,z,vehicle.routeContext).progress))return null;
         let hit=garageRoadContact(x,z,h,(a,b,c)=>getTruckContact(a,b,c,obstacles,vehicle.routeContext,footprint));
         const parked=parkedVehicleContact(x,z,h,garage.vehicles,vehicle.id,footprint);
         const hazard=roadHazards.contact(x,z,h,footprint);
@@ -296,8 +298,8 @@ function rebuild(value) {
   playing=true;driving=false;
   canyonMode=createCanyonMode(THREE,{scene,document,platform:services?.platform,language:()=>selectedLanguage,
     getContext:()=>({garage,gameplay,city,finishLine,roadHazardsScene,biomeWeather,model,rig,driving,online:onlineSession}),
-    onEnter:entry=>{model=entry.model;rig=entry.vehicle.rig;bridgeFall.reset();careerRouteTracker.reset();wheelParticles?.clear();inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();inputController?.setGear('D');lastTime=0;teleportId++;syncMode(true);},
-    onExit:()=>returnToGarage('canyon'),onControlsChanged:()=>{inputController?.reset();syncMode();}});
+    onEnter:()=>{careerRouteTracker.reset();wheelParticles?.clear();updateEconomyHud();},
+    onExit:()=>{careerRouteTracker.reset();updateEconomyHud();}});
   inputController?.setGear("D");
   syncMode(true);
   document.getElementById("seed").value = seed;
@@ -334,8 +336,8 @@ function poseVehicle(vehicle) {
 }
 function applyTruckPose() {
   const state = model.state,vehicle=garage.vehicles.find(v=>v.model===model);
-  if(!canyonMode?.active){vehicle.routeContext=projectRoad(state.x,state.z,vehicle.routeContext);state.routeContext=vehicle.routeContext;}
-  const pose = canyonMode?.active?canyonMode.pose():bridgeFall.active ? bridgeFallPose(THREE,bridgeFall.state) : fitTruckToGround(THREE, state.x, state.z, state.heading,vehicle.routeContext,vehicle.visual?.metadata);
+  if(!canyonMode?.surface(state.x,state.z,8)){vehicle.routeContext=projectRoad(state.x,state.z,vehicle.routeContext);state.routeContext=vehicle.routeContext;}
+  const pose = canyonMode?.surface(state.x,state.z,8)?canyonMode.pose():bridgeFall.active ? bridgeFallPose(THREE,bridgeFall.state) : fitTruckToGround(THREE, state.x, state.z, state.heading,vehicle.routeContext,vehicle.visual?.metadata);
   const visual=bridgeFall.active?bridgeFall.state:state;
   rig.update({
     position: pose.position,
@@ -399,7 +401,7 @@ settingsUi=createSettingsMenu(document,{volume:audioVolume,language:selectedLang
 function notify(){}
 function updateFuelHud(){
   const id=gameplay?.state.selectedId;
-  const capacity=getVehiclePerformance(vehicleConfig(id).id,gameplay?.state.eventMode==='canyon'?undefined:gameplay?.state.upgrades[id]).capacity;
+  const capacity=getVehiclePerformance(vehicleConfig(id).id,gameplay?.state.upgrades[id]).capacity;
   const value=Math.max(0,Math.min(capacity,id ? gameplay.state.fuels[id] : capacity));
 
 
@@ -871,7 +873,7 @@ function frame(now) {
       if(!bridgeFall.active){
         model.step(dt);
         const vehicle=garage.vehicles.find(v=>v.model===model);
-        const support=bridgeSupport(model.state,model.state.routeContext,vehicle?.visual?.metadata);
+        const support=canyonMode?.entrance.near(model.state.x,model.state.z)||canyonMode?.surface(model.state.x,model.state.z,8)?{fall:false}:bridgeSupport(model.state,model.state.routeContext,vehicle?.visual?.metadata);
         if(support.fall){bridgeFall.begin(model.state,support,fitTruckToGround(THREE,model.state.x,model.state.z,model.state.heading,model.state.routeContext,vehicle?.visual?.metadata));model.pause();inputController?.reset();wheelParticles?.clear();notify('Машина упала с моста. Груз потерян.');}
       }
       const fell=bridgeFall.active;
@@ -917,7 +919,7 @@ function frame(now) {
   updateWorldLabels();
   const weatherRoad=driving&&!canyonMode?.active?projectRoad(model.state.x,model.state.z,model.state.routeContext):null;
   biomeWeather?.update(dt,{camera,biome:weatherRoad?.biome??'city',progress:weatherRoad?.progress,x:camera.position.x,y:camera.position.y,z:camera.position.z,active:!canyonMode?.active&&playing&&driving&&startup.ready&&characterReady,paused:gameplayPaused()});
-  const weatherFog=canyonMode?.active?{color:0x8cc9ed,near:350,far:1450}:biomeWeather?.fog;
+  const weatherFog=biomeWeather?.fog;
   scene.fog.color.setHex(weatherFog?.color ?? 0x329dff);
   scene.background.setHex(weatherFog?.color ?? 0x329dff);
   scene.fog.near=weatherFog?.near ?? 500;

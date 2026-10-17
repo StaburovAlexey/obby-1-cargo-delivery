@@ -12,3 +12,11 @@
 #canyon-rankings table{width:100%;border-collapse:collapse;font-size:14px;text-align:left}#canyon-rankings th,#canyon-rankings td{padding:9px 7px;border-bottom:1px solid #d2e1e533}#canyon-rankings td:nth-child(2){max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#canyon-rankings th:last-child,#canyon-rankings td:last-child{text-align:right;font-variant-numeric:tabular-nums}#canyon-rankings [data-self=true]{background:#f8ce5b22}
 #canyon-hud[hidden],#canyon-overlay[hidden],#canyon-rankings[hidden],#canyon-login[hidden],#canyon-back[hidden],#canyon-result-score[hidden],#canyon-rankings-button[hidden]{display:none}
 @media(max-height:500px){#canyon-hud{top:43px;padding:5px 12px;min-width:150px}#canyon-score{font-size:25px}#canyon-panel{padding:16px;max-height:calc(100dvh - 20px)}#canyon-overlay{padding:10px}#canyon-result-score{font-size:36px}}
+
+/* Results are a roadside HUD card: they never obscure or capture driving controls. */
+#canyon-overlay{inset:auto 12px auto auto;top:100px;width:min(350px,calc(100vw - 24px));padding:0;background:none;pointer-events:none;z-index:6}
+#canyon-panel{padding:12px;width:100%;max-height:45dvh;pointer-events:auto;border-width:2px;border-radius:14px}
+#canyon-title{font-size:18px;margin:0 0 5px}#canyon-result-score{font-size:30px;margin:2px}#canyon-result-note{font-size:12px;min-height:0;margin:4px}
+.canyon-actions{gap:5px;margin-top:8px}.canyon-actions button{min-height:32px;padding:5px 8px;font-size:11px}
+@media(max-width:600px){#canyon-overlay{top:120px;width:min(300px,calc(100vw - 24px))}#canyon-panel{max-height:34dvh}}
+@media(max-height:500px){#canyon-overlay{top:45px;width:280px}#canyon-panel{max-height:42dvh}}

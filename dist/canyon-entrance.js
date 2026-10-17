@@ -1,3 +1,4 @@
+import {CANYON_TRACK,canyonContains,projectCanyon} from './canyon-track.js';
 import {sanitizeCareer} from './career-save.js';
 import {pointInRoad,projectRoad} from './road-layout.js';
 import {CANYON_APPROACH_SAMPLES,canyonApproachPoint,canyonApproachContains,projectCanyonApproach,canyonApproachQuads,CANYON_APPROACH_LENGTH} from './canyon-approach.js';
@@ -37,17 +38,19 @@ export function createCanyonEntrance(THREE){
  const near=(x,z)=>x>-8&&x<128&&z>-84&&z<-23;
  return {group,solids:[gateSolid],labelAnchor:{x:42,y:7,z:-54.7},get unlocked(){return unlocked;},contains,near,
   updateAccess(career,options){unlocked=canEnterCanyon(career,'bmwreward',options);pivot.rotation.x=unlocked?-Math.PI/2:0;gateSolid.minX=unlocked?Infinity:31.65;gateSolid.maxX=unlocked?-Infinity:32.35;},
-  shouldEnter(position,vehicleId){return unlocked&&vehicleId==='bmwreward'&&position.x>=84&&position.x<=106&&Math.abs(position.z+65)<6;},
+  shouldEnter(position,vehicleId){const p=canyonContains(position.x,position.z)&&projectCanyon(position.x,position.z);return unlocked&&vehicleId==='bmwreward'&&!!p&&p.progress<=30&&Math.abs(p.offset)<6;},
   contact(x,z,h,footprint={halfWidth:1.7,halfLength:4.05}){
    if(!near(x,z))return undefined;
    const c=Math.cos(h),s=Math.sin(h),rx=footprint.halfWidth*Math.abs(c)+footprint.halfLength*Math.abs(s),rz=footprint.halfWidth*Math.abs(s)+footprint.halfLength*Math.abs(c);
    if(!unlocked&&Math.abs(x-32)<rx+.35&&Math.abs(z+65)<10.5+rz)return {normalX:x<32?-1:1,normalZ:0,depth:rx+.35-Math.abs(x-32),name:'Locked canyon barrier'};
    let hit;
    for(const dx of [-footprint.halfWidth,footprint.halfWidth])for(const dz of [-footprint.halfLength,footprint.halfLength]){
-    const px=x+c*dx+s*dz,pz=z-s*dx+c*dz;if(contains(px,pz)||pointInRoad(px,pz))continue;
+    const px=x+c*dx+s*dz,pz=z-s*dx+c*dz;if(contains(px,pz)||canyonContains(px,pz)||pointInRoad(px,pz))continue;
     const branch=projectCanyonApproach(px,pz),scale=Math.min(1,9/Math.max(branch.distance,1e-9)),bx=Math.min(110,branch.x+(px-branch.x)*scale),bz=Math.min(-21,branch.z+(pz-branch.z)*scale),p=projectRoad(px,pz),offset=Math.max(-14.9,Math.min(14.9,p.offset));
     const mx=p.x+p.right.x*offset,mz=p.z+p.right.z*offset;
-    const branchDistance=Math.hypot(bx-px,bz-pz),mainDistance=Math.hypot(mx-px,mz-pz),tx=branchDistance<mainDistance?bx:mx,tz=branchDistance<mainDistance?bz:mz,depth=Math.hypot(tx-px,tz-pz);
+    const canyon=projectCanyon(px,pz),canyonOffset=Math.max(-CANYON_TRACK.halfWidth,Math.min(CANYON_TRACK.halfWidth,canyon.offset)),cx=canyon.x+canyon.right.x*canyonOffset,cz=canyon.z+canyon.right.z*canyonOffset;
+    const canyonDistance=Math.hypot(cx-px,cz-pz);
+    const branchDistance=Math.hypot(bx-px,bz-pz),mainDistance=Math.hypot(mx-px,mz-pz),tx=canyonDistance<Math.min(branchDistance,mainDistance)?cx:branchDistance<mainDistance?bx:mx,tz=canyonDistance<Math.min(branchDistance,mainDistance)?cz:branchDistance<mainDistance?bz:mz,depth=Math.hypot(tx-px,tz-pz);
     if(depth>1e-6&&(!hit||depth>hit.depth))hit={normalX:(tx-px)/depth,normalZ:(tz-pz)/depth,depth,name:'Canyon entrance edge'};
    }
    return hit;

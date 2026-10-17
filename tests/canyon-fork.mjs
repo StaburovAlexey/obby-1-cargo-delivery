@@ -31,3 +31,38 @@ assert.equal(collisions,0,`no fork collision at ${fps} FPS`);assert.equal(gate.s
 gate.dispose();
 
 });
+
+test('one physical model crosses the shared approach seam in both directions at 30, 60 and 120 FPS',async()=>{
+ const {canyonContact,canyonSurface,canyonHeight}=await import('../dist/canyon-track.js');
+ const gate=createCanyonEntrance(THREE);gate.updateAccess({}, {developerMode:true});
+ try{
+  for(const fps of [30,60,120])for(const direction of [-1,1]){
+   let collisions=0,maxStep=0,maxHeightStep=0;
+   const m=createDrivingModel({x:direction>0?95:145,z:-65,heading:direction>0?-Math.PI/2:Math.PI/2,vehicleId:'bmwreward',maxSpeed:42,
+    groundGradient:(x,z)=>canyonSurface(x,z,5)?.gradient||{x:0,z:0},contact:(...args)=>{const hit=gate.contact(...args)||canyonContact(...args);if(hit)collisions++;return hit;}});
+   const surface=(x,z)=>x<110?.025:canyonHeight(x,z);
+   for(let i=0;i<fps*12;i++){
+    const old={x:m.state.x,z:m.state.z,height:surface(m.state.x,m.state.z)};
+    m.setInput({active:true,steering:0,speedDemand:8/42});m.step(1/fps);
+    maxStep=Math.max(maxStep,Math.hypot(m.state.x-old.x,m.state.z-old.z));maxHeightStep=Math.max(maxHeightStep,Math.abs(surface(m.state.x,m.state.z)-old.height));
+   }
+   assert.equal(collisions,0,`${fps} FPS direction ${direction}: no collision at the seam`);
+   assert.ok(direction>0?m.state.x>150:m.state.x<90,`${fps} FPS direction ${direction}: drives through the join`);
+   assert.ok(maxStep<.4,'position changes only by physical integration');assert.ok(maxHeightStep<.01,'the wheel surface remains smooth over the join');
+  }
+ }finally{gate.dispose();}
+});
+
+test('the entire downhill branch can be driven uphill back to the main-world approach',async()=>{
+ const {CANYON_TRACK,canyonPointAt,projectCanyon,canyonContact,canyonSurface}=await import('../dist/canyon-track.js');
+ const p=canyonPointAt(CANYON_TRACK.finish),m=createDrivingModel({...p,heading:p.heading+Math.PI,vehicleId:'bmwreward',maxSpeed:42,contact:canyonContact,groundGradient:(x,z)=>canyonSurface(x,z,5)?.gradient||{x:0,z:0}});
+ let collisions=0,maxOffset=0;
+ for(let i=0;i<60*300;i++){
+  const q=projectCanyon(m.state.x,m.state.z),target=canyonPointAt(Math.max(0,q.progress-8));
+  if(q.progress<8)target.x-=8-q.progress;
+  const heading=Math.atan2(-(target.x-m.state.x),-(target.z-m.state.z)),error=Math.atan2(Math.sin(heading-m.state.heading),Math.cos(heading-m.state.heading));
+  m.setInput({active:true,steering:Math.max(-1,Math.min(1,-error*2)),speedDemand:8/42});m.step(1/60);
+  if(m.state.blocked)collisions++;maxOffset=Math.max(maxOffset,Math.abs(q.offset));if(m.state.x<105)break;
+ }
+ assert.ok(m.state.x<105,'returns to the original approach by continuous driving');assert.equal(collisions,0);assert.ok(maxOffset<1,'uphill steering remains controllable');
+});

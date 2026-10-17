@@ -1,9 +1,7 @@
 import {createCanyonEntrance,canEnterCanyon} from './canyon-entrance.js';
 import {createCanyonScene} from './canyon-scene.js';
-import {CANYON_TRACK,canyonPointAt,projectCanyon,canyonContact,canyonHeight,canyonPose} from './canyon-track.js';
-import {createDrivingModel} from './driving-model.js';
+import {CANYON_TRACK,canyonContact,canyonHeight,canyonPose,canyonSurface} from './canyon-track.js';
 import {surfaceForBiome} from './biome-surfaces.js';
-import {vehicleFootprint} from './vehicle-contact.js';
 import {createDriftScore} from './drift-score.js';
 import {createDriftEffects} from './drift-effects.js';
 import {createCanyonUi} from './canyon-ui.js';
@@ -13,67 +11,68 @@ import {groundHeight} from './city-driving.js';
 
 export function createCanyonMode(THREE,{scene,document:doc,platform,language,getContext,onEnter=()=>{},onExit=()=>{},onControlsChanged=()=>{}}){
  const entrance=createCanyonEntrance(THREE);scene.add(entrance.group);
- const effects=createDriftEffects(THREE,{height:(x,z)=>active?canyonHeight(x,z):groundHeight(x,z)});scene.add(effects.group);
+ const environment=createCanyonScene(THREE);scene.add(environment.group);
+ const effects=createDriftEffects(THREE,{height:(x,z)=>canyonSurface(x,z,12)?canyonHeight(x,z):groundHeight(x,z)});scene.add(effects.group);
  const leaderboard=createCanyonLeaderboard({platform});
- let active=false,phase='idle',disposed=false,epoch=0,countdown=3,environment=null,vehicle=null,original=null,scorer=null,runId=null,runReady=Promise.resolve(null),result=null,rankings=false,accessProof=Symbol('initial'),accessDevelopment=null;
+ let active=false,phase='idle',disposed=false,epoch=0,vehicle=null,scorer=null,runId=null,runReady=Promise.resolve(null),result=null,rankings=false,accessProof=Symbol('initial'),accessDevelopment=null;
  const account=()=>platform?.accountGeneration??0;
  const current=(token,owner)=>!disposed&&active&&token===epoch&&owner===account()&&!platform?.status?.reloadRequired;
  const client=()=>getContext().online?.client;
- const ui=createCanyonUi(doc,{language,rankingsEnabled:platform?.id==='yandex',onRetry:()=>api.retry(),onExit,onRankings:()=>api.showRankings(),onLogin:()=>api.login()});
+ const ui=createCanyonUi(doc,{language,rankingsEnabled:platform?.id==='yandex',onRetry:()=>api.retry(),onExit:()=>api.retry(),onRankings:()=>api.showRankings(),onLogin:()=>api.login()});
  const solids=getContext().garage.walkingSolids||getContext().garage.classroomSolids;
  solids?.push(...entrance.solids);
- const model=createDrivingModel({...canyonPointAt(CANYON_TRACK.spawn),vehicleId:'bmwreward',maxSpeed:42,getUpgrades:()=>undefined,
-  groundSurface:()=>surfaceForBiome('city','bmwreward'),groundGradient:(x,z)=>projectCanyon(x,z).gradient,
-  contact:(x,z,h)=>canyonContact(x,z,h,vehicleFootprint(vehicle?.visual?.metadata,model.state.frontWheelAngle))});
+ const drivingModel=()=>vehicle?.model??getContext().model;
  const developerMode=()=>getContext().gameplay.state.developerMode===true;
  function access(){const career=getContext().gameplay.state,development=developerMode();if(career.routeCompletion!==accessProof||development!==accessDevelopment){accessProof=career.routeCompletion;accessDevelopment=development;entrance.updateAccess(getContext().gameplay.snapshot(),{developerMode:development});}}
- function place(){const start=canyonPointAt(CANYON_TRACK.spawn);model.reset();Object.assign(model.state,{x:start.x,z:start.z,heading:start.heading});model.pause();vehicle.rig.update({...canyonPose(THREE,model.state,vehicle.visual?.metadata),steerAngle:0,wheelSpin:0,bodyPitch:0,bodyRoll:0,bodyBob:0});}
  function prepare(){
-  epoch++;leaderboard.cancelPending();client()?.cancelDriftRun();runId=null;runReady=Promise.resolve(null);result=null;rankings=false;phase='countdown';countdown=3;effects.clear();place();scorer=createDriftScore();
-  getContext().gameplay.state.fuels.bmwreward=vehicleConfig('bmwreward').capacity;
-  onEnter({model,vehicle});ui.update({phase,countdown});
+  epoch++;leaderboard.cancelPending();client()?.cancelDriftRun();runId=null;runReady=Promise.resolve(null);result=null;rankings=false;scorer=createDriftScore();
+  phase='running';start();ui.update({phase});
  }
  function start(){
-  phase='running';scorer.start(model.state);const token=epoch;
+  phase='running';if(!scorer.start(drivingModel().state)){phase='touring';ui.hide();return;}const token=epoch;
   if(developerMode()){scorer.disqualify('development');onControlsChanged();return;}
   runReady=Promise.resolve(client()?.startDriftRun()).then(reply=>{if(token!==epoch||!active)return null;runId=reply?.ok?reply.runId:null;if(!runId)scorer.disqualify('offline');return runId;}).catch(()=>{if(token===epoch)scorer.disqualify('offline');return null;});
   onControlsChanged();
  }
- const api={entrance,model,effects,leaderboard,get active(){return active;},get phase(){return phase;},get controlsLocked(){return active&&phase!=='running';},get score(){return scorer?.state;},
+ const api={entrance,environment,get model(){return drivingModel();},effects,leaderboard,get active(){return active;},get phase(){return phase;},get controlsLocked(){return false;},get score(){return scorer?.state;},
   refreshAccess:access,
+  surface(x,z,padding=0){return canyonSurface(x,z,padding);},
+  contact(x,z,h,footprint){return canyonContact(x,z,h,footprint);},
+  groundSurface(){return surfaceForBiome('city','bmwreward');},
   enter(){
-   access();const c=getContext();if(disposed||active||!canEnterCanyon(c.gameplay.snapshot(),'bmwreward',{developerMode:developerMode()})||!c.gameplay.beginCanyonRun())return false;
-   vehicle=c.garage.vehicles.find(v=>v.id==='bmwreward');if(!vehicle)return false;
-   original={parent:vehicle.group.parent,model:vehicle.model,position:vehicle.position,groups:[c.city.group,c.garage.group,c.finishLine.group,c.roadHazardsScene.group].map(group=>[group,group.visible])};
-   if(!environment){environment=createCanyonScene(THREE);scene.add(environment.group);}environment.group.visible=true;
-   for(const [group]of original.groups)group.visible=false;
-   c.biomeWeather?.clear();scene.add(vehicle.group);vehicle.model=model;vehicle.position=model.state;vehicle.group.visible=true;active=true;documentClass(true);prepare();return true;
+   access();const c=getContext(),p=c.model?.state;
+   if(disposed||active||!c.driving||!p||!canyonSurface(p.x,p.z,2)||!canEnterCanyon(c.gameplay.snapshot(),c.gameplay.state.selectedId,{developerMode:developerMode()}))return false;
+   vehicle=c.garage.vehicles.find(v=>v.model===c.model);if(!vehicle||!c.gameplay.beginCanyonRun())return false;
+   active=true;documentClass(true);prepare();onEnter({model:vehicle.model,vehicle});return true;
   },
-  retry(){if(!active||disposed||platform?.status?.reloadRequired)return false;prepare();return true;},
-  tryEnter(){access();const c=getContext();return !active&&c.driving&&entrance.shouldEnter(c.model.state,c.gameplay.state.selectedId)?api.enter():false;},
-  pose(){return canyonPose(THREE,model.state,vehicle?.visual?.metadata);},
+  retry(){if(!active||disposed||platform?.status?.reloadRequired)return false;epoch++;leaderboard.cancelPending();client()?.cancelDriftRun();phase='touring';scorer=null;result=null;ui.hide();return true;},
+  tryEnter(){access();const c=getContext();return !active&&c.driving?api.enter():false;},
+  pose(){const model=drivingModel(),currentVehicle=vehicle??getContext().garage.vehicles.find(v=>v.model===model);return canyonPose(THREE,model.state,currentVehicle?.visual?.metadata);},
   step(rawDelta){
    if(!active||disposed)return;
-   const dt=Number.isFinite(rawDelta)?Math.max(0,Math.min(.1,rawDelta)):0;
-   if(phase==='countdown'){model.pause();countdown-=dt;if(countdown<=0)start();}
-   else if(phase==='running'&&dt>0){
+   const model=drivingModel(),g=getContext().gameplay,dt=Number.isFinite(rawDelta)?Math.max(0,Math.min(.05,rawDelta)):0;
+   if(g.state.fuels.bmwreward<=0)model.setInput({active:false});
+   model.step(dt);
+   g.state.player.x=model.state.x;g.state.player.z=model.state.z;
+   g.state.fuels.bmwreward=Math.max(0,g.state.fuels.bmwreward-model.state.pathDistance*vehicleConfig('bmwreward').consumption);
+   if(!canyonSurface(model.state.x,model.state.z,3)){api.leave();return;}
+   if(phase==='running'&&dt>0){
     if(rawDelta>.100001)api.pause('time-gap');
-    model.step(dt);scorer.update(dt,model.state);
-    const g=getContext().gameplay;g.state.fuels.bmwreward=Math.max(0,g.state.fuels.bmwreward-model.state.pathDistance*vehicleConfig('bmwreward').consumption);
+    scorer.update(dt,model.state);
     if(scorer.state.finished||!scorer.state.valid||g.state.fuels.bmwreward<=0)void api.complete();
    }
-   if(phase==='countdown'||phase==='running')ui.update({phase,countdown,score:scorer?.state.score,multiplier:scorer?.state.multiplier,progress:scorer?.state.progress,angle:model.state.slipAngle,length:CANYON_TRACK.finish});
+   if(phase==='running')ui.update({phase,score:scorer?.state.score,multiplier:scorer?.state.multiplier,progress:scorer?.state.progress,angle:model.state.slipAngle,length:CANYON_TRACK.finish});
   },
   pause(reason='paused'){if(!active)return;scorer?.disqualify(reason);client()?.cancelDriftRun();runId=null;effects.clear();},
   async complete(){
    if(!active||phase!=='running')return null;
-   const token=epoch,owner=account(),local=scorer.result();phase='checking';result=local;ui.showResult(local,{status:'checking'});onControlsChanged();
-   // The last on-road pose must reach the room verifier before the result freezes the car.
+   const model=drivingModel(),token=epoch,owner=account(),local=scorer.result();phase='checking';result=local;ui.showResult(local,{status:'checking'});onControlsChanged();
+   // Publish the finish pose without stopping the shared-world vehicle.
    vehicle.rig.update({...api.pose(),steerAngle:model.state.frontWheelAngle,wheelSpin:model.state.wheelSpin,bodyPitch:-model.state.bodyPitch,bodyRoll:-model.state.bodyRoll,bodyBob:model.state.bodyBob});
    let verified=null;
    try{const ticket=await runReady;if(current(token,owner)&&local&&scorer.state.rankedEligible&&ticket)verified=await client()?.finishDriftRun(ticket);else client()?.cancelDriftRun();}catch{}
    if(!current(token,owner))return null;
-   result=verified||local;model.pause();phase='result';
+   result=verified||local;phase='result';
    if(result)getContext().gameplay.recordDriftResult(result);
    let status=local?(scorer.state.rankedEligible?'unverified':'practice'):'cancelled';
    if(verified){ui.showResult(result,{status:'checking'});const submission=await leaderboard.submit(verified);if(!current(token,owner))return null;status=submission.status;}
@@ -81,11 +80,10 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,language,get
   },
   async showRankings(){if(!active)return;rankings=true;const token=epoch;ui.showRankings({...leaderboard.state,status:'loading'});const board=await leaderboard.load();if(active&&token===epoch&&rankings)ui.showRankings(board);},
   async login(){const token=epoch;ui.setLoginBusy(true);const status=await leaderboard.login();if(!active||token!==epoch)return;ui.setLoginBusy(false);if(status.status==='authorized'&&result?.verified){const submitted=await leaderboard.submit(result);if(active&&token===epoch)ui.showResult(result,{status:submitted.status});}else if(status.status!=='authorized')ui.showResult(result,status);},
-  updateEffects(dt,{paused=false,grounded=true,camera}={}){const c=getContext(),v=active?vehicle:c.garage.vehicles.find(v=>v.model===c.model);effects.update(dt,active?model.state:c.model.state,{enabled:c.driving&&c.gameplay.state.selectedId==='bmwreward'&&!paused&&!api.controlsLocked,grounded,metadata:v?.visual?.metadata,pose:v?.rig.pose,camera});},
+  updateEffects(dt,{paused=false,grounded=true,camera}={}){const c=getContext(),v=active?vehicle:c.garage.vehicles.find(v=>v.model===c.model);effects.update(dt,active?drivingModel().state:c.model.state,{enabled:c.driving&&c.gameplay.state.selectedId==='bmwreward'&&!paused&&!api.controlsLocked,grounded,metadata:v?.visual?.metadata,pose:v?.rig.pose,camera});},
   leave(){
-   if(!active)return;epoch++;leaderboard.cancelPending();client()?.cancelDriftRun();runId=null;active=false;phase='idle';model.pause();effects.clear();ui.hide();if(environment)environment.group.visible=false;
-   for(const [group,visible]of original.groups)group.visible=visible;
-   original.parent.add(vehicle.group);vehicle.model=original.model;vehicle.position=original.position;original=null;documentClass(false);
+   if(!active)return;epoch++;leaderboard.cancelPending();client()?.cancelDriftRun();runId=null;active=false;phase='idle';ui.hide();
+   getContext().gameplay.endCanyonRun?.();vehicle=null;documentClass(false);onExit();
   },
   dispose(){if(disposed)return;api.leave();disposed=true;epoch++;leaderboard.dispose();ui.dispose();effects.dispose();entrance.group.removeFromParent();entrance.dispose();environment?.group.removeFromParent();environment?.dispose();for(const solid of entrance.solids){const index=solids?.indexOf(solid)??-1;if(index>=0)solids.splice(index,1);}},
  };

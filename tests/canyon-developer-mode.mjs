@@ -4,12 +4,14 @@ import {createGameplay} from '../dist/gameplay.js';
 import {freshCareer} from '../dist/career-save.js';
 import {VEHICLE_CONFIG,ECONOMY_CONFIG} from '../dist/economy-config.js';
 import {createAppDom} from './fixtures/app-dom.mjs';
+import {CANYON_TRACK,canyonPointAt} from '../dist/canyon-track.js';
 
 const vehicles=VEHICLE_CONFIG.map((vehicle,index)=>({id:vehicle.id,park:{x:24,z:44+11*index}}));
 
 test('developer vehicles are all selectable without buying or changing saved ownership',()=>{
  const career=freshCareer();let writes=0;
  const gameplay=createGameplay({vehicles,developerMode:true,career,persistence:{save(){writes++;}}});
+ assert.equal(vehicles.length,11,'all eleven vehicles are covered, including the reward BMW');
  for(const vehicle of vehicles){
   gameplay.state.cooldown=0;
   assert.equal(gameplay.isOwned(vehicle.id),true,vehicle.id);
@@ -26,12 +28,18 @@ test('developer vehicles are all selectable without buying or changing saved own
   assert.deepEqual(gameplay.snapshot(),career);
  }
  assert.equal(gameplay.isOwned('unknown-vehicle'),false);
+ gameplay.state.cooldown=0;assert.equal(gameplay.enter('bmwreward'),true);
+ const player={...gameplay.state.player},fuels={...gameplay.state.fuels};
  assert.equal(gameplay.beginCanyonRun(),true);
+ assert.deepEqual(gameplay.state.player,player);assert.deepEqual(gameplay.state.fuels,fuels);
  assert.equal(gameplay.state.eventMode,'canyon');
  assert.equal(gameplay.state.selectedId,'bmwreward');
  assert.equal(gameplay.state.run,null);
  assert.equal(gameplay.tickProgress(.05,{active:true,distance:1}),0);
  assert.equal(gameplay.recordDriftResult({version:1,trackId:'canyon-v1',score:1000,durationMs:100000,maxCombo:2,verified:false}),false);
+ assert.equal(gameplay.endCanyonRun(),true);assert.equal(gameplay.state.eventMode,null);
+ assert.equal(gameplay.state.mode,'driving');assert.equal(gameplay.state.selectedId,'bmwreward');assert.equal(gameplay.state.testMode,true);
+ assert.deepEqual(gameplay.state.player,player);assert.deepEqual(gameplay.state.fuels,fuels);
  gameplay.returnToGarage();gameplay.flushProgress();
  assert.deepEqual(gameplay.snapshot(),career);
  assert.equal(writes,0);
@@ -58,19 +66,29 @@ test('developer app unlocks all cars and the canyon through repeated entry and r
   for(const vehicle of vehicles){
    debug.gameplay.state.cooldown=0;
    assert.equal(debug.enterVehicle(vehicle.id),true,vehicle.id);
+   assert.equal(debug.model,debug.garage.vehicles.find(v=>v.id===vehicle.id).model,vehicle.id);
+   assert.equal(debug.canyon.enter(),false,'unlocking does not start a distant event');
    debug.returnToGarage();
   }
+  debug.gameplay.state.cooldown=0;assert.equal(debug.enterVehicle('bmwreward'),true);
+  const model=debug.model,parent=debug.rig.root.parent;
   for(let attempt=0;attempt<2;attempt++){
+   Object.assign(model.state,canyonPointAt(12));
    assert.equal(debug.canyon.entrance.unlocked,true);
    assert.equal(debug.canyon.enter(),true);
    assert.equal(debug.canyon.enter(),false,'repeated entry cannot replace an active run');
-   for(let frame=0;frame<190;frame++)fixture.frame();
-   assert.equal(debug.canyon.phase,'running');
+   assert.equal(debug.canyon.phase,'running','scoring begins immediately without a countdown');
+   assert.equal(debug.canyon.score.elapsed,0);assert.equal(debug.input.state.enabled,true);assert.equal(debug.canyon.controlsLocked,false);
    assert.equal(debug.canyon.score.rankedEligible,false);
    assert.equal(debug.canyon.score.reason,'development');
-   assert.equal(debug.canyon.retry(),true);
+   const before={...model.state};assert.equal(debug.canyon.retry(),true);
+   assert.equal(debug.canyon.phase,'touring');assert.deepEqual(model.state,before);
    fixture.ids.get('canyon-exit').dispatch('click');
+   assert.equal(debug.canyon.active,true,'the result exit button dismisses the UI without returning to the garage');
+   assert.equal(fixture.ids.get('canyon-overlay').hidden,true);assert.equal(debug.model,model);assert.equal(debug.rig.root.parent,parent);
+   Object.assign(model.state,{x:CANYON_TRACK.origin.x-5,z:CANYON_TRACK.origin.z});debug.canyon.step(0);
    assert.equal(debug.canyon.active,false);
+   assert.equal(debug.gameplay.state.mode,'driving');assert.equal(debug.gameplay.state.selectedId,'bmwreward');assert.equal(debug.gameplay.state.testMode,true);
    assert.equal(debug.gameplay.state.eventMode,null);
    assert.deepEqual(debug.gameplay.snapshot(),career);
   }
