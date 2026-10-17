@@ -14,14 +14,18 @@ export function createCanyonEntrance(THREE){
  for(const quad of canyonApproachQuads())for(const i of [0,2,1,0,3,2])positions.push(quad[i].x,.025,quad[i].z);
  const asphaltGeometry=new THREE.BufferGeometry();asphaltGeometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));asphaltGeometry.computeVertexNormals();geometries.add(asphaltGeometry);
  const asphalt=new THREE.Mesh(asphaltGeometry,material(0x343b43));asphalt.name='Canyon approach asphalt';asphalt.receiveShadow=true;group.add(asphalt);
+ const shoulderPositions=[];
  for(let i=1;i<CANYON_APPROACH_SAMPLES.length;i++){
   const a=CANYON_APPROACH_SAMPLES[i-1],b=CANYON_APPROACH_SAMPLES[i];
   for(const side of [-1,1]){
    const ax=a.x+a.right.x*9.5*side,az=a.z+a.right.z*9.5*side,bx=b.x+b.right.x*9.5*side,bz=b.z+b.right.z*9.5*side;
    if(pointInRoad(ax,az)||pointInRoad(bx,bz))continue;
-   const shoulder=box('Entrance curved shoulder',[1,.06,Math.hypot(bx-ax,bz-az)+.035],[(ax+bx)/2,.015,(az+bz)/2],0xe4b771);shoulder.rotation.y=Math.atan2(bx-ax,bz-az);
+   const quad=[{x:ax-a.right.x*.5,z:az-a.right.z*.5},{x:bx-b.right.x*.5,z:bz-b.right.z*.5},{x:bx+b.right.x*.5,z:bz+b.right.z*.5},{x:ax+a.right.x*.5,z:az+a.right.z*.5}];
+   for(const j of [0,2,1,0,3,2])shoulderPositions.push(quad[j].x,.045,quad[j].z);
   }
  }
+ const shoulderGeometry=new THREE.BufferGeometry();shoulderGeometry.setAttribute('position',new THREE.Float32BufferAttribute(shoulderPositions,3));shoulderGeometry.computeVertexNormals();geometries.add(shoulderGeometry);
+ const shoulders=new THREE.Mesh(shoulderGeometry,material(0xe4b771));shoulders.name='Entrance curved shoulders';group.add(shoulders);
  for(let s=24;s<CANYON_APPROACH_LENGTH-5;s+=8){const p=canyonApproachPoint(s);if(pointInRoad(p.x,p.z))continue;const dash=box('Approach center dash',[.16,.018,4],[p.x,.04,p.z],0xf6d061);dash.rotation.y=p.heading;}
  for(const z of [-75, -55])box('Barrier post',[.7,2.1,.7],[32,1.05,z],0xead8b5);
  const pivot=new THREE.Group();pivot.position.set(32,1.65,-75);group.add(pivot);
