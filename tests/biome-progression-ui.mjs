@@ -6,14 +6,14 @@ import {translateGameText} from '../dist/localization.js';
 import {updateProgressionHud} from '../dist/progression-hud.js';
 
 // Catches the UI advertising a locked purchase as affordable and actionable.
-test('locked garage cars show the required biome and cannot be bought with a full wallet',()=>{
+test('locked garage cars show only the price and keep the biome requirement in the purchase button',()=>{
  const f=createAppDom({startDriving:false,career:{...freshCareer(),money:100000}});
  try{
   const game=f.debug.gameplay,vehicle=f.debug.garage.vehicles.find(v=>v.id==='rover');f.debug.returnToGarage();
   Object.assign(game.state.player,vehicle.approach||vehicle.park);game.state.purchaseCandidateId='rover';f.frame();
   const button=f.ids.get('buy-vehicle');assert.equal(button.hidden,false);assert.equal(button.disabled,true);assert.equal(f.ids.get('buy-label').textContent,'Откройте: Лес');assert.match(button.getAttribute('aria-label'),/доедьте/);
   const notice=f.ids.get('biome-progress-notice');assert.equal(notice.hidden,true);assert.equal(notice.textContent,'');
-  assert.match(f.ids.get('vehicle-price-value-'+(f.debug.garage.vehicles.indexOf(vehicle)+1)).textContent,/Лес/);button.dispatch('click');assert.equal(game.isOwned('rover'),false);assert.equal(game.state.money,100000);
+  assert.equal(f.ids.get('vehicle-price-value-'+(f.debug.garage.vehicles.indexOf(vehicle)+1)).textContent,'3200');button.dispatch('click');assert.equal(game.isOwned('rover'),false);assert.equal(game.state.money,100000);
   game.state.discoveredBiomeIds.push('forest');f.frame();assert.equal(button.disabled,false);assert.equal(f.ids.get('buy-label').textContent,'Купить 3200');
   button.dispatch('click');assert.equal(game.isOwned('rover'),true);assert.equal(game.state.money,96800);
  }finally{f.dispose();}

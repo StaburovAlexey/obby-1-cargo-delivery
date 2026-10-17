@@ -35,7 +35,7 @@
 .learning-world-label .school-content>span{display:flex;align-items:center;justify-content:center;gap:3px}
 .learning-world-label .hud-art{width:34px;height:34px}
 .learning-world-label small{font-size:13.2px}
-.learning-world-label .school-content>span:last-child{color:#ffe380;font-size:12px}
+.learning-world-label .school-content>span:last-child{color:#ffe380;font-size:15px}
 .skin-price{padding:0;background:transparent;border:0;border-radius:0;box-shadow:none}.skin-price .hud-art{width:36px;height:36px}
 @media(max-width:600px){
  #upgrade-panel .upgrade-card button{font-size:13px;padding:0 2px;gap:3px}
@@ -62,7 +62,7 @@
 .school-content .school-rate-row{position:absolute;top:62px;left:0;width:120px;height:34px}
 .school-content>span:last-child{position:absolute;top:104px;left:0;width:120px;height:24px}
 .learning-world-label .school-symbol{display:block;margin:0 auto 3px;width:58px;height:58px}
-.learning-world-label .school-content>span:last-child .hud-art{width:21px;height:21px}
+.learning-world-label .school-content>span:last-child .hud-art{width:24px;height:24px}
 .learning-world-label [data-affordable="false"]{color:#ff9b92}
 @keyframes school-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
 @media(prefers-reduced-motion:reduce){.school-content{animation:none}}

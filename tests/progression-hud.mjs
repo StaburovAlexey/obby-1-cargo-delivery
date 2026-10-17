@@ -266,8 +266,8 @@ test('School teaching symbol and rate grow 20–25 percent within a 120px label'
     const ratio=size(selector,property)/previous;
     assert.ok(ratio>=1.2-1e-7&&ratio<=1.25,`${selector} ${property}: ${ratio}`);
   }
-  assert.match(css,/\.learning-world-label \.school-content>span:last-child\{[^}]*font-size:12px/);
-  assert.match(css,/\.learning-world-label \.school-content>span:last-child \.hud-art\{width:21px;height:21px\}/);
+  assert.match(css,/\.learning-world-label \.school-content>span:last-child\{[^}]*font-size:15px/);
+  assert.match(css,/\.learning-world-label \.school-content>span:last-child \.hud-art\{width:24px;height:24px\}/);
 });
 
 test('Fixed-height school billboards reserve the price slot and bob book, rate and access together',()=>{

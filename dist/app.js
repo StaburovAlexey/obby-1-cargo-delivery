@@ -451,8 +451,7 @@ function updateEconomyHud(){
   for(let i=0;i<garage.vehicles.length;i++){
     const v=garage.vehicles[i],owned=gameplay.isOwned(v.id),label=document.getElementById(`vehicle-price-${i+1}`);
     label.hidden=owned||!playing||state.mode!=='walking';
-    const availability=gameplay.getVehicleAvailability(v.id);
-    document.getElementById(`vehicle-price-value-${i+1}`).textContent=v.rewardDisplay?'Заблокировано':availability.reason==='discover-biome'?`${availability.biomeName} · ${vehicleConfig(v.id).price}`:String(vehicleConfig(v.id).price);
+    document.getElementById(`vehicle-price-value-${i+1}`).textContent=v.rewardDisplay?'Заблокировано':String(vehicleConfig(v.id).price);
     v.cargo.visible=false;
   }
 }
