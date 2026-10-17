@@ -6,7 +6,7 @@ const turns=[[0,90,0,0],[90,245,0,1.2],[245,440,1.2,-1.2],[440,635,-1.2,1.3],[63
 // the S-bends east keeps the entire canyon away from the northbound main route.
 const join=canyonApproachPoint(CANYON_APPROACH_LENGTH);
 export const CANYON_TRACK=Object.freeze({id:'canyon-v1',length:1850,halfWidth:9,origin:Object.freeze({x:join.x,z:join.z}),heading:join.heading,startHeight:join.height,drop:115,spawn:12,finish:1838,checkpoints:Object.freeze([240,480,720,960,1200,1440,1680])});
-function headingAt(s){const t=turns.find(t=>s<=t[1])||turns.at(-1);return CANYON_TRACK.heading+t[2]+(t[3]-t[2])*ease(clamp((s-t[0])/(t[1]-t[0]),0,1));}
+function headingAt(s){const t=turns.find(t=>s<=t[1])||turns.at(-1);return CANYON_TRACK.heading+(-Math.PI/2-CANYON_TRACK.heading)*ease(clamp(s/90,0,1))+t[2]+(t[3]-t[2])*ease(clamp((s-t[0])/(t[1]-t[0]),0,1));}
 const heightAt=s=>CANYON_TRACK.startHeight-CANYON_TRACK.drop*ease(clamp(s/CANYON_TRACK.length,0,1));
 const gradeAt=s=>{const t=clamp(s/CANYON_TRACK.length,0,1);return -CANYON_TRACK.drop*6*t*(1-t)/CANYON_TRACK.length;};
 const samples=[{progress:0,x:CANYON_TRACK.origin.x,z:CANYON_TRACK.origin.z}];

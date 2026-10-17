@@ -3,13 +3,14 @@ import assert from 'node:assert/strict';
 import {createAppDom} from './fixtures/app-dom.mjs';
 import {earnedRewardCareer} from './fixtures/reward-career.mjs';
 import {CANYON_TRACK,canyonPointAt} from '../dist/canyon-track.js';
+import {canyonApproachPoint,CANYON_APPROACH_LENGTH,canyonApproachQuads} from '../dist/canyon-approach.js';
 import {polygonIntersectionArea} from '../dist/network-scene.js';
 
 const motionKeys=['x','z','heading','velocityX','velocityZ','yawRate','speed','linearSpeed','active','steering','gear','brake','handbrake','wheelSpin'];
 const motion=model=>Object.fromEntries(motionKeys.map(key=>[key,model.state[key]]));
 function selectBmw(f,distance=-30){
  const d=f.debug;d.gameplay.state.cooldown=0;assert.equal(d.enterVehicle('bmwreward'),true);
- const p=canyonPointAt(0);Object.assign(d.model.state,{x:p.x+distance,z:p.z,heading:p.heading,velocityX:0,velocityZ:0});
+ const p=distance<0?canyonApproachPoint(CANYON_APPROACH_LENGTH+distance):canyonPointAt(distance);Object.assign(d.model.state,{x:p.x,z:p.z,heading:p.heading,velocityX:0,velocityZ:0});
  d.applyTruckPose();d.followTruck(1,true);return d;
 }
 function worldVisible(d){
@@ -27,8 +28,7 @@ test('a fresh production career keeps the canyon barrier closed in the shared wo
  try{
   const d=f.debug;assert.ok(d.canyon,'canyon controller is integrated');worldVisible(d);
   assert.equal(d.canyon.entrance.unlocked,false);assert.equal(d.canyon.enter(),false);assert.equal(d.gameplay.state.eventMode,null);
-  const approach=[{x:14,z:-78},{x:112,z:-78},{x:112,z:-52},{x:14,z:-52}];
-  for(const feature of d.city.features.filter(f=>f.type==='building'))assert.equal(polygonIntersectionArea(approach,feature.footprint.map(p=>({x:p.x,z:-p.y}))),0,'the entrance cannot run through a house');
+  for(const approach of canyonApproachQuads(3))for(const feature of d.city.features.filter(f=>f.type==='building'))assert.equal(polygonIntersectionArea(approach,feature.footprint.map(p=>({x:p.x,z:-p.y}))),0,'the entrance cannot run through a house');
  }finally{f.dispose();}
 });
 
@@ -77,7 +77,7 @@ test('real app driving crosses the canyon seam forward and in reverse without a 
   assert.equal(d.canyon.phase,'running');assert.equal(d.canyon.score.started,true);assert.equal(d.canyon.score.elapsed,0,'entry has no countdown');
   assert.ok(model.state.x>=CANYON_TRACK.origin.x-2.01&&model.state.x<CANYON_TRACK.origin.x+1);
   assert.equal(model.state.active,true);assert.ok(model.state.velocityX>1);assert.equal(f.ids.get('canyon-hud').hidden,false);
-  frameUntil(f,()=>model.state.x>CANYON_TRACK.origin.x+24);
+  frameUntil(f,()=>model.state.x>CANYON_TRACK.origin.x+8);
   const before={money:d.gameplay.state.money,brains:d.gameplay.state.brains},checkpoint=d.garage.deliveries[0];
   d.gameplay.drive(0,checkpoint.x,checkpoint.z);d.gameplay.tickProgress(10,{distance:100,active:true});
   assert.equal(d.gameplay.state.money,before.money);assert.equal(d.gameplay.state.brains,before.brains);

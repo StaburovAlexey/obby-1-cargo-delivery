@@ -173,9 +173,10 @@ check('Held wheel plus a second-pointer gear change brakes before rolling in rev
 
 check('A real off-centre road contact changes planar momentum without a teleport', () => {
   const app=make(),d=app.debug,s=d.model.state,p=routePointAtDistance(100);
-  const heading=p.heading+.12;let safe=0,blocked=15;
-  for(let i=0;i<40;i++){const offset=(safe+blocked)/2;if(getTruckContact(p.x+offset,p.z,heading,d.obstacles))blocked=offset;else safe=offset;}
-  setupPose(app,{x:p.x+safe-.05,z:p.z,heading},9,-4);
+  // Use the west wall: the east side at this progress is now the open Y fork.
+  const heading=p.heading-.12;let safe=0,blocked=15;
+  for(let i=0;i<40;i++){const offset=(safe+blocked)/2;if(getTruckContact(p.x-offset,p.z,heading,d.obstacles))blocked=offset;else safe=offset;}
+  setupPose(app,{x:p.x-safe+.05,z:p.z,heading},-9,-4);
   let contacts=0,maxStep=0,maxAngular=0,firstContact;
   for(let i=0;i<100;i++) {
     const before={x:s.x,z:s.z,velocityX:s.velocityX,velocityZ:s.velocityZ,angularVelocity:s.angularVelocity};frame(app,1/120);

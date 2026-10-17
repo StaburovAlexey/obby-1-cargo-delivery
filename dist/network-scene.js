@@ -2,6 +2,7 @@
 
 
 import {canyonApproachQuads} from './canyon-approach.js';
+import {barrierStripData} from './roadside-barrier.js';
 const canyonClearance=canyonApproachQuads(3);
 import * as NETWORK from './route-network.js';
 import {NETWORK_CONFIG} from './route-network-config.js';
@@ -154,7 +155,13 @@ function prismBatch(THREE){
     }
     ranges.push({name,start,count:24,indexStart:faceStart,indexCount:36});
   }
-  return {add,ranges,build(){
+  function addStrip(name,sections){
+    const data=barrierStripData(sections),start=arrays.position.length/3,indexStart=indices.length;
+    for(const key of Object.keys(arrays))arrays[key].push(...data[key]);
+    for(const index of data.indices)indices.push(start+index);
+    ranges.push({name,start,count:data.position.length/3,indexStart,indexCount:data.indices.length,continuous:true,sectionCount:sections.length});
+  }
+  return {add,addStrip,ranges,build(){
     const g=new THREE.BufferGeometry();for(const [name,a] of Object.entries(arrays))g.setAttribute(name,new THREE.Float32BufferAttribute(a,name==='urShopData'||name==='uv'?2:3));g.setIndex(indices);g.computeBoundingBox();g.computeBoundingSphere();g.userData.parts=ranges;return g;
   }};
 }
@@ -191,7 +198,7 @@ export function buildCity(THREE,{seed=42}={}){
   edgePaint.positions=edgePaint.positions.map((v,i)=>v+(i%3===1?.006:0));
   surface('Flat yellow bridge edge markings',edgePaint,createEnvironmentMaterial(THREE,0xffc438));
   for(const b of BRIDGES)features.push({type:'bridge',...b,width:b.halfWidth*2,progressFrom:b.from,progressTo:b.to});
-  const houseBatch=prismBatch(THREE),barrierBatch=prismBatch(THREE),palette=[0xde7430,0xebb840,0x2dc65b,0x1f91df];
+  const houseBatch=prismBatch(THREE),barrierBatch=prismBatch(THREE),barrierTiers=[],palette=[0xde7430,0xebb840,0x2dc65b,0x1f91df];
   let buildingCount=0,barrierCount=0,omittedJunctionSections=0,minimumFrontage=Infinity,maximumFrontage=0,maximumFacadeSetback=0;
   const sample=(edge,s)=>NETWORK.pointOnEdge(edge.id,Math.max(0,Math.min(edge.length,s)));
   const offset=(p,d)=>({x:p.x+p.right.x*d,z:p.z+p.right.z*d});
@@ -226,10 +233,17 @@ export function buildCity(THREE,{seed=42}={}){
     const fa=lerp(p[0],p[1],1-depthScale),fb=lerp(p[3],p[2],1-depthScale);
     return [lerp(fa,fb,half),lerp(p[1],p[2],half),lerp(p[1],p[2],1-half),lerp(fa,fb,1-half)];
   }
+  // All adjoining wall edges use one safe offset, so graph-node cross-sections
+  // coincide too. The old per-edge setbacks left cracks at every fork join.
+  const profiles=new Map();let barrierSetback=.35;
+  for(const edge of NETWORK_EDGES)for(const side of [-1,1]){
+    const profile=profileFor(edge,side,edge.biome==='city'?18:42);profiles.set(`${edge.id}:${side}`,profile);
+    if(edge.biome!=='city')barrierSetback=Math.max(barrierSetback,profile.setback);
+  }
   for(const edge of NETWORK_EDGES){
     const biome=BIOMES.find(b=>b.id===edge.biome)||BIOMES.find(b=>edge.biomes?.includes(b.id))||BIOMES.find(b=>(edge.progressFrom+edge.progressTo)/2<b.to)||BIOMES.at(-1);
     for(const side of [-1,1]){
-      const {count,cuts,setback}=profileFor(edge,side,biome.id==='city'?18:42);
+      const {count,cuts,setback:profileSetback}=profiles.get(`${edge.id}:${side}`),setback=biome.id==='city'?profileSetback:barrierSetback;
       for(let i=0;i<count;i++){
         const from=cuts[i],to=cuts[i+1],depth=biome.id==='city'?7.5:12;
         const q0=sample(edge,from).progress,q1=sample(edge,to).progress;
@@ -260,7 +274,13 @@ export function buildCity(THREE,{seed=42}={}){
           features.push({type:'building',index,row:side<0?'West residences':'East residences',branch:edge.branch,edgeId:edge.id,side,from,to,progressFrom:shape.a.progress,progressTo:shape.b.progress,footprint:shape.p.map(p=>({x:p.x,y:-p.z})),position,top,depth,frontage:shape.frontage,color,floors,clearance:setback,biome:'city',baselineHeight:height/2,heightScale:2,widthScale:3,originalFrontage:6,sourceIndex:index,alignedFacade:true,metricPrism:true,shopBase});
         }else{
           const bottom=shape.low-.25,index=barrierCount++,variation=((index*37+seed*11)%17)/17;let top=bottom;
-          const tier=(label,lo,hi,ds,fs,color)=>{barrierBatch.add(`Biome barrier ${biome.id} ${index} ${label}`,tierFootprint(shape.p,ds,fs),lo,hi,new THREE.Color(color));top=Math.max(top,hi);};
+          let layer=0;
+          const tier=(label,lo,hi,ds,fs,color)=>{
+            const name=`Biome barrier ${biome.id} ${index} ${label}`,tint=new THREE.Color(color);
+            if(['treetop','butte','ice spire','ember crest'].includes(label))barrierBatch.add(name,tierFootprint(shape.p,ds,fs),lo,hi,tint);
+            else barrierTiers.push({name,edge,side,from,to,shape,lo,hi,ds,color:tint,layer:layer++,setback,depth});
+            top=Math.max(top,hi);
+          };
           if(biome.id==='forest'){
             const crown=shape.high+12+variation*6;tier('root mass',bottom,shape.high+5,1,1,0x145821);tier('lower canopy',shape.high+3,crown,.97,1,0x15952c);tier('upper canopy',crown-3,crown+5,.76,.86,index%2?0x41c31b:0x20ad23);if(index%3===0)tier('treetop',crown+2,crown+8,.5,.55,0x64df18);
           }else if(biome.id==='desert'){
@@ -274,6 +294,27 @@ export function buildCity(THREE,{seed=42}={}){
         }
       }
     }
+  }
+  // Join the main strata before making triangles. Shared height/color/width
+  // samples avoid both the box end faces and the texture/lighting restarts.
+  const key=(record,p)=>`${record.side}:${record.layer}:${p.x.toFixed(6)},${p.z.toFixed(6)}`;
+  const starts=new Map(barrierTiers.map(record=>[key(record,record.shape.a),record]));
+  const previous=new Map(),next=new Map();
+  for(const record of barrierTiers){const after=starts.get(key(record,record.shape.b));if(after&&after!==record){next.set(record,after);previous.set(after,record);}}
+  const values=record=>({bottom:record.lo,top:record.hi,near:15+record.setback+record.depth*(1-record.ds),far:15+record.setback+record.depth,color:record.color});
+  const between=(a,b,t)=>({bottom:a.bottom+(b.bottom-a.bottom)*t,top:a.top+(b.top-a.top)*t,near:a.near+(b.near-a.near)*t,far:a.far+(b.far-a.far)*t,color:a.color.clone().lerp(b.color,t)});
+  const boundary=(a,b)=>{const v=between(values(a),values(b),.5);v.bottom=Math.min(a.lo,b.lo);return v;};
+  const visited=new Set();
+  for(const first of barrierTiers){if(previous.has(first)||visited.has(first))continue;const sections=[];let record=first;
+    while(record&&!visited.has(record)){
+      visited.add(record);const before=previous.get(record),after=next.get(record),middle=values(record),a=before?boundary(before,record):middle,b=after?boundary(record,after):middle,count=Math.max(4,Math.ceil((record.to-record.from)/12));
+      for(let i=sections.length?1:0;i<=count;i++){
+        const t=i/count,u=t<.5?t*2:(t-.5)*2,ease=u*u*(3-2*u),v=t<.5?between(a,middle,ease):between(middle,b,ease),p=sample(record.edge,record.from+(record.to-record.from)*t);
+        sections.push({near:offset(p,record.side*v.near),far:offset(p,record.side*v.far),bottom:v.bottom,top:v.top,color:v.color,distance:p.distance});
+      }
+      record=after;
+    }
+    barrierBatch.addStrip(first.name+' continuous',sections);
   }
   const end=NETWORK.routePointAtProgress(ROUTE.end),forward={x:-Math.sin(end.heading),z:-Math.cos(end.heading)};
   const cap=[[-27,.25],[-27,8.25],[27,8.25],[27,.25]].map(([a,b])=>({x:end.x+end.right.x*a+forward.x*b,z:end.z+end.right.z*a+forward.z*b}));
@@ -295,7 +336,7 @@ export function buildCity(THREE,{seed=42}={}){
     barriers:barrierCount,routeEndHeight:end.height,maximumElevation:ROAD_MESH.positions.reduce((m,v,i)=>i%3===1?Math.max(m,v):m,-Infinity),
     sharedMaterialPattern:'grass-checker',flushCurbs:true,studs:false,texturedRoad:true,embeddedRoadMarkings:true,
     nonOverlappingGround:true,nonOverlappingResidences:true,texturedBuildings:true,buildingBodyTriangles:buildingCount*12,
-    importedModels:0,externalTextures:0,proceduralBuildingMaterial:true,roofStuds:0,roadUnion:true,mergedMetricPrisms:true,omittedJunctionSections};
+    importedModels:0,externalTextures:0,proceduralBuildingMaterial:true,roofStuds:0,roadUnion:true,mergedMetricPrisms:true,continuousBarrierSurfaces:true,omittedJunctionSections};
   const network={nodes:NETWORK_NODES,edges:NETWORK_EDGES};root.userData={stats,features,biomes:BIOMES,network};
   return {group:root,stats,features,biomes:BIOMES,network,biomeAt:NETWORK.biomeAt,
     dispose(){const geometries=new Set(),materials=new Set();root.traverse(o=>{if(o.isInstancedMesh)o.dispose();if(o.geometry)geometries.add(o.geometry);if(o.material)materials.add(o.material);});geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());}};

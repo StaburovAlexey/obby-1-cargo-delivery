@@ -1,4 +1,7 @@
 import {CANYON_TRACK,canyonPointAt} from './canyon-track.js';
+import {CANYON_APPROACH_LENGTH,canyonApproachPoint} from './canyon-approach.js';
+import {pointInRoad} from './road-layout.js';
+import {createBarrierGeometry} from './roadside-barrier.js';
 
 export function createCanyonScene(THREE){
  const group=new THREE.Group();group.name='Downhill sandstone drift canyon';
@@ -18,11 +21,44 @@ export function createCanyonScene(THREE){
   const mesh=new THREE.InstancedMesh(geometry,material,parts.length);mesh.name=name;
   parts.forEach((p,i)=>{object.position.set(...p.position);object.rotation.set(p.pitch||0,p.heading||0,0,'YXZ');object.scale.set(...p.scale);object.updateMatrix();mesh.setMatrixAt(i,object.matrix);if(p.color!==undefined)mesh.setColorAt(i,new THREE.Color(p.color));});mesh.instanceMatrix.needsUpdate=true;if(mesh.instanceColor)mesh.instanceColor.needsUpdate=true;mesh.castShadow=mesh.receiveShadow=true;mesh.computeBoundingSphere();group.add(mesh);instances.push(mesh);return mesh;
  }
- const rails=[],posts=[],dashes=[],chevrons=[];
- for(let s=4;s<CANYON_TRACK.length-2;s+=6){const p=canyonPointAt(s);for(const side of [-1,1])rails.push({position:[p.x+p.right.x*9.25*side,p.height+.78,p.z+p.right.z*9.25*side],scale:[.22,.5,6.1],heading:p.heading,pitch:Math.atan(p.gradient.x*-Math.sin(p.heading)+p.gradient.z*-Math.cos(p.heading))});}
+ const posts=[],dashes=[];
+ // Use the same centerline/cross-sections on both sides of the approach join.
+ // A run only begins once the complete steel profile clears the main road.
+ const railPoints=[],approachRailStarts=new Map();
+ for(let s=0;s<CANYON_APPROACH_LENGTH;s+=2)railPoints.push({...canyonApproachPoint(s),approachDistance:s});
+ for(let s=0;s<=CANYON_TRACK.length;s+=2)railPoints.push(canyonPointAt(s));
+ const railMaterial=mat(0xbfc3bd,{metalness:.3}),runs=[];
+ for(const side of [-1,1]){
+  let sections=[];
+  const flush=()=>{if(sections.length>1)runs.push({side,sections});sections=[];};
+  for(let i=0;i<railPoints.length;i++){
+   const p=railPoints[i],near={x:p.x+p.right.x*9.14*side,z:p.z+p.right.z*9.14*side},far={x:p.x+p.right.x*9.36*side,z:p.z+p.right.z*9.36*side};
+   if(i<Math.ceil(CANYON_APPROACH_LENGTH/2)&&(pointInRoad(near.x,near.z)||pointInRoad(far.x,far.z))){flush();continue;}
+   if(p.approachDistance!==undefined&&!approachRailStarts.has(side))approachRailStarts.set(side,p.approachDistance);
+   sections.push({near,far,bottom:p.height+.53,top:p.height+1.03});
+  }
+  flush();
+ }
+ // Miter both corners of the terminal rail into the side rails. One U-shaped
+ // sweep has no intersecting terminal box, doubled end faces or corner gaps.
+ const left=runs.findLast(r=>r.side===-1),right=runs.findLast(r=>r.side===1),end=canyonPointAt(CANYON_TRACK.length);
+ if(left&&right){
+  const forward={x:-Math.sin(end.heading),z:-Math.cos(end.heading)};
+  for(const run of [left,right]){const last=run.sections.at(-1);for(const [key,d]of [['near',-.11],['far',.11]]){last[key].x+=forward.x*d;last[key].z+=forward.z*d;}}
+  left.sections.push(...right.sections.slice().reverse());runs.splice(runs.indexOf(right),1);
+ }
+ for(let i=0;i<runs.length;i++){
+  const geometry=createBarrierGeometry(THREE,runs[i].sections);geometries.add(geometry);
+  const mesh=new THREE.Mesh(geometry,railMaterial);mesh.name=i===0?'Canyon steel guardrails':'Canyon steel guardrails '+i;mesh.castShadow=mesh.receiveShadow=true;group.add(mesh);
+ }
+ for(const side of [-1,1])for(let s=Math.ceil((approachRailStarts.get(side)??CANYON_APPROACH_LENGTH)/12)*12;s<CANYON_APPROACH_LENGTH;s+=12){
+  const p=canyonApproachPoint(s),x=p.x+p.right.x*9.25*side,z=p.z+p.right.z*9.25*side;
+  if([[-.125,-.125],[-.125,.125],[.125,-.125],[.125,.125]].some(([dx,dz])=>pointInRoad(x+dx,z+dz)))continue;
+  posts.push({position:[x,p.height+.48,z],scale:[.25,.95,.25]});
+ }
  for(let s=0;s<CANYON_TRACK.length;s+=12){const p=canyonPointAt(s);for(const side of [-1,1])posts.push({position:[p.x+p.right.x*9.25*side,p.height+.48,p.z+p.right.z*9.25*side],scale:[.25,.95,.25]});}
  for(let s=8;s<CANYON_TRACK.length;s+=14){const p=canyonPointAt(s);dashes.push({position:[p.x,p.height+.024,p.z],scale:[.14,.028,5],heading:p.heading,pitch:Math.atan(p.gradient.x*-Math.sin(p.heading)+p.gradient.z*-Math.cos(p.heading))});}
- batch('Canyon steel guardrails',box,mat(0xbfc3bd,{metalness:.3}),rails);batch('Canyon guardrail posts',box,mat(0x6d7478),posts);batch('Canyon center dashes',box,mat(0xe9b94e),dashes);
+ batch('Canyon guardrail posts',box,mat(0x6d7478),posts);batch('Canyon center dashes',box,mat(0xe9b94e),dashes);
  const rock=new THREE.CylinderGeometry(1,1,1,7,1);geometries.add(rock);
  for(let layer=0;layer<3;layer++){
   const parts=[];
@@ -42,7 +78,5 @@ export function createCanyonScene(THREE){
  // A finite ribbon follows the canyon. A world-sized floor would cut across
  // the main map and, after the shared join, cover the downhill asphalt.
  strip('Canyon basin floor',-70,70,mat(0xa87952),-45);
- const end=canyonPointAt(CANYON_TRACK.length);
- batch('Canyon terminal guardrail',box,mat(0xbfc3bd,{metalness:.3}),[{position:[end.x,end.height+.78,end.z],scale:[18.5,.5,.22],heading:end.heading}]);
  return {group,dispose(){if(disposed)return;disposed=true;instances.forEach(i=>i.dispose());geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());group.removeFromParent();}};
 }

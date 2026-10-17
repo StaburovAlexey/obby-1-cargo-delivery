@@ -1,0 +1,42 @@
+// A roadside wall is a sweep of shared cross-sections, never overlapping boxes.
+// Vertices are shared along each face (smooth bends), but split at the four
+// profile corners (crisp steel/stone edges). Only real run ends receive caps.
+export function barrierStripData(sections,{capStart=true,capEnd=true}={}){
+ const data={position:[],normal:[],color:[],urPrismMeters:[],urPrismSize:[],urPrismFace:[],urShopData:[],uv:[],indices:[]};
+ if(sections.length<2)return data;
+ const nearArc=[sections[0].distance||0],farArc=[sections[0].distance||0];
+ for(let i=1;i<sections.length;i++)for(const [key,arc]of [['near',nearArc],['far',farArc]])arc.push(arc.at(-1)+Math.hypot(sections[i][key].x-sections[i-1][key].x,sections[i][key].z-sections[i-1][key].z));
+ const corners=s=>[[s.near.x,s.bottom,s.near.z],[s.far.x,s.bottom,s.far.z],[s.far.x,s.top,s.far.z],[s.near.x,s.top,s.near.z]];
+ const faces=[{ids:[0,3],axis:[-1,0,0],kind:'near'},{ids:[2,1],axis:[1,0,0],kind:'far'},{ids:[3,2],axis:[0,1,0],kind:'top'},{ids:[1,0],axis:[0,-1,0],kind:'bottom'}];
+ function vertex(p,s,face,along){
+  const id=data.position.length/3,c=s.color||{r:1,g:1,b:1},h=s.top-s.bottom,w=Math.hypot(s.far.x-s.near.x,s.far.z-s.near.z),horizontal=Math.abs(face[1])>.5;
+  const meters=horizontal?[p[0],p[1],-p[2]]:face[0]?[face[0]<0?0:w,p[1],along]:[Math.hypot(p[0]-s.near.x,p[2]-s.near.z),p[1],0];
+  data.position.push(...p);data.normal.push(0,0,0);data.color.push(c.r,c.g,c.b);data.urPrismMeters.push(...meters);data.urPrismSize.push(w,h,Math.max(nearArc.at(-1),farArc.at(-1)));data.urPrismFace.push(...face);data.urShopData.push(0,0);data.uv.push(horizontal?p[0]/4:along/4,horizontal?-p[2]/4:p[1]/4);return id;
+ }
+ function quad(ids,outward){
+  const p=ids.map(i=>data.position.slice(i*3,i*3+3)),a=p[1].map((v,i)=>v-p[0][i]),b=p[2].map((v,i)=>v-p[0][i]),n=[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+  if(n.reduce((s,v,i)=>s+v*outward[i],0)<0)ids=ids.slice().reverse();
+  data.indices.push(ids[0],ids[1],ids[2],ids[0],ids[2],ids[3]);
+ }
+ for(const face of faces){
+  const base=data.position.length/3;
+  sections.forEach((s,i)=>{const p=corners(s);for(const id of face.ids)vertex(p[id],s,face.axis,id===0||id===3?nearArc[i]:farArc[i]);});
+  for(let i=1;i<sections.length;i++){
+   const a=sections[i-1],b=sections[i],sign=face.kind==='near'?1:-1,outward=Math.abs(face.axis[1])>.5?face.axis:[sign*(a.near.x+b.near.x-a.far.x-b.far.x),0,sign*(a.near.z+b.near.z-a.far.z-b.far.z)];
+   const j=base+(i-1)*2;quad([j,j+1,j+3,j+2],outward);
+  }
+ }
+ for(const [i,enabled,sign]of [[0,capStart,-1],[sections.length-1,capEnd,1]])if(enabled){
+  const s=sections[i],a=sections[Math.max(0,i-1)],b=sections[Math.min(sections.length-1,i+1)],outward=[sign*(b.near.x+b.far.x-a.near.x-a.far.x),0,sign*(b.near.z+b.far.z-a.near.z-a.far.z)],ids=corners(s).map((p,k)=>vertex(p,s,[0,0,sign],k===0||k===3?nearArc[i]:farArc[i]));quad(ids,outward);
+ }
+ for(let i=0;i<data.indices.length;i+=3){const ids=data.indices.slice(i,i+3),p=ids.map(j=>data.position.slice(j*3,j*3+3)),a=p[1].map((v,j)=>v-p[0][j]),b=p[2].map((v,j)=>v-p[0][j]),n=[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];for(const id of ids)for(let j=0;j<3;j++)data.normal[id*3+j]+=n[j];}
+ for(let i=0;i<data.normal.length;i+=3){const length=Math.hypot(...data.normal.slice(i,i+3));if(length)for(let j=0;j<3;j++)data.normal[i+j]/=length;}
+ return data;
+}
+
+export function createBarrierGeometry(THREE,sections,options){
+ const data=barrierStripData(sections,options),geometry=new THREE.BufferGeometry();
+ for(const [name,values]of Object.entries(data))if(name!=='indices')geometry.setAttribute(name,new THREE.Float32BufferAttribute(values,name==='uv'||name==='urShopData'?2:3));
+ geometry.setIndex(data.indices);geometry.computeBoundingBox();geometry.computeBoundingSphere();
+ geometry.userData.continuousBarrier=true;geometry.userData.sectionCount=sections.length;return geometry;
+}

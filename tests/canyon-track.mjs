@@ -4,7 +4,7 @@ import * as THREE from '../dist/vendor/three.module.js';
 import {freshCareer} from '../dist/career-save.js';
 import {earnedRewardCareer} from './fixtures/reward-career.mjs';
 import {CANYON_TRACK,canyonPointAt,projectCanyon,canyonHeight,canyonContact,canyonPose,canyonContains,canyonSurface} from '../dist/canyon-track.js';
-import {canyonApproachPoint,CANYON_APPROACH_LENGTH} from '../dist/canyon-approach.js';
+import {CANYON_GATE_DISTANCE,canyonApproachPoint,CANYON_APPROACH_LENGTH} from '../dist/canyon-approach.js';
 import {createRoadFootprintIndex} from '../dist/network-scene.js';
 import {ROAD_MESH,GROUND_MESH} from '../dist/route-network.js';
 import {createCanyonEntrance,canEnterCanyon} from '../dist/canyon-entrance.js';
@@ -13,7 +13,7 @@ import {createCanyonScene} from '../dist/canyon-scene.js';
 test('the canyon is continuous, downhill and wide enough for the reward car',()=>{
  let previous=canyonPointAt(0);const first=previous;
  for(let s=2;s<=CANYON_TRACK.length;s+=2){const p=canyonPointAt(s),d=Math.hypot(p.x-previous.x,p.z-previous.z);assert.ok(d>1.99&&d<2.01);assert.ok(p.height<=previous.height+1e-8);assert.ok(Math.hypot(p.gradient.x,p.gradient.z)<.105);assert.ok(Math.abs(p.heading-previous.heading)<.06);if(s>=6&&s<=CANYON_TRACK.length-6)assert.ok(!canyonContact(p.x,p.z,p.heading,{halfWidth:1.7,halfLength:4.05}));previous=p;}
- assert.ok(first.height-previous.height>=80);assert.ok(CANYON_TRACK.length>=1600);const join=canyonApproachPoint(CANYON_APPROACH_LENGTH);assert.equal(first.x,join.x);assert.equal(first.z,join.z);assert.equal(first.height,join.height);assert.equal(first.heading,join.heading);assert.deepEqual(first.gradient,{x:-0,z:0});
+ assert.ok(first.height-previous.height>=80);assert.ok(CANYON_TRACK.length>=1600);const join=canyonApproachPoint(CANYON_APPROACH_LENGTH);assert.equal(first.x,join.x);assert.equal(first.z,join.z);assert.equal(first.height,join.height);assert.equal(first.heading,join.heading);assert.equal(Math.hypot(first.gradient.x,first.gradient.z),0);
 });
 
 test('projection, tire support and contact follow the same sloping road',()=>{
@@ -30,9 +30,9 @@ test('the visible entrance blocks uncompleted careers and a forged saved develop
  try{
   assert.equal(canEnterCanyon({...fresh,ownedVehicleIds:['pickup','bmwreward'],completedRuns:100,developerMode:true},'bmwreward'),false);
   gate.updateAccess(fresh);assert.ok(gate.group.visible);assert.equal(gate.unlocked,false);
-  assert.ok(gate.contact(30,-65,-Math.PI/2,{halfWidth:1.7,halfLength:4}));
+  const barrier=canyonApproachPoint(CANYON_GATE_DISTANCE);assert.ok(gate.contact(barrier.x,barrier.z,barrier.heading,{halfWidth:1.7,halfLength:4}));
   const completed=earnedRewardCareer();assert.equal(canEnterCanyon(completed,'bmwreward'),true);assert.equal(canEnterCanyon(completed,'pickup'),false);
-  gate.updateAccess(completed);assert.equal(gate.unlocked,true);assert.equal(gate.contact(32,-65,-Math.PI/2,{halfWidth:1.7,halfLength:4}),undefined);
+  gate.updateAccess(completed);assert.equal(gate.unlocked,true);assert.equal(gate.contact(barrier.x,barrier.z,barrier.heading,{halfWidth:1.7,halfLength:4}),undefined);
   assert.equal(gate.shouldEnter(canyonPointAt(12),'bmwreward'),true);
   assert.equal(gate.shouldEnter(canyonPointAt(12),'pickup'),false);
  }finally{gate.dispose();}
@@ -47,13 +47,14 @@ test('canyon scene owns its road and releases shared render resources once',()=>
 test('the canyon lookup is bounded and its shared approach seam has no wall in either direction',()=>{
  const gate=createCanyonEntrance(THREE);gate.updateAccess({}, {developerMode:true});
  try{
-  assert.equal(canyonContains(0,-65),false);assert.equal(canyonContains(109,-65),false);assert.equal(canyonSurface(110,-65)?.progress,0);
+  const join=canyonPointAt(0),before=canyonApproachPoint(CANYON_APPROACH_LENGTH-1);
+  assert.equal(canyonContains(0,-65),false);assert.equal(canyonContains(before.x,before.z),false);assert.equal(canyonSurface(join.x,join.z)?.progress,0);
   assert.equal(canyonContains(NaN,0),false);assert.equal(canyonContains(110,1000),false);
-  const end=canyonPointAt(CANYON_TRACK.length);assert.equal(canyonContains(end.x+1,end.z),false);
-  for(let x=100;x<=130;x+=.25)for(const heading of [-Math.PI/2,Math.PI/2]){
-   assert.equal(canyonContact(x,-65,heading),undefined,`open canyon join x=${x} heading=${heading}`);
-   assert.equal(gate.contact(x,-65,heading),undefined,`open approach join x=${x} heading=${heading}`);
-  }
+  const end=canyonPointAt(CANYON_TRACK.length);assert.equal(canyonContains(end.x-Math.sin(end.heading),end.z-Math.cos(end.heading)),false);
+  for(let s=-10;s<=30;s+=.25){const p=s<0?canyonApproachPoint(CANYON_APPROACH_LENGTH+s):canyonPointAt(s);for(const heading of [p.heading,p.heading+Math.PI]){
+   assert.equal(canyonContact(p.x,p.z,heading),undefined,`open canyon join s=${s}`);
+   assert.equal(gate.contact(p.x,p.z,heading),undefined,`open approach join s=${s}`);
+  }}
   for(let s=0;s<=CANYON_TRACK.length;s+=10){const p=canyonPointAt(s);assert.ok(canyonContains(p.x,p.z));assert.ok(canyonSurface(p.x+p.right.x*8,p.z+p.right.z*8));assert.equal(canyonContains(p.x+p.right.x*20,p.z+p.right.z*20),false);}
  }finally{gate.dispose();}
 });

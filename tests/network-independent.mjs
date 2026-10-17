@@ -31,7 +31,8 @@ function meshIndex(mesh){
  const a=mesh.geometry.attributes.position,ix=mesh.geometry.index,triangles=[],bins=new Map(),cell=24;
  for(let i=0;i<ix.count;i+=3){const v=[0,1,2].map(j=>new THREE.Vector3().fromBufferAttribute(a,ix.getX(i+j)).applyMatrix4(mesh.matrixWorld)),b=bounds(v),normal=v[1].clone().sub(v[0]).cross(v[2].clone().sub(v[0])).normalize(),tri={v,b,normal,index:i/3};triangles.push(tri);for(let x=Math.floor(b.minX/cell);x<=Math.floor(b.maxX/cell);x++)for(let z=Math.floor(b.minZ/cell);z<=Math.floor(b.maxZ/cell);z++){const key=`${x},${z}`;if(!bins.has(key))bins.set(key,[]);bins.get(key).push(tri);}}
  const at=(x,z)=>{for(const tri of bins.get(`${Math.floor(x/cell)},${Math.floor(z/cell)}`)||[]){const[a,b,c]=tri.v,ar=cross(a,b,c),p={x,z},u=cross(p,b,c)/ar,v=cross(a,p,c)/ar,w=1-u-v;if(u>=-1e-9&&v>=-1e-9&&w>=-1e-9)return {...tri,height:u*a.y+v*b.y+w*c.y};}return null;};
- return{triangles,at};
+ const candidates=p=>{const b=bounds(p),found=new Set();for(let x=Math.floor(b.minX/cell);x<=Math.floor(b.maxX/cell);x++)for(let z=Math.floor(b.minZ/cell);z<=Math.floor(b.maxZ/cell);z++)for(const triangle of bins.get(`${x},${z}`)||[])found.add(triangle);return [...found];};
+ return{triangles,at,candidates};
 }
 const city=buildCity(THREE,{seed:42});city.group.updateMatrixWorld(true);
 const road=meshIndex(city.group.getObjectByName('Continuous 30m-wide road')),terrain=meshIndex(city.group.getObjectByName('Closed continuous terrain foundation'));
@@ -61,20 +62,52 @@ check('Ground-fit tires and normals remain finite and supported on both arms and
  }
  return{fits,minClearance,maxClearance,minUp,maxHeadingError};
 });
-check('Actual scenic prisms are closed, outward and clear of rendered asphalt',()=>{
- let prisms=0,triangles=0,maxRoadOverlap=0;const defects=[];
- for(const name of ['Continuous storefront residences','Massive biome barriers']){const mesh=city.group.getObjectByName(name),a=mesh.geometry.attributes.position,ix=mesh.geometry.index;for(const part of mesh.geometry.userData.parts){const points=Array.from({length:part.count},(_,i)=>new THREE.Vector3().fromBufferAttribute(a,part.start+i)),center=points.reduce((s,v)=>s.add(v),new THREE.Vector3()).multiplyScalar(1/points.length),edges=new Map();let signedVolume=0;
-  for(let i=part.indexStart;i<part.indexStart+part.indexCount;i+=3){const v=[0,1,2].map(j=>new THREE.Vector3().fromBufferAttribute(a,ix.getX(i+j))),normal=v[1].clone().sub(v[0]).cross(v[2].clone().sub(v[0])),face=v.reduce((s,p)=>s.add(p),new THREE.Vector3()).multiplyScalar(1/3);assert.ok(normal.length()>1e-7);assert.ok(normal.dot(face.sub(center))>0,`Inward ${part.name}`);signedVolume+=v[0].dot(v[1].clone().cross(v[2]))/6;for(let j=0;j<3;j++){const u=v[j].toArray().join(','),w=v[(j+1)%3].toArray().join(','),key=[u,w].sort().join('|');edges.set(key,(edges.get(key)||0)+1);}triangles++;}
-  assert.ok(signedVolume>0,`Non-positive volume ${part.name}`);assert.ok([...edges.values()].every(n=>n===2),`Open/non-manifold ${part.name}`);
-  const footprint=points.slice(16,20).map(p=>({x:p.x,z:p.z})),b=bounds(footprint);for(const t of road.triangles){if(!overlap(b,t.b))continue;const overlapArea=clipArea(footprint,t.v);maxRoadOverlap=Math.max(maxRoadOverlap,overlapArea);if(overlapArea>.003)defects.push({name:part.name,triangle:t.index,overlapArea});}prisms++;
- }}
- assert.equal(defects.length,0,JSON.stringify(defects.slice(0,5)));return{prisms,triangles,maxRoadOverlap};
+check('Actual scenic solids are closed, locally outward and clear of rendered asphalt',()=>{
+ let prisms=0,sweeps=0,triangles=0,maxRoadOverlap=0;const defects=[];
+ for(const name of ['Continuous storefront residences','Massive biome barriers']){
+  const mesh=city.group.getObjectByName(name),a=mesh.geometry.attributes.position,ix=mesh.geometry.index;
+  for(const part of mesh.geometry.userData.parts){
+   const points=Array.from({length:part.count},(_,i)=>new THREE.Vector3().fromBufferAttribute(a,part.start+i)),center=points.reduce((s,v)=>s.add(v),new THREE.Vector3()).multiplyScalar(1/points.length),edges=new Map(),n=part.sectionCount;
+   // Sweeps can be globally concave. Outward orientation belongs to each
+   // neighboring pair of cross-sections, not to the centroid of the whole row.
+   const centers=part.continuous?Array.from({length:n},(_,i)=>[points[i*2],points[i*2+1],points[n*2+i*2],points[n*2+i*2+1]].reduce((v,p)=>v.add(p),new THREE.Vector3()).multiplyScalar(.25)):null;
+   let signedVolume=0;
+   for(let i=part.indexStart;i<part.indexStart+part.indexCount;i+=3){
+    const v=[0,1,2].map(j=>new THREE.Vector3().fromBufferAttribute(a,ix.getX(i+j))),normal=v[1].clone().sub(v[0]).cross(v[2].clone().sub(v[0])),face=v.reduce((s,p)=>s.add(p),new THREE.Vector3()).multiplyScalar(1/3);
+    let localCenter=center;
+    if(part.continuous){const quad=Math.floor((i-part.indexStart)/6),segment=quad<4*(n-1)?quad%(n-1):quad===4*(n-1)?0:n-2;localCenter=centers[segment].clone().add(centers[segment+1]).multiplyScalar(.5);}
+    assert.ok(normal.length()>1e-7);assert.ok(normal.dot(face.sub(localCenter))>0,`Inward ${part.name}, triangle ${(i-part.indexStart)/3}`);signedVolume+=v[0].dot(v[1].clone().cross(v[2]))/6;
+    for(let j=0;j<3;j++){const u=v[j].toArray().join(','),w=v[(j+1)%3].toArray().join(','),key=[u,w].sort().join('|');edges.set(key,(edges.get(key)||0)+1);}triangles++;
+   }
+   assert.ok(signedVolume>0,`Non-positive volume ${part.name}`);assert.ok([...edges.values()].every(n=>n===2),`Open/non-manifold ${part.name}`);
+   const footprints=part.continuous?Array.from({length:n-1},(_,i)=>[points[i*2],points[n*2+i*2+1],points[n*2+(i+1)*2+1],points[(i+1)*2]]):[points.slice(16,20)];
+   for(const footprint of footprints)for(const t of road.candidates(footprint)){
+    const overlapArea=clipArea(footprint,t.v);maxRoadOverlap=Math.max(maxRoadOverlap,overlapArea);if(overlapArea>.003)defects.push({name:part.name,triangle:t.index,overlapArea});
+   }
+   if(part.continuous)sweeps++;else prisms++;
+  }
+ }
+ assert.ok(sweeps>0);assert.equal(defects.length,0,JSON.stringify(defects.slice(0,5)));return{prisms,sweeps,triangles,maxRoadOverlap};
 });
-check('Separate barrier features never overlap coplanar horizontal Float32 faces',()=>{
- const mesh=city.group.getObjectByName('Massive biome barriers'),a=mesh.geometry.attributes.position,faces=[];
- for(const part of mesh.geometry.userData.parts){const feature=part.name.match(/^Biome barrier (\S+) (\d+) /);if(!feature)continue;for(const offset of [16,20]){const p=Array.from({length:4},(_,j)=>new THREE.Vector3().fromBufferAttribute(a,part.start+offset+j));faces.push({name:part.name,feature:`${feature[1]}-${feature[2]}`,side:offset===16?'roof':'floor',y:p[0].y,p,b:bounds(p)});}}
+check('Separate barrier sections never overlap coplanar roof or floor Float32 faces',()=>{
+ const mesh=city.group.getObjectByName('Massive biome barriers'),a=mesh.geometry.attributes.position,axes=mesh.geometry.attributes.urPrismFace,ix=mesh.geometry.index,faces=[],bins=new Map(),cell=24;
+ for(const part of mesh.geometry.userData.parts){
+  const feature=part.name.match(/^Biome barrier (\S+) (\d+) /);if(!feature)continue;
+  for(let i=part.indexStart;i<part.indexStart+part.indexCount;i+=3){
+   const ids=[0,1,2].map(j=>ix.getX(i+j)),direction=axes.getY(ids[0]);if(Math.abs(direction)<.5||!ids.every(id=>axes.getY(id)===direction))continue;
+   const p=ids.map(id=>new THREE.Vector3().fromBufferAttribute(a,id)),normal=p[1].clone().sub(p[0]).cross(p[2].clone().sub(p[0])).normalize(),b=bounds(p),segment=part.continuous?Math.floor((i-part.indexStart)/6)%(part.sectionCount-1):null;
+   const face={id:faces.length,name:part.name,feature:part.continuous?`${part.name}:section-${segment}`:`${feature[1]}-${feature[2]}`,side:direction>0?'roof':'floor',normal,plane:normal.dot(p[0]),p,b};faces.push(face);
+   for(let x=Math.floor(b.minX/cell);x<=Math.floor(b.maxX/cell);x++)for(let z=Math.floor(b.minZ/cell);z<=Math.floor(b.maxZ/cell);z++){const key=`${x},${z}`;if(!bins.has(key))bins.set(key,[]);bins.get(key).push(face);}
+  }
+ }
  const overlaps=[];let tested=0,maxOverlap=0;
- for(let i=0;i<faces.length;i++)for(let j=i+1;j<faces.length;j++){const a=faces[i],b=faces[j];if(a.feature===b.feature||a.side!==b.side||a.y!==b.y||!overlap(a.b,b.b))continue;const area=clipArea(a.p,b.p);tested++;maxOverlap=Math.max(maxOverlap,area);if(area>.005)overlaps.push({a:a.name,b:b.name,side:a.side,height:a.y,area});}
+ for(const a of faces){const candidates=new Set();for(let x=Math.floor(a.b.minX/cell);x<=Math.floor(a.b.maxX/cell);x++)for(let z=Math.floor(a.b.minZ/cell);z<=Math.floor(a.b.maxZ/cell);z++)for(const b of bins.get(`${x},${z}`)||[])candidates.add(b);
+  for(const b of candidates){if(b.id<=a.id||a.feature===b.feature||a.side!==b.side||!overlap(a.b,b.b))continue;
+   if(Math.abs(a.normal.dot(b.normal))<1-1e-8||b.p.some(p=>Math.abs(a.normal.dot(p)-a.plane)>.0001))continue;
+   const area=clipArea(a.p,b.p);tested++;maxOverlap=Math.max(maxOverlap,area);if(area>.005)overlaps.push({a:a.name,b:b.name,side:a.side,area});
+  }
+ }
+ assert.ok(faces.length>1000,'all actual sweep roof/floor triangles are inspected');assert.ok(tested>0,'coplanar neighboring sweep sections were compared');
  fs.writeFileSync(new URL('barrier-coplanar-overlaps.json',dir),JSON.stringify(overlaps,null,2)+'\n');assert.equal(overlaps.length,0,`${overlaps.length} coplanar face overlaps: ${JSON.stringify(overlaps.slice(0,4))}`);return{faces:faces.length,tested,maxOverlap};
 });
 const garage=createGarageScene(THREE,city);garage.group.updateMatrixWorld(true);
