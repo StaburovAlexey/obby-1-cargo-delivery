@@ -43,7 +43,7 @@ test('branch pavement starts at the main-road edge and owns no city asphalt or t
 });
 
 test('city facades stay clear of the canyon landscape corridor',()=>{
- const city=buildCity(THREE),corridor=canyonApproachQuads(15);
+ const city=buildCity(THREE),corridor=canyonApproachQuads(1);
  for(let s=0;s<CANYON_TRACK.length;s+=2){const a=canyonPointAt(s),b=canyonPointAt(s+2),edge=(p,w)=>({x:p.x+p.right.x*w,z:p.z+p.right.z*w});corridor.push([edge(a,-70),edge(b,-70),edge(b,70),edge(a,70)]);}
  const index=polygonIndex(corridor);
  try{for(const b of city.features.filter(f=>f.type==='building')){const p=b.footprint.map(v=>({x:v.x,z:-v.y}));for(const q of index.candidates(p))assert.ok(polygonIntersectionArea(p,q)<1e-6,'house must not enter fork/canyon landscape');}}
@@ -70,4 +70,24 @@ test('canyon floor keeps an upward winding through every S bend',()=>{
  try{const m=scene.group.getObjectByName('Canyon basin floor'),p=m.geometry.attributes.position,ix=m.geometry.index;
  for(let i=0;i<ix.count;i+=3){const [a,b,c]=[0,1,2].map(j=>new THREE.Vector3().fromBufferAttribute(p,ix.getX(i+j)));assert.ok(b.sub(a).cross(c.sub(a)).y>0,'no inverted or folded basin triangle');}}
  finally{scene.dispose();}
+});
+
+
+test('opposite main-road residences fill the gap facing the canyon exit',()=>{
+ const city=buildCity(THREE),road=createRoadFootprintIndex(ROAD_MESH);
+ try{
+  const houses=city.features.filter(f=>f.type==='building');
+  const opposite=houses.filter(f=>f.edgeId==='city--17-3000'&&f.side===-1).sort((a,b)=>a.from-b.from);
+  const restored=opposite.filter(f=>f.from>=36&&f.to<=109);
+  assert.equal(restored.length,4,'four regular city houses fill the formerly cleared opposite frontage');
+  for(let i=1;i<opposite.length&&opposite[i].from<125;i++)assert.ok(Math.abs(opposite[i].from-opposite[i-1].to)<1e-8,'continuous opposite row');
+  for(const b of restored){
+   const p=b.footprint.map(v=>({x:v.x,z:-v.y}));
+   assert.ok(p.every(v=>v.x<-15),'restored houses stay across the main road');
+   assert.ok(!road.intersects(p),'no residence on main asphalt');
+  }
+  // Preserve the broad landscape reservation on the actual exit side.
+  for(const b of houses){const p=b.footprint.map(v=>({x:v.x,z:-v.y}));if(p.every(v=>v.x<0))continue;
+   for(const q of canyonApproachQuads(15))assert.ok(polygonIntersectionArea(p,q)<1e-6,'exit-side broad clearance unchanged');}
+ }finally{city.dispose();}
 });

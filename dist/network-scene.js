@@ -8,7 +8,19 @@ import {CANYON_TRACK,canyonPointAt} from './canyon-track.js';
 import {polygonIndex,cutSurfaceMesh} from './surface-cut.js';
 // Reserve a landscape corridor as well as the asphalt: city facades cannot
 // protrude through the sandstone walls or the fork's roadside shoulders.
-const canyonClearance=[...canyonApproachQuads(15),...CANYON_APPROACH_ROCKS.map(p=>p.footprint)];
+// The approach starts inside the main road. Its padded corridor must not
+// erase the opposite (west) city row across that road. Clip only this buffer
+// at the main-road centerline; keep every real rock and canyon exclusion.
+const approachCityClearance=canyonApproachQuads(15).map(quad=>{
+  const out=[];
+  for(let i=0;i<quad.length;i++){
+    const a=quad[i],b=quad[(i+1)%quad.length];
+    if(a.x>=0)out.push(a);
+    if((a.x>=0)!==(b.x>=0)){const t=-a.x/(b.x-a.x);out.push({x:0,z:a.z+(b.z-a.z)*t});}
+  }
+  return out;
+}).filter(p=>p.length>=3);
+const canyonClearance=[...approachCityClearance,...CANYON_APPROACH_ROCKS.map(p=>p.footprint)];
 for(let s=0;s<CANYON_TRACK.length;s+=2){const a=canyonPointAt(s),b=canyonPointAt(s+2),edge=(p,w)=>({x:p.x+p.right.x*w,z:p.z+p.right.z*w});canyonClearance.push([edge(a,-70),edge(b,-70),edge(b,70),edge(a,70)]);}
 const canyonClearanceIndex=polygonIndex(canyonClearance);
 const approachGroundCut=polygonIndex([...canyonApproachQuads(1),...CANYON_APPROACH_ROCKS.map(p=>p.footprint)]);
