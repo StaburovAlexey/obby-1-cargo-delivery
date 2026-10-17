@@ -1,3 +1,4 @@
+import {FINISH_LINE_SPEC} from './finish-line.js';
 import { ECONOMY_CONFIG, VEHICLE_CONFIG, BIOME_SEQUENCE, DELIVERY_CHECKPOINTS, REWARD_VEHICLE_ID, ROUTE_COMPLETION_PROOF, FINAL_DELIVERY_CHECKPOINT } from './economy-config.js';
 import { CHARACTER_CATALOG, DEFAULT_CHARACTER_ID } from './character-catalog.js';
 import { SCHOOL_CONFIG, PROGRESSION_CONFIG } from './progression-config.js';
@@ -79,7 +80,7 @@ function sanitizeRouteCompletion(value) {
     data.checkpointId!==FINAL_DELIVERY_CHECKPOINT.id||typeof data.runId!=='string'||
     !/^[a-zA-Z0-9-]{1,120}$/.test(data.runId)||
     !Number.isFinite(data.startProgress)||data.startProgress < -17||data.startProgress>12||
-    !Number.isFinite(data.endProgress)||data.endProgress<FINAL_DELIVERY_CHECKPOINT.progress-ECONOMY_CONFIG.checkpointRadius-1||
+    !Number.isFinite(data.endProgress)||data.endProgress<FINISH_LINE_SPEC.progress||
     data.endProgress>ECONOMY_CONFIG.routeEnd+1||!Number.isInteger(data.sampleCount)||
     data.sampleCount<Math.ceil((data.endProgress-data.startProgress)/9)||data.sampleCount>100_000_000)return null;
   const crossed=readIds(data.bridgeIds),required=BRIDGES.filter(bridge=>bridge.to<FINAL_DELIVERY_CHECKPOINT.progress);

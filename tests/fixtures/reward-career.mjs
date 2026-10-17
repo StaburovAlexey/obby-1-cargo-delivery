@@ -1,3 +1,4 @@
+import {FINISH_LINE_SPEC} from '../../dist/finish-line.js';
 
 
 import {createGameplay} from '../../dist/gameplay.js';
@@ -17,16 +18,18 @@ export function rewardRoutePose(q,{branch='main',bridgeEdgeOffset=0}={}) {
   return {...p,x:p.x+p.right.x*offset,z:p.z+p.right.z*offset,routeContext:p};
 }
 export function completeRewardRoute(game,{branch='main',tracker=createCareerRouteTracker(),bridgeEdgeOffset=0}={}) {
-  const end=FINAL_DELIVERY_CHECKPOINT.progress;
+  const end=FINISH_LINE_SPEC.progress;
   for(let q=-6;q<=end;q+=2){
     tracker.update(game,rewardRoutePose(q,{branch,bridgeEdgeOffset}),.05);
+    if(q<end)game.drive(0,rewardRoutePose(q,{branch,bridgeEdgeOffset}).x,rewardRoutePose(q,{branch,bridgeEdgeOffset}).z);
     if(!game.state.run?.loaded)throw Error(`Reward fixture lost cargo at ${q}`);
   }
   const final=rewardRoutePose(end,{branch});
   tracker.update(game,final,.05);game.drive(0,final.x,final.z);
   const events=game.events();
-  if(!events.some(event=>event.type==='delivery'&&event.routeCompleted))throw Error('Reward fixture did not finish the route');
-  return events;
+  if(!events.some(event=>event.type==='finish-reward'&&event.routeCompleted))throw Error('Reward fixture did not finish the route');
+  for(let i=0;i<40;i++)game.advanceFinish(.05);
+  game.events();return events;
 }
 export function earnedRewardCareer({career,branch='main'}={}) {
   const final=rewardRoutePose(FINAL_DELIVERY_CHECKPOINT.progress);

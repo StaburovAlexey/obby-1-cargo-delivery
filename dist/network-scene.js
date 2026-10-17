@@ -208,7 +208,7 @@ export function buildCity(THREE,{seed=42}={}){
   edgePaint.positions=edgePaint.positions.map((v,i)=>v+(i%3===1?.006:0));
   surface('Flat yellow bridge edge markings',edgePaint,createEnvironmentMaterial(THREE,0xffc438));
   for(const b of BRIDGES)features.push({type:'bridge',...b,width:b.halfWidth*2,progressFrom:b.from,progressTo:b.to});
-  const houseBatch=prismBatch(THREE),barrierBatch=prismBatch(THREE),barrierTiers=[],palette=[0xde7430,0xebb840,0x2dc65b,0x1f91df];
+  const houseBatch=prismBatch(THREE),frontageInfills=[],barrierBatch=prismBatch(THREE),barrierTiers=[],palette=[0xde7430,0xebb840,0x2dc65b,0x1f91df];
   let buildingCount=0,barrierCount=0,omittedJunctionSections=0,minimumFrontage=Infinity,maximumFrontage=0,maximumFacadeSetback=0;
   const sample=(edge,s)=>NETWORK.pointOnEdge(edge.id,Math.max(0,Math.min(edge.length,s)));
   const offset=(p,d)=>({x:p.x+p.right.x*d,z:p.z+p.right.z*d});
@@ -274,6 +274,19 @@ export function buildCity(THREE,{seed=42}={}){
         let shape=envelope(edge,side,from,to,setback,depth);
         const blocked=shape=>canyonClearanceIndex.candidates(shape.p).some(quad=>polygonIntersectionArea(shape.p,quad)>1e-6);
         if(blocked(shape)){
+          // The two lots behind the entrance have a clear street front but
+          // sandstone close behind. Keep the facade line and fit their depth
+          // to the actual rock boundary instead of omitting whole houses.
+          if(biome.id==='city'&&edge.id==='city--17-3000'&&side===1&&from>160&&to<197){
+            const minimumDepth=2;
+            if(!blocked(envelope(edge,side,from,to,setback,minimumDepth))){
+              let lo=minimumDepth,hi=depth;
+              for(let j=0;j<24;j++){const mid=(lo+hi)/2;if(blocked(envelope(edge,side,from,to,setback,mid)))hi=mid;else lo=mid;}
+              const fittedDepth=lo-.12,fitted=envelope(edge,side,from,to,setback,fittedDepth);
+              if(!roadIndex.intersects(fitted.p))frontageInfills.push({edge,side,from,to,setback,depth:fittedDepth,shape:fitted});
+            }
+            omittedJunctionSections++;continue;
+          }
           // Fill the last city lot up to the exit instead of dropping an
           // entire 18 m frontage when only its far end touches the rocks.
           if(biome.id==='city'&&edge.id==='city--17-3000'&&side===1&&from<100&&!blocked(envelope(edge,side,from,from+.01,setback,depth))){
@@ -314,6 +327,18 @@ export function buildCity(THREE,{seed=42}={}){
         }
       }
     }
+  }
+  // Append fitted infills after the ordinary row so all existing residences
+  // retain their seeded colors, heights, indices and shop textures.
+  for(const {edge,side,from,to,setback,depth,shape} of frontageInfills){
+    const index=buildingCount++,floors=4,color=palette[index%2],bottom=shape.low-.15;
+    const height=2*(shape.high-shape.low+floors*2.8+.55),top=bottom+height;
+    const center=sample(edge,(from+to)/2),shopBase=center.height-bottom;
+    const position=[shape.p.reduce((n,p)=>n+p.x,0)/4,-shape.p.reduce((n,p)=>n+p.z,0)/4,bottom];
+    houseBatch.add(`Residence ${index}`,shape.p,bottom,top,new THREE.Color(color),shopBase,index+1);
+    minimumFrontage=Math.min(minimumFrontage,shape.frontage);maximumFrontage=Math.max(maximumFrontage,shape.frontage);
+    features.push({type:'building',index,row:'East residences',branch:edge.branch,edgeId:edge.id,side,from,to,progressFrom:shape.a.progress,progressTo:shape.b.progress,footprint:shape.p.map(p=>({x:p.x,y:-p.z})),position,top,depth,frontage:shape.frontage,color,floors,clearance:setback,biome:'city',baselineHeight:height/2,heightScale:2,widthScale:3,originalFrontage:6,sourceIndex:index,alignedFacade:true,metricPrism:true,shopBase,rockFittedFrontage:true});
+    omittedJunctionSections--;
   }
   // Join the main strata before making triangles. Shared height/color/width
   // samples avoid both the box end faces and the texture/lighting restarts.

@@ -55,8 +55,8 @@ export const GARAGE_LAYOUT = Object.freeze({
 
 
 
-export const FUEL_STATION_SPECS = Object.freeze(DELIVERY_CHECKPOINTS.map(p=>Object.freeze({...p,id:`fuel-${p.id}`,checkpointId:p.id,branch:'main'})));
-export const DELIVERY_SPECS = Object.freeze(DELIVERY_CHECKPOINTS.map(p=>Object.freeze({...p,id:`delivery-${p.id}`,checkpointId:p.id,branch:'main'})));
+export const FUEL_STATION_SPECS = Object.freeze(DELIVERY_CHECKPOINTS.slice(0,-1).map(p=>Object.freeze({...p,id:`fuel-${p.id}`,checkpointId:p.id,branch:'main'})));
+export const DELIVERY_SPECS = Object.freeze(DELIVERY_CHECKPOINTS.slice(0,-1).map(p=>Object.freeze({...p,id:`delivery-${p.id}`,checkpointId:p.id,branch:'main'})));
 
 const VEHICLES = Object.freeze([
   { id: 'pickup', color: 0xf38c27, shape: 'pickup', bay: 0 },

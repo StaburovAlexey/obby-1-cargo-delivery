@@ -24,7 +24,7 @@ const checkpoint = DELIVERY_CHECKPOINTS.at(-1), station = routePointAtDistance(c
 const delivery = { x: station.x - station.right.x * ECONOMY_CONFIG.checkpointOffset,
   z: station.z - station.right.z * ECONOMY_CONFIG.checkpointOffset };
 
-check('Finish is 28 real route metres before the final left delivery trigger', () => {
+check('Finish preserves its painted location 28 metres before the legacy final checkpoint', () => {
   assert.equal(spec, FINISH_LINE_SPEC);
   assert.equal(spec.checkpointId, checkpoint.id);
   near(checkpoint.distance - spec.distance, 28);
@@ -114,7 +114,7 @@ check('All posts remain outside the full 30 m road and cloth clears cars overhea
   assert.equal(finish.update, undefined);
 });
 
-check('Finish apron does not overlap bridges, hazards or the last unloading circle', () => {
+check('Finish apron stays clear of bridges, hazards and the legacy stop location', () => {
   for (const bridge of BRIDGES) assert.ok(spec.progress + 4 < bridge.from || spec.progress - 4 > bridge.to);
   const hazards = createRoadHazards(42);
   for (const hazard of hazards.hazards) assert.ok(Math.abs(hazard.distance - spec.distance) > 60 + hazard.length / 2);

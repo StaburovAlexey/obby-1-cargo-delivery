@@ -40,7 +40,9 @@ export function createCanyonEntrance(THREE,{document:doc=globalThis.document,lan
  box('Closed red and white barrier arm',[20,.32,.35],[10,0,0],0xf4eee0,pivot);
  for(let x=1;x<20;x+=3)box('Barrier red stripe',[1.25,.34,.38],[x,0,0],0xd84736,pivot);
  const sign={x:gate.x+gate.right.x*12+forward.x*10,z:gate.z+gate.right.z*12+forward.z*10};
- box('Canyon sign upright',[.5,7,.5],[sign.x,3.5,sign.z],0x423b33);const signBoard=box('Canyon sign board',[12,3,.35],[sign.x,7,sign.z],0x172d3a);signBoard.rotation.y=gate.heading;
+ // Short socket overlap stays inside the opaque board, including at oblique angles.
+ const upright=box('Canyon sign upright',[.5,5.8,.5],[sign.x,2.9,sign.z],0x423b33);upright.rotation.y=gate.heading;
+ const signBoard=box('Canyon sign board',[9,3,.9],[sign.x,7,sign.z],0x172d3a);signBoard.rotation.y=gate.heading;
  const signPaint=createCanyonSignTexture(THREE,{document:doc});
  if(signPaint){
   const faceMaterial=new THREE.MeshStandardMaterial({map:signPaint.texture,roughness:.8});materials.add(faceMaterial);
