@@ -8,19 +8,9 @@ import {CANYON_TRACK,canyonPointAt} from './canyon-track.js';
 import {polygonIndex,cutSurfaceMesh} from './surface-cut.js';
 // Reserve a landscape corridor as well as the asphalt: city facades cannot
 // protrude through the sandstone walls or the fork's roadside shoulders.
-// The approach starts inside the main road. Its padded corridor must not
-// erase the opposite (west) city row across that road. Clip only this buffer
-// at the main-road centerline; keep every real rock and canyon exclusion.
-const approachCityClearance=canyonApproachQuads(15).map(quad=>{
-  const out=[];
-  for(let i=0;i<quad.length;i++){
-    const a=quad[i],b=quad[(i+1)%quad.length];
-    if(a.x>=0)out.push(a);
-    if((a.x>=0)!==(b.x>=0)){const t=-a.x/(b.x-a.x);out.push({x:0,z:a.z+(b.z-a.z)*t});}
-  }
-  return out;
-}).filter(p=>p.length>=3);
-const canyonClearance=[...approachCityClearance,...CANYON_APPROACH_ROCKS.map(p=>p.footprint)];
+// Reserve the real 20 m asphalt/shoulder ribbon and actual rock footprints.
+// A wider speculative buffer erased safe houses on both sides of the exit.
+const canyonClearance=[...canyonApproachQuads(1),...CANYON_APPROACH_ROCKS.map(p=>p.footprint)];
 for(let s=0;s<CANYON_TRACK.length;s+=2){const a=canyonPointAt(s),b=canyonPointAt(s+2),edge=(p,w)=>({x:p.x+p.right.x*w,z:p.z+p.right.z*w});canyonClearance.push([edge(a,-70),edge(b,-70),edge(b,70),edge(a,70)]);}
 const canyonClearanceIndex=polygonIndex(canyonClearance);
 const approachGroundCut=polygonIndex([...canyonApproachQuads(1),...CANYON_APPROACH_ROCKS.map(p=>p.footprint)]);
@@ -265,7 +255,7 @@ export function buildCity(THREE,{seed=42}={}){
     for(const side of [-1,1]){
       const {count,cuts,setback:profileSetback}=profiles.get(`${edge.id}:${side}`),setback=biome.id==='city'?profileSetback:barrierSetback;
       for(let i=0;i<count;i++){
-        const from=cuts[i],to=cuts[i+1],depth=biome.id==='city'?7.5:12;
+        let from=cuts[i],to=cuts[i+1];const depth=biome.id==='city'?7.5:12;
         const q0=sample(edge,from).progress,q1=sample(edge,to).progress;
         if(BRIDGES.some(b=>q0<b.to&&q1>b.from)){omittedJunctionSections++;continue;}
 
@@ -281,8 +271,18 @@ export function buildCity(THREE,{seed=42}={}){
           }
           if(!medianFits){omittedJunctionSections++;continue;}
         }
-        const shape=envelope(edge,side,from,to,setback,depth);
-        if(canyonClearanceIndex.candidates(shape.p).some(quad=>polygonIntersectionArea(shape.p,quad)>1e-6)){omittedJunctionSections++;continue;}
+        let shape=envelope(edge,side,from,to,setback,depth);
+        const blocked=shape=>canyonClearanceIndex.candidates(shape.p).some(quad=>polygonIntersectionArea(shape.p,quad)>1e-6);
+        if(blocked(shape)){
+          // Fill the last city lot up to the exit instead of dropping an
+          // entire 18 m frontage when only its far end touches the rocks.
+          if(biome.id==='city'&&edge.id==='city--17-3000'&&side===1&&from<100&&!blocked(envelope(edge,side,from,from+.01,setback,depth))){
+            let lo=from,hi=to;
+            for(let j=0;j<24;j++){const mid=(lo+hi)/2;if(blocked(envelope(edge,side,from,mid,setback,depth)))hi=mid;else lo=mid;}
+            to=lo-.05;shape=envelope(edge,side,from,to,setback,depth);
+            if(shape.frontage<6){omittedJunctionSections++;continue;}
+          }else{omittedJunctionSections++;continue;}
+        }
         if(roadIndex.intersects(shape.p)){omittedJunctionSections++;continue;}
         const position=[shape.p.reduce((n,p)=>n+p.x,0)/4,-shape.p.reduce((n,p)=>n+p.z,0)/4,shape.low-.15];
         if(biome.id==='city'){

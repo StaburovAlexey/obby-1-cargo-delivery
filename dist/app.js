@@ -396,7 +396,7 @@ settingsUi=createSettingsMenu(document,{volume:audioVolume,language:selectedLang
   inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();model?.pause();stopVehicleEffects();gameplay?.flushProgress();lastTime=0;syncMode();
  },
  onVolumeChange:value=>setAudioVolume(value),
- onLanguageChange:value=>{selectedLanguage=value==='en'?'en':'ru';localization.setLanguage(selectedLanguage);services?.cloud?.setSettings({audioVolume,lastAudibleVolume,language:selectedLanguage});}
+ onLanguageChange:value=>{selectedLanguage=value==='en'?'en':'ru';localization.setLanguage(selectedLanguage);canyonMode?.entrance.refreshSign();services?.cloud?.setSettings({audioVolume,lastAudibleVolume,language:selectedLanguage});}
 });
 function notify(){}
 function updateFuelHud(){
@@ -486,7 +486,6 @@ function updateWorldLabels(){
   if(!garage||!gameplay)return;camera.updateMatrixWorld();
   document.getElementById('world-labels').hidden=!!canyonMode?.active;if(canyonMode?.active)return;
   canyonMode?.refreshAccess();
-  if(canyonMode){const p=canyonMode.entrance.labelAnchor;document.getElementById('canyon-entry-note').textContent=canyonMode.entrance.unlocked?'Въезжайте на BMW':'Пройдите основной маршрут';projectWorldLabel(document.getElementById('canyon-entry-label'),p.x,p.y,p.z,playing,180);}
   updateProgressionWorldLabels(document,{gameplay,garage,playing,project:projectWorldLabel,viewportWidth:labelCanvasRect.width,premium:services?.premium});
   const routeProgress=driving?projectRoad(model.state.x,model.state.z,model.state.routeContext).progress:-Infinity;
   for(const fork of FORK_DEFINITIONS){const q=fork.from+(fork.to-fork.from)*.25,p=routePointAtProgress(q,{branch:HARD_BRANCHES[fork.id]}),el=document.getElementById('hard-route-'+fork.id);if(el)projectWorldLabel(el,p.x,p.height+7,p.z,playing&&driving&&!gameplay.state.testMode&&routeProgress>fork.from-400&&routeProgress<q+40,1000);}

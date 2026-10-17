@@ -86,8 +86,20 @@ test('opposite main-road residences fill the gap facing the canyon exit',()=>{
    assert.ok(p.every(v=>v.x<-15),'restored houses stay across the main road');
    assert.ok(!road.intersects(p),'no residence on main asphalt');
   }
-  // Preserve the broad landscape reservation on the actual exit side.
+  // Preserve the real shoulder reservation on the actual exit side.
   for(const b of houses){const p=b.footprint.map(v=>({x:v.x,z:-v.y}));if(p.every(v=>v.x<0))continue;
-   for(const q of canyonApproachQuads(15))assert.ok(polygonIntersectionArea(p,q)<1e-6,'exit-side broad clearance unchanged');}
+   for(const q of canyonApproachQuads(1))assert.ok(polygonIntersectionArea(p,q)<1e-6,'exit shoulder clear');}
+ }finally{city.dispose();}
+});
+
+
+test('exit-side houses stay tightly joined up to the actual canyon boundary',()=>{
+ const city=buildCity(THREE),corridor=polygonIndex(canyonApproachQuads(1));
+ try{
+  const row=city.features.filter(f=>f.type==='building'&&f.edgeId==='city--17-3000'&&f.side===1&&f.from<100).sort((a,b)=>a.from-b.from);
+  assert.ok(row.length>=5,'two full houses and a boundary-fitted house fill the lawn gap');
+  for(let i=1;i<row.length;i++)assert.ok(Math.abs(row[i].from-row[i-1].to)<1e-8,'no gaps between neighboring facades');
+  const last=row.at(-1);assert.ok(last.frontage>=6&&last.frontage<18,'last house is fitted to available safe space');
+  for(const b of row){const p=b.footprint.map(v=>({x:v.x,z:-v.y}));for(const q of corridor.candidates(p))assert.ok(polygonIntersectionArea(p,q)<1e-6,'no house in exit shoulder');}
  }finally{city.dispose();}
 });

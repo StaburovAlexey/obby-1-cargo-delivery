@@ -1,5 +1,3 @@
-#canyon-entry-label{position:absolute;left:0;top:0;min-width:180px;padding:8px 12px;border:2px solid #f6d16f;border-radius:10px;background:#172d3aeb;color:#fff4cf;text-align:center;font-weight:900;line-height:1.35;pointer-events:none;transform:translate(-50%,-50%)}
-#canyon-entry-label small{display:block;font-size:11px;font-weight:700;color:#f5d7a2}
 #canyon-hud{position:fixed;left:50%;top:max(130px,calc(env(safe-area-inset-top,0px) + 124px));transform:translateX(-50%);z-index:5;min-width:180px;padding:9px 15px;border:2px solid #ffe195;border-radius:15px;background:#142433e8;color:#fff4cf;text-align:center;pointer-events:none;box-shadow:0 4px 12px #14213d44}
 #canyon-phase{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
 #canyon-score{display:inline-block;font-size:34px;font-weight:900;font-variant-numeric:tabular-nums;margin:2px 8px}

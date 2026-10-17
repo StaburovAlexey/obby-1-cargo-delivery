@@ -92,3 +92,10 @@ The same seven-sided footprints drive rendering, facade exclusion and terrain re
 ## Opposite city frontage restored
 
 The approach's padded landscape buffer is clipped at the main-road centerline, so it no longer removes the west-side city frontage facing the exit. Four ordinary residences fill the 72 m gap while retaining their standard road setback. The entire east/exit-side buffer, exact approach-rock footprints, full canyon corridor, terrain cuts and asphalt geometry are unchanged. Regression coverage requires a continuous opposite row and checks that restored houses remain outside both main and branch asphalt; all real rock exclusion tests remain active.
+
+
+## Tight exit-side frontage and painted banner
+
+The follow-up view also exposed an unnecessary lawn gap on the exit side. Facade clearance now uses the actual 20 m approach/shoulder ribbon and exact rock polygons, while retaining the full established canyon landscape corridor. Two full city houses and a 13.13 m boundary-fitted house join the existing row edge-to-edge; the final lot stops 5 cm before the blocking boundary. All real rock footprints and road geometry remain protected. The opposite four-house infill remains. Tests assert both continuous frontages, minimum usable final-lot width, and house/road/rock separation.
+
+The canyon sign now paints its Russian label directly into a CanvasTexture on the physical banner faces. The detached DOM label is removed; both banner faces keep fixed geometry, readable orientation and full cleanup. Node geometry/text-material tests cover this without claiming browser/GPU screenshot validation.

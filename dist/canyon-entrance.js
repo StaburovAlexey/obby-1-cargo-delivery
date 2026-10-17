@@ -1,4 +1,5 @@
 import {CANYON_TRACK,canyonContains,projectCanyon} from './canyon-track.js';
+import {createCanyonSignTexture} from './canyon-sign.js';
 import {sanitizeCareer} from './career-save.js';
 import {ROAD_MESH} from './route-network.js';
 import {polygonIndex,meshFootprints,subtractFootprints} from './surface-cut.js';
@@ -6,7 +7,7 @@ import {pointInRoad,projectRoad} from './road-layout.js';
 import {CANYON_APPROACH_HEIGHT,CANYON_GATE_DISTANCE,CANYON_APPROACH_SAMPLES,canyonApproachPoint,canyonApproachContains,projectCanyonApproach,canyonApproachQuads,CANYON_APPROACH_LENGTH} from './canyon-approach.js';
 
 export function canEnterCanyon(career,vehicleId,{developerMode=false}={}){return vehicleId==='bmwreward'&&(developerMode===true||!!sanitizeCareer(career).routeCompletion);}
-export function createCanyonEntrance(THREE){
+export function createCanyonEntrance(THREE,{document:doc=globalThis.document,language=()=>'ru'}={}){
  const group=new THREE.Group();group.name='Canyon entrance and personal progression barrier';
  const geometries=new Set(),materials=new Set();let unlocked=false,disposed=false;
  const geometry=(...size)=>{const g=new THREE.BoxGeometry(...size);geometries.add(g);return g;};
@@ -40,11 +41,18 @@ export function createCanyonEntrance(THREE){
  for(let x=1;x<20;x+=3)box('Barrier red stripe',[1.25,.34,.38],[x,0,0],0xd84736,pivot);
  const sign={x:gate.x+gate.right.x*12+forward.x*10,z:gate.z+gate.right.z*12+forward.z*10};
  box('Canyon sign upright',[.5,7,.5],[sign.x,3.5,sign.z],0x423b33);const signBoard=box('Canyon sign board',[12,3,.35],[sign.x,7,sign.z],0x172d3a);signBoard.rotation.y=gate.heading;
+ const signPaint=createCanyonSignTexture(THREE,{document:doc});
+ if(signPaint){
+  const faceMaterial=new THREE.MeshStandardMaterial({map:signPaint.texture,roughness:.8});materials.add(faceMaterial);
+  // BoxGeometry slots 4/5 are the existing front/back faces, so no coplanar overlay.
+  signBoard.material=[signBoard.material,signBoard.material,signBoard.material,signBoard.material,faceMaterial,faceMaterial];
+ }
+ const refreshSign=()=>signPaint?.update({language:language(),unlocked});refreshSign();
  const gateSolid={minX:gate.x-7.5,maxX:gate.x+7.5,minZ:gate.z-7.5,maxZ:gate.z+7.5};
  const contains=canyonApproachContains;
  const near=(x,z)=>z<-17&&projectCanyonApproach(x,z).distance<24;
- return {group,solids:[gateSolid],labelAnchor:{x:sign.x,y:7,z:sign.z},get unlocked(){return unlocked;},contains,near,
-  updateAccess(career,options){unlocked=canEnterCanyon(career,'bmwreward',options);pivot.rotation.z=unlocked?Math.PI/2:0;gateSolid.minX=unlocked?Infinity:gate.x-7.5;gateSolid.maxX=unlocked?-Infinity:gate.x+7.5;},
+ return {group,solids:[gateSolid],refreshSign,get unlocked(){return unlocked;},contains,near,
+  updateAccess(career,options){unlocked=canEnterCanyon(career,'bmwreward',options);pivot.rotation.z=unlocked?Math.PI/2:0;gateSolid.minX=unlocked?Infinity:gate.x-7.5;gateSolid.maxX=unlocked?-Infinity:gate.x+7.5;refreshSign();},
   shouldEnter(position,vehicleId){const p=canyonContains(position.x,position.z)&&projectCanyon(position.x,position.z);return unlocked&&vehicleId==='bmwreward'&&!!p&&p.progress<=30&&Math.abs(p.offset)<6;},
   contact(x,z,h,footprint={halfWidth:1.7,halfLength:4.05}){
    if(!near(x,z))return undefined;
@@ -64,6 +72,6 @@ export function createCanyonEntrance(THREE){
    }
    return hit;
   },
-  dispose(){if(disposed)return;disposed=true;geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());group.removeFromParent();},
+  dispose(){if(disposed)return;disposed=true;signPaint?.dispose();geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());group.removeFromParent();},
  };
 }

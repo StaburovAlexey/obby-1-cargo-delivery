@@ -10,7 +10,7 @@ import {vehicleConfig} from './economy-config.js';
 import {groundHeight} from './city-driving.js';
 
 export function createCanyonMode(THREE,{scene,document:doc,platform,language,getContext,onEnter=()=>{},onExit=()=>{},onControlsChanged=()=>{}}){
- const entrance=createCanyonEntrance(THREE);scene.add(entrance.group);
+ const entrance=createCanyonEntrance(THREE,{document:doc,language});scene.add(entrance.group);
  const environment=createCanyonScene(THREE);scene.add(environment.group);
  const effects=createDriftEffects(THREE,{height:(x,z)=>canyonSurface(x,z,12)?canyonHeight(x,z):groundHeight(x,z)});scene.add(effects.group);
  const leaderboard=createCanyonLeaderboard({platform});
