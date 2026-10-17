@@ -9,7 +9,7 @@ import {CANYON_APPROACH_HEIGHT,CANYON_GATE_DISTANCE,CANYON_APPROACH_SAMPLES,cany
 export function canEnterCanyon(career,vehicleId,{developerMode=false}={}){return vehicleId==='bmwreward'&&(developerMode===true||!!sanitizeCareer(career).routeCompletion);}
 export function createCanyonEntrance(THREE,{document:doc=globalThis.document,language=()=>'ru'}={}){
  const group=new THREE.Group();group.name='Canyon entrance and personal progression barrier';
- const geometries=new Set(),materials=new Set();let unlocked=false,disposed=false;
+ const geometries=new Set(),materials=new Set();let unlocked=false,eligible=false,disposed=false;
  const geometry=(...size)=>{const g=new THREE.BoxGeometry(...size);geometries.add(g);return g;};
  const material=color=>{const m=new THREE.MeshStandardMaterial({color,roughness:.8});materials.add(m);return m;};
  const box=(name,size,position,color,parent=group)=>{const mesh=new THREE.Mesh(geometry(...size),material(color));mesh.name=name;mesh.position.set(...position);mesh.castShadow=mesh.receiveShadow=true;parent.add(mesh);return mesh;};
@@ -49,13 +49,13 @@ export function createCanyonEntrance(THREE,{document:doc=globalThis.document,lan
   // BoxGeometry slots 4/5 are the existing front/back faces, so no coplanar overlay.
   signBoard.material=[signBoard.material,signBoard.material,signBoard.material,signBoard.material,faceMaterial,faceMaterial];
  }
- const refreshSign=()=>signPaint?.update({language:language(),unlocked});refreshSign();
+ const refreshSign=()=>signPaint?.update({language:language(),unlocked,eligible});refreshSign();
  const gateSolid={minX:gate.x-7.5,maxX:gate.x+7.5,minZ:gate.z-7.5,maxZ:gate.z+7.5};
  const contains=canyonApproachContains;
  const near=(x,z)=>z<-17&&projectCanyonApproach(x,z).distance<24;
  return {group,solids:[gateSolid],refreshSign,get unlocked(){return unlocked;},contains,near,
-  updateAccess(career,options){unlocked=canEnterCanyon(career,'bmwreward',options);pivot.rotation.z=unlocked?Math.PI/2:0;gateSolid.minX=unlocked?Infinity:gate.x-7.5;gateSolid.maxX=unlocked?-Infinity:gate.x+7.5;refreshSign();},
-  shouldEnter(position,vehicleId){const p=canyonContains(position.x,position.z)&&projectCanyon(position.x,position.z);return unlocked&&vehicleId==='bmwreward'&&!!p&&p.progress<=30&&Math.abs(p.offset)<6;},
+  updateAccess(career,{vehicleId='bmwreward',...options}={}){eligible=canEnterCanyon(career,'bmwreward',options);unlocked=canEnterCanyon(career,vehicleId,options);pivot.rotation.z=unlocked?Math.PI/2:0;gateSolid.minX=unlocked?Infinity:gate.x-7.5;gateSolid.maxX=unlocked?-Infinity:gate.x+7.5;refreshSign();},
+  shouldEnter(position,vehicleId){const p=canyonContains(position.x,position.z)&&projectCanyon(position.x,position.z);return unlocked&&vehicleId==='bmwreward'&&!!p&&p.progress<=30&&Math.abs(p.offset)<=CANYON_TRACK.halfWidth-.1;},
   contact(x,z,h,footprint={halfWidth:1.7,halfLength:4.05}){
    if(!near(x,z))return undefined;
    const c=Math.cos(h),s=Math.sin(h),rx=footprint.halfWidth*Math.abs(c)+footprint.halfLength*Math.abs(s),rz=footprint.halfWidth*Math.abs(s)+footprint.halfLength*Math.abs(c);

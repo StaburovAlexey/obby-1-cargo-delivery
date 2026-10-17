@@ -39,3 +39,12 @@ test('a genuine finisher saves only a better drift result without delivery rewar
  assert.equal(g.state.money,before.money);assert.equal(g.state.brains,before.brains);assert.equal(g.state.completedRuns,before.completedRuns);
  assert.equal(createGameplay().recordDriftResult(record),false);
 });
+
+test('score start covers both drivable road edges but rejects outside and late entries',()=>{
+ const p=canyonPointAt(12);
+ for(const offset of [-7.2,-6.9,0,6.9,7.2]){
+  const score=createDriftScore();assert.equal(score.start({...p,x:p.x+p.right.x*offset,z:p.z+p.right.z*offset}),true,`offset ${offset}`);assert.equal(score.state.started,true);
+ }
+ for(const offset of [-9.1,9.1])assert.equal(createDriftScore().start({...p,x:p.x+p.right.x*offset,z:p.z+p.right.z*offset}),false);
+ assert.equal(createDriftScore().start(canyonPointAt(31)),false);
+});

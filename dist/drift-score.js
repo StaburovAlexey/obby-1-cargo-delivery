@@ -7,7 +7,7 @@ export function createDriftScore(){
  const breakCombo=()=>{state.comboDistance=0;state.multiplier=1;grace=0;};
  const invalidate=reason=>{state.valid=false;state.rankedEligible=false;state.reason=reason;breakCombo();return false;};
  return {state,
-  start(pose){const p=projectCanyon(pose?.x,pose?.z);if(!p||p.progress>30||p.progress<0||Math.abs(p.offset)>6)return false;Object.assign(state,{started:true,valid:true,finished:false,rankedEligible:true,reason:null,score:0,multiplier:1,maxCombo:1,comboDistance:0,elapsed:0,progress:p.progress,maxProgress:p.progress,checkpoints:0,driftDistance:0});previous={x:pose.x,z:pose.z,progress:p.progress};grace=fraction=0;return true;},
+  start(pose){const p=projectCanyon(pose?.x,pose?.z);if(!p||p.progress>30||p.progress<0||Math.abs(p.offset)>CANYON_TRACK.halfWidth-.1)return false;Object.assign(state,{started:true,valid:true,finished:false,rankedEligible:true,reason:null,score:0,multiplier:1,maxCombo:1,comboDistance:0,elapsed:0,progress:p.progress,maxProgress:p.progress,checkpoints:0,driftDistance:0});previous={x:pose.x,z:pose.z,progress:p.progress};grace=fraction=0;return true;},
   update(dt,pose,{paused=false}={}){
    if(!state.started||!state.valid||state.finished)return state;
    if(!Number.isFinite(dt)||dt<=0||dt>.3){invalidate('time-gap');return state;}

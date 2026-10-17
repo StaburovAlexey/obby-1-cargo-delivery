@@ -28,6 +28,7 @@ const phrases = Object.freeze({
   'Личный рекорд сохранён. Рейтинг доступен в Яндекс Играх.':'Personal best saved. Rankings are available on Yandex Games.',
   'Личный рекорд сохранён. Результат не отправлен.':'Personal best saved. The score was not submitted.',
   'Тренировочный заезд. Личный рекорд сохранён.':'Practice run. Personal best saved.',
+  'Тренировочный заезд. Результат не сохраняется.':'Practice run. The score is not saved.',
   'Проверяем заезд…':'Checking your run…',
   'Таблица лидеров временно недоступна.':'The leaderboard is temporarily unavailable.',
   'Не удалось загрузить рейтинг. Попробуйте позже.':'Unable to load rankings. Try again later.',

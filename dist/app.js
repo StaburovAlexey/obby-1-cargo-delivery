@@ -579,6 +579,7 @@ function updateCharacter(dt,speed=0){
 function syncMode(snap=false){
   if(!playing||!driving||biomeMenuOpen||upgradeMenuOpen||careerMenuOpen||settingsMenuOpen||graphicsLost)stopVehicleEffects();
   driving=playing&&gameplay?.state.mode==='driving';
+  canyonMode?.refreshAccess();
   const walking=playing&&gameplay?.state.mode==='walking';
   controls.enabled=!playing&&!settingsMenuOpen;
   scene.fog.near=playing?500:10000;scene.fog.far=playing?1600:18000;
@@ -878,6 +879,7 @@ function frame(now) {
     if(gameplay.state.eventMode==='finish'){
       finishCelebration.update(dt);gameplay.advanceFinish(dt);handleGameplayEvents();
     }else if(driving){
+      canyonMode?.refreshAccess();
       if(canyonMode?.active){canyonMode.step(rawDelta);applyTruckPose();handleGameplayEvents();followTruck(dt,false,model.state.pathDistance||0);}else{
       roadHazards.update(dt,model.state,true);
       if(!bridgeFall.active){

@@ -190,7 +190,7 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
     if(unlockedVehicleId)emit('vehicle-unlocked',{id:unlockedVehicleId,reason:'full-route',runId,saved:!developerSession&&!!persistence&&saved});
   };
   const api={state,canWalk,isOwned,isSkinOwned,isSchoolOwned,snapshot,getVehicleAvailability,getDeliveryAvailability,
-    recordDriftResult(input){const record=sanitizeDriftRecord(input);if(!state.routeCompletion||!record||(state.driftRecord&&record.score<=state.driftRecord.score))return false;state.driftRecord=record;persist();emit('drift-record',{record});return true;},
+    recordDriftResult(input){if(developerSession)return false;const record=sanitizeDriftRecord(input);if(!state.routeCompletion||!record||(state.driftRecord&&record.score<=state.driftRecord.score))return false;state.driftRecord=record;persist();emit('drift-record',{record});return true;},
 
 
 
@@ -395,7 +395,7 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       emit('enter',{id,runId:state.run?.id??null,...(preview?{developerPreview:true}:{})});return true;
     },
     beginCanyonRun(){
-      if(!isOwned(REWARD_VEHICLE_ID)||(!developerSession&&(!state.routeCompletion||!sanitizeCareer(snapshot()).routeCompletion)))return false;
+      if(state.mode!=='driving'||state.selectedId!==REWARD_VEHICLE_ID||!isOwned(REWARD_VEHICLE_ID)||(!developerSession&&(!state.routeCompletion||!sanitizeCareer(snapshot()).routeCompletion)))return false;
       api.flushProgress();clearShopPrompts();resetJump();state.run=null;runProgress=null;state.testMode=false;state.testBiome=null;state.stationId=null;state.seatedId=null;state.seatedSchoolId=null;state.eventMode='canyon';state.mode='driving';state.selectedId=REWARD_VEHICLE_ID;return true;
     },
     endCanyonRun(){if(state.eventMode!=='canyon')return false;state.eventMode=null;state.testMode=developerVehicle(state.selectedId);return true;},

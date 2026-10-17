@@ -35,7 +35,7 @@ test('a fresh production career keeps the canyon barrier closed in the shared wo
 test('only the currently driven BMW inside the canyon starts an event',()=>{
  const f=createAppDom({startDriving:false,career:earnedRewardCareer()});
  try{
-  const d=f.debug;assert.equal(d.canyon.entrance.unlocked,true);
+  const d=f.debug;assert.equal(d.canyon.entrance.unlocked,false,'walking keeps the gate closed');
   assert.equal(d.canyon.enter(),false,'walking cannot select or teleport to the BMW');
   selectBmw(f);assert.equal(d.canyon.enter(),false,'the approach is not a remote event button');
   Object.assign(d.model.state,canyonPointAt(12));const before=motion(d.model);

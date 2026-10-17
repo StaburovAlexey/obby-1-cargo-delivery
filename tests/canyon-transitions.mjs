@@ -73,8 +73,30 @@ test('developer canyon runs remain local practice even with an earned career and
  const f=fixture({developerMode:true});
  try{
   await f.start();assert.equal(f.starts,0,'developer practice cannot request a ranked server ticket');assert.equal(f.canyon.score.rankedEligible,false);assert.equal(f.canyon.score.reason,'development');
-  const result=await f.canyon.complete();assert.equal(result.verified,false);assert.equal(result.score,5000);assert.deepEqual(f.submitted,[]);
+  const result=await f.canyon.complete();assert.equal(result.verified,false);assert.equal(result.score,5000);assert.deepEqual(f.submitted,[]);assert.deepEqual(f.saved,[],'developer results must not be passed to persistence');
+  assert.match(f.ids.get('canyon-result-note').textContent,/не сохраняется/);
   assert.equal(f.canyon.retry(),true);assert.equal(f.canyon.phase,'touring');f.restart();
   assert.equal(f.starts,0,'returning also remains local practice');assert.equal(f.canyon.score.rankedEligible,false);assert.equal(f.canyon.score.reason,'development');
  }finally{f.canyon.dispose();}
+});
+
+test('dismissing an armed edge entry stays touring until the car leaves and reenters',async()=>{
+ for(const developerMode of [false,true]){
+  const f=fixture({developerMode});
+  try{
+   const point=canyonPointAt(12);
+   Object.assign(f.model.state,{x:point.x+point.right.x*9.5,z:point.z+point.right.z*9.5});
+   assert.equal(f.canyon.enter(),true);assert.equal(f.canyon.phase,'arming');
+   assert.equal(f.canyon.score.started,false);assert.equal(f.starts,0);
+   assert.equal(f.canyon.retry(),true);assert.equal(f.canyon.phase,'touring');
+   Object.assign(f.model.state,{x:point.x,z:point.z});
+   for(let i=0;i<3;i++)f.canyon.step(0);
+   assert.equal(f.canyon.active,true);assert.equal(f.canyon.phase,'touring');
+   assert.equal(f.canyon.score,undefined);assert.equal(f.starts,0);
+   assert.equal(f.ids.get('canyon-hud').hidden,true);assert.equal(f.ids.get('canyon-overlay').hidden,true);
+   assert.deepEqual(f.saved,[]);assert.deepEqual(f.submitted,[]);
+   f.restart();await Promise.resolve();
+   assert.equal(f.canyon.score.started,true);assert.equal(f.starts,developerMode?0:1);
+  }finally{f.canyon.dispose();}
+ }
 });

@@ -49,3 +49,11 @@ test('narrow thick sign fully contains its post socket from front, back, and obl
  }
  entrance.dispose();
 });
+
+test('an eligible career in another car sees BMW-only instruction on the closed gate',()=>{
+ const f=fixture();let language='ru';const entrance=createCanyonEntrance(THREE,{...f,language:()=>language});
+ entrance.updateAccess({}, {developerMode:true,vehicleId:'pickup'});assert.equal(entrance.unlocked,false);assert.equal(f.words.at(-1),'Только на BMW');
+ language='en';entrance.refreshSign();assert.equal(f.words.at(-1),'BMW only');
+ entrance.updateAccess({}, {developerMode:true,vehicleId:'bmwreward'});assert.equal(f.words.at(-1),'Enter in your BMW');
+ entrance.dispose();
+});

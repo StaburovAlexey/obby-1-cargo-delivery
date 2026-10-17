@@ -93,7 +93,7 @@ test('developer app unlocks all cars and the canyon through repeated entry and r
    assert.deepEqual(debug.gameplay.snapshot(),career);
   }
   debug.rebuild(42);debug=fixture.debug;
-  assert.equal(debug.canyon.entrance.unlocked,true);
+  assert.equal(debug.canyon.entrance.unlocked,false,'rebuilding without a selected BMW closes the gate');
   for(const vehicle of vehicles)assert.equal(debug.gameplay.isOwned(vehicle.id),true,vehicle.id);
   assert.deepEqual(debug.gameplay.snapshot(),career);
   assert.equal(writes,0);
@@ -113,4 +113,14 @@ test('production service rejects the dev query and preserves the canyon and vehi
   assert.equal(debug.canyon.enter(),false);
   assert.deepEqual(debug.gameplay.snapshot(),career);
  }finally{fixture.dispose();}
+});
+
+
+test('developer practice cannot replace a legitimate career drift record',async()=>{
+ const {earnedRewardCareer}=await import('./fixtures/reward-career.mjs');
+ const career=earnedRewardCareer();let writes=0;
+ const gameplay=createGameplay({vehicles,career,developerMode:true,persistence:{save(){writes++;}}});
+ const before=gameplay.snapshot();
+ for(const verified of [false,true])assert.equal(gameplay.recordDriftResult({version:1,trackId:'canyon-v1',score:99999,durationMs:100000,maxCombo:5,verified}),false);
+ assert.deepEqual(gameplay.snapshot(),before);assert.equal(writes,0);
 });

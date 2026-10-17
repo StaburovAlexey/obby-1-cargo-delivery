@@ -14,7 +14,7 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,language,get
  const environment=createCanyonScene(THREE);scene.add(environment.group);
  const effects=createDriftEffects(THREE,{height:(x,z)=>canyonSurface(x,z,12)?canyonHeight(x,z):groundHeight(x,z)});scene.add(effects.group);
  const leaderboard=createCanyonLeaderboard({platform});
- let active=false,phase='idle',disposed=false,epoch=0,vehicle=null,scorer=null,runId=null,runReady=Promise.resolve(null),result=null,rankings=false,accessProof=Symbol('initial'),accessDevelopment=null;
+ let active=false,phase='idle',disposed=false,epoch=0,vehicle=null,scorer=null,runId=null,runReady=Promise.resolve(null),result=null,rankings=false,accessProof=Symbol('initial'),accessDevelopment=null,accessVehicle=null;
  const account=()=>platform?.accountGeneration??0;
  const current=(token,owner)=>!disposed&&active&&token===epoch&&owner===account()&&!platform?.status?.reloadRequired;
  const client=()=>getContext().online?.client;
@@ -23,13 +23,13 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,language,get
  solids?.push(...entrance.solids);
  const drivingModel=()=>vehicle?.model??getContext().model;
  const developerMode=()=>getContext().gameplay.state.developerMode===true;
- function access(){const career=getContext().gameplay.state,development=developerMode();if(career.routeCompletion!==accessProof||development!==accessDevelopment){accessProof=career.routeCompletion;accessDevelopment=development;entrance.updateAccess(getContext().gameplay.snapshot(),{developerMode:development});}}
+ function access(){const career=getContext().gameplay.state,development=developerMode(),vehicleId=career.selectedId;if(career.routeCompletion!==accessProof||development!==accessDevelopment||vehicleId!==accessVehicle){accessProof=career.routeCompletion;accessDevelopment=development;accessVehicle=vehicleId;entrance.updateAccess(getContext().gameplay.snapshot(),{developerMode:development,vehicleId});}}
  function prepare(){
   epoch++;leaderboard.cancelPending();client()?.cancelDriftRun();runId=null;runReady=Promise.resolve(null);result=null;rankings=false;scorer=createDriftScore();
   phase='running';start();ui.update({phase});
  }
  function start(){
-  phase='running';if(!scorer.start(drivingModel().state)){phase='touring';ui.hide();return;}const token=epoch;
+  phase='running';if(!scorer.start(drivingModel().state)){phase='arming';ui.hide();return;}const token=epoch;
   if(developerMode()){scorer.disqualify('development');onControlsChanged();return;}
   runReady=Promise.resolve(client()?.startDriftRun()).then(reply=>{if(token!==epoch||!active)return null;runId=reply?.ok?reply.runId:null;if(!runId)scorer.disqualify('offline');return runId;}).catch(()=>{if(token===epoch)scorer.disqualify('offline');return null;});
   onControlsChanged();
@@ -56,6 +56,9 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,language,get
    g.state.player.x=model.state.x;g.state.player.z=model.state.z;
    g.state.fuels.bmwreward=Math.max(0,g.state.fuels.bmwreward-model.state.pathDistance*vehicleConfig('bmwreward').consumption);
    if(!canyonSurface(model.state.x,model.state.z,3)){api.leave();return;}
+   // An edge-of-road entry can precede the score start zone. Keep arming
+   // until the same physical car reaches it; a dismissed run stays touring.
+   if(phase==='arming')start();
    if(phase==='running'&&dt>0){
     if(rawDelta>.100001)api.pause('time-gap');
     scorer.update(dt,model.state);
@@ -73,8 +76,8 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,language,get
    try{const ticket=await runReady;if(current(token,owner)&&local&&scorer.state.rankedEligible&&ticket)verified=await client()?.finishDriftRun(ticket);else client()?.cancelDriftRun();}catch{}
    if(!current(token,owner))return null;
    result=verified||local;phase='result';
-   if(result)getContext().gameplay.recordDriftResult(result);
-   let status=local?(scorer.state.rankedEligible?'unverified':'practice'):'cancelled';
+   if(result&&!developerMode())getContext().gameplay.recordDriftResult(result);
+   let status=local?(developerMode()?'development':scorer.state.rankedEligible?'unverified':'practice'):'cancelled';
    if(verified){ui.showResult(result,{status:'checking'});const submission=await leaderboard.submit(verified);if(!current(token,owner))return null;status=submission.status;}
    ui.showResult(result,{status});onControlsChanged();return result;
   },
