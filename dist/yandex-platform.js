@@ -113,8 +113,32 @@ export async function initializeYandexPlatform(options = {}) {
     if (startedGeneration !== generation) throw new Error('Yandex account changed');
     return result;
   };
+  const leaderboardAvailable=async method=>{
+    ensureAccount();
+    if(typeof sdk.leaderboards?.[method]!=='function'||typeof sdk.isAvailableMethod!=='function')return false;
+    return !!await accountCall(async()=>sdk,'isAvailableMethod',['leaderboards.'+method]);
+  };
   return {
     id:'yandex', name:'Яндекс Игры', sdk, development, language: resolveYandexLanguage(sdk.environment?.i18n?.lang), status,
+    get accountGeneration(){return generation;},
+    async getLeaderboardStatus(){return {available:await leaderboardAvailable('getEntries'),authorized:await leaderboardAvailable('setScore')};},
+    getLeaderboardEntries(name,options){return accountCall(async()=>sdk.leaderboards,'getEntries',[name,options]);},
+    async getLeaderboardPlayerEntry(name){
+      if(!await leaderboardAvailable('getPlayerEntry'))return null;
+      try{return await accountCall(async()=>sdk.leaderboards,'getPlayerEntry',[name]);}catch(error){if(error?.code==='LEADERBOARD_PLAYER_NOT_PRESENT')return null;throw error;}
+    },
+    async setLeaderboardScore(name,score,extraData=''){
+      if(!Number.isSafeInteger(score)||score<0||score>100000000||typeof extraData!=='string'||extraData.length>1024)throw new Error('Invalid leaderboard score');
+      if(!await leaderboardAvailable('setScore'))throw Object.assign(new Error('Yandex authorization required'),{code:'AUTH_REQUIRED'});
+      return accountCall(async()=>sdk.leaderboards,'setScore',[name,score,extraData]);
+    },
+    async authorizeLeaderboard(){
+      ensureAccount();const before=await getPlayer(),beforeId=before.getUniqueID?.();
+      await accountCall(async()=>sdk.auth,'openAuthDialog',[],true);playerPromise=undefined;
+      const after=await getPlayer();
+      if(beforeId&&after.getUniqueID?.()!==beforeId){generation++;status.reloadRequired=true;options.onAccountChange?.();if(!options.onAccountChange)globals.location?.reload?.();throw new Error('Yandex account changed; reload required');}
+      return {available:await leaderboardAvailable('getEntries'),authorized:await leaderboardAvailable('setScore')};
+    },
     ready() { if (readySent) return false; feature('LoadingAPI', 'ready'); readySent = true; return true; },
     gameplayStart() { if (playing || status.paused || status.reloadRequired || destroyed) return false; feature('GameplayAPI', 'start'); playing = true; return true; },
     gameplayStop: stop,
