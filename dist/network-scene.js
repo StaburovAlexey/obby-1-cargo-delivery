@@ -3,7 +3,14 @@
 
 import {canyonApproachQuads} from './canyon-approach.js';
 import {barrierStripData} from './roadside-barrier.js';
-const canyonClearance=canyonApproachQuads(3);
+import {CANYON_TRACK,canyonPointAt} from './canyon-track.js';
+import {polygonIndex,cutSurfaceMesh} from './surface-cut.js';
+// Reserve a landscape corridor as well as the asphalt: city facades cannot
+// protrude through the sandstone walls or the fork's roadside shoulders.
+const canyonClearance=canyonApproachQuads(15);
+for(let s=0;s<CANYON_TRACK.length;s+=2){const a=canyonPointAt(s),b=canyonPointAt(s+2),edge=(p,w)=>({x:p.x+p.right.x*w,z:p.z+p.right.z*w});canyonClearance.push([edge(a,-70),edge(b,-70),edge(b,70),edge(a,70)]);}
+const canyonClearanceIndex=polygonIndex(canyonClearance);
+const approachGroundCut=polygonIndex(canyonApproachQuads(1));
 import * as NETWORK from './route-network.js';
 import {NETWORK_CONFIG} from './route-network-config.js';
 import {BRIDGES} from './road-bridges.js';
@@ -188,7 +195,7 @@ export function buildCity(THREE,{seed=42}={}){
     g.computeVertexNormals();g.computeBoundingBox();g.computeBoundingSphere();
     const mesh=new THREE.Mesh(g,material);mesh.name=name;mesh.receiveShadow=true;mesh.userData.networkSurface=true;group(terrain?'Terrain':'Street').add(mesh);return mesh;
   }
-  const bridgeRoad=clipBridgeSurfaces(ROAD_MESH),bridgeGround=clipBridgeSurfaces(GROUND_MESH,{terrain:true});
+  const bridgeRoad=clipBridgeSurfaces(ROAD_MESH),bridgeGround=cutSurfaceMesh(clipBridgeSurfaces(GROUND_MESH,{terrain:true}),approachGroundCut);
   const road=surface('Continuous 30m-wide road',bridgeRoad,createPaintedRoadMaterial(THREE,undefined,{network:true}));
   const groundMaterial=createGroundMaterial(THREE,'grass',0xffffff);groundMaterial.vertexColors=true;
   applyRoadSurfaceShader(THREE,groundMaterial,{fringe:true,network:true});
@@ -262,7 +269,7 @@ export function buildCity(THREE,{seed=42}={}){
           if(!medianFits){omittedJunctionSections++;continue;}
         }
         const shape=envelope(edge,side,from,to,setback,depth);
-        if(canyonClearance.some(quad=>polygonIntersectionArea(shape.p,quad)>1e-6)){omittedJunctionSections++;continue;}
+        if(canyonClearanceIndex.candidates(shape.p).some(quad=>polygonIntersectionArea(shape.p,quad)>1e-6)){omittedJunctionSections++;continue;}
         if(roadIndex.intersects(shape.p)){omittedJunctionSections++;continue;}
         const position=[shape.p.reduce((n,p)=>n+p.x,0)/4,-shape.p.reduce((n,p)=>n+p.z,0)/4,shape.low-.15];
         if(biome.id==='city'){

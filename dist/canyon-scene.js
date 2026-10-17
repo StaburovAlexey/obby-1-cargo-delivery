@@ -59,14 +59,17 @@ export function createCanyonScene(THREE){
  for(let s=0;s<CANYON_TRACK.length;s+=12){const p=canyonPointAt(s);for(const side of [-1,1])posts.push({position:[p.x+p.right.x*9.25*side,p.height+.48,p.z+p.right.z*9.25*side],scale:[.25,.95,.25]});}
  for(let s=8;s<CANYON_TRACK.length;s+=14){const p=canyonPointAt(s);dashes.push({position:[p.x,p.height+.024,p.z],scale:[.14,.028,5],heading:p.heading,pitch:Math.atan(p.gradient.x*-Math.sin(p.heading)+p.gradient.z*-Math.cos(p.heading))});}
  batch('Canyon guardrail posts',box,mat(0x6d7478),posts);batch('Canyon center dashes',box,mat(0xe9b94e),dashes);
- const rock=new THREE.CylinderGeometry(1,1,1,7,1);geometries.add(rock);
+ // Layers meet without overlapping sidewalls or doubled internal caps.
  for(let layer=0;layer<3;layer++){
+  const rock=new THREE.CylinderGeometry(1,1,1,7,1),indices=[];
+  for(const part of rock.groups)if(part.materialIndex===0||(layer===0&&part.materialIndex===2)||(layer===2&&part.materialIndex===1))for(let i=part.start;i<part.start+part.count;i++)indices.push(rock.index.getX(i));
+  rock.setIndex(indices);rock.clearGroups();geometries.add(rock);
   const parts=[];
   // Set the first outcrops beyond the city terrain and the garage sightline.
   for(let s=57,index=0;s<=CANYON_TRACK.length;s+=19,index++){
    const p=canyonPointAt(s);
    for(const side of [-1,1]){const wobble=Math.sin(index*3.1+side)*3.5,top=p.height+20+Math.sin(index*.7)*12,bottom=p.height-45,total=top-bottom,h=total/3;
-    parts.push({position:[p.x+p.right.x*(34+wobble)*side,bottom+h*(layer+.5),p.z+p.right.z*(34+wobble)*side],scale:[17+Math.sin(index*2.3)*3,h+.2,17+Math.cos(index*1.3)*3],heading:index*.3,color:[0xa45f3a,0xc88650,0xe0a56c][layer]});}
+    parts.push({position:[p.x+p.right.x*(34+wobble)*side,bottom+h*(layer+.5),p.z+p.right.z*(34+wobble)*side],scale:[17+Math.sin(index*2.3)*3,h,17+Math.cos(index*1.3)*3],heading:index*.3,color:[0xa45f3a,0xc88650,0xe0a56c][layer]});}
   }
   batch('Canyon sandstone stratum '+layer,rock,mat(0xffffff,{flatShading:true}),parts);
  }
@@ -77,6 +80,7 @@ export function createCanyonScene(THREE){
  }
  // A finite ribbon follows the canyon. A world-sized floor would cut across
  // the main map and, after the shared join, cover the downhill asphalt.
- strip('Canyon basin floor',-70,70,mat(0xa87952),-45);
+ // Keep floor offsets below the 50 m minimum bend radius so triangles cannot fold.
+ strip('Canyon basin floor',-45,45,mat(0xa87952),-45);
  return {group,dispose(){if(disposed)return;disposed=true;instances.forEach(i=>i.dispose());geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());group.removeFromParent();}};
 }

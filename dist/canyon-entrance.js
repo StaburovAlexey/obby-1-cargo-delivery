@@ -1,5 +1,7 @@
 import {CANYON_TRACK,canyonContains,projectCanyon} from './canyon-track.js';
 import {sanitizeCareer} from './career-save.js';
+import {ROAD_MESH} from './route-network.js';
+import {polygonIndex,meshFootprints,subtractFootprints} from './surface-cut.js';
 import {pointInRoad,projectRoad} from './road-layout.js';
 import {CANYON_APPROACH_HEIGHT,CANYON_GATE_DISTANCE,CANYON_APPROACH_SAMPLES,canyonApproachPoint,canyonApproachContains,projectCanyonApproach,canyonApproachQuads,CANYON_APPROACH_LENGTH} from './canyon-approach.js';
 
@@ -11,18 +13,20 @@ export function createCanyonEntrance(THREE){
  const material=color=>{const m=new THREE.MeshStandardMaterial({color,roughness:.8});materials.add(m);return m;};
  const box=(name,size,position,color,parent=group)=>{const mesh=new THREE.Mesh(geometry(...size),material(color));mesh.name=name;mesh.position.set(...position);mesh.castShadow=mesh.receiveShadow=true;parent.add(mesh);return mesh;};
  // The branch peels gradually to 45 degrees, with no transverse right-angle leg.
+ const mainRoad=polygonIndex(meshFootprints(ROAD_MESH));
  const positions=[];
- for(const quad of canyonApproachQuads())for(const i of [0,2,1,0,3,2])positions.push(quad[i].x,CANYON_APPROACH_HEIGHT,quad[i].z);
+ const emit=(out,quad)=>{for(const poly of subtractFootprints(quad,mainRoad))for(let i=1;i<poly.length-1;i++){const tri=[poly[0],poly[i+1],poly[i]].map(p=>({x:Math.fround(p.x),z:Math.fround(p.z)}));const [a,b,c]=tri;if(Math.abs((b.x-a.x)*(c.z-a.z)-(b.z-a.z)*(c.x-a.x))<1e-9)continue;for(const p of tri)out.push(p.x,CANYON_APPROACH_HEIGHT,p.z);}};
+ // The city owns the shared footprint; the branch begins exactly on its edge.
+ for(const quad of canyonApproachQuads())emit(positions,quad);
  const asphaltGeometry=new THREE.BufferGeometry();asphaltGeometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));asphaltGeometry.computeVertexNormals();geometries.add(asphaltGeometry);
  const asphalt=new THREE.Mesh(asphaltGeometry,material(0x343b43));asphalt.name='Canyon approach asphalt';asphalt.receiveShadow=true;group.add(asphalt);
  const shoulderPositions=[];
  for(let i=1;i<CANYON_APPROACH_SAMPLES.length;i++){
   const a=CANYON_APPROACH_SAMPLES[i-1],b=CANYON_APPROACH_SAMPLES[i];
   for(const side of [-1,1]){
-   const ax=a.x+a.right.x*9.5*side,az=a.z+a.right.z*9.5*side,bx=b.x+b.right.x*9.5*side,bz=b.z+b.right.z*9.5*side;
-   if(pointInRoad(ax,az)||pointInRoad(bx,bz))continue;
-   const quad=[{x:ax-a.right.x*.5,z:az-a.right.z*.5},{x:bx-b.right.x*.5,z:bz-b.right.z*.5},{x:bx+b.right.x*.5,z:bz+b.right.z*.5},{x:ax+a.right.x*.5,z:az+a.right.z*.5}];
-   for(const j of [0,2,1,0,3,2])shoulderPositions.push(quad[j].x,CANYON_APPROACH_HEIGHT+.02,quad[j].z);
+   const edge=(p,w)=>({x:p.x+p.right.x*w*side,z:p.z+p.right.z*w*side});
+   const quad=side===1?[edge(a,9),edge(b,9),edge(b,10),edge(a,10)]:[edge(a,10),edge(b,10),edge(b,9),edge(a,9)];
+   emit(shoulderPositions,quad);
   }
  }
  const shoulderGeometry=new THREE.BufferGeometry();shoulderGeometry.setAttribute('position',new THREE.Float32BufferAttribute(shoulderPositions,3));shoulderGeometry.computeVertexNormals();geometries.add(shoulderGeometry);
