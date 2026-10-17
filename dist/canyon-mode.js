@@ -15,7 +15,7 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,language,get
  const entrance=createCanyonEntrance(THREE);scene.add(entrance.group);
  const effects=createDriftEffects(THREE,{height:(x,z)=>active?canyonHeight(x,z):groundHeight(x,z)});scene.add(effects.group);
  const leaderboard=createCanyonLeaderboard({platform});
- let active=false,phase='idle',disposed=false,epoch=0,countdown=3,environment=null,vehicle=null,original=null,scorer=null,runId=null,runReady=Promise.resolve(null),result=null,rankings=false,accessProof=Symbol('initial');
+ let active=false,phase='idle',disposed=false,epoch=0,countdown=3,environment=null,vehicle=null,original=null,scorer=null,runId=null,runReady=Promise.resolve(null),result=null,rankings=false,accessProof=Symbol('initial'),accessDevelopment=null;
  const account=()=>platform?.accountGeneration??0;
  const current=(token,owner)=>!disposed&&active&&token===epoch&&owner===account()&&!platform?.status?.reloadRequired;
  const client=()=>getContext().online?.client;
@@ -25,7 +25,8 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,language,get
  const model=createDrivingModel({...canyonPointAt(CANYON_TRACK.spawn),vehicleId:'bmwreward',maxSpeed:42,getUpgrades:()=>undefined,
   groundSurface:()=>surfaceForBiome('city','bmwreward'),groundGradient:(x,z)=>projectCanyon(x,z).gradient,
   contact:(x,z,h)=>canyonContact(x,z,h,vehicleFootprint(vehicle?.visual?.metadata,model.state.frontWheelAngle))});
- function access(){const career=getContext().gameplay.state;if(career.routeCompletion!==accessProof){accessProof=career.routeCompletion;entrance.updateAccess(getContext().gameplay.snapshot());}}
+ const developerMode=()=>getContext().gameplay.state.developerMode===true;
+ function access(){const career=getContext().gameplay.state,development=developerMode();if(career.routeCompletion!==accessProof||development!==accessDevelopment){accessProof=career.routeCompletion;accessDevelopment=development;entrance.updateAccess(getContext().gameplay.snapshot(),{developerMode:development});}}
  function place(){const start=canyonPointAt(CANYON_TRACK.spawn);model.reset();Object.assign(model.state,{x:start.x,z:start.z,heading:start.heading});model.pause();vehicle.rig.update({...canyonPose(THREE,model.state,vehicle.visual?.metadata),steerAngle:0,wheelSpin:0,bodyPitch:0,bodyRoll:0,bodyBob:0});}
  function prepare(){
   epoch++;leaderboard.cancelPending();client()?.cancelDriftRun();runId=null;runReady=Promise.resolve(null);result=null;rankings=false;phase='countdown';countdown=3;effects.clear();place();scorer=createDriftScore();
@@ -34,13 +35,14 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,language,get
  }
  function start(){
   phase='running';scorer.start(model.state);const token=epoch;
+  if(developerMode()){scorer.disqualify('development');onControlsChanged();return;}
   runReady=Promise.resolve(client()?.startDriftRun()).then(reply=>{if(token!==epoch||!active)return null;runId=reply?.ok?reply.runId:null;if(!runId)scorer.disqualify('offline');return runId;}).catch(()=>{if(token===epoch)scorer.disqualify('offline');return null;});
   onControlsChanged();
  }
  const api={entrance,model,effects,leaderboard,get active(){return active;},get phase(){return phase;},get controlsLocked(){return active&&phase!=='running';},get score(){return scorer?.state;},
   refreshAccess:access,
   enter(){
-   access();const c=getContext();if(disposed||active||!canEnterCanyon(c.gameplay.snapshot(),'bmwreward')||!c.gameplay.beginCanyonRun())return false;
+   access();const c=getContext();if(disposed||active||!canEnterCanyon(c.gameplay.snapshot(),'bmwreward',{developerMode:developerMode()})||!c.gameplay.beginCanyonRun())return false;
    vehicle=c.garage.vehicles.find(v=>v.id==='bmwreward');if(!vehicle)return false;
    original={parent:vehicle.group.parent,model:vehicle.model,position:vehicle.position,groups:[c.city.group,c.garage.group,c.finishLine.group,c.roadHazardsScene.group].map(group=>[group,group.visible])};
    if(!environment){environment=createCanyonScene(THREE);scene.add(environment.group);}environment.group.visible=true;

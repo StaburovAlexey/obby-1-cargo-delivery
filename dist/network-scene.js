@@ -1,6 +1,8 @@
 
 
 
+import {canyonApproachQuads} from './canyon-approach.js';
+const canyonClearance=canyonApproachQuads(3);
 import * as NETWORK from './route-network.js';
 import {NETWORK_CONFIG} from './route-network-config.js';
 import {BRIDGES} from './road-bridges.js';
@@ -246,8 +248,7 @@ export function buildCity(THREE,{seed=42}={}){
           if(!medianFits){omittedJunctionSections++;continue;}
         }
         const shape=envelope(edge,side,from,to,setback,depth);
-        const canyonApproach=[{x:14,z:-78},{x:112,z:-78},{x:112,z:-52},{x:14,z:-52}];
-        if(polygonIntersectionArea(shape.p,canyonApproach)>1e-6){omittedJunctionSections++;continue;}
+        if(canyonClearance.some(quad=>polygonIntersectionArea(shape.p,quad)>1e-6)){omittedJunctionSections++;continue;}
         if(roadIndex.intersects(shape.p)){omittedJunctionSections++;continue;}
         const position=[shape.p.reduce((n,p)=>n+p.x,0)/4,-shape.p.reduce((n,p)=>n+p.z,0)/4,shape.low-.15];
         if(biome.id==='city'){

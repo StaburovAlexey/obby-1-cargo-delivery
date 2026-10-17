@@ -5,8 +5,8 @@ import {earnedRewardCareer} from './fixtures/reward-career.mjs';
 import {canyonPointAt} from '../dist/canyon-track.js';
 import {polygonIntersectionArea} from '../dist/network-scene.js';
 
-test('the actual game always shows a closed entrance and developer BMW does not bypass it',()=>{
- const f=createAppDom({startDriving:false,search:'?dev=1'});
+test('the actual game shows a closed entrance for a fresh production career',()=>{
+ const f=createAppDom({startDriving:false});
  try{
   assert.ok(f.debug.canyon,'canyon controller is integrated');assert.equal(f.debug.canyon.entrance.group.visible,true);assert.equal(f.debug.canyon.entrance.unlocked,false);assert.equal(f.debug.canyon.enter(),false);assert.equal(f.debug.gameplay.state.eventMode,null);
   const approach=[{x:14,z:-78},{x:112,z:-78},{x:112,z:-52},{x:14,z:-52}];

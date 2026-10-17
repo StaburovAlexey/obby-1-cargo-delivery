@@ -22,7 +22,7 @@ test('projection, tire support and contact follow the same sloping road',()=>{
  }
 });
 
-test('the visible entrance physically blocks uncompleted careers and developer preview',()=>{
+test('the visible entrance blocks uncompleted careers and a forged saved developer flag',()=>{
  const gate=createCanyonEntrance(THREE),fresh=freshCareer();
  try{
   assert.equal(canEnterCanyon({...fresh,ownedVehicleIds:['pickup','bmwreward'],completedRuns:100,developerMode:true},'bmwreward'),false);
