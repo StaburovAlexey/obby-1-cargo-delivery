@@ -56,3 +56,11 @@ All other runtime modules are retained from City35, including the 0–66 m hills
 ## Higher route
 
 Height is now 0–66 m rather than 0–28 m; total ascent rises from 105 to 157 m. Both analytic and actual full-width road grades stay at or below 7.5%. All fuel/delivery shelves, five preview points and the start are level. Fork heights/gradients, road vertices and wheel sampling share the same field. The authored field has smooth C2 joins; the actual Float32 mesh is piecewise linear, with its small quantization limits documented in `qa/route-hills/README.md`. Geometry counts and plan topology are unchanged.
+
+## BMW drift correction (2026-10-17)
+
+The BMW forward profile now uses four contact-patch forces at its measured wheel positions. The former target-slip controller and direct yaw servo are removed. Steering rotates the front tires; lateral tire forces oppose local contact velocity and saturate in a friction circle. Rear-wheel drive shares that grip budget, and the handbrake reduces rear lateral grip while braking those wheels. There is no steering-triggered sideways force or automatic velocity alignment. Countersteering and lifting let tire forces recover the car. A tight held turn naturally loses speed instead of being forced into a permanent fixed-angle slide. Other vehicles retain their exact pre-canyon dynamics.
+
+BMW controls use the existing reverse pedal (or S / Down). A press above the stop threshold latches handbrake until release, so slowing during a drift cannot silently engage reverse. Release and press again while stopped to reverse. Gas and handbrake can be held together. Shift remains a keyboard handbrake alias; the two extra touch buttons are removed. Safety resets clear held inputs and the latch.
+
+Verification includes deterministic contact-force power checks, 30/60/120 Hz comparison, mirrored maneuvers, countersteering, release, actual application frame-loop driving and scoring with mocked DOM/rendering, and unchanged ordinary-vehicle trajectories. These CPU checks do not establish browser/GPU rendering or real-device touch feel.

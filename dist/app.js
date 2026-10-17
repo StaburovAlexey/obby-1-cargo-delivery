@@ -711,6 +711,7 @@ function travelToBiome(id){
 }
 rebuild(42);
 inputController=createVehicleInput({root:document.getElementById('drive-ui'),
+  getTelemetry:()=>model?.state,
   onInput:input=>{if(driving)model?.setInput(input)},
   onGear:gear=>{if(driving)model?.setGear(gear)},
   onSafetyReset:()=>{model?.pause();lastTime=0}});

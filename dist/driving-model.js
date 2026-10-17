@@ -438,9 +438,10 @@ export function createDrivingModel({
     const targetSpeed = normalizeMaxSpeed(effectiveMaxSpeed,!!spec.rewardDrift) * surface.speedFactor * speedFraction;
     const excessSpeed = state.speed * direction - targetSpeed;
     const analogBrake = analog ? (speedFraction < .001 ? 1 : clamp((excessSpeed - .04) * .7, 0, 1)) : 0;
-    state.braking = Math.max(state.brake,gearBraking ? 1 : analogBrake);
-    const assisted=spec.rewardDrift&&state.gear==='D'&&!gearBraking;
-    const forces = assisted?evaluateDriftDynamics(state,{maxSpeed:targetSpeed,engineAcceleration:catalogAcceleration*upgrades.engine*surface.engineFactor,surface,gradient,braking:state.braking,dt,mass:p.mass,inertia:p.yawInertia}):evaluateVehicleForces(state, { maxSpeed: effectiveMaxSpeed, gradient, braking: state.braking, speedFraction, surface,
+    const serviceBraking = Math.max(state.brake,gearBraking ? 1 : analogBrake);
+    state.braking = Math.max(serviceBraking,state.handbrake);
+    const bmwForward=spec.rewardDrift&&state.gear==='D'&&!gearBraking;
+    const forces = bmwForward?evaluateDriftDynamics(state,{maxSpeed:targetSpeed,engineAcceleration:catalogAcceleration*upgrades.engine*surface.engineFactor,surface,gradient,braking:serviceBraking,dt,mass:p.mass,inertia:p.yawInertia}):evaluateVehicleForces(state, { maxSpeed: effectiveMaxSpeed, gradient, braking: state.braking, speedFraction, surface,
       engineAcceleration: catalogAcceleration * upgrades.engine, brakeFactor: spec.grip * upgrades.grip, rewardDrift:spec.rewardDrift });
     state.velocityX += forces.forceX / p.mass * dt;
     state.velocityZ += forces.forceZ / p.mass * dt;

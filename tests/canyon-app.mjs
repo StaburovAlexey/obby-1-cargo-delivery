@@ -83,6 +83,10 @@ test('real app driving crosses the canyon seam forward and in reverse without a 
   assert.equal(d.gameplay.state.money,before.money);assert.equal(d.gameplay.state.brains,before.brains);
   f.win.dispatch('keyup',{code:'KeyW'});
   const reverse=f.ids.get('reverse-pedal');reverse.dispatch('pointerdown',{pointerId:82,button:0,clientX:60,clientY:70});
+  frameUntil(f,()=>model.state.linearSpeed<.3);
+  assert.equal(model.state.gear,'D','a held drift brake cannot silently select reverse');
+  reverse.dispatch('pointerup',{pointerId:82,button:0,clientX:60,clientY:70});
+  reverse.dispatch('pointerdown',{pointerId:82,button:0,clientX:60,clientY:70});
   frameUntil(f,()=>!d.canyon.active);
   assert.equal(model.state.gear,'R');assert.equal(model.state.active,true);assert.ok(model.state.velocityX<0);
   assert.equal(d.gameplay.state.mode,'driving');assert.equal(d.gameplay.state.selectedId,'bmwreward');assert.equal(d.gameplay.state.eventMode,null);

@@ -1,10 +1,8 @@
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const smooth=(a,b,v)=>{const t=clamp((v-a)/(b-a),0,1);return t*t*(3-2*t);};
-const wrap=a=>Math.atan2(Math.sin(a),Math.cos(a));
 
 export const BMW_DRIFT=Object.freeze({
   wheelbase:4.804521067916265,yawInertia:10800,halfWidth:1.7,halfLength:4.05,
-  maximumSlip:.62,gripResponse:.45,yawResponse:8,coastingDrag:.16,
   wheels:Object.freeze([
     Object.freeze({name:'front-left',x:-1.30250780845,z:-2.58302943097,front:true}),
     Object.freeze({name:'front-right',x:1.30250780845,z:-2.58302943097,front:true}),
@@ -21,33 +19,39 @@ export function driftTelemetry(state){
   return {slipAngle,driftIntensity:forward>2?smooth(.07,.5,Math.abs(slipAngle))*smooth(3,10,speed):0};
 }
 
-export function evaluateDriftDynamics(state,{maxSpeed,engineAcceleration,surface,gradient,braking=0,dt,mass=1600,inertia=BMW_DRIFT.yawInertia}){
-  const speed=Math.hypot(state.velocityX,state.velocityZ),heading=state.heading;
-  const telemetry=driftTelemetry(state),steer=state.steering;
-  const magnitude=Math.max(0,(Math.abs(steer)-.08)/.92),intent=Math.sign(steer)*magnitude*(.55+.45*magnitude);
-  const handbrake=state.handbrake||0;
-  const targetBlend=smooth(6,13,speed)*smooth(.15,.65,Math.abs(steer))*Math.max(state.active?1:0,handbrake);
-  state.driftBlend+=(targetBlend-state.driftBlend)*(1-Math.exp(-dt/.22));
-  const targetSlip=-Math.sign(steer)*BMW_DRIFT.maximumSlip*state.driftBlend*(1-.5*braking);
-  const friction=9.81*clamp(surface.frictionFactor,.35,1.4);
-  const yawLimit=friction/Math.max(6,speed)*.78;
-  const targetYaw=clamp(-intent*(4.5/BMW_DRIFT.wheelbase)/(1+(speed/45)**2),-yawLimit,yawLimit)*smooth(.5,5,speed);
-  const torque=inertia*clamp((targetYaw-state.angularVelocity)*BMW_DRIFT.yawResponse,-3.5,3.5);
-  const betaRate=clamp(wrap(targetSlip-telemetry.slipAngle)/BMW_DRIFT.gripResponse,-.9,.9);
-  const lateralAcceleration=clamp(speed*(state.angularVelocity-betaRate),-friction,friction);
-  const turnLimit=maxSpeed*(1-.37*Math.abs(intent));
-  let acceleration=state.active?clamp((turnLimit-speed)*2,-2.2,engineAcceleration):-.18-speed*BMW_DRIFT.coastingDrag;
-  acceleration-=braking*9.5+handbrake*4;
-  if(braking>.01||handbrake>.01)acceleration=Math.min(acceleration,-braking*9.5-handbrake*4);
-  const traction=Math.sqrt(Math.max(0,friction*friction-lateralAcceleration*lateralAcceleration));
-  acceleration=clamp(acceleration,-Math.max(traction,braking*9.5+handbrake*4),traction);
-  acceleration=Math.max(acceleration,-speed/Math.max(dt,1e-5));
-  const motionHeading=speed>.05?Math.atan2(-state.velocityX,-state.velocityZ):heading;
+// All yaw and lateral motion come from the four tire contact forces. There is
+// no requested slip angle, velocity rotation, steering-to-yaw servo or sideways
+// acceleration assist. Tire resistance always opposes contact-patch motion.
+export function evaluateDriftDynamics(state,{maxSpeed,engineAcceleration,surface,gradient,braking=0,dt,mass=1600}){
+  const c=Math.cos(state.heading),s=Math.sin(state.heading);
+  const forward=-s*state.velocityX-c*state.velocityZ;
+  const handbrake=clamp(state.handbrake||0,0,1);
   const gx=Number.isFinite(gradient?.x)?gradient.x:0,gz=Number.isFinite(gradient?.z)?gradient.z:0,den=1+gx*gx+gz*gz;
-  return {forceX:mass*(-Math.sin(motionHeading)*acceleration-Math.cos(motionHeading)*lateralAcceleration-9.81*gx/den),
-    forceZ:mass*(-Math.cos(motionHeading)*acceleration+Math.sin(motionHeading)*lateralAcceleration-9.81*gz/den),torque};
+  const load=mass*9.81/4/Math.sqrt(den),grip=load*1.25*clamp(surface.frictionFactor,.35,1.4);
+  const drive=state.active&&!braking?clamp((maxSpeed-forward)*2,0,Math.min(engineAcceleration,4.8)):0;
+  let forceX=-mass*9.81*gx/den,forceZ=-mass*9.81*gz/den,torque=0;
+  const tires=[];
+  for(const wheel of BMW_DRIFT.wheels){
+    const rx=c*wheel.x+s*wheel.z,rz=-s*wheel.x+c*wheel.z;
+    const vx=state.velocityX+state.angularVelocity*rz,vz=state.velocityZ-state.angularVelocity*rx;
+    const angle=state.heading+(wheel.front?state.frontWheelAngle:0),fx=-Math.sin(angle),fz=-Math.cos(angle),rightX=Math.cos(angle),rightZ=-Math.sin(angle);
+    const longitudinal=vx*fx+vz*fz,lateral=vx*rightX+vz*rightZ;
+    const rearBrake=wheel.front?0:handbrake;
+    const tireGrip=grip*(wheel.front?.925:1.075);
+    let longitudinalForce=(wheel.front?0:mass*drive/2)*(1-rearBrake)-mass*(state.active?.045:.16)*longitudinal/4-load*.018*Math.tanh(longitudinal/.18);
+    longitudinalForce-=Math.tanh(longitudinal/.4)*tireGrip*Math.max(braking,rearBrake);
+    // Slip-angle saturation keeps grip finite at speed; the low-speed divisor
+    // prevents a discontinuity when a wheel stops or rolls backwards.
+    let lateralForce=-tireGrip*Math.tanh(lateral/Math.max(3,Math.abs(longitudinal))*(wheel.front?6.5:8))*(1-.55*rearBrake);
+    const scale=Math.min(1,tireGrip/Math.max(1e-12,Math.hypot(longitudinalForce,lateralForce)));
+    longitudinalForce*=scale;lateralForce*=scale;
+    const tx=fx*longitudinalForce+rightX*lateralForce,tz=fz*longitudinalForce+rightZ*lateralForce;
+    const tireTorque=rz*tx-rx*tz;forceX+=tx;forceZ+=tz;torque+=tireTorque;
+    tires.push({name:wheel.name,rx,rz,longitudinalSpeed:longitudinal,lateralSpeed:lateral,longitudinalForce,lateralForce,forceX:tx,forceZ:tz,torque:tireTorque,grip:tireGrip});
+  }
+  return {forceX,forceZ,torque,tires};
 }
 
-export function driftWheelTarget(steer,speed,slipAngle){
-  return clamp(-steer*.52/(1+(Math.abs(speed)/32)**2)-slipAngle*.7,-.65,.65);
+export function driftWheelTarget(steer,speed){
+  return clamp(-steer*.58/(1+(Math.abs(speed)/38)**2),-.65,.65);
 }

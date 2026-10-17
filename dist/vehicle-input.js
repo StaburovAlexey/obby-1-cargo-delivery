@@ -15,9 +15,9 @@ export function fingerAngleAt(event, bounds, clientWidth) {
 }
 const GAS_KEYS = new Set(['KeyW', 'ArrowUp', 'Space']);
 const STEERING_KEYS = new Set(['KeyA', 'KeyD', 'ArrowLeft', 'ArrowRight']);
-const BRAKE_KEYS=new Set(['KeyS','ArrowDown']);
+const REVERSE_KEYS=new Set(['KeyS','ArrowDown']);
 const HANDBRAKE_KEYS=new Set(['ShiftLeft','ShiftRight']);
-const MOVEMENT_KEYS = new Set([...GAS_KEYS, ...STEERING_KEYS,...BRAKE_KEYS,...HANDBRAKE_KEYS]);
+const MOVEMENT_KEYS = new Set([...GAS_KEYS, ...STEERING_KEYS,...REVERSE_KEYS,...HANDBRAKE_KEYS]);
 const clampSteering = value => Math.max(-1, Math.min(1, value));
 
 export function createVehicleInput({
@@ -26,12 +26,12 @@ export function createVehicleInput({
   onStart = () => {},
   onGear = () => {},
   onSafetyReset = () => {},
+  getTelemetry = () => ({ linearSpeed: 0 }),
 } = {}) {
   const wheel = root?.querySelector('.steering-wheel');
   const image = wheel?.querySelector('.steering-wheel-image');
   const pedal = root?.querySelector('.gas-pedal');
   const reverse = root?.querySelector('.reverse-pedal');
-  const brakePedal=root?.querySelector('.brake-pedal'),handbrakePedal=root?.querySelector('.handbrake-pedal');
   const controls = [wheel, pedal, reverse].filter(Boolean);
   if (!root?.ownerDocument?.defaultView || !wheel || !image || !pedal)
     throw new Error('Driving controls need root, wheel, wheel image and gas pedal elements.');
@@ -39,13 +39,27 @@ export function createVehicleInput({
   const keys = new Set(), removers = [];
   let steering = 0, wheelPointer, pedalPointer, reversePointer, anchor;
   let enabled = true, destroyed = false, wasActive = false;
-  let driftEnabled=false,brakePointer,handbrakePointer;
+  let driftEnabled = false, combinedMode, moving = false;
+  const combinedHeld = () => reversePointer !== undefined
+    || (driftEnabled && [...REVERSE_KEYS].some(key => keys.has(key)));
+  const gasHeld = () => pedalPointer !== undefined || [...GAS_KEYS].some(key => keys.has(key));
+  // Use total velocity, including sideways motion. The dead band prevents low-speed chatter.
+  function updateCombinedMode() {
+    if (!driftEnabled) { combinedMode = undefined; return; }
+    const telemetry = getTelemetry() || {};
+    const speed = Number.isFinite(telemetry.velocityX) && Number.isFinite(telemetry.velocityZ)
+      ? Math.hypot(telemetry.velocityX, telemetry.velocityZ) : Math.abs(telemetry.linearSpeed ?? telemetry.speed ?? 0);
+    if (speed >= .8) moving = true;
+    else if (speed <= .35) moving = false;
+    if (!combinedHeld()) combinedMode = undefined;
+    else if (!combinedMode) combinedMode = moving ? 'handbrake' : 'reverse';
+  }
   const listen = (element, type, fn, options) => {
     element.addEventListener(type, fn, options);
     removers.push(() => element.removeEventListener(type, fn, options));
   };
   const active = () => enabled && !destroyed
-    && (reversePointer !== undefined || pedalPointer !== undefined || [...GAS_KEYS].some(key => keys.has(key)));
+    && (gasHeld() || (combinedHeld() && (!driftEnabled || combinedMode === 'reverse')));
   const isEditable = target => !!target?.closest?.('input, textarea, select, [contenteditable]:not([contenteditable="false"])')
     || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target?.tagName) || !!target?.isContentEditable;
   const keyCode = event => {
@@ -53,11 +67,12 @@ export function createVehicleInput({
     if (MOVEMENT_KEYS.has(event.key)) return event.key;
     if (event.key === ' ' || event.key === 'Spacebar') return 'Space';
     const letter = event.key?.toUpperCase();
-    return ['W', 'A', 'D'].includes(letter) ? `Key${letter}` : undefined;
+    return ['W', 'A', 'S', 'D'].includes(letter) ? `Key${letter}` : undefined;
   };
   const keyboardSteering = () => Number(keys.has('KeyD') || keys.has('ArrowRight'))
     - Number(keys.has('KeyA') || keys.has('ArrowLeft'));
   function emit() {
+    updateCombinedMode();
     const held = active(), started = held && !wasActive;
     wasActive = held;
     wheel.style.setProperty('--steering-angle', `${steering * STEERING_MAX_ANGLE}deg`);
@@ -65,20 +80,20 @@ export function createVehicleInput({
     wheel.setAttribute('aria-valuenow', steering.toFixed(2));
     wheel.setAttribute('aria-valuetext', steering === 0 ? 'Прямо'
       : `${steering > 0 ? 'Вправо' : 'Влево'} ${Math.round(Math.abs(steering) * 100)}%`);
-    const reversing = held && reversePointer !== undefined;
+    const reversing = held && combinedHeld() && (!driftEnabled || combinedMode === 'reverse');
     pedal.classList.toggle('is-active', held && !reversing);
     pedal.setAttribute('aria-pressed', String(held && !reversing));
-    reverse?.classList.toggle('is-active', reversing);
-    reverse?.setAttribute('aria-pressed', String(reversing));
+    reverse?.classList.toggle('is-active', combinedHeld());
+    reverse?.setAttribute('aria-pressed', String(combinedHeld()));
+    if (reverse) reverse.dataset.action = combinedHeld() ? (reversing ? 'reverse' : 'handbrake') : 'idle';
 
 
     if (held && reverse) onGear(reversing ? 'R' : 'D');
     root.dataset.throttle = String(held);
 
-    const brake=driftEnabled&&(brakePointer!==undefined||[...BRAKE_KEYS].some(k=>keys.has(k)))?1:0;
-    const handbrake=driftEnabled&&(handbrakePointer!==undefined||[...HANDBRAKE_KEYS].some(k=>keys.has(k)))?1:0;
-    for(const [element,value]of [[brakePedal,brake],[handbrakePedal,handbrake]]){element?.classList.toggle('is-active',!!value);element?.setAttribute('aria-pressed',String(!!value));}
-    onInput(driftEnabled?{ steering, active: held,brake,handbrake }:{ steering, active: held });
+    const handbrake = driftEnabled && (combinedMode === 'handbrake'
+      || [...HANDBRAKE_KEYS].some(key => keys.has(key))) ? 1 : 0;
+    onInput(driftEnabled ? { steering, active: held, brake: 0, handbrake } : { steering, active: held });
     if (started) onStart();
   }
   function visualRotation(element) {
@@ -111,9 +126,7 @@ export function createVehicleInput({
     if (destroyed) return;
     const previousWheel = wheelPointer, previousPedal = pedalPointer, previousReverse = reversePointer;
     wheelPointer = pedalPointer = reversePointer = anchor = undefined;
-    if(brakePointer!==undefined)releaseCapture(brakePedal,brakePointer);
-    if(handbrakePointer!==undefined)releaseCapture(handbrakePedal,handbrakePointer);
-    brakePointer=handbrakePointer=undefined;
+    combinedMode = undefined;
     keys.clear();
     steering = 0;
 
@@ -150,7 +163,7 @@ export function createVehicleInput({
       || event.pointerId === wheelPointer || event.pointerId === pedalPointer) return;
     event.preventDefault();
     event.stopPropagation();
-    for (const key of GAS_KEYS) keys.delete(key);
+    if (!driftEnabled) for (const key of GAS_KEYS) keys.delete(key);
     reversePointer = event.pointerId;
     try { reverse.setPointerCapture?.(reversePointer); } catch {                                }
     emit();
@@ -196,12 +209,12 @@ export function createVehicleInput({
   }
   listen(win, 'keydown', event => {
     const code = keyCode(event);
-    if(!driftEnabled&&(BRAKE_KEYS.has(code)||HANDBRAKE_KEYS.has(code)))return;
+    if(!driftEnabled&&(REVERSE_KEYS.has(code)||HANDBRAKE_KEYS.has(code)))return;
     if (!enabled || destroyed || !code || event.ctrlKey || event.metaKey || event.altKey || isEditable(event.target)) return;
     event.preventDefault();
     event.stopImmediatePropagation?.();
 
-    if (event.repeat || (GAS_KEYS.has(code) ? (pedalPointer !== undefined || reversePointer !== undefined) : STEERING_KEYS.has(code)&&wheelPointer !== undefined)) return;
+    if (event.repeat || (GAS_KEYS.has(code) ? (pedalPointer !== undefined || (!driftEnabled && reversePointer !== undefined)) : STEERING_KEYS.has(code)&&wheelPointer !== undefined)) return;
     keys.add(code);
     if (wheelPointer === undefined) {
       steering = keyboardSteering();
@@ -209,18 +222,6 @@ export function createVehicleInput({
     }
     emit();
   }, true);
-  for(const [element,kind]of [[brakePedal,'brake'],[handbrakePedal,'handbrake']])if(element){
-    listen(element,'pointerdown',event=>{
-      if(!enabled||!driftEnabled||destroyed||event.button!==0)return;
-      event.preventDefault();event.stopPropagation();
-      if(kind==='brake')brakePointer=event.pointerId;else handbrakePointer=event.pointerId;
-      element.setPointerCapture?.(event.pointerId);emit();
-    });
-    for(const type of ['pointerup','pointercancel','lostpointercapture'])listen(win,type,event=>{
-      if(kind==='brake'&&event.pointerId===brakePointer){brakePointer=undefined;releaseCapture(element,event.pointerId);emit();}
-      if(kind==='handbrake'&&event.pointerId===handbrakePointer){handbrakePointer=undefined;releaseCapture(element,event.pointerId);emit();}
-    },true);
-  }
   listen(win, 'keyup', event => {
     const code = keyCode(event);
     if (!keys.has(code)) return;
@@ -245,7 +246,14 @@ export function createVehicleInput({
   return {
     get state() { return { steering, active: active(), pointerId: wheelPointer, wheelPointerId: wheelPointer, pedalPointerId: pedalPointer, reversePointerId: reversePointer, enabled }; },
     reset,
-    setDriftEnabled(value){const next=!!value;if(next===driftEnabled)return;reset();driftEnabled=next;root.classList.toggle('has-drift-controls',next);if(brakePedal)brakePedal.hidden=!next;if(handbrakePedal)handbrakePedal.hidden=!next;emit();},
+    setDriftEnabled(value) {
+      const next = !!value;
+      if (next === driftEnabled) return;
+      reset(); driftEnabled = next; moving = false;
+      root.classList.toggle('has-drift-controls', next);
+      reverse?.setAttribute('aria-label', next ? 'Ручник на ходу / задний ход после остановки' : 'Задний ход');
+      emit();
+    },
 
     setGear() {},
     setEnabled(value) {

@@ -12,21 +12,24 @@ const bmw=()=>createDrivingModel({vehicleId:'bmwreward',maxSpeed:vehicleConfig('
 const run=(m,seconds,fps=120)=>{for(let i=0;i<Math.round(seconds*fps);i++)m.step(1/fps);};
 const beta=s=>Math.atan2(Math.cos(s.heading)*s.velocityX-Math.sin(s.heading)*s.velocityZ,-Math.sin(s.heading)*s.velocityX-Math.cos(s.heading)*s.velocityZ);
 
-test('BMW holds a controllable drift and recovers without a spin in both directions',()=>{
+test('BMW tire-generated slide can be countersteered and released in both directions',()=>{
  for(const sign of [-1,1]){
-  const m=bmw();m.state.velocityZ=-22;m.setInput({active:true,steering:sign*.75});let drifting=0;
-  for(let i=0;i<6*120;i++){m.step(1/120);const angle=Math.abs(beta(m.state))*180/Math.PI;if(i>120&&angle>=15&&angle<=50&&m.state.linearSpeed>10)drifting++;assert.ok(angle<65,`uncontrolled angle ${angle}`);}
-  assert.ok(drifting>120*3,'at least three seconds of a sustained controlled drift');
+  const m=bmw();m.state.velocityZ=-22;m.setInput({active:true,steering:sign*.75});let drifting=0,maxAngle=0;
+  for(let i=0;i<3*120;i++){m.step(1/120);const angle=Math.abs(beta(m.state))*180/Math.PI;maxAngle=Math.max(maxAngle,angle);if(angle>=12&&angle<=50&&m.state.linearSpeed>10)drifting++;assert.ok(angle<50,`uncontrolled angle ${angle}`);}
+  assert.ok(drifting>120,'at least one second of genuine tire slip without an angle servo');
+  const oldYaw=m.state.angularVelocity;
+  m.setInput({active:false,steering:-sign*.75});run(m,.6);
+  assert.ok(Math.abs(m.state.angularVelocity)<Math.abs(oldYaw),'countersteer reduces the existing yaw');
   m.setInput({active:false,steering:0});run(m,2);
   assert.ok(Math.abs(beta(m.state))<5*Math.PI/180,'lifting and centering recovers the slide');
  }
 });
 
-test('BMW can link opposite turns without reversing or stopping',()=>{
- const m=bmw();m.state.velocityZ=-22;m.setInput({active:true,steering:.8});run(m,3);
- assert.ok(beta(m.state)<-.2);
- m.setInput({active:true,steering:-.8});run(m,3);
- assert.ok(beta(m.state)>.2);assert.ok(m.state.linearSpeed>10);assert.ok(Number.isFinite(m.state.driftIntensity));
+test('BMW links opposite turns through actual steering and tire forces',()=>{
+ const m=bmw();m.state.velocityZ=-22;m.setInput({active:true,steering:.6});run(m,.75);
+ assert.ok(m.state.angularVelocity<-.2);
+ m.setInput({active:true,steering:-.6});run(m,.75);
+ assert.ok(m.state.angularVelocity>.2);assert.ok(m.state.linearSpeed>10);assert.ok(Number.isFinite(m.state.driftIntensity));
 });
 
 test('BMW brakes independently of throttle and releases every control on pause',()=>{
@@ -65,12 +68,33 @@ test('ordinary vehicles retain the exact pre-canyon trajectories',()=>{
  }
 });
 
-test('drift brake and handbrake keyboard commands are independent from gas',()=>{
- const f=createInputDom(),events=[],c=createVehicleInput({root:f.root,onInput:value=>events.push(value)});
+test('moving BMW combined reverse and Shift handbrake work independently from gas',()=>{
+ const f=createInputDom(),events=[],c=createVehicleInput({root:f.root,getTelemetry:()=>({linearSpeed:10}),onInput:value=>events.push(value)});
  try{
   c.setDriftEnabled?.(true);f.win.dispatch('keydown',{code:'KeyW'});f.win.dispatch('keydown',{code:'KeyS'});f.win.dispatch('keydown',{code:'ShiftLeft'});
-  assert.deepEqual({active:events.at(-1).active,brake:events.at(-1).brake,handbrake:events.at(-1).handbrake},{active:true,brake:1,handbrake:1});
+  assert.deepEqual({active:events.at(-1).active,brake:events.at(-1).brake,handbrake:events.at(-1).handbrake},{active:true,brake:0,handbrake:1});
   f.win.dispatch('keyup',{code:'KeyS'});assert.equal(events.at(-1).brake,0);assert.equal(events.at(-1).handbrake,1);
   f.win.dispatch('blur');assert.equal(events.at(-1).active,false);assert.equal(events.at(-1).handbrake,0);
  }finally{c.destroy();}
+});
+
+test('BMW tire forces dissipate unpowered contact motion and never invent yaw at rest',async()=>{
+ const {evaluateDriftDynamics}=await import('../dist/drift-dynamics.js');
+ const surface=surfaceForBiome('city','bmwreward');
+ for(const heading of [0,.8,-2])for(const velocity of [[0,0],[3,-20],[-7,12]])for(const yaw of [-1,0,1])for(const handbrake of [0,1]){
+  const s={heading,velocityX:velocity[0],velocityZ:velocity[1],angularVelocity:yaw,frontWheelAngle:.4,active:false,handbrake,steering:.8};
+  const f=evaluateDriftDynamics(s,{maxSpeed:42,engineAcceleration:22,surface,gradient:{x:0,z:0},dt:1/120});
+  const power=f.forceX*s.velocityX+f.forceZ*s.velocityZ+f.torque*yaw;
+  assert.ok(power<=1e-8,`unpowered tire power ${power}`);
+  assert.ok(Math.abs(f.forceX-f.tires.reduce((sum,t)=>sum+t.forceX,0))<1e-8);
+  assert.ok(Math.abs(f.torque-f.tires.reduce((sum,t)=>sum+t.torque,0))<1e-8);
+  for(const t of f.tires)assert.ok(t.lateralForce*t.lateralSpeed<=1e-8,'lateral tire resistance opposes slip');
+  if(!yaw&&!velocity.some(Boolean)){assert.ok(f.forceX===0);assert.ok(f.forceZ===0);assert.ok(f.torque===0);}
+ }
+});
+
+test('BMW handbrake also slows an already reversing car without shifting forward',()=>{
+ const m=bmw();m.setGear('R');m.state.velocityZ=6;
+ m.setInput({active:false,handbrake:1});run(m,2);
+ assert.equal(m.state.gear,'R');assert.ok(m.state.linearSpeed<.08);
 });

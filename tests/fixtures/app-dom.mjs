@@ -63,7 +63,6 @@ export function createAppDom({width=390,height=844,startDriving=true,realStartup
  nest('fuel-capacity','fuel-value');
  Object.defineProperty(ids.get('fuel-value'),'textContent',{get(){return this.children.map(child=>child.textContent??'').join('');}});
  const reverse=ids.get('reverse-pedal');if(reverse){reverse.classList.add('gas-pedal','reverse-pedal');dom.root.append(reverse);}
- for(const kind of ['brake','handbrake']){const control=ids.get(kind+'-pedal');if(control){control.classList.add('drift-pedal',kind+'-pedal');dom.root.append(control);}}
  for(const el of ids.values())el.focus=()=>{dom.doc.activeElement=el;};
  ids.get('viewport').bounds={left:0,top:0,width,height};ids.get('world-labels').bounds={left:0,top:0,width,height};
  ids.get('error').hidden=true;ids.get('seed').value=42;ids.get('viewport').appendChild=el=>ids.get('viewport').append(el);
