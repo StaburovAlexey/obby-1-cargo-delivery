@@ -4,6 +4,17 @@ export function createOnlineClient({url,WebSocketClass=globalThis.WebSocket,getS
   let socket=null,stopped=false,connected=false,id=null,roomId=null,seatId=null;
   let players=[],seats={},retry=null,handshake=null,attempt=0,elapsed=0,seq=0,requestSeq=0;
   const pending=new Map();
+  const driftPending=new Map();let driftRunId=null,driftEpoch=0;
+  const flushState=()=>{const state=getState();return !!state&&send({type:'state',state:{...state,seq:++seq}});};
+  function driftRequest(type,extra={}){
+    if(!connected)return Promise.resolve(null);
+    const requestId='drift:'+String(++requestSeq);
+    return new Promise(resolve=>{
+      const finish=value=>{const entry=driftPending.get(requestId);if(!entry)return;clearTimer(entry.timer);driftPending.delete(requestId);resolve(value);};
+      const timer=setTimer(()=>finish(null),8000);driftPending.set(requestId,{finish,timer});
+      if(!send({type,requestId,...extra}))finish(null);
+    });
+  }
   const status=value=>onStatus({state:value,connected,id,roomId,count:connected?players.length+1:0});
   function publish(message){
     players=(Array.isArray(message.players)?message.players:[]).filter(p=>p.id!==id).slice(0,19);
@@ -19,6 +30,7 @@ export function createOnlineClient({url,WebSocketClass=globalThis.WebSocket,getS
     connected=false;id=null;roomId=null;seatId=null;players=[];seats={};elapsed=0;
     clearTimer(handshake);handshake=null;
     for(const resolve of pending.values())resolve(null);pending.clear();
+    for(const entry of driftPending.values())entry.finish(null);driftRunId=null;driftEpoch++;
     onSnapshot({players:[],seats:{},time:0});
   }
   function schedule(){
@@ -47,6 +59,8 @@ export function createOnlineClient({url,WebSocketClass=globalThis.WebSocket,getS
       else if(message.type==='seat:result'){
         const resolve=pending.get(message.requestId);if(!resolve)return;
         pending.delete(message.requestId);seatId=message.ok?message.seatId:null;resolve(seatId);
+      }else if(message.type==='drift:result'){
+        const entry=driftPending.get(message.requestId);entry?.finish(message.ok?message:null);
       }
     };
     current.onclose=()=>{if(socket!==current)return;socket=null;disconnect();if(!stopped)schedule();};
@@ -72,6 +86,15 @@ export function createOnlineClient({url,WebSocketClass=globalThis.WebSocket,getS
         if(!send({type:'seat:claim',requestId})){pending.delete(requestId);resolve(null);}
       });
     },
+    async startDriftRun(){
+      if(!connected)return null;
+      const epoch=++driftEpoch;
+      for(const entry of driftPending.values())entry.finish(null);
+      if(driftRunId)send({type:'drift:cancel',runId:driftRunId});driftRunId=null;flushState();
+      const response=await driftRequest('drift:start');if(epoch!==driftEpoch||!connected)return null;if(response)driftRunId=response.runId;return response;
+    },
+    async finishDriftRun(runId=driftRunId){if(!runId||runId!==driftRunId)return null;const epoch=driftEpoch;flushState();const response=await driftRequest('drift:finish',{runId});if(epoch!==driftEpoch||!connected)return null;if(driftRunId===runId)driftRunId=null;return response?.result??null;},
+    cancelDriftRun(){driftEpoch++;if(driftRunId&&connected)send({type:'drift:cancel',runId:driftRunId});driftRunId=null;for(const entry of driftPending.values())entry.finish(null);},
     releaseSeat(){
       seatId=null;for(const resolve of pending.values())resolve(null);pending.clear();
       if(connected&&!send({type:'seat:release'}))socket?.close();

@@ -5,6 +5,7 @@ import { ECONOMY_CONFIG, VEHICLE_CONFIG, vehicleConfig, BIOME_SEQUENCE, DELIVERY
 import { CHARACTER_CATALOG } from './character-catalog.js';
 import { PREMIUM_SKIN_IDS } from './premium-skins.js';
 import { freshCareer, sanitizeCareer } from './career-save.js';
+import {sanitizeDriftRecord} from './drift-record.js';
 import { PROGRESSION_CONFIG, schoolConfig, skinConfig } from './progression-config.js';
 import { getUpgradeOffer, getVehiclePerformance } from './vehicle-upgrades.js';
 import { BRIDGES, bridgeAtProgress } from './road-bridges.js';
@@ -61,12 +62,12 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
   }
   const saved=loadedCareer===undefined?freshCareer(characterId):sanitizeCareer(loadedCareer,characterId);
   const state={mode:'walking',selectedId:null,player:{...GAMEPLAY.spawn},fuels:Object.fromEntries(vehicles.map(v=>[v.id,getVehiclePerformance(vehicleConfig(v.id).id,saved.upgrades[v.id]).capacity])),cooldown:0,blockedEntry:null,walked:0,stationId:null,elapsed:0,lastEvent:'start',characterId:saved.characterId,seatedId:null,interactionCooldown:0,classroomArmed:true,occupiedSeatIds:[...new Set(occupiedSeatIds)],blockedStand:null,doorNotified:false,landingCooldown:0,jump:{height:0,velocity:0,elapsed:0,airborne:false},money:saved.money,ownedVehicleIds:saved.ownedVehicleIds,completedRuns:saved.completedRuns,purchaseCandidateId:null,run:null,testMode:false,testBiome:null,saveFailed:loadFailed};
-  Object.assign(state,{developerMode:developerSession,discoveredBiomeIds:saved.discoveredBiomeIds,routeCompletion:saved.routeCompletion,brains:saved.brains,ownedSkinIds:saved.ownedSkinIds,ownedSchoolIds:saved.ownedSchoolIds,upgrades:saved.upgrades,vehicleGrantClaimed:saved.vehicleGrantClaimed,retention:saved.retention,skinPurchaseCandidateId:null,schoolPurchaseCandidateId:null,seatedSchoolId:null});
+  Object.assign(state,{developerMode:developerSession,discoveredBiomeIds:saved.discoveredBiomeIds,routeCompletion:saved.routeCompletion,driftRecord:saved.driftRecord,brains:saved.brains,ownedSkinIds:saved.ownedSkinIds,ownedSchoolIds:saved.ownedSchoolIds,upgrades:saved.upgrades,vehicleGrantClaimed:saved.vehicleGrantClaimed,retention:saved.retention,skinPurchaseCandidateId:null,schoolPurchaseCandidateId:null,seatedSchoolId:null});
   const fuelCapacity=id=>getVehiclePerformance(vehicleConfig(id).id,state.upgrades[id]).capacity;
   let events=[],progressDirty=false,progressSinceSave=0,rewardEarned=!!saved.routeCompletion;
   const emit=(type,extra={})=>{state.lastEvent=type;events.push({type,...extra});};
   const pose=v=>v.position || v.park;
-  const snapshot=()=>sanitizeCareer({version:ECONOMY_CONFIG.saveVersion,money:state.money,ownedVehicleIds:state.ownedVehicleIds,discoveredBiomeIds:state.discoveredBiomeIds,characterId:state.characterId,completedRuns:state.completedRuns,routeCompletion:state.routeCompletion,brains:state.brains,ownedSkinIds:state.ownedSkinIds,ownedSchoolIds:state.ownedSchoolIds,upgrades:state.upgrades,vehicleGrantClaimed:state.vehicleGrantClaimed,retention:state.retention});
+  const snapshot=()=>sanitizeCareer({version:ECONOMY_CONFIG.saveVersion,money:state.money,ownedVehicleIds:state.ownedVehicleIds,discoveredBiomeIds:state.discoveredBiomeIds,characterId:state.characterId,completedRuns:state.completedRuns,routeCompletion:state.routeCompletion,driftRecord:state.driftRecord,brains:state.brains,ownedSkinIds:state.ownedSkinIds,ownedSchoolIds:state.ownedSchoolIds,upgrades:state.upgrades,vehicleGrantClaimed:state.vehicleGrantClaimed,retention:state.retention});
   let saveWarningSent=false;
   const warnSave=()=>{state.saveFailed=true;if(!saveWarningSent){saveWarningSent=true;emit('save-warning',{reason:persistence?.status?.reason||'storage'});}};
   const persist=()=>{
@@ -156,6 +157,7 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       BRIDGES.filter(bridge=>bridge.to<FINAL_DELIVERY_CHECKPOINT.progress).every(bridge=>route.bridgeIds.has(bridge.id));
   };
   const api={state,canWalk,isOwned,isSkinOwned,isSchoolOwned,snapshot,getVehicleAvailability,getDeliveryAvailability,
+    recordDriftResult(input){const record=sanitizeDriftRecord(input);if(!state.routeCompletion||!record||(state.driftRecord&&record.score<=state.driftRecord.score))return false;state.driftRecord=record;persist();emit('drift-record',{record});return true;},
 
 
 

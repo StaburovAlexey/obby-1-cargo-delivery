@@ -3,6 +3,7 @@ import {randomUUID} from 'node:crypto';
 import {pathToFileURL} from 'node:url';
 import {performance,monitorEventLoopDelay} from 'node:perf_hooks';
 import {WebSocketServer,WebSocket} from 'ws';
+import {createDriftVerifier} from './drift-verifier.mjs';
 import {PROTOCOL_VERSION,ROOM_CAPACITY,SNAPSHOT_HZ,WORLD_ID,SEAT_IDS,createInitialPlayerState,sanitizePlayerState} from '../dist/online-protocol.js';
 
 const exactKeys=(message,keys)=>Object.keys(message).length===keys.length&&keys.every(key=>Object.hasOwn(message,key));
@@ -99,7 +100,16 @@ export function createRoomServer(options={}) {
       }
       if(message.type==='state'&&exactKeys(message,['type','state'])) {
         const state=sanitizePlayerState(message.state,{seatId:conn.seatId,previousSeq:conn.state.seq});
-        if(!state){invalid(conn);return;}conn.state=state;
+        if(!state){invalid(conn);return;}conn.state=state;conn.driftRun?.verifier.observe(state,performance.now());
+      } else if(message.type==='drift:start'&&exactKeys(message,['type','requestId'])&&typeof message.requestId==='string'&&/^[A-Za-z0-9_.:-]{1,64}$/.test(message.requestId)){
+        const verifier=createDriftVerifier(conn.state,performance.now());conn.driftRun=verifier?{id:randomUUID(),verifier}:null;
+        send(conn,JSON.stringify({type:'drift:result',action:'start',requestId:message.requestId,ok:!!verifier,runId:conn.driftRun?.id??null}));
+      } else if(message.type==='drift:finish'&&exactKeys(message,['type','requestId','runId'])&&typeof message.requestId==='string'&&typeof message.runId==='string'){
+        const own=conn.driftRun?.id===message.runId,result=own?conn.driftRun.verifier.finish(performance.now()):null;
+        if(own)conn.driftRun=null;
+        send(conn,JSON.stringify({type:'drift:result',action:'finish',requestId:message.requestId,ok:!!result,runId:message.runId,result}));
+      } else if(message.type==='drift:cancel'&&exactKeys(message,['type','runId'])){
+        if(conn.driftRun?.id===message.runId)conn.driftRun=null;
       } else if(message.type==='seat:claim'&&exactKeys(message,['type','requestId'])&&typeof message.requestId==='string'&&/^[A-Za-z0-9_.:-]{1,64}$/.test(message.requestId)) {
         const seatId=conn.seatId||SEAT_IDS.find(id=>!conn.room.seats.has(id))||null;
         if(seatId){conn.room.seats.set(seatId,conn.id);conn.seatId=seatId;conn.state={...conn.state,seatId};}

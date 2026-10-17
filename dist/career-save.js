@@ -4,6 +4,7 @@ import { SCHOOL_CONFIG, PROGRESSION_CONFIG } from './progression-config.js';
 import { UPGRADE_STATS } from './vehicle-upgrades.js';
 import { freshRetention, RETENTION_VERSION, MAX_MISSION_SEQUENCE, getActiveMission } from './career-missions.js';
 import { BRIDGES } from './road-bridges.js';
+import {sanitizeDriftRecord} from './drift-record.js';
 
 const characterIds = new Set(CHARACTER_CATALOG.map(character => character.id));
 const purchasableVehicleIds = VEHICLE_CONFIG.filter(vehicle => vehicle.id !== 'pickup' && !vehicle.rewardOnly).map(vehicle => vehicle.id);
@@ -26,6 +27,7 @@ export function freshCareer(characterId = DEFAULT_CHARACTER_ID) {
     characterId: selected,
     completedRuns: 0,
     routeCompletion: null,
+    driftRecord:null,
     brains: 0,
     ownedSkinIds: selected === DEFAULT_CHARACTER_ID ? [DEFAULT_CHARACTER_ID] : [DEFAULT_CHARACTER_ID, selected],
     ownedSchoolIds: ['school-1'],
@@ -128,7 +130,7 @@ export function sanitizeCareer(value, fallbackCharacterId = DEFAULT_CHARACTER_ID
   const result = freshCareer(fallbackCharacterId);
   try {
     const data = readData(value, ['version', 'money', 'ownedVehicleIds', 'characterId', 'completedRuns',
-      'brains', 'ownedSkinIds', 'ownedSchoolIds', 'upgrades', 'vehicleGrantClaimed', 'retention', 'routeCompletion', 'discoveredBiomeIds']);
+      'brains', 'ownedSkinIds', 'ownedSchoolIds', 'upgrades', 'vehicleGrantClaimed', 'retention', 'routeCompletion', 'discoveredBiomeIds','driftRecord']);
     if (!data || (data.version !== 1 && data.version !== ECONOMY_CONFIG.saveVersion)) return result;
     result.money = counter(data.money, ECONOMY_CONFIG.maxSavedMoney);
     const ownedVehicles = readIds(data.ownedVehicleIds);
@@ -136,6 +138,7 @@ export function sanitizeCareer(value, fallbackCharacterId = DEFAULT_CHARACTER_ID
     const selected = characterIds.has(data.characterId) ? data.characterId : result.characterId;
     result.completedRuns = counter(data.completedRuns, ECONOMY_CONFIG.maxSavedMoney);
     result.routeCompletion = result.completedRuns>0?sanitizeRouteCompletion(data.routeCompletion):null;
+    result.driftRecord=sanitizeDriftRecord(data.driftRecord);
     if(result.routeCompletion)result.ownedVehicleIds.push(REWARD_VEHICLE_ID);
     const visited = readIds(data.discoveredBiomeIds);
     const ownedTier = Math.max(0, ...VEHICLE_CONFIG.filter(vehicle => result.ownedVehicleIds.includes(vehicle.id))
