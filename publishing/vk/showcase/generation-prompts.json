@@ -1,0 +1,14 @@
+{
+  "created_date": "2026-10-16",
+  "generator": "built-in image_gen",
+  "asset": "snippet-1120x630.png",
+  "master": "masters/snippet.png",
+  "size": {
+    "width": 1120,
+    "height": 630
+  },
+  "prompt": "Use case: ads-marketing\nAsset type: a LARGE LANDSCAPE social catalogue snippet image for the game \"Обби: доставка груза\", final upload size 1120 x 630 pixels, 16:9 aspect ratio.\nInput image: The supplied existing app icon is a VISUAL IDENTITY REFERENCE. Match its yellow low-poly coupe, smiling orange-haired blocky Bacon driver in blue clothes with lime accents, large brown cardboard delivery parcel secured with dark straps, bright cyan sky, soft polished toy-like 3D rendering, cheerful low-poly obby atmosphere. Create a NEW WIDE composition, not a square icon on a wide canvas.\nPrimary request: One finished horizontal promotional game illustration. The yellow delivery car is crossing a narrow elevated block-built gray road bridge, facing diagonally toward the viewer, carrying one large taped parcel securely on its roof. The orange-haired hero sits naturally at the steering wheel and is visible through the open side window.\nComposition: Cinematic WIDE 16:9 framing, a strong large readable car and parcel as the main focal point, complete car and all visible wheels inside the frame, breathing room above the parcel. The bridge leads through the image into the colorful game world with simplified green trees, city buildings and distant hills. Keep the composition clear and readable when reduced to 560 x 315. Use the extra horizontal space to show the driving route and world, while keeping the main subject prominent. Keep essential details away from the outer 5 percent.\nStyle: Consistent with the reference, polished saturated low-poly 3D game key art, crisp geometry, coherent perspective, soft sunlight, attractive shadows. Correct wheel geometry with dark rounded tire thickness, silver rims seated naturally inside wheel arches, all visible wheels aligned with the vehicle and resting on the same road.\nConstraints: Opaque full-bleed landscape artwork. NO text, no letters, no numbers, no logos, no watermarks, no UI, no fake screenshots, no frames, no collage. No extra drivers, no extra parcels, no trucks, no wrong or disconnected wheels, no cropped car. Do not add a rainbow obstacle course or elements unrelated to a driving delivery route.",
+  "references": [
+    "../app-icons/masters/app-icon.png"
+  ]
+}

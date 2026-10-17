@@ -1,0 +1,48 @@
+{
+  "created_date": "2026-10-16",
+  "generator": "built-in image_gen",
+  "background": "opaque",
+  "outputs": [
+    {
+      "file": "icon-universal-576.png",
+      "width": 576,
+      "height": 576,
+      "source": "masters/app-icon.png"
+    },
+    {
+      "file": "icon-catalog-278.png",
+      "width": 278,
+      "height": 278,
+      "source": "masters/app-icon.png"
+    },
+    {
+      "file": "icon-small-150.png",
+      "width": 150,
+      "height": 150,
+      "source": "masters/app-icon.png"
+    },
+    {
+      "file": "favicon-32.png",
+      "width": 32,
+      "height": 32,
+      "source": "masters/favicon.png"
+    }
+  ],
+  "prompts": [
+    {
+      "asset": "masters/app-icon.png",
+      "prompt": "Use case: stylized-concept\nAsset type: square app-store icon for the browser game \"Обби: доставка груза\", uploaded to VK Play/Mini Apps at 576 x 576, 278 x 278 and 150 x 150 pixels.\nPrimary request: Generate ONE polished, appealing square 3D game icon. This is a new standalone promotional illustration, not an edit of the reference sheets or a screenshot.\nInput images: Image 1 is a character design reference sheet ONLY; use the FIRST character at top left, the orange-haired smiling blocky Bacon avatar with a cobalt blue outfit and lime accents. Do not copy the sheet or its labels. Image 2 is a gameplay reference ONLY for the low-poly vehicle proportions, blocky road materials and colorful obby world; do not reproduce any UI, meters or text.\nSubject: A bright yellow chunky low-poly sports coupe, front three-quarter view, broad dark tires and dark windows, carrying ONE large taped brown cardboard delivery parcel securely strapped to its roof. The friendly orange-haired blocky avatar from the first reference is clearly visible at the open side window in a plausible seated driving pose, looking forward. Make the CAR and PARCEL the immediate readable focal point; avatar is secondary.\nScene/backdrop: The car is crossing a narrow elevated block-built gray road bridge with visible edges, above a simple blue void. Hint of bright green blocky hills and a few simplified evergreen trees behind; clear cyan blue sky. This is a driving delivery obstacle-course game, playful and adventurous.\nStyle/medium: Premium cheerful toy-like low-poly 3D game key art, clean sculpted bevels, saturated colors, crisp silhouettes, soft sunlight and attractive ambient occlusion; consistent with blocky obby characters and low-poly Cosmo-style cars.\nComposition/framing: Square, full-bleed image, dynamic but uncluttered. Large close-up hero car occupies most of the central and lower image; orange hair and parcel clearly separated against the blue background in the upper central area. Everything essential stays inside an 8 percent safe inset for platform corner cropping. Strong readable silhouette even reduced to 150 px. Keep car completely visible with all visible wheels on the bridge, no awkward clipping. One coherent scene.\nConstraints: Opaque background. NO TEXT, no typography, no numbers, no letters, no logos, no watermarks, no UI, no sticker frames, no pre-rounded corners, no collage, no split panels. No truck, no weapons, no additional characters. Do not turn the image into a reference sheet.",
+      "references": [
+        "qa/character-retexture/front-preview.png",
+        "output/playwright/rsbuild-production.png"
+      ]
+    },
+    {
+      "asset": "masters/favicon.png",
+      "prompt": "Use case: stylized-concept\nAsset type: companion favicon for the browser game \"Обби: доставка груза\", eventually exported at exactly 32 x 32 pixels.\nInput image: The supplied generated game icon is a VISUAL STYLE AND SUBJECT REFERENCE only. Create a new simplified companion icon, not another detailed scene.\nPrimary request: ONE square micro-icon, a large chunky YELLOW delivery sports car with ONE BROWN taped cardboard parcel securely strapped on its roof, front three-quarter view, matching the yellow car and parcel from the reference.\nComposition: Car and parcel together fill about 85 percent of the square, wholly contained with a small margin, centered. Very compact friendly toy silhouette. Broad black tires, very simple dark navy windshield, a single broad parcel strap. Omit the driver, all scenery, all road, all clouds, all trees, all islands, all finish gates. Solid rich cyan-blue background provides strong color contrast.\nStyle: Extremely simplified low-poly 3D emblem, clean crisp edges, large clear color regions, minimal shading. Favor immediate recognition at 32 pixels over texture or realism. Slightly exaggerated parcel and wheels for legibility.\nConstraints: Opaque full-bleed square background, no pre-rounded corners. NO text, no letters, no numbers, no logo, no watermark, no border, no tiny details, no additional objects, no split panels. This is one finished favicon artwork.",
+      "references": [
+        "masters/app-icon.png"
+      ]
+    }
+  ]
+}

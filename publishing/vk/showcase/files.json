@@ -1,0 +1,60 @@
+{
+  "created_date": "2026-10-16",
+  "files": [
+    {
+      "file": "snippet-1120x630.png",
+      "kind": "generated promotional illustration",
+      "source": "masters/snippet.png",
+      "width": 1120,
+      "height": 630,
+      "format": "png",
+      "bytes": 1432971,
+      "sha256": "ecea76f25ee46bf31ac40d38fce49440733dedee049dfba33ef30c090cb45fff"
+    },
+    {
+      "file": "screenshot-01-garage-600x1200.png",
+      "kind": "actual game screenshot",
+      "scene": "Ангар с машинами",
+      "source": "output/playwright/vk-showcase/garage-yaw--0.9.png",
+      "width": 600,
+      "height": 1200,
+      "format": "png",
+      "bytes": 472523,
+      "sha256": "14ff092614c638040f2fb8fb11bd0d1591f82ec6256069a69190bc2f388deee2"
+    },
+    {
+      "file": "screenshot-02-city-600x1200.png",
+      "kind": "actual game screenshot",
+      "scene": "Городской мост",
+      "source": "output/playwright/vk-showcase/city-bridge-candidate.png",
+      "width": 600,
+      "height": 1200,
+      "format": "png",
+      "bytes": 488005,
+      "sha256": "43d97d8d061897a0234e614763a3325a59d92596b905d5c5c390ed13eae45bed"
+    },
+    {
+      "file": "screenshot-03-snow-600x1200.png",
+      "kind": "actual game screenshot",
+      "scene": "Снежный маршрут",
+      "source": "output/playwright/vk-showcase/snow-candidate.png",
+      "width": 600,
+      "height": 1200,
+      "format": "png",
+      "bytes": 476728,
+      "sha256": "99fc0e61353cdd8b83672c59a59eeab676924a0179c4b6cee3533c1e9afcce16"
+    }
+  ],
+  "captures": [
+    {
+      "file": "output/playwright/vk-showcase/capture-report.json",
+      "pageErrors": [],
+      "failedRequests": []
+    },
+    {
+      "file": "output/playwright/vk-showcase/capture-report-close.json",
+      "pageErrors": [],
+      "failedRequests": []
+    }
+  ]
+}
