@@ -60,7 +60,8 @@
     "build:vk:demo": "GAME_PLATFORM=vk PUBLIC_GAME_DEVELOPMENT=1 rsbuild build --dist-path build-vk-demo",
     "preview:vk:demo": "GAME_PLATFORM=vk rsbuild preview --dist-path build-vk-demo",
     "server:vk": "node server/vk-server.mjs",
-    "test:platforms": "node --test tests/platform-builds.mjs tests/vk-platform.mjs tests/vk-payments.mjs tests/vk-ui.mjs tests/vk-recovery.mjs tests/yandex-platform.mjs tests/cloud-career.mjs tests/premium-skins.mjs tests/jeff-premium.mjs tests/premium-hud.mjs tests/yandex-app.mjs"
+    "test:platforms": "node --test tests/platform-builds.mjs tests/vk-platform.mjs tests/vk-payments.mjs tests/vk-ui.mjs tests/vk-recovery.mjs tests/yandex-platform.mjs tests/cloud-career.mjs tests/premium-skins.mjs tests/jeff-premium.mjs tests/premium-hud.mjs tests/yandex-app.mjs",
+    "test:canyon": "node --test tests/canyon-*.mjs"
   },
   "devDependencies": {
     "@rsbuild/core": "2.2.13",

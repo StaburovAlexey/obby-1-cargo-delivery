@@ -18,6 +18,12 @@ test('server rejects jumps, paused attempts, late starts and another vehicle',()
  assert.equal(createDriftVerifier(state(1000),0),null);assert.equal(createDriftVerifier({...state(12),vehicleId:'pickup'},0),null);
  for(const [pose,time]of [[state(1000),100],[{...state(14),paused:true},100],[state(14),4000]]){const run=createDriftVerifier(state(12),0);run.observe(pose,time);assert.equal(run.finish(time)?.verified??false,false);}
 });
+test('finish includes a fresh last pose even when it arrives between periodic network samples',()=>{
+ const run=createDriftVerifier(state(12),0);let time=0;
+ for(let s=14;s<=1836;s+=2){time+=100;run.observe(state(s),time);}
+ time+=80;run.observe(state(1837.8),time);const final=state(1838.2);time+=20;run.observe(final,time);
+ assert.equal(run.finish(time,final)?.verified,true);
+});
 
 test('a cancelled start cannot restore its room run after an already received reply',async()=>{
  let socket;

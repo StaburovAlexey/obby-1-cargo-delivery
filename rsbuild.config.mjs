@@ -46,7 +46,7 @@ export default defineConfig(({env})=>{
     setup(api) {
       api.modifyHTML(html => html
 
-        .replace(/\s*<link rel="stylesheet" href="\.\/(?:style|vehicle-controls|progression-ui|settings-menu|online-ui)\.css"\s*\/>/g, '')
+        .replace(/\s*<link rel="stylesheet" href="\.\/(?:style|vehicle-controls|progression-ui|settings-menu|online-ui|canyon-ui)\.css"\s*\/>/g, '')
         .replace(/\s*<script type="importmap">[\s\S]*?<\/script>/g, '')
         .replace(/\s*<script type="module">[\s\S]*?<\/script>/g, ''));
     },

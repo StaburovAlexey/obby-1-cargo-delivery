@@ -105,7 +105,7 @@ export function createRoomServer(options={}) {
         const verifier=createDriftVerifier(conn.state,performance.now());conn.driftRun=verifier?{id:randomUUID(),verifier}:null;
         send(conn,JSON.stringify({type:'drift:result',action:'start',requestId:message.requestId,ok:!!verifier,runId:conn.driftRun?.id??null}));
       } else if(message.type==='drift:finish'&&exactKeys(message,['type','requestId','runId'])&&typeof message.requestId==='string'&&typeof message.runId==='string'){
-        const own=conn.driftRun?.id===message.runId,result=own?conn.driftRun.verifier.finish(performance.now()):null;
+        const own=conn.driftRun?.id===message.runId,result=own?conn.driftRun.verifier.finish(performance.now(),conn.state):null;
         if(own)conn.driftRun=null;
         send(conn,JSON.stringify({type:'drift:result',action:'finish',requestId:message.requestId,ok:!!result,runId:message.runId,result}));
       } else if(message.type==='drift:cancel'&&exactKeys(message,['type','runId'])){

@@ -3,6 +3,7 @@ import '../dist/vehicle-controls.css';
 import '../dist/progression-ui.css';
 import '../dist/settings-menu.css';
 import '../dist/online-ui.css';
+import '../dist/canyon-ui.css';
 
 
 import('@game-bootstrap').catch(error => {

@@ -62,7 +62,7 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
   }
   const saved=loadedCareer===undefined?freshCareer(characterId):sanitizeCareer(loadedCareer,characterId);
   const state={mode:'walking',selectedId:null,player:{...GAMEPLAY.spawn},fuels:Object.fromEntries(vehicles.map(v=>[v.id,getVehiclePerformance(vehicleConfig(v.id).id,saved.upgrades[v.id]).capacity])),cooldown:0,blockedEntry:null,walked:0,stationId:null,elapsed:0,lastEvent:'start',characterId:saved.characterId,seatedId:null,interactionCooldown:0,classroomArmed:true,occupiedSeatIds:[...new Set(occupiedSeatIds)],blockedStand:null,doorNotified:false,landingCooldown:0,jump:{height:0,velocity:0,elapsed:0,airborne:false},money:saved.money,ownedVehicleIds:saved.ownedVehicleIds,completedRuns:saved.completedRuns,purchaseCandidateId:null,run:null,testMode:false,testBiome:null,saveFailed:loadFailed};
-  Object.assign(state,{developerMode:developerSession,discoveredBiomeIds:saved.discoveredBiomeIds,routeCompletion:saved.routeCompletion,driftRecord:saved.driftRecord,brains:saved.brains,ownedSkinIds:saved.ownedSkinIds,ownedSchoolIds:saved.ownedSchoolIds,upgrades:saved.upgrades,vehicleGrantClaimed:saved.vehicleGrantClaimed,retention:saved.retention,skinPurchaseCandidateId:null,schoolPurchaseCandidateId:null,seatedSchoolId:null});
+  Object.assign(state,{eventMode:null,developerMode:developerSession,discoveredBiomeIds:saved.discoveredBiomeIds,routeCompletion:saved.routeCompletion,driftRecord:saved.driftRecord,brains:saved.brains,ownedSkinIds:saved.ownedSkinIds,ownedSchoolIds:saved.ownedSchoolIds,upgrades:saved.upgrades,vehicleGrantClaimed:saved.vehicleGrantClaimed,retention:saved.retention,skinPurchaseCandidateId:null,schoolPurchaseCandidateId:null,seatedSchoolId:null});
   const fuelCapacity=id=>getVehiclePerformance(vehicleConfig(id).id,state.upgrades[id]).capacity;
   let events=[],progressDirty=false,progressSinceSave=0,rewardEarned=!!saved.routeCompletion;
   const emit=(type,extra={})=>{state.lastEvent=type;events.push({type,...extra});};
@@ -231,7 +231,7 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
     tickProgress(dt,{distance=0,active=false}={}){
 
 
-      if(developerReward(state.selectedId))return 0;
+      if(state.eventMode==='canyon'||developerReward(state.selectedId))return 0;
       if(active!==true||typeof dt!=='number'||!Number.isFinite(dt)||dt<=0||dt>PROGRESSION_CONFIG.maxFrameSeconds)return 0;
       let rate=0;
       if(state.mode==='walking'&&state.seatedId&&state.seatedSchoolId&&isSchoolOwned(state.seatedSchoolId)){
@@ -348,7 +348,7 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       state.interactionCooldown=1.2;state.walked=0;emit('stand');return true;
     },
     events(){const e=events;events=[];return e;},
-    returnToGarage(reason='garage') { if(reason!=='delivery')api.flushProgress();clearShopPrompts();state.run=null;runProgress=null;state.testMode=false;state.testBiome=null;resetJump();state.landingCooldown=0;state.mode='walking';state.selectedId=null;state.seatedId=null;state.seatedSchoolId=null;state.classroomArmed=true;state.blockedStand=null;state.interactionCooldown=1;state.doorNotified=false;state.player={...GAMEPLAY.spawn};state.cooldown=GAMEPLAY.exitCooldown;state.blockedEntry=null;state.walked=0;state.stationId=null;for(const v of vehicles)state.fuels[v.id]=fuelCapacity(v.id);emit('garage',{reason}); },
+    returnToGarage(reason='garage') { if(reason!=='delivery')api.flushProgress();clearShopPrompts();state.eventMode=null;state.run=null;runProgress=null;state.testMode=false;state.testBiome=null;resetJump();state.landingCooldown=0;state.mode='walking';state.selectedId=null;state.seatedId=null;state.seatedSchoolId=null;state.classroomArmed=true;state.blockedStand=null;state.interactionCooldown=1;state.doorNotified=false;state.player={...GAMEPLAY.spawn};state.cooldown=GAMEPLAY.exitCooldown;state.blockedEntry=null;state.walked=0;state.stationId=null;for(const v of vehicles)state.fuels[v.id]=fuelCapacity(v.id);emit('garage',{reason}); },
     enter(id) {
       if(state.mode!=='walking'||state.seatedId||state.jump.airborne||state.cooldown>0)return false;
       const v=vehicles.find(v=>v.id===id);if(!v||!isOwned(id))return false;
@@ -361,7 +361,12 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       runProgress=preview?null:{runId:state.run.id,collisions:0,bridgeIds:new Set(),hardBranchIds:new Set(),route:{previous:null,startProgress:null,samples:0,bridgeIds:new Set()}};
       emit('enter',{id,runId:state.run?.id??null,...(preview?{developerPreview:true}:{})});return true;
     },
+    beginCanyonRun(){
+      if(!state.routeCompletion||!sanitizeCareer(snapshot()).routeCompletion||!isOwned(REWARD_VEHICLE_ID))return false;
+      api.flushProgress();clearShopPrompts();resetJump();state.run=null;runProgress=null;state.testMode=false;state.testBiome=null;state.stationId=null;state.seatedId=null;state.seatedSchoolId=null;state.eventMode='canyon';state.mode='driving';state.selectedId=REWARD_VEHICLE_ID;state.fuels[REWARD_VEHICLE_ID]=vehicleConfig(REWARD_VEHICLE_ID).capacity;return true;
+    },
     beginBiomeTest(id){
+      if(state.eventMode)return false;
       if(state.mode!=='driving'||!BIOME_SEQUENCE.some(b=>b.id===id))return false;
 
 
@@ -412,7 +417,7 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       if(near&&isOwned(near.id))api.enter(near.id);
     },
     drive(distance,x,z) {
-      if(state.mode!=='driving')return;
+      if(state.mode!=='driving'||state.eventMode==='canyon')return;
       clearPurchase();
       const id=state.selectedId,spec=vehicleConfig(id);
 
