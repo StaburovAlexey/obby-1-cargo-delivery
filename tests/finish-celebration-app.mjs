@@ -14,7 +14,7 @@ try{
  let pauses=0,cameraResets=0;const pause=d.model.pause.bind(d.model),reset=d.cameraState.reset.bind(d.cameraState);d.model.pause=(...args)=>{pauses++;return pause(...args);};d.cameraState.reset=(...args)=>{cameraResets++;return reset(...args);};
  f.win.dispatch('keydown',{code:'KeyW',key:'w'});f.frame();assert.equal(pauses,0);assert.equal(cameraResets,0);
  assert(d.model.state.linearSpeed>7,'finish preserves forward speed');assert(d.model.state.active,'held gas survives crossing');
- assert.equal(g.state.eventMode,'finish');assert(d.finishCelebration.active);assert.equal(g.state.routeCompletion,null);assert.equal(g.state.money,0);
+ assert.equal(g.state.eventMode,'finish');assert.equal(g.state.finishKind,'main');assert(d.finishCelebration.active);assert.equal(g.state.routeCompletion,null);assert.equal(g.state.money,0);
  const fuel=g.state.fuels[g.state.selectedId],x=d.model.state.x,z=d.model.state.z;
  assert.equal(d.setBiomeMenu(true),false);assert.equal(d.setDriving(false),false);assert.equal(d.setUpgradeMenu(true),false);assert.equal(d.returnToGarage(),false);
  f.ids.get('garage-button').dispatch('click');assert.equal(g.state.eventMode,'finish');
@@ -42,7 +42,7 @@ try{
  const d=earned.debug,g=d.gameplay;g.state.cooldown=0;assert(d.enterVehicle('ashhauler'));const tracker=createCareerRouteTracker();
  for(let q=-6;q<LINE.progress;q+=2){const p=rewardRoutePose(q);tracker.update(g,p,.05);g.drive(0,p.x,p.z);}
  const p=rewardRoutePose(LINE.progress+1);tracker.update(g,p,.05);Object.assign(d.model.state,{x:p.x,z:p.z,heading:p.heading,routeContext:p});g.drive(0,p.x,p.z);
- earned.frame();assert(d.finishCelebration.active);assert(g.isOwned('bmwreward'));assert(!d.careerMenuOpen);assert(earned.ids.get('delivery-receipt-menu').hidden);
+ earned.frame();assert(d.finishCelebration.active);assert.equal(g.state.finishKind,'main');assert(g.isOwned('bmwreward'));assert(!d.careerMenuOpen);assert(earned.ids.get('delivery-receipt-menu').hidden);
  d.pauseState.set('platform',true);const remain=g.state.finishRemaining;for(let i=0;i<20;i++)earned.frame();assert.equal(g.state.finishRemaining,remain);d.pauseState.set('platform',false);
  for(let i=0;i<140;i++)earned.frame();assert.equal(g.state.mode,'walking');assert.equal(g.state.completedRuns,1);assert(!d.finishCelebration.active);assert(d.careerMenuOpen);assert(!earned.ids.get('delivery-receipt-menu').hidden);assert(!earned.ids.get('receipt-vehicle-unlock').hidden);
  console.log('PASS legitimate finish app: saved BMW unlock, receipt deferred until hangar, platform pause preserves sequence, no duplicate reward.');
@@ -53,7 +53,7 @@ try{
  const d=bmw.debug,g=d.gameplay;g.state.cooldown=0;assert(d.enterVehicle('bmwreward'));
  const a=routePointAtProgress(LINE.progress-1),b=routePointAtProgress(LINE.progress+1);
  Object.assign(d.model.state,{x:b.x,z:b.z,heading:b.heading,routeContext:b,velocityX:-Math.sin(b.heading)*10,velocityZ:-Math.cos(b.heading)*10,linearSpeed:10});
- g.drive(0,a.x,a.z);g.drive(0,b.x,b.z);bmw.frame();assert.equal(g.state.eventMode,'finish');
+ g.drive(0,a.x,a.z);g.drive(0,b.x,b.z);bmw.frame();assert.equal(g.state.eventMode,'finish');assert.equal(g.state.finishKind,'main');
  bmw.win.dispatch('keydown',{code:'KeyS',key:'s'});const speed=d.model.state.linearSpeed;for(let i=0;i<5;i++)bmw.frame();assert(d.model.state.braking>0);assert(d.model.state.linearSpeed<speed);
  bmw.win.dispatch('keyup',{code:'KeyS',key:'s'});bmw.win.dispatch('keydown',{code:'KeyW',key:'w'});const slowed=d.model.state.linearSpeed;for(let i=0;i<5;i++)bmw.frame();assert(d.model.state.linearSpeed>slowed);
  bmw.win.dispatch('keydown',{code:'ShiftLeft',key:'Shift'});bmw.frame();assert.equal(d.model.state.handbrake,1);

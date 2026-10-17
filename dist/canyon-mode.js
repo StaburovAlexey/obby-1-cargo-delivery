@@ -45,11 +45,11 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,language,get
    vehicle=c.garage.vehicles.find(v=>v.model===c.model);if(!vehicle||!c.gameplay.beginCanyonRun())return false;
    active=true;documentClass(true);prepare();onEnter({model:vehicle.model,vehicle});return true;
   },
-  retry(){if(!active||disposed||platform?.status?.reloadRequired)return false;epoch++;leaderboard.cancelPending();client()?.cancelDriftRun();phase='touring';scorer=null;result=null;ui.hide();return true;},
+  retry(){if(!active||disposed||phase==='celebrating'||platform?.status?.reloadRequired)return false;epoch++;leaderboard.cancelPending();client()?.cancelDriftRun();phase='touring';scorer=null;result=null;ui.hide();return true;},
   tryEnter(){access();const c=getContext();return !active&&c.driving?api.enter():false;},
   pose(){const model=drivingModel(),currentVehicle=vehicle??getContext().garage.vehicles.find(v=>v.model===model);return canyonPose(THREE,model.state,currentVehicle?.visual?.metadata);},
   step(rawDelta){
-   if(!active||disposed)return;
+   if(!active||disposed||phase==='celebrating')return;
    const model=drivingModel(),g=getContext().gameplay,dt=Number.isFinite(rawDelta)?Math.max(0,Math.min(.05,rawDelta)):0;
    if(g.state.fuels.bmwreward<=0)model.setInput({active:false});
    model.step(dt);
@@ -66,29 +66,36 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,language,get
    }
    if(phase==='running')ui.update({phase,score:scorer?.state.score,multiplier:scorer?.state.multiplier,progress:scorer?.state.progress,angle:model.state.slipAngle,length:CANYON_TRACK.finish});
   },
-  pause(reason='paused'){if(!active)return;scorer?.disqualify(reason);client()?.cancelDriftRun();runId=null;effects.clear();},
+  pause(reason='paused'){if(!active||phase==='celebrating')return;scorer?.disqualify(reason);client()?.cancelDriftRun();runId=null;effects.clear();},
   async complete(){
    if(!active||phase!=='running')return null;
-   const model=drivingModel(),token=epoch,owner=account(),local=scorer.result();phase='checking';result=local;ui.showResult(local,{status:'checking'});onControlsChanged();
-   // Publish the finish pose without stopping the shared-world vehicle.
+   const model=drivingModel(),token=epoch,owner=account(),local=scorer.result(),g=getContext().gameplay,runScorer=scorer,runClient=client(),development=developerMode();
+   // Snapshot the completed run at the line. Its asynchronous verification may
+   // finish after the two-second celebration has already returned to the hangar.
+   phase='checking';result=local;
+   const celebrating=!!local&&g.beginFinish?.('canyon',model.state)===true;
+   if(celebrating){phase='celebrating';ui.update({phase:'running',score:local.score,multiplier:runScorer.state.multiplier,progress:CANYON_TRACK.finish,length:CANYON_TRACK.finish,angle:model.state.slipAngle});}
+   else ui.showResult(local,{status:'checking'});
+   onControlsChanged();
    vehicle.rig.update({...api.pose(),steerAngle:model.state.frontWheelAngle,wheelSpin:model.state.wheelSpin,bodyPitch:-model.state.bodyPitch,bodyRoll:-model.state.bodyRoll,bodyBob:model.state.bodyBob});
+   const valid=()=>celebrating?!disposed&&token===epoch&&owner===account()&&!platform?.status?.reloadRequired:current(token,owner);
    let verified=null;
-   try{const ticket=await runReady;if(current(token,owner)&&local&&scorer.state.rankedEligible&&ticket)verified=await client()?.finishDriftRun(ticket);else client()?.cancelDriftRun();}catch{}
-   if(!current(token,owner))return null;
-   result=verified||local;phase='result';
-   if(result&&!developerMode())getContext().gameplay.recordDriftResult(result);
-   let status=local?(developerMode()?'development':scorer.state.rankedEligible?'unverified':'practice'):'cancelled';
-   if(verified){ui.showResult(result,{status:'checking'});const submission=await leaderboard.submit(verified);if(!current(token,owner))return null;status=submission.status;}
-   ui.showResult(result,{status});onControlsChanged();return result;
+   try{const ticket=await runReady;if(!valid())return null;if(local&&runScorer.state.rankedEligible&&ticket)verified=await runClient?.finishDriftRun(ticket);else runClient?.cancelDriftRun();}catch{}
+   if(!valid())return null;
+   const settled=verified||local;result=settled;if(!celebrating)phase='result';
+   if(settled&&!development)g.recordDriftResult(settled);
+   let status=local?(development?'development':runScorer.state.rankedEligible?'unverified':'practice'):'cancelled';
+   if(verified&&!development){if(!celebrating)ui.showResult(settled,{status:'checking'});const submission=await leaderboard.submit(verified);if(!valid())return null;status=submission.status;}
+   if(!celebrating){ui.showResult(settled,{status});onControlsChanged();}return settled;
   },
-  async showRankings(){if(!active)return;rankings=true;const token=epoch;ui.showRankings({...leaderboard.state,status:'loading'});const board=await leaderboard.load();if(active&&token===epoch&&rankings)ui.showRankings(board);},
-  async login(){const token=epoch;ui.setLoginBusy(true);const status=await leaderboard.login();if(!active||token!==epoch)return;ui.setLoginBusy(false);if(status.status==='authorized'&&result?.verified){const submitted=await leaderboard.submit(result);if(active&&token===epoch)ui.showResult(result,{status:submitted.status});}else if(status.status!=='authorized')ui.showResult(result,status);},
+  async showRankings(){if(!active||phase==='celebrating')return;rankings=true;const token=epoch;ui.showRankings({...leaderboard.state,status:'loading'});const board=await leaderboard.load();if(active&&token===epoch&&rankings)ui.showRankings(board);},
+  async login(){if(!active||phase==='celebrating')return;const token=epoch;ui.setLoginBusy(true);const status=await leaderboard.login();if(!active||token!==epoch)return;ui.setLoginBusy(false);if(status.status==='authorized'&&result?.verified){const submitted=await leaderboard.submit(result);if(active&&token===epoch)ui.showResult(result,{status:submitted.status});}else if(status.status!=='authorized')ui.showResult(result,status);},
   updateEffects(dt,{paused=false,grounded=true,camera}={}){const c=getContext(),v=active?vehicle:c.garage.vehicles.find(v=>v.model===c.model);effects.update(dt,active?drivingModel().state:c.model.state,{enabled:c.driving&&c.gameplay.state.selectedId==='bmwreward'&&!paused&&!api.controlsLocked,grounded,metadata:v?.visual?.metadata,pose:v?.rig.pose,camera});},
   leave(){
-   if(!active)return;epoch++;leaderboard.cancelPending();client()?.cancelDriftRun();runId=null;active=false;phase='idle';ui.hide();
+   if(!active)return;if(phase!=='celebrating'){epoch++;leaderboard.cancelPending();client()?.cancelDriftRun();}runId=null;active=false;phase='idle';ui.hide();effects.clear();
    getContext().gameplay.endCanyonRun?.();vehicle=null;documentClass(false);onExit();
   },
-  dispose(){if(disposed)return;api.leave();disposed=true;epoch++;leaderboard.dispose();ui.dispose();effects.dispose();entrance.group.removeFromParent();entrance.dispose();environment?.group.removeFromParent();environment?.dispose();for(const solid of entrance.solids){const index=solids?.indexOf(solid)??-1;if(index>=0)solids.splice(index,1);}},
+  dispose(){if(disposed)return;api.leave();disposed=true;epoch++;client()?.cancelDriftRun();leaderboard.dispose();ui.dispose();effects.dispose();entrance.group.removeFromParent();entrance.dispose();environment?.group.removeFromParent();environment?.dispose();for(const solid of entrance.solids){const index=solids?.indexOf(solid)??-1;if(index>=0)solids.splice(index,1);}},
  };
  function documentClass(value){doc.body.classList.toggle('is-canyon',value);}
  access();return api;

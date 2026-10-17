@@ -97,11 +97,11 @@ test('real app driving crosses the canyon seam forward and in reverse without a 
  }finally{f.dispose();}
 });
 
-test('result dismissal and retry keep the BMW in place and allow continued driving',async()=>{
+test('invalid attempt dismissal and retry keep the BMW in place and allow continued driving',async()=>{
  const f=createAppDom({startDriving:false,career:earnedRewardCareer()});
  try{
   const d=selectBmw(f,12),model=d.model;f.win.dispatch('keydown',{code:'KeyW'});assert.equal(d.canyon.enter(),true);
-  Object.assign(d.canyon.score,{finished:true,score:5000,elapsed:100,maxCombo:3});await d.canyon.complete();
+  Object.assign(d.canyon.score,{finished:false,valid:false,score:5000,elapsed:100,maxCombo:3});await d.canyon.complete();
   assert.equal(d.canyon.phase,'result');assert.equal(d.input.state.enabled,true);assert.equal(d.canyon.controlsLocked,false);
   const before=motion(model),parent=d.rig.root.parent;f.ids.get('canyon-exit').dispatch('click');
   assert.equal(d.canyon.active,true);assert.equal(d.gameplay.state.mode,'driving');assert.equal(d.gameplay.state.eventMode,'canyon');

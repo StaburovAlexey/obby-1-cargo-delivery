@@ -501,10 +501,10 @@ function updateWorldLabels(){
 function handleGameplayEvents(){
   let delivered;
   for(const event of gameplay.events()){
-    if(event.type==='finish-reward')pendingFinishReceipt=event;
+    if(event.type==='finish-reward'&&gameplay.state.finishKind==='main')pendingFinishReceipt=event;
     if(event.type==='finish'){
       // Keep the current controls, velocity and follow-camera state through the finish.
-      finishCelebration.start({x:event.x,y:groundHeight(event.x,event.z)+1,z:event.z});
+      finishCelebration.start({x:event.x,y:(event.kind==='canyon'?rig.root.position.y:groundHeight(event.x,event.z))+1,z:event.z});
     }
     if(event.type==='delivery'){delivered=event;retentionUi.showDelivery({...event.breakdown,unlockedVehicleId:event.unlockedVehicleId});}
     if(event.type==='garage'){const receipt=pendingFinishReceipt;returnToGarage(event.reason);if(event.reason==='finish'&&receipt)retentionUi.showDelivery({...receipt.breakdown,unlockedVehicleId:receipt.unlockedVehicleId});if(delivered)notify(`Груз доставлен! +${delivered.reward} · Всего ${gameplay.state.money}`);}
@@ -877,7 +877,7 @@ function frame(now) {
   }
   if (playing && startup.ready && characterReady && !gameplayPaused()) {
     if(gameplay.state.eventMode==='finish'){
-      // The run is already settled: drive normally without fuel, progression or
+      // The finish result is captured: drive normally without fuel, progression or
       // failure transitions competing with the single timed hangar return.
       model.step(dt);applyTruckPose();roadHazardsScene.update(dt);
       wheelParticles.update(dt,model.state,true,garage.vehicles.find(v=>v.model===model)?.visual?.metadata);

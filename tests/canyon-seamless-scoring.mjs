@@ -31,11 +31,11 @@ function roadJourney({developerMode=false,career=earnedRewardCareer()}={}){
  }
  function throttle(value){if(value!==gas){f.win.dispatch(value?'keydown':'keyup',{code:'KeyW'});gas=value;}}
  function reverse(value){if(value===reversing)return;reversing=value;f.ids.get('reverse-pedal').dispatch(value?'pointerdown':'pointerup',{pointerId:92,button:0,clientX:60,clientY:70});}
- function frame(){
+ function frame(allowHangar=false){
   const before={x:model.state.x,z:model.state.z};now+=1000/FPS;f.frame(now);
   const delta=Math.hypot(model.state.x-before.x,model.state.z-before.z);distance+=delta;if(model.state.blocked)contacts++;
-  assert.ok(delta<2,'one app frame cannot teleport the BMW');
-  assert.equal(d.model,model);assert.equal(d.canyon.model,model);assert.equal(d.rig.root,root);assert.equal(root.parent,parent);
+  if(!allowHangar){assert.ok(delta<2,'one app frame cannot teleport the BMW');
+   assert.equal(d.model,model);assert.equal(d.canyon.model,model);assert.equal(d.rig.root,root);assert.equal(root.parent,parent);}
  }
  function until(predicate,input,seconds=60){
   for(let i=0;i<FPS*seconds&&!predicate();i++){input();frame();}
@@ -96,7 +96,7 @@ test('DOM-driven BMW enters from the outer approach lane, scores a real drift, t
  }finally{j.dispose();}
 });
 
-test('developer BMW shows real straight-versus-drift scoring but completing the course never saves or ranks rewards',async()=>{
+test('physical developer drift finish keeps moving with frozen scoring and controls, pauses safely, then returns once to the hangar',async()=>{
  const j=roadJourney({developerMode:true}),initial=j.d.gameplay.snapshot(),calls={submit:0,record:0};
  j.d.canyon.leaderboard.submit=()=>{calls.submit++;return Promise.resolve({status:'posted'});};
  const record=j.d.gameplay.recordDriftResult.bind(j.d.gameplay);
@@ -110,16 +110,41 @@ test('developer BMW shows real straight-versus-drift scoring but completing the 
   // outputs are real model input commands; the app still owns each physics,
   // scoring, HUD and completion step, with no synthetic finish or score data.
   j.throttle(false);
-  j.until(()=>j.d.canyon.phase==='checking'||j.d.canyon.phase==='result',()=>j.model.setInput(canyonDriverInput(j.model.state)),220);
-  await Promise.resolve();await Promise.resolve();
-  assert.equal(j.d.canyon.phase,'result');assert.equal(j.d.canyon.score.finished,true);assert.equal(j.d.canyon.score.valid,true);
-  assert.ok(j.d.canyon.score.score>1000);assert.ok(j.d.canyon.score.elapsed>60);
-  assert.equal(j.f.ids.get('canyon-overlay').hidden,false);
-  assert.equal(numericText(j.f.ids.get('canyon-result-score')),j.d.canyon.score.score);
-  assert.match(j.f.ids.get('canyon-result-note').textContent,/не сохраня|not saved/i);
-  assert.deepEqual(calls,{submit:0,record:0},'development cannot submit ranked results or record even an earned-career result');
-  assert.deepEqual(j.d.gameplay.snapshot(),before,'money, brains, deliveries and saved drift records remain unchanged');
-  assert.equal(j.writes.length,0);
+  j.until(()=>projectCanyon(j.model.state.x,j.model.state.z).progress>=CANYON_TRACK.finish-1,()=>j.model.setInput(canyonDriverInput(j.model.state)),220);
+  assert.equal(j.d.canyon.score.finished,false);
+  const g=j.d.gameplay,model=j.model,root=j.d.rig.root,parent=root.parent;
+  let pauses=0,resets=0,cameraResets=0;const pause=model.pause.bind(model),reset=model.reset.bind(model),resetCamera=j.d.cameraState.reset.bind(j.d.cameraState);
+  model.pause=(...args)=>{pauses++;return pause(...args);};model.reset=(...args)=>{resets++;return reset(...args);};j.d.cameraState.reset=(...args)=>{cameraResets++;return resetCamera(...args);};
+  const startingSpeed=model.state.linearSpeed;j.steer(0);j.throttle(true);
+  j.until(()=>g.state.eventMode==='finish',()=>{},2);
+  assert.equal(j.d.canyon.phase,'celebrating');assert.equal(g.state.finishKind,'canyon');assert.equal(g.state.finishRemaining,2,'the finish timer starts on the crossing frame');
+  assert.equal(j.d.canyon.score.finished,true);assert.equal(j.d.canyon.score.valid,true);assert.ok(j.d.canyon.score.score>1000);assert.ok(j.d.canyon.score.elapsed>60);
+  assert.equal(pauses,0);assert.equal(resets,0);assert.equal(cameraResets,0);assert.ok(model.state.linearSpeed>startingSpeed-.5,'the crossing cannot brake the car');assert.equal(model.state.active,true,'held gas survives the crossing');
+  assert.equal(j.d.finishCelebration.active,true);assert.equal(j.d.finishCelebration.group.position.x,model.state.x);assert.equal(j.d.finishCelebration.group.position.z,model.state.z);
+  assert.equal(j.d.finishCelebration.group.position.y,root.position.y+1,'drift confetti starts at canyon vehicle height');
+  assert.equal(j.f.ids.get('canyon-overlay').hidden,true);assert.equal(j.f.ids.get('canyon-hud').hidden,false);assert.equal(numericText(j.f.ids.get('canyon-score')),j.d.canyon.score.score);
+  await Promise.resolve();await Promise.resolve();assert.equal(j.d.canyon.phase,'celebrating');assert.equal(j.f.ids.get('canyon-overlay').hidden,true);
+  const score={...j.d.canyon.score},fuel=g.state.fuels.bmwreward;
+  const assertFrozen=()=>{assert.deepEqual(j.d.canyon.score,score,'finish freezes score, combo, timer and eligibility');assert.equal(g.state.fuels.bmwreward,fuel);assert.equal(numericText(j.f.ids.get('canyon-score')),score.score);assert.equal(j.f.ids.get('canyon-overlay').hidden,true);};
+  assert.equal(j.d.setBiomeMenu(true),false);assert.equal(j.d.setUpgradeMenu(true),false);assert.equal(j.d.setDriving(false),false);assert.equal(j.d.returnToGarage(),false);assert.equal(j.d.canyon.retry(),false);
+  j.f.ids.get('garage-button').dispatch('click');assert.equal(g.state.eventMode,'finish');
+  const position={x:model.state.x,z:model.state.z};j.frame();assert.ok(Math.hypot(model.state.x-position.x,model.state.z-position.z)>.1,'same BMW moves through the celebration');assertFrozen();
+  j.f.win.dispatch('keydown',{code:'KeyD'});const heading=model.state.heading;for(let i=0;i<3;i++)j.frame();assert.notEqual(model.state.heading,heading,'steering remains live');j.f.win.dispatch('keyup',{code:'KeyD'});
+  j.throttle(false);j.f.win.dispatch('keydown',{code:'KeyS'});const speed=model.state.linearSpeed;for(let i=0;i<3;i++)j.frame();assert.ok(model.state.braking>0);assert.ok(model.state.linearSpeed<speed,'brake remains live');j.f.win.dispatch('keyup',{code:'KeyS'});
+  j.f.win.dispatch('keydown',{code:'ShiftLeft'});j.frame();assert.equal(model.state.handbrake,1);j.f.win.dispatch('keyup',{code:'ShiftLeft'});
+  j.reverse(true);assert.equal(model.state.gear,'R');assert.equal(model.state.active,true);j.reverse(false);assert.equal(model.state.active,false);assertFrozen();
+  assert.equal(j.d.finishCelebration.group.position.x,model.state.x);assert.equal(j.d.finishCelebration.group.position.z,model.state.z);assert.equal(j.d.model,model);assert.equal(j.d.rig.root,root);assert.equal(root.parent,parent);
+  assert.equal(pauses,0);assert.equal(resets,0);assert.equal(cameraResets,0,'the entire active celebration retains follow-camera continuity');
+  const pauseFor=(enter,leave)=>{const remaining=g.state.finishRemaining,elapsed=j.d.finishCelebration.elapsed;enter();for(let i=0;i<5;i++)j.frame();assert.equal(g.state.finishRemaining,remaining);assert.equal(j.d.finishCelebration.elapsed,elapsed);assertFrozen();leave();j.frame();assert.equal(g.state.finishRemaining,remaining,'resume discards paused frame time');};
+  pauseFor(()=>j.f.ids.get('settings-button').dispatch('click'),()=>j.f.ids.get('settings-close').dispatch('click'));
+  pauseFor(()=>{j.f.doc.hidden=true;},()=>{j.f.doc.hidden=false;});
+  pauseFor(()=>j.f.win.dispatch('blur'),()=>j.f.win.dispatch('focus'));
+  pauseFor(()=>j.d.pauseState.set('platform',true),()=>j.d.pauseState.set('platform',false));
+  assert.deepEqual(calls,{submit:0,record:0},'development cannot submit ranked results or record even an earned-career result');assert.deepEqual(g.snapshot(),before);assert.equal(j.writes.length,0);
+  while(g.state.finishRemaining>1/FPS+1e-8){j.frame();assert.equal(g.state.mode,'driving');assertFrozen();}
+  j.frame(true);assert.equal(g.state.mode,'walking');assert.equal(g.state.eventMode,null);assert.equal(g.state.finishKind,null);assert.equal(g.state.selectedId,null);assert.equal(j.d.canyon.active,false);assert.equal(j.d.canyon.phase,'idle');
+  assert.equal(j.d.finishCelebration.active,false);assert.equal(j.f.ids.get('canyon-overlay').hidden,true);assert.equal(j.f.ids.get('canyon-hud').hidden,true);assert.equal(j.f.ids.get('delivery-receipt-menu').hidden,true);assert.equal(j.d.careerMenuOpen,false);assert.equal(j.d.input.state.enabled,false);assert.equal(model.state.active,false);
+  for(let i=0;i<5;i++)j.frame(true);assert.equal(g.state.mode,'walking');assert.deepEqual(g.snapshot(),before);assert.equal(j.writes.length,0);assert.deepEqual(calls,{submit:0,record:0});
  }finally{j.dispose();}
  assert.equal(j.writes.length,0,'disposing the developer app must not flush a reward save');
 });

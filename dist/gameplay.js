@@ -148,7 +148,7 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
     return branch==='main'||branch==='alternate'?[[fork.id,branch]]:[];
   }));
   let runProgress=null,blockedDeliveryId=null,finishPrevious=null;
-  state.finishRemaining=0;
+  state.finishRemaining=0;state.finishKind=null;
   const acceptsTelemetry=input=>!!input&&typeof input==='object'&&state.mode==='driving'&&!state.testMode&&
     !!state.run?.loaded&&state.run.vehicleId===state.selectedId&&isOwned(state.selectedId)&&
     input.runId===state.run.id&&runProgress?.runId===state.run.id;
@@ -381,7 +381,7 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       state.interactionCooldown=1.2;state.walked=0;emit('stand');return true;
     },
     events(){const e=events;events=[];return e;},
-    returnToGarage(reason='garage') { if(reason!=='delivery')api.flushProgress();clearShopPrompts();finishPrevious=null;state.finishRemaining=0;state.eventMode=null;state.run=null;runProgress=null;state.testMode=false;state.testBiome=null;resetJump();state.landingCooldown=0;state.mode='walking';state.selectedId=null;state.seatedId=null;state.seatedSchoolId=null;state.classroomArmed=true;state.blockedStand=null;state.interactionCooldown=1;state.doorNotified=false;state.player={...GAMEPLAY.spawn};state.cooldown=GAMEPLAY.exitCooldown;state.blockedEntry=null;state.walked=0;state.stationId=null;for(const v of vehicles)state.fuels[v.id]=fuelCapacity(v.id);emit('garage',{reason}); },
+    returnToGarage(reason='garage') { if(reason!=='delivery')api.flushProgress();clearShopPrompts();finishPrevious=null;state.finishRemaining=0;state.finishKind=null;state.eventMode=null;state.run=null;runProgress=null;state.testMode=false;state.testBiome=null;resetJump();state.landingCooldown=0;state.mode='walking';state.selectedId=null;state.seatedId=null;state.seatedSchoolId=null;state.classroomArmed=true;state.blockedStand=null;state.interactionCooldown=1;state.doorNotified=false;state.player={...GAMEPLAY.spawn};state.cooldown=GAMEPLAY.exitCooldown;state.blockedEntry=null;state.walked=0;state.stationId=null;for(const v of vehicles)state.fuels[v.id]=fuelCapacity(v.id);emit('garage',{reason}); },
     enter(id) {
       if(state.mode!=='walking'||state.seatedId||state.jump.airborne||state.cooldown>0)return false;
       const v=vehicles.find(v=>v.id===id);if(!v||!isOwned(id))return false;
@@ -450,6 +450,13 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       const near=nearbyVehicle(state.blockedEntry);
       if(near&&isOwned(near.id))api.enter(near.id);
     },
+    beginFinish(kind,position) {
+      if(state.mode!=='driving'||state.eventMode==='finish'||!['main','canyon'].includes(kind))return false;
+      if(kind==='canyon'?state.eventMode!=='canyon':state.eventMode!==null)return false;
+      if(!position||!Number.isFinite(position.x)||!Number.isFinite(position.z))return false;
+      state.eventMode='finish';state.finishKind=kind;state.finishRemaining=FINISH_CELEBRATION_SECONDS;
+      emit('finish',{kind,x:position.x,z:position.z});return true;
+    },
     advanceFinish(dt) {
       if(state.eventMode!=='finish'||!Number.isFinite(dt)||dt<=0)return false;
       state.finishRemaining=Math.max(0,state.finishRemaining-Math.min(.05,dt));
@@ -469,12 +476,12 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       if(Number.isFinite(x)&&Number.isFinite(z)){
         const current={x,z},crossed=crossesFinishLine(finishPrevious,current);finishPrevious=current;
         if(crossed){
-          state.eventMode='finish';state.finishRemaining=FINISH_CELEBRATION_SECONDS;
+          api.beginFinish('main',current);
           const telemetry=runProgress?.runId===state.run?.id?runProgress:null;
           if(!developerSession&&!state.testMode&&state.run?.loaded&&routeProofComplete(telemetry,x,z)){
             settleDelivery({...FINAL_DELIVERY_CHECKPOINT,id:`delivery-${FINAL_DELIVERY_CHECKPOINT.id}`},true,telemetry);
           }else if(state.run?.loaded)api.invalidateRun({runId:state.run.id});
-          emit('finish',{x,z});return;
+          return;
         }
       }
       if(!Number.isFinite(x)||!Number.isFinite(z))return;
