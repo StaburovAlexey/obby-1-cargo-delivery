@@ -1,5 +1,6 @@
 import {CANYON_TRACK,canyonPointAt} from './canyon-track.js';
 import {CANYON_APPROACH_LENGTH,canyonApproachPoint} from './canyon-approach.js';
+import {CANYON_APPROACH_ROCKS} from './canyon-rocks.js';
 import {pointInRoad} from './road-layout.js';
 import {createBarrierGeometry} from './roadside-barrier.js';
 
@@ -72,6 +73,13 @@ export function createCanyonScene(THREE){
     parts.push({position:[p.x+p.right.x*(34+wobble)*side,bottom+h*(layer+.5),p.z+p.right.z*(34+wobble)*side],scale:[17+Math.sin(index*2.3)*3,h,17+Math.cos(index*1.3)*3],heading:index*.3,color:[0xa45f3a,0xc88650,0xe0a56c][layer]});}
   }
   batch('Canyon sandstone stratum '+layer,rock,mat(0xffffff,{flatShading:true}),parts);
+  const approachParts=CANYON_APPROACH_ROCKS.map(p=>{const h=(p.top-p.bottom)/3;return {position:[p.x,p.bottom+h*(layer+.5),p.z],scale:[p.radius,h,p.radius],heading:p.heading,color:[0xa45f3a,0xc88650,0xe0a56c][layer]};});
+  // Underground approach bases share a flat datum. Leave them open so adjacent
+  // buried outcrops cannot create doubled coplanar bottom caps.
+  const approachRock=rock.clone(),approachIndices=[];
+  for(let i=0;i<rock.index.count;i+=3)if(rock.attributes.normal.getY(rock.index.getX(i))>-.99)for(let j=0;j<3;j++)approachIndices.push(rock.index.getX(i+j));
+  approachRock.setIndex(approachIndices);geometries.add(approachRock);
+  batch('Canyon approach sandstone stratum '+layer,approachRock,mat(0xffffff,{flatShading:true}),approachParts);
  }
  for(const [distance,name]of [[5,'Canyon start'],[CANYON_TRACK.finish,'Canyon finish']]){
   const p=canyonPointAt(distance),parts=[];

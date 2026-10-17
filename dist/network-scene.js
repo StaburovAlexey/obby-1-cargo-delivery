@@ -1,16 +1,17 @@
 
 
 
+import {CANYON_APPROACH_ROCKS} from './canyon-rocks.js';
 import {canyonApproachQuads} from './canyon-approach.js';
 import {barrierStripData} from './roadside-barrier.js';
 import {CANYON_TRACK,canyonPointAt} from './canyon-track.js';
 import {polygonIndex,cutSurfaceMesh} from './surface-cut.js';
 // Reserve a landscape corridor as well as the asphalt: city facades cannot
 // protrude through the sandstone walls or the fork's roadside shoulders.
-const canyonClearance=canyonApproachQuads(15);
+const canyonClearance=[...canyonApproachQuads(15),...CANYON_APPROACH_ROCKS.map(p=>p.footprint)];
 for(let s=0;s<CANYON_TRACK.length;s+=2){const a=canyonPointAt(s),b=canyonPointAt(s+2),edge=(p,w)=>({x:p.x+p.right.x*w,z:p.z+p.right.z*w});canyonClearance.push([edge(a,-70),edge(b,-70),edge(b,70),edge(a,70)]);}
 const canyonClearanceIndex=polygonIndex(canyonClearance);
-const approachGroundCut=polygonIndex(canyonApproachQuads(1));
+const approachGroundCut=polygonIndex([...canyonApproachQuads(1),...CANYON_APPROACH_ROCKS.map(p=>p.footprint)]);
 import * as NETWORK from './route-network.js';
 import {NETWORK_CONFIG} from './route-network-config.js';
 import {BRIDGES} from './road-bridges.js';
