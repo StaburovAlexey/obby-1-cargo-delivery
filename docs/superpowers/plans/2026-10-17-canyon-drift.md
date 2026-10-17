@@ -1,6 +1,6 @@
 # BMW Canyon Drift Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Deliver an optional unlocked canyon drift event with controllable BMW physics, tire effects, Yandex rankings and existing room peers.
 
@@ -34,9 +34,9 @@
 
 **Interfaces:** Consumes existing createDrivingModel and wheel metadata. Produces brake and handbrake input channels, BMW slipAngle/driftIntensity telemetry and a dedicated BMW tuning profile; ordinary calls retain existing behavior.
 
-- [ ] Write tests for independent brake/handbrake, BMW sustained slide and countersteer recovery, frame-rate consistency and ordinary-vehicle regression. Run node --test tests/canyon-driving.mjs; Expected: behavioral failure before implementation.
-- [ ] Implement BMW-only progressive axle grip, rear-biased drive and steering/recovery control; expose usable telemetry and controls. Repair the historic BMW test's unavailable git dependency using a stable regression fixture.
-- [ ] Run node --test tests/canyon-driving.mjs and node tests/vehicle-dynamics.mjs; Expected: all pass. Commit feat(bmw): add controlled drift dynamics and braking inputs.
+- [x] Write tests for independent brake/handbrake, BMW sustained slide and countersteer recovery, frame-rate consistency and ordinary-vehicle regression. Run node --test tests/canyon-driving.mjs; Expected: behavioral failure before implementation.
+- [x] Implement BMW-only progressive axle grip, rear-biased drive and steering/recovery control; expose usable telemetry and controls. Repair the historic BMW test's unavailable git dependency using a stable regression fixture.
+- [x] Run node --test tests/canyon-driving.mjs and node tests/vehicle-dynamics.mjs; Expected: all pass. Commit feat(bmw): add controlled drift dynamics and braking inputs.
 
 ### Task 2: Canyon track and locked entrance
 
@@ -44,9 +44,9 @@
 
 **Interfaces:** Produces CANYON_TRACK, canyonPointAt(distance), projectCanyon(x,z,history), canyonHeight(x,z), canyonContact(x,z,heading,footprint), createCanyonScene(THREE), createCanyonEntrance(THREE), and canEnterCanyon(career,vehicleId). Track coordinates occupy a region distinct from the main route.
 
-- [ ] Write continuity/downhill/footprint tests and main-route proof/barrier collision cases including preview BMW and old delivery claims. Run node --test tests/canyon-track.mjs; Expected: fail for missing behavior.
-- [ ] Implement the sampled downhill track, asphalt/cliffs/rails, main-road access branch, per-player barrier and route query/pose methods.
-- [ ] Run node --test tests/canyon-track.mjs; Expected: all pass. Commit feat(canyon): add downhill circuit and progression barrier.
+- [x] Write continuity/downhill/footprint tests and main-route proof/barrier collision cases including preview BMW and old delivery claims. Run node --test tests/canyon-track.mjs; Expected: fail for missing behavior.
+- [x] Implement the sampled downhill track, asphalt/cliffs/rails, main-road access branch, per-player barrier and route query/pose methods.
+- [x] Run node --test tests/canyon-track.mjs; Expected: all pass. Commit feat(canyon): add downhill circuit and progression barrier.
 
 ### Task 3: Drift score, records and room verification
 
@@ -54,9 +54,9 @@
 
 **Interfaces:** Consumes projectCanyon and CANYON_TRACK. Produces createDriftScore(), sanitizeDriftRecord(), saved driftRecord, and room start/finish messages for a server-observed run. Score snapshots contain score/combo/valid/finished, and ranked eligibility is explicit.
 
-- [ ] Write real-score tests for controlled drift, spins, hits, backwards/repeated sections, teleports, pause and invalid time; save roundtrips; run-start/finish/disconnect verification. Run node --test tests/canyon-score.mjs tests/canyon-server.mjs; Expected: fail for missing behavior.
-- [ ] Implement bounded monotonic scoring, sanitized local record persistence and room telemetry verification with capped messages and per-connection run ownership.
-- [ ] Run node --test tests/canyon-score.mjs tests/canyon-server.mjs and node --test tests/cloud-career.mjs tests/online-client.mjs; Expected: pass. Commit feat(drift): score valid runs and persist verified records.
+- [x] Write real-score tests for controlled drift, spins, hits, backwards/repeated sections, teleports, pause and invalid time; save roundtrips; run-start/finish/disconnect verification. Run node --test tests/canyon-score.mjs tests/canyon-server.mjs; Expected: fail for missing behavior.
+- [x] Implement bounded monotonic scoring, sanitized local record persistence and room telemetry verification with capped messages and per-connection run ownership.
+- [x] Run node --test tests/canyon-score.mjs tests/canyon-server.mjs and node --test tests/cloud-career.mjs tests/online-client.mjs; Expected: pass. Commit feat(drift): score valid runs and persist verified records.
 
 ### Task 4: Tire smoke and skid marks
 
@@ -64,9 +64,9 @@
 
 **Interfaces:** Consumes BMW telemetry, metadata and injected surface height/normal. Produces createDriftEffects(THREE,{height}), with group/update/clear/dispose and bounded buffer counts.
 
-- [ ] Write tests for no smoke without slip/contact, rear-wheel positioning, bounded capacity, sloped marks, teleport gaps and cleanup. Run node --test tests/canyon-effects.mjs; Expected: fail for missing behavior.
-- [ ] Implement pooled soft smoke and fading joined skid segments; reuse existing geometry/materials and reset on discontinuities.
-- [ ] Run node --test tests/canyon-effects.mjs; Expected: pass. Commit feat(effects): add tire smoke and fading skid trails.
+- [x] Write tests for no smoke without slip/contact, rear-wheel positioning, bounded capacity, sloped marks, teleport gaps and cleanup. Run node --test tests/canyon-effects.mjs; Expected: fail for missing behavior.
+- [x] Implement pooled soft smoke and fading joined skid segments; reuse existing geometry/materials and reset on discontinuities.
+- [x] Run node --test tests/canyon-effects.mjs; Expected: pass. Commit feat(effects): add tire smoke and fading skid trails.
 
 ### Task 5: Yandex leaderboard adapter and event HUD
 
@@ -74,9 +74,9 @@
 
 **Interfaces:** Platform exposes availability, ranking read and submit methods guarded against account changes. createCanyonLeaderboard serializes best-score submissions and handles absent/auth-required SDK states. HUD presents start/running/result/rankings and explicit callbacks for retry/exit/login.
 
-- [ ] Write SDK tests for authorized success, anonymous play, missing board, lower score, concurrent submits and account switch; HUD text/safe row rendering. Run node --test tests/canyon-leaderboard.mjs tests/canyon-ui.mjs; Expected: fail for missing behavior.
-- [ ] Implement current SDK methods, cached top/user entries, explicit optional login, local-result fallback and RU/EN controls. Document exact developer-console setup and verification limits.
-- [ ] Run node --test tests/canyon-leaderboard.mjs tests/canyon-ui.mjs tests/yandex-platform.mjs; Expected: pass. Commit feat(yandex): connect canyon leaderboard and race interface.
+- [x] Write SDK tests for authorized success, anonymous play, missing board, lower score, concurrent submits and account switch; HUD text/safe row rendering. Run node --test tests/canyon-leaderboard.mjs tests/canyon-ui.mjs; Expected: fail for missing behavior.
+- [x] Implement current SDK methods, cached top/user entries, explicit optional login, local-result fallback and RU/EN controls. Document exact developer-console setup and verification limits.
+- [x] Run node --test tests/canyon-leaderboard.mjs tests/canyon-ui.mjs tests/yandex-platform.mjs; Expected: pass. Commit feat(yandex): connect canyon leaderboard and race interface.
 
 ### Task 6: Application integration, room peers and journeys
 
@@ -84,7 +84,7 @@
 
 **Interfaces:** Consumes all preceding module interfaces. createCanyonMode owns main/canyon transitions, fixed event setup, score/effects/UI, server result confirmation and leaderboard submission; retains the online session and publishes active BMW poses through existing getContext.
 
-- [ ] Write actual-app tests for locked gate, valid entry, fixed setup, suppressed payouts, retry/exit/rebuild cleanup, stale finish/account responses and room retention. Run node --test tests/canyon-app.mjs; Expected: fail for missing integration.
-- [ ] Integrate the entrance with main collision queries; swap the active environment/BMW, surface/camera/effects and HUD. Keep room peer transforms and increment teleportId on all transitions. Suspend advertising during event/result states.
-- [ ] Run node --test tests/canyon-*.mjs, npm run test:biome-progression, npm run test:platforms and npm run test:online. Run physical canyon journeys and two real browser clients in the same room, portrait/landscape screenshots and both production builds. Expected: new/focused suites pass and visible nearby replicas; record the known legacy npm test failures separately.
-- [ ] Commit feat(canyon): integrate drift event with rooms and progression. Run final independent review; fix important findings with regression tests and commit. Preserve the separate branch and report commit/push/console setup status precisely.
+- [x] Write actual-app tests for locked gate, valid entry, fixed setup, suppressed payouts, retry/exit/rebuild cleanup, stale finish/account responses and room retention. Run node --test tests/canyon-app.mjs; Expected: fail for missing integration.
+- [x] Integrate the entrance with main collision queries; swap the active environment/BMW, surface/camera/effects and HUD. Keep room peer transforms and increment teleportId on all transitions. Suspend advertising during event/result states.
+- [x] Run node --test tests/canyon-*.mjs, npm run test:biome-progression, npm run test:platforms and npm run test:online. Run physical canyon journeys and two real browser clients in the same room, portrait/landscape screenshots and both production builds. Expected: new/focused suites pass and visible nearby replicas; record the known legacy npm test failures separately.
+- [x] Commit feat(canyon): integrate drift event with rooms and progression. Run final independent review; fix important findings with regression tests and commit. Preserve the separate branch and report commit/push/console setup status precisely.

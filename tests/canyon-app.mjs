@@ -26,3 +26,7 @@ test('earned BMW enters a fixed canyon setup, suspends deliveries and restores t
   assert.equal(d.canyon.enter(),true);const old=d.canyon;d.rebuild(42);assert.equal(old.entrance.group.parent,null);assert.equal(old.effects.group.parent,null);assert.notEqual(f.debug.canyon,old);assert.equal(f.debug.canyon.active,false);assert.equal(f.debug.gameplay.state.eventMode,null);
  }finally{f.dispose();}
 });
+test('a cached pagehide preserves the canyon and pageshow resumes without stale controls',()=>{
+ const f=createAppDom({startDriving:false,career:earnedRewardCareer()});
+ try{const d=f.debug;d.canyon.enter();const controller=d.canyon;f.win.dispatch('pagehide',{persisted:true});assert.equal(controller.active,true,'a cached page retains its canyon resources');f.win.dispatch('pageshow',{persisted:true});f.win.dispatch('focus');f.frame();assert.equal(d.canyon,controller);assert.equal(d.model,d.canyon.model);assert.equal(d.gameplay.state.eventMode,'canyon');assert.equal(d.model.state.active,false);assert.ok(d.garage.vehicles.some(v=>v.model===d.model));}finally{f.dispose();}
+});

@@ -940,7 +940,8 @@ if(services?.serverUrl){
     getContext:()=>({gameplay,garage,character,model,rig,paused:gameplayPaused(),walkSpeed:lastWalkSpeed,teleportId})});
   onlineSession.bindGameplay(gameplay);
 }
-window.addEventListener('pagehide',()=>{if(disposedOnline)return;disposedOnline=true;canyonMode?.dispose();onlineSession?.dispose();advertising?.destroy();});
+window.addEventListener('pagehide',event=>{if(event.persisted||disposedOnline)return;disposedOnline=true;canyonMode?.dispose();onlineSession?.dispose();advertising?.destroy();});
+window.addEventListener('pageshow',event=>{if(!event.persisted)return;appFocused=document.hasFocus?.()??true;lastTime=0;onlineClock=0;inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();syncMode();});
 requestAnimationFrame(frame);
 
 

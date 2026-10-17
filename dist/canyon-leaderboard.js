@@ -54,6 +54,7 @@ export function createCanyonLeaderboard({platform,now=Date.now,wait=ms=>new Prom
    if(!supported()||disposed)return {status:'unavailable'};const token=epoch,account=generation();
    try{await platform.authorizeLeaderboard();if(!valid(token,account))return {status:'account-changed'};cachedAt=-Infinity;return {status:'authorized'};}catch(error){return {status:classify(error)};}
   },
+  cancelPending(){epoch++;state.busy=false;},
   dispose(){disposed=true;epoch++;state.busy=false;state.entries=[];state.player=null;},
  };
 }

@@ -28,7 +28,7 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,language,get
  function access(){const career=getContext().gameplay.state;if(career.routeCompletion!==accessProof){accessProof=career.routeCompletion;entrance.updateAccess(getContext().gameplay.snapshot());}}
  function place(){const start=canyonPointAt(CANYON_TRACK.spawn);model.reset();Object.assign(model.state,{x:start.x,z:start.z,heading:start.heading});model.pause();vehicle.rig.update({...canyonPose(THREE,model.state,vehicle.visual?.metadata),steerAngle:0,wheelSpin:0,bodyPitch:0,bodyRoll:0,bodyBob:0});}
  function prepare(){
-  epoch++;client()?.cancelDriftRun();runId=null;runReady=Promise.resolve(null);result=null;rankings=false;phase='countdown';countdown=3;effects.clear();place();scorer=createDriftScore();
+  epoch++;leaderboard.cancelPending();client()?.cancelDriftRun();runId=null;runReady=Promise.resolve(null);result=null;rankings=false;phase='countdown';countdown=3;effects.clear();place();scorer=createDriftScore();
   getContext().gameplay.state.fuels.bmwreward=vehicleConfig('bmwreward').capacity;
   onEnter({model,vehicle});ui.update({phase,countdown});
  }
@@ -81,7 +81,7 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,language,get
   async login(){const token=epoch;ui.setLoginBusy(true);const status=await leaderboard.login();if(!active||token!==epoch)return;ui.setLoginBusy(false);if(status.status==='authorized'&&result?.verified){const submitted=await leaderboard.submit(result);if(active&&token===epoch)ui.showResult(result,{status:submitted.status});}else if(status.status!=='authorized')ui.showResult(result,status);},
   updateEffects(dt,{paused=false,grounded=true,camera}={}){const c=getContext(),v=active?vehicle:c.garage.vehicles.find(v=>v.model===c.model);effects.update(dt,active?model.state:c.model.state,{enabled:c.driving&&c.gameplay.state.selectedId==='bmwreward'&&!paused&&!api.controlsLocked,grounded,metadata:v?.visual?.metadata,pose:v?.rig.pose,camera});},
   leave(){
-   if(!active)return;epoch++;client()?.cancelDriftRun();runId=null;active=false;phase='idle';model.pause();effects.clear();ui.hide();if(environment)environment.group.visible=false;
+   if(!active)return;epoch++;leaderboard.cancelPending();client()?.cancelDriftRun();runId=null;active=false;phase='idle';model.pause();effects.clear();ui.hide();if(environment)environment.group.visible=false;
    for(const [group,visible]of original.groups)group.visible=visible;
    original.parent.add(vehicle.group);vehicle.model=original.model;vehicle.position=original.position;original=null;documentClass(false);
   },

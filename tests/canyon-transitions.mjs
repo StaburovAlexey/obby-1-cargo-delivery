@@ -30,3 +30,7 @@ test('account changes discard a finish instead of saving or publishing it for a 
 test('only a fresh server result is saved as verified and submitted to Yandex',async()=>{
  const f=fixture();try{await f.start();const finishing=f.canyon.complete();await Promise.resolve();f.finish.resolve(f.record);assert.deepEqual(await finishing,f.record);assert.equal(f.saved.length,1);assert.equal(f.saved[0].verified,true);assert.equal(f.submitted[0][1],5000);assert.equal(f.canyon.phase,'result');}finally{f.canyon.dispose();}
 });
+test('retry cancels a prior result waiting to write the Yandex score',async()=>{
+ const f=fixture(),reading=deferred(),started=deferred();f.platform.getLeaderboardPlayerEntry=()=>{started.resolve();return reading.promise;};
+ try{await f.start();const finishing=f.canyon.complete();f.finish.resolve(f.record);await started.promise;assert.equal(f.canyon.phase,'result');f.canyon.retry();reading.resolve(null);await finishing;assert.deepEqual(f.submitted,[],'the cancelled read must not issue an SDK write');assert.equal(f.saved.length,1,'the completed local record remains saved');}finally{f.canyon.dispose();}
+});
