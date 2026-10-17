@@ -40,6 +40,7 @@ export function attachCosmoGarage(THREE,garage,{load=loadGarageVehicle,onError=c
       vehicle.approach={x:vehicle.park.x-Math.sin(heading)*PARKED_APPROACH_DISTANCE,
         z:vehicle.park.z-Math.cos(heading)*PARKED_APPROACH_DISTANCE};
       vehicle.approachRadius=PARKED_APPROACH_RADIUS;
+      vehicle.approachMarker?.position.set(vehicle.approach.x,vehicle.approachMarker.position.y,vehicle.approach.z);
     }
     rig.update=function(pose={}){
       const result=originalUpdate.call(rig,pose);

@@ -306,6 +306,14 @@ export function createGarageScene(THREE, city) {
       approach: spec.rewardDisplay?{...rewardPedestal.approach}:{ x: parked.x-5.15, z: parked.z },
       footprint: { halfWidth: TRUCK_HALF_WIDTH, halfLength: TRUCK_HALF_LENGTH } };
   });
+  const vehicleMarkers=vehicles.filter(vehicle=>!vehicle.rewardDisplay).map(vehicle=>{
+    const marker=new THREE.Mesh(rewardMarkerGeometry,rewardMarkerMaterial);
+    marker.name=`Vehicle approach · ${vehicle.id}`;
+    marker.position.set(vehicle.approach.x,floorY+.035,vehicle.approach.z);
+    marker.userData={nonBlocking:true,vehicleId:vehicle.id};
+    hangar.add(marker);vehicle.approachMarker=marker;
+    return marker;
+  });
 
   const bright = ownMaterial(new THREE.MeshBasicMaterial({ color: 0x6dffd1, side: THREE.DoubleSide, toneMapped: false }));
   const aura = ownMaterial(new THREE.MeshBasicMaterial({ color: 0x54ffc9, transparent: true, opacity: 0.17,
@@ -375,7 +383,7 @@ export function createGarageScene(THREE, city) {
   let disposed = false;
   return {
     group, hangar, vehicles, stations, deliveries, walls, classroomSolids,
-    pedestalSolids,walkingSolids:[...classroomSolids,...pedestalSolids],rewardPedestal,rewardMarker,
+    pedestalSolids,walkingSolids:[...classroomSolids,...pedestalSolids],rewardPedestal,rewardMarker,vehicleMarkers,
     desks:CLASSROOM_DESKS, stands:CHARACTER_STANDS,
     classroomEntries:CLASSROOM_ENTRIES, classMarkers, classroomEntry:CLASSROOM_ENTRY, classMarker,
     layout: GARAGE_LAYOUT,
