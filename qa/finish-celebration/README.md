@@ -1,12 +1,12 @@
 # Main-route finish celebration
 
-The existing checkered line now completes the route on a short forward crossing inside the road. The old final left delivery circle and right fuel station are removed; the previous fifteen pairs are unchanged. Crossing starts 160 bounded instanced confetti pieces, freezes driving/fuel/route progress, and returns the player through the normal hangar path after two seconds of active simulation. Hidden tabs, lost focus and platform pause suspend the sequence. Rebuild disposes the effect; arrival clears it.
+The existing checkered line now completes the route on a short forward crossing inside the road. The old final left delivery circle and right fuel station are removed; the previous fifteen pairs are unchanged. Crossing starts 160 bounded instanced confetti pieces that follow the moving car, preserves driving controls, velocity and follow-camera motion while freezing settled-run fuel/reward progress, and returns the player through the normal hangar path after two seconds of active simulation. Hidden tabs, lost focus and platform pause suspend the sequence. Rebuild disposes the effect; arrival clears it.
 
 Continuous full-route telemetry and all required bridge crossings still gate the final payout and BMW unlock. Reward settlement is persisted once at crossing; the receipt is deferred until arrival in the hangar. No final unloading maneuver is required. Empty fuel wins before settlement. Developer mode, preview routes, jumps, missing cargo and invalid traversal cannot earn this reward. Older saved route proofs remain accepted.
 
 ## Checks
 
-- `npm run test:finish-celebration`: eight state/geometry/lifetime groups, headless app lifecycle plus legitimate reward/receipt integration, existing finish geometry and developer preview checks.
+- `npm run test:finish-celebration`: eight state/geometry/lifetime groups, headless app moving-crossing speed/input/camera continuity, gas/steering/reverse/brake/handbrake, lifecycle pause and exact timer boundary plus legitimate reward/receipt integration, existing finish geometry and developer preview checks.
 - `npm run test:canyon`: current canyon regressions, including banner geometry and scene integration.
 - Retention, reward app, developer reward app, delivery receipt, audio/brake app, settings app/menu and localization checks passed.
 - Yandex and VK production builds passed; private preview is built with the development preview flag.
