@@ -212,7 +212,7 @@ export function buildCity(THREE,{seed=42}={}){
   let buildingCount=0,barrierCount=0,omittedJunctionSections=0,minimumFrontage=Infinity,maximumFrontage=0,maximumFacadeSetback=0;
   const sample=(edge,s)=>NETWORK.pointOnEdge(edge.id,Math.max(0,Math.min(edge.length,s)));
   const offset=(p,d)=>({x:p.x+p.right.x*d,z:p.z+p.right.z*d});
-  const groundAt=p=>NETWORK.getSurface(p.x,p.z).height;
+  const groundAt=p=>NETWORK.surfaceHeight(p.x,-p.z);
   function profileFor(edge,side,frontage=18){
 
 

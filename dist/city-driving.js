@@ -1,4 +1,4 @@
-import { queryRoadSurface, projectRoad, ROAD_SURFACE_OFFSET, corridorContact, truckInRoad, obstacleIntersectsRoad } from "./road-layout.js";
+import { surfaceHeight, projectRoad, ROAD_SURFACE_OFFSET, corridorContact, truckInRoad, obstacleIntersectsRoad } from "./road-layout.js";
 export { projectRoad } from "./road-layout.js";
 
 
@@ -9,7 +9,8 @@ export const SUPPORT_CLEARANCE = 0.012;
 
 
 export function groundHeight(x, z, history) {
-  return queryRoadSurface(x, z, history).height + ROAD_SURFACE_OFFSET;
+  if(!Number.isFinite(x)||!Number.isFinite(z))return ROAD_SURFACE_OFFSET;
+  return surfaceHeight(x, -z, history) + ROAD_SURFACE_OFFSET;
 }
 
 

@@ -47,40 +47,40 @@ export const ROAD_HAZARD_EXCLUSIONS = Object.freeze([
 
 
 
-export function rockApproachIsClear(h) {
+export function rockApproachIsClear(h, sample=pointOnEdge) {
   const edge = NETWORK_EDGES.find(e => e.id === h.edgeId), sight = R.rockSightlineMetres;
   if (!edge || h.edgeDistance < sight + 8 || edge.length - h.edgeDistance < sight + 8) return false;
-  const center = pointOnEdge(h.edgeId, h.edgeDistance);
+  const center = sample(h.edgeId, h.edgeDistance);
   for (let d = -sight; d <= sight; d += 5) {
-    const p = pointOnEdge(h.edgeId, h.edgeDistance + d);
+    const p = sample(h.edgeId, h.edgeDistance + d);
     if (Math.abs(p.curvature) > R.maximumApproachCurvature ||
       Math.abs(angleDelta(p.heading, center.heading)) > R.maximumApproachHeadingChange ||
       Math.hypot(p.gradient.x, p.gradient.z) > R.maximumApproachGrade ||
       junctionDistance(p.progress) < R.junctionExclusionMetres) return false;
 
 
-    const eye = pointOnEdge(h.edgeId, h.edgeDistance + (d < 0 ? -R.rockCrestEyeDistance : R.rockCrestEyeDistance));
+    const eye = sample(h.edgeId, h.edgeDistance + (d < 0 ? -R.rockCrestEyeDistance : R.rockCrestEyeDistance));
     const fraction = Math.abs(d) / sight;
     if (p.height > center.height * (1 - fraction) + (eye.height + 2) * fraction + .1) return false;
   }
   return true;
 }
 const moverCandidates = new Map();
-function moverCandidatesFor(biome) {
+function moverCandidatesFor(biome,sample) {
   if (moverCandidates.has(biome)) return moverCandidates.get(biome);
   const candidates = [];
   for (const edge of NETWORK_EDGES.filter(e => e.biome === biome)) {
 
 
     for (let distance = R.moverSightlineMetres + 15; distance < edge.length - R.moverSightlineMetres - 15; distance += 5) {
-      const p = pointOnEdge(edge.id, distance), extent = 5;
+      const p = sample(edge.id, distance), extent = 5;
       if(p.distance < routeDistanceAt(CHECKPOINT_PROGRESS[2])+160)continue;
       if (ROAD_HAZARD_EXCLUSIONS.some(e => Math.abs(p.distance - e.distance) < e.radius + extent)) continue;
       const fork = FORKS.find(f => f.id === edge.forkId);
       if (fork && (p.progress < fork.splitOverlapEnd + 110 || p.progress > fork.mergeOverlapStart - 110)) continue;
       let clear = true;
       for (let d = -R.moverSightlineMetres; d <= R.moverSightlineMetres; d += 2.5) {
-        const q = pointOnEdge(edge.id, distance + d);
+        const q = sample(edge.id, distance + d);
         if (Math.abs(q.curvature) > R.maximumApproachCurvature ||
           Math.abs(angleDelta(q.heading, p.heading)) > R.maximumApproachHeadingChange ||
           Math.hypot(q.gradient.x, q.gradient.z) > R.maximumApproachGrade) { clear = false; break; }
@@ -95,11 +95,19 @@ function moverCandidatesFor(biome) {
 
 
 export function buildRoadHazards(seed = 42) {
+  // Adjacent candidates check the same 2.5/5m approach stations repeatedly.
+  // Retain exact samples only during this build; runtime poses stay independent.
+  const samples=new Map();
+  const sample=(id,distance)=>{
+    let edge=samples.get(id);if(!edge){edge=new Map();samples.set(id,edge);}
+    if(!edge.has(distance))edge.set(distance,pointOnEdge(id,distance));
+    return edge.get(distance);
+  };
   const random = randomFor(seed), result = [];
   const biomes = BIOME_DEFINITIONS.map(b => b.id);
   for (const biome of biomes) {
     const available = [];
-    for (const p of moverCandidatesFor(biome)) {
+    for (const p of moverCandidatesFor(biome,sample)) {
       if (available.every(other =>
         Math.abs(other.distance - p.distance) >= R.moverSpacingMetres)) available.push(p);
     }
@@ -142,10 +150,10 @@ export function buildRoadHazards(seed = 42) {
     for (const edge of NETWORK_EDGES.filter(e => e.biome === biome)) {
       for (let distance = 10; distance < edge.length - 10; distance += 5) {
         if(distance<R.moverSightlineMetres+15||edge.length-distance<R.moverSightlineMetres+15)continue;
-        const p = pointOnEdge(edge.id, distance);
+        const p = sample(edge.id, distance);
         let clear=true;
         for(let d=-R.moverSightlineMetres;d<=R.moverSightlineMetres;d+=5){
-          const q=pointOnEdge(edge.id,distance+d);
+          const q=sample(edge.id,distance+d);
           if(Math.abs(q.curvature)>R.maximumSweepApproachCurvature||Math.abs(angleDelta(q.heading,p.heading))>R.maximumSweepApproachHeadingChange||Math.hypot(q.gradient.x,q.gradient.z)>R.maximumApproachGrade){clear=false;break;}
         }
         if(!clear)continue;
@@ -173,7 +181,7 @@ export function buildRoadHazards(seed = 42) {
           series: `${biome}-static-${candidates.length}`, pattern: 'single',
           bypassSide: 0, bypassMin: -4, bypassMax: 4, motion: null,
         };
-        if (type === 'rock' && !rockApproachIsClear(descriptor)) continue;
+        if (type === 'rock' && !rockApproachIsClear(descriptor,sample)) continue;
         candidates.push(Object.freeze(descriptor));
       }
     }
@@ -191,7 +199,7 @@ export function buildRoadHazards(seed = 42) {
       const size=STATIC_DIMENSIONS[base.type];
       const offset=clamp(lateralPattern[(slot+biomeIndex)%lateralPattern.length]+(random()-.5)*.9,
         -14+size.width/2,14-size.width/2);
-      const point=pointOnEdge(base.edgeId,base.edgeDistance);
+      const point=sample(base.edgeId,base.edgeDistance);
       const x=point.x+point.right.x*offset,z=point.z+point.right.z*offset;
       const half=size.width/2;
       const left=offset-half+15,right=15-offset-half;
@@ -213,7 +221,7 @@ export function buildRoadHazards(seed = 42) {
     const motion=Object.freeze({minOffset:-outer,maxOffset:outer,crossesCenter:true,
       travelSeconds:R.moverTravelSeconds,pauseSeconds:R.moverPauseSeconds,
       period:2*(R.moverTravelSeconds+R.moverPauseSeconds),phase:motionRandom(),startPause:1.2});
-    const p=pointOnEdge(h.edgeId,h.edgeDistance),offset=motionOffset(motion,0);
+    const p=sample(h.edgeId,h.edgeDistance),offset=motionOffset(motion,0);
     const x=p.x+p.right.x*offset,z=p.z+p.right.z*offset;
     return Object.freeze({...h,motion,pattern:'lateral-sweep',offset,x,z,
       groundHeight:queryRoadSurface(x,z,p).height,...moverBypass(offset,h.width)});

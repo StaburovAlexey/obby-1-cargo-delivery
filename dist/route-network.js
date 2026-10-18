@@ -195,7 +195,14 @@ function pointSegment(x,z,s){const dx=s.b.x-s.a.x,dz=s.b.z-s.a.z,t=clamp(((x-s.a
 export function pointInRoad(x,z,padding=0){if(!Number.isFinite(x)||!Number.isFinite(z)||!triangleAt(x,z,roadTriangleBins))return false;if(padding>0)for(const s of segmentsNear(x,z,padding+1))if(pointSegment(x,z,s).distance<padding-1e-8)return false;return true;}
 export function queryRoadSurface(x,z,history){const p=projectRoad(x,z,history);if(!p)return{height:0,normal:{x:0,y:1,z:0},gradient:{x:0,z:0},onRoad:false};const road=triangleAt(x,z,roadTriangleBins),tri=road||triangleAt(x,z,groundTriangleBins),scale=1+p.offset*p.curvature,gradient=tri?.gradient||{x:p.gradient.x/scale,z:p.gradient.z/scale},n=Math.hypot(gradient.x,1,gradient.z);return{...p,height:tri?tri.height:p.height,gradient,normal:{x:-gradient.x/n,y:1/n,z:-gradient.z/n},onRoad:!!road};}
 export const getSurface=queryRoadSurface;
-export const surfaceHeight=(x,logicalY,history)=>queryRoadSurface(x,-logicalY,history).height;
+export function surfaceHeight(x,logicalY,history){
+  const z=-logicalY;
+  if(!Number.isFinite(x)||!Number.isFinite(z))return 0;
+  // Height is already exact in the indexed surface. Solving the route's full
+  // curve projection here repeats expensive work for every building foundation.
+  const tri=triangleAt(x,z,roadTriangleBins)||triangleAt(x,z,groundTriangleBins);
+  return tri?tri.height:queryRoadSurface(x,z,history).height;
+}
 export function biomeAt(x,logicalY,history){const p=projectRoad(x,-logicalY,history);return biomeFor(p?.progress??C.start);}
 export function truckFootprint(x,z,heading,footprint){const c=Math.cos(heading),s=Math.sin(heading),halfWidth=footprint?.halfWidth??C.truckHalfWidth,halfLength=footprint?.halfLength??C.truckHalfLength;return[[-1,-1],[1,-1],[1,1],[-1,1]].map(([a,b])=>({x:x+a*halfWidth*c+b*halfLength*s,z:z-a*halfWidth*s+b*halfLength*c}));}
 function clipSegmentRectangle(a,b,x,z,heading,width,length){const c=Math.cos(heading),s=Math.sin(heading),local=p=>({x:(p.x-x)*c-(p.z-z)*s,z:(p.x-x)*s+(p.z-z)*c}),p=local(a),q=local(b),dx=q.x-p.x,dz=q.z-p.z;let lo=0,hi=1;for(const [v,d,r] of [[p.x,dx,width],[p.z,dz,length]]){if(Math.abs(d)<1e-12){if(v<=-r||v>=r)return false;continue;}let a=(-r-v)/d,b=(r-v)/d;if(a>b)[a,b]=[b,a];lo=Math.max(lo,a);hi=Math.min(hi,b);if(lo>=hi)return false;}return true;}

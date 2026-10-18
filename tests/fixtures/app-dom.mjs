@@ -47,7 +47,7 @@ import { updateProgressionHud, updateProgressionWorldLabels, WORLD_LABEL_DROP } 
 import {createWheelParticles} from '../../dist/wheel-particles.js';
 import {createRoadHazards} from '../../dist/road-hazards.js';
 import {createRoadHazardsScene} from '../../dist/road-hazards-scene.js';
-export function createAppDom({width=390,height=844,startDriving=true,realStartup=false,loadFailure=false,deferCharacters=false,career,storage,attachVehicleVisuals=()=>null,search='',services,createAudio=createVehicleAudio,createCanvasContext,devServer=false}={}){
+export function createAppDom({width=390,height=844,startDriving=true,realStartup=false,loadFailure=false,deferCharacters=false,career,storage,attachVehicleVisuals=()=>null,search='',services,createAudio=createVehicleAudio,createCanvasContext,loadDisplay,devServer=false}={}){
  const stored=new Map();if(career)stored.set(ECONOMY_CONFIG.saveKey,JSON.stringify(career));
  const testStorage=storage||{getItem:k=>stored.get(k)??null,setItem:(k,v)=>stored.set(k,v)};
  const dom=createInputDom(),Element=dom.wheel.constructor,Target=dom.win.constructor,ids=new Map([['drive-ui',dom.root]]),frames=[];let now=1000;
@@ -76,7 +76,7 @@ export function createAppDom({width=390,height=844,startDriving=true,realStartup
  class Renderer {constructor(){this.domElement=new Element();this.domElement.ownerDocument=dom.doc;this.shadowMap={};this.renderCount=0;}setSize(w,h){this.size=[w,h];this.domElement.bounds={left:ids.get('viewport').bounds.left,top:ids.get('viewport').bounds.top,width:w,height:h};}setPixelRatio(value){this.pixelRatio=value;}render(){this.renderCount++;}}
  class Orbit extends Target {constructor(camera,element){super();this.camera=camera;this.domElement=element;this.target=new THREE.Vector3();this.enabled=true;this.updates=0;}update(){this.updates++;}}
  const CHARACTER_CATALOG=['bacon','pack1','pack2','pack3','pack4','pack5','pack6','pack7','pack9','pirate','robux-man','jeff-the-killer','spider-man','spyder-sammy','kreekcraft','jandel','dancing-npc-girl'].map(id=>({id,name:id}));
- const createCharacterDisplay=async()=>({group:new THREE.Group(),dispose(){}});
+ const createCharacterDisplay=loadDisplay|| (async()=>({group:new THREE.Group(),dispose(){}}));
  const pendingCharacters=new Map();
  const loadCharacter=(_,{id='bacon'}={})=>deferCharacters&&id!=='bacon'?new Promise((resolve,reject)=>pendingCharacters.set(id,{resolve,reject})):({then(callback){if(!loadFailure)callback({id,name:id,group:new THREE.Group(),seatAnchor:new THREE.Vector3(0,1.05,0),seatedWeight:1,setSeated(){},update(){},dispose(){}});return {catch(onError){if(loadFailure){try{onError(new Error('Fixture load failure'));}catch(e){return Promise.reject(e);}}return Promise.resolve(!loadFailure);}}}});
  const source=fs.readFileSync(new URL('../../dist/app.js',import.meta.url),'utf8').replace(/^import[\s\S]*?;\r?\n/gm,'');

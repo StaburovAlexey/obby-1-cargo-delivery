@@ -769,18 +769,25 @@ function selectCharacter(id,initial=false){
   });
 }
 async function populateDisplays({required=false}={}){
-  const generation=displayGeneration,stands=garage.stands;
-
-  for(const stand of stands){
-    try{
-      const spec=CHARACTER_CATALOG[stand.index];if(!spec)continue;
-      const display=await createCharacterDisplay(THREE,{id:spec.id});
-      if(generation!==displayGeneration){display.dispose();return;}
-      display.group.position.set(stand.x,.17,stand.z);display.group.name=`Выбор · ${spec.name}`;
-      scene.add(display.group);characterDisplays.push(display);
-      if(!baselineRendering)display.group.traverse(node=>{node.updateMatrix();node.matrixAutoUpdate=false;});
-    }catch(error){console.error('Character display loading failed',error);if(required)throw error;}
+  const generation=displayGeneration,stands=garage.stands,loaded=[];
+  let next=0,failed=false;
+  async function worker(){
+    while(next<stands.length&&generation===displayGeneration&&!failed){
+      const index=next++,stand=stands[index],spec=CHARACTER_CATALOG[stand.index];if(!spec)continue;
+      try{
+        const display=await createCharacterDisplay(THREE,{id:spec.id});
+        if(generation!==displayGeneration||failed){display.dispose();return;}
+        display.group.position.set(stand.x,.17,stand.z);display.group.name=`Выбор · ${spec.name}`;
+        if(!baselineRendering)display.group.traverse(node=>{node.updateMatrix();node.matrixAutoUpdate=false;});
+        loaded[index]=display;
+      }catch(error){console.error('Character display loading failed',error);if(required){failed=true;throw error;}}
+    }
   }
+  // Bound decoding work on phones, overlap network waits, retain stand order.
+  try{await Promise.all([worker(),worker(),worker()]);}
+  catch(error){for(const display of loaded)display?.dispose();throw error;}
+  if(generation!==displayGeneration){for(const display of loaded)display?.dispose();return;}
+  for(const display of loaded)if(display){scene.add(display.group);characterDisplays.push(display);}
 }
 function standCharacter(){if(careerMenuOpen||settingsMenuOpen||hangarLeaderboardOpen)return;if(gameplay.stand()){gameplay.events();walkInput.reset();character?.resetMotion?.(gameplay.state.player.heading);syncMode(false);followCharacter(1,false);notify('Вы рядом с классом. Выберите вход с нужной скоростью обучения.');}}
 const initialCharacter=selectCharacter(gameplay.state.characterId,true);
@@ -1007,7 +1014,8 @@ requestAnimationFrame(frame);
 
 
 const initialAssets=Promise.all([
-  initialCharacter.then(()=>populateDisplays({required:true})),
+  initialCharacter,
+  populateDisplays({required:true}),
   garage.vehicleVisuals?.ready.then(result=>{if(result.loaded!==result.total)throw new Error('Vehicle models incomplete');}),
   document.fonts?.ready,
   ...Array.from(document.images||[]).map(image=>image.decode?.()),

@@ -1,0 +1,29 @@
+<!doctype html><meta charset="utf-8"><title>Cold startup comparison</title>
+<style>body{font:15px system-ui;background:#12212b;color:#eef;padding:14px}button{padding:10px;margin:4px}iframe{width:812px;height:375px;border:0}pre{white-space:pre-wrap}</style>
+<h1>Initial loader comparison</h1>
+<p>Actual source game, all required models, unchanged graphics. HTTP cache disabled by the local QA server. Desktop timing does not establish iPhone timing.</p>
+<button id="baseline">Baseline</button><button id="optimized">Optimized</button><button id="export">JSON</button>
+<pre id="status">Ready</pre><div id="game"></div><pre id="results"></pre>
+<script>
+const runs=[];let running=false;
+for(const mode of ['baseline','optimized'])document.getElementById(mode).onclick=()=>{
+ if(running)return;running=true;document.getElementById('status').textContent='Loading '+mode;
+ const frame=document.createElement('iframe');frame.src='/'+mode+'/index.html?dev=1';
+ document.getElementById('game').replaceChildren(frame);
+ const timer=setInterval(()=>{
+  const doc=frame.contentDocument,win=frame.contentWindow;
+  if(!doc?.getElementById('loading'))return;
+  const error=doc.getElementById('error');
+  if(error&&!error.hidden){clearInterval(timer);running=false;document.getElementById('status').textContent='Error: '+error.textContent;return;}
+  if(doc.body.classList.contains('is-loading'))return;
+  clearInterval(timer);running=false;
+  const at=name=>win.performance.getEntriesByName(name)[0]?.startTime;
+  const models=win.performance.getEntriesByType('resource').filter(e=>/\.glb(?:$|\?)/.test(e.name));
+  const report={mode,totalMs:Math.round(win.performance.now()),worldMs:Math.round(at('world-end')-at('world-begin')),cityMs:Math.round(at('city-end')-at('city-begin')),garageMs:Math.round(at('garage-end')-at('garage-begin')),assetsReadyMs:Math.round(at('assets-ready')),prepareMs:Math.round(at('prepare-end')-at('prepare-begin')),models:models.length,modelRequests:models.map(e=>({name:e.name.split('/').at(-1),start:Math.round(e.startTime),end:Math.round(e.responseEnd)}))};
+  runs.push(report);document.getElementById('status').textContent=mode+' ready '+runs.length;document.getElementById('results').textContent=JSON.stringify(runs,null,2);
+ },20);
+};
+document.getElementById('export').onclick=()=>{
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(runs,null,2)],{type:'application/json'}));a.download='cold-start.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+};
+</script>
