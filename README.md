@@ -139,7 +139,7 @@ The reward uses the supplied real model by SharkyStudios, CC BY 4.0; source, lic
 
 Checkered finish paint and flags stand 28 route metres before the final unload point. Focused verification: `npm run test:reward-bmw`; real GLB/Three.js geometry and app mock-DOM tests, not a GPU or Android performance claim.
 
-Developer preview: append `?dev=1` to the site URL. The BMW is available immediately for that session, and career persistence is disabled for the entire preview. Normal saved ownership, money and upgrades are read but never changed by this preview. Remove the query and reload to return to the regular completion lock.
+`npm run dev` enables developer tools by default: all eleven vehicles, the BMW and canyon access are available for the session. Open `?dev=0` to test ordinary locked gameplay on the dev server. Developer sessions never overwrite normal saved ownership, money or upgrades. Other development/demo builds require explicit `?dev=1`; production platform builds ignore developer access.
 
 The biome preview menu also offers “Перед финишем”: a safe road spawn 55 metres before the checker line. Like other previews this removes payable cargo and cannot grant the legitimate BMW completion unlock.
 

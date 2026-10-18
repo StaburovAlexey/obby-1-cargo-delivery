@@ -4,6 +4,7 @@ import {pathToFileURL} from 'node:url';
 import {performance,monitorEventLoopDelay} from 'node:perf_hooks';
 import {WebSocketServer,WebSocket} from 'ws';
 import {createDriftVerifier} from './drift-verifier.mjs';
+import {sanitizeDriftRecord} from '../dist/drift-record.js';
 import {PROTOCOL_VERSION,ROOM_CAPACITY,SNAPSHOT_HZ,WORLD_ID,SEAT_IDS,createInitialPlayerState,sanitizePlayerState} from '../dist/online-protocol.js';
 
 const exactKeys=(message,keys)=>Object.keys(message).length===keys.length&&keys.every(key=>Object.hasOwn(message,key));
@@ -20,6 +21,7 @@ function originAllowed(origin,patterns) {
 
 
 export function createRoomServer(options={}) {
+  const driftNow=options.driftNow??(()=>performance.now());
   const heartbeatMs=positive(options.heartbeatMs,15_000);
   const joinTimeoutMs=positive(options.joinTimeoutMs,5_000);
   const maxPayload=positive(options.maxPayload,4096);
@@ -74,7 +76,11 @@ export function createRoomServer(options={}) {
     conn.ws.send(payload,{binary:false},error=>{if(error)end(conn,1011,'Send failed',true);});return true;
   }
   function roomPayload(room,type='snapshot',extra={}) {
-    return {type,...extra,time:Date.now(),players:[...room.players.values()].map(conn=>({id:conn.id,state:conn.state})),seats:Object.fromEntries(room.seats)};
+    const members=[...room.players.values()];
+    const driftLeaderboard=members.filter(conn=>conn.driftBest).map(conn=>({playerId:conn.id,number:conn.number,...conn.driftBest}))
+      .sort((a,b)=>b.score-a.score||a.durationMs-b.durationMs||a.number-b.number);
+    return {type,...extra,time:Date.now(),players:members.map(conn=>({id:conn.id,number:conn.number,state:conn.state})),
+      seats:Object.fromEntries(room.seats),driftLeaderboard};
   }
   function invalid(conn) {counters.invalidMessages++;if(++conn.invalid>=30)end(conn);}
   wss.on('connection',ws=>{
@@ -93,20 +99,23 @@ export function createRoomServer(options={}) {
       if(!conn.room) {
         if(message.type!=='join'||message.version!==PROTOCOL_VERSION||!exactKeys(message,['type','version'])){end(conn,1008,'Join protocol mismatch');return;}
         let room=availableRooms.values().next().value;
-        if(!room){if(rooms.size>=maxRooms){end(conn,1013,'Server full');return;}room={id:`room-${randomUUID()}`,players:new Map(),seats:new Map()};rooms.set(room.id,room);availableRooms.add(room);}
+        if(!room){if(rooms.size>=maxRooms){end(conn,1013,'Server full');return;}room={id:`room-${randomUUID()}`,players:new Map(),seats:new Map(),nextPlayerNumber:0};rooms.set(room.id,room);availableRooms.add(room);}
+        conn.number=++room.nextPlayerNumber;
         room.players.set(conn.id,conn);conn.room=room;if(room.players.size===ROOM_CAPACITY)availableRooms.delete(room);
         clearTimeout(conn.joinTimer);
         send(conn,JSON.stringify(roomPayload(room,'welcome',{id:conn.id,roomId:room.id,capacity:ROOM_CAPACITY})));return;
       }
       if(message.type==='state'&&exactKeys(message,['type','state'])) {
         const state=sanitizePlayerState(message.state,{seatId:conn.seatId,previousSeq:conn.state.seq});
-        if(!state){invalid(conn);return;}conn.state=state;conn.driftRun?.verifier.observe(state,performance.now());
+        if(!state){invalid(conn);return;}conn.state=state;conn.driftRun?.verifier.observe(state,driftNow());
       } else if(message.type==='drift:start'&&exactKeys(message,['type','requestId'])&&typeof message.requestId==='string'&&/^[A-Za-z0-9_.:-]{1,64}$/.test(message.requestId)){
-        const verifier=createDriftVerifier(conn.state,performance.now());conn.driftRun=verifier?{id:randomUUID(),verifier}:null;
+        const verifier=createDriftVerifier(conn.state,driftNow());conn.driftRun=verifier?{id:randomUUID(),verifier}:null;
         send(conn,JSON.stringify({type:'drift:result',action:'start',requestId:message.requestId,ok:!!verifier,runId:conn.driftRun?.id??null}));
       } else if(message.type==='drift:finish'&&exactKeys(message,['type','requestId','runId'])&&typeof message.requestId==='string'&&typeof message.runId==='string'){
-        const own=conn.driftRun?.id===message.runId,result=own?conn.driftRun.verifier.finish(performance.now(),conn.state):null;
+        const own=conn.driftRun?.id===message.runId,result=own?conn.driftRun.verifier.finish(driftNow(),conn.state):null;
         if(own)conn.driftRun=null;
+        const record=sanitizeDriftRecord(result);
+        if(record?.verified&&(!conn.driftBest||record.score>conn.driftBest.score||record.score===conn.driftBest.score&&record.durationMs<conn.driftBest.durationMs))conn.driftBest=record;
         send(conn,JSON.stringify({type:'drift:result',action:'finish',requestId:message.requestId,ok:!!result,runId:message.runId,result}));
       } else if(message.type==='drift:cancel'&&exactKeys(message,['type','runId'])){
         if(conn.driftRun?.id===message.runId)conn.driftRun=null;

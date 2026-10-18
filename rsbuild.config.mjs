@@ -10,6 +10,7 @@ export default defineConfig(({env})=>{
     entry: { index: './scripts/rsbuild-entry.js' },
     assetsInclude: /\.glb$/,
     define: {
+      __URBAN_DEV_SERVER__: JSON.stringify(env==='development'),
       __URBAN_DEVELOPMENT__: JSON.stringify(env==='development'||process.env.PUBLIC_GAME_DEVELOPMENT==='1'||(!vk&&process.env.PUBLIC_YANDEX_DEVELOPMENT==='1')),
       __VK_API_URL__: JSON.stringify(process.env.PUBLIC_VK_API_URL||''),
       __MULTIPLAYER_URL__: process.env.PUBLIC_MULTIPLAYER_URL
@@ -46,7 +47,7 @@ export default defineConfig(({env})=>{
     setup(api) {
       api.modifyHTML(html => html
 
-        .replace(/\s*<link rel="stylesheet" href="\.\/(?:style|vehicle-controls|progression-ui|settings-menu|online-ui|canyon-ui)\.css"\s*\/>/g, '')
+        .replace(/\s*<link rel="stylesheet" href="\.\/(?:style|vehicle-controls|progression-ui|settings-menu|hangar-drift-leaderboard|online-ui|canyon-ui)\.css"\s*\/?>/g, '')
         .replace(/\s*<script type="importmap">[\s\S]*?<\/script>/g, '')
         .replace(/\s*<script type="module">[\s\S]*?<\/script>/g, ''));
     },

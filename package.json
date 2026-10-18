@@ -62,7 +62,10 @@
     "server:vk": "node server/vk-server.mjs",
     "test:platforms": "node --test tests/platform-builds.mjs tests/vk-platform.mjs tests/vk-payments.mjs tests/vk-ui.mjs tests/vk-recovery.mjs tests/yandex-platform.mjs tests/cloud-career.mjs tests/premium-skins.mjs tests/jeff-premium.mjs tests/premium-hud.mjs tests/yandex-app.mjs",
     "test:canyon": "node --test tests/canyon-*.mjs",
-    "test:finish-celebration": "node tests/finish-celebration.mjs && node tests/finish-celebration-app.mjs && node tests/finish-line.mjs && node tests/finish-preview.mjs && node tests/reward-developer-mode.mjs"
+    "test:finish-celebration": "node tests/finish-celebration.mjs && node tests/finish-celebration-app.mjs && node tests/finish-line.mjs && node tests/finish-preview.mjs && node tests/reward-developer-mode.mjs",
+    "test:classroom-board": "node --test tests/classroom-*.mjs",
+    "test:hangar-drift": "npm run build:all && node --test --test-concurrency=2 tests/hangar-drift-*.mjs",
+    "test:development": "node --test --test-concurrency=2 tests/development-defaults.mjs tests/dev-navigation.mjs tests/reward-dev-app.mjs tests/canyon-developer-mode.mjs"
   },
   "devDependencies": {
     "@rsbuild/core": "2.2.13",

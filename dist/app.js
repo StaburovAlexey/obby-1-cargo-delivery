@@ -73,7 +73,9 @@ import { updateProgressionHud, updateProgressionWorldLabels, WORLD_LABEL_DROP } 
 const memoryRecords=new Map();
 const careerStore=services?.cloud?.store??createCareerStore({storage:{getItem:key=>memoryRecords.get(key)??null,setItem:(key,value)=>memoryRecords.set(key,value)}});
 
-const developerMode=(!services||services.development)&&new URLSearchParams(window.location?.search||'').get('dev')==='1';
+const devQuery=new URLSearchParams(window.location?.search||'').get('dev');
+const devServer=typeof __URBAN_DEV_SERVER__!=='undefined'&&__URBAN_DEV_SERVER__===true;
+const developerMode=(!services||services.development)&&(devQuery==='1'||devServer&&devQuery!=='0');
 document.body.classList.toggle('developer-mode',developerMode);
 const viewport = document.getElementById("viewport");
 const scene = new THREE.Scene();
@@ -263,7 +265,7 @@ function rebuild(value) {
   roadHazards=createRoadHazards(seed);
   roadHazardsScene=createRoadHazardsScene(THREE,{system:roadHazards,groundHeight});
   scene.add(roadHazardsScene.group);
-  garage = createGarageScene(THREE, city);
+  garage = createGarageScene(THREE, city, {document});
   attachCosmoGarage(THREE,garage);
   scene.add(garage.group);
   gameplay = createGameplay({vehicles:garage.vehicles,stations:garage.stations,deliveries:garage.deliveries,desks:garage.desks,stands:garage.stands,solids:garage.walkingSolids||garage.classroomSolids,career:previousCareer??services?.initialCareer??(developerMode?careerStore.load():undefined),persistence:developerMode?undefined:careerStore,developerMode,hardBranches:HARD_BRANCHES});
@@ -958,6 +960,7 @@ function frame(now) {
   scene.fog.near=weatherFog?.near ?? 500;
   scene.fog.far=weatherFog?.far ?? 1600;
   const lightAnchor=driving?model.state:gameplay.state.player;
+  garage.roomBoard?.update({now,anchor:lightAnchor,snapshot:onlineSession?.client.roomSnapshot,language:selectedLanguage,active:playing});
   camera.getWorldDirection(shadowView);
   followShadowLight(sun,{x:lightAnchor.x,y:canyonMode?.active?rig.root.position.y:groundHeight(lightAnchor.x,lightAnchor.z),z:lightAnchor.z},driving?shadowView:null);
   onlineSession?.render(dt,{now,camera,anchor:driving?model.state:gameplay.state.player});

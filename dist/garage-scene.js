@@ -7,6 +7,7 @@ import { createVehicleRig } from './vehicle-rig.js';
 import { groundHeight, fitTruckToGround } from './city-driving.js';
 import { routePointAtDistance, biomeAt, TRUCK_HALF_WIDTH, TRUCK_HALF_LENGTH } from './road-layout.js';
 import { DELIVERY_CHECKPOINTS, ECONOMY_CONFIG, vehicleConfig } from './economy-config.js';
+import {createClassroomBoard} from './classroom-board.js';
 
 const HANGAR_BOUNDS = Object.freeze({ minX: -57, maxX: 31, minZ: 26, maxZ: 90 });
 const PARKING_BAYS = Object.freeze(Array.from({length:10},(_,i)=>Object.freeze({
@@ -133,7 +134,7 @@ export function garageWallContact(x, z, heading = 0, walls = [], {
   return deepest;
 }
 
-export function createGarageScene(THREE, city) {
+export function createGarageScene(THREE, city, {document:doc=globalThis.document}={}) {
   if (!city?.group?.isGroup) throw new TypeError('Garage scene requires a built city.');
   const group = new THREE.Group();
   group.name = 'Garage and roadside fuel';
@@ -233,13 +234,10 @@ export function createGarageScene(THREE, city) {
     classroomSolids.push({...desk.bounds,id:desk.id,type:'desk'});
     classroomSolids.push({id:desk.id,type:'chair',minX:x-.92,maxX:x+.92,minZ:seat.z-.12,maxZ:seat.z+.92,minY:0,maxY:2.05});
   }
-  hangarParts.push(entry('PDD classroom board',[-41,4.2,32],[16,5,.25],0x104b30));
-
-  hangarParts.push(entry('Board road vertical',[-41,4.2,32.15],[1.1,4.4,.03],0xd4e5d5));
-  hangarParts.push(entry('Board road horizontal',[-41,4.2,32.16],[14,1.1,.03],0xd4e5d5));
-  for(const [y,color] of [[5.7,0xe44934],[4.8,0xe9bb3f],[3.9,0x58b577]])hangarParts.push(entry('PDD traffic light',[-35,y,32.2],[.55,.55,.06],color));
-  hangarParts.push(entry('PDD crossing sign',[-47.5,4.2,32.2],[1.4,1.4,.08],0x298dc5));
-  for(let i=0;i<5;i++)hangarParts.push(entry('PDD crossing marking',[-47.5,3.85+i*.16,32.26],[1,.065,.035],0xf1efd7));
+  hangarParts.push(entry('PDD classroom board',[-41,6.75,26.125],[28,9,.25],0x453024));
+  for(const y of [2.5,11])hangarParts.push(entry('Classroom board wooden horizontal rail',[-41,y,26.29],[28,.5,.1],0xd9ac64));
+  for(const x of [-54.75,-27.25])hangarParts.push(entry('Classroom board wooden vertical rail',[x,6.75,26.29],[.5,8,.1],0xd9ac64));
+  hangarParts.push(entry('Classroom board chalk ledge',[-41,2.54,26.45],[27.7,.16,.4],0xc99550));
   for(const stand of CHARACTER_STANDS){
     hangarParts.push(entry(`Character stand ${stand.index+1}`,[stand.x,.08,stand.z],[3,.16,3],0xd3b77a));
     hangarParts.push(entry('Character approach marker',[stand.trigger.x,.018,stand.trigger.z],[1.7,.02,1.1],0xeec45e));
@@ -247,6 +245,7 @@ export function createGarageScene(THREE, city) {
   const shell = batch(hangar, 'Garage shell and flush bay markings', boxGeometry, environmentMaterial, hangarParts);
   shell.userData.parkingBayIds = GARAGE_LAYOUT.bays.map(bay => bay.id);
   hangar.userData = { detached: true, closed: false, parkingBayCount: GARAGE_LAYOUT.bays.length, rewardDisplayCount:1 };
+  const roomBoard=createClassroomBoard(THREE,{document:doc,parent:hangar,garageBounds:GARAGE_LAYOUT.bounds});
 
   const pedestalGeometry=ownGeometry(new THREE.CylinderGeometry(1,1,1,64));
   const pedestalMesh=batch(hangar,'BMW reward display pedestal',pedestalGeometry,environmentMaterial,[
@@ -382,7 +381,7 @@ export function createGarageScene(THREE, city) {
     fuelStationCount: stations.length, deliveryPointCount: deliveries.length, procedural: true, sharedMaterialPattern: 'grass-checker' };
   let disposed = false;
   return {
-    group, hangar, vehicles, stations, deliveries, walls, classroomSolids,
+    group, hangar, vehicles, stations, deliveries, walls, classroomSolids,roomBoard,
     pedestalSolids,walkingSolids:[...classroomSolids,...pedestalSolids],rewardPedestal,rewardMarker,vehicleMarkers,
     desks:CLASSROOM_DESKS, stands:CHARACTER_STANDS,
     classroomEntries:CLASSROOM_ENTRIES, classMarkers, classroomEntry:CLASSROOM_ENTRY, classMarker,
@@ -400,6 +399,7 @@ export function createGarageScene(THREE, city) {
     dispose() {
       if (disposed) return;
       disposed = true;
+      roomBoard?.dispose();
       for (const vehicle of vehicles) vehicle.rig.dispose();
       for (const mesh of batches) mesh.dispose();
       geometries.forEach(geometry => geometry.dispose());

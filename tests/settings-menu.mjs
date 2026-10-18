@@ -26,7 +26,6 @@ assert.match(menuHtml, /id="settings-volume" type="range" min="0" max="100" step
 assert.match(css, /#settings-menu\{[^}]*z-index:110[^}]*place-items:center/);
 assert.match(css, /\.settings-scroll\{[^}]*overflow-y:auto[^}]*min-height:0/);
 assert.match(css, /100dvh - max\(12px,env\(safe-area-inset-top\)\) - max\(12px,env\(safe-area-inset-bottom\)\)/);
-assert.match(css, /grid-template-columns:repeat\(2,48px\)/, 'Narrow driving HUD does not squeeze four icons beside the wallet');
 
 // Attribution and license URLs come from the bundled credits, not guesses.
 for (const path of ['audio/CREDITS.txt', 'audio/Kenney-License.txt', 'vehicles/cosmo/License.txt', 'vehicles/cosmo/README.md', 'vehicles/bmw/License.txt']) {

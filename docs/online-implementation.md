@@ -11,7 +11,9 @@ Approved conversation specification, 2026-10-15. Work in this directory; GitHub 
 
 ## Shared protocol contract
 
-Server and browser use dist/online-protocol.js. Client first sends {type:'join',version:1}. Server welcome {type:'welcome',id,roomId,capacity,players:[{id,state}],seats:{seatId:playerId},time}. Subsequent full snapshot {type:'snapshot',time,players,seats}. Client states {type:'state',state}. Claim {type:'seat:claim',requestId}; result {type:'seat:result',requestId,ok,seatId}; release {type:'seat:release'}. Server picks first free desk-01..desk-20 atomically and controls reservations.
+Server and browser use dist/online-protocol.js. Client first sends {type:'join',version:1}. Server welcome {type:'welcome',id,roomId,capacity,players:[{id,number,state}],seats:{seatId:playerId},driftLeaderboard,time}. Subsequent full snapshot {type:'snapshot',time,players,seats,driftLeaderboard}. Client states {type:'state',state}. Claim {type:'seat:claim',requestId}; result {type:'seat:result',requestId,ok,seatId}; release {type:'seat:release'}. Server picks first free desk-01..desk-20 atomically and controls reservations.
+
+`number` is a stable, room-assigned display number. `driftLeaderboard` contains present members' best server-verified runs: `{playerId,number,version,trackId,score,durationMs,maxCombo,verified}`. Higher score wins, then lower duration and display number. Entries disappear with their connection. `onlineClient.roomSnapshot` includes the full roster (including self) for the classroom board; the existing `players` getter still excludes self for remote avatars. The additive fields keep protocol version 1 compatible with older clients. See `qa/classroom-board/README.md` for board behavior and validation.
 
 State: seq, mode walking/driving/studying, characterId, vehicleId or null, position [x,y,z], quaternion [x,y,z,w], heading, speed, steer, wheelSpin, bodyPitch, bodyRoll, bodyBob, braking, airborne, jumpElapsed, paused, teleportId, seatId or null. Only bounded finite validated values and known catalog IDs accepted. Server determines seatId. Client renders peers only.
 

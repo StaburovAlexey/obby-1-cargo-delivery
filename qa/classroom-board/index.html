@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Проверка доски класса</title>
+<style>
+ body{margin:0;padding:20px;background:#172c25;color:#e5f1df;font:16px Arial,sans-serif}h1{font-size:24px}
+ canvas{display:block;width:100%;height:auto;border:1px solid #7c9c84;margin:18px 0}button,a{margin:5px;padding:10px;color:inherit}button{background:#31533d;border:1px solid #8aaa88;border-radius:5px}p{line-height:1.5}a{display:inline-block}output{white-space:pre-wrap}
+</style>
+<h1>Доска класса · проверка живой комнаты</h1>
+<p>Тот же Canvas, который используется на доске в игре. Данные поступают с локального сервера комнаты.</p>
+<button id="near">Рядом с классом</button><button id="far">Вдали от класса</button>
+<button id="move">Тестовое движение: выкл.</button>
+<button id="export">Подготовить PNG</button><a id="download-board" hidden download="classroom-board.png">Скачать холст</a>
+<p><output id="status">Подключение…</output></p><div id="board"></div>
+<p><output id="scores"></output></p>
+<script type="module">
+import * as THREE from '../../dist/vendor/three.module.js';
+import {createClassroomBoard} from '../../dist/classroom-board.js';
+import {createOnlineClient} from '../../dist/online-client.js';
+import {createInitialPlayerState} from '../../dist/online-protocol.js';
+import {canyonPointAt} from '../../dist/canyon-track.js';
+const board=createClassroomBoard(THREE,{document}),canvas=board.mesh.material.map.image;
+canvas.setAttribute('aria-label','Карта игроков и рейтинг дрифта комнаты');document.getElementById('board').append(canvas);
+let near=true,last=0,moving=false,motionEpoch=0,motionStarted=0;
+const client=createOnlineClient({url:'ws://127.0.0.1:8082/ws',getState:()=>{
+ const distance=Math.max(0,(performance.now()-motionStarted)*.02),p=canyonPointAt(12+distance%1828);
+ return {...createInitialPlayerState(),teleportId:motionEpoch+Math.floor(distance/1828),
+  ...(moving?{mode:'driving',vehicleId:'bmwreward',position:[p.x,p.height,p.z],heading:p.heading,speed:20}:{position:[-41,0,47]})};
+}});client.start();
+document.getElementById('near').onclick=()=>near=true;document.getElementById('far').onclick=()=>near=false;
+document.getElementById('move').onclick=()=>{moving=!moving;motionEpoch++;motionStarted=performance.now();document.getElementById('move').textContent=`Тестовое движение: ${moving?'вкл.':'выкл.'}`;};
+document.getElementById('export').onclick=()=>{const link=document.getElementById('download-board');link.href=canvas.toDataURL('image/png');link.hidden=false;};
+function frame(now){
+ const dt=last?(now-last)/1000:0;last=now;client.update(dt);
+ board.update({now,anchor:near?{x:-41,z:47}:{x:500,z:-500},snapshot:client.roomSnapshot,language:'ru'});
+ const snapshot=client.roomSnapshot;
+ document.getElementById('status').textContent=`${client.connected?'Подключено':'Нет соединения'} · игроков ${snapshot?.players.length??0} · обновлений текстуры ${board.mesh.material.map.version} · ${near?'рядом с классом':'вдали от класса'}`;
+ document.getElementById('scores').textContent=(snapshot?.driftLeaderboard||[]).map((r,i)=>`${i+1}. Игрок ${r.number}: ${r.score} очков`).join('\n');
+ requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);window.addEventListener('pagehide',()=>{client.dispose();board.dispose();});
+</script>
+</html>

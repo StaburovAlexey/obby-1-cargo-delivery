@@ -2,7 +2,7 @@
 export function createOnlineClient({url,WebSocketClass=globalThis.WebSocket,getState=()=>null,
   onSnapshot=()=>{},onStatus=()=>{},setTimer=setTimeout,clearTimer=clearTimeout}={}){
   let socket=null,stopped=false,connected=false,id=null,roomId=null,seatId=null;
-  let players=[],seats={},retry=null,handshake=null,attempt=0,elapsed=0,seq=0,requestSeq=0;
+  let players=[],seats={},roomSnapshot=null,retry=null,handshake=null,attempt=0,elapsed=0,seq=0,requestSeq=0;
   const pending=new Map();
   const driftPending=new Map();let driftRunId=null,driftEpoch=0;
   const flushState=()=>{const state=getState();return !!state&&send({type:'state',state:{...state,seq:++seq}});};
@@ -17,8 +17,11 @@ export function createOnlineClient({url,WebSocketClass=globalThis.WebSocket,getS
   }
   const status=value=>onStatus({state:value,connected,id,roomId,count:connected?players.length+1:0});
   function publish(message){
-    players=(Array.isArray(message.players)?message.players:[]).filter(p=>p.id!==id).slice(0,19);
+    const roster=(Array.isArray(message.players)?message.players:[]).slice(0,20);
+    players=roster.filter(p=>p.id!==id).slice(0,19);
     seats=message.seats&&typeof message.seats==='object'?message.seats:{};
+    roomSnapshot={roomId,selfId:id,time:message.time,players:roster,
+      driftLeaderboard:(Array.isArray(message.driftLeaderboard)?message.driftLeaderboard:[]).slice(0,20)};
     if(seatId&&seats[seatId]!==id)seatId=null;
     onSnapshot({...message,players,seats});status('connected');
   }
@@ -27,7 +30,7 @@ export function createOnlineClient({url,WebSocketClass=globalThis.WebSocket,getS
     try{socket.send(JSON.stringify(message));return true;}catch{return false;}
   }
   function disconnect(){
-    connected=false;id=null;roomId=null;seatId=null;players=[];seats={};elapsed=0;
+    connected=false;id=null;roomId=null;seatId=null;players=[];seats={};roomSnapshot=null;elapsed=0;
     clearTimer(handshake);handshake=null;
     for(const resolve of pending.values())resolve(null);pending.clear();
     for(const entry of driftPending.values())entry.finish(null);driftRunId=null;driftEpoch++;
@@ -102,5 +105,6 @@ export function createOnlineClient({url,WebSocketClass=globalThis.WebSocket,getS
     dispose(){stopped=true;clearTimer(retry);retry=null;clearTimer(handshake);socket?.close();socket=null;disconnect();status('offline');},
     get connected(){return connected;},get id(){return id;},get roomId(){return roomId;},
     get seatId(){return seatId;},get players(){return players;},get seats(){return seats;},
+    get roomSnapshot(){return roomSnapshot;},
   };
 }
