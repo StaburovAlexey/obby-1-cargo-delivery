@@ -1,0 +1,73 @@
+<!doctype html><html lang="ru"><meta charset="utf-8">
+<title>Spatial rendering GPU comparison</title>
+<style>body{margin:0;background:#102331;color:#f6f2dc;font:15px system-ui}main{max-width:1000px;margin:20px auto}canvas{max-width:100%;display:block}button{padding:12px;margin:10px 0}pre{white-space:pre-wrap;font:12px monospace}</style>
+<script type="importmap">{"imports":{"three":"/dist/vendor/three.module.js"}}</script>
+<main><h1>Контроль геометрии и теней</h1><p>Реальные модули города, ангара и каньона. Сравнение пикселей выполняет синхронное чтение GPU только в этом QA-примере; эти времена не являются замером FPS игры.</p>
+<button id="run" disabled>Сравнить исходный и оптимизированный рендер</button><p id="status">Загрузка сцены…</p><div id="canvas"></div><pre id="report"></pre></main>
+<script type="module">
+import * as THREE from '/dist/vendor/three.module.js';
+import {buildCity} from '/dist/network-scene.js';
+import {createGarageScene} from '/dist/garage-scene.js';
+import {createCanyonScene} from '/dist/canyon-scene.js';
+import {createCanyonEntrance} from '/dist/canyon-entrance.js';
+import {createSpatialRenderer} from '/dist/spatial-render.js';
+import {SHADOW_LAYOUT,followShadowLight} from '/dist/scene-lighting.js';
+import {routePointAtDistance} from '/dist/route-network.js';
+import {canyonPointAt} from '/dist/canyon-track.js';
+import {fitTruckToGround} from '/dist/city-driving.js';
+const status=document.querySelector('#status'),button=document.querySelector('#run');
+try{
+ const scene=new THREE.Scene();scene.background=new THREE.Color(0x329dff);scene.fog=new THREE.Fog(0x329dff,500,1600);
+ const city=buildCity(THREE),garage=createGarageScene(THREE,city),canyon=createCanyonScene(THREE),entrance=createCanyonEntrance(THREE,{document});
+ scene.add(city.group,garage.group,canyon.group,entrance.group);
+ for(const v of garage.vehicles)v.rig.update({...fitTruckToGround(THREE,v.park.x,v.park.z,v.park.heading),steerAngle:0,wheelSpin:0,bodyPitch:0,bodyRoll:0,bodyBob:0});
+ const camera=new THREE.PerspectiveCamera(53,640/360,.5,1800),renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});
+ renderer.setSize(640,360);renderer.setPixelRatio(1);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFShadowMap;
+ renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.NeutralToneMapping;document.querySelector('#canvas').append(renderer.domElement);
+ const sun=new THREE.DirectionalLight(0xffffff,2.6);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);
+ Object.assign(sun.shadow.camera,{near:SHADOW_LAYOUT.near,far:SHADOW_LAYOUT.far});sun.shadow.normalBias=SHADOW_LAYOUT.normalBias;sun.shadow.bias=SHADOW_LAYOUT.bias;
+ const fill=new THREE.DirectionalLight(0xc3e4ff,.55);fill.position.set(40,25,-20);
+ const garageFill=new THREE.PointLight(0xf0f5ff,280,70,2);garageFill.position.set(0,12,60);
+ scene.add(new THREE.HemisphereLight(0xffffff,0xb4c0c9,1.6),sun,sun.target,fill,garageFill);
+ const cases=[{name:'classroom',position:[-41,6.75,56],target:[-41,6.75,26.32],anchor:{x:-41,y:0,z:47}},
+  ...[100,1500,4000,12000].map(distance=>{const p=routePointAtDistance(distance);return{name:'route-'+distance,position:[p.x+Math.sin(p.heading)*13,p.height+8.3,p.z+Math.cos(p.heading)*13],target:[p.x,p.height+1.4,p.z],anchor:{x:p.x,y:p.height,z:p.z}};}),
+  ...[100,1000,1800].map(distance=>{const p=canyonPointAt(distance);return{name:'canyon-'+distance,position:[p.x+Math.sin(p.heading)*13,p.height+8.3,p.z+Math.cos(p.heading)*13],target:[p.x,p.height+1.4,p.z],anchor:{x:p.x,y:p.height,z:p.z}};})];
+ function render(controller){
+  scene.updateMatrixWorld(true);camera.updateMatrixWorld(true);sun.shadow.updateMatrices(sun);
+  controller?.update({camera,shadowCameras:[sun.shadow.camera]});renderer.render(scene,camera);
+  const gl=renderer.getContext(),pixels=new Uint8Array(640*360*4);gl.readPixels(0,0,640,360,gl.RGBA,gl.UNSIGNED_BYTE,pixels);
+  return{pixels,calls:renderer.info.render.calls,triangles:renderer.info.render.triangles};
+ }
+ button.disabled=false;status.textContent='Готово: восемь ракурсов, включая доску и тени.';
+ button.onclick=async()=>{
+  button.disabled=true;const results=[];
+  for(const c of cases){
+   status.textContent='Сравнение: '+c.name;camera.position.fromArray(c.position);camera.lookAt(...c.target);camera.updateMatrixWorld(true);
+   followShadowLight(sun,c.anchor,camera.getWorldDirection(new THREE.Vector3()));scene.updateMatrixWorld(true);
+   const before=render(),controller=createSpatialRenderer(THREE,{roots:[city.group,canyon.group]});
+   const after=render(controller);let changedPixels=0,maxDifference=0;
+   for(let i=0;i<before.pixels.length;i+=4){let changed=false;for(let j=0;j<4;j++){const d=Math.abs(before.pixels[i+j]-after.pixels[i+j]);maxDifference=Math.max(maxDifference,d);if(d>1)changed=true;}if(changed)changedPixels++;}
+   results.push({name:c.name,changedPixels,maxDifference,before:{calls:before.calls,triangles:before.triangles},after:{calls:after.calls,triangles:after.triangles}});
+   controller.dispose();await new Promise(resolve=>requestAnimationFrame(resolve));
+  }
+  // Warm canonical GPU resources, then repeated proxy teardown must return to
+  // that geometry/texture count rather than accumulate buffers.
+  render();
+  const memoryBefore={...renderer.info.memory};
+  for(let i=0;i<20;i++){const controller=createSpatialRenderer(THREE,{roots:[city.group,canyon.group]});render(controller);controller.dispose();}
+  render();const memoryAfter={...renderer.info.memory};
+  const controller=createSpatialRenderer(THREE,{roots:[city.group,canyon.group]}),beforeRestore=render(controller);
+  const contextRestored=await new Promise(resolve=>{
+   const timer=setTimeout(()=>resolve(false),10000);
+   renderer.domElement.addEventListener('webglcontextrestored',()=>{clearTimeout(timer);resolve(true);},{once:true});
+   renderer.forceContextLoss();setTimeout(()=>renderer.forceContextRestore(),50);
+  });
+  let restoredPixelsEqual=false;
+  if(contextRestored){const afterRestore=render(controller);restoredPixelsEqual=beforeRestore.pixels.every((v,i)=>v===afterRestore.pixels[i]);}
+  controller.dispose();
+  const lifecycle={rebuilds:20,memoryBefore,memoryAfter,stableMemory:memoryBefore.geometries===memoryAfter.geometries&&memoryBefore.textures===memoryAfter.textures,contextRestored,restoredPixelsEqual};
+  const report={scope:'GPU pixels of real static scene modules, not full-game FPS or physical iPhone validation',passed:results.every(r=>r.changedPixels===0&&r.after.calls<=r.before.calls)&&lifecycle.stableMemory&&contextRestored&&restoredPixelsEqual,results,lifecycle};
+  document.querySelector('#report').textContent=JSON.stringify(report,null,2);status.textContent=report.passed?'PASS':'FAIL';button.disabled=false;
+ };
+}catch(error){status.textContent='ERROR: '+error.message;document.querySelector('#report').textContent=error.stack;}
+</script>
