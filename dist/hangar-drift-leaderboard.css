@@ -1,0 +1,15 @@
+.top-actions #hangar-drift-button{--action-color:#c58b32;--action-hover:#e3aa50;position:static;inset:auto;padding:0;border:0;background:none;min-height:var(--top-icon-size);gap:0;flex-shrink:0}
+#hangar-drift-button .hud-art{width:72%;height:72%;margin:14%}
+#hangar-drift-menu{position:fixed;inset:0;z-index:115;display:grid;place-items:center;background:#07132ade;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));pointer-events:auto;touch-action:pan-y}
+#hangar-drift-menu[hidden],#hangar-drift-table[hidden],#hangar-drift-self[hidden],#hangar-drift-button[hidden]{display:none!important}
+#hangar-drift-panel{display:flex;flex-direction:column;width:min(100%,540px);max-height:calc(100dvh - 32px);min-height:0;overflow:hidden;border:4px solid #14213d;border-radius:22px;background:#173a76;color:#fffdf3;box-shadow:0 7px 0 #06162a66;text-shadow:none}
+.hangar-drift-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;border-bottom:1px solid #a4c8ff3d}
+#hangar-drift-title{font-size:clamp(20px,5vw,28px);margin:0}
+#hangar-drift-close{flex:none;min-width:44px;min-height:44px;border:2px solid #14213d;border-radius:12px;background:#fff1ca;color:#14213d;font-size:28px;cursor:pointer}
+#hangar-drift-close:focus-visible{outline:3px solid #fff;outline-offset:3px}
+#hangar-drift-note,#hangar-drift-self{margin:0;padding:14px 18px;line-height:1.5;font-size:16px}
+.hangar-drift-scroll{overflow:auto;min-height:0;overscroll-behavior:contain}
+#hangar-drift-table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:16px}
+#hangar-drift-table th,#hangar-drift-table td{text-align:left;padding:10px 14px;border-bottom:1px solid #a4c8ff26;overflow-wrap:anywhere}
+#hangar-drift-table th:first-child{width:20%}#hangar-drift-table th:last-child{width:30%}#hangar-drift-table tr[data-self=true]{background:#f7c96326;color:#ffe9a3}
+@media(max-height:450px){.hangar-drift-heading{padding:8px 12px}#hangar-drift-note,#hangar-drift-self{padding:8px 12px}}

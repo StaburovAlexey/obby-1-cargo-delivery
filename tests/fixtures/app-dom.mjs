@@ -1,3 +1,4 @@
+import {createHangarDriftLeaderboard} from '../../dist/hangar-drift-leaderboard.js';
 import {createFinishCelebration} from '../../dist/finish-celebration.js';
 import {createStartupGate} from '../../dist/startup-gate.js';
 import {createCanyonMode} from '../../dist/canyon-mode.js';
@@ -54,6 +55,8 @@ export function createAppDom({width=390,height=844,startDriving=true,realStartup
  const html=fs.readFileSync(new URL('../../dist/index.html',import.meta.url),'utf8');
  for(const [,id]of html.matchAll(/\bid="([^"]+)"/g)){if(ids.has(id))continue;const el=new Element();el.ownerDocument=dom.doc;el.id=id;ids.set(id,el);dom.doc.body.append(el);}
  const nest=(id,parent)=>{const child=ids.get(id),target=ids.get(parent);if(!child||!target)return;dom.doc.body.children=dom.doc.body.children.filter(n=>n!==child);target.append(child);};
+ nest('hangar-drift-panel','hangar-drift-menu');
+ for(const id of ['title','close','note','table','rows','self','rank','player','score'])nest(`hangar-drift-${id}`,'hangar-drift-panel');
  nest('settings-panel','settings-menu');nest('settings-close','settings-panel');nest('settings-scroll','settings-panel');
  for(const id of ['settings-volume','settings-volume-value','settings-language'])nest(id,'settings-scroll');
 
@@ -78,7 +81,7 @@ export function createAppDom({width=390,height=844,startDriving=true,realStartup
  const deps={createFinishCelebration,createStartupGate:options=>realStartup?createStartupGate({...options,schedule:callback=>frames.push(callback)}):{ready:true,start:assets=>Promise.resolve(assets).catch(()=>{}),fail(){}},createSettingsMenu,createLocalization,createVehicleAudio:createAudio,projectLabelPixel,usableViewportRect,createFinishLine,rewardDisplayPose,vehicleFootprint,attachCosmoGarage:attachVehicleVisuals,FORK_DEFINITIONS,createRetentionUi,createCareerRouteTracker,HARD_BRANCHES,SHADOW_LAYOUT,followShadowLight,createBiomeWeather,BRIDGES,bridgeAtProgress,bridgeSupport,bridgeFallPose,createBridgeFall,projectRoad,routePointAtProgress,SCHOOL_CONFIG,SKIN_CONFIG,schoolConfig,skinConfig,UPGRADE_STATS,getVehiclePerformance,WORLD_LABEL_DROP,updateProgressionHud,updateProgressionWorldLabels,createCareerStore:()=>createCareerStore({storage:testStorage}),vehicleConfig,BIOME_SEQUENCE,THREE:{...THREE,WebGLRenderer:Renderer},OrbitControls:Orbit,createGarageScene,GARAGE_LAYOUT,createGameplay,garageRoadContact,parkedVehicleContact,isInGarage,GAMEPLAY,createWalkInput,createJumpInput,createLookInput,createFollowCameraState,computeFollowOffset,drivingCameraScale,loadCharacter,createCharacterDisplay,CHARACTER_CATALOG,console,buildCity,createVehicleRig,createVehicleInput,createDrivingModel,TOW_DRIVING,roadGroundGradient,roadGroundSurface,BIOME_DESTINATIONS,safeBiomeDestination,createWheelParticles,createRoadHazards,createRoadHazardsScene,fitTruckToGround,collectObstacles,getTruckContact,groundHeight,document:dom.doc,window:dom.win,innerWidth:width,innerHeight:height,devicePixelRatio:2,matchMedia:()=>({matches:false}),performance:{now:()=>now},requestAnimationFrame:callback=>frames.push(callback)};
  dom.doc.createElement=tag=>{const el=new Element();el.tagName=tag.toUpperCase();el.ownerDocument=dom.doc;return el;};
  for(const el of ids.values())el.replaceChildren=(...children)=>{el.children=[];children.forEach(child=>el.append(child));};
- Object.assign(deps,{createCanyonMode,createPauseState,createOnlineSession,createAdvertising,isAdvertisingSafe,PREMIUM_SKIN_IDS});
+ Object.assign(deps,{createHangarDriftLeaderboard,createCanyonMode,createPauseState,createOnlineSession,createAdvertising,isAdvertisingSafe,PREMIUM_SKIN_IDS});
  new Function(...Object.keys(deps),source)(...Object.values(deps));
  if(startDriving&&!loadFailure){const d=dom.win.__sceneDebug;d.gameplay.state.cooldown=0;d.enterVehicle('pickup');Object.assign(d.model.state,{x:1.8,z:9.8});d.applyTruckPose();d.followTruck(1,true);}
  return{...dom,ids,views,storage:testStorage,resolveCharacter(id,fail=false){const p=pendingCharacters.get(id);if(fail)p.reject(new Error('Deferred load failed'));else p.resolve({id,name:id,group:new THREE.Group(),update(){},setSeated(){},dispose(){}});pendingCharacters.delete(id);},get debug(){return dom.win.__sceneDebug;},frame(time=now+1000/60){now=time;const callback=frames.shift();if(!callback)throw Error('No queued animation frame');callback(time);},dispose(){dom.win.dispatch('pagehide');const {garage,city}=dom.win.__sceneDebug;dom.win.__sceneDebug.wheelParticles?.dispose();dom.win.__sceneDebug.roadHazardsScene?.dispose();garage.dispose();city.dispose();}};

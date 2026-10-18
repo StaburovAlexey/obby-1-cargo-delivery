@@ -19,3 +19,25 @@ test('ranking rows treat player names as text and offer optional Yandex login',(
  assert.equal(f.ids.get('canyon-login').hidden,false);assert.equal(f.ids.get('canyon-ranking-rows').children.length,1);assert.match(f.ids.get('canyon-ranking-rows').textContent,/<img/);assert.equal(f.ids.get('canyon-ranking-rows').children[0].children.length,3);
  f.ids.get('canyon-login').click();assert.equal(logins,1);ui.dispose();
 });
+test('minimal drift HUD appears on scoring, pulses continuously, then fades and resets',()=>{
+ const f=fixture();let time=0;const ui=createCanyonUi(f.doc,{now:()=>time}),hud=f.ids.get('canyon-hud');
+ ui.update({phase:'running'});assert.equal(hud.hidden,true,'no idle score panel');
+ time=10;ui.update({phase:'running',score:10,multiplier:2});assert.equal(hud.hidden,false);assert.equal(hud.attributes['data-visible'],'true');assert.equal(hud.attributes['data-scoring'],'true');assert.equal(f.ids.get('canyon-combo').textContent,'×2');
+ for(time=20;time<500;time+=10){ui.update({phase:'running',score:time,multiplier:2});assert.equal(hud.attributes['data-scoring'],'true','animation state stays on across score ticks');}
+ time=700;ui.update({phase:'running',score:490,multiplier:2});assert.equal(hud.attributes['data-scoring'],'false');assert.equal(hud.attributes['data-visible'],'true','brief legible hold');
+ time=1200;ui.update({phase:'running',score:490});assert.equal(hud.hidden,false);assert.equal(hud.attributes['data-visible'],'false','fade before removing');
+ time=1500;ui.update({phase:'running',score:490});assert.equal(hud.hidden,true);
+ time=1510;ui.update({phase:'running',score:510});assert.equal(hud.hidden,false,'new drift reappears');
+ ui.suspend();ui.update({phase:'running',score:510});assert.equal(hud.hidden,true,'pause does not replay banked points on resume');
+ ui.hide();ui.update({phase:'running',score:0});assert.equal(hud.hidden,true,'new run never reuses stale score');
+ ui.update({phase:'running',score:20});ui.update({phase:'celebrating',score:20});assert.equal(hud.hidden,true);
+ ui.dispose();
+});
+test('HUD markup contains just the score and multiplier, with no panel decoration',async()=>{
+ const {readFile}=await import('node:fs/promises');
+ const html=await readFile(new URL('../dist/index.html',import.meta.url),'utf8'),css=await readFile(new URL('../dist/canyon-ui.css',import.meta.url),'utf8');
+ const hud=html.match(/<section id="canyon-hud"[^]*?<\/section>/)[0];
+ assert.match(hud,/id="canyon-score"/);assert.match(hud,/id="canyon-combo"/);assert.doesNotMatch(hud,/canyon-(angle|progress|phase)|%|°/);
+ assert.doesNotMatch(css.match(/#canyon-hud\{([^}]+)\}/)[1],/background|border|box-shadow/);
+ assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);assert.match(css,/animation:canyon-score-bounce .48s ease-in-out infinite/);
+});

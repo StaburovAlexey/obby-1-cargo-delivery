@@ -32,7 +32,7 @@ test('successful completion starts the common two-second finish synchronously an
  const f=fixture();try{
   await f.start();const before={...f.model.state},room=f.client,score=f.canyon.score,finishing=f.canyon.complete();
   assert.equal(f.canyon.phase,'celebrating');assert.equal(f.context.gameplay.state.eventMode,'finish');assert.equal(f.context.gameplay.state.finishKind,'canyon');assert.equal(f.context.gameplay.state.finishRemaining,2);
-  assert.equal(f.context.gameplay.events().filter(event=>event.type==='finish').length,1);assert.equal(f.ids.get('canyon-overlay').hidden,true);assert.equal(f.ids.get('canyon-hud').hidden,false);
+  assert.equal(f.context.gameplay.events().filter(event=>event.type==='finish').length,1);assert.equal(f.ids.get('canyon-overlay').hidden,true);assert.equal(f.ids.get('canyon-hud').hidden,true);
   assert.equal(f.canyon.controlsLocked,false);assert.deepEqual(f.model.state,before);assert.equal(f.canyon.model,f.model);assert.equal(f.client,room);assert.equal(f.client.roomId,'persistent-room');
   assert.equal(await f.canyon.complete(),null,'a duplicate finish cannot create another settlement');
   const cancellations=f.cancellations,scoreAtFinish={...score};

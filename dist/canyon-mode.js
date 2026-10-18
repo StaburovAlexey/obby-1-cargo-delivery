@@ -66,7 +66,7 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,language,get
    }
    if(phase==='running')ui.update({phase,score:scorer?.state.score,multiplier:scorer?.state.multiplier,progress:scorer?.state.progress,angle:model.state.slipAngle,length:CANYON_TRACK.finish});
   },
-  pause(reason='paused'){if(!active||phase==='celebrating')return;scorer?.disqualify(reason);client()?.cancelDriftRun();runId=null;effects.clear();},
+  pause(reason='paused'){if(!active||phase==='celebrating')return;scorer?.disqualify(reason);client()?.cancelDriftRun();runId=null;ui.suspend();effects.clear();},
   async complete(){
    if(!active||phase!=='running')return null;
    const model=drivingModel(),token=epoch,owner=account(),local=scorer.result(),g=getContext().gameplay,runScorer=scorer,runClient=client(),development=developerMode();
@@ -74,7 +74,7 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,language,get
    // finish after the two-second celebration has already returned to the hangar.
    phase='checking';result=local;
    const celebrating=!!local&&g.beginFinish?.('canyon',model.state)===true;
-   if(celebrating){phase='celebrating';ui.update({phase:'running',score:local.score,multiplier:runScorer.state.multiplier,progress:CANYON_TRACK.finish,length:CANYON_TRACK.finish,angle:model.state.slipAngle});}
+   if(celebrating){phase='celebrating';ui.update({phase:'celebrating',score:local.score,multiplier:runScorer.state.multiplier,progress:CANYON_TRACK.finish,length:CANYON_TRACK.finish,angle:model.state.slipAngle});}
    else ui.showResult(local,{status:'checking'});
    onControlsChanged();
    vehicle.rig.update({...api.pose(),steerAngle:model.state.frontWheelAngle,wheelSpin:model.state.wheelSpin,bodyPitch:-model.state.bodyPitch,bodyRoll:-model.state.bodyRoll,bodyBob:model.state.bodyBob});

@@ -55,7 +55,7 @@ function roadJourney({developerMode=false,career=earnedRewardCareer()}={}){
 
 function checkStarted(j){
  assert.equal(j.d.canyon.phase,'running');assert.equal(j.d.canyon.score.started,true);
- assert.equal(j.d.canyon.score.valid,true);assert.equal(j.f.ids.get('canyon-hud').hidden,false);
+ assert.equal(j.d.canyon.score.valid,true);assert.equal(j.f.ids.get('canyon-hud').hidden,true);
  assert.equal(j.f.ids.get('canyon-overlay').hidden,true);assert.equal(j.d.input.state.enabled,true);
  assert.equal(j.d.canyon.controlsLocked,false);assert.equal(j.d.gameplay.state.eventMode,'canyon');
 }
@@ -110,7 +110,7 @@ test('physical developer drift finish keeps moving with frozen scoring and contr
   assert.equal(pauses,0);assert.equal(resets,0);assert.equal(cameraResets,0);assert.ok(model.state.linearSpeed>startingSpeed-.5,'the crossing cannot brake the car');assert.equal(model.state.active,true,'held gas survives the crossing');
   assert.equal(j.d.finishCelebration.active,true);assert.equal(j.d.finishCelebration.group.position.x,model.state.x);assert.equal(j.d.finishCelebration.group.position.z,model.state.z);
   assert.equal(j.d.finishCelebration.group.position.y,root.position.y+1,'drift confetti starts at canyon vehicle height');
-  assert.equal(j.f.ids.get('canyon-overlay').hidden,true);assert.equal(j.f.ids.get('canyon-hud').hidden,false);assert.equal(numericText(j.f.ids.get('canyon-score')),j.d.canyon.score.score);
+  assert.equal(j.f.ids.get('canyon-overlay').hidden,true);assert.equal(j.f.ids.get('canyon-hud').hidden,true);assert.equal(numericText(j.f.ids.get('canyon-score')),j.d.canyon.score.score);
   await Promise.resolve();await Promise.resolve();assert.equal(j.d.canyon.phase,'celebrating');assert.equal(j.f.ids.get('canyon-overlay').hidden,true);
   const score={...j.d.canyon.score},fuel=g.state.fuels.bmwreward;
   const assertFrozen=()=>{assert.deepEqual(j.d.canyon.score,score,'finish freezes score, combo, timer and eligibility');assert.equal(g.state.fuels.bmwreward,fuel);assert.equal(numericText(j.f.ids.get('canyon-score')),score.score);assert.equal(j.f.ids.get('canyon-overlay').hidden,true);};

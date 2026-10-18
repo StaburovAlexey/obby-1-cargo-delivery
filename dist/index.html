@@ -14,6 +14,7 @@
     <title>Urban Route — процедурный город</title>
     <link rel="stylesheet" href="./style.css" />
     <link rel="stylesheet" href="./vehicle-controls.css" />
+    <link rel="stylesheet" href="./hangar-drift-leaderboard.css">
     <link rel="stylesheet" href="./canyon-ui.css" />
     <link rel="stylesheet" href="./progression-ui.css" />
     <link rel="stylesheet" href="./settings-menu.css" />
@@ -113,6 +114,7 @@
         <button id="upgrade-button" class="hud-menu-button" type="button" aria-label="Улучшения машины" title="Улучшения машины" aria-expanded="false" aria-controls="upgrade-panel" hidden><span class="hud-circle"><svg class="hud-art" viewBox="0 0 64 64" width="64" height="64" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><use href="#hud-upgrade" x="0" y="0" width="64" height="64" /></svg></span></button>
         <button id="career-goal-button" disabled class="hud-menu-button career-action" type="button" aria-label="Накопления на машину" title="Накопления на машину" aria-haspopup="dialog" aria-expanded="false" aria-controls="career-goal-section" hidden><span class="hud-circle"><svg class="hud-art" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#hud-money" /></svg></span></button>
         <button id="career-mission-button" class="hud-menu-button career-action" type="button" aria-label="Задания" title="Задания" aria-haspopup="dialog" aria-expanded="false" aria-controls="career-mission-section" hidden><span class="hud-circle"><svg class="hud-art" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#hud-missions" /></svg></span></button>
+        <button id="hangar-drift-button" class="hud-menu-button" type="button" aria-label="Рейтинг дрифта" title="Рейтинг дрифта" aria-haspopup="dialog" aria-expanded="false" aria-controls="hangar-drift-panel" data-i18n-skip hidden><span class="hud-circle"><svg class="hud-art" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M20 10h24v14c0 11-5 17-12 17s-12-6-12-17V10Zm0 5H10v7c0 9 5 13 13 13m21-20h10v7c0 9-5 13-13 13M32 41v11M21 56h22" fill="#ffd36c" stroke="#593920" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
         <button id="settings-button" class="hud-menu-button" type="button" aria-label="Настройки" title="Настройки" aria-haspopup="dialog" aria-expanded="false" aria-controls="settings-panel"><span class="hud-circle"><svg class="hud-art" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true" focusable="false"><use href="#hud-settings" /></svg></span></button>
       </div>
     <div id="wallet-hud" aria-label="Заработанные деньги"><svg class="hud-art" aria-hidden="true" focusable="false"><use href="#hud-money" /></svg><strong id="wallet-value">0</strong></div>
@@ -394,7 +396,8 @@
         </div>
       </div>
     </section>
-    <section id="canyon-hud" aria-label="Очки дрифта" hidden><div id="canyon-phase">Каньон · дрифт</div><strong id="canyon-score">0</strong><span id="canyon-combo">×1</span><div class="canyon-hud-details"><span id="canyon-angle">Угол: 0°</span><span id="canyon-progress">0%</span></div></section>
+    <div id="hangar-drift-menu" data-i18n-skip hidden><section id="hangar-drift-panel" role="dialog" aria-modal="true" aria-labelledby="hangar-drift-title" aria-describedby="hangar-drift-note" tabindex="-1"><div class="hangar-drift-heading"><h2 id="hangar-drift-title">Рейтинг дрифта</h2><button id="hangar-drift-close" type="button" aria-label="Закрыть">×</button></div><p id="hangar-drift-note" role="status" aria-live="polite"></p><div class="hangar-drift-scroll"><table id="hangar-drift-table" hidden><thead><tr><th id="hangar-drift-rank" scope="col">Место</th><th id="hangar-drift-player" scope="col">Игрок</th><th id="hangar-drift-score" scope="col">Очки</th></tr></thead><tbody id="hangar-drift-rows"></tbody></table></div><p id="hangar-drift-self" hidden></p></section></div>
+    <section id="canyon-hud" aria-label="Очки дрифта" hidden><div id="canyon-score-pop"><strong id="canyon-score">0</strong><span id="canyon-combo">×1</span></div></section>
     <div id="canyon-overlay" hidden><section id="canyon-panel" role="region" aria-labelledby="canyon-title"><h2 id="canyon-title">Каньон пройден</h2><p id="canyon-result-score">0</p><p id="canyon-result-note" role="status"></p><section id="canyon-rankings" hidden><table><thead><tr><th>Место</th><th>Игрок</th><th>Очки</th></tr></thead><tbody id="canyon-ranking-rows"></tbody></table><p id="canyon-ranking-note" role="status"></p></section><button id="canyon-login" type="button" hidden>Войти в Яндекс</button><div class="canyon-actions"><button id="canyon-retry" type="button">Новая попытка с начала дороги</button><button id="canyon-rankings-button" type="button">Таблица Яндекса</button><button id="canyon-back" type="button" hidden>К результату</button><button id="canyon-exit" type="button">Продолжить движение</button></div></section></div>
     <div id="loading" role="status">
       <div class="spinner"></div>

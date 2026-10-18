@@ -76,7 +76,7 @@ test('real app driving crosses the canyon seam forward and in reverse without a 
   frameUntil(f,()=>d.canyon.active);
   assert.equal(d.canyon.phase,'running');assert.equal(d.canyon.score.started,true);assert.equal(d.canyon.score.elapsed,0,'entry has no countdown');
   assert.ok(model.state.x>=CANYON_TRACK.origin.x-2.01&&model.state.x<CANYON_TRACK.origin.x+1);
-  assert.equal(model.state.active,true);assert.ok(model.state.velocityX>1);assert.equal(f.ids.get('canyon-hud').hidden,false);
+  assert.equal(model.state.active,true);assert.ok(model.state.velocityX>1);assert.equal(f.ids.get('canyon-hud').hidden,true,'straight entry does not show drift points');
   frameUntil(f,()=>model.state.x>CANYON_TRACK.origin.x+8);
   const before={money:d.gameplay.state.money,brains:d.gameplay.state.brains},checkpoint=d.garage.deliveries[0];
   d.gameplay.drive(0,checkpoint.x,checkpoint.z);d.gameplay.tickProgress(10,{distance:100,active:true});
