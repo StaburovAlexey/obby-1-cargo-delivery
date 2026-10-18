@@ -66,7 +66,9 @@
     "test:classroom-board": "node --test tests/classroom-*.mjs",
     "test:hangar-drift": "npm run build:all && node --test --test-concurrency=2 tests/hangar-drift-*.mjs",
     "test:development": "node --test --test-concurrency=2 tests/development-defaults.mjs tests/dev-navigation.mjs tests/reward-dev-app.mjs tests/canyon-developer-mode.mjs",
-    "test:rendering": "node --test --test-concurrency=2 tests/spatial-render*.mjs tests/render-profiler.mjs"
+    "test:rendering": "node --test --test-concurrency=2 tests/spatial-render*.mjs tests/render-profiler.mjs",
+    "test:handling-grip": "node tests/handling-grip.mjs && node tests/vehicle-dynamics.mjs && node tests/handling-grip-app.mjs && node tests/handling-grip-turn-app.mjs",
+    "test:handling-grip-independent": "node qa/handling-grip/independent-check.mjs && node qa/handling-grip/independent-probe.mjs && node qa/handling-grip/independent-long-turn.mjs && node qa/handling-grip/independent-bmw-journeys.mjs"
   },
   "devDependencies": {
     "@rsbuild/core": "2.2.13",

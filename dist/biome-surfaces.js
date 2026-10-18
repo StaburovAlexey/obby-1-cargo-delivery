@@ -70,7 +70,7 @@ export const VEHICLE_SURFACE_PROFILES = Object.freeze(Object.fromEntries(
         const [friction,lateral,rolling,engine,speed,coast,vibration]=supported[biome.id];
         const earlier=gap<0?.99:1;
         return [biome.id,profile(friction*vehicle.grip*earlier,lateral*vehicle.grip*earlier,
-          rolling,engine*(gap<0?.98:1),speed*(gap<0?.98:1),coast,vibration)];
+          rolling,engine*(gap < 0 && !vehicle.rewardDrift ? .98 : 1),speed*(gap<0?.98:1),coast,vibration)];
       }
       const [friction,lateral,engine,speed]=unsupported[gap];
       const pair=index%2?1.12:1;

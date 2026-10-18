@@ -1,3 +1,7 @@
+# Handling/grip update (2026-10-18)
+
+The current handling/grip rules supersede the historical percentages below: handling +3%/level, grip +2%/level; speed +1% and tank +3% unchanged. See [rebalance and verification](docs/handling-grip-rebalance.md). Prices, saved levels and finish eligibility are preserved.
+
 # Compact-route vehicle progression
 
 The approved compact route is approximately 15.87 km, with 25 bridges and 90 road hazards (10 moving). The reference clean final-car trip targets at most 12 minutes; this is not a human playtime guarantee. Vehicle speed, acceleration, steering, grip, capacity, prices and specialties stay unchanged. The stock range ladder changes through distance-based fuel consumption.

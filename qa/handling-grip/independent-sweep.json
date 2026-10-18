@@ -1,0 +1,635 @@
+{
+  "scope": "CPU simulation only; no visual or browser playtesting",
+  "maneuverCases": 660,
+  "passiveForceSamples": 2200,
+  "framePartitionCases": 11,
+  "correction": [
+    {
+      "vehicle": "pickup",
+      "initialSlip": 1.0500572948850702,
+      "stock": {
+        "recover": 1.2333333333333334,
+        "wheelCross": 0.26666666666666666
+      },
+      "handling": {
+        "recover": 0.9416666666666667,
+        "wheelCross": 0.19166666666666665
+      },
+      "grip": {
+        "recover": 1.2,
+        "wheelCross": 0.25
+      }
+    },
+    {
+      "vehicle": "citycourier",
+      "initialSlip": 0.5128842200483658,
+      "stock": {
+        "recover": 1.1583333333333332,
+        "wheelCross": 0.24166666666666667
+      },
+      "handling": {
+        "recover": 0.8916666666666666,
+        "wheelCross": 0.175
+      },
+      "grip": {
+        "recover": 1.125,
+        "wheelCross": 0.225
+      }
+    },
+    {
+      "vehicle": "rover",
+      "initialSlip": -0.4053963457227184,
+      "stock": {
+        "recover": 1.1166666666666667,
+        "wheelCross": 0.225
+      },
+      "handling": {
+        "recover": 0.8666666666666667,
+        "wheelCross": 0.15833333333333333
+      },
+      "grip": {
+        "recover": 1.075,
+        "wheelCross": 0.20833333333333334
+      }
+    },
+    {
+      "vehicle": "foresthauler",
+      "initialSlip": -0.8435102807140554,
+      "stock": {
+        "recover": 1.0583333333333333,
+        "wheelCross": 0.20833333333333334
+      },
+      "handling": {
+        "recover": 0.825,
+        "wheelCross": 0.15
+      },
+      "grip": {
+        "recover": 1.025,
+        "wheelCross": 0.19166666666666665
+      }
+    },
+    {
+      "vehicle": "van",
+      "initialSlip": -1.6988989786122592,
+      "stock": {
+        "recover": 1.0416666666666667,
+        "wheelCross": 0.19166666666666665
+      },
+      "handling": {
+        "recover": 0.825,
+        "wheelCross": 0.14166666666666666
+      },
+      "grip": {
+        "recover": 1,
+        "wheelCross": 0.18333333333333332
+      }
+    },
+    {
+      "vehicle": "desertscout",
+      "initialSlip": -2.0328680265698025,
+      "stock": {
+        "recover": 1,
+        "wheelCross": 0.18333333333333332
+      },
+      "handling": {
+        "recover": 0.7916666666666666,
+        "wheelCross": 0.13333333333333333
+      },
+      "grip": {
+        "recover": 0.9583333333333334,
+        "wheelCross": 0.16666666666666666
+      }
+    },
+    {
+      "vehicle": "snowgrip",
+      "initialSlip": -5.008341814809277,
+      "stock": {
+        "recover": 1.1666666666666667,
+        "wheelCross": 0.175
+      },
+      "handling": {
+        "recover": 1.0083333333333333,
+        "wheelCross": 0.125
+      },
+      "grip": {
+        "recover": 1,
+        "wheelCross": 0.16666666666666666
+      }
+    },
+    {
+      "vehicle": "snowrunner",
+      "initialSlip": -5.19082129086961,
+      "stock": {
+        "recover": 1.1416666666666666,
+        "wheelCross": 0.16666666666666666
+      },
+      "handling": {
+        "recover": 0.9916666666666667,
+        "wheelCross": 0.11666666666666667
+      },
+      "grip": {
+        "recover": 0.975,
+        "wheelCross": 0.16666666666666666
+      }
+    },
+    {
+      "vehicle": "lavacrawler",
+      "initialSlip": -2.2302161178640203,
+      "stock": {
+        "recover": 0.8416666666666667,
+        "wheelCross": 0.15833333333333333
+      },
+      "handling": {
+        "recover": 0.6666666666666666,
+        "wheelCross": 0.11666666666666667
+      },
+      "grip": {
+        "recover": 0.8083333333333333,
+        "wheelCross": 0.15833333333333333
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "initialSlip": -2.449558067307882,
+      "stock": {
+        "recover": 0.7916666666666666,
+        "wheelCross": 0.15833333333333333
+      },
+      "handling": {
+        "recover": 0.6333333333333333,
+        "wheelCross": 0.10833333333333334
+      },
+      "grip": {
+        "recover": 0.7666666666666666,
+        "wheelCross": 0.15833333333333333
+      }
+    },
+    {
+      "vehicle": "bmwreward",
+      "initialSlip": -50.869185816245995,
+      "stock": {
+        "recover": 2.033333333333333,
+        "wheelCross": 0.1
+      },
+      "handling": {
+        "recover": 2.0416666666666665,
+        "wheelCross": 0.06666666666666667
+      },
+      "grip": {
+        "recover": 1.6333333333333333,
+        "wheelCross": 0.1
+      }
+    }
+  ],
+  "energyFailures": [],
+  "framePartition": [
+    {
+      "vehicle": "pickup",
+      "error": 0
+    },
+    {
+      "vehicle": "citycourier",
+      "error": 0
+    },
+    {
+      "vehicle": "rover",
+      "error": 0
+    },
+    {
+      "vehicle": "foresthauler",
+      "error": 0
+    },
+    {
+      "vehicle": "van",
+      "error": 0
+    },
+    {
+      "vehicle": "desertscout",
+      "error": 0
+    },
+    {
+      "vehicle": "snowgrip",
+      "error": 0
+    },
+    {
+      "vehicle": "snowrunner",
+      "error": 0
+    },
+    {
+      "vehicle": "lavacrawler",
+      "error": 0
+    },
+    {
+      "vehicle": "ashhauler",
+      "error": 0
+    },
+    {
+      "vehicle": "bmwreward",
+      "error": 0
+    }
+  ],
+  "worstRegularCases": [
+    {
+      "vehicle": "pickup",
+      "biome": "volcanic",
+      "levels": {
+        "handling": 10,
+        "grip": 10,
+        "speed": 10
+      },
+      "steer": 1,
+      "turn": {
+        "peakSlip": 12.767631376767193,
+        "peakYaw": 0.2270657785353023,
+        "minForward": 7.47406707285164,
+        "slip": -12.767631376767193,
+        "lat": -2.0048775764140063,
+        "speed": 9.071944301743201
+      },
+      "slalomPeak": 20.141521309873017,
+      "end": {
+        "peakSlip": 20.436694033958958,
+        "peakYaw": 0.139440381611429,
+        "minForward": 8.753549329479934,
+        "slip": -7.961944786737925,
+        "lat": -1.266400139205399,
+        "speed": 9.142670335347201
+      }
+    },
+    {
+      "vehicle": "citycourier",
+      "biome": "volcanic",
+      "levels": {
+        "handling": 10,
+        "grip": 10,
+        "speed": 10
+      },
+      "steer": 1,
+      "turn": {
+        "peakSlip": 13.25014135590292,
+        "peakYaw": 0.22900960004298954,
+        "minForward": 8.493291766530483,
+        "slip": -13.25014135590292,
+        "lat": -2.3611833466096086,
+        "speed": 10.301721554894991
+      },
+      "slalomPeak": 20.011054202339746,
+      "end": {
+        "peakSlip": 20.096082393161666,
+        "peakYaw": 0.13171271188163408,
+        "minForward": 9.929274026176868,
+        "slip": -4.435808544399888,
+        "lat": -0.7995624338845202,
+        "speed": 10.33799103206378
+      }
+    },
+    {
+      "vehicle": "pickup",
+      "biome": "volcanic",
+      "levels": {},
+      "steer": 1,
+      "turn": {
+        "peakSlip": 11.06077383323665,
+        "peakYaw": 0.20545832336415987,
+        "minForward": 7.452499496211577,
+        "slip": -11.06077383323665,
+        "lat": -1.584302653557173,
+        "speed": 8.258023461853263
+      },
+      "slalomPeak": 19.14247395269842,
+      "end": {
+        "peakSlip": 20.16170770960577,
+        "peakYaw": 0.13820109741486433,
+        "minForward": 8.009361867398544,
+        "slip": -12.662624875590366,
+        "lat": -1.8422218597422828,
+        "speed": 8.403921162174687
+      }
+    },
+    {
+      "vehicle": "citycourier",
+      "biome": "volcanic",
+      "levels": {},
+      "steer": 1,
+      "turn": {
+        "peakSlip": 11.531932115654566,
+        "peakYaw": 0.20614064070933613,
+        "minForward": 8.468749333862878,
+        "slip": -11.531932115654566,
+        "lat": -1.8755203526272783,
+        "speed": 9.3816341955813
+      },
+      "slalomPeak": 18.93668632325111,
+      "end": {
+        "peakSlip": 19.452258567326584,
+        "peakYaw": 0.13061818591184005,
+        "minForward": 9.093726492151417,
+        "slip": -9.000847798304115,
+        "lat": -1.480922591363422,
+        "speed": 9.465844056134628
+      }
+    },
+    {
+      "vehicle": "citycourier",
+      "biome": "volcanic",
+      "levels": {
+        "handling": 10
+      },
+      "steer": 1,
+      "turn": {
+        "peakSlip": 12.17480186509718,
+        "peakYaw": 0.20965050240112684,
+        "minForward": 8.46874865940399,
+        "slip": -12.17480186509718,
+        "lat": -1.9795085494231421,
+        "speed": 9.386231632615495
+      },
+      "slalomPeak": 18.912029076927293,
+      "end": {
+        "peakSlip": 19.105471809772162,
+        "peakYaw": 0.12378590264272482,
+        "minForward": 9.104289534306691,
+        "slip": -6.6829417982675,
+        "lat": -1.0971149958305653,
+        "speed": 9.42740783442654
+      }
+    },
+    {
+      "vehicle": "pickup",
+      "biome": "volcanic",
+      "levels": {
+        "handling": 10
+      },
+      "steer": 1,
+      "turn": {
+        "peakSlip": 11.746741285861239,
+        "peakYaw": 0.20904657104839916,
+        "minForward": 7.452498985147147,
+        "slip": -11.746741285861239,
+        "lat": -1.682208733683031,
+        "speed": 8.262887317743765
+      },
+      "slalomPeak": 18.6429188233997,
+      "end": {
+        "peakSlip": 18.93269403920671,
+        "peakYaw": 0.12702529782225758,
+        "minForward": 8.036054194214625,
+        "slip": -8.453975230843815,
+        "lat": -1.2235373651021564,
+        "speed": 8.322539680788656
+      }
+    },
+    {
+      "vehicle": "pickup",
+      "biome": "volcanic",
+      "levels": {
+        "grip": 10
+      },
+      "steer": 1,
+      "turn": {
+        "peakSlip": 11.329859605265638,
+        "peakYaw": 0.23055957438964472,
+        "minForward": 7.452499292454317,
+        "slip": -11.329859605265638,
+        "lat": -1.616773558557984,
+        "speed": 8.229649306826888
+      },
+      "slalomPeak": 17.8682746525345,
+      "end": {
+        "peakSlip": 17.986389760120268,
+        "peakYaw": 0.14612466467843732,
+        "minForward": 8.023680233740619,
+        "slip": -4.500874554472791,
+        "lat": -0.6490058331531784,
+        "speed": 8.270296512437733
+      }
+    },
+    {
+      "vehicle": "citycourier",
+      "biome": "volcanic",
+      "levels": {
+        "grip": 10
+      },
+      "steer": 1,
+      "turn": {
+        "peakSlip": 11.735564720154422,
+        "peakYaw": 0.23125129469038092,
+        "minForward": 8.468749049665393,
+        "slip": -11.735564720154422,
+        "lat": -1.9009242881644575,
+        "speed": 9.345969824116242
+      },
+      "slalomPeak": 17.53660489818928,
+      "end": {
+        "peakSlip": 17.546148392447886,
+        "peakYaw": 0.1375605961519272,
+        "minForward": 9.111998587642034,
+        "slip": -2.2690137548545604,
+        "lat": -0.3714150088188304,
+        "speed": 9.381201764359096
+      }
+    }
+  ],
+  "worstOwnBiomeCases": [
+    {
+      "vehicle": "snowrunner",
+      "biome": "snow",
+      "levels": {
+        "handling": 10
+      },
+      "steer": 1,
+      "turn": {
+        "peakSlip": 10.891676885968652,
+        "peakYaw": 0.684283075596119,
+        "minForward": 24.57063786095303,
+        "slip": -8.78447726982299,
+        "lat": -3.961925783602859,
+        "speed": 25.942739323477408
+      },
+      "slalomPeak": 10.891676885968652,
+      "end": {
+        "peakSlip": 3.3873693672743634,
+        "peakYaw": 0.5027873143469827,
+        "minForward": 27.086316332682152,
+        "slip": -1.757772833918486e-9,
+        "lat": -8.344667179471799e-10,
+        "speed": 27.19999999995691
+      }
+    },
+    {
+      "vehicle": "snowgrip",
+      "biome": "snow",
+      "levels": {
+        "handling": 10,
+        "grip": 10,
+        "speed": 10
+      },
+      "steer": 1,
+      "turn": {
+        "peakSlip": 10.886183477876042,
+        "peakYaw": 0.7412308095564653,
+        "minForward": 21.61543521902279,
+        "slip": -8.778097898565536,
+        "lat": -3.790388375033854,
+        "speed": 24.83740600155112
+      },
+      "slalomPeak": 10.886183477876042,
+      "end": {
+        "peakSlip": 3.125001386715635,
+        "peakYaw": 0.5151571031114023,
+        "minForward": 26.177675780631226,
+        "slip": -1.5495459162322637e-10,
+        "lat": -7.110045885383443e-11,
+        "speed": 26.289999999959072
+      }
+    },
+    {
+      "vehicle": "snowgrip",
+      "biome": "snow",
+      "levels": {
+        "handling": 10
+      },
+      "steer": 1,
+      "turn": {
+        "peakSlip": 10.001786207996679,
+        "peakYaw": 0.6741962893284019,
+        "minForward": 21.589638654276925,
+        "slip": -8.27612779418127,
+        "lat": -3.2839968455031463,
+        "speed": 22.8144211406347
+      },
+      "slalomPeak": 10.001786207996679,
+      "end": {
+        "peakSlip": 3.121901090540519,
+        "peakYaw": 0.4821259483571842,
+        "minForward": 23.80867701264487,
+        "slip": -9.328697296797059e-10,
+        "lat": -3.8913139377427797e-10,
+        "speed": 23.89999999996192
+      }
+    },
+    {
+      "vehicle": "snowrunner",
+      "biome": "snow",
+      "levels": {
+        "handling": 10,
+        "grip": 10,
+        "speed": 10
+      },
+      "steer": 1,
+      "turn": {
+        "peakSlip": 9.92823847126619,
+        "peakYaw": 0.7309224909684641,
+        "minForward": 24.599538046273544,
+        "slip": -4.470595988150351,
+        "lat": -2.267626440705901,
+        "speed": 29.0917257850391
+      },
+      "slalomPeak": 9.92823847126619,
+      "end": {
+        "peakSlip": 3.1134559965347766,
+        "peakYaw": 0.4910060881224282,
+        "minForward": 29.802842448059113,
+        "slip": -1.9646643442015752e-10,
+        "lat": -1.0259526561640087e-10,
+        "speed": 29.91999999996084
+      }
+    },
+    {
+      "vehicle": "snowrunner",
+      "biome": "snow",
+      "levels": {},
+      "steer": 1,
+      "turn": {
+        "peakSlip": 9.085213988070016,
+        "peakYaw": 0.6608227714760959,
+        "minForward": 24.57065225109032,
+        "slip": -5.19082129086961,
+        "lat": -2.3912372690944252,
+        "speed": 26.43038498803735
+      },
+      "slalomPeak": 9.085213988070016,
+      "end": {
+        "peakSlip": 2.9634519363927994,
+        "peakYaw": 0.4209790920551583,
+        "minForward": 27.106649018594652,
+        "slip": -1.4467164569862757e-9,
+        "lat": -6.867990620662567e-10,
+        "speed": 27.199999999940065
+      }
+    },
+    {
+      "vehicle": "snowgrip",
+      "biome": "snow",
+      "levels": {},
+      "steer": 1,
+      "turn": {
+        "peakSlip": 8.318208412604193,
+        "peakYaw": 0.651912638548815,
+        "minForward": 21.58965265935109,
+        "slip": -5.008341814809277,
+        "lat": -2.026093795598379,
+        "speed": 23.20819810656193
+      },
+      "slalomPeak": 8.318208412604193,
+      "end": {
+        "peakSlip": 2.713511691411341,
+        "peakYaw": 0.4015832960048247,
+        "minForward": 23.82549070959996,
+        "slip": -2.3165169458911164e-9,
+        "lat": -9.6629726442643e-10,
+        "speed": 23.899999999945464
+      }
+    },
+    {
+      "vehicle": "snowrunner",
+      "biome": "snow",
+      "levels": {
+        "grip": 10
+      },
+      "steer": 1,
+      "turn": {
+        "peakSlip": 6.218730288377219,
+        "peakYaw": 0.7270557439498778,
+        "minForward": 24.57064936130352,
+        "slip": -3.978160297100893,
+        "lat": -1.849729419691282,
+        "speed": 26.662296582846476
+      },
+      "slalomPeak": 6.218730288377219,
+      "end": {
+        "peakSlip": 2.6851985748494736,
+        "peakYaw": 0.46972017964899404,
+        "minForward": 27.09921074966015,
+        "slip": -8.131368680352398e-10,
+        "lat": -3.8602010477006843e-10,
+        "speed": 27.19999999995604
+      }
+    },
+    {
+      "vehicle": "snowgrip",
+      "biome": "snow",
+      "levels": {
+        "grip": 10
+      },
+      "steer": 1,
+      "turn": {
+        "peakSlip": 6.214954605642905,
+        "peakYaw": 0.7370715545537363,
+        "minForward": 21.589647158195934,
+        "slip": -3.7065296499298577,
+        "lat": -1.5099560946404407,
+        "speed": 23.35728887009109
+      },
+      "slalomPeak": 6.214954605642905,
+      "end": {
+        "peakSlip": 2.618422191160837,
+        "peakYaw": 0.4846172353312901,
+        "minForward": 23.806239049732497,
+        "slip": -2.5345512885730926e-9,
+        "lat": -1.0572467346037229e-9,
+        "speed": 23.899999999954332
+      }
+    }
+  ]
+}

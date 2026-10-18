@@ -5,8 +5,8 @@ export const UPGRADE_MAX_LEVEL = 10;
 export const UPGRADE_STEP = .01;
 export const UPGRADE_STATS = Object.freeze([
   {id:'speed',name:'Скорость',maxLevel:UPGRADE_MAX_LEVEL,unit:'м/с',step:UPGRADE_STEP},
-  {id:'handling',name:'Управление',maxLevel:UPGRADE_MAX_LEVEL,unit:'%',step:UPGRADE_STEP},
-  {id:'grip',name:'Сцепление',maxLevel:UPGRADE_MAX_LEVEL,unit:'%',step:UPGRADE_STEP},
+  {id:'handling',name:'Управление',maxLevel:UPGRADE_MAX_LEVEL,unit:'%',step:.03},
+  {id:'grip',name:'Сцепление',maxLevel:UPGRADE_MAX_LEVEL,unit:'%',step:.02},
   {id:'fuel',name:'Бак',maxLevel:UPGRADE_MAX_LEVEL,unit:'ед.',step:.03},
 ].map(Object.freeze));
 const statIds = new Set(UPGRADE_STATS.map(s=>s.id));
@@ -27,14 +27,18 @@ export function sanitizeVehicleUpgrades(input) {
 export function getUpgradeModifiers(levels) {
   const clean=sanitizeUpgradeLevels(levels);
   return {speed:1+UPGRADE_STEP*clean.speed,engine:1+UPGRADE_STEP*clean.speed,
-    handling:1+UPGRADE_STEP*clean.handling,grip:1+UPGRADE_STEP*clean.grip,
+    handling:1+.03*clean.handling,grip:1+.02*clean.grip,
     fuel:1+.03*clean.fuel};
 }
+// Apply the same continuous response curve to catalog tiers and purchased levels.
+// Upgraded earlier cars may handle better; later cars still improve speed, range
+// and biome suitability. Speed-sensitive rack effort preserves correction room.
+export const steeringResponseSeconds = (handling, speed = 0) => .28 * (.5 / handling) ** 1.35 * Math.sqrt(1 + (speed / 12) ** 2);
 export function getVehiclePerformance(vehicleId,levels) {
   const v=vehicles.get(vehicleId);if(!v)return null;
   const m=getUpgradeModifiers(levels);
   return {maxSpeed:v.maxSpeed*m.speed,acceleration:v.acceleration*m.engine,
-    handling:v.handling*m.handling,steeringResponseSeconds:.22/(v.handling*m.handling),
+    handling:v.handling*m.handling,steeringResponseSeconds:v.rewardDrift?.22/(v.handling*m.handling**1.35):steeringResponseSeconds(v.handling*m.handling),
 
     grip:v.grip*m.grip,range:v.range*m.fuel,capacity:v.capacity*m.fuel,consumption:v.consumption};
 }

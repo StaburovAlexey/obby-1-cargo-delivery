@@ -103,10 +103,10 @@ check('Mirrored steering gives mirrored lateral forces, paths, and yaw', () => {
 check('UI steering remains normalized while actual road rack angle limits high-speed demand', () => {
   near(steeringTarget(1), -0.48);
   near(roadWheelTarget(1, 0), -0.48);
-  near(roadWheelTarget(-1, 24), 0.48 / (1 + (24 / 9) ** 2));
+  near(roadWheelTarget(-1, 24), 0.48 / (1 + (24 / P.steeringSpeedScale) ** 2));
   near(roadWheelTarget(0.079, 5), 0);
   const m = createDrivingModel(); m.setInput({ steering: 1 }); m.step(0.05);
-  near(m.state.frontWheelAngle, -0.48 * (1 - Math.exp(-0.05 / 0.44)));
+  near(m.state.frontWheelAngle, -0.48 * (1 - Math.exp(-0.05 / 0.28)));
   assert.equal(m.state.steering, 1);
 });
 check('Every vehicle reaches its 11 / 17 / 24 m/s governed speed without overshoot', () => {
@@ -132,7 +132,7 @@ check('Maximum steering produces small controlled slip across all vehicle tiers'
       const slip = Math.abs(Math.atan2(lateral, m.state.speed));
       maxSlip = Math.max(maxSlip, slip); maxYaw = Math.max(maxYaw, Math.abs(m.state.angularVelocity));
       assert.ok(slip < 0.13, `Excessive body slip ${slip}`);
-      assert.ok(Math.abs(m.state.angularVelocity) < 0.85);
+      assert.ok(Math.abs(m.state.angularVelocity) < 1.05);
       assert.ok(m.state.speed > maxSpeed * 0.93);
     }
     m.setInput({ active: true, steering: 0 }); run(m, 4);

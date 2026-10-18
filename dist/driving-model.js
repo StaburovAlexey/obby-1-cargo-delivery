@@ -5,7 +5,7 @@
 
 import { CITY_SURFACE, normalizeSurfaceDynamics } from './biome-surfaces.js';
 import { vehicleConfig } from './economy-config.js';
-import { getUpgradeModifiers } from './vehicle-upgrades.js';
+import { getUpgradeModifiers, steeringResponseSeconds } from './vehicle-upgrades.js';
 import {BMW_DRIFT,evaluateDriftDynamics,driftTelemetry,driftWheelTarget} from './drift-dynamics.js';
 
 
@@ -125,7 +125,7 @@ export const VEHICLE_DYNAMICS = Object.freeze({
   governorGain: 4,
   brakeAcceleration: 8.5,
   brakeViscosity: 11000,
-  steeringSpeedScale: 9,
+  steeringSpeedScale: 16,
   gradeGravityScale: 1,
   sleepSpeed: 0.018,
   sleepYawSpeed: 0.008,
@@ -146,8 +146,8 @@ const normalizeMaxSpeed = (speed, reward=false) => clamp(finite(Number(speed), T
 const forwardSpeed = (s) => (-Math.sin(s.heading) * s.velocityX - Math.cos(s.heading) * s.velocityZ) || 0;
 
 
-export function roadWheelTarget(steering, linearSpeed = 0) {
-  const ratio = Math.abs(linearSpeed) / VEHICLE_DYNAMICS.steeringSpeedScale;
+export function roadWheelTarget(steering, linearSpeed = 0, speedScale = VEHICLE_DYNAMICS.steeringSpeedScale) {
+  const ratio = Math.abs(linearSpeed) / speedScale;
   return steeringTarget(steering) / (1 + ratio * ratio);
 }
 
@@ -220,7 +220,11 @@ export function evaluateVehicleForces(state, {
 
     const rearDrift = !wheel.front && rewardDrift && powered && Math.abs(state.frontWheelAngle)>.008;
     const lateralGrip = rearDrift ? clamp(rewardDrift.rearLateralGrip,.4,1) : 1;
-    let lateralForce = -lateralSpeed * p.lateralViscosity * ground.lateralDampingFactor * (rearDrift?clamp(rewardDrift.rearLateralDamping,.3,1):1);
+    // At speed, use a finite slip-angle stiffness instead of an increasingly
+    // rigid velocity damper. Slow bridge maneuvering retains high tire stiffness.
+    const supportedTire = Math.min(1, 1 / ground.longitudinalGripFactor);
+    const slipStiffness = 1 - supportedTire * (1 - 1 / Math.sqrt(1 + (longitudinalSpeed / 8) ** 2));
+    let lateralForce = -lateralSpeed * p.lateralViscosity * slipStiffness * ground.lateralDampingFactor * (rearDrift?clamp(rewardDrift.rearLateralDamping,.3,1):1);
 
 
     const requestedForce = Math.hypot(longitudinalForce / ground.longitudinalGripFactor, lateralForce/lateralGrip);
@@ -407,14 +411,14 @@ export function createDrivingModel({
     surface.frictionFactor *= upgrades.grip;
     surface.lateralDampingFactor *= upgrades.grip;
     const effectiveMaxSpeed = maxSpeed * upgrades.speed;
-    const responseSeconds = TOW_DRIVING.steeringResponseSeconds / (spec.handling * upgrades.handling * surface.handlingFactor);
+    const responseSeconds = (spec.rewardDrift ? .22 / (spec.handling * upgrades.handling ** 1.35) : steeringResponseSeconds(spec.handling * upgrades.handling, state.linearSpeed)) / surface.handlingFactor;
 
 
 
 
     const steeringGripScale = Math.sqrt(Math.min(1, surface.frictionFactor * surface.longitudinalGripFactor));
     const reverseGripScale = state.gear === 'R' ? Math.min(1, surface.frictionFactor) : 1;
-    const targetWheelAngle = spec.rewardDrift&&state.gear!=='R'?driftWheelTarget(state.steering,state.linearSpeed,state.slipAngle):roadWheelTarget(state.steering, state.linearSpeed / steeringGripScale) * reverseGripScale;
+    const targetWheelAngle = spec.rewardDrift&&state.gear!=='R'?driftWheelTarget(state.steering,state.linearSpeed,state.slipAngle):roadWheelTarget(state.steering, state.linearSpeed / steeringGripScale, 9 + 7 * Math.min(1, 1 / surface.longitudinalGripFactor)) * reverseGripScale;
     state.frontWheelAngle += (targetWheelAngle - state.frontWheelAngle) *
       (1 - Math.exp(-dt / responseSeconds));
     const analog = Number.isFinite(state.speedDemand);
@@ -441,7 +445,10 @@ export function createDrivingModel({
     const serviceBraking = Math.max(state.brake,gearBraking ? 1 : analogBrake);
     state.braking = Math.max(serviceBraking,state.handbrake);
     const bmwForward=spec.rewardDrift&&state.gear==='D'&&!gearBraking;
-    const forces = bmwForward?evaluateDriftDynamics(state,{maxSpeed:targetSpeed,engineAcceleration:catalogAcceleration*upgrades.engine*surface.engineFactor,surface,gradient,braking:serviceBraking,dt,mass:p.mass,inertia:p.yawInertia}):evaluateVehicleForces(state, { maxSpeed: effectiveMaxSpeed, gradient, braking: state.braking, speedFraction, surface,
+    // Keep the established stock drift budget, then apply every purchased level.
+    // Calibrate only the forward drift model; reverse uses its regular tires.
+    const driftSurface = bmwForward ? {...surface, frictionFactor: Math.min(surface.frictionFactor / upgrades.grip, 1.4) * upgrades.grip} : surface;
+    const forces = bmwForward?evaluateDriftDynamics(state,{maxSpeed:targetSpeed,engineAcceleration:catalogAcceleration*upgrades.engine*surface.engineFactor,surface:driftSurface,gradient,braking:serviceBraking,dt,mass:p.mass,inertia:p.yawInertia}):evaluateVehicleForces(state, { maxSpeed: effectiveMaxSpeed, gradient, braking: state.braking, speedFraction, surface,
       engineAcceleration: catalogAcceleration * upgrades.engine, brakeFactor: spec.grip * upgrades.grip, rewardDrift:spec.rewardDrift });
     state.velocityX += forces.forceX / p.mass * dt;
     state.velocityZ += forces.forceZ / p.mass * dt;

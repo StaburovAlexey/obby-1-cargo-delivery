@@ -1,0 +1,187 @@
+{
+  "pass": true,
+  "scope": "CPU simulations with actual canyon contact, scoring and server-verifier modules; no browser or visual playtesting",
+  "note": "Uses ordinary steering, throttle and handbrake controls with upgrade-aware QA pilot settings. A stock-tuned pilot is not expected to drift identically after grip or steering upgrades.",
+  "rows": [
+    {
+      "profile": "maximum-handling",
+      "upgrades": {
+        "handling": 10
+      },
+      "fps": 60,
+      "pilot": {
+        "speed": 25,
+        "gain": 1.5,
+        "handbrake": 0.3
+      },
+      "score": 46,
+      "serverVerified": true,
+      "elapsed": 89.1166666666629,
+      "contactSeconds": 0.08333333333333333,
+      "distance": 1779.8073950677392,
+      "maxSlipDegrees": 26.643524610626812,
+      "scoringSeconds": 0.966666666666668
+    },
+    {
+      "profile": "maximum-handling",
+      "upgrades": {
+        "handling": 10
+      },
+      "fps": 30,
+      "pilot": {
+        "speed": 25,
+        "gain": 1.5,
+        "handbrake": 0.3
+      },
+      "score": 51,
+      "serverVerified": true,
+      "elapsed": 88.06666666666423,
+      "contactSeconds": 0.06666666666666667,
+      "distance": 1779.956581382408,
+      "maxSlipDegrees": 20.415283193960203,
+      "scoringSeconds": 0.7666666666666666
+    },
+    {
+      "profile": "maximum-handling",
+      "upgrades": {
+        "handling": 10
+      },
+      "fps": 15,
+      "pilot": {
+        "speed": 25,
+        "gain": 1.5,
+        "handbrake": 0.3
+      },
+      "score": 47,
+      "serverVerified": true,
+      "elapsed": 91.26666666666661,
+      "contactSeconds": 0.26666666666666666,
+      "distance": 1783.3617657741493,
+      "maxSlipDegrees": 33.262180681483564,
+      "scoringSeconds": 0.9333333333333332
+    },
+    {
+      "profile": "maximum-grip",
+      "upgrades": {
+        "grip": 10
+      },
+      "fps": 60,
+      "pilot": {
+        "speed": 28,
+        "gain": 1.5,
+        "handbrake": 0.15
+      },
+      "score": 507,
+      "serverVerified": true,
+      "elapsed": 83.29999999999656,
+      "contactSeconds": 0.7000000000000005,
+      "distance": 1810.488198718917,
+      "maxSlipDegrees": 39.81562990020272,
+      "scoringSeconds": 6.383333333333316
+    },
+    {
+      "profile": "maximum-grip",
+      "upgrades": {
+        "grip": 10
+      },
+      "fps": 30,
+      "pilot": {
+        "speed": 28,
+        "gain": 1.5,
+        "handbrake": 0.15
+      },
+      "score": 408,
+      "serverVerified": true,
+      "elapsed": 83.53333333333116,
+      "contactSeconds": 0.9666666666666666,
+      "distance": 1810.054029125487,
+      "maxSlipDegrees": 33.79063694408915,
+      "scoringSeconds": 5.266666666666658
+    },
+    {
+      "profile": "maximum-grip",
+      "upgrades": {
+        "grip": 10
+      },
+      "fps": 15,
+      "pilot": {
+        "speed": 28,
+        "gain": 1.5,
+        "handbrake": 0.15
+      },
+      "score": 528,
+      "serverVerified": true,
+      "elapsed": 85.20000000000029,
+      "contactSeconds": 1.7333333333333332,
+      "distance": 1813.804713771317,
+      "maxSlipDegrees": 42.77689032085477,
+      "scoringSeconds": 7.066666666666661
+    },
+    {
+      "profile": "all-maximum",
+      "upgrades": {
+        "handling": 10,
+        "grip": 10,
+        "speed": 10,
+        "fuel": 10
+      },
+      "fps": 60,
+      "pilot": {
+        "speed": 28,
+        "gain": 1,
+        "handbrake": 0.15
+      },
+      "score": 182,
+      "serverVerified": true,
+      "elapsed": 74.66666666666372,
+      "contactSeconds": 0.7166666666666672,
+      "distance": 1785.766771005733,
+      "maxSlipDegrees": 47.797227630589354,
+      "scoringSeconds": 1.9166666666666647
+    },
+    {
+      "profile": "all-maximum",
+      "upgrades": {
+        "handling": 10,
+        "grip": 10,
+        "speed": 10,
+        "fuel": 10
+      },
+      "fps": 30,
+      "pilot": {
+        "speed": 28,
+        "gain": 1,
+        "handbrake": 0.15
+      },
+      "score": 227,
+      "serverVerified": true,
+      "elapsed": 75.43333333333162,
+      "contactSeconds": 1.166666666666667,
+      "distance": 1791.1724306431558,
+      "maxSlipDegrees": 45.385480067127325,
+      "scoringSeconds": 2.4000000000000012
+    },
+    {
+      "profile": "all-maximum",
+      "upgrades": {
+        "handling": 10,
+        "grip": 10,
+        "speed": 10,
+        "fuel": 10
+      },
+      "fps": 15,
+      "pilot": {
+        "speed": 28,
+        "gain": 1,
+        "handbrake": 0.15
+      },
+      "score": 364,
+      "serverVerified": true,
+      "elapsed": 78.93333333333398,
+      "contactSeconds": 2.733333333333335,
+      "distance": 1801.9224657731168,
+      "maxSlipDegrees": 57.33293059135336,
+      "scoringSeconds": 3.933333333333339
+    }
+  ]
+}

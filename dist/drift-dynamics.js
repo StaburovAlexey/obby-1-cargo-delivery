@@ -27,8 +27,8 @@ export function evaluateDriftDynamics(state,{maxSpeed,engineAcceleration,surface
   const forward=-s*state.velocityX-c*state.velocityZ;
   const handbrake=clamp(state.handbrake||0,0,1);
   const gx=Number.isFinite(gradient?.x)?gradient.x:0,gz=Number.isFinite(gradient?.z)?gradient.z:0,den=1+gx*gx+gz*gz;
-  const load=mass*9.81/4/Math.sqrt(den),grip=load*1.25*clamp(surface.frictionFactor,.35,1.4);
-  const drive=state.active&&!braking?clamp((maxSpeed-forward)*2,0,Math.min(engineAcceleration,4.8)):0;
+  const load=mass*9.81/4/Math.sqrt(den),grip=load*1.25*clamp(surface.frictionFactor,.025,3);
+  const drive=state.active&&!braking?clamp((maxSpeed-forward)*2,0,engineAcceleration):0;
   let forceX=-mass*9.81*gx/den,forceZ=-mass*9.81*gz/den,torque=0;
   const tires=[];
   for(const wheel of BMW_DRIFT.wheels){

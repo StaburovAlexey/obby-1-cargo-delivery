@@ -1,0 +1,535 @@
+{
+  "pass": true,
+  "scope": "CPU simulation only; no visual or browser playtesting",
+  "vehicleUpgradeCases": 44,
+  "measurements": [
+    {
+      "vehicle": "pickup",
+      "brakeStartSpeed": 8.8,
+      "stockBraking": {
+        "distance": 6.148991992058789,
+        "time": 1.5666666666666667
+      },
+      "maximumGripBraking": {
+        "distance": 5.257220630221144,
+        "time": 1.3416666666666666
+      },
+      "brakingImprovementPercent": 14.502724397581545,
+      "stockSideSlipRecoverySeconds": 0.5583333333333333,
+      "maximumGripSideSlipRecoverySeconds": 0.4666666666666667,
+      "sideSlipRecoveryImprovementPercent": 16.417910447761198,
+      "stockLowSpeedHeading": -0.025823565336315628,
+      "maximumHandlingLowSpeedHeading": -0.03215957928274023,
+      "stockCorner": {
+        "slip": 1.0500572948850702,
+        "speed": 10.780169326347627,
+        "heading": -1.5676634082552106,
+        "wheel": -0.25145883555338844,
+        "yaw": -0.5835764147368505,
+        "x": 19.004052815044652,
+        "z": -21.361075881532233,
+        "peak": 1.8691230658731393
+      },
+      "maximumGripCorner": {
+        "slip": 2.136371836637528,
+        "speed": 10.770564470577417,
+        "heading": -1.8515320320332025,
+        "wheel": -0.27332919112771725,
+        "yaw": -0.6973120599526199,
+        "x": 20.614222086948345,
+        "z": -17.6240846455584,
+        "peak": 2.419234321986407
+      },
+      "allMaximumCorner": {
+        "slip": 1.1547853108536528,
+        "speed": 11.839640435000812,
+        "heading": -1.7639085674858406,
+        "wheel": -0.25096317934558066,
+        "yaw": -0.6378503977818704,
+        "x": 22.625000919341574,
+        "z": -20.03948281887887,
+        "peak": 2.2004764761297784
+      }
+    },
+    {
+      "vehicle": "citycourier",
+      "brakeStartSpeed": 10,
+      "stockBraking": {
+        "distance": 7.088000336994675,
+        "time": 1.5833333333333333
+      },
+      "maximumGripBraking": {
+        "distance": 6.057747977134007,
+        "time": 1.3583333333333334
+      },
+      "brakingImprovementPercent": 14.53516239951954,
+      "stockSideSlipRecoverySeconds": 0.5083333333333333,
+      "maximumGripSideSlipRecoverySeconds": 0.425,
+      "sideSlipRecoveryImprovementPercent": 16.393442622950815,
+      "stockLowSpeedHeading": -0.029984971278845744,
+      "maximumHandlingLowSpeedHeading": -0.036713988435228925,
+      "stockCorner": {
+        "slip": 0.5128842200483658,
+        "speed": 12.244452716803277,
+        "heading": -1.5817851258755606,
+        "wheel": -0.23456611063782717,
+        "yaw": -0.5775380968980306,
+        "x": 21.836026034472866,
+        "z": -24.030990105892425,
+        "peak": 1.580728807289524
+      },
+      "maximumGripCorner": {
+        "slip": 1.471148518851807,
+        "speed": 12.21926930952653,
+        "heading": -1.8767583024219903,
+        "wheel": -0.2569004542274425,
+        "yaw": -0.6912661743813752,
+        "x": 23.713686526296115,
+        "z": -19.55361443114071,
+        "peak": 2.0398024643189308
+      },
+      "allMaximumCorner": {
+        "slip": 0.5965225724996515,
+        "speed": 13.446692991089499,
+        "heading": -1.7713822628290459,
+        "wheel": -0.23403063383137265,
+        "yaw": -0.6312593253001029,
+        "x": 25.836055457942475,
+        "z": -22.6308486623821,
+        "peak": 1.8545614453239743
+      }
+    },
+    {
+      "vehicle": "rover",
+      "brakeStartSpeed": 11.36,
+      "stockBraking": {
+        "distance": 8.193523128010739,
+        "time": 1.5916666666666666
+      },
+      "maximumGripBraking": {
+        "distance": 6.9537885160695065,
+        "time": 1.3583333333333334
+      },
+      "brakingImprovementPercent": 15.130665924442454,
+      "stockSideSlipRecoverySeconds": 0.5,
+      "maximumGripSideSlipRecoverySeconds": 0.4166666666666667,
+      "sideSlipRecoveryImprovementPercent": 16.666666666666664,
+      "stockLowSpeedHeading": -0.033141919388628746,
+      "maximumHandlingLowSpeedHeading": -0.039908183293519854,
+      "stockCorner": {
+        "slip": 0.4053963457227184,
+        "speed": 13.90313985464659,
+        "heading": -1.5602032657139568,
+        "wheel": -0.21537129775353464,
+        "yaw": -0.5607611175409145,
+        "x": 24.52395286076052,
+        "z": -27.79915570489642,
+        "peak": 1.20026858466056
+      },
+      "maximumGripCorner": {
+        "slip": 0.42630999618989907,
+        "speed": 13.858089603980533,
+        "heading": -1.8555425048138243,
+        "wheel": -0.23793290750835322,
+        "yaw": -0.6723712751506031,
+        "x": 26.789359220953187,
+        "z": -22.722065066262992,
+        "peak": 1.5523309606956577
+      },
+      "allMaximumCorner": {
+        "slip": 0.3310864487213144,
+        "speed": 15.266976629771447,
+        "heading": -1.7451457734051197,
+        "wheel": -0.21483107671046522,
+        "yaw": -0.6129270253277489,
+        "x": 29.085429092541354,
+        "z": -26.373734621290488,
+        "peak": 1.4530113419504072
+      }
+    },
+    {
+      "vehicle": "foresthauler",
+      "brakeStartSpeed": 12.96,
+      "stockBraking": {
+        "distance": 9.520271617627243,
+        "time": 1.6166666666666667
+      },
+      "maximumGripBraking": {
+        "distance": 8.076597080142973,
+        "time": 1.375
+      },
+      "brakingImprovementPercent": 15.164215848749919,
+      "stockSideSlipRecoverySeconds": 0.4666666666666667,
+      "maximumGripSideSlipRecoverySeconds": 0.39166666666666666,
+      "sideSlipRecoveryImprovementPercent": 16.07142857142857,
+      "stockLowSpeedHeading": -0.037702079021488165,
+      "maximumHandlingLowSpeedHeading": -0.04456820950453448,
+      "stockCorner": {
+        "slip": 0.8435102807140554,
+        "speed": 15.870194229795933,
+        "heading": -1.5558108738791525,
+        "wheel": -0.19759062815496034,
+        "yaw": -0.5517624157268511,
+        "x": 28.036468791030877,
+        "z": -31.799400439194883,
+        "peak": 1.1492428928477731
+      },
+      "maximumGripCorner": {
+        "slip": 0.12155403849445925,
+        "speed": 15.809133759001792,
+        "heading": -1.8539866988147802,
+        "wheel": -0.21998447006177488,
+        "yaw": -0.6623748276402646,
+        "x": 30.687342503035808,
+        "z": -25.934028909073508,
+        "peak": 1.2640567773970917
+      },
+      "allMaximumCorner": {
+        "slip": 0.7862369718073392,
+        "speed": 17.426926296055203,
+        "heading": -1.7375596673307498,
+        "wheel": -0.1970516145440394,
+        "yaw": -0.6031178716685498,
+        "x": 33.202746239258616,
+        "z": -30.249972561332385,
+        "peak": 1.2783953763525004
+      }
+    },
+    {
+      "vehicle": "van",
+      "brakeStartSpeed": 14.719999999999999,
+      "stockBraking": {
+        "distance": 11.075046630475043,
+        "time": 1.6333333333333333
+      },
+      "maximumGripBraking": {
+        "distance": 9.350008899906594,
+        "time": 1.3916666666666666
+      },
+      "brakingImprovementPercent": 15.57589586866106,
+      "stockSideSlipRecoverySeconds": 0.475,
+      "maximumGripSideSlipRecoverySeconds": 0.39166666666666666,
+      "sideSlipRecoveryImprovementPercent": 17.543859649122805,
+      "stockLowSpeedHeading": -0.040841803920972045,
+      "maximumHandlingLowSpeedHeading": -0.047453847232435314,
+      "stockCorner": {
+        "slip": 1.6988989786122592,
+        "speed": 18.031827140923205,
+        "heading": -1.5259076997005652,
+        "wheel": -0.17900817973872846,
+        "yaw": -0.5342932219835227,
+        "x": 31.246279029470184,
+        "z": -36.98256727800132,
+        "peak": 2.5421829670638942
+      },
+      "maximumGripCorner": {
+        "slip": 1.0760463090570587,
+        "speed": 17.951755502983584,
+        "heading": -1.8193373327812863,
+        "wheel": -0.20092126147290315,
+        "yaw": -0.6426732879419121,
+        "x": 34.44643578431694,
+        "z": -30.50602436400082,
+        "peak": 1.45557304214373
+      },
+      "allMaximumCorner": {
+        "slip": 1.6523607723365845,
+        "speed": 19.797969588716356,
+        "heading": -1.707937800498499,
+        "wheel": -0.17853333067866706,
+        "yaw": -0.5839131062799682,
+        "x": 37.14671244055959,
+        "z": -35.30334061641581,
+        "peak": 3.0948964166789064
+      }
+    },
+    {
+      "vehicle": "desertscout",
+      "brakeStartSpeed": 16.8,
+      "stockBraking": {
+        "distance": 12.880057794433185,
+        "time": 1.6666666666666667
+      },
+      "maximumGripBraking": {
+        "distance": 10.870778152791452,
+        "time": 1.4166666666666667
+      },
+      "brakingImprovementPercent": 15.599927218573129,
+      "stockSideSlipRecoverySeconds": 0.45,
+      "maximumGripSideSlipRecoverySeconds": 0.375,
+      "sideSlipRecoveryImprovementPercent": 16.666666666666675,
+      "stockLowSpeedHeading": -0.04549280805402825,
+      "maximumHandlingLowSpeedHeading": -0.05188588050604313,
+      "stockCorner": {
+        "slip": 2.0328680265698025,
+        "speed": 20.601178395784235,
+        "heading": -1.513989844305059,
+        "wheel": -0.16220560144914206,
+        "yaw": -0.5242871480648164,
+        "x": 35.52776976873855,
+        "z": -42.50181914541328,
+        "peak": 3.3220968816780028
+      },
+      "maximumGripCorner": {
+        "slip": 1.4966621857068527,
+        "speed": 20.512623928331738,
+        "heading": -1.8048494165885565,
+        "wheel": -0.18157137674099438,
+        "yaw": -0.631697291311967,
+        "x": 39.27257113438861,
+        "z": -35.22811676252597,
+        "peak": 2.1304588536090043
+      },
+      "allMaximumCorner": {
+        "slip": 2.0083711143951053,
+        "speed": 22.622446872439003,
+        "heading": -1.6947354013150946,
+        "wheel": -0.16013559268344685,
+        "yaw": -0.5731105003733091,
+        "x": 42.1942073567534,
+        "z": -40.66207385218995,
+        "peak": 4.11172661700153
+      }
+    },
+    {
+      "vehicle": "snowgrip",
+      "brakeStartSpeed": 19.12,
+      "stockBraking": {
+        "distance": 16.15034319942367,
+        "time": 1.825
+      },
+      "maximumGripBraking": {
+        "distance": 13.715898042403602,
+        "time": 1.5583333333333333
+      },
+      "brakingImprovementPercent": 15.073643494504452,
+      "stockSideSlipRecoverySeconds": 0.5666666666666667,
+      "maximumGripSideSlipRecoverySeconds": 0.475,
+      "sideSlipRecoveryImprovementPercent": 16.176470588235293,
+      "stockLowSpeedHeading": -0.044689038907326346,
+      "maximumHandlingLowSpeedHeading": -0.05030742213921706,
+      "stockCorner": {
+        "slip": 5.008341814809277,
+        "speed": 23.20819810656193,
+        "heading": -1.4532371034643534,
+        "wheel": -0.14322226492015522,
+        "yaw": -0.4126818106552263,
+        "x": 36.79039777115116,
+        "z": -51.694336201230385,
+        "peak": 8.318208412604193
+      },
+      "maximumGripCorner": {
+        "slip": 3.7065296499298577,
+        "speed": 23.35728887009109,
+        "heading": -1.6912827196391091,
+        "wheel": -0.15352760725293413,
+        "yaw": -0.5961975879429741,
+        "x": 41.635583358483906,
+        "z": -44.67924350331995,
+        "peak": 6.214954605642905
+      },
+      "allMaximumCorner": {
+        "slip": 8.778097898565536,
+        "speed": 24.83740600155112,
+        "heading": -1.7093913451518732,
+        "wheel": -0.1411138629426002,
+        "yaw": -0.5006411411331653,
+        "x": 44.09186292168145,
+        "z": -50.08307835739524,
+        "peak": 10.886183477876042
+      }
+    },
+    {
+      "vehicle": "snowrunner",
+      "brakeStartSpeed": 20,
+      "stockBraking": {
+        "distance": 15.881353599957194,
+        "time": 1.7166666666666666
+      },
+      "maximumGripBraking": {
+        "distance": 13.525411438131238,
+        "time": 1.4666666666666666
+      },
+      "brakingImprovementPercent": 14.834643325568331,
+      "stockSideSlipRecoverySeconds": 0.525,
+      "maximumGripSideSlipRecoverySeconds": 0.44166666666666665,
+      "sideSlipRecoveryImprovementPercent": 15.873015873015884,
+      "stockLowSpeedHeading": -0.04922702978208141,
+      "maximumHandlingLowSpeedHeading": -0.05447917380786623,
+      "stockCorner": {
+        "slip": 5.19082129086961,
+        "speed": 26.43038498803735,
+        "heading": -1.4394937922234594,
+        "wheel": -0.12901442245104014,
+        "yaw": -0.39178706914771644,
+        "x": 41.57211673786797,
+        "z": -59.221756747098844,
+        "peak": 9.085213988070016
+      },
+      "maximumGripCorner": {
+        "slip": 3.978160297100893,
+        "speed": 26.662296582846476,
+        "heading": -1.656167801682793,
+        "wheel": -0.12714217740190445,
+        "yaw": -0.5724029084668617,
+        "x": 46.78060776299817,
+        "z": -52.36078829543823,
+        "peak": 6.218730288377219
+      },
+      "allMaximumCorner": {
+        "slip": 4.470595988150351,
+        "speed": 29.0917257850391,
+        "heading": -1.5895399322466612,
+        "wheel": -0.11241475598428899,
+        "yaw": -0.4095987699792408,
+        "x": 49.92109382661437,
+        "z": -58.64652333945059,
+        "peak": 9.92823847126619
+      }
+    },
+    {
+      "vehicle": "lavacrawler",
+      "brakeStartSpeed": 20,
+      "stockBraking": {
+        "distance": 12.922982648550049,
+        "time": 1.4333333333333333
+      },
+      "maximumGripBraking": {
+        "distance": 11.160318800821575,
+        "time": 1.2333333333333334
+      },
+      "brakingImprovementPercent": 13.639760229239684,
+      "stockSideSlipRecoverySeconds": 0.30833333333333335,
+      "maximumGripSideSlipRecoverySeconds": 0.2583333333333333,
+      "sideSlipRecoveryImprovementPercent": 16.216216216216228,
+      "stockLowSpeedHeading": -0.05980951035951009,
+      "maximumHandlingLowSpeedHeading": -0.06479526672290514,
+      "stockCorner": {
+        "slip": 2.2302161178640203,
+        "speed": 30.580076005402507,
+        "heading": -1.5322018435072127,
+        "wheel": -0.10316717565907205,
+        "yaw": -0.5302540704843688,
+        "x": 53.20852111459007,
+        "z": -62.43886110146187,
+        "peak": 3.336943414013181
+      },
+      "maximumGripCorner": {
+        "slip": 1.880063560033374,
+        "speed": 30.54437889944862,
+        "heading": -1.8125905995544294,
+        "wheel": -0.10335133793143905,
+        "yaw": -0.6367864453536198,
+        "x": 58.1119537113335,
+        "z": -52.54830362378537,
+        "peak": 2.2155629709829996
+      },
+      "allMaximumCorner": {
+        "slip": 2.2254597574987893,
+        "speed": 33.66499920436722,
+        "heading": -1.6988525288035676,
+        "wheel": -0.08844949676195142,
+        "yaw": -0.5781534566587467,
+        "x": 63.07328034670144,
+        "z": -60.66080360286502,
+        "peak": 3.581735832789484
+      }
+    },
+    {
+      "vehicle": "ashhauler",
+      "brakeStartSpeed": 20,
+      "stockBraking": {
+        "distance": 11.780041873920426,
+        "time": 1.3083333333333333
+      },
+      "maximumGripBraking": {
+        "distance": 10.25220679025162,
+        "time": 1.125
+      },
+      "brakingImprovementPercent": 12.969691449495159,
+      "stockSideSlipRecoverySeconds": 0.275,
+      "maximumGripSideSlipRecoverySeconds": 0.23333333333333334,
+      "sideSlipRecoveryImprovementPercent": 15.15151515151516,
+      "stockLowSpeedHeading": -0.06314748695004614,
+      "maximumHandlingLowSpeedHeading": -0.06752113945844425,
+      "stockCorner": {
+        "slip": 2.449558067307882,
+        "speed": 34.99104050961558,
+        "heading": -1.4940721922433797,
+        "wheel": -0.08300805953893269,
+        "yaw": -0.5193363561436504,
+        "x": 59.43323877381971,
+        "z": -73.30485359883772,
+        "peak": 3.3377821564384202
+      },
+      "maximumGripCorner": {
+        "slip": 2.1513972236562573,
+        "speed": 34.952484198372375,
+        "heading": -1.7672658428556542,
+        "wheel": -0.08315786985301997,
+        "yaw": -0.6238102556198508,
+        "x": 65.16817045714431,
+        "z": -62.50652253470033,
+        "peak": 2.3967500882374635
+      },
+      "allMaximumCorner": {
+        "slip": 2.447175860871343,
+        "speed": 38.51313671926212,
+        "heading": -1.6545586964675387,
+        "wheel": -0.07065200139382752,
+        "yaw": -0.5664572719957379,
+        "x": 70.64190992437898,
+        "z": -71.99019493796023,
+        "peak": 3.378272666702556
+      }
+    },
+    {
+      "vehicle": "bmwreward",
+      "brakeStartSpeed": 20,
+      "stockBraking": {
+        "distance": 11.57100308852591,
+        "time": 1.1916666666666667
+      },
+      "maximumGripBraking": {
+        "distance": 9.62845333946023,
+        "time": 0.9916666666666667
+      },
+      "brakingImprovementPercent": 16.78808426723142,
+      "stockSideSlipRecoverySeconds": 0.4666666666666667,
+      "maximumGripSideSlipRecoverySeconds": 0.4,
+      "sideSlipRecoveryImprovementPercent": 14.28571428571428,
+      "stockLowSpeedHeading": -0.056039318569459616,
+      "maximumHandlingLowSpeedHeading": -0.06356930241116057,
+      "stockCorner": {
+        "slip": 50.869185816245995,
+        "speed": 21.93916252119655,
+        "heading": -2.068868609619365,
+        "wheel": -0.41891225232536855,
+        "yaw": -0.7603670314729672,
+        "x": 44.21950222392264,
+        "z": -83.55749049796366,
+        "peak": 50.869185816245995
+      },
+      "maximumGripCorner": {
+        "slip": 31.30617280636941,
+        "speed": 19.974651802577988,
+        "heading": -2.1222291293067403,
+        "wheel": -0.43980153871787453,
+        "yaw": -0.6409628099105903,
+        "x": 49.10245936548264,
+        "z": -72.39863588669964,
+        "peak": 32.605199406146085
+      },
+      "allMaximumCorner": {
+        "slip": 43.56084529104808,
+        "speed": 18.269563289911947,
+        "heading": -2.2949093062026673,
+        "wheel": -0.4583177553047479,
+        "yaw": -0.7676637568996046,
+        "x": 48.76331341729292,
+        "z": -72.73783108011952,
+        "peak": 43.56084529104808
+      }
+    }
+  ]
+}

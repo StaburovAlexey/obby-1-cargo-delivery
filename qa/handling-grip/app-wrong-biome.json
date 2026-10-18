@@ -1,0 +1,28 @@
+{
+  "root": "/workspace/scratch/e6939d35b3a6/handling-grip/",
+  "scope": "CPU app frames with mock DOM and WebGL renderer; one spawned approach per ordinary vehicle at 6m/s stock/max, actual bridge fall/fuel/contact logic; no full journey or imported visual-wheel metadata",
+  "results": [
+    {
+      "id": "citycourier",
+      "level": 0,
+      "bridge": "volcanic-bridge-1",
+      "passed": true,
+      "progress": 11342.05339475686,
+      "seconds": 16.1,
+      "maxDeckOffset": 0.2603041075725736,
+      "peakSlip": 4.345945762923946,
+      "blocked": false
+    },
+    {
+      "id": "citycourier",
+      "level": 10,
+      "bridge": "volcanic-bridge-1",
+      "passed": true,
+      "progress": 11342.267189472072,
+      "seconds": 16.05,
+      "maxDeckOffset": 0.21280277777127754,
+      "peakSlip": 3.200405125190083,
+      "blocked": false
+    }
+  ]
+}

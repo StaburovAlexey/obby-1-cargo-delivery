@@ -28,7 +28,7 @@ export const VEHICLE_CONFIG = Object.freeze([
   {id:'lavacrawler',name:'Лавовый тягач',price:50000,capacity:1190,range:3000,maxSpeed:31,acceleration:16.4,specialty:'volcanic'},
   {id:'ashhauler',name:'Пепельный караван',price:85000,capacity:1610,range:5000,maxSpeed:35.4,acceleration:18.6,specialty:'volcanic'},
 
-  {id:REWARD_VEHICLE_ID,name:'BMW — награда',price:0,rewardOnly:true,unlock:'full-route',capacity:1800,range:6000,maxSpeed:42,acceleration:21.5,specialty:'volcanic',
+  {id:REWARD_VEHICLE_ID,name:'BMW — награда',price:0,rewardOnly:true,unlock:'full-route',capacity:1800,range:6000,maxSpeed:42,acceleration:4.8,specialty:'volcanic',
     rewardDrift:Object.freeze({rearLateralGrip:.85,rearLateralDamping:.7,steeringSpeedRatio:.65})},
 ].map((v,index)=>Object.freeze({...v,progressionOrder:index+1,pairRole:index%2?'advanced':'standard',
   handling:.5*1.12**index,grip:.5*1.12**index,consumption:v.capacity/v.range})));

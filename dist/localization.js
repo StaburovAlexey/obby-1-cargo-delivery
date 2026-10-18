@@ -272,6 +272,7 @@ const templates = [
   [/^(Вправо|Влево) (\d+)%$/u, (_, direction, n) => `${direction === 'Вправо' ? 'Right' : 'Left'} ${n}%`],
   [/^([+−\-\d.,\s\u202f→()%]+) (км\/ч|м\/с²|м\/с|мс|ед\.|м)$/u, (_, n, unit) => `${n} ${unit === 'м' ? 'm' : phrases[unit]}`],
   [/^Разгон: (.+)$/u, (_, value) => `Acceleration: ${translateCore(value)}`],
+  [/^Отклик руля на малой скорости: меньше — быстрее\. Управление: ([\d.,\s→]+)$/u, (_, value) => `Low-speed steering response: lower is faster. Handling: ${value}`],
   [/^Отклик руля: меньше — быстрее\. Управление: ([\d.,\s→]+)$/u, (_, value) => `Steering response: lower is faster. Handling: ${value}`],
   [/^Дальность полного бака: ([\d.,\s→]+) м( \(\+[\d.,]+ м\))?\. Заправка отдельно\.$/u, (_, value, extra = '') => `Full-tank range: ${value} m${extra.replace(' м)', ' m)')}. Refueling sold separately.`],
   [/^(Скорость|Управление|Сцепление|Бак): максимальный уровень$/u, (_, stat) => `${translateCore(stat)}: maximum level`],

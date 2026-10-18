@@ -1,3 +1,7 @@
+# Current handling/grip calibration (2026-10-18)
+
+The regular-car steering limiter, speed-dependent rack response and tire stiffness now use the [handling/grip rebalance](docs/handling-grip-rebalance.md). It supersedes the historical exact-trajectory and upgrade claims below. Four contact-patch tire forces and the friction circle remain authoritative; BMW retains its original stock drift with working upgrades.
+
 # Planar vehicle dynamics
 
 The current driving model is an original implementation of the principles explained in [Pat Kerr’s 2D Vehicles article](https://patkerr.co.uk/2d-vehicles/). The article’s JavaScript was not copied; no open-source licence for that implementation was assumed. Existing user-owned Tow input and image provenance is recorded separately in `SOURCE-CONTROLS.md`.

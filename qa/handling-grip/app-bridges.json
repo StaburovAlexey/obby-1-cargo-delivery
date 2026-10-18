@@ -1,0 +1,226 @@
+{
+  "root": "/workspace/scratch/e6939d35b3a6/handling-grip/",
+  "scope": "CPU app frames with mock DOM and WebGL renderer; one spawned approach per ordinary vehicle at 6m/s stock/max, actual bridge fall/fuel/contact logic; no full journey or imported visual-wheel metadata",
+  "results": [
+    {
+      "id": "pickup",
+      "level": 0,
+      "bridge": "city-bridge-1",
+      "passed": true,
+      "progress": 982.2300135797882,
+      "seconds": 16.05,
+      "maxDeckOffset": 0.04495358759257018,
+      "peakSlip": 1.0528639381685228,
+      "blocked": false
+    },
+    {
+      "id": "pickup",
+      "level": 10,
+      "bridge": "city-bridge-1",
+      "passed": true,
+      "progress": 982.1297400438041,
+      "seconds": 15.950000000000001,
+      "maxDeckOffset": 0.05120957854211117,
+      "peakSlip": 1.1521542191623189,
+      "blocked": false
+    },
+    {
+      "id": "citycourier",
+      "level": 0,
+      "bridge": "city-bridge-1",
+      "passed": true,
+      "progress": 982.1070072322951,
+      "seconds": 15.950000000000001,
+      "maxDeckOffset": 0.04803113246033641,
+      "peakSlip": 1.078629890893511,
+      "blocked": false
+    },
+    {
+      "id": "citycourier",
+      "level": 10,
+      "bridge": "city-bridge-1",
+      "passed": true,
+      "progress": 982.1847091694414,
+      "seconds": 15.850000000000001,
+      "maxDeckOffset": 0.052095818889686285,
+      "peakSlip": 1.1745462129700135,
+      "blocked": false
+    },
+    {
+      "id": "rover",
+      "level": 0,
+      "bridge": "forest-bridge-1",
+      "passed": true,
+      "progress": 3342.2989376928995,
+      "seconds": 15.950000000000001,
+      "maxDeckOffset": 0.05744680543208247,
+      "peakSlip": 1.3916204224208946,
+      "blocked": false
+    },
+    {
+      "id": "rover",
+      "level": 10,
+      "bridge": "forest-bridge-1",
+      "passed": true,
+      "progress": 3342.1371006854906,
+      "seconds": 15.850000000000001,
+      "maxDeckOffset": 0.05940317165866382,
+      "peakSlip": 1.5103653667030026,
+      "blocked": false
+    },
+    {
+      "id": "foresthauler",
+      "level": 0,
+      "bridge": "forest-bridge-1",
+      "passed": true,
+      "progress": 3342.24786895218,
+      "seconds": 15.850000000000001,
+      "maxDeckOffset": 0.05800257555555888,
+      "peakSlip": 1.4223373223051572,
+      "blocked": false
+    },
+    {
+      "id": "foresthauler",
+      "level": 10,
+      "bridge": "forest-bridge-1",
+      "passed": true,
+      "progress": 3342.3064242080823,
+      "seconds": 15.75,
+      "maxDeckOffset": 0.05869162249342352,
+      "peakSlip": 1.5366373343500934,
+      "blocked": false
+    },
+    {
+      "id": "van",
+      "level": 0,
+      "bridge": "desert-bridge-1",
+      "passed": true,
+      "progress": 6282.173971406717,
+      "seconds": 15.700000000000001,
+      "maxDeckOffset": 0.08751829294307267,
+      "peakSlip": 1.8641017289235822,
+      "blocked": false
+    },
+    {
+      "id": "van",
+      "level": 10,
+      "bridge": "desert-bridge-1",
+      "passed": true,
+      "progress": 6282.122349169523,
+      "seconds": 15.600000000000001,
+      "maxDeckOffset": 0.08814943010389253,
+      "peakSlip": 2.0151301194811575,
+      "blocked": false
+    },
+    {
+      "id": "desertscout",
+      "level": 0,
+      "bridge": "desert-bridge-1",
+      "passed": true,
+      "progress": 6282.291170265331,
+      "seconds": 15.600000000000001,
+      "maxDeckOffset": 0.0874870064085318,
+      "peakSlip": 1.8981103718168626,
+      "blocked": false
+    },
+    {
+      "id": "desertscout",
+      "level": 10,
+      "bridge": "desert-bridge-1",
+      "passed": true,
+      "progress": 6282.302021155861,
+      "seconds": 15.55,
+      "maxDeckOffset": 0.08688809290003174,
+      "peakSlip": 2.0465012779085003,
+      "blocked": false
+    },
+    {
+      "id": "snowgrip",
+      "level": 0,
+      "bridge": "snow-bridge-1",
+      "passed": true,
+      "progress": 8842.10101217438,
+      "seconds": 15.3,
+      "maxDeckOffset": 0.08137276970029816,
+      "peakSlip": 1.4791374767119427,
+      "blocked": false
+    },
+    {
+      "id": "snowgrip",
+      "level": 10,
+      "bridge": "snow-bridge-1",
+      "passed": true,
+      "progress": 8842.00455694938,
+      "seconds": 15.15,
+      "maxDeckOffset": 0.08142247107055933,
+      "peakSlip": 1.5884789818012566,
+      "blocked": false
+    },
+    {
+      "id": "snowrunner",
+      "level": 0,
+      "bridge": "snow-bridge-1",
+      "passed": true,
+      "progress": 8842.09176137005,
+      "seconds": 15.200000000000001,
+      "maxDeckOffset": 0.08135317977318035,
+      "peakSlip": 1.5068429543675805,
+      "blocked": false
+    },
+    {
+      "id": "snowrunner",
+      "level": 10,
+      "bridge": "snow-bridge-1",
+      "passed": true,
+      "progress": 8842.210156544888,
+      "seconds": 15.05,
+      "maxDeckOffset": 0.08121271353726467,
+      "peakSlip": 1.6159776163265565,
+      "blocked": false
+    },
+    {
+      "id": "lavacrawler",
+      "level": 0,
+      "bridge": "volcanic-bridge-1",
+      "passed": true,
+      "progress": 11342.222342945759,
+      "seconds": 15.25,
+      "maxDeckOffset": 0.07643017092057036,
+      "peakSlip": 2.01964070260523,
+      "blocked": false
+    },
+    {
+      "id": "lavacrawler",
+      "level": 10,
+      "bridge": "volcanic-bridge-1",
+      "passed": true,
+      "progress": 11342.288239139656,
+      "seconds": 15.100000000000001,
+      "maxDeckOffset": 0.0767191914180474,
+      "peakSlip": 2.135041767891574,
+      "blocked": false
+    },
+    {
+      "id": "ashhauler",
+      "level": 0,
+      "bridge": "volcanic-bridge-1",
+      "passed": true,
+      "progress": 11342.126514463038,
+      "seconds": 15.100000000000001,
+      "maxDeckOffset": 0.07624147247307977,
+      "peakSlip": 2.0592698199373825,
+      "blocked": false
+    },
+    {
+      "id": "ashhauler",
+      "level": 10,
+      "bridge": "volcanic-bridge-1",
+      "passed": true,
+      "progress": 11342.17944231959,
+      "seconds": 14.950000000000001,
+      "maxDeckOffset": 0.07636082413349232,
+      "peakSlip": 2.1792681443553947,
+      "blocked": false
+    }
+  ]
+}
