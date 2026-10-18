@@ -382,6 +382,7 @@ export function buildCity(THREE,{seed=42}={}){
     sharedMaterialPattern:'grass-checker',flushCurbs:true,studs:false,texturedRoad:true,embeddedRoadMarkings:true,
     nonOverlappingGround:true,nonOverlappingResidences:true,texturedBuildings:true,buildingBodyTriangles:buildingCount*12,
     importedModels:0,externalTextures:0,proceduralBuildingMaterial:true,roofStuds:0,roadUnion:true,mergedMetricPrisms:true,continuousBarrierSurfaces:true,omittedJunctionSections};
+  root.traverse(o=>{if(o.isMesh)o.userData.spatialStatic=true;});
   const network={nodes:NETWORK_NODES,edges:NETWORK_EDGES};root.userData={stats,features,biomes:BIOMES,network};
   return {group:root,stats,features,biomes:BIOMES,network,biomeAt:NETWORK.biomeAt,
     dispose(){const geometries=new Set(),materials=new Set();root.traverse(o=>{if(o.isInstancedMesh)o.dispose();if(o.geometry)geometries.add(o.geometry);if(o.material)materials.add(o.material);});geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());}};

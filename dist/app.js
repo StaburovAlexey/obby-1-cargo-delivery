@@ -1,4 +1,6 @@
 import {createFinishCelebration} from './finish-celebration.js';
+import {createSpatialRenderer} from './spatial-render.js';
+import {createRenderProfiler} from './render-profiler.js';
 import {createStartupGate} from './startup-gate.js';
 import {createLocalization} from './localization.js';
 import {createSettingsMenu} from './settings-menu.js';
@@ -75,6 +77,10 @@ const careerStore=services?.cloud?.store??createCareerStore({storage:{getItem:ke
 
 const devQuery=new URLSearchParams(window.location?.search||'').get('dev');
 const devServer=typeof __URBAN_DEV_SERVER__!=='undefined'&&__URBAN_DEV_SERVER__===true;
+const renderQuery=new URLSearchParams(window.location?.search||'');
+const renderDiagnosticsAllowed=devServer&&(!services||services.development!==false);
+const baselineRendering=renderDiagnosticsAllowed&&renderQuery.get('render')==='baseline';
+const renderProfiler=createRenderProfiler({document,enabled:renderDiagnosticsAllowed&&renderQuery.get('perf')==='1',baseline:baselineRendering});
 const developerMode=(!services||services.development)&&(devQuery==='1'||devServer&&devQuery!=='0');
 document.body.classList.toggle('developer-mode',developerMode);
 const viewport = document.getElementById("viewport");
@@ -147,7 +153,7 @@ let city,
   characterRequest = 0, displayGeneration = 0, characterDisplays = [],
   lastTime = 0,
   graphicsLost = false;
-let hangarLeaderboardUi=null,canyonMode=null,onlineSession=null,advertising=null,teleportId=0,onlineClock=0,lastWalkSpeed=0,disposedOnline=false;
+let hangarLeaderboardUi=null,canyonMode=null,onlineSession=null,advertising=null,spatialRenderer=null,teleportId=0,onlineClock=0,lastWalkSpeed=0,disposedOnline=false;
 const gameplayPaused=()=>pauseState.paused||!appFocused||document.hidden||graphicsLost||!playing||biomeMenuOpen||upgradeMenuOpen||careerMenuOpen||settingsMenuOpen||hangarLeaderboardOpen;
 pauseState.subscribe(paused=>{if(paused){canyonMode?.pause();stopVehicleEffects();inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();}lastTime=0;onlineClock=0;advertising?.setSuspended(gameplay.state.eventMode==='finish'||!!canyonMode?.active||document.hidden||!appFocused||graphicsLost||pauseState.reasons.has('platform')||pauseState.reasons.has('payment'));});
 const startup=createStartupGate({
@@ -228,6 +234,7 @@ function setWire(value) {
   document.getElementById("wire").setAttribute("aria-pressed", String(value));
 }
 function rebuild(value) {
+  spatialRenderer?.dispose();spatialRenderer=null;
   const seed = developerMode ? Math.max(1, Math.min(4294967295, Number(value) || 42)) >>> 0 : 42;
   canyonMode?.dispose();canyonMode=null;
   inputController?.reset();
@@ -305,6 +312,7 @@ function rebuild(value) {
     getContext:()=>({garage,gameplay,city,finishLine,roadHazardsScene,biomeWeather,model,rig,driving,online:onlineSession}),
     onEnter:()=>{careerRouteTracker.reset();wheelParticles?.clear();updateEconomyHud();},
     onExit:()=>{careerRouteTracker.reset();updateEconomyHud();}});
+  if(!baselineRendering)spatialRenderer=createSpatialRenderer(THREE,{roots:[city.group,canyonMode.environment.group]});
   inputController?.setGear("D");
   syncMode(true);
   document.getElementById("seed").value = seed;
@@ -317,6 +325,8 @@ function rebuild(value) {
     renderer,
     controls,
     city,
+    get spatialRenderer(){return spatialRenderer;},
+    renderProfiler,
     finishCelebration, vehicleAudio, settingsUi, localization, get settingsMenuOpen(){return settingsMenuOpen}, get hangarLeaderboardOpen(){return hangarLeaderboardOpen},get hangarLeaderboardUi(){return hangarLeaderboardUi}, developerMode, get rig(){return rig}, get model(){return model}, obstacles,
     get garage(){return garage}, get gameplay(){return gameplay},
     get startup(){return startup}, get character(){return character}, get characterReady(){return characterReady},
@@ -768,6 +778,7 @@ async function populateDisplays({required=false}={}){
       if(generation!==displayGeneration){display.dispose();return;}
       display.group.position.set(stand.x,.17,stand.z);display.group.name=`Выбор · ${spec.name}`;
       scene.add(display.group);characterDisplays.push(display);
+      if(!baselineRendering)display.group.traverse(node=>{node.updateMatrix();node.matrixAutoUpdate=false;});
     }catch(error){console.error('Character display loading failed',error);if(required)throw error;}
   }
 }
@@ -879,11 +890,13 @@ function frame(now) {
   onlineSession?.update(networkDt);
   if(services?.platform){if(startup.ready&&characterReady&&!gameplayPaused()&&!canyonMode?.controlsLocked)services.platform.gameplayStart();else services.platform.gameplayStop();}
   if (!startup.ready || document.hidden || graphicsLost || !appFocused) {
+    renderProfiler?.suspend();
     stopVehicleEffects();
     lastTime = 0;
     return;
   }
   syncRenderViewport();
+  if(!lastTime)renderProfiler?.suspend();
   const rawDelta=lastTime?(now-lastTime)/1000:0;
   const rewardFrameValid=Number.isFinite(rawDelta)&&rawDelta>0&&rawDelta<=.100001;
   const dt=Number.isFinite(rawDelta)?Math.min(.05,Math.max(0,rawDelta)):0;
@@ -964,7 +977,17 @@ function frame(now) {
   camera.getWorldDirection(shadowView);
   followShadowLight(sun,{x:lightAnchor.x,y:canyonMode?.active?rig.root.position.y:groundHeight(lightAnchor.x,lightAnchor.z),z:lightAnchor.z},driving?shadowView:null);
   onlineSession?.render(dt,{now,camera,anchor:driving?model.state:gameplay.state.player});
-  renderer.render(scene, camera);
+  renderScene(now,true);
+}
+function renderScene(now=performance.now(),sample=false){
+  const started=renderProfiler?performance.now():0;
+  camera.updateWorldMatrix(true,false);
+  sun.updateWorldMatrix(true,false);sun.target.updateWorldMatrix(true,false);sun.shadow.updateMatrices(sun);
+  spatialRenderer?.update({camera,shadowCameras:renderer.shadowMap.enabled&&sun.castShadow?[sun.shadow.camera]:[]});
+  renderer.render(scene,camera);
+  renderProfiler?.record({now,active:sample&&startup.ready&&characterReady&&!gameplayPaused()&&!(onlineSession?.remotes.loading>0),
+    info:renderer.info,roomCount:onlineSession?.client.roomSnapshot?.players.length??1,loadedPeers:onlineSession?.remotes.loaded??0,
+    renderCpuMs:performance.now()-started,spatial:spatialRenderer?.stats});
 }
 advertising=services?createAdvertising({showAd:callbacks=>services.platform.showAd(callbacks),
   pause:()=>{pauseState.set('advertising',true);gameplay.flushProgress();void services.cloud.flush();},
@@ -977,7 +1000,7 @@ if(services?.serverUrl){
     getContext:()=>({gameplay,garage,character,model,rig,paused:gameplayPaused(),walkSpeed:lastWalkSpeed,teleportId})});
   onlineSession.bindGameplay(gameplay);
 }
-window.addEventListener('pagehide',event=>{if(event.persisted||disposedOnline)return;disposedOnline=true;hangarLeaderboardUi?.dispose();canyonMode?.dispose();onlineSession?.dispose();advertising?.destroy();});
+window.addEventListener('pagehide',event=>{if(event.persisted||disposedOnline)return;disposedOnline=true;renderProfiler?.dispose();spatialRenderer?.dispose();hangarLeaderboardUi?.dispose();canyonMode?.dispose();onlineSession?.dispose();advertising?.destroy();});
 window.addEventListener('pageshow',event=>{if(!event.persisted)return;appFocused=document.hasFocus?.()??true;lastTime=0;onlineClock=0;inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();syncMode();});
 requestAnimationFrame(frame);
 
@@ -995,5 +1018,5 @@ startup.start(initialAssets,{
     scene.updateMatrixWorld(true);camera.updateMatrixWorld(true);
     if(renderer.compileAsync)await renderer.compileAsync(scene,camera);else renderer.compile?.(scene,camera);
   },
-  render(){renderer.render(scene,camera);},
+  render(){renderScene();},
 });

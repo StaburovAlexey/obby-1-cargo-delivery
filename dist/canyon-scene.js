@@ -90,5 +90,6 @@ export function createCanyonScene(THREE){
  // the main map and, after the shared join, cover the downhill asphalt.
  // Keep floor offsets below the 50 m minimum bend radius so triangles cannot fold.
  strip('Canyon basin floor',-45,45,mat(0xa87952),-45);
+ group.traverse(o=>{if(o.isMesh)o.userData.spatialStatic=true;});
  return {group,dispose(){if(disposed)return;disposed=true;instances.forEach(i=>i.dispose());geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());group.removeFromParent();}};
 }

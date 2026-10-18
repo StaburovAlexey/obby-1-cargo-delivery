@@ -63,6 +63,6 @@ export function createRemotePlayers(THREE,{scene,onError=console.warn}={}){
       }
     },
     dispose(){disposed=true;queue.length=0;for(const record of [...records.values()])remove(record);motion.clear();group.removeFromParent();},
-    get size(){return records.size;},get loaded(){return [...records.values()].filter(r=>r.character||r.vehicle).length;},
+    get size(){return records.size;},get loaded(){return [...records.values()].filter(r=>r.character||r.vehicle).length;},get loading(){return active+queue.length;},
   };
 }

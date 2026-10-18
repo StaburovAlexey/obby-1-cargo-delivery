@@ -65,7 +65,8 @@
     "test:finish-celebration": "node tests/finish-celebration.mjs && node tests/finish-celebration-app.mjs && node tests/finish-line.mjs && node tests/finish-preview.mjs && node tests/reward-developer-mode.mjs",
     "test:classroom-board": "node --test tests/classroom-*.mjs",
     "test:hangar-drift": "npm run build:all && node --test --test-concurrency=2 tests/hangar-drift-*.mjs",
-    "test:development": "node --test --test-concurrency=2 tests/development-defaults.mjs tests/dev-navigation.mjs tests/reward-dev-app.mjs tests/canyon-developer-mode.mjs"
+    "test:development": "node --test --test-concurrency=2 tests/development-defaults.mjs tests/dev-navigation.mjs tests/reward-dev-app.mjs tests/canyon-developer-mode.mjs",
+    "test:rendering": "node --test --test-concurrency=2 tests/spatial-render*.mjs tests/render-profiler.mjs"
   },
   "devDependencies": {
     "@rsbuild/core": "2.2.13",
