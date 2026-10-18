@@ -25,7 +25,17 @@ test('long sessions retain accurate bounded aggregate statistics',()=>{
  for(let i=0;i<=100000;i++)p.record({now:i*20,active:true});
  const r=p.report();assert.equal(r.samples,100000);assert.equal(r.frameMs.p99,20);assert.equal(r.fps,50);p.dispose();
 });
-test('overflow stall percentiles are rounded for a readable phone overlay',()=>{
+test('overflow stall percentiles report a bound instead of the largest stall',()=>{
+ const p=createRenderProfiler({enabled:true});let now=0;p.record({now,active:true});
+ for(let i=0;i<99;i++){now+=2500;p.record({now,active:true});}
+ p.record({now:now+10000,active:true});
+ const r=p.report();
+ assert.equal(r.frameMs.p50,'>2000');assert.equal(r.frameMs.p95,'>2000');assert.equal(r.frameMs.p99,'>2000');
+ assert.equal(r.frameMs.max,10000);assert.deepEqual(r.frameMs.overflow,{aboveMs:2000,samples:100});p.dispose();
+});
+test('overflow retains a readable exact maximum and the histogram boundary stays numeric',()=>{
  const p=createRenderProfiler({enabled:true});p.record({now:0,active:true});p.record({now:2650.100000000006,active:true});
- assert.equal(p.report().frameMs.p95,2650.1);p.dispose();
+ assert.equal(p.report().frameMs.max,2650.1);p.reset();
+ p.record({now:0,active:true});p.record({now:2000,active:true});
+ assert.equal(p.report().frameMs.p95,2000);assert.deepEqual(p.report().frameMs.overflow,{aboveMs:2000,samples:0});p.dispose();
 });

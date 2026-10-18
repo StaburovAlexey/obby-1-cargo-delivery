@@ -2,7 +2,7 @@
 // bounded; active stalls remain samples instead of being silently discarded.
 export function createRenderProfiler({enabled=false,document:doc,baseline=false}={}){
  if(!enabled)return null;
- const histogram=new Uint32Array(20001);
+ const histogram=new Uint32Array(20002),overflowIndex=20001;
  let samples=0,total=0,maximum=0,cpuTotal=0,previous=null,shown=-Infinity,disposed=false;
  let lastInfo=null,roomCount=1,loadedPeers=0,spatial=null,active=false;
  let panel,output;
@@ -10,12 +10,12 @@ export function createRenderProfiler({enabled=false,document:doc,baseline=false}
  const percentile=fraction=>{
   if(!samples)return 0;
   const target=Math.ceil(samples*fraction);let count=0;
-  for(let i=0;i<histogram.length;i++){count+=histogram[i];if(count>=target)return i===histogram.length-1?clean(maximum):i/10;}
+  for(let i=0;i<histogram.length;i++){count+=histogram[i];if(count>=target)return i===overflowIndex?'>2000':i/10;}
   return clean(maximum);
  };
  function report(){
   return{mode:baseline?'baseline':'optimized',samples,elapsedSeconds:clean(total/1000),fps:total?clean(samples*1000/total):0,
-   frameMs:{p50:percentile(.5),p95:percentile(.95),p99:percentile(.99),max:clean(maximum),resolution:.1},
+   frameMs:{p50:percentile(.5),p95:percentile(.95),p99:percentile(.99),max:clean(maximum),resolution:.1,overflow:{aboveMs:2000,samples:histogram[overflowIndex]}},
    renderCpuMeanMs:samples?clean(cpuTotal/samples):0,roomCount,loadedPeers,
    render:{calls:lastInfo?.render?.calls??0,triangles:lastInfo?.render?.triangles??0},
    memory:{geometries:lastInfo?.memory?.geometries??0,textures:lastInfo?.memory?.textures??0},
@@ -44,7 +44,7 @@ export function createRenderProfiler({enabled=false,document:doc,baseline=false}
   if(!Number.isFinite(now)||!running){previous=null;}
   else{
    if(previous!==null&&now>previous){
-    const delta=now-previous;histogram[Math.min(20000,Math.ceil(delta*10))]++;samples++;total+=delta;
+    const delta=now-previous;histogram[delta>2000?overflowIndex:Math.ceil(delta*10)]++;samples++;total+=delta;
     maximum=Math.max(maximum,delta);cpuTotal+=Number.isFinite(renderCpuMs)?renderCpuMs:0;
    }
    previous=now;

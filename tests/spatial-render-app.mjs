@@ -34,3 +34,18 @@ test('rebuild disposes rendering proxies before canonical geometries and registe
   assert.equal(disposed,1);f.frame(1017);assert.ok(f.debug.spatialRenderer.stats.sourceBatches>=12);
  }finally{f.dispose();}
 });
+test('bfcache preserves proxies while terminal pagehide disposes proxies and diagnostics',()=>{
+ const f=createAppDom({startDriving:false,devServer:true,search:'?perf=1'});
+ let geometryDisposals=0;
+ try{
+  const d=f.debug,spatial=d.spatialRenderer,profiler=d.renderProfiler;
+  d.city.group.getObjectByName('Continuous 30m-wide road').geometry.addEventListener('dispose',()=>geometryDisposals++);
+  f.frame(1017);assert.ok(spatial.stats.activeBatches>0);
+  f.win.dispatch('pagehide',{persisted:true});assert.ok(spatial.stats.activeBatches>0);assert.equal(geometryDisposals,0);
+  f.win.dispatch('pageshow',{persisted:true});f.frame(100000);f.frame(100017);
+  assert.equal(f.debug.spatialRenderer,spatial);assert.ok(spatial.stats.activeBatches>0);
+  f.win.dispatch('pagehide',{persisted:false});assert.equal(spatial.stats.activeBatches,0);
+  const samples=profiler.report().samples;profiler.record({now:100034,active:true});assert.equal(profiler.report().samples,samples);
+ }finally{f.dispose();}
+ assert.equal(geometryDisposals,1);
+});

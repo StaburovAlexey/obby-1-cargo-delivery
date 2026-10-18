@@ -33,8 +33,11 @@ the canyon, looking backward, rapid camera turns and portrait/landscape rotation
 The existing developer biome selector and garage vehicle selection provide the
 route/canyon access. Repeat with nineteen characters around the classroom.
 Loading, menus, ads, backgrounding and application pause interrupt sampling;
-active long frames are retained. FPS is the aggregate active-frame rate; p50,
-p95 and p99 have 0.1ms histogram resolution. JSON exports also include render
+active long frames are retained. FPS is the aggregate active-frame rate; numeric
+p50, p95 and p99 are rounded up with 0.1ms histogram resolution through 2000ms.
+A percentile beyond this range is the string `">2000"`, not the session maximum;
+`frameMs.overflow` reports this bound and the number of longer intervals. The
+maximum and aggregate FPS retain all intervals. JSON exports also include render
 calls/triangles (shadow pass included), allocated geometry/texture counts and
 room/model counts. There is no GPU timer or pixel readback in this profiler.
 
