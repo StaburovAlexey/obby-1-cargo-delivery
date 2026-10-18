@@ -1,5 +1,5 @@
 [Unit]
-Description=Obby Cargo Delivery ephemeral WebSocket rooms
+Description=Obby Cargo Delivery multiprocess ephemeral WebSocket rooms
 After=network-online.target
 Wants=network-online.target
 
@@ -10,10 +10,11 @@ Group=obby-online
 WorkingDirectory=/opt/obby-cargo-delivery
 Environment=NODE_ENV=production
 EnvironmentFile=/etc/obby-online.env
-ExecStart=/usr/bin/node server/room-server.mjs
+ExecStart=/usr/bin/node server/room-cluster.mjs
 Restart=on-failure
 RestartSec=3
-TimeoutStopSec=10
+TimeoutStopSec=15
+KillMode=mixed
 NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict

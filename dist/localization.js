@@ -29,7 +29,7 @@ const phrases = Object.freeze({
   'Личный рекорд сохранён. Результат не отправлен.':'Personal best saved. The score was not submitted.',
   'Тренировочный заезд. Личный рекорд сохранён.':'Practice run. Personal best saved.',
   'Тренировочный заезд. Результат не сохраняется.':'Practice run. The score is not saved.',
-  'Проверяем заезд…':'Checking your run…',
+  'Сохраняем результат…':'Saving your result…',
   'Таблица лидеров временно недоступна.':'The leaderboard is temporarily unavailable.',
   'Не удалось загрузить рейтинг. Попробуйте позже.':'Unable to load rankings. Try again later.',
   'Аккаунт изменился. Перезагрузите игру.':'Account changed. Reload the game.',

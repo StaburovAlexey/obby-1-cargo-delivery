@@ -1,0 +1,3 @@
+{"event":"peer-cadence","mode":"near","clients":20,"remoteRelationships":380,"seconds":4.1,"distinctRemoteUpdates":15580,"observedRemoteHz":9.999,"minimum":8.5,"maximum":11,"ok":true}
+{"event":"peer-cadence","mode":"far","clients":20,"remoteRelationships":380,"seconds":4.1,"distinctRemoteUpdates":3040,"observedRemoteHz":1.951,"minimum":1.5,"maximum":3,"ok":true}
+{"event":"peer-cadence","mode":"stationary","clients":20,"remoteRelationships":380,"seconds":4.101,"distinctRemoteUpdates":1520,"observedRemoteHz":0.975,"minimum":0.6,"maximum":1.5,"ok":true}

@@ -16,10 +16,13 @@ import {createPauseState} from './pause-state.js';
 import {createOnlineSession} from './online-session.js';
 import {createAdvertising,isAdvertisingSafe} from './advertising.js';
 import {createHangarDriftLeaderboard} from './hangar-drift-leaderboard.js';
+import {createCanyonLeaderboard} from './canyon-leaderboard.js';
 import {createCanyonMode} from './canyon-mode.js';
 import {PREMIUM_SKIN_IDS} from './premium-skins.js';
 
 const services=window.__urbanServices;
+const driftLeaderboard=createCanyonLeaderboard({platform:services?.platform});
+void driftLeaderboard.load();
 const pauseState=services?.pause??createPauseState();
 const vehicleAudio=createVehicleAudio();
 let audioVolume=services?.settings?.audioVolume??1,lastAudibleVolume=services?.settings?.lastAudibleVolume??1,selectedLanguage=services?.settings?.language??'ru',settingsUi=null;
@@ -155,7 +158,7 @@ let city,
   graphicsLost = false;
 let hangarLeaderboardUi=null,canyonMode=null,onlineSession=null,advertising=null,spatialRenderer=null,teleportId=0,onlineClock=0,lastWalkSpeed=0,disposedOnline=false;
 const gameplayPaused=()=>pauseState.paused||!appFocused||document.hidden||graphicsLost||!playing||biomeMenuOpen||upgradeMenuOpen||careerMenuOpen||settingsMenuOpen||hangarLeaderboardOpen;
-pauseState.subscribe(paused=>{if(paused){canyonMode?.pause();stopVehicleEffects();inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();}lastTime=0;onlineClock=0;advertising?.setSuspended(gameplay.state.eventMode==='finish'||!!canyonMode?.active||document.hidden||!appFocused||graphicsLost||pauseState.reasons.has('platform')||pauseState.reasons.has('payment'));});
+pauseState.subscribe(paused=>{if(paused){canyonMode?.pause();stopVehicleEffects();inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();}lastTime=0;onlineClock=0;advertising?.setSuspended(gameplay.state.eventMode==='finish'||!!canyonMode?.active||document.hidden||!appFocused||graphicsLost||pauseState.reasons.has('platform')||pauseState.reasons.has('payment'));onlineSession?.update(0);});
 const startup=createStartupGate({
   onReady(){
     lastTime=0;inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();
@@ -308,7 +311,7 @@ function rebuild(value) {
   gameplay.returnToGarage('start');gameplay.events();
   if(character)populateDisplays();
   playing=true;driving=false;
-  canyonMode=createCanyonMode(THREE,{scene,document,platform:services?.platform,language:()=>selectedLanguage,
+  canyonMode=createCanyonMode(THREE,{scene,document,platform:services?.platform,leaderboard:driftLeaderboard,language:()=>selectedLanguage,
     getContext:()=>({garage,gameplay,city,finishLine,roadHazardsScene,biomeWeather,model,rig,driving,online:onlineSession}),
     onEnter:()=>{careerRouteTracker.reset();wheelParticles?.clear();updateEconomyHud();},
     onExit:()=>{careerRouteTracker.reset();updateEconomyHud();}});
@@ -330,7 +333,7 @@ function rebuild(value) {
     finishCelebration, vehicleAudio, settingsUi, localization, get settingsMenuOpen(){return settingsMenuOpen}, get hangarLeaderboardOpen(){return hangarLeaderboardOpen},get hangarLeaderboardUi(){return hangarLeaderboardUi}, developerMode, get rig(){return rig}, get model(){return model}, obstacles,
     get garage(){return garage}, get gameplay(){return gameplay},
     get startup(){return startup}, get character(){return character}, get characterReady(){return characterReady},
-    get canyon(){return canyonMode},get online(){return onlineSession},get advertising(){return advertising},pauseState,
+    get canyon(){return canyonMode},get driftLeaderboard(){return driftLeaderboard},get online(){return onlineSession},get advertising(){return advertising},pauseState,
     get input(){return inputController}, get walkInput(){return walkInput}, get lookInput(){return lookInput}, cameraState, requestJump,
     get driving(){return driving}, get playing(){return playing},
     get biomeMenuOpen(){return biomeMenuOpen}, get wheelParticles(){return wheelParticles}, get roadHazards(){return roadHazards}, get roadHazardsScene(){return roadHazardsScene}, get biomeWeather(){return biomeWeather}, setBiomeMenu, travelToBiome,
@@ -416,7 +419,7 @@ settingsUi=createSettingsMenu(document,{volume:audioVolume,language:selectedLang
 function hangarLeaderboardAvailable(){
  return startup.ready&&characterReady&&playing&&!graphicsLost&&!canyonMode?.active&&gameplay?.state.mode==='walking'&&gameplay.state.eventMode!=='finish'&&isInGarage(gameplay.state.player.x,gameplay.state.player.z);
 }
-hangarLeaderboardUi=createHangarDriftLeaderboard(document,{platform:services?.platform,language:()=>selectedLanguage,
+hangarLeaderboardUi=createHangarDriftLeaderboard(document,{platform:services?.platform,leaderboard:driftLeaderboard,language:()=>selectedLanguage,
  canOpen:()=>hangarLeaderboardAvailable()&&!settingsMenuOpen&&!careerMenuOpen&&!biomeMenuOpen&&!upgradeMenuOpen&&!pauseState.paused,
  onOpenChange:open=>{
   hangarLeaderboardOpen=!!open;transition=null;
@@ -639,6 +642,7 @@ function syncMode(snap=false){
   if(snap)character?.resetMotion?.(gameplay.state.player.heading);
   updateCharacter(0);updateFuelHud();updateEconomyHud();
   if(playing){if(driving){applyTruckPose();followTruck(1,snap);}else followCharacter(1,snap);}
+  onlineSession?.update(0);
 }
 function enterVehicle(id){
   if(hangarLeaderboardOpen||canyonMode?.active||gameplay?.state.eventMode==='finish')return false;
@@ -677,6 +681,7 @@ function returnToGarage(reason='garage'){
   inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();
   for(const v of garage.vehicles){v.model.reset();v.routeContext=null;poseVehicle(v);}
   gameplay.returnToGarage(reason);
+  void driftLeaderboard.load();
   gameplay.events();lastTime=0;playing=true;model=garage.vehicles[0].model;rig=garage.vehicles[0].rig;
   inputController?.setGear('D');syncMode(true);
   notify(reason==='bridge'?'Вы в ангаре. За потерянный груз награда не начисляется.':reason==='empty'?'Топливо закончилось. Вы в ангаре — выберите машину.':'Подойдите к купленной машине, чтобы сесть.');
@@ -830,11 +835,11 @@ window.addEventListener('keydown',e=>{
   if(e.key==='Escape'){e.preventDefault();setUpgradeMenu(false);return;}
   if(e.key==='Tab'){e.preventDefault();const items=[...UPGRADE_STATS.map(s=>document.getElementById('upgrade-'+s.id+'-buy')).filter(b=>!b.disabled),document.getElementById('upgrade-close')],i=items.indexOf(document.activeElement);items[(i+(e.shiftKey?-1:1)+items.length)%items.length].focus?.();}
 });
-const pauseProgression=()=>{canyonMode?.pause();stopVehicleEffects();appFocused=false;advertising?.setSuspended(true);onlineClock=0;gameplay?.flushProgress();void services?.cloud?.flush();inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();model?.pause();lastTime=0;};
+const pauseProgression=()=>{canyonMode?.pause();stopVehicleEffects();appFocused=false;advertising?.setSuspended(true);onlineClock=0;gameplay?.flushProgress();void services?.cloud?.flush();inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();model?.pause();lastTime=0;onlineSession?.update(0);};
 window.addEventListener('blur',pauseProgression);
 window.addEventListener('pagehide',pauseProgression);
-window.addEventListener('focus',()=>{appFocused=true;lastTime=0;onlineClock=0;});
-document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseProgression();else {appFocused=document.hasFocus?.()??true;lastTime=0;onlineClock=0;}});
+window.addEventListener('focus',()=>{appFocused=true;lastTime=0;onlineClock=0;onlineSession?.update(0);});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseProgression();else {appFocused=document.hasFocus?.()??true;lastTime=0;onlineClock=0;onlineSession?.update(0);}});
 document.getElementById('buy-vehicle').addEventListener('click',event=>{event.stopPropagation();if(careerMenuOpen||settingsMenuOpen||hangarLeaderboardOpen||!playing||!characterReady||gameplay.state.mode!=='walking')return;const id=gameplay.state.purchaseCandidateId;if(!id)return;walkInput?.reset();lookInput?.reset();gameplay.buy(id);handleGameplayEvents();updateEconomyHud();});
 document.getElementById('stand-up').addEventListener('click',standCharacter);
 document.getElementById('mode-toggle').addEventListener('click',()=>{if(!careerMenuOpen&&!settingsMenuOpen&&!hangarLeaderboardOpen)setDriving(!playing)});
@@ -980,7 +985,7 @@ function frame(now) {
   scene.fog.near=weatherFog?.near ?? 500;
   scene.fog.far=weatherFog?.far ?? 1600;
   const lightAnchor=driving?model.state:gameplay.state.player;
-  garage.roomBoard?.update({now,anchor:lightAnchor,snapshot:onlineSession?.client.roomSnapshot,language:selectedLanguage,active:playing});
+  garage.roomBoard?.update({now,anchor:lightAnchor,snapshot:onlineSession?.client.roomSnapshot,leaderboard:driftLeaderboard.state,language:selectedLanguage,active:playing});
   camera.getWorldDirection(shadowView);
   followShadowLight(sun,{x:lightAnchor.x,y:canyonMode?.active?rig.root.position.y:groundHeight(lightAnchor.x,lightAnchor.z),z:lightAnchor.z},driving?shadowView:null);
   onlineSession?.render(dt,{now,camera,anchor:driving?model.state:gameplay.state.player});
@@ -1007,7 +1012,7 @@ if(services?.serverUrl){
     getContext:()=>({gameplay,garage,character,model,rig,paused:gameplayPaused(),walkSpeed:lastWalkSpeed,teleportId})});
   onlineSession.bindGameplay(gameplay);
 }
-window.addEventListener('pagehide',event=>{if(event.persisted||disposedOnline)return;disposedOnline=true;renderProfiler?.dispose();spatialRenderer?.dispose();hangarLeaderboardUi?.dispose();canyonMode?.dispose();onlineSession?.dispose();advertising?.destroy();});
+window.addEventListener('pagehide',event=>{if(event.persisted||disposedOnline)return;disposedOnline=true;renderProfiler?.dispose();spatialRenderer?.dispose();hangarLeaderboardUi?.dispose();canyonMode?.dispose();driftLeaderboard.dispose();onlineSession?.dispose();advertising?.destroy();});
 window.addEventListener('pageshow',event=>{if(!event.persisted)return;appFocused=document.hasFocus?.()??true;lastTime=0;onlineClock=0;inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();syncMode();});
 requestAnimationFrame(frame);
 

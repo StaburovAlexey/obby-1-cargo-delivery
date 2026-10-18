@@ -1,0 +1,26 @@
+✔ a physical BMW journey finishes with a locally calculated score at 60 fps (214.955647ms)
+✔ a physical BMW journey finishes with a locally calculated score at 30 fps (200.453378ms)
+✔ a physical BMW journey finishes with a locally calculated score at 15 fps (173.628194ms)
+✔ an offline room does not gate local scoring, celebration or direct Yandex submission (1090.524671ms)
+✔ a pending Yandex write survives the timed hangar cleanup without reopening results or delivery rewards (1037.051465ms)
+✔ account changes, disposal and newer attempts cancel delayed writes without losing an already saved local result (4045.927924ms)
+✔ invalid or unfinished attempts never save, submit or start the finish celebration (3140.485332ms)
+✔ leaving an unfinished canyon attempt preserves car motion and never contacts the room (977.017149ms)
+✔ developer canyon finishes celebrate while suppressing local and Yandex writes (1009.059252ms)
+✔ pauses and time gaps disqualify online submission while preserving local practice (1990.257696ms)
+✔ SDK failure or unavailable platform cannot prevent a valid local finish (3226.35674ms)
+✔ dismissing an armed edge entry stays touring until physically leaving and reentering (2107.989119ms)
+✔ common finish entry rejects invalid kinds, positions and competing main-route completion without changing state (983.570105ms)
+✔ the running app paints its physical classroom board from the live room and stops painting away from class (2312.414581ms)
+✔ startup, trophy and physical board share one Yandex cache; return to hangar refreshes an expired cache without room traffic (967.977126ms)
+PASS hangar leaderboard app: hangar-only, input/physics paused, no canyon start, Escape focus restore.
+✔ tests/hangar-drift-leaderboard-app.mjs (1892.847112ms)
+✔ pause, visibility, focus, cached-page and graphics transitions reach peers without a RAF callback (1444.013456ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 19981.144277

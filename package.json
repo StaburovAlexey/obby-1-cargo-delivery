@@ -46,10 +46,10 @@
     "test:startup": "node --test --test-concurrency=2 tests/startup-*.mjs",
     "test:vehicle-cleanup": "node tests/vehicle-cleanup.mjs && node tests/vehicle-rig.mjs && node tests/cosmo-garage.mjs",
     "test:character-textures": "node tests/character-texture-replacement.mjs && node tests/character-retextures.mjs && node tests/character.mjs && node tests/character-catalog.mjs",
-    "server": "node server/room-server.mjs",
+    "server": "node server/room-cluster.mjs",
     "build:demo": "GAME_PLATFORM=yandex PUBLIC_YANDEX_DEVELOPMENT=1 rsbuild build --dist-path build-demo",
     "preview:demo": "GAME_PLATFORM=yandex rsbuild preview --dist-path build-demo",
-    "test:online": "node --test tests/online-server*.mjs tests/online-seat-session.mjs tests/online-client.mjs tests/remote-motion.mjs tests/online-gameplay.mjs tests/pause-state.mjs tests/advertising-*.mjs tests/yandex-platform.mjs tests/cloud-career.mjs tests/premium-skins.mjs tests/jeff-premium.mjs tests/premium-hud.mjs tests/yandex-app.mjs tests/strip-code-comments.mjs",
+    "test:online": "node --test --test-concurrency=2 tests/online-protocol.mjs tests/online-delta-integration.mjs tests/online-pause-app.mjs tests/online-server*.mjs tests/online-seat-session.mjs tests/online-client.mjs tests/remote-motion.mjs tests/online-gameplay.mjs tests/pause-state.mjs tests/advertising-*.mjs tests/yandex-platform.mjs tests/cloud-career.mjs tests/premium-skins.mjs tests/jeff-premium.mjs tests/premium-hud.mjs tests/yandex-app.mjs tests/strip-code-comments.mjs",
     "stress:online": "node scripts/stress-online.mjs --users=100,200,500,1000 --duration=30",
     "build:yandex": "GAME_PLATFORM=yandex rsbuild build",
     "build:vk": "GAME_PLATFORM=vk rsbuild build",
@@ -68,7 +68,9 @@
     "test:development": "node --test --test-concurrency=2 tests/development-defaults.mjs tests/dev-navigation.mjs tests/reward-dev-app.mjs tests/canyon-developer-mode.mjs",
     "test:rendering": "node --test --test-concurrency=2 tests/spatial-render*.mjs tests/render-profiler.mjs",
     "test:handling-grip": "node tests/handling-grip.mjs && node tests/vehicle-dynamics.mjs && node tests/handling-grip-app.mjs && node tests/handling-grip-turn-app.mjs",
-    "test:handling-grip-independent": "node qa/handling-grip/independent-check.mjs && node qa/handling-grip/independent-probe.mjs && node qa/handling-grip/independent-long-turn.mjs && node qa/handling-grip/independent-bmw-journeys.mjs"
+    "test:handling-grip-independent": "node qa/handling-grip/independent-check.mjs && node qa/handling-grip/independent-probe.mjs && node qa/handling-grip/independent-long-turn.mjs && node qa/handling-grip/independent-bmw-journeys.mjs",
+    "server:single": "node server/room-server.mjs",
+    "test:online:hosting": "node --test tests/online-server-cluster.mjs tests/online-server-packaging.mjs"
   },
   "devDependencies": {
     "@rsbuild/core": "2.2.13",

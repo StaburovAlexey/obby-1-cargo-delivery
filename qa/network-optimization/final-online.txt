@@ -1,0 +1,142 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> urban-route-procedural-three@1.70.2 test:online
+> node --test --test-concurrency=2 tests/online-protocol.mjs tests/online-delta-integration.mjs tests/online-pause-app.mjs tests/online-server*.mjs tests/online-seat-session.mjs tests/online-client.mjs tests/remote-motion.mjs tests/online-gameplay.mjs tests/pause-state.mjs tests/advertising-*.mjs tests/yandex-platform.mjs tests/cloud-career.mjs tests/premium-skins.mjs tests/jeff-premium.mjs tests/premium-hud.mjs tests/yandex-app.mjs tests/strip-code-comments.mjs
+
+✔ advertising starts after 240 active seconds and pauses for the full two second warning (1.711712ms)
+✔ menus, loading, hidden time, SDK pause and ads never accumulate active time (0.373114ms)
+✔ one pending attempt waits indefinitely for an active safe moment (0.149366ms)
+✔ direct suspension cancels a partial warning and restarts both seconds on return (0.243709ms)
+✔ visibility and unsafe context are rechecked before dispatching the SDK (0.189207ms)
+✔ callback duplication and a late promise settle release the pause exactly once (0.225681ms)
+✔ a refused or offline attempt resets the entire active interval (0.210248ms)
+✔ synchronous SDK failure and promise rejection cannot leave gameplay paused (0.561791ms)
+✔ destroy cancels owned work and ignores subsequent SDK completion (0.241275ms)
+✔ invalid time deltas cannot bypass the active interval or warning (0.291401ms)
+✔ fractional frames never repeat earlier countdown numbers (0.216709ms)
+✔ an SDK offline callback finishes and resets an unavailable attempt (0.140964ms)
+✔ an unobstructed grounded player can receive advertising (1.003479ms)
+✔ all transient unsafe states defer advertising (0.226684ms)
+✔ the fifty metre margin starts at the full body and obstacle bounds (0.714382ms)
+✔ diagonal margins use polygon distance instead of inflated axis aligned boxes (0.220694ms)
+✔ five seconds of speed overrides the minimum margin in reverse and lateral approaches (0.411253ms)
+✔ moving hazards exclude their whole sweep independently of their current side (0.414498ms)
+✔ a rotated obstacle keeps its complete footprint while sweeping on road axes (0.206583ms)
+✔ each real bridge excludes both ends, both sides and every curved deck sample (54.034091ms)
+✔ the fixed seed map still has safe road spans for deferred advertising (183.26923ms)
+✔ real moving poses cannot change the excluded future range (312.316356ms)
+✔ initial cloud failure rejects without local import or empty cloud overwrite and can retry (3.047814ms)
+✔ existing cloud wins over legacy and sanitizes mutable store snapshots (0.734622ms)
+✔ legacy import reads v2 career and audio/language once without any local writes (1.236282ms)
+✔ v1 selected premium avatar remains a separate legacy entitlement (0.459466ms)
+✔ synchronous saves coalesce, retain memory offline, and no-op flush never advances timestamp (1.76374ms)
+✔ reconnect chooses newest whole cloud save, ties favor cloud, and unions legacy rights (0.75932ms)
+✔ older cloud cannot roll back progress but contributes legacy rights independently (0.942006ms)
+✔ changes made while a write is in flight stay dirty and flush writes the latest revision (5.510213ms)
+✔ destroyed cloud controller cannot write after a pending read completes (1.428243ms)
+✔ corrupt or unsupported cloud data never triggers legacy import or overwrite (0.775274ms)
+✔ automatic retries are bounded and explicit retry recovers unsaved memory (41.231617ms)
+✔ newer-cloud replacement waits until merged legacy rights are durably saved (0.982948ms)
+✔ permanent premium skin snapshots union independently of newest progress without minting legacy rights (0.648472ms)
+✔ future career schema is rejected instead of replacing progress with a fresh save (0.282728ms)
+✔ discovered biomes survive a cloud save, reload and legacy ownership migration (1.026774ms)
+✔ Jeff cannot be bought with game money even at his stand with sufficient funds (2.119229ms)
+✔ Jeff uses his Yandex product ID and confirmed permanent purchase unlocks selection without spending game money (2.163776ms)
+✔ cancelled Jeff payment leaves the character locked (0.302427ms)
+✔ joins v2, sends 51-byte10Hz motion and suppresses stationary uploads to1Hz (4.207531ms)
+✔ reconstructs complete roster from deltas, keeps far map peers, and resyncs missing sequence atomically (0.99069ms)
+✔ rejects unknown delta slots, malformed packets and conflicting static identities (0.566137ms)
+✔ exclusive seat requests settle on timeout, cancellation, backpressure and reconnect without stale state (0.663274ms)
+✔ resync watchdog and invalid welcome close safely; old socket events cannot overwrite a new session (0.458955ms)
+✔ repeated start during reconnect does not create overlapping sockets (0.232952ms)
+✔ text JSON cannot enter the trusted binary delta fast path (0.305874ms)
+✔ production clients retain far stationary map players and reconcile joins, seats and leaves (1339.97504ms)
+✔ a lost binary frame triggers recovery without losing the complete roster (1691.559771ms)
+PASS gameplay premium-only currency boundary and explicit server-reserved seats.
+✔ tests/online-gameplay.mjs (260.309545ms)
+✔ pause, visibility, focus, cached-page and graphics transitions reach peers without a RAF callback (1382.017681ms)
+✔ v2 fixed layout preserves bounds and useful visual accuracy (2.127481ms)
+✔ rejects malformed size, versions, flags, numeric encodings and stale state sequences (0.546818ms)
+✔ delta packets carry only changed slots and reject unknown/duplicate records atomically (0.778619ms)
+✔ stationary equality ignores only sequence and includes all visible state changes (0.288898ms)
+✔ randomized finite states roundtrip and arbitrary binary input never throws (23.373491ms)
+PASS online seating with held movement and explicit stand-up
+✔ tests/online-seat-session.mjs (324.703401ms)
+PASS standalone CLI environment, health endpoint and graceful SIGTERM shutdown
+✔ tests/online-server-cli.mjs (335.007953ms)
+✔ cluster environment parsing has explicit per-worker limits and rejects unsafe values (1.653483ms)
+✔ one loopback endpoint distributes sockets across workers without sharing rooms or seats (1412.021776ms)
+✔ admission respects per-worker caps and frees capacity after rejection and disconnect (398.239511ms)
+✔ worker crash removes its rooms, leaves other sockets alive, and restarts with a fresh incarnation (909.403673ms)
+✔ cluster shutdown closes upgraded sockets and all child processes (311.456201ms)
+✔ production clients reconstruct only their own worker room and remove departed peers without ghosts (408.565635ms)
+✔ health reports unavailable workers honestly while routing new sockets to responsive workers (621.101389ms)
+✔ closing during worker startup never opens the listener and reaps every child (361.865677ms)
+✔ a worker that dies after ready while another is still starting is replaced (1007.819661ms)
+✔ all deployment paths use one dispatcher endpoint with explicit four-worker limits (6.879256ms)
+✔ isolated Docker-equivalent module tree boots workers, serves health, upgrades WebSocket and exits cleanly (647.709978ms)
+PASS failed server child preserves partial JSON reports and emits a failed completion
+✔ tests/online-server-stress-failure.mjs (9159.796787ms)
+PASS independent-process moving-client load smoke, counts, seats, reconnects and metrics
+✔ tests/online-server-stress.mjs (6893.328938ms)
+✔ exports a programmatic room server (0.813612ms)
+✔ assigns twenty slots per room and keeps complete map rosters with stable player numbers (183.297495ms)
+✔ validates profile and binary state, rejects forged fields and stale sequences (79.447166ms)
+✔ reserves exclusive desks, retains paused seats, ignores forged seat IDs and releases on leave (31.8856ms)
+✔ reclaims empty rooms, times out unjoined sockets and detects dead heartbeats (101.699298ms)
+✔ enforces origin, path, old protocol, payload and message rate limits (20.835197ms)
+✔ disconnects a genuinely buffered receiver even when all players are stationary (104.279214ms)
+✔ recovers skipped control and movement with one complete snapshot, including slot reuse and seats (204.257553ms)
+✔ sends 10Hz near and 2Hz far binary deltas with hysteresis and immediate teleports/pauses (1817.289064ms)
+✔ removes server scoring and ranking from all room messages (38.081011ms)
+✔ stationary motion resumes immediately even for a far viewer just sent a heartbeat (608.253388ms)
+✔ hard backpressure during a seat reply releases ownership without crashing the room (13.667295ms)
+PASS independent pause reasons and idempotent transitions.
+✔ tests/pause-state.mjs (68.181016ms)
+PASS premium HUD: SDK currency, retained icon nodes and unavailable catalogue.
+✔ tests/premium-hud.mjs (249.06998ms)
+✔ six permanent skin products use catalog prices and restored platform entitlements (1.50625ms)
+✔ failed entitlement refresh preserves confirmed ownership and recovers (0.314296ms)
+✔ purchase grants only confirmed matching non-consumable product and retries missing callback via refresh (0.344051ms)
+✔ mismatching purchase response cannot grant the requested skin (0.361728ms)
+✔ premium stays busy across a long SDK payment dialog and grants its late successful result (25.902465ms)
+PASS remote motion: buffered interpolation, teleport discontinuity and departed-player removal.
+PASS steady remote walking across repeated server snapshots
+PASS adaptive2Hz interpolation, monotonic tier transitions, immediate pause/resume, heading wrap and discrete brake lights
+✔ tests/remote-motion.mjs (54.279398ms)
+✔ ordinary JavaScript comments become whitespace while line terminators remain (4.382115ms)
+✔ AST comment ranges protect strings, regular expressions and template interpolation (4.230455ms)
+✔ removal preserves return ASI, all ECMAScript line terminators and token separation (2.718676ms)
+✔ copyright, SPDX, license, preserve notices and executable hashbangs remain exact (0.758278ms)
+✔ CommonJS and regular script comments use a valid parse mode (1.873296ms)
+✔ CSS stripping protects escaped strings and quoted or unquoted URL tokens (0.465034ms)
+✔ HTML stripping changes markup comments while preserving attributes and raw text blocks (0.581781ms)
+✔ CLI check reports ordinary comments without changing files, then stripping is idempotent (224.942382ms)
+✔ CLI traverses author/vendor code but excludes generated trees, assets, binaries and symlinks (158.528462ms)
+✔ CLI parse failure preflights the entire batch before any file mutation (76.8804ms)
+✔ CLI removes trailing comment padding while preserving literal whitespace (72.020645ms)
+✔ CLI requires explicit paths and rejects unknown options (228.872192ms)
+PASS app integration: active-time ads, synchronous warning suspension, SDK pause, frozen progression, cloud-only settings and production mode.
+✔ tests/yandex-app.mjs (2013.262328ms)
+✔ language follows SDK and uses approved RU/EN fallback (1.117632ms)
+✔ SDK listeners attach before lazy player access and ready/start/stop are idempotent (1.209311ms)
+✔ cloud uses a namespaced payload with confirmed immediate writes (0.853502ms)
+✔ catalog, permanent purchases and ad callbacks pass through official methods (0.893513ms)
+✔ account selection locks sync and entitlements until reload and invalidates in-flight data (5.147585ms)
+✔ production rejects missing SDK while explicit development keeps saves only in memory (0.68022ms)
+✔ official SDK loader uses /sdk.js and calls YaGames.init (0.439946ms)
+✔ initialization and lazy data calls have bounded waits and can retry (11.517189ms)
+✔ a user payment dialog outlives network timeouts and returns its eventual confirmed purchase (26.35116ms)
+ℹ tests 113
+ℹ suites 0
+ℹ pass 113
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 19742.919556
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

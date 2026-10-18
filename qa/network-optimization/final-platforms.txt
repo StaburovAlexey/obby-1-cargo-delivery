@@ -1,0 +1,79 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> urban-route-procedural-three@1.70.2 test:platforms
+> node --test tests/platform-builds.mjs tests/vk-platform.mjs tests/vk-payments.mjs tests/vk-ui.mjs tests/vk-recovery.mjs tests/yandex-platform.mjs tests/cloud-career.mjs tests/premium-skins.mjs tests/jeff-premium.mjs tests/premium-hud.mjs tests/yandex-app.mjs
+
+✔ initial cloud failure rejects without local import or empty cloud overwrite and can retry (18.444457ms)
+✔ existing cloud wins over legacy and sanitizes mutable store snapshots (0.765098ms)
+✔ legacy import reads v2 career and audio/language once without any local writes (1.146727ms)
+✔ v1 selected premium avatar remains a separate legacy entitlement (0.349509ms)
+✔ synchronous saves coalesce, retain memory offline, and no-op flush never advances timestamp (5.765871ms)
+✔ reconnect chooses newest whole cloud save, ties favor cloud, and unions legacy rights (0.770857ms)
+✔ older cloud cannot roll back progress but contributes legacy rights independently (1.260519ms)
+✔ changes made while a write is in flight stay dirty and flush writes the latest revision (8.812844ms)
+✔ destroyed cloud controller cannot write after a pending read completes (1.979136ms)
+✔ corrupt or unsupported cloud data never triggers legacy import or overwrite (4.374263ms)
+✔ automatic retries are bounded and explicit retry recovers unsaved memory (44.973205ms)
+✔ newer-cloud replacement waits until merged legacy rights are durably saved (1.378036ms)
+✔ permanent premium skin snapshots union independently of newest progress without minting legacy rights (0.813752ms)
+✔ future career schema is rejected instead of replacing progress with a fresh save (0.260084ms)
+✔ discovered biomes survive a cloud save, reload and legacy ownership migration (1.466761ms)
+✔ Jeff cannot be bought with game money even at his stand with sufficient funds (2.454176ms)
+✔ Jeff uses his Yandex product ID and confirmed permanent purchase unlocks selection without spending game money (2.909125ms)
+✔ cancelled Jeff payment leaves the character locked (0.572877ms)
+✔ build targets select independent output directories and bootstrap modules (1.427141ms)
+✔ VK startup never imports Yandex legacy progress or grants locally cached premium rights (14.559195ms)
+PASS premium HUD: SDK currency, retained icon nodes and unavailable catalogue.
+✔ tests/premium-hud.mjs (623.201231ms)
+✔ six permanent skin products use catalog prices and restored platform entitlements (1.745543ms)
+✔ failed entitlement refresh preserves confirmed ownership and recovers (0.555552ms)
+✔ purchase grants only confirmed matching non-consumable product and retries missing callback via refresh (0.354577ms)
+✔ mismatching purchase response cannot grant the requested skin (0.386274ms)
+✔ premium stays busy across a long SDK payment dialog and grants its late successful result (30.097901ms)
+✔ signed VK callback grants a permanent skin once and survives a service restart (105.238735ms)
+✔ forged, duplicate-parameter and wrong-app callbacks cannot mint purchases (39.478515ms)
+✔ reusing an order ID with a different recipient is rejected (49.677272ms)
+✔ test payments never enter the live entitlement list even when order IDs overlap (21.344999ms)
+✔ refund removes ownership and delayed chargeable retries cannot regrant the order (36.845359ms)
+✔ launch signatures, application IDs, timestamps and CORS isolate purchase reads (37.065221ms)
+✔ VK item metadata uses explicitly configured votes and public HTTPS icon URLs (23.318842ms)
+✔ production service refuses missing prices and cannot use an ephemeral database (0.768985ms)
+✔ VK uses its own persistent storage and preserves complete JSON (2.680709ms)
+✔ VK hide and restore hold platform pause independently of advertising (0.423301ms)
+✔ unavailable VK ads close without opening a pause and ad failures release their callback (0.611255ms)
+✔ VK purchase waits for the signed server entitlement instead of trusting the payment window (13.938635ms)
+✔ explicit development VK never sends real storage, advertisement or purchase calls (0.534339ms)
+✔ a confirmed late purchase is recovered without opening another payment dialog (5.182888ms)
+✔ retrying an order still awaiting its callback does not open a second payment dialog (6.59857ms)
+✔ lost SDK capability responses time out and invoke the advertisement error callback (6.314301ms)
+✔ successful VK entitlement refresh removes refunded rights but transient errors retain the last snapshot (0.590885ms)
+✔ authoritative VK refunds remove the active skin and persist the default character without losing ordinary skins (1.843481ms)
+✔ VK cloud merging cannot resurrect a refunded premium skin from the previous cloud snapshot (1.52604ms)
+✔ a VK entitlement refresh updates the running app and persists its refunded character fallback (1685.356805ms)
+✔ a blank uniform-price environment value preserves configured per-product prices (606.613174ms)
+✔ VK world labels include votes instead of showing an ambiguous bare price (1.191695ms)
+✔ VK purchase notification and votes are localized independently of Yandex (0.909747ms)
+PASS app integration: active-time ads, synchronous warning suspension, SDK pause, frozen progression, cloud-only settings and production mode.
+✔ tests/yandex-app.mjs (2233.416989ms)
+✔ language follows SDK and uses approved RU/EN fallback (1.143411ms)
+✔ SDK listeners attach before lazy player access and ready/start/stop are idempotent (1.304675ms)
+✔ cloud uses a namespaced payload with confirmed immediate writes (0.927735ms)
+✔ catalog, permanent purchases and ad callbacks pass through official methods (1.221649ms)
+✔ account selection locks sync and entitlements until reload and invalidates in-flight data (11.184996ms)
+✔ production rejects missing SDK while explicit development keeps saves only in memory (5.225713ms)
+✔ official SDK loader uses /sdk.js and calls YaGames.init (0.789956ms)
+✔ initialization and lazy data calls have bounded waits and can retry (11.473292ms)
+✔ a user payment dialog outlives network timeouts and returns its eventual confirmed purchase (26.718355ms)
+ℹ tests 59
+ℹ suites 0
+ℹ pass 59
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3062.928117
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

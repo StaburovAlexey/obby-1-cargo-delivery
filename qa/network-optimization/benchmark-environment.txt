@@ -1,0 +1,7 @@
+Recorded UTC: 2026-10-18T18:43:03Z
+Node: v24.19.0
+Kernel: Linux 6.18.55 x86_64 GNU/Linux
+Optimization checkout HEAD (uncommitted task changes): 9223ab1e9330268451a99b4e45ff95cb9c3216af
+Baseline: ../handling-grip source copy; no .git metadata available.
+CPU quota: not exposed at /sys/fs/cgroup/cpu.max in this environment.
+Memory limit: not exposed at /sys/fs/cgroup/memory.max in this environment.

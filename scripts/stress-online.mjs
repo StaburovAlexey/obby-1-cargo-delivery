@@ -1,9 +1,16 @@
 import {fork,execFileSync} from 'node:child_process';
 import {readFileSync} from 'node:fs';
+import {resolve} from 'node:path';
 import os from 'node:os';
 import {performance} from 'node:perf_hooks';
 const args=Object.fromEntries(process.argv.slice(2).map(arg=>{const at=arg.indexOf('=');return at<0?[arg.replace(/^--/,''),true]:[arg.slice(2,at),arg.slice(at+1)];}));
 const users=String(args.users||'100,200,500,1000').split(',').map(Number);
+const workloads=String(args.workloads||'near').split(',');
+if(workloads.some(mode=>!['near','far','stationary'].includes(mode)))throw new Error('Use --workloads=near,far,stationary');
+if(args['source-root'])process.env.STRESS_SOURCE_ROOT=resolve(args['source-root']);
+const sourceRoot=process.env.STRESS_SOURCE_ROOT||resolve(new URL('../',import.meta.url).pathname);
+const warmup=Number(args.warmup??2);
+if(!Number.isFinite(warmup)||warmup<0||warmup>60)throw new Error('Use --warmup=2');
 const duration=Number(args.duration||15),clientsPerWorker=Number(args['clients-per-worker']||100),metricsTimeout=Number(args['metrics-timeout-ms']||30000);
 if(!users.length||users.some(n=>!Number.isInteger(n)||n<20||n>2000||n%20)||!Number.isFinite(duration)||duration<.5||duration>3600||!Number.isInteger(clientsPerWorker)||clientsPerWorker<20||clientsPerWorker>200||clientsPerWorker%20||!Number.isFinite(metricsTimeout)||metricsTimeout<100)throw new Error('Use --users=100,200,500,1000 --duration=15 --clients-per-worker=100 --metrics-timeout-ms=30000');
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
@@ -54,25 +61,26 @@ async function waitFor(predicate,timeout=metricsTimeout){
   const deadline=performance.now()+timeout;
   while(performance.now()<deadline){if(await predicate())return;await delay(50);}throw new Error('Timed out waiting for settled room/seat counts');
 }
-async function step(count){
+async function step(count,workload){
   const beforeHost=host(),loaders=[];let server,phase='server-start',before,lastStats,start=0,pulse,loadMetrics=[];
   let report;
   try{
     server=worker('../server/stress-worker.mjs');const address=await server.ready;
-    log({event:'step:start',users:count,serverPid:address.pid,host:beforeHost});
+    log({event:'step:start',users:count,workload,sourceRoot,serverPid:address.pid,host:beforeHost});
     phase='clients-connect';
     for(let from=0;from<count;from+=clientsPerWorker){const loader=worker('../server/stress-client-worker.mjs');loader.from=from;loader.count=Math.min(clientsPerWorker,count-from);loaders.push(loader);}
-    await Promise.all(loaders.map(async loader=>{await loader.ready;await loader.request('connect',{url:`ws://127.0.0.1:${address.port}/ws`,from:loader.from,count:loader.count});}));
+    await Promise.all(loaders.map(async loader=>{await loader.ready;await loader.request('connect',{url:`ws://127.0.0.1:${address.port}/ws`,from:loader.from,count:loader.count,workload});}));
     phase='seat-claims';await Promise.all(loaders.map(loader=>loader.request('claim')));
     await waitFor(async()=>{const inspections=await Promise.all(loaders.map(loader=>loader.request('inspect',{fullSeats:true})));return inspections.every(value=>value.settled);});
     phase='seat-release';await Promise.all(loaders.map(loader=>loader.request('release')));
     await waitFor(async()=>{lastStats=await server.request('stats');return lastStats.players===count&&lastStats.seats===count/5;});
-    before=lastStats;start=performance.now();phase='moving';
+    phase='warmup';await Promise.all(loaders.map(loader=>loader.request('warmup')));await delay(warmup*1000);
+    await server.request('reset');before=await server.request('stats');start=performance.now();phase='moving';
     await Promise.all(loaders.map(loader=>loader.request('start')));
     let pulseBusy=false;
     pulse=setInterval(()=>{
       if(pulseBusy)return;pulseBusy=true;
-      server.request('stats').then(stats=>{lastStats=stats;log({event:'progress',users:count,elapsedSeconds:round((performance.now()-start)/1000),players:stats.players,rooms:stats.rooms,rssMB:round(stats.rssBytes/1048576),eventLoopP95Ms:round(stats.eventLoopP95Ms)});}).catch(error=>log({event:'progress:error',users:count,error:error.message})).finally(()=>{pulseBusy=false;});
+      server.request('stats').then(stats=>{lastStats=stats;log({event:'progress',users:count,workload,elapsedSeconds:round((performance.now()-start)/1000),players:stats.players,rooms:stats.rooms,rssMB:round(stats.rssBytes/1048576),eventLoopP95Ms:round(stats.eventLoopP95Ms)});}).catch(error=>log({event:'progress:error',users:count,error:error.message})).finally(()=>{pulseBusy=false;});
     },5000);
     await delay(duration*350);phase='reconnect';
     for(let index=0;index<Math.max(1,Math.floor(count*.01));index++){
@@ -90,20 +98,27 @@ async function step(count){
     if(lastStats.invalidMessages)errors.push(`${lastStats.invalidMessages} valid moving states rejected`);
     const afterHost=host(),cpuUs=lastStats.cpuUsage.user+lastStats.cpuUsage.system-before.cpuUsage.user-before.cpuUsage.system;
     const receivedSnapshots=sum(loadMetrics,'receivedSnapshots'),sentStates=sum(loadMetrics,'sentStates');
-    const tickDeliveryRatio=receivedSnapshots/(count*seconds*10),stateDeliveryRatio=sentStates/(count*seconds*10);
+    const protocolVersion=loadMetrics[0]?.protocolVersion;
+    const updateCallRatio=sum(loadMetrics,'updateCalls')/(count*seconds*10);
+    const expectedStateHz=protocolVersion===1?10:workload==='stationary'?1:8.2;
+    const stateDeliveryRatio=sentStates/(count*seconds*expectedStateHz);
+    const movingSilenceLimitMs=workload==='far'?1200:600;
+    const maxStateSilenceMs=max(loadMetrics,'maxStateSilenceMs'),maxMovingStateSilenceMs=max(loadMetrics,'maxMovingStateSilenceMs');
+    const staleTargetsMet=maxStateSilenceMs<=2200&&maxMovingStateSilenceMs<=movingSilenceLimitMs&&max(loadMetrics,'maxMovingRemoteGap')<=movingSilenceLimitMs;
+    if(sum(loadMetrics,'uninitializedRemotePlayers'))errors.push('Uninitialized player state retained after warmup');
     const hostTotal=afterHost.cpu.total-beforeHost.cpu.total,hostIdle=afterHost.cpu.idle-beforeHost.cpu.idle;
-    report={event:'step',users:count,rooms:rooms.size,durationSeconds:round(seconds),ok:errors.length===0,targetMet:errors.length===0&&tickDeliveryRatio>=.95&&stateDeliveryRatio>=.95,reconnects:sum(loadMetrics,'reconnects'),errors,server:{pid:lastStats.pid,cpuPercent:round(cpuUs/seconds/10000),rssMB:round(lastStats.rssBytes/1048576),peakRssMB:round(lastStats.peakRssBytes/1048576),eventLoopP95Ms:round(lastStats.eventLoopP95Ms),eventLoopMaxMs:round(lastStats.eventLoopMaxMs),meanTickDurationMs:round((lastStats.tickDurationTotalMs-before.tickDurationTotalMs)/Math.max(1,lastStats.tickCount-before.tickCount)),maxTickDurationMs:round(lastStats.maxTickDurationMs),skippedSnapshots:lastStats.skippedSnapshots,backpressureDisconnects:lastStats.backpressureDisconnects,players:lastStats.players,seats:lastStats.seats},generator:{processes:loaders.length,pids:loadMetrics.map(value=>value.pid),clientsPerProcess:clientsPerWorker,cpuPercent:round(sum(loadMetrics,'cpuPercent')),rssMB:round(sum(loadMetrics,'rssBytes')/1048576),peakRssMB:round(sum(loadMetrics,'peakRssBytes')/1048576),eventLoopP95Ms:round(max(loadMetrics,'eventLoopP95Ms')),eventLoopMaxMs:round(max(loadMetrics,'eventLoopMaxMs'))},host:{before:beforeHost,after:afterHost,busyCpuPercent:round(hostTotal?(1-hostIdle/hostTotal)*100:0)},delivery:{receivedSnapshots,snapshotsPerClientSecond:round(receivedSnapshots/count/seconds),tickDeliveryRatio:round(tickDeliveryRatio),statesPerClientSecond:round(sentStates/count/seconds),minClientTicks:Math.min(...loadMetrics.map(value=>value.minClientTicks)),gapP95Ms:round(percentile(loadMetrics.flatMap(value=>value.gaps),.95)),gapMaxMs:round(max(loadMetrics,'maxGap')),ageP95Ms:round(percentile(loadMetrics.flatMap(value=>value.ages),.95))},throughput:{sentStates,uploadBytesPerSecond:round(sum(loadMetrics,'sentStateBytes')/seconds),sentMessagesPerSecond:round((lastStats.sentMessages-before.sentMessages)/seconds),sentBytesPerSecond:round((lastStats.sentBytes-before.sentBytes)/seconds),receivedBytesPerSecond:round(sum(loadMetrics,'receivedBytes')/seconds)}};
+    report={event:'step',users:count,workload,sourceRoot,protocolVersion,rooms:rooms.size,durationSeconds:round(seconds),ok:errors.length===0,targetMet:errors.length===0&&updateCallRatio>=.95&&stateDeliveryRatio>=.85&&staleTargetsMet,reconnects:sum(loadMetrics,'reconnects'),errors,server:{pid:lastStats.pid,cpuPercent:round(cpuUs/seconds/10000),rssMB:round(lastStats.rssBytes/1048576),peakRssMB:round(lastStats.peakRssBytes/1048576),eventLoopP95Ms:round(lastStats.eventLoopP95Ms),eventLoopMaxMs:round(lastStats.eventLoopMaxMs),meanTickDurationMs:round((lastStats.tickDurationTotalMs-before.tickDurationTotalMs)/Math.max(1,lastStats.tickCount-before.tickCount)),maxTickDurationMs:round(lastStats.maxTickDurationMs),skippedSnapshots:lastStats.skippedSnapshots,backpressureDisconnects:lastStats.backpressureDisconnects,players:lastStats.players,seats:lastStats.seats},generator:{processes:loaders.length,pids:loadMetrics.map(value=>value.pid),clientsPerProcess:clientsPerWorker,cpuPercent:round(sum(loadMetrics,'cpuPercent')),rssMB:round(sum(loadMetrics,'rssBytes')/1048576),peakRssMB:round(sum(loadMetrics,'peakRssBytes')/1048576),eventLoopP95Ms:round(max(loadMetrics,'eventLoopP95Ms')),eventLoopMaxMs:round(max(loadMetrics,'eventLoopMaxMs'))},host:{before:beforeHost,after:afterHost,busyCpuPercent:round(hostTotal?(1-hostIdle/hostTotal)*100:0)},delivery:{receivedSnapshots,snapshotsPerClientSecond:round(receivedSnapshots/count/seconds),snapshotPublicationNote:'Includes metadata and reconstructed delta callbacks; not a fixed 10Hz delivery target',updateCallRatio:round(updateCallRatio),expectedStateHz,stateDeliveryRatio:round(stateDeliveryRatio),staleTargetsMet,maxStateSilenceMs:round(maxStateSilenceMs),maxMovingStateSilenceMs:round(maxMovingStateSilenceMs),maxRemoteGapMs:round(max(loadMetrics,'maxRemoteGap')),maxMovingRemoteGapMs:round(max(loadMetrics,'maxMovingRemoteGap')),remoteGapP95Ms:round(percentile(loadMetrics.flatMap(value=>value.remoteGaps),.95)),knownRemotePlayers:sum(loadMetrics,'knownRemotePlayers'),receivedMessages:sum(loadMetrics,'receivedMessages'),receivedBinaryMessages:sum(loadMetrics,'receivedBinaryMessages'),receivedJsonMessages:sum(loadMetrics,'receivedJsonMessages'),statesPerClientSecond:round(sentStates/count/seconds),minClientTicks:Math.min(...loadMetrics.map(value=>value.minClientTicks)),gapP95Ms:round(percentile(loadMetrics.flatMap(value=>value.gaps),.95)),gapMaxMs:round(max(loadMetrics,'maxGap')),ageP95Ms:round(percentile(loadMetrics.flatMap(value=>value.ages),.95))},throughput:{sentStates,stateUploadBytesPerSecond:round(sum(loadMetrics,'sentStateBytes')/seconds),uploadBytesPerSecond:round(sum(loadMetrics,'sentBytes')/seconds),sentMessagesPerSecond:round((lastStats.sentMessages-before.sentMessages)/seconds),sentBytesPerSecond:round((lastStats.sentBytes-before.sentBytes)/seconds),receivedBytesPerSecond:round(sum(loadMetrics,'receivedBytes')/seconds)}};
   }catch(error){
     clearInterval(pulse);
 
-    report={event:'step',users:count,rooms:lastStats?.rooms??0,durationSeconds:start?round((performance.now()-start)/1000):0,ok:false,targetMet:false,phase,errors:[error.message],server:lastStats||null,generator:{processes:loaders.length,pids:loaders.map(loader=>loader.child.pid)},host:{before:beforeHost,after:host()}};
+    report={event:'step',users:count,workload,sourceRoot,rooms:lastStats?.rooms??0,durationSeconds:start?round((performance.now()-start)/1000):0,ok:false,targetMet:false,phase,errors:[error.message],server:lastStats||null,generator:{processes:loaders.length,pids:loaders.map(loader=>loader.child.pid)},host:{before:beforeHost,after:host()}};
   }finally{
     clearInterval(pulse);await Promise.allSettled(loaders.map(loader=>loader.close()));if(server)await server.close();
   }
   log(report);return report;
 }
 const reports=[];
-for(const count of users)reports.push(await step(count));
+for(const workload of workloads)for(const count of users)reports.push(await step(count,workload));
 const ok=reports.every(report=>report.ok),targetMet=reports.every(report=>report.targetMet);
-log({event:'complete',ok,targetMet,steps:reports.length,scope:'loopback; server and client batches use separate processes; host contention recorded; ok=protocol/count checks; targetMet=at least95%of10Hz input/output; no VPS capacity claim'});
+log({event:'complete',ok,targetMet,steps:reports.length,scope:'127.0.0.1 only; actual production clients and server in separate processes; same deterministic workload across --source-root checkouts; application payload bytes exclude WebSocket/TCP/TLS framing; ok=protocol/roster/seat/count checks; targetMet=95% simulation calls,85% expected production state uploads, bounded remote silence; host contention recorded; no VPS capacity claim'});
 if(!ok)process.exitCode=1;

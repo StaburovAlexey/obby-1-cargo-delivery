@@ -9,8 +9,8 @@ const INK='#203a39',SURFACE='#285956',MAP='#204b49',GOLD='#efbc55',BLUE='#168cc7
 const mainPaths=NETWORK_EDGES.map(edge=>edge.samples);
 const canyonPaths=[CANYON_APPROACH_SAMPLES,Array.from({length:Math.ceil(CANYON_TRACK.length/8)+1},(_,i)=>canyonPointAt(Math.min(CANYON_TRACK.length,i*8)))];
 const words={
- ru:{title:'Игроки нашей комнаты',main:'Основная трасса',canyon:'Дрифт-каньон · крупный план',school:'Класс',you:'Вы',player:'Игрок',peers:'Другие игроки',ranking:'ДРИФТ · ТОП КОМНАТЫ',score:'Очки',offline:'Нет подключения к комнате',connect:'Подключитесь, чтобы увидеть игроков и результаты.',empty:'Пока нет завершённых заездов',best:'Лучший подтверждённый заезд каждого игрока'},
- en:{title:'Players in this room',main:'Main route',canyon:'Drift canyon · close view',school:'Classroom',you:'You',player:'Player',peers:'Other players',ranking:'DRIFT · ROOM LEADERS',score:'Score',offline:'No room connection',connect:'Connect to see players and results.',empty:'No completed runs yet',best:'Each player’s best verified run'},
+ ru:{title:'Игроки нашей комнаты',main:'Основная трасса',canyon:'Дрифт-каньон · крупный план',school:'Класс',you:'Вы',player:'Игрок',peers:'Другие игроки',ranking:'ДРИФТ · ЯНДЕКС',score:'Очки',offline:'Нет подключения к комнате',connect:'Подключитесь, чтобы увидеть игроков.',empty:'Пока нет завершённых заездов',best:'Лучшие заезды в Яндекс Играх',loading:'Загрузка рейтинга…',unavailable:'Рейтинг доступен в Яндекс Играх',error:'Не удалось обновить рейтинг',changed:'Аккаунт изменился. Перезагрузите игру.'},
+ en:{title:'Players in this room',main:'Main route',canyon:'Drift canyon · close view',school:'Classroom',you:'You',player:'Player',peers:'Other players',ranking:'DRIFT · YANDEX',score:'Score',offline:'No room connection',connect:'Connect to see players.',empty:'No completed runs yet',best:'Best runs on Yandex Games',loading:'Loading leaderboard…',unavailable:'Rankings are available on Yandex Games',error:'Could not refresh the leaderboard',changed:'Account changed. Reload the game.'},
 };
 
 export function createBoardProjection(points,rect,padding=16){
@@ -35,7 +35,7 @@ export function createClassroomBoard(THREE,{document:doc=globalThis.document,par
  const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;
  texture.generateMipmaps=true;texture.minFilter=THREE.LinearMipmapLinearFilter;texture.anisotropy=4;
  const geometry=new THREE.PlaneGeometry(26.8,8.375),material=new THREE.MeshStandardMaterial({map:texture,roughness:.86,metalness:0});
- const mesh=new THREE.Mesh(geometry,material);mesh.name='Classroom room map and drift leaderboard';
+ const mesh=new THREE.Mesh(geometry,material);mesh.name='Classroom room map and Yandex drift leaderboard';
  mesh.position.set(position.x,position.y,position.z);mesh.receiveShadow=true;parent?.add(mesh);
  const school={x:-41,z:47};
  const garageCorners=[{x:garageBounds.minX,z:garageBounds.minZ},{x:garageBounds.maxX,z:garageBounds.minZ},
@@ -45,7 +45,7 @@ export function createClassroomBoard(THREE,{document:doc=globalThis.document,par
  for(const map of maps)map.project=createBoardProjection([...map.paths.flat(),...garageCorners],map.rect,20);
  const motion=createRemoteMotion({delayMs:200});
  let disposed=false,near=false,lastRoom=null,lastSnapshot=null,lastPaint=-Infinity,lastNow=-Infinity,paintKey='',baseLanguage='';
- let players=[],standings=[];
+ let players=[];
 
  function text(ctx,value,x,y,size=28,color=CHALK,align='left'){
   ctx.font=`800 ${size}px Arial, sans-serif`;ctx.fillStyle=color;ctx.textAlign=align;ctx.textBaseline='middle';ctx.fillText(value,x,y);
@@ -113,20 +113,31 @@ export function createClassroomBoard(THREE,{document:doc=globalThis.document,par
    context.restore();
   }
  }
- function drawStandings(snapshot,w,language){
-  if(!snapshot){text(context,w.offline,1350,188,29);text(context,w.connect,1350,228,21,MUTED);return;}
-  if(!standings.length){text(context,w.empty,1350,188,28,MUTED);return;}
-  const rows=standings.slice(0,10).map((entry,i)=>({...entry,rank:i+1}));
-  const ownRank=standings.findIndex(entry=>entry.playerId===snapshot.selfId);
-  if(ownRank>=10)rows[9]={...standings[ownRank],rank:ownRank+1};
+ function rankingRows(board){
+  if(board?.status!=='ready')return [];
+  const valid=entry=>Number.isSafeInteger(entry?.rank)&&entry.rank>0&&Number.isSafeInteger(entry.score)&&entry.score>=0&&entry.score<=100000000;
+  const seen=new Set(),entries=(Array.isArray(board.entries)?board.entries:[]).filter(entry=>{if(!valid(entry)||seen.has(entry.rank))return false;seen.add(entry.rank);return true;}).sort((a,b)=>a.rank-b.rank);
+  const rows=entries.slice(0,10);
+  if(valid(board.player)&&!rows.some(row=>row.rank===board.player.rank)){
+   if(rows.length===10)rows[9]=board.player;else rows.push(board.player);
+  }
+  return rows;
+ }
+ function drawStandings(board,w,language){
+  if(board?.status!=='ready'){
+   const status=board?.status||'idle',message=status==='idle'||status==='loading'?w.loading:status==='unavailable'?w.unavailable:status==='account-changed'?w.changed:w.error;
+   text(context,message,1350,188,25,MUTED);return;
+  }
+  const rows=rankingRows(board);
+  if(!rows.length){text(context,w.empty,1350,188,28,MUTED);return;}
   for(const [i,row]of rows.entries()){
-   const self=row.playerId===snapshot.selfId,y=173+i*43;
+   const self=row.rank===board.player?.rank,y=173+i*43;
    context.fillStyle=self?'#53623c':i%2?'#285552':'#234c49';context.fillRect(1340,y-18,675,38);
    if(self){context.fillStyle=GOLD;context.fillRect(1340,y-18,5,38);}
    const color=self?SELF:CHALK;
    text(context,String(row.rank),1350,y,26,color);
    context.font='800 28px Arial, sans-serif';
-   const name=self?w.you:`${w.player} ${row.number}`;
+   const name=self?w.you:typeof row.name==='string'&&row.name?row.name:w.player;
    text(context,shortName(context,name,350),1415,y,28,color);
    text(context,row.score.toLocaleString(language==='en'?'en-US':'ru-RU'),2005,y,28,color,'right');
   }
@@ -136,14 +147,9 @@ export function createClassroomBoard(THREE,{document:doc=globalThis.document,par
    typeof p?.id==='string'&&Array.isArray(p.state?.position)&&p.state.position.length===3&&p.state.position.every(Number.isFinite)&&
    Array.isArray(p.state.quaternion)&&p.state.quaternion.length===4&&p.state.quaternion.every(Number.isFinite))
    .map((p,i)=>({...p,number:Number.isSafeInteger(p.number)&&p.number>0?p.number:i+1}));
-  const present=new Map(players.map(p=>[p.id,p])),seen=new Set();
-  standings=(Array.isArray(snapshot?.driftLeaderboard)?snapshot.driftLeaderboard:[]).slice(0,20).filter(entry=>{
-   if(!present.has(entry?.playerId)||seen.has(entry.playerId)||!Number.isSafeInteger(entry.score)||entry.score<0||entry.score>100000000)return false;
-   seen.add(entry.playerId);return true;
-  }).map(entry=>({...entry,number:present.get(entry.playerId).number}));
   motion.receive(players.filter(p=>p.id!==snapshot?.selfId),now);lastSnapshot=snapshot;
  }
- function update({now=performance.now(),anchor,snapshot=null,language='ru',active=true}={}){
+ function update({now=performance.now(),anchor,snapshot=null,leaderboard=null,language='ru',active=true}={}){
   if(disposed||!Number.isFinite(now))return;
   const close=active&&Number.isFinite(anchor?.x)&&Number.isFinite(anchor?.z)&&Math.hypot(anchor.x-school.x,anchor.z-school.z)<=NEAR_DISTANCE;
   if(!close){near=false;return;}
@@ -155,11 +161,12 @@ export function createClassroomBoard(THREE,{document:doc=globalThis.document,par
   if(now-lastPaint+1e-6<PAINT_INTERVAL)return;
   lastPaint=now;
   const samples=players.filter(p=>p.id!==snapshot?.selfId).map(p=>({...p,state:motion.sample(p.id,now)})).filter(p=>p.state);
-  const key=JSON.stringify([roomKey,language,players.length,samples.map(p=>[p.id,p.number,Math.round(p.state.position[0]*10),Math.round(p.state.position[2]*10)]),standings.map(p=>[p.playerId,p.number,p.score])]);
+  const key=JSON.stringify([roomKey,language,players.length,samples.map(p=>[p.id,p.number,Math.round(p.state.position[0]*10),Math.round(p.state.position[2]*10)]),leaderboard?.status,leaderboard?.player?.rank,rankingRows(leaderboard).map(p=>[p.rank,p.name,p.score])]);
   if(key===paintKey)return;
   if(baseLanguage!==language)drawBase(language);
-  context.drawImage(background,0,0);drawPlayers(samples,words[language]);drawStandings(snapshot,words[language],language);
+  context.drawImage(background,0,0);drawPlayers(samples,words[language]);drawStandings(leaderboard,words[language],language);
   if(snapshot)text(context,`${players.length}/20`,1256,55,28,CHALK,'right');
+  else text(context,words[language].offline,1256,609,24,MUTED,'right');
   texture.needsUpdate=true;paintKey=key;
  }
  update({now:0,anchor:school});

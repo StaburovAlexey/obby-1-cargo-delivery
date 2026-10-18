@@ -6,7 +6,7 @@
 
 При запуске `npm run dev` инструменты разработчика включены автоматически: сразу доступны все 11 машин, включая наградную BMW, и въезд в каньон. Покупки и предварительное прохождение не нужны. Машины можно выбрать в ангаре, вернуться и выбрать другую; доступ сохраняется после пересборки сцены. Адрес с `?dev=0` включает обычные ограничения для проверки прогрессии. В остальных локальных/development-сборках предварительный просмотр включается явным `?dev=1`. Производственная платформенная сборка игнорирует этот параметр и сохраняет обычные ограничения.
 
-Доступ действует только в текущем режиме: список реально купленных машин и доказательство завершения маршрута не подменяются, карьерные сохранения не записываются. Предпросмотр ещё не полученной машины не создаёт грузовой рейс, не выдаёт деньги, мозги или доказательство прохождения. Все попытки дрифта в режиме разработчика тренировочные: очки считаются локально, рейтинговая попытка на сервере не создаётся и результат в таблицу Яндекса не отправляется. После открытия обычной версии остаётся исходная карьера.
+Доступ действует только в текущем режиме: список реально купленных машин и доказательство завершения маршрута не подменяются, карьерные сохранения не записываются. Предпросмотр ещё не полученной машины не создаёт грузовой рейс, не выдаёт деньги, мозги или доказательство прохождения. Все попытки дрифта в режиме разработчика тренировочные: очки считаются локально, карьерные рекорды и таблица Яндекса не записываются. После открытия обычной версии остаётся исходная карьера.
 
 ## Непрерывная развилка
 
@@ -37,13 +37,25 @@
 
 Документация SDK: https://yandex.ru/dev/games/doc/ru/sdk/sdk-leaderboard и https://yandex.ru/dev/games/doc/ru/sdk/sdk-player.
 
-Для рейтинговой попытки нужен обновлённый сервер комнаты. Он наблюдает движение BMW и сам вычисляет результат с проверкой маршрута, высоты, времени и пропущенных участков. Клиент не передаёт серверу готовое число очков. Затем подтверждённый результат отправляется через SDK Яндекса. Это проверка допустимости наблюдаемой траектории, а не криптографическая защита клиента: SDK и обычные облачные сохранения остаются клиентскими API. Прямые сторонние вызовы SDK требуют отдельной защиты на стороне платформы.
+### Текущая модель: клиентский расчёт (18 октября 2026)
+
+Очки полностью вычисляются на клиенте. Завершённый допустимый заезд сохраняется локально сразу на финише и напрямую передаётся в `ysdk.leaderboards.setScore`, только если он улучшает лучший результат игрока. Подключение к серверу комнаты для этого не требуется. Сохраняются проверки непрерывного движения, времени, полного маршрута, повторного прохождения участков, конечных чисел и диапазонов. Пауза/большой разрыв времени исключают попытку из рейтинга; незавершённые, телепортированные и некорректные попытки не отправляются. При недоступном SDK/авторизации локальная игра и личный рекорд продолжают работать.
+
+Это сознательный выбор более слабой защиты от накрутки: все проверки и итоговое число находятся у игрока, сервер больше не подтверждает траекторию или очки. Поле `verified` не создаётся; старые сохранения читаются с удалением прежнего признака подтверждения. Успешная запись в Яндекс означает только принятие результата платформой, а не независимую проверку заезда.
+
+Сервис рейтинга один на приложение: таблица на физической доске, окно кубка и результат каньона используют один кеш Яндекса (30 секунд) и один поток последовательных отправок. Чтение запускается при старте и возвращении в ангар, повторное открытие кубка использует кеш, успешная отправка инвалидирует и обновляет его. Закрытие кубка не уничтожает общий кеш. Доска отдельно использует уже известные координаты игроков текущей комнаты для карт и глобальные места/имена/очки Яндекса для правой таблицы. Рейтинг не входит в сетевые пакеты движения. Разрыв соединения с комнатой убирает её маркеры, но не глобальную таблицу.
+
+Завершённый локальный рекорд не теряется, пока ожидается ответ Яндекса. Ответ после двухсекундного возврата в ангар не открывает карточку заново. Смена аккаунта, уничтожение сцены или новая попытка отменяют ещё не начатую устаревшую запись; уже начатый внешний запрос нельзя отозвать. Режим разработки не записывает ни карьерный рекорд, ни рейтинг.
+
+Описания серверного подтверждения в исторических проверках ниже относятся к предыдущей архитектуре и не описывают текущую модель.
+
+Проверка клиентской модели 18 октября 2026: 142/142 теста в объединённом наборе `canyon-*`, `classroom-*`, `hangar-drift-leaderboard*`, `yandex-platform`, `yandex-app` и `localization`. После усиления немедленной очистки кеша при смене аккаунта отдельно повторно прошли 15/15 тестов SDK-адаптера и окна кубка. Проверялись локальный финиш без комнаты, отклонение некорректных/незавершённых попыток, отсутствие dev-записей, лучший результат, авторизация и сбои, запоздавший ответ после ангара, общий кеш и отдельные источники карты/рейтинга. SDK использовался только в тестовых подменах: реальные результаты в Яндекс не отправлялись. Это Node/DOM/canvas-contract проверки, без новой браузерной/GPU-проверки.
 
 Комната и её ID сохраняются при въезде/выезде. Каньон физически соединён с основной дорогой и расположен восточнее неё. Ближайшие участники этой же комнаты видны через существующие интерполированные модели; отдельный поиск комнаты не выполняется. Машины других участников сохраняют прежнее поведение отображения без физических столкновений.
 
 В VK и локальной разработке работают сам этап и личный рекорд; рейтинг Яндекса доступен в сборке для Яндекс Игр с действующим SDK. Отсутствие таблицы в кабинете, отказ авторизации и ошибка сети не блокируют повтор заезда.
 
-## Проверка непрерывного мира
+## Историческая проверка непрерывного мира
 
 17 октября 2026: все 61 тест каньона проходят. Проверены физический въезд, обратный выезд и повторный въезд в настоящем приложении: та же модель, координаты и скорости на границе, передача и удерживаемый ввод, родитель машины, положение/состояние камеры и видимость мира; нет вызовов reset/pause на переходе. Проверены асинхронная отмена результата, 11 машин в dev, производственные ограничения, пересборка и восстановление кешированной страницы.
 
@@ -77,24 +89,24 @@
 
 Итоговые целевые проверки этой правки: 67/67 тестов каньона и ограждений; обе сборки Yandex/VK; 29 проверок прогрессии, 27 камеры/мультитача и 21 базовой динамики. Общий исторический набор не считается полностью зелёным: неизменённая исходная версия отдельно воспроизводит пять падений `physics-app-integration.mjs` (6/11). Старые сетевые тесты также содержат несовпадающие с текущей игрой ожидания по числу мостов, машин и preview. Тест реального контакта перенесён на западную стену, поскольку на восточной стороне в его прежней позиции теперь находится открытый Y-выезд.
 
-## Surface ownership correction
+## Historical: surface ownership correction
 
 The city and branch now have disjoint rendered footprints. The approach asphalt and shoulders are clipped against the actual city road triangle boundaries; city terrain is cut out beneath the complete 20 m approach ribbon. Both pavements retain the same physical height and unchanged collision union. City facades are excluded from a 48 m fork corridor and the full canyon landscape corridor. Sandstone bands have no overlapping sidewalls or internal caps. The basin half-width is 45 m, below the 50 m minimum bend radius, preventing folded triangles.
 
 Regression coverage: `tests/canyon-surface-ownership.mjs` checks planar subtraction, road/terrain overlap, continuous road coverage, facade clearance, rock-band seams and basin winding. Existing fork tests exercise driving at 30/60/120 FPS and the seam in both directions. Live GPU/browser verification is unavailable in this environment; these checks validate source geometry and physical traversal rather than claiming a rendered browser inspection.
 
-## Rocks from the exit mouth
+## Historical: rocks from the exit mouth
 
 Approach outcrops now start at the first 1 m centerline sample where the branch asphalt emerges from the main road (56 m along the shared approach, rather than 357 m). The outside row starts there; the inner row starts at 132 m once its full envelope and a 1 m margin clear the main road. Rock size and height grow gradually, with no longitudinal sample gap over 19 m, through the approach/canyon join and into the existing rock row. The asphalt, smooth 45-degree fork, steel rails, vehicle/camera continuity and production/developer gating are unchanged.
 
 The same seven-sided footprints drive rendering, facade exclusion and terrain removal. Existing disjoint sandstone rings/internal-cap removal are retained; new underground flat bases are open to avoid overlapping coplanar bottom caps. No extra terrain floor is added. `tests/canyon-rock-entrance.mjs` checks the start, spacing, road/shoulder clearance, actual terrain and house exclusion, and rendered stratum seams. All 76 canyon tests and both Yandex/VK production builds pass. Browser/GPU visual QA was not available; validation is geometry/build/driving-test based.
 
-## Opposite city frontage restored
+## Historical: opposite city frontage restored
 
 The approach's padded landscape buffer is clipped at the main-road centerline, so it no longer removes the west-side city frontage facing the exit. Four ordinary residences fill the 72 m gap while retaining their standard road setback. The entire east/exit-side buffer, exact approach-rock footprints, full canyon corridor, terrain cuts and asphalt geometry are unchanged. Regression coverage requires a continuous opposite row and checks that restored houses remain outside both main and branch asphalt; all real rock exclusion tests remain active.
 
 
-## Tight exit-side frontage and painted banner
+## Historical: tight exit-side frontage and painted banner
 
 The follow-up view also exposed an unnecessary lawn gap on the exit side. Facade clearance now uses the actual 20 m approach/shoulder ribbon and exact rock polygons, while retaining the full established canyon landscape corridor. Two full city houses and a 13.13 m boundary-fitted house join the existing row edge-to-edge; the final lot stops 5 cm before the blocking boundary. All real rock footprints and road geometry remain protected. The opposite four-house infill remains. Tests assert both continuous frontages, minimum usable final-lot width, and house/road/rock separation.
 

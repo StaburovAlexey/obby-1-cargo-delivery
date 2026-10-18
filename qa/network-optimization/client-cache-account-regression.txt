@@ -1,0 +1,23 @@
+✔ Yandex rankings use the current native SDK and submit only an improved locally finished result (3.7902ms)
+✔ anonymous players can read rankings and login opens only on an explicit action (1.167058ms)
+✔ missing console leaderboard and unsupported platforms leave local play available (0.458114ms)
+✔ concurrent submissions serialize and SDK reads are cached within rate limits (1.752865ms)
+✔ account changes invalidate delayed leaderboard responses and stale submissions (3.79706ms)
+✔ an account switch also clears cached personal ranking data (0.422269ms)
+✔ development mode never reads or writes a live leaderboard even with SDK methods present (0.353425ms)
+✔ an obsolete completed run cannot write after its pending personal-best read (1.992998ms)
+✔ failed submission stays retryable and does not erase the cached ranking status (0.901315ms)
+✔ truthful unavailable/development state with no fabricated entries and RU/EN labels (2.416109ms)
+✔ real entries, personal rank and unsafe names rendered as text; no submission (16.176072ms)
+✔ empty, error and missing leaderboard states remain distinct (1.842461ms)
+✔ focus trap, Escape, backdrop and late response cancellation (4.677434ms)
+✔ unavailable hangar access never opens or fetches (0.450452ms)
+✔ reopening the trophy dialog reuses its cache instead of making a new SDK adapter (0.668132ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 103.285353

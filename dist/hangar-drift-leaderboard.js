@@ -5,10 +5,11 @@ const copy = {
  en: {title:'Drift leaderboard',close:'Close leaderboard',rank:'Rank',player:'Player',score:'Score',loading:'Loading leaderboard…',ready:'Best runs on Yandex Games.',empty:'No results yet.',unavailable:'The leaderboard is available only on Yandex Games.',development:'The online leaderboard is unavailable in this test version.',error:'Could not load the leaderboard. Please try again later.',missing:'The leaderboard is temporarily unavailable.',changed:'Your account changed. Reload the game.',auth:'Sign in to Yandex Games to see your result.',self:'Your result'},
 };
 
-export function createHangarDriftLeaderboard(doc,{platform,language=()=> 'ru',canOpen=()=>true,onOpenChange=()=>{}}={}) {
+export function createHangarDriftLeaderboard(doc,{platform,leaderboard,language=()=> 'ru',canOpen=()=>true,onOpenChange=()=>{}}={}) {
  const el=id=>doc.getElementById(`hangar-drift-${id}`);
  const button=el('button'),menu=el('menu'),panel=el('panel'),closeButton=el('close');
- let opened=false,disposed=false,board=null,adapter=null,epoch=0,returnFocus=null,background=[];
+ let opened=false,disposed=false,board=null,epoch=0,returnFocus=null,background=[];
+ const adapter=leaderboard??createCanyonLeaderboard({platform});
  const listeners=[];
  const listen=(node,type,fn)=>{node.addEventListener(type,fn);listeners.push(()=>node.removeEventListener(type,fn));};
  const contains=(parent,node)=>{if(parent.contains)return parent.contains(node);for(let n=node;n;n=n.parentNode||n.parent)if(n===parent)return true;return false;};
@@ -32,17 +33,17 @@ export function createHangarDriftLeaderboard(doc,{platform,language=()=> 'ru',ca
  }
  function close({restoreFocus=true}={}){
   if(!opened)return;
-  opened=false;epoch++;adapter?.dispose();adapter=null;menu.hidden=true;button.setAttribute('aria-expanded','false');
+  opened=false;epoch++;menu.hidden=true;button.setAttribute('aria-expanded','false');
   for(const [node,inert] of background)node.inert=inert;background=[];
   onOpenChange(false);
   if(restoreFocus&&!button.hidden)(returnFocus||button).focus?.();
  }
  async function open(){
   if(disposed||opened||!canOpen())return false;
-  opened=true;const token=++epoch;returnFocus=doc.activeElement;board={status:'loading'};
+  opened=true;const token=++epoch;returnFocus=doc.activeElement;board=adapter.state.status==='ready'?adapter.state:{status:'loading'};
   menu.hidden=false;button.setAttribute('aria-expanded','true');onOpenChange(true);
   for(const node of Array.from(doc.body.children||[])){if(node===menu||contains(node,menu))continue;background.push([node,node.inert]);node.inert=true;}
-  refresh();closeButton.focus?.();adapter=createCanyonLeaderboard({platform});
+  refresh();closeButton.focus?.();
   const result=await adapter.load();if(disposed||!opened||token!==epoch)return false;
   board=result;refresh();return true;
  }
@@ -56,6 +57,7 @@ export function createHangarDriftLeaderboard(doc,{platform,language=()=> 'ru',ca
  });
  listen(doc,'focusin',event=>{if(opened&&!contains(menu,event.target))closeButton.focus?.();});
  for(const node of [button,menu])for(const type of ['pointerdown','pointerup','pointermove','touchstart','touchmove','touchend','wheel','keyup','click'])listen(node,type,event=>event.stopPropagation());
+ const unsubscribe=adapter.subscribe?.(state=>{if(opened){board=state;refresh();}});
  refresh();menu.hidden=true;
- return {open,close,refresh,isOpen:()=>opened,dispose(){if(disposed)return;close({restoreFocus:false});disposed=true;listeners.splice(0).forEach(remove=>remove());}};
+ return {open,close,refresh,isOpen:()=>opened,dispose(){if(disposed)return;close({restoreFocus:false});disposed=true;unsubscribe?.();if(!leaderboard)adapter.dispose();listeners.splice(0).forEach(remove=>remove());}};
 }

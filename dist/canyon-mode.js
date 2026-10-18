@@ -9,15 +9,14 @@ import {createCanyonLeaderboard} from './canyon-leaderboard.js';
 import {vehicleConfig} from './economy-config.js';
 import {groundHeight} from './city-driving.js';
 
-export function createCanyonMode(THREE,{scene,document:doc,platform,language,getContext,onEnter=()=>{},onExit=()=>{},onControlsChanged=()=>{}}){
+export function createCanyonMode(THREE,{scene,document:doc,platform,leaderboard:sharedLeaderboard,language,getContext,onEnter=()=>{},onExit=()=>{},onControlsChanged=()=>{}}){
  const entrance=createCanyonEntrance(THREE,{document:doc,language});scene.add(entrance.group);
  const environment=createCanyonScene(THREE);scene.add(environment.group);
  const effects=createDriftEffects(THREE,{height:(x,z)=>canyonSurface(x,z,12)?canyonHeight(x,z):groundHeight(x,z)});scene.add(effects.group);
- const leaderboard=createCanyonLeaderboard({platform});
- let active=false,phase='idle',disposed=false,epoch=0,vehicle=null,scorer=null,runId=null,runReady=Promise.resolve(null),result=null,rankings=false,accessProof=Symbol('initial'),accessDevelopment=null,accessVehicle=null;
+ const leaderboard=sharedLeaderboard??createCanyonLeaderboard({platform});
+ let active=false,phase='idle',disposed=false,epoch=0,vehicle=null,scorer=null,result=null,resultEligible=false,rankings=false,accessProof=Symbol('initial'),accessDevelopment=null,accessVehicle=null;
  const account=()=>platform?.accountGeneration??0;
  const current=(token,owner)=>!disposed&&active&&token===epoch&&owner===account()&&!platform?.status?.reloadRequired;
- const client=()=>getContext().online?.client;
  const ui=createCanyonUi(doc,{language,rankingsEnabled:platform?.id==='yandex',onRetry:()=>api.retry(),onExit:()=>api.retry(),onRankings:()=>api.showRankings(),onLogin:()=>api.login()});
  const solids=getContext().garage.walkingSolids||getContext().garage.classroomSolids;
  solids?.push(...entrance.solids);
@@ -25,13 +24,12 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,language,get
  const developerMode=()=>getContext().gameplay.state.developerMode===true;
  function access(){const career=getContext().gameplay.state,development=developerMode(),vehicleId=career.selectedId;if(career.routeCompletion!==accessProof||development!==accessDevelopment||vehicleId!==accessVehicle){accessProof=career.routeCompletion;accessDevelopment=development;accessVehicle=vehicleId;entrance.updateAccess(getContext().gameplay.snapshot(),{developerMode:development,vehicleId});}}
  function prepare(){
-  epoch++;leaderboard.cancelPending();client()?.cancelDriftRun();runId=null;runReady=Promise.resolve(null);result=null;rankings=false;scorer=createDriftScore();
+  epoch++;result=null;resultEligible=false;rankings=false;scorer=createDriftScore();
   phase='running';start();ui.update({phase});
  }
  function start(){
-  phase='running';if(!scorer.start(drivingModel().state)){phase='arming';ui.hide();return;}const token=epoch;
+  phase='running';if(!scorer.start(drivingModel().state)){phase='arming';ui.hide();return;}
   if(developerMode()){scorer.disqualify('development');onControlsChanged();return;}
-  runReady=Promise.resolve(client()?.startDriftRun()).then(reply=>{if(token!==epoch||!active)return null;runId=reply?.ok?reply.runId:null;if(!runId)scorer.disqualify('offline');return runId;}).catch(()=>{if(token===epoch)scorer.disqualify('offline');return null;});
   onControlsChanged();
  }
  const api={entrance,environment,get model(){return drivingModel();},effects,leaderboard,get active(){return active;},get phase(){return phase;},get controlsLocked(){return false;},get score(){return scorer?.state;},
@@ -45,7 +43,7 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,language,get
    vehicle=c.garage.vehicles.find(v=>v.model===c.model);if(!vehicle||!c.gameplay.beginCanyonRun())return false;
    active=true;documentClass(true);prepare();onEnter({model:vehicle.model,vehicle});return true;
   },
-  retry(){if(!active||disposed||phase==='celebrating'||platform?.status?.reloadRequired)return false;epoch++;leaderboard.cancelPending();client()?.cancelDriftRun();phase='touring';scorer=null;result=null;ui.hide();return true;},
+  retry(){if(!active||disposed||phase==='celebrating'||platform?.status?.reloadRequired)return false;epoch++;phase='touring';scorer=null;result=null;resultEligible=false;ui.hide();return true;},
   tryEnter(){access();const c=getContext();return !active&&c.driving?api.enter():false;},
   pose(){const model=drivingModel(),currentVehicle=vehicle??getContext().garage.vehicles.find(v=>v.model===model);return canyonPose(THREE,model.state,currentVehicle?.visual?.metadata);},
   step(rawDelta){
@@ -66,36 +64,34 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,language,get
    }
    if(phase==='running')ui.update({phase,score:scorer?.state.score,multiplier:scorer?.state.multiplier,progress:scorer?.state.progress,angle:model.state.slipAngle,length:CANYON_TRACK.finish});
   },
-  pause(reason='paused'){if(!active||phase==='celebrating')return;scorer?.disqualify(reason);client()?.cancelDriftRun();runId=null;ui.suspend();effects.clear();},
+  pause(reason='paused'){if(!active||phase==='celebrating')return;scorer?.disqualify(reason);ui.suspend();effects.clear();},
   async complete(){
    if(!active||phase!=='running')return null;
-   const model=drivingModel(),token=epoch,owner=account(),local=scorer.result(),g=getContext().gameplay,runScorer=scorer,runClient=client(),development=developerMode();
-   // Snapshot the completed run at the line. Its asynchronous verification may
-   // finish after the two-second celebration has already returned to the hangar.
-   phase='checking';result=local;
+   const model=drivingModel(),token=epoch,owner=account(),local=scorer.result(),g=getContext().gameplay,runScorer=scorer,development=developerMode();
+   // Finalize locally at the line. A completed score never depends on a room
+   // connection, and its Yandex write may finish after the timed hangar return.
+   result=local;resultEligible=!!local&&runScorer.state.rankedEligible&&!development;
    const celebrating=!!local&&g.beginFinish?.('canyon',model.state)===true;
-   if(celebrating){phase='celebrating';ui.update({phase:'celebrating',score:local.score,multiplier:runScorer.state.multiplier,progress:CANYON_TRACK.finish,length:CANYON_TRACK.finish,angle:model.state.slipAngle});}
-   else ui.showResult(local,{status:'checking'});
+   phase=celebrating?'celebrating':'result';
+   if(celebrating)ui.update({phase:'celebrating',score:local.score,multiplier:runScorer.state.multiplier,progress:CANYON_TRACK.finish,length:CANYON_TRACK.finish,angle:model.state.slipAngle});
+   else ui.showResult(local,{status:local?'checking':'cancelled'});
    onControlsChanged();
    vehicle.rig.update({...api.pose(),steerAngle:model.state.frontWheelAngle,wheelSpin:model.state.wheelSpin,bodyPitch:-model.state.bodyPitch,bodyRoll:-model.state.bodyRoll,bodyBob:model.state.bodyBob});
    const valid=()=>celebrating?!disposed&&token===epoch&&owner===account()&&!platform?.status?.reloadRequired:current(token,owner);
-   let verified=null;
-   try{const ticket=await runReady;if(!valid())return null;if(local&&runScorer.state.rankedEligible&&ticket)verified=await runClient?.finishDriftRun(ticket);else runClient?.cancelDriftRun();}catch{}
    if(!valid())return null;
-   const settled=verified||local;result=settled;if(!celebrating)phase='result';
-   if(settled&&!development)g.recordDriftResult(settled);
-   let status=local?(development?'development':runScorer.state.rankedEligible?'unverified':'practice'):'cancelled';
-   if(verified&&!development){if(!celebrating)ui.showResult(settled,{status:'checking'});const submission=await leaderboard.submit(verified);if(!valid())return null;status=submission.status;}
-   if(!celebrating){ui.showResult(settled,{status});onControlsChanged();}return settled;
+   if(local&&!development)g.recordDriftResult(local);
+   let status=local?(development?'development':'practice'):'cancelled';
+   if(resultEligible){const submission=await leaderboard.submit(local,{isCurrent:valid});if(!valid())return null;status=submission.status;}
+   if(!celebrating&&valid()){ui.showResult(local,{status});onControlsChanged();}return local;
   },
   async showRankings(){if(!active||phase==='celebrating')return;rankings=true;const token=epoch;ui.showRankings({...leaderboard.state,status:'loading'});const board=await leaderboard.load();if(active&&token===epoch&&rankings)ui.showRankings(board);},
-  async login(){if(!active||phase==='celebrating')return;const token=epoch;ui.setLoginBusy(true);const status=await leaderboard.login();if(!active||token!==epoch)return;ui.setLoginBusy(false);if(status.status==='authorized'&&result?.verified){const submitted=await leaderboard.submit(result);if(active&&token===epoch)ui.showResult(result,{status:submitted.status});}else if(status.status!=='authorized')ui.showResult(result,status);},
+  async login(){if(!active||phase==='celebrating')return;const token=epoch;ui.setLoginBusy(true);const status=await leaderboard.login();if(!active||token!==epoch)return;ui.setLoginBusy(false);if(status.status==='authorized'&&resultEligible&&result){const submitted=await leaderboard.submit(result,{isCurrent:()=>active&&token===epoch});if(active&&token===epoch)ui.showResult(result,{status:submitted.status});}else if(status.status!=='authorized')ui.showResult(result,status);},
   updateEffects(dt,{paused=false,grounded=true,camera}={}){const c=getContext(),v=active?vehicle:c.garage.vehicles.find(v=>v.model===c.model);effects.update(dt,active?drivingModel().state:c.model.state,{enabled:c.driving&&c.gameplay.state.selectedId==='bmwreward'&&!paused&&!api.controlsLocked,grounded,metadata:v?.visual?.metadata,pose:v?.rig.pose,camera});},
   leave(){
-   if(!active)return;if(phase!=='celebrating'){epoch++;leaderboard.cancelPending();client()?.cancelDriftRun();}runId=null;active=false;phase='idle';ui.hide();effects.clear();
+   if(!active)return;if(phase!=='celebrating')epoch++;active=false;phase='idle';ui.hide();effects.clear();
    getContext().gameplay.endCanyonRun?.();vehicle=null;documentClass(false);onExit();
   },
-  dispose(){if(disposed)return;api.leave();disposed=true;epoch++;client()?.cancelDriftRun();leaderboard.dispose();ui.dispose();effects.dispose();entrance.group.removeFromParent();entrance.dispose();environment?.group.removeFromParent();environment?.dispose();for(const solid of entrance.solids){const index=solids?.indexOf(solid)??-1;if(index>=0)solids.splice(index,1);}},
+  dispose(){if(disposed)return;api.leave();disposed=true;epoch++;if(!sharedLeaderboard)leaderboard.dispose();ui.dispose();effects.dispose();entrance.group.removeFromParent();entrance.dispose();environment?.group.removeFromParent();environment?.dispose();for(const solid of entrance.solids){const index=solids?.indexOf(solid)??-1;if(index>=0)solids.splice(index,1);}},
  };
  function documentClass(value){doc.body.classList.toggle('is-canyon',value);}
  access();return api;

@@ -1,5 +1,5 @@
 import {translateGameText} from './localization.js';
-const notes={posted:'Результат отправлен в таблицу Яндекса.', 'not-improved':'Ваш лучший результат уже в таблице Яндекса.', 'auth-required':'Войдите в Яндекс, чтобы попасть в таблицу лидеров.', unavailable:'Личный рекорд сохранён. Рейтинг доступен в Яндекс Играх.', unverified:'Личный рекорд сохранён. Результат не отправлен.', practice:'Тренировочный заезд. Личный рекорд сохранён.', development:'Тренировочный заезд. Результат не сохраняется.', checking:'Проверяем заезд…', 'missing-board':'Таблица лидеров временно недоступна.', error:'Не удалось загрузить рейтинг. Попробуйте позже.', 'account-changed':'Аккаунт изменился. Перезагрузите игру.', cancelled:'Попытка прервана.'};
+const notes={posted:'Результат отправлен в таблицу Яндекса.', 'not-improved':'Ваш лучший результат уже в таблице Яндекса.', 'auth-required':'Войдите в Яндекс, чтобы попасть в таблицу лидеров.', unavailable:'Личный рекорд сохранён. Рейтинг доступен в Яндекс Играх.', local:'Личный рекорд сохранён. Результат не отправлен.', practice:'Тренировочный заезд. Личный рекорд сохранён.', development:'Тренировочный заезд. Результат не сохраняется.', checking:'Сохраняем результат…', 'missing-board':'Таблица лидеров временно недоступна.', error:'Не удалось загрузить рейтинг. Попробуйте позже.', 'account-changed':'Аккаунт изменился. Перезагрузите игру.', cancelled:'Попытка прервана.'};
 export function createCanyonUi(doc,{onRetry=()=>{},onExit=()=>{},onRankings=()=>{},onLogin=()=>{},language=()=> 'ru',rankingsEnabled=true,now=()=>performance.now()}={}){
  const el=id=>doc.getElementById(id),listeners=[];let lastResult=null,lastOptions={},lastScore=0,lastGain=-Infinity;
  const lang=()=>typeof language==='function'?language():language;
@@ -11,7 +11,7 @@ export function createCanyonUi(doc,{onRetry=()=>{},onExit=()=>{},onRankings=()=>
   resetHud();
   lastResult=result;lastOptions=options;el('canyon-overlay').hidden=false;el('canyon-hud').hidden=true;el('canyon-rankings').hidden=true;el('canyon-back').hidden=true;
   set('canyon-title',text(result?'Каньон пройден':'Попытка прервана'));el('canyon-result-score').hidden=false;set('canyon-result-score',number(result?.score));
-  set('canyon-result-note',text(notes[options.status]||notes.unverified));el('canyon-login').hidden=options.status!=='auth-required';el('canyon-rankings-button').hidden=!rankingsEnabled;
+  set('canyon-result-note',text(notes[options.status]||notes.local));el('canyon-login').hidden=options.status!=='auth-required';el('canyon-rankings-button').hidden=!rankingsEnabled;
  }
  listen('canyon-retry',onRetry);listen('canyon-exit',onExit);listen('canyon-rankings-button',onRankings);listen('canyon-login',onLogin);listen('canyon-back',()=>showResult(lastResult,lastOptions));
  return {

@@ -39,3 +39,8 @@ test('focus trap, Escape, backdrop and late response cancellation',async()=>{
 test('unavailable hangar access never opens or fetches',async()=>{
  let reads=0;const f=fixture({canOpen:()=>false,platform:live({getLeaderboardStatus:()=>reads++})});assert.equal(await f.ui.open(),false);assert.equal(reads,0);assert(f.ids.get('menu').hidden);f.ui.dispose();
 });
+
+test('reopening the trophy dialog reuses its cache instead of making a new SDK adapter',async()=>{
+ let reads=0;const f=fixture({platform:live({getLeaderboardEntries:async()=>{reads++;return {entries:[{rank:1,score:2345,player:{publicName:'Cached driver'}}]};}})});
+ try{await f.ui.open();f.ui.close();await f.ui.open();assert.equal(reads,1);assert.equal(f.ids.get('rows').children[0].children[1].textContent,'Cached driver');}finally{f.ui.dispose();}
+});

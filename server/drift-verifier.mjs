@@ -1,3 +1,5 @@
+// Historical handling/physics QA helper only. The room server does not import
+// this module, and the multiplayer deployment does not package or run it.
 import {createDriftScore} from '../dist/drift-score.js';
 import {projectCanyon,canyonContact,CANYON_TRACK} from '../dist/canyon-track.js';
 

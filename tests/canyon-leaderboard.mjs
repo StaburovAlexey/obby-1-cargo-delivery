@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {initializeYandexPlatform} from '../dist/yandex-platform.js';
 import {createCanyonLeaderboard} from '../dist/canyon-leaderboard.js';
-const record={version:1,trackId:'canyon-v1',score:24000,durationMs:130000,maxCombo:4,verified:true};
+const record={version:1,trackId:'canyon-v1',score:24000,durationMs:130000,maxCombo:4};
 function fixture({authorized=true,missing=false}={}){
  const events=new Map(),calls=[];let score=5000;
  const sdk={environment:{i18n:{lang:'ru'}},on:(n,f)=>events.set(n,f),off(){},features:{GameplayAPI:{start(){},stop(){}},LoadingAPI:{ready(){}}},
@@ -13,13 +13,14 @@ function fixture({authorized=true,missing=false}={}){
  return {sdk,events,calls};
 }
 
-test('Yandex rankings use the current native SDK and submit only an improved verified result',async()=>{
+test('Yandex rankings use the current native SDK and submit only an improved locally finished result',async()=>{
  const f=fixture(),platform=await initializeYandexPlatform({sdk:f.sdk}),board=createCanyonLeaderboard({platform});
  try{
   const loaded=await board.load();assert.equal(loaded.entries.length,2);assert.equal(loaded.player.score,5000);
   assert.equal((await board.submit(record)).status,'posted');assert.equal((await board.submit({...record,score:12000})).status,'not-improved');
   const sets=f.calls.filter(c=>c[0]==='set');assert.equal(sets.length,1);assert.equal(sets[0][1],'canyonDriftV1');assert.equal(sets[0][2],24000);
-  assert.equal((await board.submit({...record,verified:false,score:40000})).status,'unverified');
+  assert.equal((await board.submit({...record,durationMs:1,score:40000})).status,'invalid');
+  assert.equal((await board.submit({...record,score:Infinity})).status,'invalid');
  }finally{board.dispose();platform.destroy();}
 });
 test('anonymous players can read rankings and login opens only on an explicit action',async()=>{
@@ -50,5 +51,20 @@ test('account changes invalidate delayed leaderboard responses and stale submiss
 });
 test('an account switch also clears cached personal ranking data',async()=>{
  const f=fixture(),platform=await initializeYandexPlatform({sdk:f.sdk}),board=createCanyonLeaderboard({platform});
- try{await board.load();f.events.get('ACCOUNT_SELECTION_DIALOG_OPENED')();const next=await board.load();assert.equal(next.status,'account-changed');assert.deepEqual(next.entries,[]);assert.equal(next.player,null);}finally{board.dispose();platform.destroy();}
+ try{await board.load();f.events.get('ACCOUNT_SELECTION_DIALOG_OPENED')();assert.equal(board.state.status,'account-changed');assert.deepEqual(board.state.entries,[]);const next=await board.load();assert.equal(next.status,'account-changed');assert.deepEqual(next.entries,[]);assert.equal(next.player,null);}finally{board.dispose();platform.destroy();}
+});
+
+test('development mode never reads or writes a live leaderboard even with SDK methods present',async()=>{
+ const f=fixture(),platform=await initializeYandexPlatform({sdk:f.sdk,development:true}),board=createCanyonLeaderboard({platform});
+ try{assert.equal((await board.load()).status,'unavailable');assert.equal((await board.submit(record)).status,'unavailable');assert.deepEqual(f.calls,[]);}finally{board.dispose();platform.destroy();}
+});
+test('an obsolete completed run cannot write after its pending personal-best read',async()=>{
+ let current=true,resolve;const f=fixture();f.sdk.leaderboards.getPlayerEntry=()=>new Promise(r=>resolve=r);
+ const platform=await initializeYandexPlatform({sdk:f.sdk}),board=createCanyonLeaderboard({platform});
+ try{const pending=board.submit(record,{isCurrent:()=>current});while(!resolve)await new Promise(r=>setImmediate(r));current=false;resolve(null);assert.equal((await pending).status,'cancelled');assert.equal(f.calls.filter(c=>c[0]==='set').length,0);}finally{board.dispose();platform.destroy();}
+});
+test('failed submission stays retryable and does not erase the cached ranking status',async()=>{
+ const f=fixture();let fail=true;const setter=f.sdk.leaderboards.setScore;f.sdk.leaderboards.setScore=async(...args)=>{if(fail)throw new Error('network');return setter(...args);};
+ let time=0;const platform=await initializeYandexPlatform({sdk:f.sdk}),board=createCanyonLeaderboard({platform,now:()=>time,wait:async ms=>time+=ms});
+ try{await board.load();assert.equal((await board.submit(record)).status,'error');assert.equal(board.state.status,'ready');fail=false;assert.equal((await board.submit(record)).status,'posted');assert.equal(f.calls.filter(c=>c[0]==='set').length,1);}finally{board.dispose();platform.destroy();}
 });

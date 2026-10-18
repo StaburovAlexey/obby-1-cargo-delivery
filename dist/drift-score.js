@@ -1,3 +1,4 @@
+import {sanitizeDriftRecord} from './drift-record.js';
 import {CANYON_TRACK,projectCanyon} from './canyon-track.js';
 export const DRIFT_RULES=Object.freeze({minSpeed:9,minAngle:12*Math.PI/180,maxAngle:60*Math.PI/180,maxSpeed:55,comboGrace:1.2,pointsPerMeter:10});
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
@@ -34,6 +35,6 @@ export function createDriftScore(){
   },
   disqualify(reason='interrupted'){state.rankedEligible=false;state.reason=reason;breakCombo();},
   invalidate,
-  result(){return state.finished&&state.valid?{version:1,trackId:CANYON_TRACK.id,score:state.score,durationMs:Math.round(state.elapsed*1000),maxCombo:state.maxCombo,verified:false}:null;},
+  result(){return state.finished&&state.valid?sanitizeDriftRecord({version:1,trackId:CANYON_TRACK.id,score:state.score,durationMs:Math.round(state.elapsed*1000),maxCombo:state.maxCombo}):null;},
  };
 }

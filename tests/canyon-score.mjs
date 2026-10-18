@@ -30,11 +30,12 @@ test('invalid time and forged save records are rejected and old saves remain rea
  assert.equal(sanitizeDriftRecord({trackId:'other',score:900000}),null);
  assert.equal(sanitizeDriftRecord({version:1,trackId:'canyon-v1',score:Infinity,durationMs:100000,maxCombo:3}),null);
  const fresh=freshCareer();assert.equal(sanitizeCareer({...fresh,driftRecord:undefined}).driftRecord,null);
- const record={version:1,trackId:'canyon-v1',score:12000,durationMs:130000,maxCombo:4,verified:true};
- assert.deepEqual(sanitizeCareer({...fresh,driftRecord:record}).driftRecord,record);
+ const record={version:1,trackId:'canyon-v1',score:12000,durationMs:130000,maxCombo:4};
+ assert.deepEqual(sanitizeCareer({...fresh,driftRecord:{...record,verified:true}}).driftRecord,record,'legacy verification claims are discarded');
+ assert.equal(Object.hasOwn(score.result()??{},'verified'),false);
 });
 test('a genuine finisher saves only a better drift result without delivery rewards',()=>{
- const g=createGameplay({career:earnedRewardCareer()}),before=g.snapshot(),record={version:1,trackId:'canyon-v1',score:12000,durationMs:130000,maxCombo:4,verified:false};
+ const g=createGameplay({career:earnedRewardCareer()}),before=g.snapshot(),record={version:1,trackId:'canyon-v1',score:12000,durationMs:130000,maxCombo:4};
  assert.equal(g.recordDriftResult(record),true);assert.equal(g.snapshot().driftRecord.score,12000);assert.equal(g.recordDriftResult({...record,score:11000}),false);
  assert.equal(g.state.money,before.money);assert.equal(g.state.brains,before.brains);assert.equal(g.state.completedRuns,before.completedRuns);
  assert.equal(createGameplay().recordDriftResult(record),false);

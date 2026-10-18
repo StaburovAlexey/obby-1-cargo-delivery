@@ -1,0 +1,12 @@
+✔ room runtime has no drift verifier or leaderboard computation dependency (0.949508ms)
+✔ online movement client exposes no drift verification RPC (0.37598ms)
+✔ production clients retain far stationary map players and reconcile joins, seats and leaves (1354.795045ms)
+✔ a lost binary frame triggers recovery without losing the complete roster (1678.778126ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3371.851901

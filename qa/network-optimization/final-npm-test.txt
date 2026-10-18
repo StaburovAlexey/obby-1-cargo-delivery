@@ -1,0 +1,147 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> urban-route-procedural-three@1.70.2 test
+> npm run test:biome-progression && node tests/tow-baseline.mjs && node tests/vehicle-dynamics.mjs && node tests/physics-app-integration.mjs && node tests/vehicle-rig.mjs && node tests/driving.mjs && node tests/route-network.mjs && node tests/network-scene.mjs && node tests/sequential-route.mjs && node tests/economy-session.mjs && node tests/economy-integration.mjs && node tests/economy-progression.mjs && node tests/economy-ui.mjs && node tests/compact-fuel-hud.mjs && node tests/hud-style.mjs && node tests/bare-currency-hud.mjs && node tests/follow-camera.mjs && node tests/jump-integration.mjs && node tests/twenty-desks.mjs && node tests/character-row.mjs && node tests/seated-arm-axes.mjs && node tests/storefront-material.mjs && node tests/ten-vehicle-catalog.mjs && node tests/biome-surface-dynamics.mjs && node tests/biome-preview-integration.mjs && node tests/biome-road-shader.mjs && node tests/ordered-biome-tiers.mjs && node tests/learning-career.mjs && node tests/vehicle-upgrades.mjs && node tests/five-training-zones.mjs && node tests/progression-independent-state.mjs && node tests/progression-independent-app.mjs && node tests/progression-hud.mjs && node tests/tank-upgrades.mjs && node tests/road-hazards.mjs && node tests/road-hazards-scene.mjs && node tests/road-hazards-app.mjs && node tests/school-anchor-review.mjs && node tests/network-hazards.mjs && node tests/network-independent.mjs && node tests/route-hills.mjs && node tests/hills-independent.mjs && node tests/halved-handling.mjs && node tests/bridge-independent.mjs
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> urban-route-procedural-three@1.70.2 test:biome-progression
+> node --test tests/biome-progression.mjs tests/biome-progression-ui.mjs tests/cloud-career.mjs && node tests/career-route-tracker.mjs && node tests/reward-developer-mode.mjs
+
+✔ locked garage cars show only the price and keep the biome requirement in the purchase button (1319.42866ms)
+✔ an opened biome without a suitable car keeps the garage free of instruction banners  (1025.907741ms)
+✔ an opened biome without a suitable car keeps the garage free of instruction banners ?dev=1 (963.226561ms)
+✔ biome locks and discovery instructions translate with the vehicle and biome names (1.016259ms)
+✔ the boundary instruction keeps the player driving until the biome has really opened (1102.412469ms)
+✔ money alone cannot buy a future biome car, while the city upgrade remains available (2.94615ms)
+✔ a continuous old-car visit opens the biome once and survives garage return and reload (122.522236ms)
+✔ teleports, walking, stale runs and biome previews cannot open a biome (1.845033ms)
+✔ migration preserves owned tiers and currency without treating old first-claim history as visits (0.520608ms)
+✔ malformed discovery lists are bounded and never invoke array getters (0.376189ms)
+✔ a discovered biome still refuses old-car deliveries without consuming the cargo or paying (0.595321ms)
+✔ local and later-tier cars can deliver in the biome and earn one endpoint payout (1.442294ms)
+✔ discovery save failure is visible and retry preserves the visit after an invalid later sample (64.033144ms)
+✔ approved late prices are paid in full only after the biome is discovered (0.724026ms)
+✔ initial cloud failure rejects without local import or empty cloud overwrite and can retry (3.785101ms)
+✔ existing cloud wins over legacy and sanitizes mutable store snapshots (0.854113ms)
+✔ legacy import reads v2 career and audio/language once without any local writes (1.225957ms)
+✔ v1 selected premium avatar remains a separate legacy entitlement (0.380426ms)
+✔ synchronous saves coalesce, retain memory offline, and no-op flush never advances timestamp (1.679944ms)
+✔ reconnect chooses newest whole cloud save, ties favor cloud, and unions legacy rights (0.85212ms)
+✔ older cloud cannot roll back progress but contributes legacy rights independently (0.764918ms)
+✔ changes made while a write is in flight stay dirty and flush writes the latest revision (5.686008ms)
+✔ destroyed cloud controller cannot write after a pending read completes (1.251324ms)
+✔ corrupt or unsupported cloud data never triggers legacy import or overwrite (0.777667ms)
+✔ automatic retries are bounded and explicit retry recovers unsaved memory (41.157833ms)
+✔ newer-cloud replacement waits until merged legacy rights are durably saved (1.108318ms)
+✔ permanent premium skin snapshots union independently of newest progress without minting legacy rights (0.608872ms)
+✔ future career schema is rejected instead of replacing progress with a fresh save (0.235066ms)
+✔ discovered biomes survive a cloud save, reload and legacy ownership migration (0.820212ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 29
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4811.018277
+PASS actual route telemetry: 25 bridges, both branches of all forks, partial/jump/repeat/test/no-cargo/new-run guards.
+PASS explicit developer BMW: session-only access, no cargo/proof/payout/brains, repeated enter/failure, no save writes and unchanged normal reward lock.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
+PASS Pinned source configuration and city mesh adaptations are explicit
+PASS Exact deadzone, nonlinear steering response, and exponential response
+PASS Stationary start, held-wheel acceleration, release coast, and full stop
+PASS Forward/reverse changes slew through zero and preserve held steering
+PASS Maximum-turn speed limit is symmetric at 82 percent
+PASS Frame delta cap and nonpositive frame safeguards
+PASS Thousands of no-contact frames match the actual source updateVehicle
+PASS Tiny subthreshold source travel is retained for wheel animation
+PASS Bicycle turning circles and reverse yaw have the source signs
+Historical v25 Tow baseline: 9/9
+PASS Four explicit contact patches have balanced straight engine thrust and yaw torque
+PASS Tire point velocity and torque use the signed rigid-body cross products
+PASS All four passive tires oppose slip and stay within individual friction circles
+PASS Semi-implicit integration obeys F/m and torque/inertia instead of setting geometric yaw
+PASS Mirrored steering gives mirrored lateral forces, paths, and yaw
+PASS UI steering remains normalized while actual road rack angle limits high-speed demand
+PASS Every vehicle reaches its 11 / 17 / 24 m/s governed speed without overshoot: [{"maxSpeed":11,"timeTo90":1.767},{"maxSpeed":17,"timeTo90":2.233},{"maxSpeed":24,"timeTo90":3.25}]
+PASS Maximum steering produces small controlled slip across all vehicle tiers: [{"maxSpeed":11,"maxSlipDegrees":5.42,"maxYaw":0.968},{"maxSpeed":17,"maxSlipDegrees":1.02,"maxYaw":0.764},{"maxSpeed":24,"maxSlipDegrees":1.63,"maxYaw":0.582}]
+PASS D/R selection brakes through a low-speed interlock before reverse acceleration: [{"startGear":"D","crossedAt":1.775,"minimumSpeed":0.0509},{"startGear":"R","crossedAt":1.775,"minimumSpeed":0.0509}]
+PASS Forward and reverse steer in opposite yaw directions without unstable reverse oscillation
+PASS Flat release coasts, reaches rest, and stops all wheel/body motion after settling
+PASS A true ground gradient changes acceleration, coasting, and gentle-slope rollback: {"uphillAfterCoast":2.6275371694779333,"flatAfterCoast":3.793374025918132,"downhillAfterCoast":4.9609557556095645,"rollbackSpeed":-0.8562525545456067}
+PASS 30 / 60 / 120 Hz rendering produces equivalent rigid-body state and path sums: {"totalDistance":64.76552836255122}
+PASS Long frame stalls are bounded, fractional frames accumulate, invalid frames cannot replay distance
+PASS Unsigned actual path counts lateral skid even when forward wheel rolling is zero
+PASS Head-on contacts remove inward normal motion with no bounce or wheel spinning through a wall
+PASS Oblique contacts preserve along-wall velocity and generate an off-center contact torque: {"tangentSpeed":-6.022435580013048,"contactYawRate":1.2924721467221907}
+PASS Near-parallel contact stays stable inside the real conservative road envelope: {"poses":5,"frames":1800,"maxYaw":0.00007733528829685266}
+PASS Adaptive swept collision samples cannot tunnel through a thin barrier at 24 m/s
+PASS Invalid confined contacts cannot create projection teleports or heading snaps
+PASS Pause and reset clear all velocities, accumulator residue, and suspension springs
+
+21 original planar vehicle dynamics checks passed.
+PASS Actual app driving, reversing and fuel agree at 30, 60 and 120 Hz
+PASS A long render stall advances only the bounded physics budget and leaves no catch-up debt
+PASS Road gradient matches the rendered height convention and influences actual driving
+PASS Lateral sliding consumes true path fuel and camera distance without inventing wheel travel
+PASS Zero-duration app frames never repeat previous path, fuel use or camera distance
+FAIL Held wheel plus a second-pointer gear change brakes before rolling in reverse: AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert.ok(startingSpeed>1)
+
+    at file:///workspace/scratch/e6939d35b3a6/network-drift/tests/physics-app-integration.mjs:155:64
+    at check (file:///workspace/scratch/e6939d35b3a6/network-drift/tests/physics-app-integration.mjs:44:25)
+    at file:///workspace/scratch/e6939d35b3a6/network-drift/tests/physics-app-integration.mjs:152:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+PASS A real off-centre road contact changes planar momentum without a teleport
+FAIL Blur, resize and hidden-tab safety resets clear every planar momentum channel: AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert.ok(s.linearSpeed>0)
+
+    at file:///workspace/scratch/e6939d35b3a6/network-drift/tests/physics-app-integration.mjs:198:12
+    at check (file:///workspace/scratch/e6939d35b3a6/network-drift/tests/physics-app-integration.mjs:44:25)
+    at file:///workspace/scratch/e6939d35b3a6/network-drift/tests/physics-app-integration.mjs:194:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+FAIL Overview pause, garage return and re-entry clear stale forces, spin and teleport distance: AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+true !== false
+
+    at file:///workspace/scratch/e6939d35b3a6/network-drift/tests/physics-app-integration.mjs:211:55
+    at check (file:///workspace/scratch/e6939d35b3a6/network-drift/tests/physics-app-integration.mjs:44:25)
+    at file:///workspace/scratch/e6939d35b3a6/network-drift/tests/physics-app-integration.mjs:208:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+FAIL Empty fuel with sideways/angular momentum returns safely and cannot pay a coincident delivery: AssertionError [ERR_ASSERTION]: The "string" argument must be of type string. Received type undefined (undefined)
+    at file:///workspace/scratch/e6939d35b3a6/network-drift/tests/physics-app-integration.mjs:235:10
+    at check (file:///workspace/scratch/e6939d35b3a6/network-drift/tests/physics-app-integration.mjs:44:25)
+    at file:///workspace/scratch/e6939d35b3a6/network-drift/tests/physics-app-integration.mjs:226:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+FAIL All ten vehicle configurations retain finite dynamics and their own fuel accounting: AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+false !== true
+
+    at make (file:///workspace/scratch/e6939d35b3a6/network-drift/tests/physics-app-integration.mjs:37:10)
+    at file:///workspace/scratch/e6939d35b3a6/network-drift/tests/physics-app-integration.mjs:241:15
+    at check (file:///workspace/scratch/e6939d35b3a6/network-drift/tests/physics-app-integration.mjs:44:25)
+    at file:///workspace/scratch/e6939d35b3a6/network-drift/tests/physics-app-integration.mjs:238:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+Planar app integration: 6/11 checks passed.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
