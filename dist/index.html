@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="./progression-ui.css" />
     <link rel="stylesheet" href="./settings-menu.css" />
     <link rel="stylesheet" href="./online-ui.css" />
+    <link rel="stylesheet" href="./modal-ui.css" />
     <script type="importmap">
       { "imports": { "three": "./vendor/three.module.js" } }
     </script>
@@ -124,9 +125,9 @@
     <div id="biome-progress-notice" role="status" aria-live="polite" hidden></div>
     </header>
 
-    <div id="settings-menu" hidden>
-      <section id="settings-panel" role="dialog" aria-modal="true" aria-labelledby="settings-title" tabindex="-1">
-        <div class="settings-heading"><h2 id="settings-title">Настройки</h2><button id="settings-close" type="button" aria-label="Закрыть настройки">×</button></div>
+    <div id="settings-menu" class="game-modal" hidden>
+      <section id="settings-panel" class="game-modal-panel" role="dialog" aria-modal="true" aria-labelledby="settings-title" tabindex="-1">
+        <div class="settings-heading game-modal-heading"><h2 id="settings-title">Настройки</h2><button id="settings-close" class="game-modal-close" type="button" aria-label="Закрыть настройки">×</button></div>
         <nav class="settings-jump-nav" aria-label="Разделы настроек"><button id="settings-jump-play" type="button" aria-controls="settings-how-to-play">Как играть</button><button id="settings-jump-icons" type="button" aria-controls="settings-icon-guide">Значки</button><button id="settings-jump-credits" type="button" aria-controls="settings-credits">Авторы и лицензии</button></nav>
         <div id="settings-scroll" class="settings-scroll" tabindex="0" role="region" aria-label="Содержимое настроек и справки">
           <section class="settings-controls" aria-label="Настройки игры">
@@ -173,13 +174,13 @@
     </div>
 
     <button id="vehicle-funds-button" class="progression-action" type="button" hidden><svg class="hud-art" aria-hidden="true"><use href="#hud-money" /></svg><span>Деньги на все машины<small>Тест · один раз</small></span></button>
-    <div id="upgrade-menu" hidden><section id="upgrade-panel" role="dialog" aria-modal="true" aria-labelledby="upgrade-title">
-      <h2 id="upgrade-title">Улучшения машины</h2><p id="upgrade-car-name"></p><p>Покупка за мозги. Улучшается только эта машина.</p>
+    <div id="upgrade-menu" class="game-modal" hidden><section id="upgrade-panel" class="game-modal-panel" role="dialog" aria-modal="true" aria-labelledby="upgrade-title">
+      <div class="game-modal-heading"><h2 id="upgrade-title">Улучшения машины</h2><button id="upgrade-close" class="game-modal-close" type="button" aria-label="Закрыть">×</button></div><p id="upgrade-car-name"></p><p>Покупка за мозги. Улучшается только эта машина.</p>
       <div class="upgrade-cards">
-<article class="upgrade-card"><svg class="hud-art" aria-hidden="true"><use href="#hud-speed" /></svg><h3>Скорость</h3><span id="upgrade-speed-level">0 / 10</span><strong id="upgrade-speed-value"></strong><small id="upgrade-speed-description"></small><button id="upgrade-speed-buy" type="button"><svg class="hud-art" aria-hidden="true"><use href="#hud-brain" /></svg><span id="upgrade-speed-price"></span></button></article><article class="upgrade-card"><svg class="hud-art" aria-hidden="true"><use href="#hud-handling" /></svg><h3>Управляемость</h3><span id="upgrade-handling-level">0 / 10</span><strong id="upgrade-handling-value"></strong><small id="upgrade-handling-description"></small><button id="upgrade-handling-buy" type="button"><svg class="hud-art" aria-hidden="true"><use href="#hud-brain" /></svg><span id="upgrade-handling-price"></span></button></article><article class="upgrade-card"><svg class="hud-art" aria-hidden="true"><use href="#hud-grip" /></svg><h3>Сцепление</h3><span id="upgrade-grip-level">0 / 10</span><strong id="upgrade-grip-value"></strong><small id="upgrade-grip-description"></small><button id="upgrade-grip-buy" type="button"><svg class="hud-art" aria-hidden="true"><use href="#hud-brain" /></svg><span id="upgrade-grip-price"></span></button></article><article class="upgrade-card"><svg class="hud-art" aria-hidden="true"><use href="#hud-fuel" /></svg><h3>Бак</h3><span id="upgrade-fuel-level">0 / 10</span><strong id="upgrade-fuel-value"></strong><small id="upgrade-fuel-description"></small><button id="upgrade-fuel-buy" type="button"><svg class="hud-art" aria-hidden="true"><use href="#hud-brain" /></svg><span id="upgrade-fuel-price"></span></button></article></div><button id="upgrade-close" type="button">Закрыть</button></section></div>
-    <div id="career-menu" hidden>
-    <section id="career-panel" role="dialog" aria-modal="true" aria-labelledby="career-title" tabindex="-1" hidden>
-      <div class="career-panel-heading"><h2 id="career-title">Накопления на машину</h2><button id="career-close" type="button" aria-label="Закрыть окно">×</button></div>
+<article class="upgrade-card"><svg class="hud-art" aria-hidden="true"><use href="#hud-speed" /></svg><h3>Скорость</h3><span id="upgrade-speed-level">0 / 10</span><strong id="upgrade-speed-value"></strong><small id="upgrade-speed-description"></small><button id="upgrade-speed-buy" type="button"><svg class="hud-art" aria-hidden="true"><use href="#hud-brain" /></svg><span id="upgrade-speed-price"></span></button></article><article class="upgrade-card"><svg class="hud-art" aria-hidden="true"><use href="#hud-handling" /></svg><h3>Управляемость</h3><span id="upgrade-handling-level">0 / 10</span><strong id="upgrade-handling-value"></strong><small id="upgrade-handling-description"></small><button id="upgrade-handling-buy" type="button"><svg class="hud-art" aria-hidden="true"><use href="#hud-brain" /></svg><span id="upgrade-handling-price"></span></button></article><article class="upgrade-card"><svg class="hud-art" aria-hidden="true"><use href="#hud-grip" /></svg><h3>Сцепление</h3><span id="upgrade-grip-level">0 / 10</span><strong id="upgrade-grip-value"></strong><small id="upgrade-grip-description"></small><button id="upgrade-grip-buy" type="button"><svg class="hud-art" aria-hidden="true"><use href="#hud-brain" /></svg><span id="upgrade-grip-price"></span></button></article><article class="upgrade-card"><svg class="hud-art" aria-hidden="true"><use href="#hud-fuel" /></svg><h3>Бак</h3><span id="upgrade-fuel-level">0 / 10</span><strong id="upgrade-fuel-value"></strong><small id="upgrade-fuel-description"></small><button id="upgrade-fuel-buy" type="button"><svg class="hud-art" aria-hidden="true"><use href="#hud-brain" /></svg><span id="upgrade-fuel-price"></span></button></article></div></section></div>
+    <div id="career-menu" class="game-modal" hidden>
+    <section id="career-panel" class="game-modal-panel" role="dialog" aria-modal="true" aria-labelledby="career-title" tabindex="-1" hidden>
+      <div class="career-panel-heading game-modal-heading"><h2 id="career-title">Накопления на машину</h2><button id="career-close" class="game-modal-close" type="button" aria-label="Закрыть окно">×</button></div>
       <section id="career-goal-section" aria-label="Накопления на машину" hidden>
       <div id="career-goal-content">
         <label for="career-goal-select" class="career-heading"><svg class="hud-art" aria-hidden="true" focusable="false"><use href="#hud-garage" /></svg><span>Коплю на машину</span></label>
@@ -213,10 +214,10 @@
       </section>
     </section>
     </div>
-    <div id="delivery-receipt-menu" hidden>
-    <section id="delivery-receipt" role="dialog" aria-modal="true" aria-labelledby="delivery-receipt-title" tabindex="-1" hidden>
+    <div id="delivery-receipt-menu" class="game-modal" hidden>
+    <section id="delivery-receipt" class="game-modal-panel" role="dialog" aria-modal="true" aria-labelledby="delivery-receipt-title" tabindex="-1" hidden>
         <p id="receipt-vehicle-unlock" hidden></p>
-        <div class="receipt-heading"><h2 id="delivery-receipt-title">Груз доставлен</h2><button id="delivery-receipt-close" type="button" aria-label="Закрыть итог доставки">×</button></div>
+        <div class="receipt-heading game-modal-heading"><h2 id="delivery-receipt-title">Груз доставлен</h2><button id="delivery-receipt-close" class="game-modal-close" type="button" aria-label="Закрыть итог доставки">×</button></div>
         <table aria-label="Награды за доставку">
           <thead><tr><th scope="col"><span class="career-sr-only">Награда</span></th><th scope="col"><svg class="hud-art" aria-hidden="true" focusable="false"><use href="#hud-money" /></svg><span class="career-sr-only">Игровые деньги</span></th><th scope="col"><svg class="hud-art" aria-hidden="true" focusable="false"><use href="#hud-brain" /></svg><span class="career-sr-only">Мозги</span></th></tr></thead>
           <tbody>
@@ -234,9 +235,9 @@
     <button id="buy-skin" class="buy-button" type="button" hidden><svg class="hud-art" aria-hidden="true"><use href="#hud-money" /></svg><span id="buy-skin-label">Купить</span></button>
     <button id="buy-school" class="buy-button" type="button" hidden><svg class="hud-art" aria-hidden="true"><use href="#hud-money" /></svg><span id="buy-school-label">Купить</span></button>
     <button id="biome-button" type="button" aria-label="Выбрать биом" title="Выбрать биом" aria-expanded="false" aria-controls="biome-panel" hidden><svg class="hud-art" aria-hidden="true"><use href="#hud-biome" /></svg><span>Биом</span></button>
-    <div id="biome-menu" hidden>
-      <section id="biome-panel" role="dialog" aria-modal="true" aria-labelledby="biome-title">
-        <h2 id="biome-title">Выбери биом</h2>
+    <div id="biome-menu" class="game-modal" hidden>
+      <section id="biome-panel" class="game-modal-panel" role="dialog" aria-modal="true" aria-labelledby="biome-title">
+        <div class="game-modal-heading"><h2 id="biome-title">Выбери биом</h2><button id="biome-close" class="game-modal-close" type="button" aria-label="Закрыть">×</button></div>
         <p>Тестовая поездка без оплаты груза. Новый рейс начинается в ангаре.</p>
         <div class="biome-options">
           <button id="biome-go-city" type="button">Город</button>
@@ -246,7 +247,7 @@
           <button id="biome-go-volcanic" type="button">Вулкан</button>
           <button id="biome-go-finish" type="button">Перед финишем</button>
         </div>
-        <button id="biome-close" type="button">Закрыть</button>
+
       </section>
     </div>
     <div id="biome-test-note" role="status" hidden>ТЕСТ · БЕЗ ОПЛАТЫ ГРУЗА</div>
@@ -398,7 +399,7 @@
         </div>
       </div>
     </section>
-    <div id="hangar-drift-menu" data-i18n-skip hidden><section id="hangar-drift-panel" role="dialog" aria-modal="true" aria-labelledby="hangar-drift-title" aria-describedby="hangar-drift-note" tabindex="-1"><div class="hangar-drift-heading"><h2 id="hangar-drift-title">Рейтинг дрифта</h2><button id="hangar-drift-close" type="button" aria-label="Закрыть">×</button></div><p id="hangar-drift-note" role="status" aria-live="polite"></p><div class="hangar-drift-scroll"><table id="hangar-drift-table" hidden><thead><tr><th id="hangar-drift-rank" scope="col">Место</th><th id="hangar-drift-player" scope="col">Игрок</th><th id="hangar-drift-score" scope="col">Очки</th></tr></thead><tbody id="hangar-drift-rows"></tbody></table></div><p id="hangar-drift-self" hidden></p></section></div>
+    <div id="hangar-drift-menu" class="game-modal" data-i18n-skip hidden><section id="hangar-drift-panel" class="game-modal-panel" role="dialog" aria-modal="true" aria-labelledby="hangar-drift-title" aria-describedby="hangar-drift-note" tabindex="-1"><div class="hangar-drift-heading game-modal-heading"><h2 id="hangar-drift-title">Рейтинг дрифта</h2><button id="hangar-drift-close" class="game-modal-close" type="button" aria-label="Закрыть">×</button></div><p id="hangar-drift-note" role="status" aria-live="polite"></p><div class="hangar-drift-scroll"><table id="hangar-drift-table" hidden><thead><tr><th id="hangar-drift-rank" scope="col">Место</th><th id="hangar-drift-player" scope="col">Игрок</th><th id="hangar-drift-score" scope="col">Очки</th></tr></thead><tbody id="hangar-drift-rows"></tbody></table></div><p id="hangar-drift-self" hidden></p></section></div>
     <section id="canyon-hud" aria-label="Очки дрифта" hidden><div id="canyon-score-pop"><strong id="canyon-score">0</strong><span id="canyon-combo">×1</span></div></section>
     <div id="canyon-overlay" hidden><section id="canyon-panel" role="region" aria-labelledby="canyon-title"><h2 id="canyon-title">Каньон пройден</h2><p id="canyon-result-score">0</p><p id="canyon-result-note" role="status"></p><section id="canyon-rankings" hidden><table><thead><tr><th>Место</th><th>Игрок</th><th>Очки</th></tr></thead><tbody id="canyon-ranking-rows"></tbody></table><p id="canyon-ranking-note" role="status"></p></section><button id="canyon-login" type="button" hidden>Войти в Яндекс</button><div class="canyon-actions"><button id="canyon-retry" type="button">Новая попытка с начала дороги</button><button id="canyon-rankings-button" type="button">Таблица Яндекса</button><button id="canyon-back" type="button" hidden>К результату</button><button id="canyon-exit" type="button">Продолжить движение</button></div></section></div>
     <div id="loading" role="status">

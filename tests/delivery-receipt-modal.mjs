@@ -6,7 +6,7 @@ import {createAppDom} from './fixtures/app-dom.mjs';
 const html=fs.readFileSync(new URL('../dist/index.html',import.meta.url),'utf8');
 const css=fs.readFileSync(new URL('../dist/progression-ui.css',import.meta.url),'utf8');
 const baseCss=fs.readFileSync(new URL('../dist/style.css',import.meta.url),'utf8');
-assert.match(html,/<div id="delivery-receipt-menu" hidden>\s*<section id="delivery-receipt" role="dialog" aria-modal="true" aria-labelledby="delivery-receipt-title"/);
+assert.match(html,/<div id="delivery-receipt-menu"[^>]* hidden>\s*<section id="delivery-receipt"[^>]* role="dialog" aria-modal="true" aria-labelledby="delivery-receipt-title"/);
 const overlay=css.match(/#delivery-receipt-menu\{([^}]+)\}/)[1];
 assert.match(overlay,/position:fixed;z-index:100;inset:0;display:grid;place-items:center/);
 assert.match(overlay,/env\(safe-area-inset-(?:top|bottom)\)/);assert.match(overlay,/background:/);assert.match(overlay,/pointer-events:auto/);

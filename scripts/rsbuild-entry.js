@@ -6,6 +6,7 @@ import '../dist/hangar-drift-leaderboard.css';
 import '../dist/vehicle-livery-shop.css';
 import '../dist/online-ui.css';
 import '../dist/canyon-ui.css';
+import '../dist/modal-ui.css';
 
 
 import('@game-bootstrap').catch(error => {

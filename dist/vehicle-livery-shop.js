@@ -1,3 +1,4 @@
+import { modalPart } from './modal-ui.js';
 import { BASE_VEHICLE_LIVERY_ID, VEHICLE_LIVERY_CATALOG, getVehicleLivery, vehicleLiveryName } from './vehicle-livery-catalog.js';
 
 const copy = Object.freeze({
@@ -61,17 +62,17 @@ export function createVehicleLiveryShop(doc, {
     for (let node = child; node; node = node.parentNode || node.parent) if (node === parent) return true;
     return false;
   };
-  const menu = make('div', 'vehicle-livery-menu', doc.body, { id: 'vehicle-livery-menu', 'data-i18n-skip': '' });
+  const menu = make('div', modalPart('overlay', 'vehicle-livery-menu'), doc.body, { id: 'vehicle-livery-menu', 'data-i18n-skip': '' });
   menu.hidden = true;
-  const panel = make('section', 'vehicle-livery-panel', menu, {
+  const panel = make('section', modalPart('panel', 'vehicle-livery-panel'), menu, {
     id: 'vehicle-livery-panel', role: 'dialog', 'aria-modal': 'true',
     'aria-labelledby': 'vehicle-livery-title', 'aria-describedby': 'vehicle-livery-description', tabindex: '-1',
   });
-  const heading = make('header', 'vehicle-livery-heading', panel);
+  const heading = make('header', modalPart('heading', 'vehicle-livery-heading'), panel);
   const headingText = make('div', 'vehicle-livery-heading-text', heading);
   const eyebrow = make('span', 'vehicle-livery-eyebrow', headingText);
   const title = make('h2', '', headingText, { id: 'vehicle-livery-title' });
-  const closeButton = make('button', 'vehicle-livery-close', heading, { id: 'vehicle-livery-close', type: 'button' });
+  const closeButton = make('button', modalPart('close', 'vehicle-livery-close'), heading, { id: 'vehicle-livery-close', type: 'button' });
   closeButton.textContent = '×';
   const intro = make('div', 'vehicle-livery-intro', panel);
   const description = make('p', '', intro, { id: 'vehicle-livery-description' });

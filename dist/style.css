@@ -362,7 +362,7 @@ body:not(.is-driving):not(.is-walking) .session-hud { display: none; }
 #biome-panel p { margin:0 0 10px; font-size:14px; font-weight:700; line-height:1.3; }
 .biome-options { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
 #biome-panel button { min-height:48px; border:3px solid #14213d; border-radius:13px; color:#fff; font-size:17px; font-weight:900; text-shadow:var(--hud-shadow); background:#63879e; box-shadow:inset 0 3px #ffffff65; touch-action:none; }
-#biome-go-forest { background:#54942a !important; } #biome-go-desert { background:#e6a830 !important; } #biome-go-snow { background:#77b9e8 !important; } #biome-go-volcanic { background:#9e4632 !important; }
+/* Biome actions use the shared modal button appearance. */
 #biome-close { width:100%; margin-top:10px; background:#e45d4c !important; }
 #biome-test-note { position:fixed; z-index:7; left:50%; transform:translateX(-50%); top:max(204px,calc(env(safe-area-inset-top) + 196px)); max-width:calc(100% - 28px); color:#ffe56b; font-size:13px; font-weight:900; text-shadow:var(--hud-shadow); pointer-events:none; white-space:nowrap; }
 @media (max-height:500px) and (min-width:501px) { #biome-button { top:max(68px,calc(env(safe-area-inset-top) + 60px)); } #biome-test-note { top:max(96px,calc(env(safe-area-inset-top) + 88px)); } #biome-panel { padding:10px; } #biome-panel h2 { font-size:21px; } #biome-panel p { font-size:12px; } #biome-panel button { min-height:44px; } }
