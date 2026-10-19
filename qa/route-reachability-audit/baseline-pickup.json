@@ -1,0 +1,212 @@
+{
+  "generatedAt": "2026-10-19T19:55:54.911Z",
+  "runtimeHashes": {
+    "advertising.js": "dfdf3566bb62856b4f00c7cf028ac5f614c8ab48e0d71ac291b5d6c47c37ff93",
+    "app.js": "d11b30a5bfa374c22c974d94441c37bca5d539ec2669e97facfed6ca24acc3ee",
+    "biome-progression.js": "7293f97c1f2bbaceaa139ed6291449bf11c7a1420d79ffaf352c9ae506765718",
+    "biome-surfaces.js": "c9fa2f4bc1bd867de09b0d4a718f9c0b68194433c5a9412920728a92324a7dbd",
+    "biome-travel.js": "2bdb88f09bda8d3dcbee10920e33b021c001d3d54a6645c77be6b1c6fc23de68",
+    "biome-weather.js": "f367fbf69e0864b2bbf1475d42f34dd6a9dbbd9a49beb352e1776710e357947c",
+    "bmw-vehicle.js": "272c29a1e946d746f2865eb05405a4bac267c1af4d0d9abdf45b94087bd96181",
+    "bootstrap-vk.js": "d81f7bef896ae66fc41a1e0c05b14e43a4ebc0876dd1d28c764012d6da8de295",
+    "bootstrap.js": "792e5088f1243962059af95008c9176cb7334f3ae82e164fad60f7f4209df5aa",
+    "building-material.js": "8ca0973e1ad87b6e974a195a730442cf48d17bdcef89a03c894433ae192d33d1",
+    "canyon-approach.js": "83ca8c84da51d260941497d8bfbab4967f091ba1d6f1911c3389dda79160fd99",
+    "canyon-entrance.js": "8e3a53826a4525df8859528ca0210b33bffaf36e1777cb0bd6e1ac33608354a2",
+    "canyon-leaderboard.js": "be1b79b1c35e0d6635ec702b3ada100f66ad94d715ae2e473f199f32c24e9baf",
+    "canyon-mode.js": "003bc356f50486356fd44fdd6644fa5ae624c0e64ab92f7718b8c0a5ebf7d63b",
+    "canyon-rocks.js": "30bf714e10f313599b48f2e6cfcdc472c91f1e7a04b767860383576296f2af94",
+    "canyon-scene.js": "1ef735a2d03014dea035e8b1fcce016700f678bfd221103c1cb2783743053724",
+    "canyon-sign.js": "6527aa1dadb7101acfdee2bda76bcbbdece6b475fafa73ffc9d13e7d32607d99",
+    "canyon-track.js": "48b84d5ae6c78463b4a0ee2127e41a72dac0bddc32bd7ba1ce58ef1c509319ca",
+    "canyon-ui.js": "77c3cf4521c867a6d3d39652804be73e4ac7cfacc963e41055af481d1c269a12",
+    "career-missions.js": "1f6ab3c166186a61d8f9ec8944750210a31e336ed53109aa7a4202a1345b87ca",
+    "career-route-tracker.js": "5df666b312074b39c7e4398774337465ab8eda9078ebced4fecc5f8ef3e7d87a",
+    "career-save.js": "97923e26d9ca8930aff672a521b1a9d02905906b5214e0741ce2afd113b7e785",
+    "character-catalog.js": "1a3a9e015f4d7f8a05301de9dad7498114858dda5d921feb17b68973f2f8b9c8",
+    "character-seat-calibration.js": "a96aac9d83d363614e45237105c7aba4e105156c6f4f95e0ce0f92b7a798c3d6",
+    "character-seat-pose.js": "b3f0ca5a60f6853c21d039de52cc9f32ed2cf18b8b7a2301ed377b05fa98be3f",
+    "character-support.js": "c9a1c1627b4bb1649298118724688c8fc5ac7947ca29afde84ec079ed489484b",
+    "character.js": "1c9c188fe58c7618deec4529ee51325fa03a1db66a9baac2aefeb857dfba8217",
+    "city-driving.js": "4abb59e1ecb798c92d1d1ea9de4d767ef09eff47d704097ef48db3dec6a48a2b",
+    "classroom-board.js": "8a1987ed7155d04c7c969a407cfdc16deda3180dd6483c8f194e72f927fb55e7",
+    "cloud-career.js": "d53ddaacff1bb951d33ebc038e918d7697dae1ff79f05d039e63b3fccd0ddbad",
+    "cosmo-garage.js": "cdfa5f29842a4ee59992f8db4258623c799a6196605437afc0ab196ef69c3e6a",
+    "cosmo-vehicles.js": "e11d599619e75f3b429af6a50bb1b7c720603078b26b6380eeca0e26f8ae5001",
+    "drift-dynamics.js": "59aec3feffbb048a90953e85651187631afa2ed3925902b738a76e3319896c89",
+    "drift-effects.js": "b724952521e3c0ca87741617a0c08eb34b053ce3d326e6679511dd7348a01bb6",
+    "drift-record.js": "ddfa51528ff0319b5ba60f1cb5dfcfdcf53fe01f618ec0016b09d5433569739b",
+    "drift-score.js": "7fafe40e27d293b954fd223d0bebfe25611d97b8275198c7337bf1fa083ad38f",
+    "driving-ground.js": "9e68c1ed067bd8cf35870150e88a41ddf22b9846254c54b131083ed062fef885",
+    "driving-model.js": "15be026286ca8c79a60317e83339dc6668ea2daf9163cea5e3467eb520673540",
+    "economy-config.js": "ec67466da62d68a9ed2da9380d68f4fde1ec549a82053b37023e8e91a1852989",
+    "finish-celebration.js": "f3c0699a3d4fb595932390a896289495b7619713d05966ade484fd6f843620a6",
+    "finish-line.js": "cdc22e39c5e2bb3b4118f3603587ff8ccbb8c7294eb3eb55137276ebc032c680",
+    "follow-camera.js": "36b9cfec179cfb8f7fde77ce5ef61dc7cd663f051b8867cff288300328124f02",
+    "gameplay.js": "889a6e1de0667c27267055b7ae2ad32f6e051993e752a70ebcb7b923f045c523",
+    "garage-scene.js": "1b36d9193f9369eb673f04079daf29dc5aba9b7e5bf1918b28b9b10e73d8d6e8",
+    "ground-material.js": "e33ae1f1fc8e5d750d42788edb7c22404ece6d8d7b764bc6b291f6fd8b647d7f",
+    "hangar-drift-leaderboard.js": "b029b653b5be229000b3ca34b2d24c0cc71cdc224d1a68b335d467419f2fd8d9",
+    "jump-input.js": "d28d006af1bcb9ac24f8ae2079f4c02c3b7ac35ab5807657530cc0ff67449dbc",
+    "localization.js": "dc6ff5a33587c9ea5077163d66d7a0957551e2b7b69850219f946c832d3ef9e6",
+    "look-input.js": "3868b9b1b895700fa1e1a3e96429543f11692b77604aceddb0ecc7eabaa0c3f6",
+    "network-scene.js": "bdfa0b96f8f2fc6375f628c5e3bd2c68c3a95014b230cedcd3f26973ca84a48b",
+    "online-client.js": "1a96a232b076de9928959fb3e3748932b8a818fd2e617826f8d877eb0c5e1aec",
+    "online-protocol.js": "aebca410f2b84002a439019616397113993f87c0cb6ae240c3a71658643b4c6f",
+    "online-session.js": "cb9f27a1ae35847b9a5b521fc90848c0d670ed898a348cf3597da47785ef2d66",
+    "pause-state.js": "2261a7aa6bf41236524d15163cda170b545e29d67a6893fadeaee851b1bd8509",
+    "platform-services.js": "ffc12f393f2569ee95e06b493934556bf13433cb8a941d1e7085db8dad3b0ee9",
+    "premium-skins.js": "6e3a35ab9c93a10195599c17c6f0d929b6300b292cce1a0e4d12967f0746ff1d",
+    "progression-config.js": "87a3c1ea4e0ab9b44766eae730662bb009e5b2c28c3d3d2e94bde3c1d17d2ced",
+    "progression-hud.js": "8e04509738d18991d5b4e9675869fe50f30ee79962b5a7eb08e427bfd8aa3cb3",
+    "remote-motion.js": "733f4e4eebf1d6782e37dd45f282b1f80512780ea0f48a4c3099e1aded71663b",
+    "remote-players.js": "f472d49864c79fa7b591b40063adb47738ab20550216e59738c9cb1d798dc037",
+    "render-profiler.js": "de11b9b2fdd64ad92c2c59ac5200c0f6e90c8fe13aa805c82f66f12d023f8720",
+    "retention-ui.js": "ceb0c2b8d2ac3dba48d7183c184531817efe3e568fad007656ee892227269e0e",
+    "road-bridges.js": "34c679d18625ad1fd6c6c5c2834c4277d3f15b8f83acbf56c7a870a738859e95",
+    "road-hazards-scene.js": "a69a4b6b1f693df43a2e171182c1063b709cb69d9ac8bee16390dee8c0e85cb2",
+    "road-hazards.js": "c13aa40d339da1a0e0543637488ce2edb74181665f1d83aded037206f5bc1232",
+    "road-layout.js": "9c1a93048cbc434248c737665bd426f9e2335703757b453cf8a57c70bdbb2e7f",
+    "road-material.js": "d67b94ffd3dce950bc2dcdb908cb3ef3fc87c4d97f80e68acc81273d87651552",
+    "roadside-barrier.js": "93a038154c6dee94ac44e4e9ec870c5162f87f3be0a614fb44fafbaa05bb98de",
+    "route-network-config.js": "371e7da7dfb8233ea194fb8bf50f550a205061a930c928089acab681a1f69c3a",
+    "route-network.js": "90cf8706454c0d9fa5872734f5cbdd3476f4cff05b10f9e756fbadb760c15dc7",
+    "scene-lighting.js": "834710971256511ffc309814e66921e1eb862dac0ac85cf7a5050257a0f94933",
+    "scene.js": "0c0b170f55c04bec511d8aa568a1ce80788bc62f59fff53a2d59748e8780fe41",
+    "settings-menu.js": "4314135b774144a4bd149a92dafcd6343bab85d6f15ead78ee4c49988864d321",
+    "spatial-render.js": "a93abec79c7e065938f288f7e039a8ed881a189bf7d9634564da599072be9af8",
+    "square-stud-texture.js": "4c1fd6a4abc7c99b79daeee5956d4daa92799cd873d9e179b79e619095c16a05",
+    "startup-gate.js": "9f22464e780e75a0830e9585abc33b6ed824eff7b10180dbbe0d14017c419ffe",
+    "surface-cut.js": "d5cb4691c677f86ec73c86d7866daaa82efa91a3928a031e04100cf4bc009154",
+    "vehicle-audio.js": "f48680f4893a7f4d2530457fa9209ac9e8ae0c1fbe85e07034ed25d3568e9c60",
+    "vehicle-brake-lights.js": "bbdd085b4de80e7d79ac0a38b32c3b26c4863d02791b0356397d9b0c42151ac4",
+    "vehicle-contact.js": "f39fb3e72dbedac8c222c4c5a5ec060633bf84db4dfadcfcd448daa1af68ddeb",
+    "vehicle-input.js": "8abc08dbd07286751050e38b1e319719ee5387c1ead20128a10a3e898f0c57a6",
+    "vehicle-rig.js": "b85baa43503ba7a68684be41c4eaf56b1383dd54d400cae74eebd30616a36f7b",
+    "vehicle-upgrades.js": "11168cb45880503a7505002e39e203f7ec478d93d62449ee5a0b357405d596fb",
+    "vk-platform.js": "ee9192b40ac7915180fee8086b88db914348553812f8aae1084c871d1421f9f2",
+    "walk-input.js": "77088dde9fa7e245c6a359e92251ff97ef27963847311b66c6f4657335fc6c25",
+    "wheel-particles.js": "b926254018cfdae297234d902c0c1e8987a61f395cac3470872db3f4a3512973",
+    "world-label-projection.js": "3d80babbf2c9991dcff98b0ea0a6e9bca65cd2234b84243cb13e98bfac90c969",
+    "yandex-platform.js": "1556ccc2c26dd4483a4eeda4e6ad2993d49d5d35131ef02fa31a3b8f2407590f"
+  },
+  "scope": "Real production physics, hazards, refills, continuous route proof and gameplay. Input controller at20Hz; not human playtest or browser/GPU validation.",
+  "results": [
+    {
+      "name": "pickup-delivery",
+      "id": "pickup",
+      "checkpoint": 2,
+      "discovery": null,
+      "outcome": "delivery",
+      "seconds": 46.2,
+      "minFuelFraction": 0.122,
+      "baseReward": 260,
+      "totalReward": 325,
+      "hard": false,
+      "controllerConfig": {},
+      "refills": 1,
+      "career": {
+        "version": 2,
+        "money": 325,
+        "ownedVehicleIds": [
+          "pickup"
+        ],
+        "discoveredBiomeIds": [
+          "city"
+        ],
+        "characterId": "bacon",
+        "completedRuns": 1,
+        "routeCompletion": null,
+        "driftRecord": null,
+        "brains": 150.55,
+        "ownedSkinIds": [
+          "bacon"
+        ],
+        "ownedSchoolIds": [
+          "school-1"
+        ],
+        "upgrades": {
+          "pickup": {
+            "speed": 0,
+            "handling": 0,
+            "grip": 0,
+            "fuel": 0
+          },
+          "citycourier": {
+            "speed": 0,
+            "handling": 0,
+            "grip": 0,
+            "fuel": 0
+          },
+          "rover": {
+            "speed": 0,
+            "handling": 0,
+            "grip": 0,
+            "fuel": 0
+          },
+          "foresthauler": {
+            "speed": 0,
+            "handling": 0,
+            "grip": 0,
+            "fuel": 0
+          },
+          "van": {
+            "speed": 0,
+            "handling": 0,
+            "grip": 0,
+            "fuel": 0
+          },
+          "desertscout": {
+            "speed": 0,
+            "handling": 0,
+            "grip": 0,
+            "fuel": 0
+          },
+          "snowgrip": {
+            "speed": 0,
+            "handling": 0,
+            "grip": 0,
+            "fuel": 0
+          },
+          "snowrunner": {
+            "speed": 0,
+            "handling": 0,
+            "grip": 0,
+            "fuel": 0
+          },
+          "lavacrawler": {
+            "speed": 0,
+            "handling": 0,
+            "grip": 0,
+            "fuel": 0
+          },
+          "ashhauler": {
+            "speed": 0,
+            "handling": 0,
+            "grip": 0,
+            "fuel": 0
+          },
+          "bmwreward": {
+            "speed": 0,
+            "handling": 0,
+            "grip": 0,
+            "fuel": 0
+          }
+        },
+        "vehicleGrantClaimed": false,
+        "retention": {
+          "version": 1,
+          "missionSequence": 0,
+          "missionProgress": 1,
+          "missionBridgeIds": [],
+          "claimedCheckpointIds": [
+            "checkpoint-02"
+          ],
+          "goalVehicleId": null,
+          "careerCashEarned": 325,
+          "testCashGranted": 0
+        }
+      }
+    }
+  ]
+}

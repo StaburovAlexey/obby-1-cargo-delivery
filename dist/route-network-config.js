@@ -103,24 +103,25 @@ export const TURN_DEFINITIONS = Object.freeze([
   // longer steering exchanges. Both compact turns are clear of bridge approaches.
   [80, 345, 0, 18],
   [500, 710, 18, 26],
-  [1040, 1100, 26, -14],
-  [1190, 1240, -14, 16],
+  [1040, 1086, 26, -14],
+  [1190, 1230, -14, 16],
   [1395, 1645, 16, 32],
   [1795, 2085, 32, 12],
   [2235, 2585, 12, 36],
   [2735, 3080, 36, 12],
   // Forest: broad linked sweeps, a tighter entry, then a level fork/recovery.
   [3080, 3580, 12, -7],
-  [3580, 4150, -7, 15],
+  [3590, 3650, -7, 33],
+  [3710, 3770, 33, 15],
   [4150, 4410, 15, -3],
   [5080, 5750, -3, 19],
   // Desert: open S combinations either side of the five bridge approaches.
-  [5750, 6120, 19, -22],
+  [5820, 5880, 19, -22],
   [6150, 6670, -22, -4],
   [6670, 7210, -4, -24],
   [7210, 7750, -24, 28],
   // Snow: one deliberate tighter entry followed by a readable, broad reversal.
-  [8400, 8750, 28, -6],
+  [8520, 8580, 28, -6],
   [8750, 9260, -6, 14],
   [9260, 9545, 14, -8],
   [10370, 10980, -8, 14],
@@ -128,19 +129,22 @@ export const TURN_DEFINITIONS = Object.freeze([
   [10980, 11700, 14, -12],
   [11700, 12410, -12, 12],
   [13080, 13700, 12, -12],
-  [13700, 14260, -12, 34],
-  [14260, 14820, 34, -34],
-  [14820, 15180, -34, 12],
+  [13860, 13940, -12, 34],
+  [14400, 14510, 34, -34],
+  [14900, 14980, -34, 12],
   [15400, 15770, 12, 0],
 ].map(([from, to, a, b]) => Object.freeze([from, to, degrees(a), degrees(b)])));
 // These sections reserve the demanding bend and its exit for steering practice.
 // Obstacles still use the unchanged bridge/service exclusions outside these zones.
 export const HAZARD_FREE_DRIVING_SECTIONS = Object.freeze([
   {id: 'city-tight-turn', from: 1035, to: 1245, recovery: 60},
+  {id: 'forest-technical-turn', from: 3590, to: 3770, recovery: 60},
   {id: 'desert-entry-sweep', from: 5750, to: 6120, recovery: 60},
   {id: 'desert-open-sweep', from: 7420, to: 7750, recovery: 80},
   {id: 'snow-entry-turn', from: 8400, to: 8750, recovery: 80},
-  {id: 'volcanic-linked-s', from: 13800, to: 15180, recovery: 80},
+  {id: 'volcanic-turn-one', from: 13860, to: 13940, recovery: 100},
+  {id: 'volcanic-turn-two', from: 14400, to: 14510, recovery: 100},
+  {id: 'volcanic-turn-three', from: 14900, to: 14980, recovery: 100},
 ].map(Object.freeze));
 export const ELEVATION_PROFILE = Object.freeze([
   [

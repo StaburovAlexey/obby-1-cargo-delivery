@@ -11,8 +11,8 @@ import {buildCity,createRoadFootprintIndex,polygonIntersectionArea} from '../dis
 const near=(a,b,e=1e-7)=>assert.ok(Math.abs(a-b)<=e,`${a} differs from ${b}`);
 const angle=(a,b)=>Math.atan2(Math.sin(a-b),Math.cos(a-b));
 const report={scope:'Deterministic production route, actual collision/mesh footprints and CPU scene geometry. Input-only physical driving and browser feel are separate checks.',passed:false};
-const expectedBiomes={city:6,forest:5,desert:5,snow:4,volcanic:8};
-const expectedTypes={repair:2,log:1,dune:1,ice:1,rock:4,barrier:7,boulder:12};
+const expectedBiomes={city:6,forest:5,desert:5,snow:4,volcanic:10};
+const expectedTypes={repair:2,log:1,dune:1,ice:1,rock:6,barrier:7,boulder:12};
 
 near(N.ROUTE_LENGTH,15868.841887310184,1e-8);
 assert.equal(C.NETWORK_CONFIG.end,15850);
@@ -20,13 +20,13 @@ assert.equal(C.NETWORK_CONFIG.halfWidth,15);
 assert.equal(C.BIOME_DEFINITIONS.length,5);
 assert.equal(C.FORK_DEFINITIONS.length,4);
 assert.deepEqual(C.CHECKPOINT_PROGRESS,[180,440,780,1140,1540,1980,2480,3040,3670,4380,5180,6080,7520,9390,11830,15830]);
-assert.equal(C.TURN_DEFINITIONS.length,27);
+assert.equal(C.TURN_DEFINITIONS.length,28);
 const technical=C.TURN_DEFINITIONS.filter(([from,to])=>to-from<=120);
-assert.equal(technical.length,2);
+assert.equal(technical.length,9);
 report.turns=C.TURN_DEFINITIONS.map(([from,to,a,b])=>({from,to,length:to-from,headingChangeDegrees:(b-a)*180/Math.PI,minimumRadius:(to-from)/(1.875*Math.abs(b-a))}));
-assert.ok(report.turns.filter(t=>t.length>=400).reduce((s,t)=>s+t.length,0)/report.turns.reduce((s,t)=>s+t.length,0)>.65,'Most of the route uses long smooth sweeps');
-assert.ok(report.turns.filter(t=>t.minimumRadius<60).length===2,'Only two deliberately technical city bends');
-assert.ok(report.turns.every(t=>t.minimumRadius>=45));
+assert.ok(report.turns.filter(t=>t.length>=400).reduce((s,t)=>s+t.length,0)/report.turns.reduce((s,t)=>s+t.length,0)>.5,'Most of the route uses long smooth sweeps');
+for(const biome of C.BIOME_DEFINITIONS)assert.ok(report.turns.some(t=>(t.from+t.to)/2>=biome.from&&(t.from+t.to)/2<biome.to&&t.minimumRadius<60),`${biome.id} has a meaningful technical bend`);
+assert.ok(report.turns.every(t=>t.minimumRadius>=35));
 for(let q=1112;q<=1168;q++)near(N.routePointAtProgress(q).curvature,0);
 
 let samples=0,maximumCurvature=0,maximumDerivativeError=0;
@@ -39,7 +39,7 @@ for(const edge of N.NETWORK_EDGES)for(let q=Math.max(6,edge.progressFrom+6);q<Ma
   assert.ok(N.truckInRoad(p.x+p.right.x*offset,p.z+p.right.z*offset,p.heading+yaw*Math.PI/180,p),`Recovery footprint at ${q}/${offset}/${yaw}`);
  }
  if(!edge.forkId){
-  assert.ok(1-15*Math.abs(p.curvature)>.67,'Inside asphalt edge does not fold');
+  assert.ok(1-15*Math.abs(p.curvature)>.57,'Inside asphalt edge does not fold');
   const a=N.routePointAtProgress(q-.01),b=N.routePointAtProgress(q+.01);
   const error=Math.hypot((b.x-a.x)/.02-p.tangent.x,(b.z-a.z)/.02-p.tangent.z);
   maximumDerivativeError=Math.max(maximumDerivativeError,error);
@@ -69,8 +69,8 @@ for(const q of [...C.CHECKPOINT_PROGRESS,...C.PREVIEW_PROGRESS.map(p=>p.progress
 let approachSamples=0,footprints=0,maximumHazardCurvature=0,minimumHazardSpacing=Infinity,minimumPassingWidth=Infinity;
 const recovery=C.HAZARD_FREE_DRIVING_SECTIONS.map(s=>({...s,start:N.routeDistanceAt(s.from)-s.recovery,end:N.routeDistanceAt(s.to)+s.recovery}));
 for(let seed=0;seed<32;seed++){
- const hazards=buildRoadHazards(seed);assert.equal(hazards.length,28);assert.equal(R.count,28);assert.equal(R.movingCount,28);
- assert.deepEqual(hazards,buildRoadHazards(seed));assert.equal(new Set(hazards.map(h=>h.id)).size,28);
+ const hazards=buildRoadHazards(seed);assert.equal(hazards.length,30);assert.equal(R.count,30);assert.equal(R.movingCount,30);
+ assert.deepEqual(hazards,buildRoadHazards(seed));assert.equal(new Set(hazards.map(h=>h.id)).size,30);
  assert.deepEqual(Object.fromEntries(C.BIOME_DEFINITIONS.map(b=>[b.id,hazards.filter(h=>h.biome===b.id).length])),expectedBiomes);
  assert.deepEqual(Object.fromEntries(Object.keys(expectedTypes).map(t=>[t,hazards.filter(h=>h.type===t).length])),expectedTypes);
  for(const [i,h] of hazards.entries()){
@@ -79,6 +79,7 @@ for(let seed=0;seed<32;seed++){
   assert.equal(h.motion.travelSeconds,8);assert.equal(h.motion.pauseSeconds,1.4);
   for(const section of recovery)assert.ok(h.distance+extent<section.start||h.distance-extent>section.end,`${h.id} intrudes on ${section.id}`);
   for(const exclusion of ROAD_HAZARD_EXCLUSIONS)assert.ok(Math.abs(h.distance-exclusion.distance)>=exclusion.radius+extent-1e-6);
+  assert.ok(hazards.filter(other=>other.distance>=h.distance&&other.distance<h.distance+320).length<=2,'No three-hazard chain in a 320 m driving window');
   if(i){const gap=h.distance-hazards[i-1].distance;assert.ok(gap>=180-1e-6);minimumHazardSpacing=Math.min(minimumHazardSpacing,gap);}
   for(let d=-100;d<=100;d+=2.5){
    const q=N.pointOnEdge(h.edgeId,h.edgeDistance+d);maximumHazardCurvature=Math.max(maximumHazardCurvature,Math.abs(q.curvature));
@@ -98,7 +99,7 @@ for(let seed=0;seed<32;seed++){
   }
  }
 }
-report.hazards={count:28,moving:28,seeds:32,byBiome:expectedBiomes,byType:expectedTypes,approachSamples,footprintPoints:footprints,maximumHazardCurvature,minimumHazardSpacing,minimumPassingWidth,recoverySections:recovery};
+report.hazards={count:30,moving:30,seeds:32,byBiome:expectedBiomes,byType:expectedTypes,approachSamples,footprintPoints:footprints,maximumHazardCurvature,minimumHazardSpacing,minimumPassingWidth,recoverySections:recovery};
 
 const road=createRoadFootprintIndex(N.ROAD_MESH),ground=createRoadFootprintIndex(N.GROUND_MESH);
 let roadPairs=0,groundPairs=0,maximumRoadOverlap=0,maximumGroundOverlap=0,maximumRoadGroundOverlap=0;
@@ -110,7 +111,7 @@ for(const a of ground.triangles){
  // The compact city S needs a tapered inside shoulder. Check the complete
  // tapered region and its joins, where the old 110 m shoulder folded.
  const q=N.GROUND_MESH.progress[N.GROUND_MESH.indices[a.id*3]];
- if(q<900||q>1400)continue;
+ if(!technical.some(([from,to])=>q>=from-65&&q<=to+65))continue;
  for(const b of ground.candidates(a.p))if(b.id>a.id){const area=polygonIntersectionArea(a.p,b.p);maximumGroundOverlap=Math.max(maximumGroundOverlap,area);assert.ok(area<.004);groundPairs++;}
 }
 const city=buildCity(THREE);let buildings=0,barriers=0,housePairs=0,maximumHouseOverlap=0;

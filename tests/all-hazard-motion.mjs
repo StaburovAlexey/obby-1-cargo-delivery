@@ -3,7 +3,7 @@ import {buildRoadHazards,createRoadHazards,ROAD_HAZARD_RULES as R,ROAD_HAZARD_EX
 import {pointOnEdge,pointInRoad,queryRoadSurface,projectRoad} from '../dist/route-network.js';
 let perimeter=0;
 for(const seed of [0,17,42,2026]){
- const hs=buildRoadHazards(seed);assert.equal(hs.length,28);assert.equal(hs.filter(h=>h.motion).length,28);assert.equal(new Set(hs.map(h=>h.id)).size,28);assert.equal(new Set(hs.map(h=>h.biome)).size,5);assert.deepEqual(hs,buildRoadHazards(seed));
+ const hs=buildRoadHazards(seed);assert.equal(hs.length,30);assert.equal(hs.filter(h=>h.motion).length,30);assert.equal(new Set(hs.map(h=>h.id)).size,30);assert.equal(new Set(hs.map(h=>h.biome)).size,5);assert.deepEqual(hs,buildRoadHazards(seed));
  for(const h of hs){
   assert.equal(h.motion.travelSeconds,8);assert.equal(h.motion.pauseSeconds,1.4);assert.equal(h.motion.period,18.8);assert(h.motion.minOffset<0&&h.motion.maxOffset>0);assert(h.motion.maxOffset-h.motion.minOffset>=20);
   const p=pointOnEdge(h.edgeId,h.edgeDistance),c=Math.cos(h.heading),s=Math.sin(h.heading);
@@ -25,4 +25,4 @@ for(let i=0;i<430;i++){
 }
 for(const h of sys.poses){const e=extents.get(h.id);assert(Math.abs(e[0]-h.motion.minOffset)<1e-4);assert(Math.abs(e[1]-h.motion.maxOffset)<1e-4);}
 const frozen=JSON.stringify(sys.poses);sys.update(1000,player,false);assert.equal(JSON.stringify(sys.poses),frozen);const t=sys.elapsed;sys.update(1000,player,true);assert(Math.abs(sys.elapsed-t-.1)<1e-8);sys.reset();assert.equal(JSON.stringify(sys.poses),initial);assert(sys.rocks.every(r=>r.altitude===0&&r.phase==='landed'));
-console.log('PASS all28 moving hazards, five biomes, eight-second crossings, 1.4s dwell, 4 seeds, footprints/exclusions, live collisions and moving surfaces, bounded pause/reset.',{perimeter});
+console.log('PASS all30 moving hazards, five biomes, eight-second crossings, 1.4s dwell, 4 seeds, footprints/exclusions, live collisions and moving surfaces, bounded pause/reset.',{perimeter});

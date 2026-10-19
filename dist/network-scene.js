@@ -3,7 +3,7 @@
 
 import {CANYON_APPROACH_ROCKS} from './canyon-rocks.js';
 import {canyonApproachQuads} from './canyon-approach.js';
-import {barrierStripData} from './roadside-barrier.js';
+import {barrierStripData,barrierTierDepth} from './roadside-barrier.js';
 import {CANYON_TRACK,canyonPointAt} from './canyon-track.js';
 import {polygonIndex,cutSurfaceMesh} from './surface-cut.js';
 // Reserve a landscape corridor as well as the asphalt: city facades cannot
@@ -240,8 +240,10 @@ export function buildCity(THREE,{seed=42}={}){
   function tierFootprint(p,depthScale=1,frontScale=1){
     const lerp=(a,b,t)=>({x:a.x+(b.x-a.x)*t,z:a.z+(b.z-a.z)*t}),half=(1-frontScale)/2;
 
-    const fa=lerp(p[0],p[1],1-depthScale),fb=lerp(p[3],p[2],1-depthScale);
-    return [lerp(fa,fb,half),lerp(p[1],p[2],half),lerp(p[1],p[2],1-half),lerp(fa,fb,1-half)];
+    const depth=barrierTierDepth(0,1,depthScale);
+    const fa=lerp(p[0],p[1],depth.near),fb=lerp(p[3],p[2],depth.near);
+    const ba=lerp(p[0],p[1],depth.far),bb=lerp(p[3],p[2],depth.far);
+    return [lerp(fa,fb,half),lerp(ba,bb,half),lerp(ba,bb,1-half),lerp(fa,fb,1-half)];
   }
   // All adjoining wall edges use one safe offset, so graph-node cross-sections
   // coincide too. The old per-edge setbacks left cracks at every fork join.
@@ -352,7 +354,7 @@ export function buildCity(THREE,{seed=42}={}){
   const starts=new Map(barrierTiers.map(record=>[key(record,record.shape.a),record]));
   const previous=new Map(),next=new Map();
   for(const record of barrierTiers){const after=starts.get(key(record,record.shape.b));if(after&&after!==record){next.set(record,after);previous.set(after,record);}}
-  const values=record=>({bottom:record.lo,top:record.hi,near:15+record.setback+record.depth*(1-record.ds),far:15+record.setback+record.depth,color:record.color});
+  const values=record=>({bottom:record.lo,top:record.hi,...barrierTierDepth(15+record.setback,record.depth,record.ds),color:record.color});
   const between=(a,b,t)=>({bottom:a.bottom+(b.bottom-a.bottom)*t,top:a.top+(b.top-a.top)*t,near:a.near+(b.near-a.near)*t,far:a.far+(b.far-a.far)*t,color:a.color.clone().lerp(b.color,t)});
   const boundary=(a,b)=>{const v=between(values(a),values(b),.5);v.bottom=Math.min(a.lo,b.lo);return v;};
   const visited=new Set();

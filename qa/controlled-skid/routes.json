@@ -18,17 +18,17 @@
     },
     {
       "from": 1040,
-      "to": 1100,
-      "length": 60,
+      "to": 1086,
+      "length": 46,
       "headingChangeDegrees": -40.00000000000001,
-      "minimumRadius": 45.83662361046585
+      "minimumRadius": 35.14141143469048
     },
     {
       "from": 1190,
-      "to": 1240,
-      "length": 50,
+      "to": 1230,
+      "length": 40,
       "headingChangeDegrees": 30.000000000000004,
-      "minimumRadius": 50.929581789406505
+      "minimumRadius": 40.7436654315252
     },
     {
       "from": 1395,
@@ -66,11 +66,18 @@
       "minimumRadius": 804.1512914116817
     },
     {
-      "from": 3580,
-      "to": 4150,
-      "length": 570,
-      "headingChangeDegrees": 21.999999999999996,
-      "minimumRadius": 791.7234987262285
+      "from": 3590,
+      "to": 3650,
+      "length": 60,
+      "headingChangeDegrees": 40.00000000000001,
+      "minimumRadius": 45.83662361046585
+    },
+    {
+      "from": 3710,
+      "to": 3770,
+      "length": 60,
+      "headingChangeDegrees": -18.000000000000004,
+      "minimumRadius": 101.859163578813
     },
     {
       "from": 4150,
@@ -87,11 +94,11 @@
       "minimumRadius": 930.6223581518826
     },
     {
-      "from": 5750,
-      "to": 6120,
-      "length": 370,
+      "from": 5820,
+      "to": 5880,
+      "length": 60,
       "headingChangeDegrees": -41,
-      "minimumRadius": 275.7650526158109
+      "minimumRadius": 44.71865718094231
     },
     {
       "from": 6150,
@@ -115,11 +122,11 @@
       "minimumRadius": 317.33047114937904
     },
     {
-      "from": 8400,
-      "to": 8750,
-      "length": 350,
+      "from": 8520,
+      "to": 8580,
+      "length": 60,
       "headingChangeDegrees": -34,
-      "minimumRadius": 314.56506399339315
+      "minimumRadius": 53.925439541724536
     },
     {
       "from": 8750,
@@ -164,25 +171,25 @@
       "minimumRadius": 789.4085177358008
     },
     {
-      "from": 13700,
-      "to": 14260,
-      "length": 560,
+      "from": 13860,
+      "to": 13940,
+      "length": 80,
       "headingChangeDegrees": 46,
-      "minimumRadius": 372.00738002696926
+      "minimumRadius": 53.14391143242418
     },
     {
-      "from": 14260,
-      "to": 14820,
-      "length": 560,
+      "from": 14400,
+      "to": 14510,
+      "length": 110,
       "headingChangeDegrees": -68,
-      "minimumRadius": 251.6520511947145
+      "minimumRadius": 49.43165291324749
     },
     {
-      "from": 14820,
-      "to": 15180,
-      "length": 360,
+      "from": 14900,
+      "to": 14980,
+      "length": 80,
       "headingChangeDegrees": 46,
-      "minimumRadius": 239.1476014459088
+      "minimumRadius": 53.14391143242418
     },
     {
       "from": 15400,
@@ -195,9 +202,9 @@
   "corridor": {
     "samples": 8823,
     "bodyPoseChecks": 79407,
-    "maximumCurvature": 0.021816615649929125,
-    "maximumDerivativeError": 6.280526154600849e-7,
-    "minimumTechnicalRadius": 45.83662361046585
+    "maximumCurvature": 0.028348971041551888,
+    "maximumDerivativeError": 5.827643393691322e-7,
+    "minimumTechnicalRadius": 35.14141143469048
   },
   "bridges": {
     "count": 25,
@@ -206,27 +213,27 @@
     "maximumBridgeGrade": 0.047872610778482816
   },
   "hazards": {
-    "count": 28,
-    "moving": 28,
+    "count": 30,
+    "moving": 30,
     "seeds": 32,
     "byBiome": {
       "city": 6,
       "forest": 5,
       "desert": 5,
       "snow": 4,
-      "volcanic": 8
+      "volcanic": 10
     },
     "byType": {
       "repair": 2,
       "log": 1,
       "dune": 1,
       "ice": 1,
-      "rock": 4,
+      "rock": 6,
       "barrier": 7,
       "boulder": 12
     },
-    "approachSamples": 72576,
-    "footprintPoints": 24192,
+    "approachSamples": 77760,
+    "footprintPoints": 25920,
     "maximumHazardCurvature": 0.002489378851694538,
     "minimumHazardSpacing": 180,
     "minimumPassingWidth": 11.2,
@@ -238,6 +245,14 @@
         "recovery": 60,
         "start": 975.0009674131768,
         "end": 1305.0019626920202
+      },
+      {
+        "id": "forest-technical-turn",
+        "from": 3590,
+        "to": 3770,
+        "recovery": 60,
+        "start": 3530.234571097004,
+        "end": 3830.234694347378
       },
       {
         "id": "desert-entry-sweep",
@@ -264,33 +279,49 @@
         "end": 8839.240338449277
       },
       {
-        "id": "volcanic-linked-s",
-        "from": 13800,
-        "to": 15180,
-        "recovery": 80,
-        "start": 13738.695640896081,
-        "end": 15278.83706944556
+        "id": "volcanic-turn-one",
+        "from": 13860,
+        "to": 13940,
+        "recovery": 100,
+        "start": 13778.699701090736,
+        "end": 14058.70617590888
+      },
+      {
+        "id": "volcanic-turn-two",
+        "from": 14400,
+        "to": 14510,
+        "recovery": 100,
+        "start": 14318.762089556136,
+        "end": 14628.777358454327
+      },
+      {
+        "id": "volcanic-turn-three",
+        "from": 14900,
+        "to": 14980,
+        "recovery": 100,
+        "start": 14818.821509627362,
+        "end": 15098.82740812592
       }
     ]
   },
   "scene": {
-    "roadPairs": 75790,
-    "groundPairs": 10207,
+    "roadPairs": 96561,
+    "groundPairs": 58221,
     "maximumRoadOverlap": 6.683542608243442e-14,
     "maximumGroundOverlap": 0,
     "maximumRoadGroundOverlap": 2.6645352591003757e-15,
     "buildings": 309,
     "barriers": 553,
     "housePairs": 47586,
-    "maximumHouseOverlap": 0.0000016339358808181714,
+    "maximumHouseOverlap": 0.000002176544739995734,
     "drawCalls": 6,
-    "triangles": 88841
+    "triangles": 90365
   },
   "routeLength": 15868.841887310184,
   "sourceHashes": {
-    "route-network-config.js": "371e7da7dfb8233ea194fb8bf50f550a205061a930c928089acab681a1f69c3a",
-    "route-network.js": "90cf8706454c0d9fa5872734f5cbdd3476f4cff05b10f9e756fbadb760c15dc7",
-    "road-hazards.js": "c13aa40d339da1a0e0543637488ce2edb74181665f1d83aded037206f5bc1232",
-    "network-scene.js": "bdfa0b96f8f2fc6375f628c5e3bd2c68c3a95014b230cedcd3f26973ca84a48b"
+    "route-network-config.js": "879291b8dfdcbcf645a7112f79415f87e901510d399137d9df019aa0dca84c8b",
+    "route-network.js": "c330a9a40563a87b3e00365faf7cc2d1a7d88a163aa75a077e95432956a250b6",
+    "road-hazards.js": "74e959b3f4ecc7bd1c08d185f61873a355a5a3b5ba419d3f4d9aa38fc600546e",
+    "network-scene.js": "8e94bc42db08eb87ee38683469417f9638ec9b0e7d42ed383aa518cf68108974"
   }
 }

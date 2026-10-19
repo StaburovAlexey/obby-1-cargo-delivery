@@ -1,6 +1,6 @@
 {
   "scope": "Offline analytic and actual road-mesh geometry; no browser or human driving claim.",
-  "turnCount": 27,
+  "turnCount": 28,
   "biomes": [
     {
       "id": "city",
@@ -10,9 +10,9 @@
     },
     {
       "id": "forest",
-      "turns": 4,
+      "turns": 5,
       "reversals": 3,
-      "headingChangeDegrees": 81
+      "headingChangeDegrees": 117.00000000000001
     },
     {
       "id": "desert",
@@ -35,14 +35,14 @@
   ],
   "samples": 7926,
   "bridgeSamples": 7225,
-  "seams": 54,
+  "seams": 56,
   "passed": true,
   "routeLength": 15868.841887310184,
   "firstTurnStart": 80,
-  "maxCurve": 0.021816615649929125,
+  "maxCurve": 0.028348971041551888,
   "maxBridgeCurve": 0.0012833303323487718,
   "maxBridgeGrade": 0.047872610778482816,
-  "maxDerivativeError": 6.280526154600849e-7,
+  "maxDerivativeError": 5.827643393691322e-7,
   "starterShortcut": 331.00178806570517,
-  "configHash": "371e7da7dfb8233ea194fb8bf50f550a205061a930c928089acab681a1f69c3a"
+  "configHash": "879291b8dfdcbcf645a7112f79415f87e901510d399137d9df019aa0dca84c8b"
 }

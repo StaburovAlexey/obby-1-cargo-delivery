@@ -20,7 +20,7 @@ let previous=0,end=-17;
 for(const [a,b,x,y] of C.TURN_DEFINITIONS){
  assert.ok(a>=end&&b>a);near(x,previous);assert.ok(Math.abs(degrees(y-x))>=8-1e-8,'Avoid microscopic artificial wiggles');
  for(const f of C.FORK_DEFINITIONS)assert.ok(b<=f.from||a>=f.to,`Turn overlaps welded fork ${f.id}`);
- for(const q of [a,b]){const l=N.routePointAtProgress(q-1e-3),p=N.routePointAtProgress(q),r=N.routePointAtProgress(q+1e-3);near(l.heading,r.heading,1e-10);near(l.curvature,0,2e-10);near(r.curvature,0,2e-10);near(Math.hypot(r.x-l.x,r.z-l.z),.002,2e-8);assert.ok(N.pointInRoad(p.x,p.z));report.seams++;}
+ for(const q of [a,b]){const l=N.routePointAtProgress(q-1e-3),p=N.routePointAtProgress(q),r=N.routePointAtProgress(q+1e-3);near(l.heading,r.heading,1e-10);near(p.curvature,0,1e-12);const seamTolerance=30*Math.abs(y-x)*1e-6/(b-a)**3+1e-12;near(l.curvature,0,seamTolerance);near(r.curvature,0,seamTolerance);near(Math.hypot(r.x-l.x,r.z-l.z),.002,2e-8);assert.ok(N.pointInRoad(p.x,p.z));report.seams++;}
  previous=y;end=b;
 }
 let maxCurve=0,maxBridgeCurve=0,maxBridgeGrade=0,maxDerivativeError=0;
@@ -37,8 +37,8 @@ for(let q=0;q<=C.NETWORK_CONFIG.end;q+=2){
  if(q<C.NETWORK_CONFIG.end-4)assert.ok(N.truckInRoad(p.x,p.z,p.heading,p),`Centered body inside actual mesh at ${q}`);
  assert.ok(p.tangent.z<-.7,'Forward-only sweep prevents loops or backwards long straights');
  if(!C.FORK_DEFINITIONS.some(f=>q>=f.from&&q<=f.to)){
-  const technicalCity=q>=1040&&q<=1100||q>=1190&&q<=1240;
-  assert.ok(k<=(technicalCity?.022:.0042)+1e-9,`Drivable bend at ${q}: ${k}`);
+  const technicalCity=C.TURN_DEFINITIONS.some(([from,to])=>to-from<=120&&q>=from&&q<=to);
+  assert.ok(k<=(technicalCity?.0286:.0042)+1e-9,`Drivable bend at ${q}: ${k}`);
   if(q>0&&q<C.NETWORK_CONFIG.end){const a=N.routePointAtProgress(q-.01),b=N.routePointAtProgress(q+.01);const error=Math.hypot((b.x-a.x)/.02-p.tangent.x,(b.z-a.z)/.02-p.tangent.z);maxDerivativeError=Math.max(maxDerivativeError,error);assert.ok(error<1e-6,`Actual centerline tangent agrees at ${q} within 6 m Simpson integration tolerance`);}
  }
  report.samples++;

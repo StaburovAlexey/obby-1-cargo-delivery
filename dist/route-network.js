@@ -29,7 +29,7 @@ export const routeGrade=q=>routeHeight(q,1);
 // Resolve the occasional short technical turn without tripling the whole mesh.
 // This also keeps the Simpson-integrated centerline tangent accurate at its seams.
 const denseTurnAt=q=>TURN_DEFINITIONS.some(([from,to])=>to-from<=120&&q>=from-C.meshStep&&q<=to+C.meshStep);
-const routeMeshStep=q=>denseTurnAt(q)?2:C.meshStep;
+const routeMeshStep=q=>TURN_DEFINITIONS.some(([from,to])=>to-from<50&&q>=from-C.meshStep&&q<=to+C.meshStep)?1:denseTurnAt(q)?2:C.meshStep;
 const basePoints=[];
 for(let q=C.start,x=0,z=23;;){basePoints.push({q,x,z});if(q>=C.end)break;const next=Math.min(C.end,q+routeMeshStep(q));x+=simpson(v=>-Math.sin(headingAt(v)),q,next);z+=simpson(v=>-Math.cos(headingAt(v)),q,next);q=next;}
 function backbone(q){q=clamp(q,C.start,C.end);const i=search(basePoints,q,v=>v.q),a=basePoints[i];return{x:a.x+simpson(v=>-Math.sin(headingAt(v)),a.q,q),z:a.z+simpson(v=>-Math.cos(headingAt(v)),a.q,q)};}

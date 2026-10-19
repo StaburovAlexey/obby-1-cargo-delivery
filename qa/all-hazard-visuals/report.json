@@ -2,33 +2,33 @@
   "scope": "Offline production Three.js vertices, matrices, resource identities and surface physics. No browser, GPU, mobile or human-playtest claim.",
   "checks": [
     {
-      "name": "All 28 hazard IDs have visible live geometry in the original eight bounded batches",
+      "name": "All 30 hazard IDs have visible live geometry in the original eight bounded batches",
       "passed": true,
-      "hazards": 28,
-      "moving": 28,
+      "hazards": 30,
+      "moving": 30,
       "drawCalls": 8,
-      "triangles": 1812,
-      "solidInstances": 28
+      "triangles": 1908,
+      "solidInstances": 30
     },
     {
       "name": "A full movement cycle keeps every solid, both log caps and both patches on their live collision footprint",
       "passed": true,
       "frames": 441,
-      "movingHazards": 28,
-      "solidPoseChecks": 11466,
-      "checkedVertices": 55512,
+      "movingHazards": 30,
+      "solidPoseChecks": 12348,
+      "checkedVertices": 58968,
       "patchVertices": 1872,
       "logCaps": 2,
-      "maxHorizontalError": 0.00048648884976953966,
-      "maxDaylight": -0.00593829560337511,
-      "maxBurial": 0.008074034465774815
+      "maxHorizontalError": 0.000490602049296518,
+      "maxDaylight": -0.005947045053975586,
+      "maxBurial": 0.008073455844630928
     },
     {
       "name": "Injected sloped and curved ground resamples moving patch height and normals instead of reusing the initial slope",
       "passed": true,
       "samples": 5,
       "vertices": 780,
-      "changedHeights": 135
+      "changedHeights": 148
     },
     {
       "name": "Pause, reset, late scene creation, descriptor-only previews and disposal retain correct geometry and bounded pools",
@@ -43,15 +43,15 @@
       "name": "Runtime CPU updates retain the same resources and no extra falling-rock pools",
       "passed": true,
       "frames": 150,
-      "meanMs": 0.9528126000000005,
-      "p95Ms": 1.1788659999997435,
-      "maximumMs": 1.3203599999997095,
+      "meanMs": 1.116745526666673,
+      "p95Ms": 1.4661409999998796,
+      "maximumMs": 1.7846230000000105,
       "limitation": "Shared Node CPU timing only, not GPU FPS"
     }
   ],
-  "generatedAt": "2026-10-19T19:20:27.400Z",
+  "generatedAt": "2026-10-19T20:00:40.086Z",
   "runtimeHashes": {
-    "road-hazards.js": "c13aa40d339da1a0e0543637488ce2edb74181665f1d83aded037206f5bc1232",
+    "road-hazards.js": "74e959b3f4ecc7bd1c08d185f61873a355a5a3b5ba419d3f4d9aa38fc600546e",
     "road-hazards-scene.js": "a69a4b6b1f693df43a2e171182c1063b709cb69d9ac8bee16390dee8c0e85cb2"
   }
 }

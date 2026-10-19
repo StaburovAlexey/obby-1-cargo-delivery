@@ -9,7 +9,7 @@ import { CHECKPOINT_PROGRESS, PREVIEW_PROGRESS, HAZARD_FREE_DRIVING_SECTIONS } f
 import {BRIDGES} from './road-bridges.js';
 
 export const ROAD_HAZARD_RULES = Object.freeze({
-  count: 28, staticCount: 0, movingCount: 28, moversPerBiome: 4,
+  count: 30, staticCount: 0, movingCount: 30, moversPerBiome: 4,
   moverCountByBiome: Object.freeze({city: 4, forest: 4, desert: 4, snow: 3, volcanic: 4}),
   staticSpacingMetres: 150, staticMoverSpacingMetres: 180, staticPerBiome: 2,
   exclusionMetres: 100, junctionExclusionMetres: 100,
@@ -201,9 +201,9 @@ export function buildRoadHazards(seed = 42) {
     }
     const definition=BIOME_DEFINITIONS.find(b=>b.id===biome);
     const startDistance=routeDistanceAt(definition.from),endDistance=routeDistanceAt(definition.to);
-    const encounterCount=biome==='volcanic'?4:(biome==='forest'||biome==='snow'||biome==='desert')?1:R.staticPerBiome;
+    const encounterCount=biome==='volcanic'?6:(biome==='forest'||biome==='snow'||biome==='desert')?1:R.staticPerBiome;
     for(let slot=0;slot<encounterCount;slot++){
-      const fraction=(encounterCount===1?.5:encounterCount===2?[.15,.85][slot]:staticFractions[slot])+(random()-.5)*.045;
+      const fraction=(encounterCount===1?.5:encounterCount===2?[.15,.85][slot]:(.10+.83*slot/(encounterCount-1)))+(random()-.5)*.045;
       const target=startDistance+(endDistance-startDistance)*fraction;
       const available=candidates.filter(h=>result.every(other=>
         Math.abs(other.distance-h.distance)>=(R.moverSpacingMetres)));
