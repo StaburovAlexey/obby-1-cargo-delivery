@@ -4,25 +4,25 @@ const copy = Object.freeze({
   ru: {
     title: 'Расцветки', close: 'Закрыть магазин расцветок', eyebrow: 'МАГАЗИН АНГАРА',
     description: 'Листайте машины вниз, расцветки — влево и вправо.',
-    previewNote: 'Примерка видна на машине в ангаре.',
+    previewNote: 'Проведите по машине, чтобы сменить расцветку.',
     unavailable: 'Покупка пока недоступна. Цены и валюта ещё не выбраны.',
-    resetNote: 'При закрытии все машины вернутся к базовой расцветке.',
+    resetNote: 'Примерка не меняет машину в ангаре.', apply: 'Применить', applied: 'Применено', applyFailed: 'Не удалось применить',
     base: 'Базовая · установлена', preview: 'Примерка · не куплено', loading: 'Загружаем примерку…',
     failed: 'Не удалось загрузить. Нажмите на расцветку ещё раз.',
     purchase: 'Покупка недоступна', owned: 'В наличии', locked: 'Закрыто',
-    show: 'Показать в ангаре', choose: 'Выбрать расцветку для', selected: 'Выбрано для примерки',
+    show: 'Показать машину', choose: 'Выбрать расцветку для', selected: 'Выбрано для примерки',
     count: '11 машин · 44 новые расцветки', reward: 'Наградная машина',
   },
   en: {
     title: 'Liveries', close: 'Close livery shop', eyebrow: 'HANGAR SHOP',
     description: 'Scroll down for cars. Swipe sideways for liveries.',
-    previewNote: 'See your preview on the car in the hangar.',
+    previewNote: 'Swipe across the rotating car to change its livery.',
     unavailable: 'Purchases are unavailable. Prices and currency are not set yet.',
-    resetNote: 'Closing restores the base finish on every car.',
+    resetNote: 'Previewing does not change your hangar car.', apply: 'Apply', applied: 'Applied', applyFailed: 'Could not apply',
     base: 'Base · equipped', preview: 'Preview · not owned', loading: 'Loading preview…',
     failed: 'Preview could not load. Tap the livery to retry.',
     purchase: 'Purchase unavailable', owned: 'Owned', locked: 'Locked',
-    show: 'Show in hangar', choose: 'Choose a livery for', selected: 'Selected for preview',
+    show: 'Preview car', choose: 'Choose a livery for', selected: 'Selected for preview',
     count: '11 cars · 44 new liveries', reward: 'Reward car',
   },
 });
@@ -31,11 +31,13 @@ const copy = Object.freeze({
  * Creates a preview-only shop and appends its dialog to document.body.
  * onPreview(vehicleId, liveryId) is called immediately, including for locked cars.
  * It may return a Promise; throw/reject/return false to report a failed preview.
- * The host must make requests latest-wins and restore actual cars in onClose.
+ * The host must make requests latest-wins and release its isolated preview in onClose.
+ * Only explicit onApply may change the hangar car; locked finishes cannot apply.
  * No selection, ownership, money, or equipment is saved or modified here.
  */
 export function createVehicleLiveryShop(doc, {
   language = () => 'ru', canOpen = () => true, button = null,
+  autoPreview = false, onApply = () => true,
   onPreview = () => true, onClose = () => {}, onOpenChange = () => {},
 } = {}) {
   let opened = false, disposed = false, closing = false, visible = true, epoch = 0, returnFocus = null;
@@ -75,6 +77,11 @@ export function createVehicleLiveryShop(doc, {
   const description = make('p', '', intro, { id: 'vehicle-livery-description' });
   const previewNote = make('p', 'vehicle-livery-preview-note', intro);
   const count = make('p', 'vehicle-livery-count', intro);
+  const previewStage = make('div', 'vehicle-livery-preview-stage', panel);
+  const previewHost = make('div', 'vehicle-livery-preview-host', previewStage, { id: 'vehicle-livery-preview-host', role: 'img' });
+  const previewCaption = make('p', 'vehicle-livery-preview-caption', previewStage, { 'aria-live': 'polite' });
+  const applyButton = make('button', 'vehicle-livery-apply', previewStage, { type: 'button', disabled: '' });
+  applyButton.disabled = true;
   const scroll = make('div', 'vehicle-livery-scroll', panel, { id: 'vehicle-livery-list', role: 'list' });
   const footer = make('footer', 'vehicle-livery-footer', panel);
   const unavailable = make('p', '', footer, { id: 'vehicle-livery-purchase-note' });
@@ -90,6 +97,15 @@ export function createVehicleLiveryShop(doc, {
     row.root.setAttribute('data-active', String(row.active));
     row.status.textContent = row.loading ? text.loading : row.error ? text.failed : row.selected === BASE_VEHICLE_LIVERY_ID ? text.base : text.preview;
     row.status.setAttribute('data-state', row.error ? 'error' : row.loading ? 'loading' : selected.owned ? 'owned' : 'preview');
+    if (row.active) {
+      const caption = `${row.vehicle.name[lang()]} · ${vehicleLiveryName(row.vehicle.id, row.selected, lang())}`;
+      previewCaption.textContent = `${caption} · ${row.status.textContent}`;
+      previewHost.setAttribute('aria-label', caption);
+      previewStage.setAttribute('aria-busy', String(row.loading));
+      applyButton.disabled = !selected.owned || row.loading || row.error;
+      applyButton.textContent = text.apply;
+      applyButton.setAttribute('aria-label', `${text.apply}: ${caption}`);
+    }
     row.purchase.textContent = text.purchase;
     row.purchase.title = text.unavailable;
     row.purchase.hidden = row.selected === BASE_VEHICLE_LIVERY_ID;
@@ -109,6 +125,7 @@ export function createVehicleLiveryShop(doc, {
   function refresh() {
     if (disposed) return;
     const text = words();
+    applyButton.textContent = text.apply;
     menu.setAttribute('lang', lang());
     title.textContent = text.title;
     eyebrow.textContent = text.eyebrow;
@@ -241,11 +258,66 @@ export function createVehicleLiveryShop(doc, {
     });
   }
 
+  listen(applyButton, 'click', () => {
+    const row = [...rows.values()].find(item => item.active);
+    if (!opened || applyButton.disabled || !row || !getVehicleLivery(row.vehicle.id, row.selected)?.owned) return;
+    const token = row.token, openEpoch = epoch;
+    applyButton.disabled = true;
+    const settle = success => {
+      if (!opened || disposed || epoch !== openEpoch || row.token !== token || !row.active) return;
+      applyButton.disabled = false;
+      applyButton.textContent = success ? words().applied : words().applyFailed;
+    };
+    try { Promise.resolve(onApply(row.vehicle.id, row.selected)).then(result => settle(result !== false), () => settle(false)); }
+    catch { settle(false); }
+  });
+  let previewGesture = null;
+  const resetPreviewGesture = () => {
+    const gesture = previewGesture; previewGesture = null;
+    if (gesture && previewHost.hasPointerCapture?.(gesture.id)) {
+      try { previewHost.releasePointerCapture(gesture.id); } catch { /* Capture ended. */ }
+    }
+  };
+  listen(previewHost, 'pointerdown', event => {
+    if (!opened || previewGesture || event.isPrimary === false || (event.button != null && event.button !== 0)) return;
+    previewGesture = { id: event.pointerId, x: event.clientX, y: event.clientY, dx: 0, axis: null };
+  });
+  listen(previewHost, 'pointermove', event => {
+    const gesture = previewGesture;
+    if (!gesture || gesture.id !== event.pointerId) return;
+    const dx = event.clientX - gesture.x, dy = event.clientY - gesture.y;
+    gesture.dx = dx;
+    if (!gesture.axis && Math.max(Math.abs(dx), Math.abs(dy)) >= 9) {
+      if (Math.abs(dx) > Math.abs(dy) * 1.2) {
+        gesture.axis = 'x';
+        try { previewHost.setPointerCapture?.(gesture.id); } catch { /* Capture optional. */ }
+      } else if (Math.abs(dy) > Math.abs(dx) * 1.2) gesture.axis = 'y';
+    }
+    if (gesture.axis === 'x') event.preventDefault();
+  }, { passive: false });
+  listen(previewHost, 'pointerup', event => {
+    const gesture = previewGesture;
+    if (!gesture || gesture.id !== event.pointerId) return;
+    resetPreviewGesture();
+    if (gesture.axis !== 'x' || Math.abs(gesture.dx) < 32) return;
+    event.preventDefault();
+    const row = [...rows.values()].find(item => item.active);
+    if (!row) return;
+    const current = row.vehicle.variants.findIndex(item => item.id === row.selected);
+    const next = Math.max(0, Math.min(row.vehicle.variants.length - 1, current + (gesture.dx < 0 ? 1 : -1)));
+    if (current !== next) select(row.vehicle.id, row.vehicle.variants[next].id);
+  });
+  for (const type of ['pointercancel', 'lostpointercapture']) listen(previewHost, type, resetPreviewGesture);
+  listen(doc.defaultView || doc, 'blur', resetPreviewGesture);
+
   function releaseBackground() {
     for (const [node, inert] of background) node.inert = inert;
     background = [];
   }
   function resetRows() {
+    resetPreviewGesture();
+    previewCaption.textContent = '';
+    applyButton.disabled = true;
     for (const row of rows.values()) {
       resetGesture(row);
       row.token++;
@@ -295,10 +367,11 @@ export function createVehicleLiveryShop(doc, {
     refresh();
     onOpenChange(true);
     if (!opened || disposed) return false;
+    if (autoPreview) select(VEHICLE_LIVERY_CATALOG[0].id, BASE_VEHICLE_LIVERY_ID);
     closeButton.focus?.();
     return true;
   }
-  const focusable = () => [closeButton, ...[...rows.values()].flatMap(row => [row.show, row.options.get(row.selected).button])];
+  const focusable = () => [closeButton, ...(!applyButton.disabled ? [applyButton] : []), ...[...rows.values()].flatMap(row => [row.show, row.options.get(row.selected).button])];
   function onKeyDown(event) {
     if (!opened) return;
     event.stopPropagation();
@@ -350,6 +423,7 @@ export function createVehicleLiveryShop(doc, {
       return visible;
     },
     isOpen: () => opened, refresh,
+    getPreviewHost: () => previewHost,
     setLanguage(next) { languageOverride = next === 'en' ? 'en' : 'ru'; refresh(); return lang(); },
     preview: select,
     getSelection: vehicleId => rows.get(vehicleId)?.selected ?? null,

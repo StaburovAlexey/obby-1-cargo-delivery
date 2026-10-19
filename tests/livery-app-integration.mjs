@@ -3,7 +3,7 @@ import test from 'node:test';
 import * as THREE from '../dist/vendor/three.module.js';
 import {createAppDom} from './fixtures/app-dom.mjs';
 import {createVehicleLiveryShop} from '../dist/vehicle-livery-shop.js';
-import {VEHICLE_CONFIG} from '../dist/economy-config.js';
+import {VEHICLE_CONFIG,ECONOMY_CONFIG} from '../dist/economy-config.js';
 import {getVehiclePerformance} from '../dist/vehicle-upgrades.js';
 
 // The real app and shop run against actual Three.js geometry and simulated DOM.
@@ -19,17 +19,17 @@ function make(options={}) {
    }
   },
   createLiveryShop(doc,callbacks){state.shop=createVehicleLiveryShop(doc,callbacks);return state.shop;},
-  createLiveryController(THREE,visual,id){
-   const base=visual.mesh.material;
-   const controller={visual,id,base,restores:0,disposed:false,epoch:0,
-    preview(liveryId){
+  createLiveryController(){throw new Error('Preview must never create a hangar livery controller');},
+  createLiveryPreview(THREE,host){
+   const preview={host,closed:0,disposed:false,epoch:0,current:null,
+    show(visual,id,liveryId){
      state.calls.push({id,liveryId,visual});const token=++this.epoch;
-     const apply=()=>{if(this.disposed||token!==this.epoch)return false;visual.mesh.material=liveryId==='base'?base:new THREE.MeshStandardMaterial({color:0xff00ff});return true;};
+     const apply=()=>{if(this.disposed||token!==this.epoch)return false;this.current={visual,id,liveryId};return true;};
      return state.defer?new Promise(resolve=>state.pending.push(()=>resolve(apply()))):apply();
     },
-    restore(){this.epoch++;this.restores++;visual.mesh.material=base;},
-    dispose(){this.restore();this.disposed=true;},
-   };state.controllers.push(controller);return controller;
+    close(){this.epoch++;this.closed++;this.current=null;},
+    dispose(){this.close();this.disposed=true;},
+   };state.controllers.push(preview);return preview;
   },
  });
  const width=options.width??390,height=options.height??844;
@@ -77,19 +77,21 @@ test('preview pauses gameplay and gates controls, purchases, other modals and de
  }finally{f.dispose();}
 });
 
-test('all 11 parked cars receive previews without changing ownership, progression, fuel or performance',async()=>{
+test('all 11 cars preview in an isolated viewer without changing hangar, ownership, progression, fuel or performance',async()=>{
  const f=make();try{
   const d=f.debug,shop=f.livery.shop;
   const before=JSON.stringify(d.gameplay.snapshot()),state=JSON.stringify({money:d.gameplay.state.money,fuels:d.gameplay.state.fuels,selectedId:d.gameplay.state.selectedId,mode:d.gameplay.state.mode});
   const performance=VEHICLE_CONFIG.map(v=>getVehiclePerformance(v.id,d.gameplay.state.upgrades[v.id]));
+  const materials=d.garage.vehicles.map(v=>v.visual.mesh.material),camera=pose(f);
   assert.equal(shop.open(),true);
   for(const v of d.garage.vehicles)for(const id of ['neon','anime','racing','biome','base']){
    assert.equal(shop.preview(v.id,id),true);await settle();
    const call=f.livery.calls.at(-1);assert.equal(call.visual,v.visual);assert.equal(call.id,v.id);assert.equal(call.liveryId,id);
-   const controller=f.livery.controllers.find(c=>c.id===v.id);
-   assert.equal(v.visual.mesh.material===controller.base,id==='base');
+   assert.deepEqual(d.garage.vehicles.map(v=>v.visual.mesh.material),materials);
+   assert.deepEqual(pose(f),camera);
   }
-  assert.equal(f.livery.controllers.length,11);assert.equal(f.livery.calls.length,55);
+  assert.equal(f.livery.controllers.length,1);assert.equal(f.livery.calls.length,56);
+  assert.equal(f.livery.controllers[0].host,shop.getPreviewHost());
   assert.equal(JSON.stringify(d.gameplay.snapshot()),before);
   assert.equal(JSON.stringify({money:d.gameplay.state.money,fuels:d.gameplay.state.fuels,selectedId:d.gameplay.state.selectedId,mode:d.gameplay.state.mode}),state);
   assert.deepEqual(VEHICLE_CONFIG.map(v=>getVehiclePerformance(v.id,d.gameplay.state.upgrades[v.id])),performance);
@@ -97,93 +99,93 @@ test('all 11 parked cars receive previews without changing ownership, progressio
  }finally{f.dispose();}
 });
 
-test('closing restores exact camera and every material before the next render',async()=>{
+test('closing clears the dedicated preview without moving the gameplay camera or materials',async()=>{
  const f=make();try{
-  const before=pose(f),shop=f.livery.shop;shop.open();
+  const before=pose(f),materials=f.debug.garage.vehicles.map(v=>v.visual.mesh.material),shop=f.livery.shop;shop.open();
   shop.preview('pickup','neon');shop.preview('bmwreward','anime');await settle();
-  assert.notDeepEqual(pose(f),before);
+  assert.deepEqual(pose(f),before);
+  assert.equal(f.livery.controllers[0].current.id,'bmwreward');
   shop.close();assert.deepEqual(pose(f),before);
-  for(const controller of f.livery.controllers)assert.equal(controller.visual.mesh.material,controller.base);
-  assert.equal(shop.isOpen(),false);f.frame();assert.equal(shop.isOpen(),false);
+  assert.equal(f.livery.controllers[0].current,null);
+  assert.deepEqual(f.debug.garage.vehicles.map(v=>v.visual.mesh.material),materials);
+  f.frame();assert.equal(shop.isOpen(),false);
  }finally{f.dispose();}
 });
 
-test('returning, driving and rebuilding cannot retain preview materials or disposed visual references',async()=>{
+test('returning, driving and rebuilding release preview and use only current visual references',async()=>{
  const f=make();try{
   const shop=f.livery.shop;shop.open();shop.preview('pickup','neon');await settle();
-  const first=f.livery.controllers[0];f.debug.returnToGarage();
-  assert.equal(shop.isOpen(),false);assert.equal(first.visual.mesh.material,first.base);
-  f.debug.gameplay.state.cooldown=0;assert.equal(f.debug.enterVehicle('pickup'),true);assert.equal(first.visual.mesh.material,first.base);
+  const preview=f.livery.controllers[0],first=preview.current.visual;
+  f.debug.returnToGarage();assert.equal(shop.isOpen(),false);assert.equal(preview.current,null);
+  f.debug.gameplay.state.cooldown=0;assert.equal(f.debug.enterVehicle('pickup'),true);
   f.debug.returnToGarage();shop.open();shop.preview('pickup','anime');await settle();
-  f.debug.rebuild(43);assert.equal(shop.isOpen(),false);assert.equal(first.disposed,true);
+  f.debug.rebuild(43);assert.equal(shop.isOpen(),false);assert.equal(preview.current,null);
   const nextVisual=f.debug.garage.vehicles.find(v=>v.id==='pickup').visual;
-  assert.notEqual(nextVisual,first.visual);
+  assert.notEqual(nextVisual,first);
   shop.open();shop.preview('pickup','racing');await settle();
-  const latest=f.livery.controllers.at(-1);assert.notEqual(latest,first);assert.equal(latest.visual,nextVisual);
+  assert.equal(f.livery.controllers.at(-1).current.visual,nextVisual);
  }finally{f.dispose();}
 });
 
 test('late preview completion is cancelled on close, rebuild and page exit',async()=>{
  for(const exit of ['close','rebuild','pagehide']){
   const f=make();try{
+   const materials=f.debug.garage.vehicles.map(v=>v.visual.mesh.material);
    f.livery.defer=true;f.livery.shop.open();f.livery.shop.preview('pickup','neon');
-   const c=f.livery.controllers[0];
+   const preview=f.livery.controllers[0];
    if(exit==='close')f.livery.shop.close();else if(exit==='rebuild')f.debug.rebuild(44);else f.win.dispatch('pagehide');
    for(const finish of f.livery.pending)finish();await settle();
-   assert.equal(c.visual.mesh.material,c.base,exit);assert.ok(c.restores>0,exit);
+   assert.equal(preview.current,null,exit);assert.ok(preview.closed>0,exit);
    assert.equal(f.livery.shop.isOpen(),false,exit);
+   if(exit!=='rebuild')assert.deepEqual(f.debug.garage.vehicles.map(v=>v.visual.mesh.material),materials);
+   if(exit==='pagehide')assert.equal(preview.disposed,true);
   }finally{f.dispose();}
  }
 });
 
-test('graphics loss closes the shop and restores base',async()=>{
+test('graphics loss closes shop and releases isolated preview',async()=>{
  const f=make();try{
-  f.livery.shop.open();f.livery.shop.preview('pickup','biome');await settle();const c=f.livery.controllers[0];
+  f.livery.shop.open();f.livery.shop.preview('pickup','biome');await settle();const preview=f.livery.controllers[0];
   f.debug.renderer.domElement.dispatch('webglcontextlost');
-  assert.equal(f.livery.shop.isOpen(),false);assert.equal(c.visual.mesh.material,c.base);
+  assert.equal(f.livery.shop.isOpen(),false);assert.equal(preview.current,null);
  }finally{f.dispose();}
 });
 
-test('preview camera fits parked car bounds inside the clear phone and desktop area',async()=>{
- for(const [width,height]of [[320,800],[390,844],[844,390],[1440,900]]){
-  const f=make({width,height});try{
-   f.livery.shop.open();
-   for(const id of ['pickup','bmwreward']){
-    f.livery.shop.preview(id,'neon');await settle();
-    const visual=f.debug.garage.vehicles.find(v=>v.id===id).visual;
-    const box=new THREE.Box3().setFromObject(visual.group),panel=f.ids.get('vehicle-livery-panel').bounds;
-    const maxX=width<=600?width:panel.left-12,maxY=width<=600?panel.top-12:height;
-    for(const x of [box.min.x,box.max.x])for(const y of[box.min.y,box.max.y])for(const z of[box.min.z,box.max.z]){
-     const ndc=new THREE.Vector3(x,y,z).project(f.debug.camera),px=(ndc.x+1)*width/2,py=(1-ndc.y)*height/2;
-     assert.ok(px>=0&&px<=maxX,`${id} at ${width}×${height}: x=${px}, visible right edge=${maxX}`);
-     assert.ok(py>=0&&py<=maxY,`${id} at ${width}×${height}: y=${py}, visible bottom edge=${maxY}`);
-     assert.ok(ndc.z>=-1&&ndc.z<=1,'inside near/far camera planes');
-    }
-   }
-   f.livery.shop.close();assert.equal(f.debug.camera.view,null,'projection restored');
-  }finally{f.dispose();}
- }
+test('resizing never transfers preview framing to the gameplay camera',async()=>{
+ const f=make();try{
+  f.livery.shop.open();f.livery.shop.preview('bmwreward','anime');await settle();
+  const before=pose(f);
+  for(const [width,height]of [[844,390],[320,800],[1440,900]]){
+   f.ids.get('viewport').bounds={left:0,top:0,width,height};f.win.dispatch('resize');f.frame();
+   const after=pose(f);assert.deepEqual(after.position,before.position);assert.deepEqual(after.quaternion,before.quaternion);
+   assert.equal(after.view,null);assert.equal(f.debug.camera.aspect,width/height);
+  }
+ }finally{f.dispose();}
 });
 
-test('preview remains framed after resizing and throughout reward pedestal rotation',async()=>{
- const f=make({width:390,height:844});try{
-  const shop=f.livery.shop;shop.open();shop.preview('bmwreward','anime');await settle();
-  const reward=f.debug.garage.vehicles.find(v=>v.id==='bmwreward');
-  for(const [width,height]of [[390,844],[844,390],[320,800]]){
-   f.ids.get('viewport').bounds={left:0,top:0,width,height};
-   const panel=f.ids.get('vehicle-livery-panel');
-   panel.bounds=width<=600?{left:8,top:height*.45-8,width:width-16,height:height*.55}:{left:width-394,top:14,width:380,height:height-28};
-   f.win.dispatch('resize');
-   const maxX=width<=600?width:panel.bounds.left-12,maxY=width<=600?panel.bounds.top-12:height;
-   for(let i=0;i<=12;i++){
-    f.frame(1000+i*(Math.PI*2/.14)*1000/12);
-    const bounds=new THREE.Box3().setFromObject(reward.visual.group);
-    for(const x of[bounds.min.x,bounds.max.x])for(const y of[bounds.min.y,bounds.max.y])for(const z of[bounds.min.z,bounds.max.z]){
-     const p=new THREE.Vector3(x,y,z).project(f.debug.camera),px=(p.x+1)*width/2,py=(1-p.y)*height/2;
-     assert.ok(px>=0&&px<=maxX&&py>=0&&py<=maxY,`rotation ${i} at ${width}×${height}: (${px}, ${py}) not inside (${maxX}, ${maxY})`);
-    }
-   }
+test('Apply is restricted to the owned base finish and never changes ownership or saves',async()=>{
+ const f=make();try{
+  const shop=f.livery.shop,before=JSON.stringify(f.debug.gameplay.snapshot());
+  const stored=f.storage.getItem(ECONOMY_CONFIG.saveKey);
+  const apply=f.ids.get('vehicle-livery-panel').all().find(el=>el.className==='vehicle-livery-apply');
+  shop.open();await settle();assert.equal(apply.disabled,false);
+  apply.dispatch('click');await settle();assert.equal(apply.disabled,false);
+  assert.equal(JSON.stringify(f.debug.gameplay.snapshot()),before);
+  for(const skin of ['neon','anime','racing','biome']){
+   shop.preview('pickup',skin);await settle();assert.equal(apply.disabled,true);
+   apply.dispatch('click');await settle();assert.equal(JSON.stringify(f.debug.gameplay.snapshot()),before);
   }
-  shop.close();assert.equal(f.debug.camera.view,null);assert.equal(f.debug.camera.aspect,320/800);
+  assert.equal(f.storage.getItem(ECONOMY_CONFIG.saveKey),stored);
+ }finally{f.dispose();}
+});
+
+test('closing and reopening cannot revive a stale deferred skin selection',async()=>{
+ const f=make();try{
+  const shop=f.livery.shop;f.livery.defer=true;
+  shop.open();shop.preview('pickup','anime');shop.close();shop.open();
+  const preview=f.livery.controllers[0],pending=[...f.livery.pending];
+  pending.at(-1)();await settle();assert.equal(preview.current.liveryId,'base');
+  for(const finish of pending.slice(0,-1))finish();await settle();
+  assert.equal(preview.current.liveryId,'base');assert.equal(shop.getSelection('pickup'),'base');
  }finally{f.dispose();}
 });

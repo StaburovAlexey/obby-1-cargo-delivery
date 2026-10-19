@@ -16,7 +16,7 @@ import {createPauseState} from './pause-state.js';
 import {createOnlineSession} from './online-session.js';
 import {createAdvertising,isAdvertisingSafe} from './advertising.js';
 import {createVehicleLiveryShop} from './vehicle-livery-shop.js';
-import {createVehicleLiveryController} from './vehicle-livery-materials.js';
+import {createVehicleLiveryPreview} from './vehicle-livery-preview.js';
 import {createHangarDriftLeaderboard} from './hangar-drift-leaderboard.js';
 import {createCanyonLeaderboard} from './canyon-leaderboard.js';
 import {createCanyonMode} from './canyon-mode.js';
@@ -158,8 +158,7 @@ let city,
   characterRequest = 0, displayGeneration = 0, characterDisplays = [],
   lastTime = 0,
   graphicsLost = false;
-let liveryShop=null,liveryCamera=null,liveryFocusedVehicle=null;
-const liveryControllers=new Map();
+let liveryShop=null,liveryPreview=null;
 let hangarLeaderboardUi=null,canyonMode=null,onlineSession=null,advertising=null,spatialRenderer=null,teleportId=0,onlineClock=0,lastWalkSpeed=0,disposedOnline=false;
 const gameplayPaused=()=>pauseState.paused||!appFocused||document.hidden||graphicsLost||!playing||biomeMenuOpen||upgradeMenuOpen||careerMenuOpen||settingsMenuOpen||hangarLeaderboardOpen||liveryShopOpen;
 pauseState.subscribe(paused=>{if(paused){canyonMode?.pause();stopVehicleEffects();inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();}lastTime=0;onlineClock=0;advertising?.setSuspended(gameplay.state.eventMode==='finish'||!!canyonMode?.active||document.hidden||!appFocused||graphicsLost||pauseState.reasons.has('platform')||pauseState.reasons.has('payment'));onlineSession?.update(0);});
@@ -242,8 +241,6 @@ function setWire(value) {
 }
 function rebuild(value) {
   liveryShop?.close();restoreLiveryPreviews();
-  for(const controller of liveryControllers.values())controller.dispose();
-  liveryControllers.clear();
   spatialRenderer?.dispose();spatialRenderer=null;
   const seed = developerMode ? Math.max(1, Math.min(4294967295, Number(value) || 42)) >>> 0 : 42;
   canyonMode?.dispose();canyonMode=null;
@@ -434,53 +431,12 @@ hangarLeaderboardUi=createHangarDriftLeaderboard(document,{platform:services?.pl
  }
 });
 function restoreLiveryPreviews(){
- for(const controller of liveryControllers.values())controller.restore();
- liveryFocusedVehicle=null;
- if(liveryCamera){camera.position.copy(liveryCamera.position);camera.quaternion.copy(liveryCamera.quaternion);controls.target.copy(liveryCamera.target);camera.view=liveryCamera.view?{...liveryCamera.view}:null;camera.updateProjectionMatrix();liveryCamera=null;}
-}
-function focusLiveryVehicle(vehicle){
- liveryFocusedVehicle=vehicle;
- vehicle.root.updateWorldMatrix(true,true);
- const bounds=new THREE.Box3().setFromObject(vehicle.visual?.group||vehicle.root);
- if(bounds.isEmpty())return;
- if(vehicle.rewardDisplay){
-  // The reward pedestal keeps rotating while the shop is paused. Reserve its full turn.
-  const pivot=vehicle.root.getWorldPosition(new THREE.Vector3());
-  const radius=Math.hypot(Math.max(Math.abs(bounds.min.x-pivot.x),Math.abs(bounds.max.x-pivot.x)),Math.max(Math.abs(bounds.min.z-pivot.z),Math.abs(bounds.max.z-pivot.z)));
-  bounds.min.x=pivot.x-radius;bounds.max.x=pivot.x+radius;bounds.min.z=pivot.z-radius;bounds.max.z=pivot.z+radius;
- }
- const target=bounds.getCenter(new THREE.Vector3());
- const rect=renderer.domElement.getBoundingClientRect(),width=Math.max(1,rect.width||innerWidth),height=Math.max(1,rect.height||innerHeight);
- const panel=document.getElementById('vehicle-livery-panel')?.getBoundingClientRect();
- // Fit inside the larger clear area: left of a desktop sheet or above a phone sheet.
- let clearWidth=width,clearHeight=height;
- if(panel&&panel.width>0&&panel.height>0){
-  const left=Math.max(0,Math.min(width,panel.left-rect.left-12));
-  const above=Math.max(0,Math.min(height,panel.top-rect.top-12));
-  if(left*height>=above*width)clearWidth=Math.max(1,left);
-  else clearHeight=Math.max(1,above);
- }
- const back=new THREE.Vector3(-10,5,-7).normalize();
- const right=new THREE.Vector3().crossVectors(worldUp,back).normalize();
- const up=new THREE.Vector3().crossVectors(back,right).normalize();
- const tangent=Math.tan(THREE.MathUtils.degToRad(camera.fov/2));
- const halfWidth=tangent*(width/height)*(clearWidth/width)*.88,halfHeight=tangent*(clearHeight/height)*.85;
- let distance=7;
- for(const x of[bounds.min.x,bounds.max.x])for(const y of[bounds.min.y,bounds.max.y])for(const z of[bounds.min.z,bounds.max.z]){
-  const delta=new THREE.Vector3(x,y,z).sub(target);
-  distance=Math.max(distance,delta.dot(back)+Math.max(Math.abs(delta.dot(right))/halfWidth,Math.abs(delta.dot(up))/halfHeight));
- }
- camera.position.copy(target).addScaledVector(back,distance+.5);
- camera.lookAt(target);controls.target.copy(target);
- // Off-axis framing leaves the camera safely in the aisle and the model above/beside the UI.
- camera.setViewOffset(width,height,(width-clearWidth)/2,(height-clearHeight)/2,width,height);
- camera.updateMatrixWorld(true);
+ liveryPreview?.close();
 }
 liveryShop=createVehicleLiveryShop(document,{
- button:document.getElementById('livery-shop-button'),language:()=>selectedLanguage,
+ button:document.getElementById('livery-shop-button'),language:()=>selectedLanguage,autoPreview:true,
  canOpen:()=>hangarLeaderboardAvailable()&&!settingsMenuOpen&&!careerMenuOpen&&!biomeMenuOpen&&!upgradeMenuOpen&&!hangarLeaderboardOpen&&!pauseState.paused,
  onOpenChange:open=>{
-  if(open&&!liveryCamera)liveryCamera={position:camera.position.clone(),quaternion:camera.quaternion.clone(),target:controls.target.clone(),view:camera.view?{...camera.view}:null};
   liveryShopOpen=!!open;transition=null;
   inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();model?.pause();stopVehicleEffects();lastTime=0;syncMode();
  },
@@ -488,10 +444,13 @@ liveryShop=createVehicleLiveryShop(document,{
   if(!liveryShopOpen||!hangarLeaderboardAvailable())return false;
   const vehicle=garage.vehicles.find(v=>v.id===vehicleId);
   if(!vehicle?.visual)throw new Error('Vehicle is not loaded');
-  let controller=liveryControllers.get(vehicleId);
-  if(!controller){controller=createVehicleLiveryController(THREE,vehicle.visual,vehicleId);liveryControllers.set(vehicleId,controller);}
-  focusLiveryVehicle(vehicle);
-  return controller.preview(liveryId);
+  if(!liveryPreview)liveryPreview=createVehicleLiveryPreview(THREE,liveryShop.getPreviewHost());
+  return liveryPreview.show(vehicle.visual,vehicleId,liveryId);
+ },
+ onApply(vehicleId,liveryId){
+  // Only the free original finish is owned until purchase currency is decided.
+  if(liveryId!=='base'||!liveryShopOpen||!hangarLeaderboardAvailable())return false;
+  return true;
  },
  onClose:()=>restoreLiveryPreviews(),
 });
@@ -569,7 +528,6 @@ function syncRenderViewport(){
     renderWidth=rect.width;renderHeight=rect.height;
     renderer.setSize(renderWidth,renderHeight,false);
     camera.aspect=renderWidth/renderHeight;camera.updateProjectionMatrix();
-    if(liveryShopOpen&&liveryFocusedVehicle)focusLiveryVehicle(liveryFocusedVehicle);
   }
   labelCanvasRect=usableViewportRect(renderer.domElement,rect);
   labelLayerRect=usableViewportRect(document.getElementById('world-labels'),fallback);
@@ -1086,7 +1044,7 @@ if(services?.serverUrl){
     getContext:()=>({gameplay,garage,character,model,rig,paused:gameplayPaused(),walkSpeed:lastWalkSpeed,teleportId})});
   onlineSession.bindGameplay(gameplay);
 }
-window.addEventListener('pagehide',event=>{if(event.persisted||disposedOnline)return;disposedOnline=true;renderProfiler?.dispose();spatialRenderer?.dispose();liveryShop?.dispose();for(const c of liveryControllers.values())c.dispose();liveryControllers.clear();hangarLeaderboardUi?.dispose();canyonMode?.dispose();driftLeaderboard.dispose();onlineSession?.dispose();advertising?.destroy();});
+window.addEventListener('pagehide',event=>{if(event.persisted||disposedOnline)return;disposedOnline=true;renderProfiler?.dispose();spatialRenderer?.dispose();liveryShop?.dispose();liveryPreview?.dispose();hangarLeaderboardUi?.dispose();canyonMode?.dispose();driftLeaderboard.dispose();onlineSession?.dispose();advertising?.destroy();});
 window.addEventListener('pageshow',event=>{if(!event.persisted)return;appFocused=document.hasFocus?.()??true;lastTime=0;onlineClock=0;inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();syncMode();});
 requestAnimationFrame(frame);
 

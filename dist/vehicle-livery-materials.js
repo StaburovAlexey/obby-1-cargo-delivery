@@ -22,7 +22,7 @@ let usedClock = 0;
 export function vehicleLiveryTextureURL(vehicleId, liveryId) {
   if (!VEHICLES[vehicleId]) throw new RangeError(`Unknown livery vehicle: ${vehicleId}`);
   if (!VARIANTS.includes(liveryId)) throw new RangeError(`Unknown livery: ${liveryId}`);
-  return liveryId === 'base' ? null : new URL(`./assets/liveries/${vehicleId}/${liveryId}.webp`, import.meta.url).href;
+  return liveryId === 'base' ? null : String(new URL(`./assets/liveries/${vehicleId}/${liveryId}.webp`, import.meta.url));
 }
 
 function evictIdleTextures() {
