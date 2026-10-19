@@ -15,7 +15,8 @@ tests/latest-report.json
 tests/final-summary.json
 *.tar.gz
 .DS_Store
-
+.playwright-mcp
+output
 tests/latest-material-report.json
 
 tests/latest-driving-report.json
