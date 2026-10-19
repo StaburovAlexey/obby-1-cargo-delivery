@@ -1,0 +1,296 @@
+{
+  "scope": "Deterministic production route, actual collision/mesh footprints and CPU scene geometry. Input-only physical driving and browser feel are separate checks.",
+  "passed": true,
+  "turns": [
+    {
+      "from": 80,
+      "to": 345,
+      "length": 265,
+      "headingChangeDegrees": 18,
+      "minimumRadius": 449.87797247309084
+    },
+    {
+      "from": 500,
+      "to": 710,
+      "length": 210,
+      "headingChangeDegrees": 8.000000000000002,
+      "minimumRadius": 802.1409131831524
+    },
+    {
+      "from": 1040,
+      "to": 1100,
+      "length": 60,
+      "headingChangeDegrees": -40.00000000000001,
+      "minimumRadius": 45.83662361046585
+    },
+    {
+      "from": 1190,
+      "to": 1240,
+      "length": 50,
+      "headingChangeDegrees": 30.000000000000004,
+      "minimumRadius": 50.929581789406505
+    },
+    {
+      "from": 1395,
+      "to": 1645,
+      "length": 250,
+      "headingChangeDegrees": 16,
+      "minimumRadius": 477.46482927568604
+    },
+    {
+      "from": 1795,
+      "to": 2085,
+      "length": 290,
+      "headingChangeDegrees": -20.000000000000004,
+      "minimumRadius": 443.0873615678365
+    },
+    {
+      "from": 2235,
+      "to": 2585,
+      "length": 350,
+      "headingChangeDegrees": 24,
+      "minimumRadius": 445.6338406573069
+    },
+    {
+      "from": 2735,
+      "to": 3080,
+      "length": 345,
+      "headingChangeDegrees": -24,
+      "minimumRadius": 439.26764293363107
+    },
+    {
+      "from": 3080,
+      "to": 3580,
+      "length": 500,
+      "headingChangeDegrees": -19,
+      "minimumRadius": 804.1512914116817
+    },
+    {
+      "from": 3580,
+      "to": 4150,
+      "length": 570,
+      "headingChangeDegrees": 21.999999999999996,
+      "minimumRadius": 791.7234987262285
+    },
+    {
+      "from": 4150,
+      "to": 4410,
+      "length": 260,
+      "headingChangeDegrees": -18,
+      "minimumRadius": 441.3897088415231
+    },
+    {
+      "from": 5080,
+      "to": 5750,
+      "length": 670,
+      "headingChangeDegrees": 21.999999999999996,
+      "minimumRadius": 930.6223581518826
+    },
+    {
+      "from": 5750,
+      "to": 6120,
+      "length": 370,
+      "headingChangeDegrees": -41,
+      "minimumRadius": 275.7650526158109
+    },
+    {
+      "from": 6150,
+      "to": 6670,
+      "length": 520,
+      "headingChangeDegrees": 18,
+      "minimumRadius": 882.7794176830462
+    },
+    {
+      "from": 6670,
+      "to": 7210,
+      "length": 540,
+      "headingChangeDegrees": -20,
+      "minimumRadius": 825.0592249883854
+    },
+    {
+      "from": 7210,
+      "to": 7750,
+      "length": 540,
+      "headingChangeDegrees": 51.99999999999999,
+      "minimumRadius": 317.33047114937904
+    },
+    {
+      "from": 8400,
+      "to": 8750,
+      "length": 350,
+      "headingChangeDegrees": -34,
+      "minimumRadius": 314.56506399339315
+    },
+    {
+      "from": 8750,
+      "to": 9260,
+      "length": 510,
+      "headingChangeDegrees": 20,
+      "minimumRadius": 779.2226013779195
+    },
+    {
+      "from": 9260,
+      "to": 9545,
+      "length": 285,
+      "headingChangeDegrees": -21.999999999999996,
+      "minimumRadius": 395.86174936311426
+    },
+    {
+      "from": 10370,
+      "to": 10980,
+      "length": 610,
+      "headingChangeDegrees": 21.999999999999996,
+      "minimumRadius": 847.2830424964901
+    },
+    {
+      "from": 10980,
+      "to": 11700,
+      "length": 720,
+      "headingChangeDegrees": -25.999999999999996,
+      "minimumRadius": 846.2145897316775
+    },
+    {
+      "from": 11700,
+      "to": 12410,
+      "length": 710,
+      "headingChangeDegrees": 24,
+      "minimumRadius": 904.0000767619655
+    },
+    {
+      "from": 13080,
+      "to": 13700,
+      "length": 620,
+      "headingChangeDegrees": -24,
+      "minimumRadius": 789.4085177358008
+    },
+    {
+      "from": 13700,
+      "to": 14260,
+      "length": 560,
+      "headingChangeDegrees": 46,
+      "minimumRadius": 372.00738002696926
+    },
+    {
+      "from": 14260,
+      "to": 14820,
+      "length": 560,
+      "headingChangeDegrees": -68,
+      "minimumRadius": 251.6520511947145
+    },
+    {
+      "from": 14820,
+      "to": 15180,
+      "length": 360,
+      "headingChangeDegrees": 46,
+      "minimumRadius": 239.1476014459088
+    },
+    {
+      "from": 15400,
+      "to": 15770,
+      "length": 370,
+      "headingChangeDegrees": -12,
+      "minimumRadius": 942.1972631040204
+    }
+  ],
+  "corridor": {
+    "samples": 8823,
+    "bodyPoseChecks": 79407,
+    "maximumCurvature": 0.021816615649929125,
+    "maximumDerivativeError": 6.280526154600849e-7,
+    "minimumTechnicalRadius": 45.83662361046585
+  },
+  "bridges": {
+    "count": 25,
+    "approachSamples": 7225,
+    "maximumBridgeCurvature": 0.0012833303323487718,
+    "maximumBridgeGrade": 0.047872610778482816
+  },
+  "hazards": {
+    "count": 28,
+    "moving": 28,
+    "seeds": 32,
+    "byBiome": {
+      "city": 6,
+      "forest": 5,
+      "desert": 5,
+      "snow": 4,
+      "volcanic": 8
+    },
+    "byType": {
+      "repair": 2,
+      "log": 1,
+      "dune": 1,
+      "ice": 1,
+      "rock": 4,
+      "barrier": 7,
+      "boulder": 12
+    },
+    "approachSamples": 72576,
+    "footprintPoints": 24192,
+    "maximumHazardCurvature": 0.002489378851694538,
+    "minimumHazardSpacing": 180,
+    "minimumPassingWidth": 11.2,
+    "recoverySections": [
+      {
+        "id": "city-tight-turn",
+        "from": 1035,
+        "to": 1245,
+        "recovery": 60,
+        "start": 975.0009674131768,
+        "end": 1305.0019626920202
+      },
+      {
+        "id": "desert-entry-sweep",
+        "from": 5750,
+        "to": 6120,
+        "recovery": 60,
+        "start": 5694.690651092841,
+        "end": 6184.695831154491
+      },
+      {
+        "id": "desert-open-sweep",
+        "from": 7420,
+        "to": 7750,
+        "recovery": 80,
+        "start": 7344.874035958346,
+        "end": 7834.874035958346
+      },
+      {
+        "id": "snow-entry-turn",
+        "from": 8400,
+        "to": 8750,
+        "recovery": 80,
+        "start": 8329.23937360497,
+        "end": 8839.240338449277
+      },
+      {
+        "id": "volcanic-linked-s",
+        "from": 13800,
+        "to": 15180,
+        "recovery": 80,
+        "start": 13738.695640896081,
+        "end": 15278.83706944556
+      }
+    ]
+  },
+  "scene": {
+    "roadPairs": 75790,
+    "groundPairs": 10207,
+    "maximumRoadOverlap": 6.683542608243442e-14,
+    "maximumGroundOverlap": 0,
+    "maximumRoadGroundOverlap": 2.6645352591003757e-15,
+    "buildings": 309,
+    "barriers": 553,
+    "housePairs": 47586,
+    "maximumHouseOverlap": 0.0000016339358808181714,
+    "drawCalls": 6,
+    "triangles": 88841
+  },
+  "routeLength": 15868.841887310184,
+  "sourceHashes": {
+    "route-network-config.js": "371e7da7dfb8233ea194fb8bf50f550a205061a930c928089acab681a1f69c3a",
+    "route-network.js": "90cf8706454c0d9fa5872734f5cbdd3476f4cff05b10f9e756fbadb760c15dc7",
+    "road-hazards.js": "c13aa40d339da1a0e0543637488ce2edb74181665f1d83aded037206f5bc1232",
+    "network-scene.js": "bdfa0b96f8f2fc6375f628c5e3bd2c68c3a95014b230cedcd3f26973ca84a48b"
+  }
+}

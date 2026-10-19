@@ -28,11 +28,11 @@ function stableResources(scene,before){
 }
 function allBuffers(scene){return scene.group.children.map(mesh=>({instances:mesh.instanceMatrix?Array.from(mesh.instanceMatrix.array):null,position:Array.from(mesh.geometry.attributes.position.array),normal:Array.from(mesh.geometry.attributes.normal.array),uv:mesh.geometry.attributes.uv?Array.from(mesh.geometry.attributes.uv.array):null}));}
 
-check('All 30 hazard IDs have visible live geometry in the original eight bounded batches',()=>{
+check('All 28 hazard IDs have visible live geometry in the original eight bounded batches',()=>{
  const system=createRoadHazards(42),scene=createRoadHazardsScene(THREE,{system});
- assert.equal(system.hazards.length,30);assert.equal(system.movers.length,30);assert.equal(scene.stats.movers,30);
+ assert.equal(system.hazards.length,28);assert.equal(system.movers.length,28);assert.equal(scene.stats.movers,28);
  assert.equal(scene.group.children.length,8);assert.equal(scene.stats.instancedMeshes,6);assert.equal(scene.stats.mergedMeshes,2);
- assert.equal(scene.stats.drawCalls,8);assert.equal(scene.stats.triangles,1944);assert.equal(scene.stats.activeInstances,32);
+ assert.equal(scene.stats.drawCalls,8);assert.equal(scene.stats.triangles,1812);assert.equal(scene.stats.activeInstances,28);
  const ids=new Set(scene.group.children.flatMap(mesh=>mesh.userData.hazardIds));assert.deepEqual([...ids].sort(),system.hazards.map(h=>h.id).sort());
  for(const mesh of scene.group.children.filter(m=>m.isInstancedMesh)){assert.equal(mesh.count,mesh.userData.capacity);assert.equal(mesh.instanceMatrix.count,Math.max(1,mesh.count));assert.equal(mesh.frustumCulled,false);}
  const names=scene.group.children.map(m=>m.name).join(' ');assert(!/falling|warning|impact shadow/i.test(names));
@@ -83,7 +83,7 @@ check('A full movement cycle keeps every solid, both log caps and both patches o
    }
   }
  }
- assert.equal(moved.size,30);assert.equal(patchTrailsCleared.size,2);assert.equal(capChecks.size,4);stableResources(scene,before);assert.equal(scene.stats.drawCalls,8);assert.equal(scene.stats.triangles,1944);
+ assert.equal(moved.size,28);assert.equal(patchTrailsCleared.size,2);assert.equal(capChecks.size,2);stableResources(scene,before);assert.equal(scene.stats.drawCalls,8);assert.equal(scene.stats.triangles,1812);
  scene.dispose();return{frames:441,movingHazards:moved.size,solidPoseChecks,checkedVertices,patchVertices,logCaps:capChecks.size,maxHorizontalError,maxDaylight,maxBurial};
 });
 

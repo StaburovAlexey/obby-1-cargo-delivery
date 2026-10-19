@@ -70,7 +70,8 @@
     "test:handling-grip": "node tests/handling-grip.mjs && node tests/vehicle-dynamics.mjs && node tests/handling-grip-app.mjs && node tests/handling-grip-turn-app.mjs",
     "test:handling-grip-independent": "node qa/handling-grip/independent-check.mjs && node qa/handling-grip/independent-probe.mjs && node qa/handling-grip/independent-long-turn.mjs && node qa/handling-grip/independent-bmw-journeys.mjs",
     "server:single": "node server/room-server.mjs",
-    "test:online:hosting": "node --test tests/online-server-cluster.mjs tests/online-server-packaging.mjs"
+    "test:online:hosting": "node --test tests/online-server-cluster.mjs tests/online-server-packaging.mjs",
+    "test:controlled-skid": "node tests/controlled-skid.mjs && node tests/controlled-skid-help.mjs && node tests/localization.mjs && node tests/controlled-skid-routes.mjs"
   },
   "devDependencies": {
     "@rsbuild/core": "2.2.13",

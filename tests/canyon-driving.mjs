@@ -59,8 +59,8 @@ test('released BMW settles completely instead of creeping indefinitely',()=>{
  assert.ok(m.state.linearSpeed<.001);
 });
 
-test('ordinary vehicles retain the approved handling/grip trajectories',()=>{
- const baseline=JSON.parse(fs.readFileSync(new URL('./fixtures/handling-grip-vehicles.json',import.meta.url)));
+test('ordinary vehicles retain the approved controlled-skid trajectories',()=>{
+ const baseline=JSON.parse(fs.readFileSync(new URL('./fixtures/controlled-skid-vehicles.json',import.meta.url)));
  for(const v of VEHICLE_CONFIG.filter(v=>!v.rewardOnly)){
   const m=createDrivingModel({vehicleId:v.id,maxSpeed:v.maxSpeed,groundSurface:()=>surfaceForBiome('city',v.id)});
   for(let i=0;i<900;i++){m.setInput({active:i<700,steering:Math.sin(i*.01)*.6});m.step(1/60);}

@@ -253,10 +253,16 @@ export function buildCity(THREE,{seed=42}={}){
   for(const edge of NETWORK_EDGES){
     const biome=BIOMES.find(b=>b.id===edge.biome)||BIOMES.find(b=>edge.biomes?.includes(b.id))||BIOMES.find(b=>(edge.progressFrom+edge.progressTo)/2<b.to)||BIOMES.at(-1);
     for(const side of [-1,1]){
-      const {count,cuts,setback:profileSetback}=profiles.get(`${edge.id}:${side}`),setback=biome.id==='city'?profileSetback:barrierSetback;
+      const {count,cuts,setback:profileSetback}=profiles.get(`${edge.id}:${side}`);
+      const firstCityBridge=biome.id==='city'?BRIDGES.find(b=>b.biome==='city'):null;
       for(let i=0;i<count;i++){
         let from=cuts[i],to=cuts[i+1];const depth=biome.id==='city'?7.5:12;
         const q0=sample(edge,from).progress,q1=sample(edge,to).progress;
+        // The canyon entrance was fitted to this unchanged opening frontage.
+        // A later technical bend must not move its houses into the sandstone.
+        // Change setback only across the existing first-bridge gap, so every
+        // adjoining facade still shares its exact boundary with its neighbor.
+        const setback=biome.id==='city' ? (q1<=firstCityBridge.from ? .35 : profileSetback) : barrierSetback;
         if(BRIDGES.some(b=>q0<b.to&&q1>b.from)){omittedJunctionSections++;continue;}
 
 

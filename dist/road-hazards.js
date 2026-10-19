@@ -5,11 +5,12 @@ import { ROUTE, BIOME_DEFINITIONS, FORKS, NETWORK_EDGES,
   routeDistanceAt, pointOnEdge,
   junctionDistance, queryRoadSurface,
 } from './route-network.js';
-import { CHECKPOINT_PROGRESS, PREVIEW_PROGRESS } from './route-network-config.js';
+import { CHECKPOINT_PROGRESS, PREVIEW_PROGRESS, HAZARD_FREE_DRIVING_SECTIONS } from './route-network-config.js';
 import {BRIDGES} from './road-bridges.js';
 
 export const ROAD_HAZARD_RULES = Object.freeze({
-  count: 30, staticCount: 0, movingCount: 30, moversPerBiome: 4,
+  count: 28, staticCount: 0, movingCount: 28, moversPerBiome: 4,
+  moverCountByBiome: Object.freeze({city: 4, forest: 4, desert: 4, snow: 3, volcanic: 4}),
   staticSpacingMetres: 150, staticMoverSpacingMetres: 180, staticPerBiome: 2,
   exclusionMetres: 100, junctionExclusionMetres: 100,
   forkTipExclusionMetres: 24, softEdgeMetres: 2.5,
@@ -17,7 +18,7 @@ export const ROAD_HAZARD_RULES = Object.freeze({
   rockSightlineMetres: 60, rockCrestEyeDistance: 180, maxDelta: .1,
   maximumApproachCurvature: .0025, maximumApproachHeadingChange: .34,
   maximumApproachGrade: .105,
-  maximumSweepApproachCurvature: .0045, maximumSweepApproachHeadingChange: .34,
+  maximumSweepApproachCurvature: .0025, maximumSweepApproachHeadingChange: .34,
   moverOuterOffset: 10.6, moverTravelSeconds: 8, moverPauseSeconds: 1.4,
   moverSpacingMetres: 180, moverSightlineMetres: 100,
   maximumMoverSpeed: 4,
@@ -45,6 +46,13 @@ export const ROAD_HAZARD_EXCLUSIONS = Object.freeze([
   ...FORKS.flatMap(f => [{ id: `${f.id}-split`, progress: f.from }, { id: `${f.id}-join`, progress: f.to }]),
 ].map(p => Object.freeze({ ...p, distance: routeDistanceAt(p.progress), radius: R.exclusionMetres })));
 
+const recoverySections = HAZARD_FREE_DRIVING_SECTIONS.map(section => ({
+  from: routeDistanceAt(section.from) - section.recovery,
+  to: routeDistanceAt(section.to) + section.recovery,
+}));
+const inRecoverySection = (distance, extent = 0) => recoverySections.some(section =>
+  distance + extent >= section.from && distance - extent <= section.to);
+
 
 
 export function rockApproachIsClear(h, sample=pointOnEdge) {
@@ -69,11 +77,15 @@ const moverCandidates = new Map();
 function moverCandidatesFor(biome,sample) {
   if (moverCandidates.has(biome)) return moverCandidates.get(biome);
   const candidates = [];
-  for (const edge of NETWORK_EDGES.filter(e => e.biome === biome)) {
+  for (const edge of NETWORK_EDGES.filter(e => e.biome === biome && !e.forkId)) {
 
 
     for (let distance = R.moverSightlineMetres + 15; distance < edge.length - R.moverSightlineMetres - 15; distance += 5) {
       const p = sample(edge.id, distance), extent = 5;
+      if (inRecoverySection(p.distance, extent)) continue;
+      // The long dune patch needs this broad exit: it cannot fit between the
+      // tightly spaced desert bridges. Reserve it before packing short movers.
+      if (biome === 'desert' && p.progress >= 7200 && p.progress <= 7350) continue;
       if(p.distance < routeDistanceAt(CHECKPOINT_PROGRESS[2])+160)continue;
       if (ROAD_HAZARD_EXCLUSIONS.some(e => Math.abs(p.distance - e.distance) < e.radius + extent)) continue;
       const fork = FORKS.find(f => f.id === edge.forkId);
@@ -111,9 +123,10 @@ export function buildRoadHazards(seed = 42) {
       if (available.every(other =>
         Math.abs(other.distance - p.distance) >= R.moverSpacingMetres)) available.push(p);
     }
-    if (available.length < R.moversPerBiome) throw new Error(`Insufficient fair mover positions: ${biome}`);
-    const selected = Array.from({length: R.moversPerBiome}, (_, i) =>
-      available[Math.floor(i * (available.length - 1) / (R.moversPerBiome - 1))]);
+    const moverCount = R.moverCountByBiome[biome] ?? R.moversPerBiome;
+    if (available.length < moverCount) throw new Error(`Insufficient fair mover positions: ${biome}`);
+    const selected = Array.from({length: moverCount}, (_, i) =>
+      available[Math.floor(i * (available.length - 1) / (moverCount - 1))]);
     for (const [i, p] of selected.entries()) {
       const type = biome === 'city' || biome === 'snow' ? 'barrier' : 'boulder';
       const width = 3.8, length = type === 'barrier' ? 2.3 : 3.5;
@@ -139,7 +152,7 @@ export function buildRoadHazards(seed = 42) {
       }));
     }
   }
-  if (result.length !== R.moversPerBiome * biomes.length) throw new Error(`Unexpected mover count: ${result.length}`);
+  if (result.length !== biomes.reduce((sum, biome) => sum + R.moverCountByBiome[biome], 0)) throw new Error(`Unexpected mover count: ${result.length}`);
 
   const staticFractions = [.10, .36, .66, .93];
   const lateralPattern = [-8.4, 5.8, -2.8, 8.8, -6.6, 2.3];
@@ -147,7 +160,7 @@ export function buildRoadHazards(seed = 42) {
     const candidates = [];
     const biomeIndex = biomes.indexOf(biome);
 
-    for (const edge of NETWORK_EDGES.filter(e => e.biome === biome)) {
+    for (const edge of NETWORK_EDGES.filter(e => e.biome === biome && !e.forkId)) {
       for (let distance = 10; distance < edge.length - 10; distance += 5) {
         if(distance<R.moverSightlineMetres+15||edge.length-distance<R.moverSightlineMetres+15)continue;
         const p = sample(edge.id, distance);
@@ -160,6 +173,7 @@ export function buildRoadHazards(seed = 42) {
         const type = {city: 'repair', forest: 'log', desert: 'dune', snow: 'ice', volcanic: 'rock'}[biome];
         const size = STATIC_DIMENSIONS[type];
         const extent = Math.hypot(size.width, size.length) / 2 + 1;
+        if (inRecoverySection(p.distance, extent)) continue;
         if (ROAD_HAZARD_EXCLUSIONS.some(e => Math.abs(p.distance - e.distance) < e.radius + extent)) continue;
         const fork = FORKS.find(f => f.id === edge.forkId);
         if (fork && (p.progress - fork.splitOverlapEnd < R.forkTipExclusionMetres + extent ||
@@ -187,7 +201,7 @@ export function buildRoadHazards(seed = 42) {
     }
     const definition=BIOME_DEFINITIONS.find(b=>b.id===biome);
     const startDistance=routeDistanceAt(definition.from),endDistance=routeDistanceAt(definition.to);
-    const encounterCount=biome==='volcanic'?4:(biome==='snow'||biome==='desert')?1:R.staticPerBiome;
+    const encounterCount=biome==='volcanic'?4:(biome==='forest'||biome==='snow'||biome==='desert')?1:R.staticPerBiome;
     for(let slot=0;slot<encounterCount;slot++){
       const fraction=(encounterCount===1?.5:encounterCount===2?[.15,.85][slot]:staticFractions[slot])+(random()-.5)*.045;
       const target=startDistance+(endDistance-startDistance)*fraction;

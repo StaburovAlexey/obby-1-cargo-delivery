@@ -95,34 +95,53 @@ export const FORK_DEFINITIONS = Object.freeze([
 
 
 const degrees = value => value * Math.PI / 180;
+// Arc-length stations stay fixed: variety comes from headings, not longer journeys.
+// Quintic heading interpolation enters and exits each bend with zero curvature.
+// Bridge approaches keep broad radii; stronger bends live between those approaches.
 export const TURN_DEFINITIONS = Object.freeze([
+  // City: gentle introduction, a compact S around the service straight, then
+  // longer steering exchanges. Both compact turns are clear of bridge approaches.
   [80, 345, 0, 18],
   [500, 710, 18, 26],
-  [1035, 1245, 26, 12],
-  [1395, 1645, 12, 28],
-  [1795, 2085, 28, 8],
-  [2235, 2585, 8, 32],
-  [2735, 3080, 32, 10],
-  [3080, 3580, 10, -8],
-  [3580, 4150, -8, 12],
-  [4150, 4410, 12, -2],
-  [5080, 5750, -2, 20],
-  [5750, 6120, 20, 0],
-  [6150, 6670, 0, -18],
-  [6670, 7210, -18, 2],
-  [7210, 7750, 2, -18],
-  [8400, 8950, -18, 0],
-  [8950, 9480, 0, -20],
-  [9480, 9700, -20, -12],
-  [10370, 10980, -12, 12],
-  [10980, 11700, 12, -14],
-  [11700, 12410, -14, 10],
-  [13080, 13700, 10, -14],
-  [13700, 14250, -14, 20],
-  [14250, 14800, 20, -14],
-  [14800, 15300, -14, 18],
-  [15300, 15770, 18, 0],
+  [1040, 1100, 26, -14],
+  [1190, 1240, -14, 16],
+  [1395, 1645, 16, 32],
+  [1795, 2085, 32, 12],
+  [2235, 2585, 12, 36],
+  [2735, 3080, 36, 12],
+  // Forest: broad linked sweeps, a tighter entry, then a level fork/recovery.
+  [3080, 3580, 12, -7],
+  [3580, 4150, -7, 15],
+  [4150, 4410, 15, -3],
+  [5080, 5750, -3, 19],
+  // Desert: open S combinations either side of the five bridge approaches.
+  [5750, 6120, 19, -22],
+  [6150, 6670, -22, -4],
+  [6670, 7210, -4, -24],
+  [7210, 7750, -24, 28],
+  // Snow: one deliberate tighter entry followed by a readable, broad reversal.
+  [8400, 8750, 28, -6],
+  [8750, 9260, -6, 14],
+  [9260, 9545, 14, -8],
+  [10370, 10980, -8, 14],
+  // Volcano: bridge rhythm first; sustained S turns and a recovery before finish.
+  [10980, 11700, 14, -12],
+  [11700, 12410, -12, 12],
+  [13080, 13700, 12, -12],
+  [13700, 14260, -12, 34],
+  [14260, 14820, 34, -34],
+  [14820, 15180, -34, 12],
+  [15400, 15770, 12, 0],
 ].map(([from, to, a, b]) => Object.freeze([from, to, degrees(a), degrees(b)])));
+// These sections reserve the demanding bend and its exit for steering practice.
+// Obstacles still use the unchanged bridge/service exclusions outside these zones.
+export const HAZARD_FREE_DRIVING_SECTIONS = Object.freeze([
+  {id: 'city-tight-turn', from: 1035, to: 1245, recovery: 60},
+  {id: 'desert-entry-sweep', from: 5750, to: 6120, recovery: 60},
+  {id: 'desert-open-sweep', from: 7420, to: 7750, recovery: 80},
+  {id: 'snow-entry-turn', from: 8400, to: 8750, recovery: 80},
+  {id: 'volcanic-linked-s', from: 13800, to: 15180, recovery: 80},
+].map(Object.freeze));
 export const ELEVATION_PROFILE = Object.freeze([
   [
     -17,

@@ -26,8 +26,12 @@ export function routeHeight(q,derivative=0){
   return derivative===1?(k-h)*dease(t)/(b-a):derivative===2?(k-h)*ddease(t)/(b-a)**2:h+(k-h)*ease(t);
 }
 export const routeGrade=q=>routeHeight(q,1);
+// Resolve the occasional short technical turn without tripling the whole mesh.
+// This also keeps the Simpson-integrated centerline tangent accurate at its seams.
+const denseTurnAt=q=>TURN_DEFINITIONS.some(([from,to])=>to-from<=120&&q>=from-C.meshStep&&q<=to+C.meshStep);
+const routeMeshStep=q=>denseTurnAt(q)?2:C.meshStep;
 const basePoints=[];
-for(let q=C.start,x=0,z=23;;){basePoints.push({q,x,z});if(q>=C.end)break;const next=Math.min(C.end,q+C.meshStep);x+=simpson(v=>-Math.sin(headingAt(v)),q,next);z+=simpson(v=>-Math.cos(headingAt(v)),q,next);q=next;}
+for(let q=C.start,x=0,z=23;;){basePoints.push({q,x,z});if(q>=C.end)break;const next=Math.min(C.end,q+routeMeshStep(q));x+=simpson(v=>-Math.sin(headingAt(v)),q,next);z+=simpson(v=>-Math.cos(headingAt(v)),q,next);q=next;}
 function backbone(q){q=clamp(q,C.start,C.end);const i=search(basePoints,q,v=>v.q),a=basePoints[i];return{x:a.x+simpson(v=>-Math.sin(headingAt(v)),a.q,q),z:a.z+simpson(v=>-Math.cos(headingAt(v)),a.q,q)};}
 const forkAt=q=>FORK_DEFINITIONS.find(f=>q>=f.from&&q<=f.to);
 function excursion(f,q,sign=1){
@@ -79,7 +83,7 @@ export function routePointAtProgress(q,options={}){if(!Number.isFinite(q))throw 
 export function routePointAtDistance(d,options={}){return routePointAtProgress(progressAtDistance(d),options);}
 export function pointOnEdge(id,s){const e=getEdge(id);if(!e)throw new Error(`Unknown route edge: ${id}`);return pointFor(progressAtDistance(e.distanceFrom+clamp(s,0,e.length)),e);}
 export const sampleEdge=pointOnEdge;
-for(const e of edgeList){const stations=[e.progressFrom,e.progressTo,...ELEVATION_PROFILE.map(p=>p[0]).filter(q=>q>e.progressFrom&&q<e.progressTo)];for(let q=e.progressFrom;q<e.progressTo;q+=q<802?2:C.meshStep)stations.push(q);for(const q of [...new Set(stations)].sort((a,b)=>a-b))e.samples.push(Object.freeze(pointFor(q,e)));Object.freeze(e.samples);Object.freeze(e);}
+for(const e of edgeList){const stations=[e.progressFrom,e.progressTo,...ELEVATION_PROFILE.map(p=>p[0]).filter(q=>q>e.progressFrom&&q<e.progressTo)];for(let q=e.progressFrom;q<e.progressTo;q+=q<802?2:routeMeshStep(q))stations.push(q);for(const q of [...new Set(stations)].sort((a,b)=>a-b))e.samples.push(Object.freeze(pointFor(q,e)));Object.freeze(e.samples);Object.freeze(e);}
 export const NETWORK_EDGES=Object.freeze(edgeList);
 export const BIOMES=Object.freeze(BIOME_DEFINITIONS.map(b=>Object.freeze({...b,branch:'main',sample:Object.freeze([routePointAtProgress((b.from+b.to)/2).x,-routePointAtProgress((b.from+b.to)/2).z])})));
 export const ROUTE_STATIONS=Object.freeze([...new Set([...breakpoints,...TURN_DEFINITIONS.flatMap(t=>[t[0],t[1]]),...ELEVATION_PROFILE.map(p=>p[0]),0])].sort((a,b)=>a-b));
@@ -127,7 +131,25 @@ function appendQuad(m,v,paint=1,fringe=1){
 }
 function addBoundary(a,b,inside){a={...a,x:Math.fround(a.x),z:Math.fround(a.z)};b={...b,x:Math.fround(b.x),z:Math.fround(b.z)};const dx=b.x-a.x,dz=b.z-a.z,n=Math.hypot(dx,dz);if(n<1e-9)return;let nx=-dz/n,nz=dx/n;if((inside.x-(a.x+b.x)/2)*nx+(inside.z-(a.z+b.z)/2)*nz<0){nx=-nx;nz=-nz;}const s={a,b,normalX:nx,normalZ:nz,minX:Math.min(a.x,b.x),maxX:Math.max(a.x,b.x),minZ:Math.min(a.z,b.z),maxZ:Math.max(a.z,b.z)};ROAD_BOUNDARY_SEGMENTS.push(s);binAdd(boundaryBins,s,s.minX-1,s.maxX+1,s.minZ-1,s.maxZ+1);}
 const shifted=(p,v)=>({x:p.x+p.right.x*v,z:p.z+p.right.z*v,height:p.height,progress:p.progress,across:v});
-const shoulderAt=q=>104+6*ease(clamp((q-100)/100,0,1));
+// A 110 m inside shoulder folds over itself on a technical bend even when
+// the 30 m asphalt is safe. Taper the terrain, keeping room for the city homes.
+// Merge nearby bends so widening between an S pair cannot cross earlier terrain.
+const compactTurnShoulders=[];
+for(const [from,to,a,b] of TURN_DEFINITIONS.filter(([a,b])=>b-a<=120)){
+  const width=Math.max(C.halfWidth+10,Math.min(C.shoulderWidth,.78*(to-from)/(1.875*Math.abs(b-a))));
+  const previous=compactTurnShoulders.at(-1);
+  if(previous&&from-previous.to<=120){previous.to=to;previous.width=Math.min(previous.width,width);}
+  else compactTurnShoulders.push({from,to,width});
+}
+const shoulderAt=q=>{
+  let width=104+6*ease(clamp((q-100)/100,0,1));
+  for(const section of compactTurnShoulders){
+    const entering=ease(clamp((q-section.from+60)/60,0,1));
+    const leaving=1-ease(clamp((q-section.to)/60,0,1));
+    width=Math.min(width,C.shoulderWidth+(section.width-C.shoulderWidth)*entering*leaving);
+  }
+  return width;
+};
 function buildSingle(e){const ps=e.samples;for(let i=0;i<ps.length-1;i++){const a=ps[i],b=ps[i+1],al=shifted(a,-15),ar=shifted(a,15),bl=shifted(b,-15),br=shifted(b,15);appendQuad(ROAD_MESH,[al,ar,br,bl]);appendQuad(GROUND_MESH,[shifted(a,-shoulderAt(a.progress)),al,bl,shifted(b,-shoulderAt(b.progress))],0);appendQuad(GROUND_MESH,[ar,shifted(a,shoulderAt(a.progress)),shifted(b,shoulderAt(b.progress)),br],0);addBoundary(al,bl,a);addBoundary(ar,br,a);}}
 function buildFork(f){
   const origin=backbone(f.from),angle=headingAt(f.from),r={x:Math.cos(angle),z:-Math.sin(angle)},t={x:-Math.sin(angle),z:-Math.cos(angle)},curves=[];

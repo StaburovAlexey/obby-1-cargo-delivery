@@ -1,48 +1,48 @@
 {
   "scope": "Offline analytic and actual road-mesh geometry; no browser or human driving claim.",
-  "turnCount": 26,
+  "turnCount": 27,
   "biomes": [
     {
       "id": "city",
-      "turns": 7,
+      "turns": 8,
       "reversals": 5,
-      "headingChangeDegrees": 122
+      "headingChangeDegrees": 180
     },
     {
       "id": "forest",
       "turns": 4,
       "reversals": 3,
-      "headingChangeDegrees": 74
+      "headingChangeDegrees": 81
     },
     {
       "id": "desert",
       "turns": 4,
-      "reversals": 2,
-      "headingChangeDegrees": 78
+      "reversals": 3,
+      "headingChangeDegrees": 131
     },
     {
       "id": "snow",
       "turns": 4,
-      "reversals": 2,
-      "headingChangeDegrees": 70
+      "reversals": 3,
+      "headingChangeDegrees": 98
     },
     {
       "id": "volcanic",
       "turns": 7,
       "reversals": 6,
-      "headingChangeDegrees": 192
+      "headingChangeDegrees": 246
     }
   ],
   "samples": 7926,
   "bridgeSamples": 7225,
-  "seams": 52,
+  "seams": 54,
   "passed": true,
   "routeLength": 15868.841887310184,
   "firstTurnStart": 80,
-  "maxCurve": 0.004549188697146761,
-  "maxBridgeCurve": 0.001287537972782702,
-  "maxBridgeGrade": 0.0478726107784828,
-  "maxDerivativeError": 5.149850765471333e-7,
+  "maxCurve": 0.021816615649929125,
+  "maxBridgeCurve": 0.0012833303323487718,
+  "maxBridgeGrade": 0.047872610778482816,
+  "maxDerivativeError": 6.280526154600849e-7,
   "starterShortcut": 331.00178806570517,
-  "configHash": "b8e01ef098d4476bff81f209154ffd680212c20fa134f870294f629e237cc448"
+  "configHash": "371e7da7dfb8233ea194fb8bf50f550a205061a930c928089acab681a1f69c3a"
 }
