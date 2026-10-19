@@ -1,0 +1,12 @@
+{
+  "asset": "original-courier.png",
+  "purpose": "Original fictional anime courier/racer mascot artwork for vehicle livery atlas composition.",
+  "generation_mode": "Built-in image_gen tool",
+  "generated_on": "2026-10-19",
+  "width": 1254,
+  "height": 1254,
+  "mode": "RGBA",
+  "preservation": "Copied from generated output without image modification; genuine alpha channel preserved.",
+  "alpha_note": "Most interior artwork alpha values are 252–254 in the generated source. Background pixels include 617144 fully transparent pixels. Low-alpha antialiasing can reach the canvas boundary.",
+  "prompt": "Use case: stylized-concept. Asset type: production transparent PNG character decal for a racing game's vehicle livery atlas. Create one ORIGINAL fictional anime adult female courier/racer, friendly and confident, viewed waist-up in a dynamic three-quarter turn, face looking toward the viewer. Ink-black shoulder-length flowing hair with cherry-pink and red streaks, large expressive warm brown eyes, small confident smile, distinctive pink hair clip. Practical fully zipped white racing/courier jacket with bold cherry-pink panels and small red accents, black collar and black gloves, one visible courier bag shoulder strap. Clean highly polished Japanese anime cel-shaded illustration, exceptionally strong bold black silhouette and linework, simple large color shapes, no gradients or overly tiny detail. The face must be instantly readable when the whole decal is reduced to 128 pixels tall. Composition: one isolated compact waist-up mascot, centered on a square canvas, head and both shoulders entirely visible, generous clean transparent padding around every outer edge, no chopped hair or head, no detached accessories. Character should fill about 85 percent of canvas height. True transparent RGBA background. No background scene, no white rectangle, no gray rectangle, no checkerboard printed in the art, no vehicle, no text, no letters, no numbers, no logos, no trademark, no frame, no sticker border. No existing franchise character; original mascot only."
+}
