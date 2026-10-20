@@ -64,7 +64,7 @@ test('Renderer rotates only its clone, cancels closed requests, disposes only ow
 test('Shop viewport swipes preview, only owned base applies, and close does not apply', async () => {
   const { doc } = dom(), previews = [], applied = [];
   const shop = createVehicleLiveryShop(doc, { autoPreview: true, onPreview: (...args) => previews.push(args), onApply: (...args) => applied.push(args) });
-  shop.open(); assert.equal(previews.length, 11); assert.deepEqual(previews[0], ['pickup', 'base']);
+  shop.open(); shop.setSection('liveries'); assert.equal(previews.length, 11); assert.deepEqual(previews[0], ['pickup', 'base']);
   const host = shop.getPreviewHost(), apply = doc.body.all().find(node => node.getAttribute('data-apply-vehicle') === 'pickup');
   assert.equal(apply.disabled, false); apply.dispatch('click'); await Promise.resolve();
   assert.deepEqual(applied, [['pickup', 'base']]);
@@ -79,7 +79,7 @@ test('Shop viewport swipes preview, only owned base applies, and close does not 
 test('Every vehicle has its own carousel and independent Apply, with no locked finish bypass', async () => {
   const { doc } = dom(), applied = [];
   const shop = createVehicleLiveryShop(doc, { autoPreview: true, onApply: (...args) => applied.push(args) });
-  shop.open();
+  shop.open(); shop.setSection('liveries');
   const buttons = doc.body.all().filter(node => node.getAttribute('data-apply-vehicle'));
   assert.equal(buttons.length, 11);
   assert.notEqual(shop.getPreviewHost('pickup'), shop.getPreviewHost('bmwreward'));

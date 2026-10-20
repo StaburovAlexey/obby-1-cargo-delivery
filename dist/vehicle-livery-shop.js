@@ -1,10 +1,11 @@
 import { createItemCarousel } from './item-carousel.js';
+import { VEHICLE_NEON_COLORS } from './vehicle-neon-catalog.js';
 import { modalPart } from './modal-ui.js';
 import { BASE_VEHICLE_LIVERY_ID, VEHICLE_LIVERY_CATALOG, getVehicleLivery, vehicleLiveryName } from './vehicle-livery-catalog.js';
 
 const copy = Object.freeze({
-  ru: { title: 'Расцветки', close: 'Закрыть магазин расцветок', apply: 'Выбрать', choose: 'Расцветки машины', loading: 'Загрузка', failed: 'Не удалось загрузить', base: 'Стандартная', preview: 'Только просмотр' },
-  en: { title: 'Liveries', close: 'Close livery shop', apply: 'Select', choose: 'Car liveries', loading: 'Loading', failed: 'Could not load', base: 'Standard', preview: 'Preview only' },
+  ru: { shop: 'Магазин', newLook: 'Новый внешний вид!', neon: 'Неоновая подсветка', back: 'Назад', neonPreview: 'Предпросмотр', title: 'Расцветки', close: 'Закрыть магазин расцветок', apply: 'Выбрать', choose: 'Расцветки машины', loading: 'Загрузка', failed: 'Не удалось загрузить', base: 'Стандартная', preview: 'Только просмотр' },
+  en: { shop: 'Shop', newLook: 'New look!', neon: 'Neon lighting', back: 'Back', neonPreview: 'Preview', title: 'Liveries', close: 'Close livery shop', apply: 'Select', choose: 'Car liveries', loading: 'Loading', failed: 'Could not load', base: 'Standard', preview: 'Preview only' },
 });
 
 /**
@@ -18,10 +19,10 @@ const copy = Object.freeze({
 export function createVehicleLiveryShop(doc, {
   language = () => 'ru', canOpen = () => true, button = null,
   autoPreview = false, onApply = () => true,
-  onPreview = () => true, onClose = () => {}, onOpenChange = () => {},
+  onPreview = () => true, onNeonPreview = () => true, onSectionChange = () => {}, onClose = () => {}, onOpenChange = () => {},
 } = {}) {
   let opened = false, disposed = false, closing = false, visible = true, epoch = 0, returnFocus = null;
-  let background = [], languageOverride = null;
+  let background = [], languageOverride = null, section = 'categories', neonSelected = VEHICLE_NEON_COLORS[0].id, neonToken = 0, neonLoading = false, neonError = false;
   const listeners = [], rows = new Map();
   const lang = () => (languageOverride ?? (typeof language === 'function' ? language() : language)) === 'en' ? 'en' : 'ru';
   const words = () => copy[lang()];
@@ -48,10 +49,30 @@ export function createVehicleLiveryShop(doc, {
     'aria-labelledby': 'vehicle-livery-title', tabindex: '-1',
   });
   const heading = make('header', modalPart('heading', 'vehicle-livery-heading'), panel);
+  const backButton = make('button', modalPart('button', 'vehicle-shop-back'), heading, { id: 'vehicle-shop-back', type: 'button' });
+  backButton.textContent = '‹';
   const headingText = make('div', 'vehicle-livery-heading-text', heading);
   const title = make('h2', '', headingText, { id: 'vehicle-livery-title' });
   const closeButton = make('button', modalPart('close', 'vehicle-livery-close'), heading, { id: 'vehicle-livery-close', type: 'button' });
   closeButton.textContent = '×';
+  const categories = make('div', 'vehicle-shop-categories', panel, { id: 'vehicle-shop-categories' });
+  const categoryButtons = {};
+  for (const [id, asset] of [['liveries', 'new-look.webp'], ['neon', 'neon.webp']]) {
+    const entry = make('button', 'vehicle-shop-category', categories, { type: 'button', 'data-shop-category': id });
+    const picture = make('img', '', entry, { alt: '', draggable: 'false' });
+    // Literal URLs are required by the production bundler.
+    picture.src = id === 'liveries' ? new URL('./assets/shop/new-look.webp', import.meta.url).href : new URL('./assets/shop/neon.webp', import.meta.url).href;
+    const label = make('span', 'vehicle-shop-category-title', entry);
+    categoryButtons[id] = { entry, label };
+    listen(entry, 'click', () => setSection(id));
+  }
+  const neonPanel = make('div', 'vehicle-neon-panel', panel, { id: 'vehicle-neon-panel' });
+  const neonCarousel = createItemCarousel(doc, { parent: neonPanel, items: VEHICLE_NEON_COLORS, onSelect: id => selectNeon(id) });
+  const neonHost = neonCarousel.viewport;
+  neonHost.className += ' vehicle-neon-preview-host';
+  neonHost.setAttribute('id', 'vehicle-neon-preview');
+  const neonLabel = make('p', 'vehicle-neon-color', neonPanel, { id: 'vehicle-neon-color', role: 'status', 'aria-live': 'polite' });
+  const neonNote = make('p', 'vehicle-neon-note', neonPanel);
   const scroll = make('div', 'vehicle-livery-scroll', panel, { id: 'vehicle-livery-list', role: 'list' });
 
   function updateRow(row) {
@@ -74,17 +95,32 @@ export function createVehicleLiveryShop(doc, {
     if (disposed) return;
     const text = words();
     menu.setAttribute('lang', lang());
-    title.textContent = text.title;
+    title.textContent = section === 'categories' ? text.shop : section === 'neon' ? text.neon : text.title;
+    backButton.hidden = section === 'categories';
+    backButton.setAttribute('aria-label', text.back);
+    categoryButtons.liveries.label.textContent = text.newLook;
+    categoryButtons.neon.label.textContent = text.neon;
+    categoryButtons.liveries.entry.setAttribute('aria-label', text.newLook);
+    categoryButtons.neon.entry.setAttribute('aria-label', text.neon);
+    categories.hidden = section !== 'categories';
+    scroll.hidden = section !== 'liveries';
+    neonPanel.hidden = section !== 'neon';
+    const neonColor = VEHICLE_NEON_COLORS.find(item => item.id === neonSelected);
+    neonLabel.textContent = neonLoading ? text.loading : neonError ? text.failed : neonColor.name[lang()];
+    neonNote.textContent = text.neonPreview;
+    neonHost.setAttribute('aria-label', `${text.neon}: ${neonColor.name[lang()]}`);
+    neonHost.setAttribute('aria-busy', String(neonLoading));
+    neonCarousel.setLabels({ title: text.neon });
     closeButton.setAttribute('aria-label', text.close);
     if (button) {
-      button.setAttribute('aria-label', text.title);
-      button.setAttribute('title', text.title);
+      button.setAttribute('aria-label', text.shop);
+      button.setAttribute('title', text.shop);
     }
     for (const row of rows.values()) updateRow(row);
   }
 
   function select(vehicleId, liveryId, { focus = false } = {}) {
-    if (disposed || !opened || !canOpen() || !getVehicleLivery(vehicleId, liveryId)) return false;
+    if (disposed || !opened || section !== 'liveries' || !canOpen() || !getVehicleLivery(vehicleId, liveryId)) return false;
     const row = rows.get(vehicleId), token = ++row.token, openEpoch = epoch;
     row.selected = liveryId;
     row.error = false;
@@ -128,7 +164,7 @@ export function createVehicleLiveryShop(doc, {
     row.previewHost.setAttribute('id', `vehicle-livery-preview-${vehicle.id}`);
     row.apply = make('button', modalPart('button', 'vehicle-livery-apply'), root, { type: 'button', 'data-apply-vehicle': vehicle.id });
     listen(row.apply, 'click', () => {
-      if (!opened || row.apply.disabled || row.applying || row.selected !== BASE_VEHICLE_LIVERY_ID || !canOpen()) return;
+      if (!opened || section !== 'liveries' || row.apply.disabled || row.applying || row.selected !== BASE_VEHICLE_LIVERY_ID || !canOpen()) return;
       const token = row.token, openEpoch = epoch;
       row.applying = true; row.applyResult = null; updateRow(row);
       const settle = success => {
@@ -142,6 +178,35 @@ export function createVehicleLiveryShop(doc, {
     rows.set(vehicle.id, row);
   }
 
+  function selectNeon(id) {
+    if (disposed || !opened || section !== 'neon' || !canOpen() || !VEHICLE_NEON_COLORS.some(item => item.id === id)) return false;
+    const token = ++neonToken, openEpoch = epoch;
+    neonSelected = id; neonLoading = true; neonError = false;
+    neonCarousel.update(id); refresh();
+    const settle = success => {
+      if (disposed || !opened || section !== 'neon' || epoch !== openEpoch || token !== neonToken) return;
+      neonLoading = false; neonError = !success; refresh();
+    };
+    try { Promise.resolve(onNeonPreview(id)).then(result => settle(result !== false), () => settle(false)); }
+    catch { settle(false); }
+    return true;
+  }
+  function setSection(next) {
+    if (!opened || disposed || !canOpen() || !['categories', 'liveries', 'neon'].includes(next)) return false;
+    if (section === next) return true;
+    epoch++; neonToken++;
+    section = next;
+    neonCarousel.resetGesture(); neonCarousel.setEnabled(next === 'neon');
+    resetRows();
+    for (const row of rows.values()) row.carousel.setEnabled(next === 'liveries');
+    onSectionChange(next);
+    scroll.scrollTop = 0; refresh();
+    if (next === 'liveries' && autoPreview) for (const vehicle of VEHICLE_LIVERY_CATALOG) select(vehicle.id, BASE_VEHICLE_LIVERY_ID);
+    if (next === 'neon') selectNeon(neonSelected);
+    if (next === 'categories') categoryButtons.liveries.entry.focus?.();
+    else backButton.focus?.();
+    return true;
+  }
   function releaseBackground() {
     for (const [node, inert] of background) node.inert = inert;
     background = [];
@@ -153,7 +218,7 @@ export function createVehicleLiveryShop(doc, {
       row.selected = row.applied = BASE_VEHICLE_LIVERY_ID;
       row.loading = row.error = row.active = row.applying = false; row.applyResult = null;
       row.carousel.update(BASE_VEHICLE_LIVERY_ID, { immediate: true });
-      row.carousel.setEnabled(opened);
+      row.carousel.setEnabled(opened && section === 'liveries');
       updateRow(row);
     }
   }
@@ -163,6 +228,7 @@ export function createVehicleLiveryShop(doc, {
     opened = false;
     epoch++;
     menu.hidden = true;
+    neonToken++; neonCarousel.resetGesture(); neonCarousel.setEnabled(false);
     button?.setAttribute('aria-expanded', 'false');
     doc.body.classList.remove('vehicle-livery-shop-open');
     releaseBackground();
@@ -186,6 +252,8 @@ export function createVehicleLiveryShop(doc, {
     if (disposed || closing || !visible || !canOpen()) return false;
     if (opened) return true;
     opened = true;
+    section = 'categories'; neonSelected = VEHICLE_NEON_COLORS[0].id; neonLoading = neonError = false;
+    neonCarousel.update(neonSelected, { immediate: true }); neonCarousel.setEnabled(false);
     epoch++;
     returnFocus = button || doc.activeElement;
     resetRows();
@@ -198,11 +266,10 @@ export function createVehicleLiveryShop(doc, {
     refresh();
     onOpenChange(true);
     if (!opened || disposed) return false;
-    if (autoPreview) for (const vehicle of VEHICLE_LIVERY_CATALOG) select(vehicle.id, BASE_VEHICLE_LIVERY_ID);
     closeButton.focus?.();
     return true;
   }
-  const focusable = () => [closeButton, ...[...rows.values()].flatMap(row => [row.previewHost, row.apply].filter(node => !node.disabled))];
+  const focusable = () => [closeButton, ...(section === 'categories' ? Object.values(categoryButtons).map(item => item.entry) : section === 'neon' ? [backButton, neonHost] : [backButton, ...[...rows.values()].flatMap(row => [row.previewHost, row.apply].filter(node => !node.disabled))])];
   function onKeyDown(event) {
     if (!opened) return;
     event.stopPropagation();
@@ -223,12 +290,13 @@ export function createVehicleLiveryShop(doc, {
     listen(button, 'click', event => { event.stopPropagation(); if (opened) close(); else show(); });
     listen(button, 'keydown', event => event.stopPropagation());
   }
+  listen(backButton, 'click', () => setSection('categories'));
   listen(closeButton, 'click', () => close());
   listen(menu, 'click', event => { if (event.target === menu) close(); });
   listen(menu, 'keydown', onKeyDown);
   listen(doc, 'keydown', onKeyDown);
   listen(doc, 'focusin', event => { if (opened && !contains(menu, event.target)) closeButton.focus?.(); });
-  listen(doc.defaultView || doc, 'blur', () => { for (const row of rows.values()) resetGesture(row); });
+  listen(doc.defaultView || doc, 'blur', () => { for (const row of rows.values()) resetGesture(row); neonCarousel.resetGesture(); });
   for (const node of [menu, button].filter(Boolean)) {
     for (const type of ['keyup', 'click', 'pointerdown', 'pointermove', 'pointerup', 'pointercancel', 'touchstart', 'touchmove', 'touchend', 'touchcancel', 'wheel']) {
       listen(node, type, event => event.stopPropagation());
@@ -243,6 +311,7 @@ export function createVehicleLiveryShop(doc, {
       for (const remove of listeners.splice(0)) remove();
       releaseBackground();
       for (const row of rows.values()) row.carousel.destroy();
+      neonCarousel.destroy();
       menu.remove();
     }
   }
@@ -254,7 +323,8 @@ export function createVehicleLiveryShop(doc, {
       if (!visible) close({ restoreFocus: false });
       return visible;
     },
-    isOpen: () => opened, refresh,
+    isOpen: () => opened, refresh, setSection, getSection: () => section,
+    getNeonPreviewHost: () => neonHost, previewNeon: selectNeon, getNeonSelection: () => neonSelected,
     getPreviewHost: vehicleId => rows.get(vehicleId || VEHICLE_LIVERY_CATALOG[0].id)?.previewHost,
     setLanguage(next) { languageOverride = next === 'en' ? 'en' : 'ru'; refresh(); return lang(); },
     preview: select,
