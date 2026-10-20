@@ -55,7 +55,7 @@ test('Five catalog variants share an orbit, with the selected car in front and b
   for (const [index, sign] of [[1, 1], [4, -1]]) {
     assert.ok(cars[index].position.dot(right) * sign > 3, 'Adjacent car sits on its expected side');
     assert.ok(cars[index].position.dot(back) < -2, 'Adjacent car sits behind the focused car');
-    assert.ok(cars[index].scale.x < 1 && cars[index].scale.x > .7, 'Adjacent car is slightly smaller');
+    assert.ok(cars[index].scale.x > .45 && cars[index].scale.x < .55, 'Rear neighbors stay recognizable while giving the enlarged focus room');
   }
   assert.equal(original.mesh.geometry, geometry); assert.equal(original.mesh.material, material);
   assert.deepEqual(original.group.position.toArray(), [18, 3, -10]); assert.equal(original.group.rotation.y, .8); assert.equal(original.group.visible, false);

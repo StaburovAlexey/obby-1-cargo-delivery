@@ -37,9 +37,10 @@ export function createVehicleLiveryPreview(THREE, host, options = {}) {
     width = w; height = h;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
-    // Fit both side cars on narrow screens without changing their relative orbit.
+    // Frame the focused car about 27% larger; a tighter orbit and smaller rear
+    // neighbors keep all three models inside narrow SHOP rows through a full turn.
     const halfFov = THREE.MathUtils.degToRad(camera.fov / 2);
-    const distance = Math.max(2.8, 5.4 / camera.aspect) / Math.tan(halfFov);
+    const distance = Math.max(2.2, 4.25 / camera.aspect) / Math.tan(halfFov);
     camera.position.set(distance * .65, distance * .36, distance * .67);
     camera.lookAt(0, .15, 0);
     camera.updateProjectionMatrix();
@@ -50,6 +51,8 @@ export function createVehicleLiveryPreview(THREE, host, options = {}) {
     const count = models.length;
     if (!count) return;
     const step = Math.PI * 2 / count;
+    // Wider rows can spread the rear cars a little more instead of shrinking them.
+    const radius = 3.9 + Math.min(.3, Math.max(0, camera.aspect - 1.5) * .5);
     for (const entry of models) {
       // Wrapping the phase, not the index, keeps the last/first transition continuous.
       const phase = ((entry.index - carouselPosition) % count + count) % count;
@@ -58,10 +61,10 @@ export function createVehicleLiveryPreview(THREE, host, options = {}) {
       // Far-back cars disappear at the back of the orbit, never at the side. Scale
       // this transition instead of changing any of the source-owned materials.
       const rear = 1 - THREE.MathUtils.smoothstep(Math.abs(angle), step * 1.25, step * 1.9);
-      entry.model.position.copy(right).multiplyScalar(Math.sin(angle) * 4.5)
-        .addScaledVector(back, (depth - 1) * 3);
+      entry.model.position.copy(right).multiplyScalar(Math.sin(angle) * radius)
+        .addScaledVector(back, (depth - 1) * 3.6);
       // Keep hidden matrices invertible while an asynchronous controller prepares UVs.
-      entry.model.scale.setScalar(Math.max(.001, (.76 + .24 * Math.max(0, depth)) * rear));
+      entry.model.scale.setScalar(Math.max(.001, (.25 + .75 * Math.max(0, depth)) * rear));
       entry.model.visible = entry.ready && rear > .0001;
       entry.turntable.rotation.y = spinAngle;
     }
