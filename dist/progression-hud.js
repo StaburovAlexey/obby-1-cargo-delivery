@@ -1,7 +1,6 @@
 import { PROGRESSION_CONFIG, SCHOOL_CONFIG, SKIN_CONFIG, schoolConfig, skinConfig } from './progression-config.js';
 import { UPGRADE_STATS, getUpgradeOffer } from './vehicle-upgrades.js';
 import { vehicleConfig } from './economy-config.js';
-import { biomeForProgress, vehicleSupportsBiome } from './biome-progression.js';
 
 
 export const brainDisplay = n => {
@@ -12,7 +11,7 @@ export const brainDisplay = n => {
 export const brainRateDisplay = n => (Math.floor(Math.max(0,Number(n)||0)*10+1e-6)/10).toFixed(1).replace(/\.0$/,'').replace('.',',');
 
 export const WORLD_LABEL_DROP=.4;
-export const schoolLabelScale = width => Math.max(.5,Math.min(1,((Number(width)||390)-40)/600));
+export const schoolLabelScale = () => 1;
 const decimal=(value,digits=1)=>Number(value).toFixed(digits).replace('.',',');
 const compactDecimal=value=>decimal(value).replace(/,0$/,'');
 
@@ -38,7 +37,7 @@ export function upgradeValuePresentation(stat,offer){
       (offer.maxed?'':` (+${compactDecimal(next.range-current.range)} м)`)+'. Заправка отдельно.',
   };
 }
-export function updateProgressionHud(doc,{gameplay,playing,driving,upgradeMenuOpen,premium,routeProgress}){
+export function updateProgressionHud(doc,{gameplay,playing,driving,upgradeMenuOpen,premium}){
   const s=gameplay.state,el=id=>doc.getElementById(id),brains=brainDisplay(s.brains);
   el('brain-value').textContent=brains;
   el('brain-hud').style.setProperty('--brain-digits',String(brains.length));
@@ -49,17 +48,6 @@ export function updateProgressionHud(doc,{gameplay,playing,driving,upgradeMenuOp
   doc.body.classList.toggle('upgrade-menu-open',upgradeMenuOpen);
   el('vehicle-funds-button').hidden=!playing||driving||!!s.seatedId||s.vehicleGrantClaimed;
   const canBuy=playing&&!driving&&!s.seatedId&&!s.jump.airborne;
-  const notice=el('biome-progress-notice');
-  if(notice){
-    let message='';
-    if(driving&&!s.testMode&&Number.isFinite(routeProgress)){
-      const biome=biomeForProgress(routeProgress);
-      if(!vehicleSupportsBiome(s.selectedId,biome.id))message=s.discoveredBiomeIds?.includes(biome.id)
-        ?`Для доставок в биоме «${biome.name}» нужна местная машина. Вернитесь в ангар.`
-        :`Проедьте немного дальше, чтобы открыть биом «${biome.name}».`;
-    }
-    notice.textContent=message;notice.hidden=!playing||upgradeMenuOpen||!message;
-  }
   for(const kind of ['skin','school']){
     const id=s[kind+'PurchaseCandidateId'],spec=kind==='skin'?skinConfig(id):schoolConfig(id),owned=kind==='skin'?gameplay.isSkinOwned(id):gameplay.isSchoolOwned(id);
     const button=el('buy-'+kind);button.hidden=!canBuy||!spec;
@@ -126,9 +114,13 @@ function setPortalPrice(doc,node,text,product){
     if(!currencyImages.has(product)){try{currencyImages.set(product,product.getPriceCurrencyImage('small')||'');}catch{currencyImages.set(product,'');}}
     icon=currencyImages.get(product);
   }
+  const accessibleText=text;
+  if(icon&&typeof product.priceValue==='string'&&product.priceValue.trim()&&typeof product.price==='string'&&product.price){
+    text=text.replace(product.price,product.priceValue);
+  }
   const previous=priceContent.get(node);
-  if(previous?.text===text&&previous?.icon===icon)return;
-  node.textContent=text;priceContent.set(node,{text,icon});
+  if(previous?.text===text&&previous?.icon===icon&&previous?.accessibleText===accessibleText)return;
+  node.textContent=text;node.setAttribute?.('aria-label',accessibleText);priceContent.set(node,{text,icon,accessibleText});
   if(!icon||!doc.createElement||!node.appendChild)return;
   const image=doc.createElement('img');image.className='portal-currency-icon';image.alt='';image.src=icon;node.appendChild(image);
 }

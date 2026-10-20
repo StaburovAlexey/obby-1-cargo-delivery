@@ -49,7 +49,7 @@ const capture=(app,width,height,tag)=>{
     if(want.hidden)continue;
     near(parseFloat(element.style.left),want.x,`${tag}: school-${i+1} exact X`);
     near(parseFloat(element.style.top),want.y,`${tag}: school-${i+1} exact Y`);
-    near(+element.style.getPropertyValue('--school-scale'),Math.max(.5,Math.min(1,(width-40)/600)),`${tag}: viewport-only scale`);
+    near(+element.style.getPropertyValue('--school-scale'),1,`${tag}: fixed size`);
     assert.ok(Number.isInteger(+element.style.zIndex)&&+element.style.zIndex>0,`${tag}: z-index`);
     assert.ok(!element.style.transform||!/(?:rotate|skew|perspective|scaleX\(-)/.test(element.style.transform),`${tag}: no artwork rotation or mirroring`);
     visible.push({school:i+1,x:want.x,y:want.y,depth:want.depth,zIndex:+element.style.zIndex});
@@ -74,15 +74,13 @@ check('School UI, controls, characters and shared assets stay unchanged through 
   return {unchangedRuntimeAndAssetFiles:unchanged,sharedDesks:20,baseline:contract.baseline};
 });
 
-check('120 by 128 composition remains bottom-centered and camera-facing; inner bob is retained without X/Y lag',()=>{
+check('120 by 128 composition remains bottom-centered and camera-facing without X/Y lag',()=>{
   const css=read('dist/progression-ui.css'),html=read('dist/index.html');
   assert.match(css,/\.learning-world-label\{width:120px;height:128px;transform:translate\(-50%,-100%\) scale\(var\(--school-scale,1\)\);transform-origin:bottom center\}/);
   assert.doesNotMatch(css,/transition:[^}]*\b(?:left|top)\b/);
-  assert.match(css,/\.school-content\{position:relative;width:120px;height:128px;animation:school-float 2\.8s ease-in-out infinite/);
-  assert.match(css,/@keyframes school-float\{0%,100%\{transform:translateY\(0\)\}50%\{transform:translateY\(-4px\)\}\}/);
   assert.match(read('dist/style.css'),/#world-labels\s*\{[^}]*z-index:\s*2;[^}]*overflow:\s*hidden/);
   for(let i=1;i<=5;i++)assert.match(html,new RegExp(`id="school-label-${i}"[^>]*><div class="school-content"`));
-  return {artworkWidth:120,artworkHeight:128,bobPx:4,worldLabelLayer:2};
+  return {artworkWidth:120,artworkHeight:128,worldLabelLayer:2};
 });
 
 check('Actual app frames match independent anchor and depth oracle for full 360-degree yaw, four pitches/distances and eight viewports',()=>{

@@ -374,6 +374,9 @@ body:not(.is-driving):not(.is-walking) .session-hud { display: none; }
 }
 
 .vehicle-price { padding:0; background:transparent; border:0; border-radius:0; box-shadow:none; }
+.vehicle-price strong,.skin-price strong { font-size:18px; }
+.vehicle-price .hud-art { width:24px; height:24px; }
+@media (max-width:500px) { .vehicle-price strong,.skin-price strong { font-size:16px; } }
 
 
 .session-hud,.walk-tip,#biome-test-note,#drive-status,#study-status{display:none!important}

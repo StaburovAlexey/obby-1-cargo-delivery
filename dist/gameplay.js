@@ -13,7 +13,7 @@ import { getUpgradeOffer, getVehiclePerformance } from './vehicle-upgrades.js';
 import { BRIDGES, bridgeAtProgress } from './road-bridges.js';
 import { FORK_DEFINITIONS } from './route-network-config.js';
 import { getActiveMission, advanceCareerMission, calculateDeliveryReward, capDeliveryReward, getVehicleGoal, MAX_MISSION_SEQUENCE } from './career-missions.js';
-import { BIOME_DISCOVERY_OFFSET, biomeForProgress, biomeVehicle, vehicleSupportsBiome } from './biome-progression.js';
+import { BIOME_DISCOVERY_OFFSET, biomeForProgress, biomeVehicle } from './biome-progression.js';
 
 const runtimeId = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
 let runSequence = 0;
@@ -98,8 +98,8 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
   const getDeliveryAvailability=id=>{
     const biome=deliveryBiomes.get(id);
     if(!biome)return null;
-    const allowed=vehicleSupportsBiome(state.selectedId,biome.id);
-    return {allowed,reason:allowed?null:'vehicle-biome',biomeId:biome.id,biomeName:biome.name,vehicleId:biomeVehicle(biome.id).id};
+    const allowed=isOwned(state.selectedId);
+    return {allowed,reason:allowed?null:'vehicle-unavailable',biomeId:biome.id,biomeName:biome.name,vehicleId:state.selectedId};
   };
   const isSkinOwned=id=>state.ownedSkinIds.includes(id);
   const isSchoolOwned=id=>state.ownedSchoolIds.includes(id);

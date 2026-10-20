@@ -13,7 +13,10 @@ try{const d=f.debug;for(const rect of [{left:0,top:0,width:390,height:844},{left
   const verify=(id,anchor)=>{const el=f.ids.get(id);if(el.hidden)return;const ndc=new THREE.Vector3(anchor.x,anchor.y,anchor.z).project(d.camera),expected=projectLabelPixel(ndc,rect,f.ids.get('world-labels').bounds);assert(Math.abs(parseFloat(el.style.left)-expected.x)<1e-7,id+' x');assert(Math.abs(parseFloat(el.style.top)-expected.y)<1e-7,id+' y');checked++;categories[id.split('-')[0]]++;};
   d.garage.vehicles.forEach((v,i)=>verify('vehicle-price-'+(i+1),{...v.priceAnchor,y:v.priceAnchor.y-WORLD_LABEL_DROP}));
   d.garage.stands.forEach((s,i)=>verify('skin-label-'+(i+1),{x:s.x,y:5-WORLD_LABEL_DROP,z:s.z}));
-  d.garage.classroomEntries.forEach((s,i)=>verify('school-label-'+(i+1),{...s.labelAnchor,y:s.labelAnchor.y-WORLD_LABEL_DROP}));
+  d.garage.classroomEntries.forEach((s,i)=>{
+    const id='school-label-'+(i+1);verify(id,{...s.labelAnchor,y:s.labelAnchor.y-WORLD_LABEL_DROP});
+    const el=f.ids.get(id);if(!el.hidden)assert.equal(Number(el.style.getPropertyValue('--school-scale')),1,id+' keeps its full size through camera and viewport changes');
+  });
  }
 }
 console.log({checked,categories});assert(checked>=32);for(const count of Object.values(categories))assert(count>0);const p=projectLabelPixel({x:.5,y:.2},{left:24,top:37,width:720,height:360},{left:7,top:13});assert.deepEqual(p,{x:557,y:168});

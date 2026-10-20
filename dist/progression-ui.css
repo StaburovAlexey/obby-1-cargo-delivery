@@ -11,8 +11,6 @@
 #biome-button{top:calc(max(14px,env(safe-area-inset-top) + 8px) + var(--top-icon-size)*2 + 12px)}
 #biome-test-note{top:calc(max(14px,env(safe-area-inset-top) + 8px) + var(--top-icon-size)*2 + 61px)}
 #save-notice{top:calc(max(14px,env(safe-area-inset-top) + 8px) + var(--top-icon-size)*2 + 5px)}
-#biome-progress-notice{position:fixed;z-index:8;top:30%;left:50%;transform:translateX(-50%);width:min(520px,calc(100% - 32px));box-sizing:border-box;padding:10px 14px;border:2px solid #ffd558;border-radius:12px;background:#142433ed;color:#fff4c6;font-size:14px;font-weight:700;line-height:1.35;text-align:center;pointer-events:none}
-#biome-progress-notice[hidden]{display:none}
 #upgrade-menu{position:fixed;z-index:32;inset:0;display:grid;place-items:center;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));background:#07132ad9;touch-action:pan-y}
 #upgrade-panel{width:min(780px,100%);max-height:100%;overflow:auto;overscroll-behavior:contain;touch-action:pan-y;padding:14px;border:4px solid var(--hud-ink);border-radius:22px;background:#5143ac;box-shadow:inset 0 4px #dcb6ff;text-align:center}
 #upgrade-panel h2{margin:0 0 4px;font-size:24px;text-shadow:var(--hud-shadow)}
@@ -35,8 +33,8 @@
 .learning-world-label .school-content>span{display:flex;align-items:center;justify-content:center;gap:3px}
 .learning-world-label .hud-art{width:34px;height:34px}
 .learning-world-label small{font-size:13.2px}
-.learning-world-label .school-content>span:last-child{color:#ffe380;font-size:15px}
-.skin-price{padding:0;background:transparent;border:0;border-radius:0;box-shadow:none}.skin-price .hud-art{width:36px;height:36px}
+.learning-world-label .school-content>span:last-child{color:#ffe380;font-size:18px}
+.skin-price{padding:0;background:transparent;border:0;border-radius:0;box-shadow:none}.skin-price .hud-art{width:24px;height:24px}
 @media(max-width:600px){
  #upgrade-panel .upgrade-card button{font-size:13px;padding:0 2px;gap:3px}
  .upgrade-cards{grid-template-columns:1fr}.upgrade-card{display:grid;grid-template-columns:40px minmax(0,1fr) 85px;gap:3px 6px;text-align:left;padding:8px}
@@ -58,14 +56,12 @@
 }
 @media(max-width:340px){.progression-action{max-width:146px;font-size:13px}#vehicle-funds-button{max-width:146px;font-size:11px}#brain-hud{max-width:calc(100% - 110px)}}
 .learning-world-label{width:120px;height:128px;transform:translate(-50%,-100%) scale(var(--school-scale,1));transform-origin:bottom center}
-.school-content{position:relative;width:120px;height:128px;animation:school-float 2.8s ease-in-out infinite;animation-delay:var(--float-delay,0s)}
+.school-content{position:relative;width:120px;height:128px}
 .school-content .school-rate-row{position:absolute;top:62px;left:0;width:120px;height:34px}
 .school-content>span:last-child{position:absolute;top:104px;left:0;width:120px;height:24px}
 .learning-world-label .school-symbol{display:block;margin:0 auto 3px;width:58px;height:58px}
 .learning-world-label .school-content>span:last-child .hud-art{width:24px;height:24px}
 .learning-world-label [data-affordable="false"]{color:#ff9b92}
-@keyframes school-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-@media(prefers-reduced-motion:reduce){.school-content{animation:none}}
 
 body.upgrade-menu-open{touch-action:pan-y}
 @media(min-width:601px) and (max-width:800px){.upgrade-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -192,4 +188,3 @@ body.career-menu-open .buy-button{display:none!important}
 
 
 #buy-skin[data-owned="true"] .hud-art{display:none}
-@media(max-height:500px){#biome-progress-notice{top:72px;width:min(520px,calc(100% - 144px))}}

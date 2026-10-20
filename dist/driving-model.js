@@ -282,6 +282,8 @@ export function evaluateVehicleForces(state, {
   return { forceX, forceZ, torque, tires };
 }
 
+const RENDER_FIELDS=['x','z','heading','velocityX','velocityZ','driftIntensity','frontWheelAngle','wheelSpin','bodyPitch','bodyRoll','bodyBob'];
+
 export function createDrivingModel({
   x = 1.8,
   z = 9.8,
@@ -323,6 +325,13 @@ export function createDrivingModel({
     bob: { value: 0, velocity: 0 },
   };
   let accumulator = 0, phase = 0, gearBraking = false;
+  // Display the previous/current tick blend; gameplay keeps the authoritative state.
+  const previousRender={},currentRender={},renderState={};
+  const captureRender=target=>{for(const key of RENDER_FIELDS)target[key]=state[key];};
+  const resetRender=()=>{captureRender(previousRender);captureRender(currentRender);};
+  // Teleports and other explicit pose changes must appear immediately.
+  const syncRender=()=>{for(const key of RENDER_FIELDS)if(state[key]!==currentRender[key]){resetRender();break;}};
+  resetRender();
   const clearSprings = () => {
     phase = 0;
     for (const spring of Object.values(springs)) spring.value = spring.velocity = 0;
@@ -549,6 +558,7 @@ export function createDrivingModel({
       gearBraking = false;
       stopMotion();
       clearSprings();
+      resetRender();
     },
     reset() {
       Object.assign(state, spawn, {
@@ -560,9 +570,18 @@ export function createDrivingModel({
       gearBraking = false;
       stopMotion();
       clearSprings();
+      resetRender();
+    },
+    getRenderState() {
+      syncRender();
+      const alpha=clamp(accumulator/p.fixedStep,0,1);
+      for(const key of RENDER_FIELDS)renderState[key]=previousRender[key]+(currentRender[key]-previousRender[key])*alpha;
+      const turn=currentRender.heading-previousRender.heading;
+      renderState.heading=previousRender.heading+Math.atan2(Math.sin(turn),Math.cos(turn))*alpha;
+      return renderState;
     },
     step(deltaSeconds) {
-
+      syncRender();
 
       state.travel = state.pathDistance = state.movingSeconds = 0;
       state.blocked = false;state.impactSpeed=0;state.braking=0;
@@ -571,7 +590,9 @@ export function createDrivingModel({
       accumulator = Math.min(accumulator + dt, p.maxFrameDelta);
       let steps = 0;
       while (accumulator + 1e-12 >= p.fixedStep && steps < p.maxSubsteps) {
+        captureRender(previousRender);
         integrate(p.fixedStep);
+        captureRender(currentRender);
         accumulator = Math.max(0, accumulator - p.fixedStep);
         steps++;
       }

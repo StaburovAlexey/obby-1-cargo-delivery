@@ -9,10 +9,10 @@ import { CHECKPOINT_PROGRESS, PREVIEW_PROGRESS, HAZARD_FREE_DRIVING_SECTIONS } f
 import {BRIDGES} from './road-bridges.js';
 
 export const ROAD_HAZARD_RULES = Object.freeze({
-  count: 30, staticCount: 0, movingCount: 30, moversPerBiome: 4,
+  count: 90, baseCount: 30, staticCount: 0, movingCount: 90, moversPerBiome: 4,
   moverCountByBiome: Object.freeze({city: 4, forest: 4, desert: 4, snow: 3, volcanic: 4}),
   staticSpacingMetres: 150, staticMoverSpacingMetres: 180, staticPerBiome: 2,
-  exclusionMetres: 100, junctionExclusionMetres: 100,
+  exclusionMetres: 40, baseExclusionMetres: 100, junctionExclusionMetres: 100,
   forkTipExclusionMetres: 24, softEdgeMetres: 2.5,
   bodyWidth: 3.1, bodyLength: 5.76, minimumFreeCorridor: 8,
   rockSightlineMetres: 60, rockCrestEyeDistance: 180, maxDelta: .1,
@@ -21,7 +21,9 @@ export const ROAD_HAZARD_RULES = Object.freeze({
   maximumSweepApproachCurvature: .0025, maximumSweepApproachHeadingChange: .34,
   moverOuterOffset: 10.6, moverTravelSeconds: 8, moverPauseSeconds: 1.4,
   moverSpacingMetres: 180, moverSightlineMetres: 100,
-  maximumMoverSpeed: 4,
+  additionalMoversPerBiome: 12, additionalSpacingMetres: 60,
+  additionalSightlineMetres: 60, additionalSweepExtent: 10,
+  additionalAlongAmplitude: 6, maximumAdditionalApproachCurvature: .0045, maximumMoverSpeed: 9,
 });
 const R = ROAD_HAZARD_RULES;
 const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
@@ -87,7 +89,7 @@ function moverCandidatesFor(biome,sample) {
       // tightly spaced desert bridges. Reserve it before packing short movers.
       if (biome === 'desert' && p.progress >= 7200 && p.progress <= 7350) continue;
       if(p.distance < routeDistanceAt(CHECKPOINT_PROGRESS[2])+160)continue;
-      if (ROAD_HAZARD_EXCLUSIONS.some(e => Math.abs(p.distance - e.distance) < e.radius + extent)) continue;
+      if (ROAD_HAZARD_EXCLUSIONS.some(e => Math.abs(p.distance - e.distance) < R.baseExclusionMetres + extent)) continue;
       const fork = FORKS.find(f => f.id === edge.forkId);
       if (fork && (p.progress < fork.splitOverlapEnd + 110 || p.progress > fork.mergeOverlapStart - 110)) continue;
       let clear = true;
@@ -101,6 +103,31 @@ function moverCandidatesFor(biome,sample) {
     }
   }
   moverCandidates.set(biome, Object.freeze(candidates));
+  return candidates;
+}
+
+const additionalCandidates = new Map();
+function additionalCandidatesFor(biome, sample) {
+  if (additionalCandidates.has(biome)) return additionalCandidates.get(biome);
+  const candidates=[], sight=R.additionalSightlineMetres, extent=R.additionalSweepExtent;
+  for (const edge of NETWORK_EDGES.filter(e=>e.biome===biome&&!e.forkId)) {
+    for (let distance=sight+15;distance<edge.length-sight-15;distance+=5) {
+      const p=sample(edge.id,distance);
+      if (inRecoverySection(p.distance, extent)) continue;
+      if (p.distance<routeDistanceAt(CHECKPOINT_PROGRESS[2])+160) continue;
+      if (ROAD_HAZARD_EXCLUSIONS.some(e=>Math.abs(p.distance-e.distance)<e.radius+extent)) continue;
+      const fork=FORKS.find(f=>f.id===edge.forkId);
+      if (fork&&(p.progress<fork.splitOverlapEnd+R.forkTipExclusionMetres+extent||p.progress>fork.mergeOverlapStart-R.forkTipExclusionMetres-extent)) continue;
+      let clear=true;
+      for (let d=-sight;d<=sight;d+=5) {
+        const q=sample(edge.id,distance+d);
+        if (Math.abs(q.curvature)>R.maximumAdditionalApproachCurvature||Math.abs(angleDelta(q.heading,p.heading))>R.maximumApproachHeadingChange||Math.hypot(q.gradient.x,q.gradient.z)>R.maximumApproachGrade) {clear=false;break;}
+      }
+      if (clear) candidates.push(Object.freeze(p));
+    }
+  }
+  candidates.sort((a,b)=>a.distance-b.distance||a.edgeId.localeCompare(b.edgeId));
+  additionalCandidates.set(biome,Object.freeze(candidates));
   return candidates;
 }
 
@@ -133,6 +160,7 @@ export function buildRoadHazards(seed = 42) {
       const height = type === 'barrier' ? 1.35 : 1.8;
       const motion = Object.freeze({
         minOffset: -R.moverOuterOffset, maxOffset: R.moverOuterOffset,
+        path: 'lateral', speedMultiplier: 1, alongAmplitude: 0,
         crossesCenter: true, travelSeconds: R.moverTravelSeconds,
 
         period: 2 * (R.moverTravelSeconds + R.moverPauseSeconds), phase: random(),
@@ -174,7 +202,7 @@ export function buildRoadHazards(seed = 42) {
         const size = STATIC_DIMENSIONS[type];
         const extent = Math.hypot(size.width, size.length) / 2 + 1;
         if (inRecoverySection(p.distance, extent)) continue;
-        if (ROAD_HAZARD_EXCLUSIONS.some(e => Math.abs(p.distance - e.distance) < e.radius + extent)) continue;
+        if (ROAD_HAZARD_EXCLUSIONS.some(e => Math.abs(p.distance - e.distance) < R.baseExclusionMetres + extent)) continue;
         const fork = FORKS.find(f => f.id === edge.forkId);
         if (fork && (p.progress - fork.splitOverlapEnd < R.forkTipExclusionMetres + extent ||
           fork.mergeOverlapStart - p.progress < R.forkTipExclusionMetres + extent)) continue;
@@ -227,12 +255,13 @@ export function buildRoadHazards(seed = 42) {
       }));
     }
   }
-  if (result.length !== R.count) throw new Error(`Unexpected hazard count: ${result.length}`);
+  if (result.length !== R.baseCount) throw new Error(`Unexpected base hazard count: ${result.length}`);
   const motionRandom=randomFor(`${seed}:all-hazard-crossings`);
   const moving=result.map(h=>{
     if(h.motion)return h;
     const outer=Math.min(R.moverOuterOffset,14-h.width/2);
     const motion=Object.freeze({minOffset:-outer,maxOffset:outer,crossesCenter:true,
+      path:'lateral',speedMultiplier:1,alongAmplitude:0,
       travelSeconds:R.moverTravelSeconds,pauseSeconds:R.moverPauseSeconds,
       period:2*(R.moverTravelSeconds+R.moverPauseSeconds),phase:motionRandom(),startPause:1.2});
     const p=sample(h.edgeId,h.edgeDistance),offset=motionOffset(motion,0);
@@ -240,6 +269,43 @@ export function buildRoadHazards(seed = 42) {
     return Object.freeze({...h,motion,pattern:'lateral-sweep',offset,x,z,
       groundHeight:queryRoadSurface(x,z,p).height,...moverBypass(offset,h.width)});
   });
+  // Keep the existing encounters and reserve steering/recovery zones. Share the
+  // extra pairs across biomes that still have room, keeping both fast paths equal.
+  const extraRandom=randomFor(`${seed}:varied-hazards`);
+  const plans=biomes.map(biome=>{
+    const packed=[];
+    for (const p of additionalCandidatesFor(biome,sample)) {
+      if (moving.every(h=>Math.abs(h.distance-p.distance)>=R.additionalSpacingMetres)&&
+          packed.every(q=>Math.abs(q.distance-p.distance)>=R.additionalSpacingMetres)) packed.push(p);
+    }
+    return {biome,packed,count:2*Math.floor(Math.min(packed.length,R.additionalMoversPerBiome)/2)};
+  });
+  let remaining=R.count-moving.length-plans.reduce((sum,plan)=>sum+plan.count,0);
+  while (remaining>0) {
+    const available=plans.filter(plan=>plan.packed.length>=plan.count+2)
+      .sort((a,b)=>a.count-b.count||biomes.indexOf(a.biome)-biomes.indexOf(b.biome));
+    if (!available.length) throw new Error('Insufficient protected extra mover positions');
+    available[0].count+=2;remaining-=2;
+  }
+  for (const {biome,packed,count} of plans) {
+    for (let i=0;i<count;i++) {
+      const p=packed[Math.floor(i*(packed.length-1)/(count-1))];
+      const type=biome==='city'||biome==='snow'?'barrier':'boulder', width=3.8;
+      const path=i%2?'oval':'diagonal',speedMultiplier=i%2?2:1.5;
+      const travelSeconds=R.moverTravelSeconds/speedMultiplier,pauseSeconds=R.moverPauseSeconds/speedMultiplier;
+      const motion=Object.freeze({minOffset:-R.moverOuterOffset,maxOffset:R.moverOuterOffset,crossesCenter:true,
+        path,speedMultiplier,alongAmplitude:R.additionalAlongAmplitude,direction:extraRandom()<.5?-1:1,
+        travelSeconds,pauseSeconds,period:2*(travelSeconds+pauseSeconds),phase:extraRandom(),startPause:1.2});
+      const pose={},offset=motionOffset(motion,0,pose),alongOffset=pose.alongOffset;
+      const x=p.x+p.right.x*offset+Math.sin(p.heading)*alongOffset,z=p.z+p.right.z*offset+Math.cos(p.heading)*alongOffset;
+      moving.push(Object.freeze({id:`${biome}-${type}-extra-mover-${i+1}`,type,biome,expanded:true,
+        station:p.progress,progress:p.progress,distance:p.distance,edgeId:p.edgeId,edgeDistance:p.edgeDistance,branch:p.branch,
+        x,z,heading:p.heading,roadHeading:p.heading,headingDelta:0,width,length:type==='barrier'?2.3:3.5,height:type==='barrier'?1.35:1.8,
+        offset,alongOffset,groundHeight:queryRoadSurface(x,z,p).height,solid:true,edgeBlend:0,
+        series:`${biome}-extra-mover-${i+1}`,pattern:path==='oval'?'oval-loop':'diagonal-sweep',motion,...moverBypass(offset,width)}));
+    }
+  }
+  if (moving.length!==R.count) throw new Error(`Unexpected hazard count: ${moving.length}`);
   return Object.freeze(moving.sort((a, b) => a.distance - b.distance || a.edgeId.localeCompare(b.edgeId)));
 }
 const STATIC_DIMENSIONS = Object.freeze({
@@ -263,14 +329,19 @@ function moverBypass(offset, width, pose = {}) {
 
 
 
-function motionOffset(motion, elapsed) {
+function motionOffset(motion, elapsed, pose) {
   const t = (Math.max(0, elapsed-motion.startPause) + motion.phase*motion.period) % motion.period;
   const dwell = motion.pauseSeconds, travel = motion.travelSeconds;
-  let amount;
+  let amount,returning=false;
   if (t < dwell) amount = 0;
   else if (t < dwell+travel) amount = smooth((t-dwell)/travel);
   else if (t < 2*dwell+travel) amount = 1;
-  else amount = 1-smooth((t-2*dwell-travel)/travel);
+  else {amount = 1-smooth((t-2*dwell-travel)/travel);returning=true;}
+  if (pose) {
+    const amplitude=(motion.alongAmplitude||0)*(motion.direction||1);
+    pose.alongOffset=motion.path==='diagonal'?amplitude*(2*amount-1):
+      motion.path==='oval'&&amount>0&&amount<1?amplitude*(returning?-1:1)*Math.sin(Math.PI*amount):0;
+  }
   return motion.minOffset+(motion.maxOffset-motion.minOffset)*amount;
 }
 
@@ -324,9 +395,10 @@ export function createRoadHazards(seed = 42) {
   function setMoverPoses() {
     for (let i=0;i<movers.length;i++) {
       const h=movers[i], p=moverFrames[i];
-      h.offset=motionOffset(h.motion,elapsed);
+      h.offset=motionOffset(h.motion,elapsed,h);
       moverBypass(h.offset,h.width,h);
-      h.x=p.x+p.right.x*h.offset; h.z=p.z+p.right.z*h.offset;
+      h.x=p.x+p.right.x*h.offset+Math.sin(h.heading)*h.alongOffset;
+      h.z=p.z+p.right.z*h.offset+Math.cos(h.heading)*h.alongOffset;
       const ground=queryRoadSurface(h.x,h.z,p);
       h.groundHeight=ground.height;h.groundGradientX=ground.gradient.x;h.groundGradientZ=ground.gradient.z;
     }

@@ -115,7 +115,7 @@ check('five floating school labels keep exact rates, paid lock/price, affordabil
  click(app,'vehicle-funds-button');app.frame();for(let i=1;i<5;i++){const e=CLASSROOM_ENTRIES[i];assert.equal(app.ids.get('school-access-'+(i+1)).dataset.affordable,'true');g.state.player={x:e.x,z:e.z,heading:0};g.state.schoolPurchaseCandidateId=e.id;app.frame();click(app,'buy-school');app.frame();assert.equal(app.ids.get('school-price-'+(i+1)).textContent,'');assert.equal(app.ids.get('school-access-'+(i+1)).hidden,true);assert.equal(app.ids.get('school-lock-'+(i+1)).hidden,true);assert.equal(app.ids.get('school-dollar-'+(i+1)).hidden,true);}
  g.state.cooldown=0;app.debug.enterVehicle('pickup');app.frame();for(let i=1;i<=5;i++)assert.equal(app.ids.get('school-label-'+i).hidden,true);
 });
-check('actual Three.js school projections retain viewport-fixed scale and exact world anchors across varied camera angles',make=>{
+check('actual Three.js school projections retain a fixed size and exact world anchors across varied camera angles',make=>{
  let frames=0,visibleLabels=0,overlapPairs=0;
  for(const[width,height]of [[320,480],[390,844],[568,320],[844,390],[1366,768]]){
   const app=make({width,height,startDriving:false}),d=app.debug;
@@ -125,7 +125,7 @@ check('actual Three.js school projections retain viewport-fixed scale and exact 
    for(let i=0;i<5;i++){
     const el=app.ids.get('school-label-'+(i+1));if(el.hidden)continue;
     const a=d.garage.classroomEntries[i].labelAnchor,q=new THREE.Vector3(a.x,a.y-.4,a.z).project(d.camera),scale=Number(el.style.getPropertyValue('--school-scale'));
-    near(scale,Math.max(.5,Math.min(1,(width-40)/600)));near(parseFloat(el.style.left),(q.x*.5+.5)*width);near(parseFloat(el.style.top),(-q.y*.5+.5)*height);
+    near(scale,1);near(parseFloat(el.style.left),(q.x*.5+.5)*width);near(parseFloat(el.style.top),(-q.y*.5+.5)*height);
     labels.push({x:parseFloat(el.style.left),scale,depth:q.z,z:Number(el.style.zIndex)});
    }
    visibleLabels+=labels.length;labels.sort((a,b)=>a.depth-b.depth);

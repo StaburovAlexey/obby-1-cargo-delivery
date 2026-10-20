@@ -214,10 +214,10 @@ test('Real app school labels retain exact world-anchor projection and depth orde
   for(let i=1;i<=5;i++)assert.equal(get(f,'school-label-'+i).hidden,true);
 }));
 
-test('School scale depends only on viewport width across gaps, view directions, visible counts and ownership',()=>withApp(f=>{
+test('School size stays fixed across viewport widths, gaps, view directions, visible counts and ownership',()=>withApp(f=>{
   const g=f.debug.gameplay,garage=f.debug.garage;
   for(const width of [320,390,568,844,1366]){
-    const expected=Math.max(.5,Math.min(1,(width-40)/600));
+    const expected=1;
     near(schoolLabelScale(width),expected);
     for(const xs of [[100,103,107,107,109],[60,60,60,60,60],[100,160,220,280,340],[620,496,372,248,124],[-22,-10,0,320,999]])for(const visibleIndices of [[0,1,2,3,4],[0,2,4],[2]])for(const owned of [false,true]){
       g.state.ownedSchoolIds=owned?SCHOOL_CONFIG.map(s=>s.id):['school-1'];
@@ -266,19 +266,17 @@ test('School teaching symbol and rate grow 20–25 percent within a 120px label'
     const ratio=size(selector,property)/previous;
     assert.ok(ratio>=1.2-1e-7&&ratio<=1.25,`${selector} ${property}: ${ratio}`);
   }
-  assert.match(css,/\.learning-world-label \.school-content>span:last-child\{[^}]*font-size:15px/);
+  assert.match(css,/\.learning-world-label \.school-content>span:last-child\{[^}]*font-size:18px/);
   assert.match(css,/\.learning-world-label \.school-content>span:last-child \.hud-art\{width:24px;height:24px\}/);
 });
 
-test('Fixed-height school billboards reserve the price slot and bob book, rate and access together',()=>{
+test('Fixed-height school billboards reserve the price slot for the book, rate and access',()=>{
   assert.doesNotMatch(css,/transition:(?:[^}]*)(?:left|top)/,'Anchor positions must not lag through CSS transitions');
   assert.match(css,/\.learning-world-label\{width:120px;height:128px;[^}]*transform-origin:bottom center\}/);
-  assert.match(css,/\.school-content\{position:relative;width:120px;height:128px;[^}]*animation:school-float [^}]*animation-delay:var\(--float-delay,0s\)/);
   assert.match(css,/\.school-content \.school-rate-row\{position:absolute;top:62px;left:0;width:120px;height:34px\}/);
   assert.match(css,/\.school-content>span:last-child\{position:absolute;top:104px;left:0;width:120px;height:24px\}/);
   const symbolRules=[...css.matchAll(/\.learning-world-label \.school-symbol\{([^}]+)\}/g)];
   assert.ok(symbolRules.length);for(const [,body]of symbolRules)assert.doesNotMatch(body,/animation|transform/);
-  assert.match(css,/@keyframes school-float\{0%,100%\{transform:translateY\(0\)\}50%\{transform:translateY\(-4px\)\}\}/);
 });
 
 test('School and skin world labels hide in driving and overview and show only in walking projections',()=>withApp(f=>{
@@ -301,7 +299,6 @@ test('HUD and touch controls retain transparent currency, safe areas, minimum ta
   for(const edge of ['top','right','bottom','left'])assert.match(css,new RegExp(`env\\(safe-area-inset-${edge}\\)`));
   assert.match(baseCss,/\[hidden\]\s*\{\s*display:\s*none\s*!important/);
   assert.match(html,/id="upgrade-panel"[^>]*role="dialog"[^>]*aria-modal="true"[^>]*aria-labelledby="upgrade-title"/);
-  assert.match(css,/@media\(prefers-reduced-motion:reduce\)\{\.school-content\{animation:none\}\}/);
 });
 
 test('Narrow upgrade values can wrap; static track budgets fit 320–600px with minimum touch widths',()=>{

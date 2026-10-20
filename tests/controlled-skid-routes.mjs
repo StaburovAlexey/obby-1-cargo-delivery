@@ -69,8 +69,9 @@ for(const q of [...C.CHECKPOINT_PROGRESS,...C.PREVIEW_PROGRESS.map(p=>p.progress
 let approachSamples=0,footprints=0,maximumHazardCurvature=0,minimumHazardSpacing=Infinity,minimumPassingWidth=Infinity;
 const recovery=C.HAZARD_FREE_DRIVING_SECTIONS.map(s=>({...s,start:N.routeDistanceAt(s.from)-s.recovery,end:N.routeDistanceAt(s.to)+s.recovery}));
 for(let seed=0;seed<32;seed++){
- const hazards=buildRoadHazards(seed);assert.equal(hazards.length,30);assert.equal(R.count,30);assert.equal(R.movingCount,30);
- assert.deepEqual(hazards,buildRoadHazards(seed));assert.equal(new Set(hazards.map(h=>h.id)).size,30);
+ const allHazards=buildRoadHazards(seed);assert.equal(allHazards.length,90);assert.equal(R.count,90);assert.equal(R.movingCount,90);
+ const hazards=allHazards.filter(h=>h.motion.path==='lateral');assert.equal(hazards.length,30);
+ assert.deepEqual(hazards,buildRoadHazards(seed).filter(h=>h.motion.path==='lateral'));assert.equal(new Set(hazards.map(h=>h.id)).size,30);
  assert.deepEqual(Object.fromEntries(C.BIOME_DEFINITIONS.map(b=>[b.id,hazards.filter(h=>h.biome===b.id).length])),expectedBiomes);
  assert.deepEqual(Object.fromEntries(Object.keys(expectedTypes).map(t=>[t,hazards.filter(h=>h.type===t).length])),expectedTypes);
  for(const [i,h] of hazards.entries()){
@@ -99,7 +100,7 @@ for(let seed=0;seed<32;seed++){
   }
  }
 }
-report.hazards={count:30,moving:30,seeds:32,byBiome:expectedBiomes,byType:expectedTypes,approachSamples,footprintPoints:footprints,maximumHazardCurvature,minimumHazardSpacing,minimumPassingWidth,recoverySections:recovery};
+report.hazards={count:90,moving:90,originalEncounters:30,seeds:32,byBiome:expectedBiomes,byType:expectedTypes,approachSamples,footprintPoints:footprints,maximumHazardCurvature,minimumHazardSpacing,minimumPassingWidth,recoverySections:recovery};
 
 const road=createRoadFootprintIndex(N.ROAD_MESH),ground=createRoadFootprintIndex(N.GROUND_MESH);
 let roadPairs=0,groundPairs=0,maximumRoadOverlap=0,maximumGroundOverlap=0,maximumRoadGroundOverlap=0;

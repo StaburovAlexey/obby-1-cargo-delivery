@@ -21,7 +21,7 @@ export default async function(page){
   const boot=await page.evaluate(()=>({ready:window.__sdkTest.ready,development:window.__urbanServices.development,language:window.__sceneDebug.localization.language}));
   if(boot.development||boot.language!=='en'||boot.ready.length!==1||!boot.ready[0].playable||boot.ready[0].frame<1)throw Error('Production SDK ready/language contract failed');
   await page.evaluate(()=>{const d=window.__sceneDebug,g=d.gameplay,s=d.garage.stands[12];Object.assign(g.state.player,{x:s.trigger.x,z:s.trigger.z});g.state.skinPurchaseCandidateId='spider-man';g.state.cooldown=100;d.followCharacter(1,true);});
-  await page.waitForFunction(()=>document.getElementById('buy-skin-label').textContent.includes('39 TST'));
+  await page.waitForFunction(()=>{const label=document.getElementById('buy-skin-label');return /\s39$/.test(label.textContent)&&!label.textContent.includes('TST')&&label.querySelector('.portal-currency-icon');});
   const price=await page.locator('#buy-skin-label').textContent();
   const money=await page.evaluate(()=>window.__sceneDebug.gameplay.state.money);
   await page.locator('#buy-skin').click();

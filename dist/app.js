@@ -359,9 +359,10 @@ function poseVehicle(vehicle) {
 }
 function applyTruckPose() {
   const state = model.state,vehicle=garage.vehicles.find(v=>v.model===model);
+  const rendered=model.getRenderState();
   if(!canyonMode?.surface(state.x,state.z,8)){vehicle.routeContext=projectRoad(state.x,state.z,vehicle.routeContext);state.routeContext=vehicle.routeContext;}
-  const pose = canyonMode?.surface(state.x,state.z,8)?canyonMode.pose():bridgeFall.active ? bridgeFallPose(THREE,bridgeFall.state) : fitTruckToGround(THREE, state.x, state.z, state.heading,vehicle.routeContext,vehicle.visual?.metadata);
-  const visual=bridgeFall.active?bridgeFall.state:state;
+  const pose = canyonMode?.surface(rendered.x,rendered.z,8)?canyonMode.pose(rendered):bridgeFall.active ? bridgeFallPose(THREE,bridgeFall.state) : fitTruckToGround(THREE, rendered.x, rendered.z, rendered.heading,vehicle.routeContext,vehicle.visual?.metadata);
+  const visual=bridgeFall.active?bridgeFall.state:rendered;
   rig.update({
     position: pose.position,
     quaternion: pose.quaternion,
@@ -393,10 +394,18 @@ function applyTruckPose() {
 
 
 const smoothedCameraTarget=new THREE.Vector3();
+const previousTruckTarget=new THREE.Vector3();
+let followedModel,previousTruckHeading=0;
 let renderedCameraScale=1;
 function followTruck(dt,snap=false,distance=0){
-  if(snap)cameraState.reset({mode:'driving',heading:model.state.heading});
-  cameraState.update({dt,heading:model.state.heading,distance,drifting:model.state.driftIntensity>.15,velocityX:model.state.velocityX,velocityZ:model.state.velocityZ});
+  const rendered=model.getRenderState();
+  const turn=rendered.heading-previousTruckHeading;
+  // A rendered translation or spin can continue between fixed physics ticks.
+  const moving=!snap&&dt>0&&dt<=TOW_DRIVING.maxDelta&&followedModel===model&&
+    (previousTruckTarget.distanceToSquared(rig.root.position)>1e-12||Math.abs(Math.atan2(Math.sin(turn),Math.cos(turn)))>1e-9);
+  previousTruckTarget.copy(rig.root.position);previousTruckHeading=rendered.heading;followedModel=model;
+  if(snap)cameraState.reset({mode:'driving',heading:rendered.heading});
+  cameraState.update({dt,heading:rendered.heading,distance,moving,drifting:rendered.driftIntensity>.15,velocityX:rendered.velocityX,velocityZ:rendered.velocityZ});
   const offset=computeFollowOffset(cameraState.state);
   const scale=drivingCameraScale(camera.aspect);
   desiredTarget.copy(rig.root.position);desiredTarget.y+=1.7;
@@ -499,9 +508,9 @@ function updateEconomyHud(){
   liveryShop?.setVisible(hangarLeaderboardAvailable()&&!settingsMenuOpen&&!careerMenuOpen&&!biomeMenuOpen&&!upgradeMenuOpen&&!hangarLeaderboardOpen);
   if(liveryShopOpen&&!hangarLeaderboardAvailable())liveryShop?.close();
   garage.setVehicleDisplayMode?.(state.mode==='driving'?state.selectedId:null);
-  updateProgressionHud(document,{gameplay,playing,driving,upgradeMenuOpen,premium:services?.premium,routeProgress:driving&&!canyonMode?.active?projectRoad(model.state.x,model.state.z,model.state.routeContext).progress:undefined});
+  updateProgressionHud(document,{gameplay,playing,driving,upgradeMenuOpen,premium:services?.premium});
   retentionUi.update({gameplay,playing,driving,inGarage:!!gameplay&&isInGarage(gameplay.state.player.x,gameplay.state.player.z),menuOpen:!!canyonMode?.active||upgradeMenuOpen||biomeMenuOpen||settingsMenuOpen||hangarLeaderboardOpen||liveryShopOpen});
-  if(careerMenuOpen||settingsMenuOpen||hangarLeaderboardOpen||liveryShopOpen||biomeMenuOpen)for(const id of ['buy-vehicle','buy-skin','buy-school','biome-progress-notice'])document.getElementById(id).hidden=true;
+  if(careerMenuOpen||settingsMenuOpen||hangarLeaderboardOpen||liveryShopOpen||biomeMenuOpen)for(const id of ['buy-vehicle','buy-skin','buy-school'])document.getElementById(id).hidden=true;
   document.getElementById('wallet-value').textContent=String(state.money);
   document.getElementById('biome-test-note').hidden=true;
   document.getElementById('wallet-hud').dataset.long=String(String(state.money).length>6);

@@ -65,12 +65,12 @@ test('malformed discovery lists are bounded and never invoke array getters',()=>
  assert.equal(calls,0);
 });
 
-// Catches old cars being allowed to keep earning deeper biome rewards after discovery.
-test('a discovered biome still refuses old-car deliveries without consuming the cargo or paying',()=>{
+// Catches a reachable checkpoint silently refusing an old-car delivery after discovery.
+test('a discovered biome accepts a loaded old-car delivery once',()=>{
  const game=make({career:{...cityCareer(),discoveredBiomeIds:['city','forest']}});game.enter('citycourier');game.events();const run=game.state.run;
  game.drive(0,delivery.x,delivery.z);game.drive(0,delivery.x,delivery.z);
- assert.equal(game.state.money,0);assert.equal(game.state.completedRuns,0);assert.equal(game.state.run,run);assert.equal(run.loaded,true);assert.equal(game.getCareerMission().progress,0);
- const events=game.events();assert.equal(events.filter(e=>e.type==='delivery').length,0);assert.equal(events.filter(e=>e.type==='delivery-denied').length,1);assert.equal(events.find(e=>e.type==='delivery-denied').reason,'vehicle-biome');
+ assert.equal(game.state.money,3775);assert.equal(game.state.completedRuns,1);assert.equal(game.state.run,null);assert.equal(run.loaded,false);assert.equal(game.getCareerMission().progress,1);
+ const events=game.events();assert.equal(events.filter(e=>e.type==='delivery').length,1);assert.equal(events.filter(e=>e.type==='delivery-denied').length,0);
 });
 
 // Catches delivery gating breaking appropriate local and later-tier cars.

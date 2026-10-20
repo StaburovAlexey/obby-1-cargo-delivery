@@ -117,7 +117,8 @@ check('Road gradient matches the rendered height convention and influences actua
   setVelocity(flat.state,0,-4); flat.step(.05); frame(app,.05);
   const gravitySign=Math.sign(p.gradient.z);
   assert.ok((s.speed-flat.state.speed)*gravitySign>1e-5,'Road gradient must change longitudinal acceleration with the correct sign');
-  const expected=fitTruckToGround(THREE,s.x,s.z,s.heading);
+  const rendered=d.model.getRenderState();
+  const expected=fitTruckToGround(THREE,rendered.x,rendered.z,rendered.heading,s.routeContext);
   near(d.rig.root.position.distanceTo(expected.position),0,1e-10,'Ground fit position');
   near(Math.abs(d.rig.root.quaternion.dot(expected.quaternion)),1,1e-10,'Ground fit rotation');
   assert.ok(Math.min(...expected.clearances)>=0);
