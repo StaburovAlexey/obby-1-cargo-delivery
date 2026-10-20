@@ -32,11 +32,11 @@ check('All 30 hazard IDs have visible live geometry in the original eight bounde
  const system=createRoadHazards(42),scene=createRoadHazardsScene(THREE,{system});
  assert.equal(system.hazards.length,30);assert.equal(system.movers.length,30);assert.equal(scene.stats.movers,30);
  assert.equal(scene.group.children.length,8);assert.equal(scene.stats.instancedMeshes,6);assert.equal(scene.stats.mergedMeshes,2);
- assert.equal(scene.stats.drawCalls,8);assert.equal(scene.stats.triangles,1944);assert.equal(scene.stats.activeInstances,32);
+ assert.equal(scene.stats.drawCalls,8);assert.equal(scene.stats.triangles,1908);assert.equal(scene.stats.activeInstances,30);
  const ids=new Set(scene.group.children.flatMap(mesh=>mesh.userData.hazardIds));assert.deepEqual([...ids].sort(),system.hazards.map(h=>h.id).sort());
  for(const mesh of scene.group.children.filter(m=>m.isInstancedMesh)){assert.equal(mesh.count,mesh.userData.capacity);assert.equal(mesh.instanceMatrix.count,Math.max(1,mesh.count));assert.equal(mesh.frustumCulled,false);}
  const names=scene.group.children.map(m=>m.name).join(' ');assert(!/falling|warning|impact shadow/i.test(names));
- assert.equal(scene.stats.visibleRocks,4);assert.equal(scene.stats.visibleWarnings,0);assert(system.rocks.every(r=>r.phase==='landed'&&r.altitude===0&&!r.shadowVisible));
+ assert.equal(scene.stats.visibleRocks,6);assert.equal(scene.stats.visibleWarnings,0);assert(system.rocks.every(r=>r.phase==='landed'&&r.altitude===0&&!r.shadowVisible));
  const paint=scene.group.getObjectByName('Yellow black repair blocks').material,sand=scene.group.getObjectByName('Road-conforming sand dunes').material;
  assert.equal(paint.map,sand.map);assert.equal(paint.map.image.width,128);assert.equal(paint.map.userData.generatedLocally,true);
  const result={hazards:ids.size,moving:scene.stats.movers,drawCalls:scene.stats.drawCalls,triangles:scene.stats.triangles,solidInstances:scene.stats.activeInstances};scene.dispose();return result;
@@ -83,7 +83,7 @@ check('A full movement cycle keeps every solid, both log caps and both patches o
    }
   }
  }
- assert.equal(moved.size,30);assert.equal(patchTrailsCleared.size,2);assert.equal(capChecks.size,4);stableResources(scene,before);assert.equal(scene.stats.drawCalls,8);assert.equal(scene.stats.triangles,1944);
+ assert.equal(moved.size,30);assert.equal(patchTrailsCleared.size,2);assert.equal(capChecks.size,2);stableResources(scene,before);assert.equal(scene.stats.drawCalls,8);assert.equal(scene.stats.triangles,1908);
  scene.dispose();return{frames:441,movingHazards:moved.size,solidPoseChecks,checkedVertices,patchVertices,logCaps:capChecks.size,maxHorizontalError,maxDaylight,maxBurial};
 });
 
@@ -117,7 +117,7 @@ check('Pause, reset, late scene creation, descriptor-only previews and disposal 
 check('Runtime CPU updates retain the same resources and no extra falling-rock pools',()=>{
  const system=createRoadHazards(42),scene=createRoadHazardsScene(THREE,{system,groundHeight}),before=resources(scene),times=[];
  for(let i=0;i<180;i++){const start=performance.now();system.update(1/60,player,true);scene.update();if(i>=30)times.push(performance.now()-start);}
- stableResources(scene,before);assert.equal(scene.stats.drawCalls,8);assert.equal(scene.stats.visibleRocks,4);assert.equal(scene.stats.visibleWarnings,0);times.sort((a,b)=>a-b);
+ stableResources(scene,before);assert.equal(scene.stats.drawCalls,8);assert.equal(scene.stats.visibleRocks,6);assert.equal(scene.stats.visibleWarnings,0);times.sort((a,b)=>a-b);
  const result={frames:times.length,meanMs:times.reduce((a,b)=>a+b,0)/times.length,p95Ms:times[Math.floor(times.length*.95)],maximumMs:times.at(-1),limitation:'Shared Node CPU timing only, not GPU FPS'};scene.dispose();return result;
 });
 

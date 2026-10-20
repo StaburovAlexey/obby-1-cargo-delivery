@@ -1,0 +1,490 @@
+{
+  "scope": "Production CPU solver; no browser/GPU or human touch validation.",
+  "rows": [
+    {
+      "vehicle": "pickup",
+      "biome": "city",
+      "corners": [
+        {
+          "peakSlip": 10.688980926183891,
+          "path": 59.839207130167644,
+          "minForward": 9.183286444341407
+        },
+        {
+          "peakSlip": 7.19667543113467,
+          "path": 62.28330912632159,
+          "minForward": 9.929376475451384
+        },
+        {
+          "peakSlip": 3.5401955526436626,
+          "path": 63.37475693247596,
+          "minForward": 10.440416088395114
+        }
+      ],
+      "gripRecoverySeconds": [
+        0.5583333333333338,
+        0.508333333333334,
+        0.4666666666666673
+      ],
+      "countersteerSeconds": [
+        0.5416666666666672,
+        0.45000000000000057,
+        0.39166666666666705
+      ],
+      "breakawayInput": [
+        0.6,
+        0.75,
+        null
+      ]
+    },
+    {
+      "vehicle": "citycourier",
+      "biome": "city",
+      "corners": [
+        {
+          "peakSlip": 12.087035539642473,
+          "path": 66.39684686446294,
+          "minForward": 10.020740423866535
+        },
+        {
+          "peakSlip": 8.302597337091974,
+          "path": 69.84131272328933,
+          "minForward": 11.087690662135845
+        },
+        {
+          "peakSlip": 4.526678422880416,
+          "path": 71.85854110448908,
+          "minForward": 11.74986484768949
+        }
+      ],
+      "gripRecoverySeconds": [
+        0.508333333333334,
+        0.4666666666666673,
+        0.4250000000000005
+      ],
+      "countersteerSeconds": [
+        0.5000000000000007,
+        0.41666666666666713,
+        0.3583333333333336
+      ],
+      "breakawayInput": [
+        0.525,
+        0.675,
+        null
+      ]
+    },
+    {
+      "vehicle": "rover",
+      "biome": "forest",
+      "corners": [
+        {
+          "peakSlip": 11.398031093906226,
+          "path": 77.4444219738689,
+          "minForward": 11.982058766179932
+        },
+        {
+          "peakSlip": 7.906463991639261,
+          "path": 80.71066778607484,
+          "minForward": 12.868614354679345
+        },
+        {
+          "peakSlip": 4.676857604275431,
+          "path": 81.98894721284431,
+          "minForward": 13.414876549186502
+        }
+      ],
+      "gripRecoverySeconds": [
+        0.5000000000000007,
+        0.4583333333333339,
+        0.41666666666666713
+      ],
+      "countersteerSeconds": [
+        0.4583333333333339,
+        0.3833333333333337,
+        0.33333333333333354
+      ],
+      "breakawayInput": [
+        0.55,
+        0.7,
+        null
+      ]
+    },
+    {
+      "vehicle": "foresthauler",
+      "biome": "forest",
+      "corners": [
+        {
+          "peakSlip": 12.982040881640257,
+          "path": 86.80058988191317,
+          "minForward": 13.151678690816519
+        },
+        {
+          "peakSlip": 9.260647121582403,
+          "path": 90.9480496228285,
+          "minForward": 14.414703502323444
+        },
+        {
+          "peakSlip": 5.905496819676933,
+          "path": 93.32987387901727,
+          "minForward": 15.12261298330858
+        }
+      ],
+      "gripRecoverySeconds": [
+        0.4666666666666673,
+        0.4250000000000005,
+        0.39166666666666705
+      ],
+      "countersteerSeconds": [
+        0.43333333333333385,
+        0.3583333333333336,
+        0.30833333333333346
+      ],
+      "breakawayInput": [
+        0.5,
+        0.625,
+        0.875
+      ]
+    },
+    {
+      "vehicle": "van",
+      "biome": "desert",
+      "corners": [
+        {
+          "peakSlip": 12.59105025555607,
+          "path": 101.01696570382893,
+          "minForward": 15.663595810061429
+        },
+        {
+          "peakSlip": 9.476092316419475,
+          "path": 104.6062752813181,
+          "minForward": 16.58492304205482
+        },
+        {
+          "peakSlip": 6.704758275177087,
+          "path": 106.2589345762875,
+          "minForward": 17.160191261329455
+        }
+      ],
+      "gripRecoverySeconds": [
+        0.47500000000000064,
+        0.4250000000000005,
+        0.39166666666666705
+      ],
+      "countersteerSeconds": [
+        0.4000000000000004,
+        0.3416666666666669,
+        0.29166666666666674
+      ],
+      "breakawayInput": [
+        0.525,
+        0.65,
+        0.825
+      ]
+    },
+    {
+      "vehicle": "desertscout",
+      "biome": "desert",
+      "corners": [
+        {
+          "peakSlip": 11.741335432360247,
+          "path": 118.11138017200086,
+          "minForward": 18.60780031958415
+        },
+        {
+          "peakSlip": 9.156419931346186,
+          "path": 120.73307413439669,
+          "minForward": 19.19343327100654
+        },
+        {
+          "peakSlip": 6.775747093426428,
+          "path": 121.74343729916698,
+          "minForward": 19.69496208739786
+        }
+      ],
+      "gripRecoverySeconds": [
+        0.4250000000000005,
+        0.3833333333333337,
+        0.3583333333333336
+      ],
+      "countersteerSeconds": [
+        0.3833333333333337,
+        0.3250000000000002,
+        0.275
+      ],
+      "breakawayInput": [
+        0.55,
+        0.675,
+        0.825
+      ]
+    },
+    {
+      "vehicle": "snowgrip",
+      "biome": "snow",
+      "corners": [
+        {
+          "peakSlip": 12.662932592388076,
+          "path": 136.99568134169886,
+          "minForward": 21.773473928471184
+        },
+        {
+          "peakSlip": 11.286940786802552,
+          "path": 137.76048253274325,
+          "minForward": 21.91521894586055
+        },
+        {
+          "peakSlip": 9.454102662402404,
+          "path": 138.84634391164522,
+          "minForward": 22.26948285294141
+        }
+      ],
+      "gripRecoverySeconds": [
+        0.5000000000000007,
+        0.45000000000000057,
+        0.41666666666666713
+      ],
+      "countersteerSeconds": [
+        0.366666666666667,
+        0.30833333333333346,
+        0.26666666666666666
+      ],
+      "breakawayInput": [
+        0.55,
+        0.625,
+        0.75
+      ]
+    },
+    {
+      "vehicle": "snowrunner",
+      "biome": "snow",
+      "corners": [
+        {
+          "peakSlip": 12.475652900958284,
+          "path": 157.64694987790458,
+          "minForward": 25.020219473024117
+        },
+        {
+          "peakSlip": 10.531502819717922,
+          "path": 158.7381276840465,
+          "minForward": 25.407094184469543
+        },
+        {
+          "peakSlip": 8.868140673479932,
+          "path": 159.21798080306758,
+          "minForward": 25.7274451468957
+        }
+      ],
+      "gripRecoverySeconds": [
+        0.4416666666666672,
+        0.40833333333333377,
+        0.37500000000000033
+      ],
+      "countersteerSeconds": [
+        0.35000000000000026,
+        0.3000000000000001,
+        0.2583333333333333
+      ],
+      "breakawayInput": [
+        0.55,
+        0.625,
+        0.75
+      ]
+    },
+    {
+      "vehicle": "lavacrawler",
+      "biome": "volcanic",
+      "corners": [
+        {
+          "peakSlip": 8.845820187795281,
+          "path": 181.57856436332486,
+          "minForward": 29.172454716250147
+        },
+        {
+          "peakSlip": 6.936122619107508,
+          "path": 182.1039239070653,
+          "minForward": 29.646264741740843
+        },
+        {
+          "peakSlip": 5.314272592043938,
+          "path": 182.39052036490904,
+          "minForward": 29.994804083342853
+        }
+      ],
+      "gripRecoverySeconds": [
+        0.26666666666666666,
+        0.24166666666666664,
+        0.22499999999999998
+      ],
+      "countersteerSeconds": [
+        0.33333333333333354,
+        0.2833333333333334,
+        0.24166666666666664
+      ],
+      "breakawayInput": [
+        0.65,
+        0.825,
+        null
+      ]
+    },
+    {
+      "vehicle": "ashhauler",
+      "biome": "volcanic",
+      "corners": [
+        {
+          "peakSlip": 7.693396861191123,
+          "path": 208.69217583495026,
+          "minForward": 33.9329545407942
+        },
+        {
+          "peakSlip": 6.172704048519429,
+          "path": 208.90956382982543,
+          "minForward": 34.267398744969654
+        },
+        {
+          "peakSlip": 4.872016854673869,
+          "path": 209.03538974490823,
+          "minForward": 34.52388971625704
+        }
+      ],
+      "gripRecoverySeconds": [
+        0.24166666666666664,
+        0.21666666666666665,
+        0.19999999999999998
+      ],
+      "countersteerSeconds": [
+        0.3250000000000002,
+        0.275,
+        0.2333333333333333
+      ],
+      "breakawayInput": [
+        0.725,
+        0.9,
+        null
+      ]
+    }
+  ],
+  "frameCases": 90,
+  "forceCases": 900,
+  "precisionCases": 270,
+  "wrongBiomeRecoveries": [
+    {
+      "vehicle": "pickup",
+      "biome": "forest",
+      "seconds": 1.8916666666666624,
+      "peakSlip": 4.2956159572748716
+    },
+    {
+      "vehicle": "pickup",
+      "biome": "desert",
+      "seconds": 2.4916666666666605,
+      "peakSlip": 4.867064980682559
+    },
+    {
+      "vehicle": "pickup",
+      "biome": "snow",
+      "seconds": 2.8166666666666593,
+      "peakSlip": 5.609013988439394
+    },
+    {
+      "vehicle": "pickup",
+      "biome": "volcanic",
+      "seconds": 6.991666666666804,
+      "peakSlip": 15.458236165425841
+    },
+    {
+      "vehicle": "citycourier",
+      "biome": "forest",
+      "seconds": 1.6666666666666632,
+      "peakSlip": 4.552539061247338
+    },
+    {
+      "vehicle": "citycourier",
+      "biome": "desert",
+      "seconds": 2.1083333333333285,
+      "peakSlip": 4.961150293826094
+    },
+    {
+      "vehicle": "citycourier",
+      "biome": "snow",
+      "seconds": 2.474999999999994,
+      "peakSlip": 5.686664262168938
+    },
+    {
+      "vehicle": "citycourier",
+      "biome": "volcanic",
+      "seconds": 4.350000000000006,
+      "peakSlip": 6.300839986181565
+    },
+    {
+      "vehicle": "rover",
+      "biome": "desert",
+      "seconds": 1.8583333333333292,
+      "peakSlip": 5.386596315727278
+    },
+    {
+      "vehicle": "rover",
+      "biome": "snow",
+      "seconds": 2.0249999999999955,
+      "peakSlip": 5.256767955650287
+    },
+    {
+      "vehicle": "rover",
+      "biome": "volcanic",
+      "seconds": 2.9833333333333254,
+      "peakSlip": 5.910610347757787
+    },
+    {
+      "vehicle": "foresthauler",
+      "biome": "desert",
+      "seconds": 1.7499999999999962,
+      "peakSlip": 5.790840704475724
+    },
+    {
+      "vehicle": "foresthauler",
+      "biome": "snow",
+      "seconds": 1.9416666666666622,
+      "peakSlip": 5.528166228371099
+    },
+    {
+      "vehicle": "foresthauler",
+      "biome": "volcanic",
+      "seconds": 2.6249999999999933,
+      "peakSlip": 6.168677996655188
+    },
+    {
+      "vehicle": "van",
+      "biome": "snow",
+      "seconds": 1.9499999999999955,
+      "peakSlip": 5.677475099385362
+    },
+    {
+      "vehicle": "van",
+      "biome": "volcanic",
+      "seconds": 2.4166666666666607,
+      "peakSlip": 6.341112871092967
+    },
+    {
+      "vehicle": "desertscout",
+      "biome": "snow",
+      "seconds": 2.116666666666662,
+      "peakSlip": 5.905539148294814
+    },
+    {
+      "vehicle": "desertscout",
+      "biome": "volcanic",
+      "seconds": 2.508333333333327,
+      "peakSlip": 6.628601012371279
+    },
+    {
+      "vehicle": "snowgrip",
+      "biome": "volcanic",
+      "seconds": 2.5999999999999934,
+      "peakSlip": 6.434239210598171
+    },
+    {
+      "vehicle": "snowrunner",
+      "biome": "volcanic",
+      "seconds": 2.66666666666666,
+      "peakSlip": 6.227947634840306
+    }
+  ]
+}

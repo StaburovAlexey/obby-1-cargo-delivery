@@ -1,0 +1,1173 @@
+{
+  "generatedAt": "2026-10-19T20:00:26.355Z",
+  "scope": "Fuel-only centerline approximation integrated at 1 m. No collision, detour or human timing guarantee.",
+  "routeLength": 15868.841887310184,
+  "finalGap": 4004.524656358093,
+  "maxAshSpeedOnlyLowerBoundSeconds": 407.52033608911614,
+  "sourceHashes": {
+    "route-network-config.js": "879291b8dfdcbcf645a7112f79415f87e901510d399137d9df019aa0dca84c8b",
+    "route-network.js": "c330a9a40563a87b3e00365faf7cc2d1a7d88a163aa75a077e95432956a250b6",
+    "road-hazards.js": "74e959b3f4ecc7bd1c08d185f61873a355a5a3b5ba419d3f4d9aa38fc600546e",
+    "network-scene.js": "8e94bc42db08eb87ee38683469417f9638ec9b0e7d42ed383aa518cf68108974",
+    "roadside-barrier.js": "ae0e1c22dec81466d8c58a4abb34ff8306b2570d18c90a1a5900af66f9f55446",
+    "economy-config.js": "ec67466da62d68a9ed2da9380d68f4fde1ec549a82053b37023e8e91a1852989",
+    "vehicle-upgrades.js": "11168cb45880503a7505002e39e203f7ec478d93d62449ee5a0b357405d596fb"
+  },
+  "rows": [
+    {
+      "id": "pickup",
+      "stockFurthest": 2,
+      "maxTankFurthest": 4,
+      "stockRange": 290,
+      "maxRange": 377,
+      "gaps": [
+        {
+          "checkpoint": 1,
+          "weightedMetres": 180,
+          "stockReserveMetres": 110,
+          "maxTankReserveMetres": 197
+        },
+        {
+          "checkpoint": 2,
+          "weightedMetres": 260,
+          "stockReserveMetres": 30,
+          "maxTankReserveMetres": 117
+        },
+        {
+          "checkpoint": 3,
+          "weightedMetres": 340,
+          "stockReserveMetres": -50,
+          "maxTankReserveMetres": 37
+        },
+        {
+          "checkpoint": 4,
+          "weightedMetres": 360.00101997656884,
+          "stockReserveMetres": -70.00101997656884,
+          "maxTankReserveMetres": 16.99898002343116
+        },
+        {
+          "checkpoint": 5,
+          "weightedMetres": 400.03012567528367,
+          "stockReserveMetres": -110.03012567528367,
+          "maxTankReserveMetres": -23.03012567528367
+        },
+        {
+          "checkpoint": 6,
+          "weightedMetres": 440.09231702328225,
+          "stockReserveMetres": -150.09231702328225,
+          "maxTankReserveMetres": -63.09231702328225
+        },
+        {
+          "checkpoint": 7,
+          "weightedMetres": 500.0729528449401,
+          "stockReserveMetres": -210.07295284494012,
+          "maxTankReserveMetres": -123.07295284494012
+        },
+        {
+          "checkpoint": 8,
+          "weightedMetres": 600.0044558544639,
+          "stockReserveMetres": -310.0044558544639,
+          "maxTankReserveMetres": -223.0044558544639
+        },
+        {
+          "checkpoint": 9,
+          "weightedMetres": 1260.0674917963097,
+          "stockReserveMetres": -970.0674917963097,
+          "maxTankReserveMetres": -883.0674917963097
+        },
+        {
+          "checkpoint": 10,
+          "weightedMetres": 1420.1112439887129,
+          "stockReserveMetres": -1130.1112439887129,
+          "maxTankReserveMetres": -1043.1112439887129
+        },
+        {
+          "checkpoint": 11,
+          "weightedMetres": 1608.5062049557964,
+          "stockReserveMetres": -1318.5062049557964,
+          "maxTankReserveMetres": -1231.5062049557964
+        },
+        {
+          "checkpoint": 12,
+          "weightedMetres": 2080.310099545776,
+          "stockReserveMetres": -1790.3100995457762,
+          "maxTankReserveMetres": -1703.3100995457762
+        },
+        {
+          "checkpoint": 13,
+          "weightedMetres": 4320.534614418893,
+          "stockReserveMetres": -4030.5346144188934,
+          "maxTankReserveMetres": -3943.5346144188934
+        },
+        {
+          "checkpoint": 14,
+          "weightedMetres": 6514.389440694631,
+          "stockReserveMetres": -6224.389440694631,
+          "maxTankReserveMetres": -6137.389440694631
+        },
+        {
+          "checkpoint": 15,
+          "weightedMetres": 10609.196719880458,
+          "stockReserveMetres": -10319.196719880458,
+          "maxTankReserveMetres": -10232.196719880458
+        },
+        {
+          "checkpoint": 16,
+          "weightedMetres": 20022.623281790504,
+          "stockReserveMetres": -19732.623281790504,
+          "maxTankReserveMetres": -19645.623281790504
+        }
+      ]
+    },
+    {
+      "id": "citycourier",
+      "stockFurthest": 8,
+      "maxTankFurthest": 8,
+      "stockRange": 800,
+      "maxRange": 1040,
+      "gaps": [
+        {
+          "checkpoint": 1,
+          "weightedMetres": 180,
+          "stockReserveMetres": 620,
+          "maxTankReserveMetres": 860
+        },
+        {
+          "checkpoint": 2,
+          "weightedMetres": 260,
+          "stockReserveMetres": 540,
+          "maxTankReserveMetres": 780
+        },
+        {
+          "checkpoint": 3,
+          "weightedMetres": 340,
+          "stockReserveMetres": 460,
+          "maxTankReserveMetres": 700
+        },
+        {
+          "checkpoint": 4,
+          "weightedMetres": 360.00101997656884,
+          "stockReserveMetres": 439.99898002343116,
+          "maxTankReserveMetres": 679.9989800234312
+        },
+        {
+          "checkpoint": 5,
+          "weightedMetres": 400.03012567528367,
+          "stockReserveMetres": 399.96987432471633,
+          "maxTankReserveMetres": 639.9698743247163
+        },
+        {
+          "checkpoint": 6,
+          "weightedMetres": 440.09231702328225,
+          "stockReserveMetres": 359.90768297671775,
+          "maxTankReserveMetres": 599.9076829767178
+        },
+        {
+          "checkpoint": 7,
+          "weightedMetres": 500.0729528449401,
+          "stockReserveMetres": 299.9270471550599,
+          "maxTankReserveMetres": 539.9270471550599
+        },
+        {
+          "checkpoint": 8,
+          "weightedMetres": 600.0044558544639,
+          "stockReserveMetres": 199.9955441455361,
+          "maxTankReserveMetres": 439.9955441455361
+        },
+        {
+          "checkpoint": 9,
+          "weightedMetres": 1260.0674917963097,
+          "stockReserveMetres": -460.0674917963097,
+          "maxTankReserveMetres": -220.0674917963097
+        },
+        {
+          "checkpoint": 10,
+          "weightedMetres": 1420.1112439887129,
+          "stockReserveMetres": -620.1112439887129,
+          "maxTankReserveMetres": -380.1112439887129
+        },
+        {
+          "checkpoint": 11,
+          "weightedMetres": 1608.5062049557964,
+          "stockReserveMetres": -808.5062049557964,
+          "maxTankReserveMetres": -568.5062049557964
+        },
+        {
+          "checkpoint": 12,
+          "weightedMetres": 2080.310099545776,
+          "stockReserveMetres": -1280.3100995457762,
+          "maxTankReserveMetres": -1040.3100995457762
+        },
+        {
+          "checkpoint": 13,
+          "weightedMetres": 4320.534614418893,
+          "stockReserveMetres": -3520.5346144188934,
+          "maxTankReserveMetres": -3280.5346144188934
+        },
+        {
+          "checkpoint": 14,
+          "weightedMetres": 6514.389440694631,
+          "stockReserveMetres": -5714.389440694631,
+          "maxTankReserveMetres": -5474.389440694631
+        },
+        {
+          "checkpoint": 15,
+          "weightedMetres": 10609.196719880458,
+          "stockReserveMetres": -9809.196719880458,
+          "maxTankReserveMetres": -9569.196719880458
+        },
+        {
+          "checkpoint": 16,
+          "weightedMetres": 20022.623281790504,
+          "stockReserveMetres": -19222.623281790504,
+          "maxTankReserveMetres": -18982.623281790504
+        }
+      ]
+    },
+    {
+      "id": "rover",
+      "stockFurthest": 9,
+      "maxTankFurthest": 11,
+      "stockRange": 700,
+      "maxRange": 910,
+      "gaps": [
+        {
+          "checkpoint": 1,
+          "weightedMetres": 180,
+          "stockReserveMetres": 520,
+          "maxTankReserveMetres": 730
+        },
+        {
+          "checkpoint": 2,
+          "weightedMetres": 260,
+          "stockReserveMetres": 440,
+          "maxTankReserveMetres": 650
+        },
+        {
+          "checkpoint": 3,
+          "weightedMetres": 340,
+          "stockReserveMetres": 360,
+          "maxTankReserveMetres": 570
+        },
+        {
+          "checkpoint": 4,
+          "weightedMetres": 360.00101997656884,
+          "stockReserveMetres": 339.99898002343116,
+          "maxTankReserveMetres": 549.9989800234312
+        },
+        {
+          "checkpoint": 5,
+          "weightedMetres": 400.03012567528367,
+          "stockReserveMetres": 299.96987432471633,
+          "maxTankReserveMetres": 509.96987432471633
+        },
+        {
+          "checkpoint": 6,
+          "weightedMetres": 440.09231702328225,
+          "stockReserveMetres": 259.90768297671775,
+          "maxTankReserveMetres": 469.90768297671775
+        },
+        {
+          "checkpoint": 7,
+          "weightedMetres": 500.0729528449401,
+          "stockReserveMetres": 199.92704715505988,
+          "maxTankReserveMetres": 409.9270471550599
+        },
+        {
+          "checkpoint": 8,
+          "weightedMetres": 560.0044556561352,
+          "stockReserveMetres": 139.99554434386482,
+          "maxTankReserveMetres": 349.9955443438648
+        },
+        {
+          "checkpoint": 9,
+          "weightedMetres": 630.0337458981548,
+          "stockReserveMetres": 69.96625410184515,
+          "maxTankReserveMetres": 279.96625410184515
+        },
+        {
+          "checkpoint": 10,
+          "weightedMetres": 710.0556219943564,
+          "stockReserveMetres": -10.055621994356443,
+          "maxTankReserveMetres": 199.94437800564356
+        },
+        {
+          "checkpoint": 11,
+          "weightedMetres": 804.2531024778982,
+          "stockReserveMetres": -104.25310247789821,
+          "maxTankReserveMetres": 105.74689752210179
+        },
+        {
+          "checkpoint": 12,
+          "weightedMetres": 1180.1576099403474,
+          "stockReserveMetres": -480.15760994034736,
+          "maxTankReserveMetres": -270.15760994034736
+        },
+        {
+          "checkpoint": 13,
+          "weightedMetres": 2880.3564096125956,
+          "stockReserveMetres": -2180.3564096125956,
+          "maxTankReserveMetres": -1970.3564096125956
+        },
+        {
+          "checkpoint": 14,
+          "weightedMetres": 4639.700746023034,
+          "stockReserveMetres": -3939.7007460230343,
+          "maxTankReserveMetres": -3729.7007460230343
+        },
+        {
+          "checkpoint": 15,
+          "weightedMetres": 8164.44221955831,
+          "stockReserveMetres": -7464.44221955831,
+          "maxTankReserveMetres": -7254.44221955831
+        },
+        {
+          "checkpoint": 16,
+          "weightedMetres": 16018.098625432373,
+          "stockReserveMetres": -15318.098625432373,
+          "maxTankReserveMetres": -15108.098625432373
+        }
+      ]
+    },
+    {
+      "id": "foresthauler",
+      "stockFurthest": 11,
+      "maxTankFurthest": 12,
+      "stockRange": 1050,
+      "maxRange": 1365,
+      "gaps": [
+        {
+          "checkpoint": 1,
+          "weightedMetres": 180,
+          "stockReserveMetres": 870,
+          "maxTankReserveMetres": 1185
+        },
+        {
+          "checkpoint": 2,
+          "weightedMetres": 260,
+          "stockReserveMetres": 790,
+          "maxTankReserveMetres": 1105
+        },
+        {
+          "checkpoint": 3,
+          "weightedMetres": 340,
+          "stockReserveMetres": 710,
+          "maxTankReserveMetres": 1025
+        },
+        {
+          "checkpoint": 4,
+          "weightedMetres": 360.00101997656884,
+          "stockReserveMetres": 689.9989800234312,
+          "maxTankReserveMetres": 1004.9989800234312
+        },
+        {
+          "checkpoint": 5,
+          "weightedMetres": 400.03012567528367,
+          "stockReserveMetres": 649.9698743247163,
+          "maxTankReserveMetres": 964.9698743247163
+        },
+        {
+          "checkpoint": 6,
+          "weightedMetres": 440.09231702328225,
+          "stockReserveMetres": 609.9076829767178,
+          "maxTankReserveMetres": 924.9076829767178
+        },
+        {
+          "checkpoint": 7,
+          "weightedMetres": 500.0729528449401,
+          "stockReserveMetres": 549.9270471550599,
+          "maxTankReserveMetres": 864.9270471550599
+        },
+        {
+          "checkpoint": 8,
+          "weightedMetres": 560.0044556561352,
+          "stockReserveMetres": 489.9955443438648,
+          "maxTankReserveMetres": 804.9955443438648
+        },
+        {
+          "checkpoint": 9,
+          "weightedMetres": 630.0337458981548,
+          "stockReserveMetres": 419.96625410184515,
+          "maxTankReserveMetres": 734.9662541018452
+        },
+        {
+          "checkpoint": 10,
+          "weightedMetres": 710.0556219943564,
+          "stockReserveMetres": 339.94437800564356,
+          "maxTankReserveMetres": 654.9443780056436
+        },
+        {
+          "checkpoint": 11,
+          "weightedMetres": 804.2531024778982,
+          "stockReserveMetres": 245.7468975221018,
+          "maxTankReserveMetres": 560.7468975221018
+        },
+        {
+          "checkpoint": 12,
+          "weightedMetres": 1180.1576099403474,
+          "stockReserveMetres": -130.15760994034736,
+          "maxTankReserveMetres": 184.84239005965264
+        },
+        {
+          "checkpoint": 13,
+          "weightedMetres": 2880.3564096125956,
+          "stockReserveMetres": -1830.3564096125956,
+          "maxTankReserveMetres": -1515.3564096125956
+        },
+        {
+          "checkpoint": 14,
+          "weightedMetres": 4639.700746023034,
+          "stockReserveMetres": -3589.7007460230343,
+          "maxTankReserveMetres": -3274.7007460230343
+        },
+        {
+          "checkpoint": 15,
+          "weightedMetres": 8164.44221955831,
+          "stockReserveMetres": -7114.44221955831,
+          "maxTankReserveMetres": -6799.44221955831
+        },
+        {
+          "checkpoint": 16,
+          "weightedMetres": 16018.098625432373,
+          "stockReserveMetres": -14968.098625432373,
+          "maxTankReserveMetres": -14653.098625432373
+        }
+      ]
+    },
+    {
+      "id": "van",
+      "stockFurthest": 12,
+      "maxTankFurthest": 13,
+      "stockRange": 1200,
+      "maxRange": 1560,
+      "gaps": [
+        {
+          "checkpoint": 1,
+          "weightedMetres": 180,
+          "stockReserveMetres": 1020,
+          "maxTankReserveMetres": 1380
+        },
+        {
+          "checkpoint": 2,
+          "weightedMetres": 260,
+          "stockReserveMetres": 940,
+          "maxTankReserveMetres": 1300
+        },
+        {
+          "checkpoint": 3,
+          "weightedMetres": 340,
+          "stockReserveMetres": 860,
+          "maxTankReserveMetres": 1220
+        },
+        {
+          "checkpoint": 4,
+          "weightedMetres": 360.00101997656884,
+          "stockReserveMetres": 839.9989800234312,
+          "maxTankReserveMetres": 1199.9989800234312
+        },
+        {
+          "checkpoint": 5,
+          "weightedMetres": 400.03012567528367,
+          "stockReserveMetres": 799.9698743247163,
+          "maxTankReserveMetres": 1159.9698743247163
+        },
+        {
+          "checkpoint": 6,
+          "weightedMetres": 440.09231702328225,
+          "stockReserveMetres": 759.9076829767178,
+          "maxTankReserveMetres": 1119.9076829767178
+        },
+        {
+          "checkpoint": 7,
+          "weightedMetres": 500.0729528449401,
+          "stockReserveMetres": 699.9270471550599,
+          "maxTankReserveMetres": 1059.9270471550599
+        },
+        {
+          "checkpoint": 8,
+          "weightedMetres": 560.0044556561352,
+          "stockReserveMetres": 639.9955443438648,
+          "maxTankReserveMetres": 999.9955443438648
+        },
+        {
+          "checkpoint": 9,
+          "weightedMetres": 630.0337458981548,
+          "stockReserveMetres": 569.9662541018452,
+          "maxTankReserveMetres": 929.9662541018452
+        },
+        {
+          "checkpoint": 10,
+          "weightedMetres": 710.0556219943564,
+          "stockReserveMetres": 489.94437800564356,
+          "maxTankReserveMetres": 849.9443780056436
+        },
+        {
+          "checkpoint": 11,
+          "weightedMetres": 804.2531024778982,
+          "stockReserveMetres": 395.7468975221018,
+          "maxTankReserveMetres": 755.7468975221018
+        },
+        {
+          "checkpoint": 12,
+          "weightedMetres": 900.1524896054289,
+          "stockReserveMetres": 299.84751039457115,
+          "maxTankReserveMetres": 659.8475103945711
+        },
+        {
+          "checkpoint": 13,
+          "weightedMetres": 1440.1782048062978,
+          "stockReserveMetres": -240.1782048062978,
+          "maxTankReserveMetres": 119.8217951937022
+        },
+        {
+          "checkpoint": 14,
+          "weightedMetres": 2765.012051351438,
+          "stockReserveMetres": -1565.012051351438,
+          "maxTankReserveMetres": -1205.012051351438
+        },
+        {
+          "checkpoint": 15,
+          "weightedMetres": 5719.687719236162,
+          "stockReserveMetres": -4519.687719236162,
+          "maxTankReserveMetres": -4159.687719236162
+        },
+        {
+          "checkpoint": 16,
+          "weightedMetres": 12013.57396907428,
+          "stockReserveMetres": -10813.57396907428,
+          "maxTankReserveMetres": -10453.57396907428
+        }
+      ]
+    },
+    {
+      "id": "desertscout",
+      "stockFurthest": 13,
+      "maxTankFurthest": 13,
+      "stockRange": 1850,
+      "maxRange": 2405,
+      "gaps": [
+        {
+          "checkpoint": 1,
+          "weightedMetres": 180,
+          "stockReserveMetres": 1670,
+          "maxTankReserveMetres": 2225
+        },
+        {
+          "checkpoint": 2,
+          "weightedMetres": 260,
+          "stockReserveMetres": 1590,
+          "maxTankReserveMetres": 2145
+        },
+        {
+          "checkpoint": 3,
+          "weightedMetres": 340,
+          "stockReserveMetres": 1510,
+          "maxTankReserveMetres": 2065
+        },
+        {
+          "checkpoint": 4,
+          "weightedMetres": 360.00101997656884,
+          "stockReserveMetres": 1489.9989800234312,
+          "maxTankReserveMetres": 2044.9989800234312
+        },
+        {
+          "checkpoint": 5,
+          "weightedMetres": 400.03012567528367,
+          "stockReserveMetres": 1449.9698743247163,
+          "maxTankReserveMetres": 2004.9698743247163
+        },
+        {
+          "checkpoint": 6,
+          "weightedMetres": 440.09231702328225,
+          "stockReserveMetres": 1409.9076829767178,
+          "maxTankReserveMetres": 1964.9076829767178
+        },
+        {
+          "checkpoint": 7,
+          "weightedMetres": 500.0729528449401,
+          "stockReserveMetres": 1349.9270471550599,
+          "maxTankReserveMetres": 1904.9270471550599
+        },
+        {
+          "checkpoint": 8,
+          "weightedMetres": 560.0044556561352,
+          "stockReserveMetres": 1289.9955443438648,
+          "maxTankReserveMetres": 1844.9955443438648
+        },
+        {
+          "checkpoint": 9,
+          "weightedMetres": 630.0337458981548,
+          "stockReserveMetres": 1219.9662541018452,
+          "maxTankReserveMetres": 1774.9662541018452
+        },
+        {
+          "checkpoint": 10,
+          "weightedMetres": 710.0556219943564,
+          "stockReserveMetres": 1139.9443780056436,
+          "maxTankReserveMetres": 1694.9443780056436
+        },
+        {
+          "checkpoint": 11,
+          "weightedMetres": 804.2531024778982,
+          "stockReserveMetres": 1045.7468975221018,
+          "maxTankReserveMetres": 1600.7468975221018
+        },
+        {
+          "checkpoint": 12,
+          "weightedMetres": 900.1524896054289,
+          "stockReserveMetres": 949.8475103945711,
+          "maxTankReserveMetres": 1504.8475103945711
+        },
+        {
+          "checkpoint": 13,
+          "weightedMetres": 1440.1782048062978,
+          "stockReserveMetres": 409.8217951937022,
+          "maxTankReserveMetres": 964.8217951937022
+        },
+        {
+          "checkpoint": 14,
+          "weightedMetres": 2765.012051351438,
+          "stockReserveMetres": -915.012051351438,
+          "maxTankReserveMetres": -360.012051351438
+        },
+        {
+          "checkpoint": 15,
+          "weightedMetres": 5719.687719236162,
+          "stockReserveMetres": -3869.6877192361617,
+          "maxTankReserveMetres": -3314.6877192361617
+        },
+        {
+          "checkpoint": 16,
+          "weightedMetres": 12013.57396907428,
+          "stockReserveMetres": -10163.57396907428,
+          "maxTankReserveMetres": -9608.57396907428
+        }
+      ]
+    },
+    {
+      "id": "snowgrip",
+      "stockFurthest": 14,
+      "maxTankFurthest": 14,
+      "stockRange": 2400,
+      "maxRange": 3120,
+      "gaps": [
+        {
+          "checkpoint": 1,
+          "weightedMetres": 180,
+          "stockReserveMetres": 2220,
+          "maxTankReserveMetres": 2940
+        },
+        {
+          "checkpoint": 2,
+          "weightedMetres": 260,
+          "stockReserveMetres": 2140,
+          "maxTankReserveMetres": 2860
+        },
+        {
+          "checkpoint": 3,
+          "weightedMetres": 340,
+          "stockReserveMetres": 2060,
+          "maxTankReserveMetres": 2780
+        },
+        {
+          "checkpoint": 4,
+          "weightedMetres": 360.00101997656884,
+          "stockReserveMetres": 2039.9989800234312,
+          "maxTankReserveMetres": 2759.998980023431
+        },
+        {
+          "checkpoint": 5,
+          "weightedMetres": 400.03012567528367,
+          "stockReserveMetres": 1999.9698743247163,
+          "maxTankReserveMetres": 2719.9698743247163
+        },
+        {
+          "checkpoint": 6,
+          "weightedMetres": 440.09231702328225,
+          "stockReserveMetres": 1959.9076829767178,
+          "maxTankReserveMetres": 2679.9076829767178
+        },
+        {
+          "checkpoint": 7,
+          "weightedMetres": 500.0729528449401,
+          "stockReserveMetres": 1899.9270471550599,
+          "maxTankReserveMetres": 2619.92704715506
+        },
+        {
+          "checkpoint": 8,
+          "weightedMetres": 560.0044556561352,
+          "stockReserveMetres": 1839.9955443438648,
+          "maxTankReserveMetres": 2559.995544343865
+        },
+        {
+          "checkpoint": 9,
+          "weightedMetres": 630.0337458981548,
+          "stockReserveMetres": 1769.9662541018452,
+          "maxTankReserveMetres": 2489.966254101845
+        },
+        {
+          "checkpoint": 10,
+          "weightedMetres": 710.0556219943564,
+          "stockReserveMetres": 1689.9443780056436,
+          "maxTankReserveMetres": 2409.9443780056436
+        },
+        {
+          "checkpoint": 11,
+          "weightedMetres": 804.2531024778982,
+          "stockReserveMetres": 1595.7468975221018,
+          "maxTankReserveMetres": 2315.746897522102
+        },
+        {
+          "checkpoint": 12,
+          "weightedMetres": 900.1524896054289,
+          "stockReserveMetres": 1499.8475103945711,
+          "maxTankReserveMetres": 2219.847510394571
+        },
+        {
+          "checkpoint": 13,
+          "weightedMetres": 1440.1782048062978,
+          "stockReserveMetres": 959.8217951937022,
+          "maxTankReserveMetres": 1679.8217951937022
+        },
+        {
+          "checkpoint": 14,
+          "weightedMetres": 1874.6886946715967,
+          "stockReserveMetres": 525.3113053284033,
+          "maxTankReserveMetres": 1245.3113053284033
+        },
+        {
+          "checkpoint": 15,
+          "weightedMetres": 3274.933218914013,
+          "stockReserveMetres": -874.9332189140132,
+          "maxTankReserveMetres": -154.9332189140132
+        },
+        {
+          "checkpoint": 16,
+          "weightedMetres": 8009.049312716186,
+          "stockReserveMetres": -5609.049312716186,
+          "maxTankReserveMetres": -4889.049312716186
+        }
+      ]
+    },
+    {
+      "id": "snowrunner",
+      "stockFurthest": 14,
+      "maxTankFurthest": 15,
+      "stockRange": 2700,
+      "maxRange": 3510,
+      "gaps": [
+        {
+          "checkpoint": 1,
+          "weightedMetres": 180,
+          "stockReserveMetres": 2520,
+          "maxTankReserveMetres": 3330
+        },
+        {
+          "checkpoint": 2,
+          "weightedMetres": 260,
+          "stockReserveMetres": 2440,
+          "maxTankReserveMetres": 3250
+        },
+        {
+          "checkpoint": 3,
+          "weightedMetres": 340,
+          "stockReserveMetres": 2360,
+          "maxTankReserveMetres": 3170
+        },
+        {
+          "checkpoint": 4,
+          "weightedMetres": 360.00101997656884,
+          "stockReserveMetres": 2339.998980023431,
+          "maxTankReserveMetres": 3149.998980023431
+        },
+        {
+          "checkpoint": 5,
+          "weightedMetres": 400.03012567528367,
+          "stockReserveMetres": 2299.9698743247163,
+          "maxTankReserveMetres": 3109.9698743247163
+        },
+        {
+          "checkpoint": 6,
+          "weightedMetres": 440.09231702328225,
+          "stockReserveMetres": 2259.9076829767178,
+          "maxTankReserveMetres": 3069.9076829767178
+        },
+        {
+          "checkpoint": 7,
+          "weightedMetres": 500.0729528449401,
+          "stockReserveMetres": 2199.92704715506,
+          "maxTankReserveMetres": 3009.92704715506
+        },
+        {
+          "checkpoint": 8,
+          "weightedMetres": 560.0044556561352,
+          "stockReserveMetres": 2139.995544343865,
+          "maxTankReserveMetres": 2949.995544343865
+        },
+        {
+          "checkpoint": 9,
+          "weightedMetres": 630.0337458981548,
+          "stockReserveMetres": 2069.966254101845,
+          "maxTankReserveMetres": 2879.966254101845
+        },
+        {
+          "checkpoint": 10,
+          "weightedMetres": 710.0556219943564,
+          "stockReserveMetres": 1989.9443780056436,
+          "maxTankReserveMetres": 2799.9443780056436
+        },
+        {
+          "checkpoint": 11,
+          "weightedMetres": 804.2531024778982,
+          "stockReserveMetres": 1895.7468975221018,
+          "maxTankReserveMetres": 2705.746897522102
+        },
+        {
+          "checkpoint": 12,
+          "weightedMetres": 900.1524896054289,
+          "stockReserveMetres": 1799.8475103945711,
+          "maxTankReserveMetres": 2609.847510394571
+        },
+        {
+          "checkpoint": 13,
+          "weightedMetres": 1440.1782048062978,
+          "stockReserveMetres": 1259.8217951937022,
+          "maxTankReserveMetres": 2069.821795193702
+        },
+        {
+          "checkpoint": 14,
+          "weightedMetres": 1874.6886946715967,
+          "stockReserveMetres": 825.3113053284033,
+          "maxTankReserveMetres": 1635.3113053284033
+        },
+        {
+          "checkpoint": 15,
+          "weightedMetres": 3274.933218914013,
+          "stockReserveMetres": -574.9332189140132,
+          "maxTankReserveMetres": 235.0667810859868
+        },
+        {
+          "checkpoint": 16,
+          "weightedMetres": 8009.049312716186,
+          "stockReserveMetres": -5309.049312716186,
+          "maxTankReserveMetres": -4499.049312716186
+        }
+      ]
+    },
+    {
+      "id": "lavacrawler",
+      "stockFurthest": 15,
+      "maxTankFurthest": 15,
+      "stockRange": 3000,
+      "maxRange": 3900,
+      "gaps": [
+        {
+          "checkpoint": 1,
+          "weightedMetres": 180,
+          "stockReserveMetres": 2820,
+          "maxTankReserveMetres": 3720
+        },
+        {
+          "checkpoint": 2,
+          "weightedMetres": 260,
+          "stockReserveMetres": 2740,
+          "maxTankReserveMetres": 3640
+        },
+        {
+          "checkpoint": 3,
+          "weightedMetres": 340,
+          "stockReserveMetres": 2660,
+          "maxTankReserveMetres": 3560
+        },
+        {
+          "checkpoint": 4,
+          "weightedMetres": 360.00101997656884,
+          "stockReserveMetres": 2639.998980023431,
+          "maxTankReserveMetres": 3539.998980023431
+        },
+        {
+          "checkpoint": 5,
+          "weightedMetres": 400.03012567528367,
+          "stockReserveMetres": 2599.9698743247163,
+          "maxTankReserveMetres": 3499.9698743247163
+        },
+        {
+          "checkpoint": 6,
+          "weightedMetres": 440.09231702328225,
+          "stockReserveMetres": 2559.9076829767178,
+          "maxTankReserveMetres": 3459.9076829767178
+        },
+        {
+          "checkpoint": 7,
+          "weightedMetres": 500.0729528449401,
+          "stockReserveMetres": 2499.92704715506,
+          "maxTankReserveMetres": 3399.92704715506
+        },
+        {
+          "checkpoint": 8,
+          "weightedMetres": 560.0044556561352,
+          "stockReserveMetres": 2439.995544343865,
+          "maxTankReserveMetres": 3339.995544343865
+        },
+        {
+          "checkpoint": 9,
+          "weightedMetres": 630.0337458981548,
+          "stockReserveMetres": 2369.966254101845,
+          "maxTankReserveMetres": 3269.966254101845
+        },
+        {
+          "checkpoint": 10,
+          "weightedMetres": 710.0556219943564,
+          "stockReserveMetres": 2289.9443780056436,
+          "maxTankReserveMetres": 3189.9443780056436
+        },
+        {
+          "checkpoint": 11,
+          "weightedMetres": 804.2531024778982,
+          "stockReserveMetres": 2195.746897522102,
+          "maxTankReserveMetres": 3095.746897522102
+        },
+        {
+          "checkpoint": 12,
+          "weightedMetres": 900.1524896054289,
+          "stockReserveMetres": 2099.847510394571,
+          "maxTankReserveMetres": 2999.847510394571
+        },
+        {
+          "checkpoint": 13,
+          "weightedMetres": 1440.1782048062978,
+          "stockReserveMetres": 1559.8217951937022,
+          "maxTankReserveMetres": 2459.821795193702
+        },
+        {
+          "checkpoint": 14,
+          "weightedMetres": 1874.6886946715967,
+          "stockReserveMetres": 1125.3113053284033,
+          "maxTankReserveMetres": 2025.3113053284033
+        },
+        {
+          "checkpoint": 15,
+          "weightedMetres": 2444.7545003221476,
+          "stockReserveMetres": 555.2454996778524,
+          "maxTankReserveMetres": 1455.2454996778524
+        },
+        {
+          "checkpoint": 16,
+          "weightedMetres": 4004.524656358093,
+          "stockReserveMetres": -1004.5246563580931,
+          "maxTankReserveMetres": -104.52465635809313
+        }
+      ]
+    },
+    {
+      "id": "ashhauler",
+      "stockFurthest": 16,
+      "maxTankFurthest": 16,
+      "stockRange": 5000,
+      "maxRange": 6500,
+      "gaps": [
+        {
+          "checkpoint": 1,
+          "weightedMetres": 180,
+          "stockReserveMetres": 4820,
+          "maxTankReserveMetres": 6320
+        },
+        {
+          "checkpoint": 2,
+          "weightedMetres": 260,
+          "stockReserveMetres": 4740,
+          "maxTankReserveMetres": 6240
+        },
+        {
+          "checkpoint": 3,
+          "weightedMetres": 340,
+          "stockReserveMetres": 4660,
+          "maxTankReserveMetres": 6160
+        },
+        {
+          "checkpoint": 4,
+          "weightedMetres": 360.00101997656884,
+          "stockReserveMetres": 4639.998980023431,
+          "maxTankReserveMetres": 6139.998980023431
+        },
+        {
+          "checkpoint": 5,
+          "weightedMetres": 400.03012567528367,
+          "stockReserveMetres": 4599.969874324716,
+          "maxTankReserveMetres": 6099.969874324716
+        },
+        {
+          "checkpoint": 6,
+          "weightedMetres": 440.09231702328225,
+          "stockReserveMetres": 4559.907682976718,
+          "maxTankReserveMetres": 6059.907682976718
+        },
+        {
+          "checkpoint": 7,
+          "weightedMetres": 500.0729528449401,
+          "stockReserveMetres": 4499.92704715506,
+          "maxTankReserveMetres": 5999.92704715506
+        },
+        {
+          "checkpoint": 8,
+          "weightedMetres": 560.0044556561352,
+          "stockReserveMetres": 4439.995544343865,
+          "maxTankReserveMetres": 5939.995544343865
+        },
+        {
+          "checkpoint": 9,
+          "weightedMetres": 630.0337458981548,
+          "stockReserveMetres": 4369.966254101845,
+          "maxTankReserveMetres": 5869.966254101845
+        },
+        {
+          "checkpoint": 10,
+          "weightedMetres": 710.0556219943564,
+          "stockReserveMetres": 4289.944378005644,
+          "maxTankReserveMetres": 5789.944378005644
+        },
+        {
+          "checkpoint": 11,
+          "weightedMetres": 804.2531024778982,
+          "stockReserveMetres": 4195.746897522102,
+          "maxTankReserveMetres": 5695.746897522102
+        },
+        {
+          "checkpoint": 12,
+          "weightedMetres": 900.1524896054289,
+          "stockReserveMetres": 4099.847510394571,
+          "maxTankReserveMetres": 5599.847510394571
+        },
+        {
+          "checkpoint": 13,
+          "weightedMetres": 1440.1782048062978,
+          "stockReserveMetres": 3559.821795193702,
+          "maxTankReserveMetres": 5059.821795193702
+        },
+        {
+          "checkpoint": 14,
+          "weightedMetres": 1874.6886946715967,
+          "stockReserveMetres": 3125.3113053284033,
+          "maxTankReserveMetres": 4625.311305328403
+        },
+        {
+          "checkpoint": 15,
+          "weightedMetres": 2444.7545003221476,
+          "stockReserveMetres": 2555.2454996778524,
+          "maxTankReserveMetres": 4055.2454996778524
+        },
+        {
+          "checkpoint": 16,
+          "weightedMetres": 4004.524656358093,
+          "stockReserveMetres": 995.4753436419069,
+          "maxTankReserveMetres": 2495.475343641907
+        }
+      ]
+    },
+    {
+      "id": "bmwreward",
+      "stockFurthest": 16,
+      "maxTankFurthest": 16,
+      "stockRange": 6000,
+      "maxRange": 7800,
+      "gaps": [
+        {
+          "checkpoint": 1,
+          "weightedMetres": 180,
+          "stockReserveMetres": 5820,
+          "maxTankReserveMetres": 7620
+        },
+        {
+          "checkpoint": 2,
+          "weightedMetres": 260,
+          "stockReserveMetres": 5740,
+          "maxTankReserveMetres": 7540
+        },
+        {
+          "checkpoint": 3,
+          "weightedMetres": 340,
+          "stockReserveMetres": 5660,
+          "maxTankReserveMetres": 7460
+        },
+        {
+          "checkpoint": 4,
+          "weightedMetres": 360.00101997656884,
+          "stockReserveMetres": 5639.998980023431,
+          "maxTankReserveMetres": 7439.998980023431
+        },
+        {
+          "checkpoint": 5,
+          "weightedMetres": 400.03012567528367,
+          "stockReserveMetres": 5599.969874324716,
+          "maxTankReserveMetres": 7399.969874324716
+        },
+        {
+          "checkpoint": 6,
+          "weightedMetres": 440.09231702328225,
+          "stockReserveMetres": 5559.907682976718,
+          "maxTankReserveMetres": 7359.907682976718
+        },
+        {
+          "checkpoint": 7,
+          "weightedMetres": 500.0729528449401,
+          "stockReserveMetres": 5499.92704715506,
+          "maxTankReserveMetres": 7299.92704715506
+        },
+        {
+          "checkpoint": 8,
+          "weightedMetres": 560.0044556561352,
+          "stockReserveMetres": 5439.995544343865,
+          "maxTankReserveMetres": 7239.995544343865
+        },
+        {
+          "checkpoint": 9,
+          "weightedMetres": 630.0337458981548,
+          "stockReserveMetres": 5369.966254101845,
+          "maxTankReserveMetres": 7169.966254101845
+        },
+        {
+          "checkpoint": 10,
+          "weightedMetres": 710.0556219943564,
+          "stockReserveMetres": 5289.944378005644,
+          "maxTankReserveMetres": 7089.944378005644
+        },
+        {
+          "checkpoint": 11,
+          "weightedMetres": 804.2531024778982,
+          "stockReserveMetres": 5195.746897522102,
+          "maxTankReserveMetres": 6995.746897522102
+        },
+        {
+          "checkpoint": 12,
+          "weightedMetres": 900.1524896054289,
+          "stockReserveMetres": 5099.847510394571,
+          "maxTankReserveMetres": 6899.847510394571
+        },
+        {
+          "checkpoint": 13,
+          "weightedMetres": 1440.1782048062978,
+          "stockReserveMetres": 4559.821795193702,
+          "maxTankReserveMetres": 6359.821795193702
+        },
+        {
+          "checkpoint": 14,
+          "weightedMetres": 1874.6886946715967,
+          "stockReserveMetres": 4125.311305328403,
+          "maxTankReserveMetres": 5925.311305328403
+        },
+        {
+          "checkpoint": 15,
+          "weightedMetres": 2444.7545003221476,
+          "stockReserveMetres": 3555.2454996778524,
+          "maxTankReserveMetres": 5355.245499677852
+        },
+        {
+          "checkpoint": 16,
+          "weightedMetres": 4004.524656358093,
+          "stockReserveMetres": 1995.4753436419069,
+          "maxTankReserveMetres": 3795.475343641907
+        }
+      ]
+    }
+  ]
+}

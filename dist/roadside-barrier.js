@@ -1,3 +1,10 @@
+// Scale a tier about the wall's depth center. Anchoring every tier to the
+// rear edge makes their overlapping vertical ranges render on the same plane.
+export function barrierTierDepth(near,depth,scale=1){
+ const inset=depth*(1-scale)/2;
+ return {near:near+inset,far:near+depth-inset};
+}
+
 // A roadside wall is a sweep of shared cross-sections, never overlapping boxes.
 // Vertices are shared along each face (smooth bends), but split at the four
 // profile corners (crisp steel/stone edges). Only real run ends receive caps.

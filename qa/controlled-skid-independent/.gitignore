@@ -1,0 +1,6 @@
+# Generated evidence can be recreated with README commands.
+*.log
+*.exit
+*-report.json
+baseline-*.json
+npm-baseline-comparison.json

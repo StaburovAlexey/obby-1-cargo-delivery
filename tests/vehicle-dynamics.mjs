@@ -122,7 +122,7 @@ check('Every vehicle reaches its 11 / 17 / 24 m/s governed speed without oversho
     return { maxSpeed, timeTo90: +timeTo90.toFixed(3) };
   });
 });
-check('Maximum steering produces small controlled slip across all vehicle tiers', () => {
+check('Maximum steering produces bounded recoverable slip across all vehicle tiers', () => {
   return [11, 17, 24].map(maxSpeed => {
     const m = createDrivingModel({ x: 0, z: 0, maxSpeed }); m.setInput({ active: true }); run(m, 5);
     m.setInput({ active: true, steering: 1 }); let maxSlip = 0, maxYaw = 0;
@@ -131,10 +131,11 @@ check('Maximum steering produces small controlled slip across all vehicle tiers'
       const lateral = Math.cos(m.state.heading) * m.state.velocityX - Math.sin(m.state.heading) * m.state.velocityZ;
       const slip = Math.abs(Math.atan2(lateral, m.state.speed));
       maxSlip = Math.max(maxSlip, slip); maxYaw = Math.max(maxYaw, Math.abs(m.state.angularVelocity));
-      assert.ok(slip < 0.13, `Excessive body slip ${slip}`);
-      assert.ok(Math.abs(m.state.angularVelocity) < 1.05);
-      assert.ok(m.state.speed > maxSpeed * 0.93);
+      assert.ok(slip < 0.22, `Excessive body slip ${slip}`);
+      assert.ok(Math.abs(m.state.angularVelocity) < 1.35);
+      assert.ok(m.state.speed > maxSpeed * 0.8, 'Controlled skid remains forward and retains momentum');
     }
+    assert.ok(maxSlip > .035, 'Sharp steering produces noticeable slip');
     m.setInput({ active: true, steering: 0 }); run(m, 4);
     assert.ok(Math.abs(m.state.angularVelocity) < 0.004);
     const lateral = Math.cos(m.state.heading) * m.state.velocityX - Math.sin(m.state.heading) * m.state.velocityZ;
@@ -168,7 +169,7 @@ check('Forward and reverse steer in opposite yaw directions without unstable rev
     const m = createDrivingModel(); m.setGear(gear); m.setInput({ active: true, steering: 0.65 }); run(m, 8);
     assert.equal(Math.sign(m.state.angularVelocity), gear === 'D' ? -1 : 1);
     assert.equal(Math.sign(m.state.speed), gear === 'D' ? 1 : -1);
-    assert.ok(Math.abs(m.state.angularVelocity) < 0.7);
+    assert.ok(Math.abs(m.state.angularVelocity) < (gear === 'D' ? 1.35 : .7));
   }
 });
 check('Flat release coasts, reaches rest, and stops all wheel/body motion after settling', () => {

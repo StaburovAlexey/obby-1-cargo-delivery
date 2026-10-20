@@ -1,0 +1,191 @@
+{
+  "status": "PASS_WITH_REPRODUCED_BASELINE_FAILURES",
+  "generatedAt": "2026-10-19T19:28:24.499702+00:00",
+  "baselineCommit": "3781018ee597b4ec16e7499163869c6ba9236440",
+  "runtimeSha256": {
+    "app.js": "d11b30a5bfa374c22c974d94441c37bca5d539ec2669e97facfed6ca24acc3ee",
+    "biome-surfaces.js": "c9fa2f4bc1bd867de09b0d4a718f9c0b68194433c5a9412920728a92324a7dbd",
+    "canyon-rocks.js": "30bf714e10f313599b48f2e6cfcdc472c91f1e7a04b767860383576296f2af94",
+    "drift-dynamics.js": "59aec3feffbb048a90953e85651187631afa2ed3925902b738a76e3319896c89",
+    "driving-model.js": "15be026286ca8c79a60317e83339dc6668ea2daf9163cea5e3467eb520673540",
+    "economy-config.js": "ec67466da62d68a9ed2da9380d68f4fde1ec549a82053b37023e8e91a1852989",
+    "network-scene.js": "bdfa0b96f8f2fc6375f628c5e3bd2c68c3a95014b230cedcd3f26973ca84a48b",
+    "road-bridges.js": "34c679d18625ad1fd6c6c5c2834c4277d3f15b8f83acbf56c7a870a738859e95",
+    "road-hazards.js": "c13aa40d339da1a0e0543637488ce2edb74181665f1d83aded037206f5bc1232",
+    "route-network-config.js": "371e7da7dfb8233ea194fb8bf50f550a205061a930c928089acab681a1f69c3a",
+    "route-network.js": "90cf8706454c0d9fa5872734f5cbdd3476f4cff05b10f9e756fbadb760c15dc7",
+    "vehicle-upgrades.js": "11168cb45880503a7505002e39e203f7ec478d93d62449ee5a0b357405d596fb"
+  },
+  "cpuSolver": {
+    "passed": true,
+    "counts": {
+      "matrix": 162,
+      "slopes": 360,
+      "ownMaximum": 30,
+      "wrongBiome": 20,
+      "bmw": 45,
+      "lowSpeed": 60,
+      "passiveSamples": 2000
+    },
+    "maximum15_30_60HzStateError": 0,
+    "stockFullSteerPeakDegrees": [
+      7.693397,
+      12.982041
+    ],
+    "controlUpgrades10AtSameSpeedPeakDegrees": [
+      3.540196,
+      9.454103
+    ],
+    "allUpgrades10AtOwnTopSpeedPeakDegrees": [
+      5.066373,
+      10.276025
+    ],
+    "controlImprovementMonotonicWithAndWithoutSpeedUpgrade": true,
+    "wrongBiomeStockTrajectoryError": 0,
+    "bmwTrajectoryError": 0,
+    "lowSpeedForwardReverseTrajectoryError": 0,
+    "baselineAndCurrentStockPeakDegrees": [
+      {
+        "vehicle": "pickup",
+        "baselinePeak": 1.706774,
+        "currentPeak": 10.688981
+      },
+      {
+        "vehicle": "citycourier",
+        "baselinePeak": 1.401499,
+        "currentPeak": 12.086984
+      },
+      {
+        "vehicle": "rover",
+        "baselinePeak": 1.012802,
+        "currentPeak": 11.398022
+      },
+      {
+        "vehicle": "foresthauler",
+        "baselinePeak": 1.080198,
+        "currentPeak": 12.982041
+      },
+      {
+        "vehicle": "van",
+        "baselinePeak": 2.219608,
+        "currentPeak": 12.590988
+      },
+      {
+        "vehicle": "desertscout",
+        "baselinePeak": 2.822885,
+        "currentPeak": 11.741229
+      },
+      {
+        "vehicle": "snowgrip",
+        "baselinePeak": 7.01656,
+        "currentPeak": 12.662895
+      },
+      {
+        "vehicle": "snowrunner",
+        "baselinePeak": 7.601337,
+        "currentPeak": 12.475653
+      },
+      {
+        "vehicle": "lavacrawler",
+        "baselinePeak": 2.890444,
+        "currentPeak": 8.84582
+      },
+      {
+        "vehicle": "ashhauler",
+        "baselinePeak": 2.991292,
+        "currentPeak": 7.693397
+      }
+    ]
+  },
+  "isolatedBridgeAndObstacleSolver": {
+    "passed": true,
+    "realBridgeCrossings": 450,
+    "actualGlbWheelMetadata": true,
+    "maximumBridgeCenterErrorMeters": 0.01390085674174617,
+    "maximumBridgeSlipDegrees": 0.11560704525760399,
+    "cautiousSyntheticEvasions": 90,
+    "cautiousObstacleContacts": 0,
+    "diagnosticFastEvasions": 90,
+    "diagnosticFastContacts": [
+      {
+        "vehicle": "desertscout",
+        "level": 0,
+        "fps": 15,
+        "peakSlipDegrees": 23.96437
+      },
+      {
+        "vehicle": "desertscout",
+        "level": 0,
+        "fps": 30,
+        "peakSlipDegrees": 19.378505
+      },
+      {
+        "vehicle": "desertscout",
+        "level": 0,
+        "fps": 60,
+        "peakSlipDegrees": 16.063235
+      }
+    ],
+    "fastCaseInterpretation": "Stock desertscout contacts the conservative obstacle in the fast lane change at all three frame rates. All cautious and upgraded cases clear. This is an intentionally aggressive diagnostic, not an unconditional full-throttle safety gate."
+  },
+  "actualApplicationFrames": {
+    "passed": true,
+    "validatedCases": 189,
+    "caseCounts": {
+      "bridge": 90,
+      "technical": 72,
+      "obstacle": 27
+    },
+    "allPassedWithoutContactOrFall": true,
+    "actualVehicleMetadata": true,
+    "postSpawnPoseSpeedFuelMutations": 0,
+    "maximumBridgeErrorMeters": 0.01614837063597463,
+    "maximumCarefulTechnicalErrorMeters": 0.3056810671608217,
+    "maximumBriskTechnicalErrorMeters": 0.9272461559955574,
+    "movingObstacleManeuver": "Start on centerline, move to the predicted wider side, pass the production moving barrier, and return to centerline using only public throttle/steering input.",
+    "simulationBudgetPerRealSecondAt15Fps": 0.75,
+    "simulationBudgetPerRealSecondAt30And60Fps": 1
+  },
+  "routeGeometry": {
+    "passed": true,
+    "routeSamples": 15850,
+    "levelServiceShelfSamples": 861,
+    "bridges": 25,
+    "maximumBridgeApproachCurvature": 0.0012833303323487718,
+    "maximumRouteCurvature": 0.021816615649929125,
+    "minimumCenterlineTurnRadiusMeters": 45.83662361046584,
+    "maximumGrade": 0.08250161056565107,
+    "gradeNote": "The 8.25016% fork maximum is unchanged from baseline; older 7.5% documentation was not an accurate bound.",
+    "movingHazards": 28
+  },
+  "regressions": {
+    "canyon": {
+      "passed": 113,
+      "total": 113
+    },
+    "handlingGripAggregate": "PASS",
+    "npmTest": {
+      "baselinePassingIntegrationChecks": 6,
+      "finalPassingIntegrationChecks": 6,
+      "integrationChecks": 11,
+      "identicalInheritedFailureNames": [
+        "Held wheel plus a second-pointer gear change brakes before rolling in reverse",
+        "Blur, resize and hidden-tab safety resets clear every planar momentum channel",
+        "Overview pause, garage return and re-entry clear stale forces, spin and teleport distance",
+        "Empty fuel with sideways/angular momentum returns safely and cannot pay a coincident delivery",
+        "All ten vehicle configurations retain finite dynamics and their own fuel accounting"
+      ]
+    },
+    "progressionHud": "Exact baseline reproduction: actual Купить 1000; expected Купить Класс 2 · 500.",
+    "fixedFinding": "City route initially removed one fitted canyon-frontage residence. Scene generator fixed; original frontage and all canyon tests now pass.",
+    "intentionalFixtureChange": "Only ordinary-vehicle trajectory fixture in canyon-driving.mjs changed to controlled-skid-vehicles.json; BMW assertions retained."
+  },
+  "limitations": [
+    "CPU solver tests are not rendering benchmarks.",
+    "Application frames use mocked DOM/WebGL and deterministic public model inputs, not human touch gestures.",
+    "The existing 50ms app cap causes 25% simulation slowdown at 15 fps; this is not realtime 15 fps equivalence.",
+    "Isolated spans do not establish complete fuel-economy journeys.",
+    "No Android, GPU, browser visual or human-feel claim; parent owns separate browser verification.",
+    "Build, online and platform checks are owned by the parent and are not duplicated in this report."
+  ]
+}

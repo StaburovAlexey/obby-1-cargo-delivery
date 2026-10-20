@@ -3,12 +3,12 @@ import fs from 'node:fs';
 import {createDrivingModel,evaluateVehicleForces} from '../dist/driving-model.js';
 import {VEHICLE_CONFIG,vehicleConfig} from '../dist/economy-config.js';
 import {surfaceForBiome} from '../dist/biome-surfaces.js';
-const before=JSON.parse(fs.readFileSync(new URL('./fixtures/handling-grip-vehicles.json',import.meta.url)));
+const before=JSON.parse(fs.readFileSync(new URL('./fixtures/controlled-skid-vehicles.json',import.meta.url)));
 for(const v of VEHICLE_CONFIG.filter(v=>!v.rewardOnly)){
  const options={vehicleId:v.id,maxSpeed:v.maxSpeed,groundSurface:()=>surfaceForBiome('city',v.id)};
  const a=createDrivingModel(options);
  for(let i=0;i<900;i++){const input={active:i<700,steering:Math.sin(i*.01)*.6};a.setInput(input);a.step(1/60);}
- for(const k of ['x','z','heading','velocityX','velocityZ','angularVelocity','speed'])assert.equal(a.state[k],before[v.id][k],`${v.id} rebalance ${k}`);
+ for(const k of ['x','z','heading','velocityX','velocityZ','angularVelocity','speed'])assert.equal(a.state[k],before[v.id][k],`${v.id} controlled-skid ${k}`);
 }
 const spec=vehicleConfig('bmwreward');assert(spec.rewardOnly&&spec.rewardDrift);
 const options={vehicleId:spec.id,maxSpeed:spec.maxSpeed,groundSurface:()=>surfaceForBiome('city',spec.id)};

@@ -32,7 +32,7 @@ export default defineConfig(({env})=>{
     copy: [
 
 
-      { from: './dist/assets', to: 'assets', globOptions: { ignore: ['**/*.glb'] } },
+      { from: './dist/assets', to: 'assets', globOptions: { ignore: ['**/*.glb', '**/liveries/**'] } },
       { from: './dist/vendor/THREE-LICENSE.txt', to: 'licenses/THREE-LICENSE.txt' },
       ...(vk?[{from:'./publishing/yandex/inapp/icons',to:'assets/inapp'}]:[]),
       ...(vk?[{from:'./node_modules/@vkontakte/vk-bridge/LICENSE',to:'licenses/VK-BRIDGE-LICENSE.txt'}]:[]),
@@ -47,7 +47,7 @@ export default defineConfig(({env})=>{
     setup(api) {
       api.modifyHTML(html => html
 
-        .replace(/\s*<link rel="stylesheet" href="\.\/(?:style|vehicle-controls|progression-ui|settings-menu|hangar-drift-leaderboard|online-ui|canyon-ui)\.css"\s*\/?>/g, '')
+        .replace(/\s*<link rel="stylesheet" href="\.\/(?:style|vehicle-controls|progression-ui|settings-menu|hangar-drift-leaderboard|vehicle-livery-shop|online-ui|canyon-ui|modal-ui)\.css"\s*\/?>/g, '')
         .replace(/\s*<script type="importmap">[\s\S]*?<\/script>/g, '')
         .replace(/\s*<script type="module">[\s\S]*?<\/script>/g, ''));
     },

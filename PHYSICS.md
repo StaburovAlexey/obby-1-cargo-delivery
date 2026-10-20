@@ -1,3 +1,12 @@
+# Controlled-skid calibration (2026-10-19)
+
+Ordinary vehicles now use bounded, corner-load-dependent rear-tire compliance
+above maneuvering speed. Grip controls breakaway and recovery; handling controls
+the driver's rack/countersteering response. Low-speed/reverse precision and the
+BMW drift solver are preserved. See [controlled skid](docs/controlled-skid.md)
+for the current contract, measurements, and verification limits. This supersedes
+the ordinary-car high-speed slip thresholds in the historical sections below.
+
 # Current handling/grip calibration (2026-10-18)
 
 The regular-car steering limiter, speed-dependent rack response and tire stiffness now use the [handling/grip rebalance](docs/handling-grip-rebalance.md). It supersedes the historical exact-trajectory and upgrade claims below. Four contact-patch tire forces and the friction circle remain authoritative; BMW retains its original stock drift with working upgrades.

@@ -1,0 +1,68 @@
+{
+  "pickup": {
+    "neon": "branching circuit boards",
+    "anime": "pink-cap courier and cherry blossoms",
+    "racing": "blue diagonal STREET01 checker",
+    "biome": "gold city map and skyline"
+  },
+  "citycourier": {
+    "neon": "torn claw geometry",
+    "anime": "orange-cap courier and origami planes",
+    "racing": "red endurance INTERCEPT02",
+    "biome": "copper metro and bridge"
+  },
+  "rover": {
+    "neon": "coral mountain zigzags",
+    "anime": "teal-haired explorer and compass stars",
+    "racing": "orange framed03 checker bands",
+    "biome": "green contour pine forest"
+  },
+  "foresthauler": {
+    "neon": "lime sweeping blades",
+    "anime": "auburn forest ranger and fern trees",
+    "racing": "cyan chevron TIMBER RUN04",
+    "biome": "olive cream mountain silhouettes"
+  },
+  "van": {
+    "neon": "pink cyan ribbon sawteeth",
+    "anime": "silver-blue pilot and orbital rings",
+    "racing": "vermilion cream muscle stripes05",
+    "biome": "terracotta dunes and sunset"
+  },
+  "desertscout": {
+    "neon": "orange radial sunburst",
+    "anime": "purple-haired scout and desert stars",
+    "racing": "yellow DUNE SPRINT06 arrows",
+    "biome": "cream angular canyon strata"
+  },
+  "snowgrip": {
+    "neon": "icy spear and crescent geometry",
+    "anime": "auburn snow pilot and cyan peaks",
+    "racing": "blue yellow ICE RALLY07",
+    "biome": "blue white glacier crystals"
+  },
+  "snowrunner": {
+    "neon": "cyan magenta ECG mountains",
+    "anime": "white-haired male polar explorer",
+    "racing": "orange navy POLAR RUN08 brushwork",
+    "biome": "navy compass icebergs contours"
+  },
+  "lavacrawler": {
+    "neon": "lime lightning and purple facets",
+    "anime": "black-haired orange pilot cat headset",
+    "racing": "scarlet white arrow racing09",
+    "biome": "broad lava fissures and sparks"
+  },
+  "ashhauler": {
+    "neon": "cyan magenta prismatic tessellation",
+    "anime": "black bob red clip woman and ribbons",
+    "racing": "yellow black asymmetrical10 geometry",
+    "biome": "grey ash slabs and narrow orange seams"
+  },
+  "bmwreward": {
+    "neon": "concentric drift-vortex circuits",
+    "anime": "long black-haired red-white racer and blossoms",
+    "racing": "turquoise DRIFT CLUB11 flowing strokes",
+    "biome": "gold laurels trophy and black filigree"
+  }
+}

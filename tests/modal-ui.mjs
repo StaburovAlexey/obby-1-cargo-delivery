@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {modalPart,MODAL_PARTS} from '../dist/modal-ui.js';
+const read=p=>fs.readFileSync(new URL('../'+p,import.meta.url),'utf8');
+const html=read('dist/index.html'),css=read('dist/modal-ui.css');
+test('shared presentation primitives are explicit and reject unknown parts',()=>{assert.equal(modalPart('panel','shop'),'game-modal-panel shop');assert.equal(modalPart('close'),'game-modal-close');assert.throws(()=>modalPart('missing'));assert.ok(Object.isFrozen(MODAL_PARTS));});
+test('every static blocking dialog opts into shared panel and backdrop',()=>{const dialogs=[...html.matchAll(/<section\b([^>]*role="dialog"[^>]*)>/g)];assert.equal(dialogs.length,6);for(const [,attrs]of dialogs)assert.match(attrs,/class="game-modal-panel"/);for(const id of ['settings','upgrade','career','delivery-receipt','biome','hangar-drift'])assert.match(html,new RegExp(`id="${id}-menu" class="game-modal"`));assert.match(html,/id="canyon-panel" role="region"/);});
+test('every close uses the same primitive without changing its lifecycle ID',()=>{for(const id of ['settings','upgrade','career','delivery-receipt','biome','hangar-drift'])assert.match(html,new RegExp(`id="${id}-close" class="game-modal-close"[^>]*>×</button>`));const shop=read('dist/vehicle-livery-shop.js');for(const id of ['menu','panel','close'])assert.match(shop,new RegExp(`id: 'vehicle-livery-${id}'`));assert.match(shop,/modalPart\('panel', 'vehicle-livery-panel'\)/);});
+test('reference theme is central, safe-area aware and wins legacy ID shells',()=>{for(const token of ['--modal-surface:#243f85','--modal-close:#db5367','--modal-action:#204a72','box-sizing:border-box','100dvh','safe-area-inset-left','position:sticky','overscroll-behavior:contain',':focus-visible'])assert.ok(css.includes(token),token);assert.match(css,/:is\(#settings-panel,[^)]+\)\.game-modal-panel\{/);assert.doesNotMatch(read('dist/style.css'),/#biome-go-\w+\s*\{[^}]+!important/);});
+test('both source and production paths load the shared stylesheet after legacy styles',()=>{assert.ok(html.indexOf('./modal-ui.css')>html.indexOf('./settings-menu.css'));assert.ok(read('scripts/rsbuild-entry.js').includes("import '../dist/modal-ui.css'"));assert.match(read('rsbuild.config.mjs'),/canyon-ui\|modal-ui/);});

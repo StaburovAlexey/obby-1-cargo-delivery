@@ -26,11 +26,11 @@ export function upgradeValuePresentation(stat,offer){
   };
   if(stat==='handling')return {
     value:pair(current.steeringResponseSeconds*1000,next.steeringResponseSeconds*1000,n=>String(Math.round(n)),'мс'),
-    detail:'Отклик руля на малой скорости: меньше — быстрее. Управление: '+pair(current.handling,next.handling,n=>decimal(n,3)),
+    detail:'Отклик руля: меньше — быстрее. Контроль заноса и управление: '+pair(current.handling,next.handling,n=>decimal(n,3)),
   };
   if(stat==='grip')return {
     value:pair(current.grip,next.grip,n=>decimal(n,3)),
-    detail:'Коэффициент бокового сцепления и торможения: больше — лучше',
+    detail:'Сцепление: позже срыв в занос, быстрее восстановление и лучше торможение',
   };
   return {
     value:pair(current.capacity,next.capacity,compactDecimal,'ед.'),
