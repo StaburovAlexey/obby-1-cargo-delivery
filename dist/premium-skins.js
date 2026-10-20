@@ -1,10 +1,10 @@
 export const PREMIUM_SKIN_IDS = Object.freeze(['dancing-npc-girl', 'jandel', 'kreekcraft', 'spyder-sammy', 'spider-man', 'jeff-the-killer']);
 export const premiumProductId = characterId => `skin_${characterId}`;
-const productCharacters = new Map(PREMIUM_SKIN_IDS.map(id => [premiumProductId(id), id]));
 
 
 
-export function createPremiumSkins({ platform, onChange, onBusy } = {}) {
+export function createPremiumSkins({ platform, onChange, onBusy, ids = PREMIUM_SKIN_IDS, productId = premiumProductId } = {}) {
+  const productCharacters = new Map(ids.map(id => [productId(id), id]));
   if (!platform) throw new Error('Premium platform required');
   const ownedIds = new Set(), catalog = new Map();
   const status = { available: false, failed: false, reason: null, busy: false, entitlementsConfirmed:false };
@@ -44,13 +44,13 @@ export function createPremiumSkins({ platform, onChange, onBusy } = {}) {
     subscribe(listener){listeners.add(listener);return ()=>listeners.delete(listener);},
     async purchase(characterId) {
       if (ownedIds.has(characterId)) return true;
-      if (!PREMIUM_SKIN_IDS.includes(characterId) || !catalog.has(characterId) || buying) return false;
+      if (!ids.includes(characterId) || !catalog.has(characterId) || buying) return false;
       buying = true; status.busy = true; onBusy?.(true); changed();
       try {
         let purchaseError;
         try {
-          const purchase = await platform.purchase(premiumProductId(characterId));
-          if (purchase?.productID === premiumProductId(characterId)) ownedIds.add(characterId);
+          const purchase = await platform.purchase(productId(characterId));
+          if (purchase?.productID === productId(characterId)) ownedIds.add(characterId);
           else purchaseError = new Error('Unconfirmed Yandex purchase');
         } catch (error) { purchaseError = error; }
 

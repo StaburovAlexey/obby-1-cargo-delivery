@@ -15,7 +15,7 @@ function make(options={}) {
    for(const vehicle of garage.vehicles){
     const group=new THREE.Group(),mesh=new THREE.Mesh(new THREE.BoxGeometry(4.65,3.5,8.64),new THREE.MeshStandardMaterial({color:0x334455}));
     mesh.position.y=1.8;group.add(mesh);vehicle.root.add(group);
-    vehicle.visual={group,mesh,metadata:{bounds:{min:[-2.325,.05,-4.32],max:[2.325,3.55,4.32]},groundClearance:.05}};
+    vehicle.visual={group,body:group,mesh,metadata:{bounds:{min:[-2.325,.05,-4.32],max:[2.325,3.55,4.32]},groundClearance:.05}};
    }
   },
   createLiveryShop(doc,callbacks){state.shop=createVehicleLiveryShop(doc,callbacks);return state.shop;},
@@ -206,5 +206,18 @@ test('category navigation routes seven neon colors to isolated BMW preview and c
   shop.setSection('neon');await settle();assert.ok(f.livery.controllers[0].closed>0);
   shop.close();assert.ok(f.livery.neons[0].closed>1);
   f.win.dispatch('pagehide',{persisted:false});assert.equal(f.livery.neons[0].disposed,true);
+ }finally{f.dispose();}
+});
+
+// Missing host wiring would leave this button inert or apply only to the preview.
+test('a neon bought in the real shop equips every hangar car and can be disabled',async()=>{
+ const f=make();try{
+  f.debug.gameplay.state.money=100000;
+  const shop=f.livery.shop;shop.open();shop.setSection('neon');shop.previewNeon('blue');await settle();
+  f.ids.get('vehicle-neon-apply').dispatch('click');await settle();f.frame();
+  assert.equal(f.debug.gameplay.state.money,50000);assert.equal(f.debug.gameplay.state.selectedNeonId,'blue');
+  for(const car of f.debug.garage.vehicles){const neon=car.visual.body.getObjectByName('vehicle-underglow');assert.ok(neon?.visible,car.id);assert.equal(neon.children[0].material.color.getHex(),0x3575ff);}
+  f.ids.get('vehicle-neon-disable').dispatch('click');f.frame();assert.equal(f.debug.gameplay.state.selectedNeonId,null);
+  for(const car of f.debug.garage.vehicles)assert.equal(car.visual.body.getObjectByName('vehicle-underglow').visible,false);
  }finally{f.dispose();}
 });

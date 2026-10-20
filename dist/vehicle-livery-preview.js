@@ -10,6 +10,8 @@ export function cloneVehicleForLiveryPreview(adapter) {
     source.children.forEach((child, index) => pair(child, clone.children[index]));
   };
   pair(adapter.group, group);
+  // World underglow is previewed separately; never duplicate its shared materials.
+  for(const [original,clone]of mapping)if(original.name==='vehicle-underglow')clone.removeFromParent();
   const body = mapping.get(adapter.body);
   if (!body) throw new TypeError('Vehicle body must belong to its group.');
   group.position.set(0, 0, 0);

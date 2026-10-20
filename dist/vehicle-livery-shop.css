@@ -22,10 +22,9 @@
 @media(max-height:500px) and (min-width:601px){.vehicle-livery-menu{padding:8px}.vehicle-livery-panel{width:min(48vw,440px);border-radius:16px}.vehicle-livery-heading{padding:9px 12px}.vehicle-livery-heading h2{font-size:22px}.item-carousel-viewport{height:165px}}
 @media(prefers-reduced-motion:reduce){.item-carousel{scroll-behavior:auto}}
 /* Category illustrations contain no lettering; every caption is live localized text. */
-.vehicle-shop-back{flex:none;width:38px;height:40px;padding:0;font-size:30px;line-height:1;cursor:pointer}
 .vehicle-livery-heading-text{flex:1}
 .vehicle-shop-categories{display:grid;gap:16px;padding:16px;overflow-y:auto;min-height:0;overscroll-behavior:contain}
-.vehicle-shop-category{position:relative;display:block;width:100%;padding:0;overflow:hidden;border:0;border-radius:16px;background:none;cursor:pointer;aspect-ratio:2/1;flex:none}
+.vehicle-shop-category{position:relative;display:block;width:100%;padding:0;overflow:hidden;border:0;border-radius:8% / 16%;background:none;box-shadow:none;cursor:pointer;aspect-ratio:2/1;flex:none}
 .vehicle-shop-category img{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none}
 .vehicle-shop-category-title{position:absolute;left:7%;right:7%;bottom:9%;font-family:inherit;font-weight:900;font-size:clamp(19px,4.5vw,29px);line-height:1.05;color:white;text-align:center;text-shadow:0 3px 0 #06172f,2px 0 0 #06172f,-2px 0 0 #06172f,0 -2px 0 #06172f;pointer-events:none}
 .vehicle-neon-panel{padding:0 10px 22px;overflow-y:auto;min-height:0;touch-action:pan-y}
@@ -33,3 +32,5 @@
 .vehicle-neon-color{font-weight:800;text-align:center;margin:0 0 5px;font-size:19px}
 .vehicle-neon-note{font-size:13px;text-align:center;opacity:.7;margin:0}
 @media(max-width:600px){.vehicle-shop-categories{padding:12px;gap:12px}.vehicle-shop-category-title{font-size:clamp(19px,5.4vw,28px)}}
+
+.vehicle-neon-apply,.vehicle-neon-disable{display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;width:min(100%,340px);margin:12px auto 0}.vehicle-neon-apply img{width:20px;height:20px;object-fit:contain}.vehicle-neon-disable{margin-top:8px}

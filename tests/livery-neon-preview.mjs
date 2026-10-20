@@ -27,19 +27,19 @@ function fixture() {
   return { doc, host, adapter, geometry, material, frames, renderers, preview, tick };
 }
 test('Seven distinct named colors are immutable and have no prices or ownership', () => {
-  assert.equal(VEHICLE_NEON_CATALOG.length, 7);
-  assert.equal(new Set(VEHICLE_NEON_CATALOG.map(item => item.color)).size, 7);
+  assert.equal(VEHICLE_NEON_CATALOG.length, 8);
+  assert.equal(new Set(VEHICLE_NEON_CATALOG.map(item => item.color)).size, 8);
   for (const item of VEHICLE_NEON_CATALOG) {
     assert.ok(item.name.ru && item.name.en); assert.ok(Object.isFrozen(item));
-    assert.equal('price' in item, false); assert.equal('owned' in item, false);
+    assert.equal(item.price,item.currency==='coins'?50000:39); assert.equal('owned' in item, false);
     assert.equal(getVehicleNeon(item.id), item);
   }
   assert.equal(vehicleNeonName('blue', 'en'), 'Blue'); assert.equal(vehicleNeonName('blue'), 'Синий'); assert.equal(getVehicleNeon('bad'), null);
 });
-test('Seven isolated BMW copies use one context with neon strips and soft map, without neon lights', () => {
+test('Eight isolated BMW copies use one context with neon strips and soft map, without neon lights', () => {
   const f = fixture(); assert.equal(f.preview.show(f.adapter, 'red'), true);
   const renderer = f.renderers[0], pivot = renderer.scene.children[0];
-  assert.equal(pivot.children.length, 7); assert.equal(f.renderers.length, 1); assert.equal(f.host.children.length, 1);
+  assert.equal(pivot.children.length, 8); assert.equal(f.renderers.length, 1); assert.equal(f.host.children.length, 1);
   assert.deepEqual(renderer.clear, [0, 0]);
   const visible = pivot.children.filter(item => item.visible); assert.equal(visible.length, 3);
   const colors = new Set(), textures = new Set(); let pointLights = 0;
@@ -49,16 +49,16 @@ test('Seven isolated BMW copies use one context with neon strips and soft map, w
     colors.add(neon.children[0].material.color.getHex()); textures.add(neon.children[4].material.map);
     assert.equal(neon.children[0].material.toneMapped, false);
   }
-  assert.equal(colors.size, 7); assert.equal(textures.size, 1);
+  assert.equal(colors.size, 8); assert.equal(textures.size, 1);
   assert.deepEqual(f.adapter.group.position.toArray(), [30, 2, 80]); assert.equal(f.adapter.group.rotation.y, 1); assert.equal(f.adapter.group.visible, false);
   for (const color of VEHICLE_NEON_CATALOG) assert.equal(f.preview.show(f.adapter, color.id), true);
-  assert.equal(f.renderers.length, 1); assert.equal(f.preview.getSelection(), 'purple'); f.preview.dispose();
+  assert.equal(f.renderers.length, 1); assert.equal(f.preview.getSelection(), 'pink'); f.preview.dispose();
 });
 test('Circular swipe, fractional positions and reduced draw cadence preserve source and continuous wrap', () => {
   const f = fixture(); f.preview.show(f.adapter, 'red');
   const pivot = f.renderers[0].scene.children[0];
   f.host.carouselPosition = -.01; f.tick(100); const before = pivot.children[0].position.clone();
-  f.host.carouselPosition = 6.99; f.tick(116); assert.ok(before.distanceTo(pivot.children[0].position) < 1e-9);
+  f.host.carouselPosition = 7.99; f.tick(116); assert.ok(before.distanceTo(pivot.children[0].position) < 1e-9);
   f.host.carouselPosition = .5; f.tick(132); assert.ok(pivot.children.filter(item => item.visible).length >= 3);
   assert.equal(f.adapter.group.rotation.y, 1);
   f.preview.dispose();

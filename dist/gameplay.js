@@ -1,3 +1,4 @@
+import {getVehicleNeon} from './vehicle-neon-catalog.js';
 import {FINISH_LINE_SPEC} from './finish-line.js';
 import {crossesFinishLine, FINISH_CELEBRATION_SECONDS} from './finish-celebration.js';
 import { biomeSurfaceAt } from './biome-surfaces.js';
@@ -64,12 +65,12 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
   }
   const saved=loadedCareer===undefined?freshCareer(characterId):sanitizeCareer(loadedCareer,characterId);
   const state={mode:'walking',selectedId:null,player:{...GAMEPLAY.spawn},fuels:Object.fromEntries(vehicles.map(v=>[v.id,getVehiclePerformance(vehicleConfig(v.id).id,saved.upgrades[v.id]).capacity])),cooldown:0,blockedEntry:null,walked:0,stationId:null,elapsed:0,lastEvent:'start',characterId:saved.characterId,seatedId:null,interactionCooldown:0,classroomArmed:true,occupiedSeatIds:[...new Set(occupiedSeatIds)],blockedStand:null,doorNotified:false,landingCooldown:0,jump:{height:0,velocity:0,elapsed:0,airborne:false},money:saved.money,ownedVehicleIds:saved.ownedVehicleIds,completedRuns:saved.completedRuns,purchaseCandidateId:null,run:null,testMode:false,testBiome:null,saveFailed:loadFailed};
-  Object.assign(state,{eventMode:null,developerMode:developerSession,discoveredBiomeIds:saved.discoveredBiomeIds,routeCompletion:saved.routeCompletion,driftRecord:saved.driftRecord,brains:saved.brains,ownedSkinIds:saved.ownedSkinIds,ownedSchoolIds:saved.ownedSchoolIds,upgrades:saved.upgrades,vehicleGrantClaimed:saved.vehicleGrantClaimed,retention:saved.retention,skinPurchaseCandidateId:null,schoolPurchaseCandidateId:null,seatedSchoolId:null});
+  Object.assign(state,{ownedNeonIds:saved.ownedNeonIds,selectedNeonId:saved.selectedNeonId,eventMode:null,developerMode:developerSession,discoveredBiomeIds:saved.discoveredBiomeIds,routeCompletion:saved.routeCompletion,driftRecord:saved.driftRecord,brains:saved.brains,ownedSkinIds:saved.ownedSkinIds,ownedSchoolIds:saved.ownedSchoolIds,upgrades:saved.upgrades,vehicleGrantClaimed:saved.vehicleGrantClaimed,retention:saved.retention,skinPurchaseCandidateId:null,schoolPurchaseCandidateId:null,seatedSchoolId:null});
   const fuelCapacity=id=>getVehiclePerformance(vehicleConfig(id).id,state.upgrades[id]).capacity;
   let events=[],progressDirty=false,progressSinceSave=0,rewardEarned=!!saved.routeCompletion;
   const emit=(type,extra={})=>{state.lastEvent=type;events.push({type,...extra});};
   const pose=v=>v.position || v.park;
-  const snapshot=()=>sanitizeCareer({version:ECONOMY_CONFIG.saveVersion,money:state.money,ownedVehicleIds:state.ownedVehicleIds,discoveredBiomeIds:state.discoveredBiomeIds,characterId:state.characterId,completedRuns:state.completedRuns,routeCompletion:state.routeCompletion,driftRecord:state.driftRecord,brains:state.brains,ownedSkinIds:state.ownedSkinIds,ownedSchoolIds:state.ownedSchoolIds,upgrades:state.upgrades,vehicleGrantClaimed:state.vehicleGrantClaimed,retention:state.retention});
+  const snapshot=()=>sanitizeCareer({version:ECONOMY_CONFIG.saveVersion,money:state.money,ownedVehicleIds:state.ownedVehicleIds,discoveredBiomeIds:state.discoveredBiomeIds,characterId:state.characterId,completedRuns:state.completedRuns,routeCompletion:state.routeCompletion,driftRecord:state.driftRecord,brains:state.brains,ownedSkinIds:state.ownedSkinIds,ownedSchoolIds:state.ownedSchoolIds,upgrades:state.upgrades,vehicleGrantClaimed:state.vehicleGrantClaimed,retention:state.retention,ownedNeonIds:state.ownedNeonIds,selectedNeonId:state.selectedNeonId});
   let saveWarningSent=false;
   const warnSave=()=>{state.saveFailed=true;if(!saveWarningSent){saveWarningSent=true;emit('save-warning',{reason:persistence?.status?.reason||'storage'});}};
   const persist=()=>{
@@ -284,6 +285,21 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       progressDirty=true;progressSinceSave+=dt;
       if(progressSinceSave>=PROGRESSION_CONFIG.saveInterval)persist();
       return earned;
+    },
+    selectNeon(id){
+      if(id!==null&&!state.ownedNeonIds.includes(id))return false;
+      state.selectedNeonId=id;persist();return true;
+    },
+    buyNeon(id){
+      const item=getVehicleNeon(id);
+      if(!item||!canShop())return false;
+      if(state.ownedNeonIds.includes(id))return api.selectNeon(id);
+      if(item.currency!=='coins'||state.money<item.price)return false;
+      state.money-=item.price;state.ownedNeonIds.push(id);state.selectedNeonId=id;persist();return true;
+    },
+    grantPremiumNeon(id){
+      if(getVehicleNeon(id)?.currency!=='yandex')return false;
+      if(!state.ownedNeonIds.includes(id)){state.ownedNeonIds.push(id);persist();}return true;
     },
     buySkin(id){
       const spec=skinConfig(id),deny=reason=>{emit('skin-purchase-denied',{id,reason});return false;};

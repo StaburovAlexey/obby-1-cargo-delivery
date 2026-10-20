@@ -1,3 +1,5 @@
+import {createFleetNeon} from '../../dist/vehicle-neon.js';
+import {getVehicleNeon} from '../../dist/vehicle-neon-catalog.js';
 import {createCanyonLeaderboard} from '../../dist/canyon-leaderboard.js';
 import {createVehicleLiveryShop} from '../../dist/vehicle-livery-shop.js';
 import {createVehicleLiveryController} from '../../dist/vehicle-livery-materials.js';
@@ -95,7 +97,7 @@ export function createAppDom({width=390,height=844,startDriving=true,realStartup
   return el;
  };
  for(const el of ids.values())el.replaceChildren=(...children)=>{el.children=[];children.forEach(child=>el.append(child));};
- Object.assign(deps,{createVehicleNeonPreview:createNeonPreview,createVehicleLiveryGallery:createLiveryPreview,createVehicleLiveryPreview:createLiveryPreview,createVehicleLiveryShop:createLiveryShop,createVehicleLiveryController:createLiveryController,createCanyonLeaderboard,createRenderProfiler,createSpatialRenderer,createHangarDriftLeaderboard,createCanyonMode,createPauseState,createOnlineSession,createAdvertising,isAdvertisingSafe,PREMIUM_SKIN_IDS,__URBAN_DEV_SERVER__:devServer});
+ Object.assign(deps,{createFleetNeon,getVehicleNeon,createVehicleNeonPreview:createNeonPreview,createVehicleLiveryGallery:createLiveryPreview,createVehicleLiveryPreview:createLiveryPreview,createVehicleLiveryShop:createLiveryShop,createVehicleLiveryController:createLiveryController,createCanyonLeaderboard,createRenderProfiler,createSpatialRenderer,createHangarDriftLeaderboard,createCanyonMode,createPauseState,createOnlineSession,createAdvertising,isAdvertisingSafe,PREMIUM_SKIN_IDS,__URBAN_DEV_SERVER__:devServer});
  new Function(...Object.keys(deps),source)(...Object.values(deps));
  if(startDriving&&!loadFailure){const d=dom.win.__sceneDebug;d.gameplay.state.cooldown=0;d.enterVehicle('pickup');Object.assign(d.model.state,{x:1.8,z:9.8});d.applyTruckPose();d.followTruck(1,true);}
  return{...dom,ids,views,storage:testStorage,resolveCharacter(id,fail=false){const p=pendingCharacters.get(id);if(fail)p.reject(new Error('Deferred load failed'));else p.resolve({id,name:id,group:new THREE.Group(),update(){},setSeated(){},dispose(){}});pendingCharacters.delete(id);},get debug(){return dom.win.__sceneDebug;},frame(time=now+1000/60){now=time;const callback=frames.shift();if(!callback)throw Error('No queued animation frame');callback(time);},dispose(){dom.win.dispatch('pagehide');const {garage,city}=dom.win.__sceneDebug;dom.win.__sceneDebug.wheelParticles?.dispose();dom.win.__sceneDebug.roadHazardsScene?.dispose();garage.dispose();city.dispose();}};

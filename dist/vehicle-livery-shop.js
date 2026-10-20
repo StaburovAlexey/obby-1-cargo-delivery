@@ -14,15 +14,15 @@ const copy = Object.freeze({
  * It may return a Promise; throw/reject/return false to report a failed preview.
  * The host must make requests latest-wins and release its isolated preview in onClose.
  * Only explicit onApply may change the hangar car; locked finishes cannot apply.
- * No selection, ownership, money, or equipment is saved or modified here.
+ * Neon ownership and purchases are delegated to the host callbacks.
  */
 export function createVehicleLiveryShop(doc, {
   language = () => 'ru', canOpen = () => true, button = null,
   autoPreview = false, onApply = () => true,
-  onPreview = () => true, onNeonPreview = () => true, onSectionChange = () => {}, onClose = () => {}, onOpenChange = () => {},
+  onPreview = () => true, onNeonPreview = () => true, getNeonOffer = () => null, onNeonApply = () => false, onNeonDisable = () => false, onSectionChange = () => {}, onClose = () => {}, onOpenChange = () => {},
 } = {}) {
   let opened = false, disposed = false, closing = false, visible = true, epoch = 0, returnFocus = null;
-  let background = [], languageOverride = null, section = 'categories', neonSelected = VEHICLE_NEON_COLORS[0].id, neonToken = 0, neonLoading = false, neonError = false;
+  let background = [], languageOverride = null, section = 'categories', neonSelected = VEHICLE_NEON_COLORS[0].id, neonToken = 0, neonLoading = false, neonError = false, neonBuying = false, neonPurchaseError = false;
   const listeners = [], rows = new Map();
   const lang = () => (languageOverride ?? (typeof language === 'function' ? language() : language)) === 'en' ? 'en' : 'ru';
   const words = () => copy[lang()];
@@ -49,7 +49,7 @@ export function createVehicleLiveryShop(doc, {
     'aria-labelledby': 'vehicle-livery-title', tabindex: '-1',
   });
   const heading = make('header', modalPart('heading', 'vehicle-livery-heading'), panel);
-  const backButton = make('button', modalPart('button', 'vehicle-shop-back'), heading, { id: 'vehicle-shop-back', type: 'button' });
+  const backButton = make('button', modalPart('close', 'vehicle-shop-back'), heading, { id: 'vehicle-shop-back', type: 'button' });
   backButton.textContent = '‹';
   const headingText = make('div', 'vehicle-livery-heading-text', heading);
   const title = make('h2', '', headingText, { id: 'vehicle-livery-title' });
@@ -73,6 +73,15 @@ export function createVehicleLiveryShop(doc, {
   neonHost.setAttribute('id', 'vehicle-neon-preview');
   const neonLabel = make('p', 'vehicle-neon-color', neonPanel, { id: 'vehicle-neon-color', role: 'status', 'aria-live': 'polite' });
   const neonNote = make('p', 'vehicle-neon-note', neonPanel);
+  const neonApply = make('button', modalPart('button', 'vehicle-neon-apply'), neonPanel, {id:'vehicle-neon-apply',type:'button'});
+  const neonDisable = make('button', modalPart('button', 'vehicle-neon-disable'), neonPanel, {id:'vehicle-neon-disable',type:'button'});
+  listen(neonApply,'click',async()=>{
+    if(neonBuying||neonApply.disabled||!opened||section!=='neon'||!canOpen())return;
+    const id=neonSelected;neonBuying=true;neonPurchaseError=false;refresh();
+    try{neonPurchaseError=(await onNeonApply(id))===false;}catch{neonPurchaseError=true;}
+    finally{neonBuying=false;refresh();}
+  });
+  listen(neonDisable,'click',()=>{if(!neonBuying){onNeonDisable();refresh();}});
   const scroll = make('div', 'vehicle-livery-scroll', panel, { id: 'vehicle-livery-list', role: 'list' });
 
   function updateRow(row) {
@@ -107,7 +116,13 @@ export function createVehicleLiveryShop(doc, {
     neonPanel.hidden = section !== 'neon';
     const neonColor = VEHICLE_NEON_COLORS.find(item => item.id === neonSelected);
     neonLabel.textContent = neonLoading ? text.loading : neonError ? text.failed : neonColor.name[lang()];
-    neonNote.textContent = text.neonPreview;
+    const offer=getNeonOffer(neonSelected);
+    neonNote.textContent = neonPurchaseError ? (lang()==='ru'?'Покупка не завершена. Попробуйте ещё раз.':'Purchase not completed. Please try again.') : offer ? (lang()==='ru'?'Один цвет для всех машин. Покупка навсегда.':'One color for every car. Permanent unlock.') : text.neonPreview;
+    neonApply.hidden=!offer;neonDisable.hidden=!offer;
+    neonApply.disabled=!offer||offer.disabled||neonBuying||neonLoading||neonError||offer.selected;
+    neonApply.textContent=neonBuying?text.loading:offer?.selected?(lang()==='ru'?'Выбрано':'Selected'):offer?.owned?text.apply:`${lang()==='ru'?'Купить':'Buy'} · ${offer?.label||'—'}`;
+    if(offer?.currencyImage&&!offer.owned&&!neonBuying){const icon=doc.createElement('img');icon.src=offer.currencyImage;icon.alt='';icon.width=20;icon.height=20;neonApply.append(icon);}
+    neonDisable.textContent=lang()==='ru'?'Без подсветки':'No underglow';neonDisable.disabled=neonBuying;
     neonHost.setAttribute('aria-label', `${text.neon}: ${neonColor.name[lang()]}`);
     neonHost.setAttribute('aria-busy', String(neonLoading));
     neonCarousel.setLabels({ title: text.neon });
@@ -181,7 +196,7 @@ export function createVehicleLiveryShop(doc, {
   function selectNeon(id) {
     if (disposed || !opened || section !== 'neon' || !canOpen() || !VEHICLE_NEON_COLORS.some(item => item.id === id)) return false;
     const token = ++neonToken, openEpoch = epoch;
-    neonSelected = id; neonLoading = true; neonError = false;
+    neonSelected = id; neonLoading = true; neonError = false; neonPurchaseError = false;
     neonCarousel.update(id); refresh();
     const settle = success => {
       if (disposed || !opened || section !== 'neon' || epoch !== openEpoch || token !== neonToken) return;
@@ -269,7 +284,7 @@ export function createVehicleLiveryShop(doc, {
     closeButton.focus?.();
     return true;
   }
-  const focusable = () => [closeButton, ...(section === 'categories' ? Object.values(categoryButtons).map(item => item.entry) : section === 'neon' ? [backButton, neonHost] : [backButton, ...[...rows.values()].flatMap(row => [row.previewHost, row.apply].filter(node => !node.disabled))])];
+  const focusable = () => [closeButton, ...(section === 'categories' ? Object.values(categoryButtons).map(item => item.entry) : section === 'neon' ? [backButton, neonHost, ...[neonApply,neonDisable].filter(node=>!node.hidden&&!node.disabled)] : [backButton, ...[...rows.values()].flatMap(row => [row.previewHost, row.apply].filter(node => !node.disabled))])];
   function onKeyDown(event) {
     if (!opened) return;
     event.stopPropagation();

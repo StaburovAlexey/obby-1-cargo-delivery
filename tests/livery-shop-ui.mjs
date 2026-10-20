@@ -348,3 +348,10 @@ test('Shop action and car purchase buttons share the exact green appearance rule
  assert.match(css,/\.buy-button, \.vehicle-livery-card \.vehicle-livery-apply \{[^}]*background: #20ac47;[^}]*text-shadow: var\(--hud-shadow\)/);
  assert.match(css,/\.buy-button\[data-affordable="false"\], \.vehicle-livery-card \.vehicle-livery-apply:disabled/);
 });
+
+test('neon buying captures the clicked color and ignores repeated clicks while pending',async()=>{
+ let finish,calls=[];const f=fixture({getNeonOffer:id=>({owned:false,selected:false,label:'50 000',disabled:false}),onNeonApply:id=>{calls.push(id);return new Promise(resolve=>finish=resolve);}});
+ f.ui.show();f.ui.setSection('neon');await Promise.resolve();await Promise.resolve();
+ const button=f.doc.getElementById('vehicle-neon-apply');assert.ok(button,'purchase button exists');
+ button.dispatch('click');button.dispatch('click');assert.deepEqual(calls,['red']);finish(true);await Promise.resolve();f.ui.destroy();
+});

@@ -1,3 +1,5 @@
+import {createFleetNeon} from './vehicle-neon.js';
+import {getVehicleNeon} from './vehicle-neon-catalog.js';
 import { createVehicleNeonPreview } from './vehicle-neon-preview.js';
 import {createFinishCelebration} from './finish-celebration.js';
 import {createSpatialRenderer} from './spatial-render.js';
@@ -160,9 +162,12 @@ let city,
   lastTime = 0,
   graphicsLost = false;
 let liveryShop=null,liveryPreview=null,neonPreview=null;
+const fleetNeon=createFleetNeon(THREE);
+function syncFleetNeon(){if(!gameplay||!garage)return;fleetNeon.setColor(gameplay.state.selectedNeonId);for(const vehicle of garage.vehicles)fleetNeon.attach(vehicle.visual);}
+function syncPremiumNeon(){if(!gameplay)return;for(const id of services?.neon?.ownedIds||[])gameplay.grantPremiumNeon(id);liveryShop?.refresh();}
 let hangarLeaderboardUi=null,canyonMode=null,onlineSession=null,advertising=null,spatialRenderer=null,teleportId=0,onlineClock=0,lastWalkSpeed=0,disposedOnline=false;
 const gameplayPaused=()=>pauseState.paused||!appFocused||document.hidden||graphicsLost||!playing||biomeMenuOpen||upgradeMenuOpen||careerMenuOpen||settingsMenuOpen||hangarLeaderboardOpen||liveryShopOpen;
-pauseState.subscribe(paused=>{if(paused){canyonMode?.pause();stopVehicleEffects();inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();}lastTime=0;onlineClock=0;advertising?.setSuspended(gameplay.state.eventMode==='finish'||!!canyonMode?.active||document.hidden||!appFocused||graphicsLost||pauseState.reasons.has('platform')||pauseState.reasons.has('payment'));onlineSession?.update(0);});
+pauseState.subscribe(paused=>{if(paused){canyonMode?.pause();stopVehicleEffects();inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();}lastTime=0;onlineClock=0;advertising?.setSuspended(gameplay.state.eventMode==='finish'||!!canyonMode?.active||document.hidden||!appFocused||graphicsLost||pauseState.reasons.has('platform')||(pauseState.reasons.has('payment')||pauseState.reasons.has('neon-payment')));onlineSession?.update(0);});
 const startup=createStartupGate({
   onReady(){
     lastTime=0;inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();
@@ -259,7 +264,7 @@ function rebuild(value) {
   if (city) {
     scene.remove(garage?.group);
     finishLine?.dispose();finishCelebration?.dispose();pendingFinishReceipt=null;
-    garage?.dispose();
+    fleetNeon.clear();garage?.dispose();
     scene.remove(city.group);
     city.dispose();
   }
@@ -451,6 +456,21 @@ liveryShop=createVehicleLiveryShop(document,{
   inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();model?.pause();stopVehicleEffects();lastTime=0;syncMode();
  },
  onSectionChange:()=>restoreLiveryPreviews(),
+ getNeonOffer(id){
+  const item=getVehicleNeon(id),owned=gameplay?.state.ownedNeonIds.includes(id),product=services?.neon?.catalog.get(id);
+  let currencyImage=null;try{currencyImage=product?.getPriceCurrencyImage?.('small');}catch{}
+  return {owned,selected:gameplay?.state.selectedNeonId===id,label:item.currency==='coins'?'50 000':product?.priceValue||product?.price||'—',currencyImage,
+   disabled:owned?false:item.currency==='coins'?gameplay?.state.money<item.price:!product||services?.neon?.status.busy};
+ },
+ async onNeonApply(id){
+  if(!liveryShopOpen||!hangarLeaderboardAvailable())return false;
+  if(gameplay.state.ownedNeonIds.includes(id))return gameplay.selectNeon(id);
+  let ok;
+  if(getVehicleNeon(id)?.currency==='coins')ok=gameplay.buyNeon(id);
+  else {ok=await services?.neon?.purchase(id);if(ok){gameplay.grantPremiumNeon(id);gameplay.selectNeon(id);}}
+  syncFleetNeon();updateEconomyHud();return !!ok;
+ },
+ onNeonDisable(){gameplay.selectNeon(null);syncFleetNeon();},
  onNeonPreview(colorId){
   if(!liveryShopOpen||liveryShop.getSection()!=='neon'||!hangarLeaderboardAvailable())return false;
   const vehicle=garage.vehicles.find(v=>v.id==='bmwreward');
@@ -612,6 +632,7 @@ function refreshPremiumUi(){
   if(services?.platform?.id==='vk'&&services.premium?.status.entitlementsConfirmed){gameplay.reconcilePremiumSkins(services.premium.ownedIds);return;}
   for(const id of services?.premium?.ownedIds||[])gameplay.grantPremiumSkin(id);
 }
+services?.neon?.subscribe?.(()=>{syncPremiumNeon();syncFleetNeon();});
 services?.premium?.subscribe?.(()=>{if(gameplay){refreshPremiumUi();handleGameplayEvents();updateEconomyHud();}});
 function followCharacter(dt,snap=false){
   const p=gameplay.state.player,y=groundHeight(p.x,p.z)+gameplay.state.jump.height;
@@ -947,7 +968,7 @@ function frame(now) {
   const safe=!!checkSafety&&isAdvertisingSafe({position:actor,heading:actor.heading||0,speed,footprint,
     bridges:BRIDGES,hazards:roadHazards.hazards,jumping:gameplay.state.jump.airborne,falling:bridgeFall.active,
     loading:!startup.ready||!characterReady,modal:biomeMenuOpen||upgradeMenuOpen||careerMenuOpen||settingsMenuOpen||hangarLeaderboardOpen||liveryShopOpen});
-  advertising?.setSuspended(gameplay.state.eventMode==='finish'||!!canyonMode?.active||document.hidden||!appFocused||graphicsLost||pauseState.reasons.has('platform')||pauseState.reasons.has('payment'));
+  advertising?.setSuspended(gameplay.state.eventMode==='finish'||!!canyonMode?.active||document.hidden||!appFocused||graphicsLost||pauseState.reasons.has('platform')||(pauseState.reasons.has('payment')||pauseState.reasons.has('neon-payment')));
   advertising?.update(networkDt,{active:baseActive,safe,visible:!document.hidden&&appFocused});
   onlineSession?.update(networkDt);
   if(services?.platform){if(startup.ready&&characterReady&&!gameplayPaused()&&!canyonMode?.controlsLocked)services.platform.gameplayStart();else services.platform.gameplayStop();}
@@ -1024,6 +1045,7 @@ function frame(now) {
   const effectsActive=playing&&driving&&startup.ready&&characterReady&&!gameplayPaused()&&!canyonMode?.controlsLocked&&!bridgeFall.active&&(gameplay.state.fuels[gameplay.state.selectedId]??0)>0;
   const motion=model.state,lateral=Math.cos(motion.heading)*motion.velocityX-Math.sin(motion.heading)*motion.velocityZ;
   vehicleAudio.update(dt,{active:effectsActive,speed:motion.linearSpeed,slip:Math.abs(lateral),throttle:motion.active?1:0,braking:motion.braking||0,impact:Math.max(0,Math.min(1,((motion.impactSpeed||0)-1)/12))});
+  syncFleetNeon();
   for(const v of garage.vehicles)v.visual?.setBrakeLights?.(effectsActive&&v.model===model?motion.braking||0:0);
   canyonMode?.updateEffects(dt,{paused:gameplayPaused(),grounded:!bridgeFall.active,camera});
   updateWorldLabels();
@@ -1062,7 +1084,7 @@ if(services?.serverUrl){
     getContext:()=>({gameplay,garage,character,model,rig,paused:gameplayPaused(),walkSpeed:lastWalkSpeed,teleportId})});
   onlineSession.bindGameplay(gameplay);
 }
-window.addEventListener('pagehide',event=>{if(event.persisted||disposedOnline)return;disposedOnline=true;renderProfiler?.dispose();spatialRenderer?.dispose();liveryShop?.dispose();liveryPreview?.dispose();neonPreview?.dispose();hangarLeaderboardUi?.dispose();canyonMode?.dispose();driftLeaderboard.dispose();onlineSession?.dispose();advertising?.destroy();});
+window.addEventListener('pagehide',event=>{if(event.persisted||disposedOnline)return;disposedOnline=true;fleetNeon.dispose();renderProfiler?.dispose();spatialRenderer?.dispose();liveryShop?.dispose();liveryPreview?.dispose();neonPreview?.dispose();hangarLeaderboardUi?.dispose();canyonMode?.dispose();driftLeaderboard.dispose();onlineSession?.dispose();advertising?.destroy();});
 window.addEventListener('pageshow',event=>{if(!event.persisted)return;appFocused=document.hasFocus?.()??true;lastTime=0;onlineClock=0;inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();syncMode();});
 requestAnimationFrame(frame);
 

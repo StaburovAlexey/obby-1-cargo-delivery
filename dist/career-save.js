@@ -1,3 +1,4 @@
+import {VEHICLE_NEON_CATALOG} from './vehicle-neon-catalog.js';
 import {FINISH_LINE_SPEC} from './finish-line.js';
 import { ECONOMY_CONFIG, VEHICLE_CONFIG, BIOME_SEQUENCE, DELIVERY_CHECKPOINTS, REWARD_VEHICLE_ID, ROUTE_COMPLETION_PROOF, FINAL_DELIVERY_CHECKPOINT } from './economy-config.js';
 import { CHARACTER_CATALOG, DEFAULT_CHARACTER_ID } from './character-catalog.js';
@@ -30,6 +31,7 @@ export function freshCareer(characterId = DEFAULT_CHARACTER_ID) {
     routeCompletion: null,
     driftRecord:null,
     brains: 0,
+    ownedNeonIds: [], selectedNeonId: null,
     ownedSkinIds: selected === DEFAULT_CHARACTER_ID ? [DEFAULT_CHARACTER_ID] : [DEFAULT_CHARACTER_ID, selected],
     ownedSchoolIds: ['school-1'],
     upgrades: emptyUpgrades(),
@@ -131,7 +133,7 @@ export function sanitizeCareer(value, fallbackCharacterId = DEFAULT_CHARACTER_ID
   const result = freshCareer(fallbackCharacterId);
   try {
     const data = readData(value, ['version', 'money', 'ownedVehicleIds', 'characterId', 'completedRuns',
-      'brains', 'ownedSkinIds', 'ownedSchoolIds', 'upgrades', 'vehicleGrantClaimed', 'retention', 'routeCompletion', 'discoveredBiomeIds','driftRecord']);
+      'brains', 'ownedSkinIds', 'ownedSchoolIds', 'upgrades', 'vehicleGrantClaimed', 'retention', 'routeCompletion', 'discoveredBiomeIds','driftRecord','ownedNeonIds','selectedNeonId']);
     if (!data || (data.version !== 1 && data.version !== ECONOMY_CONFIG.saveVersion)) return result;
     result.money = counter(data.money, ECONOMY_CONFIG.maxSavedMoney);
     const ownedVehicles = readIds(data.ownedVehicleIds);
@@ -157,6 +159,9 @@ export function sanitizeCareer(value, fallbackCharacterId = DEFAULT_CHARACTER_ID
       result.ownedSkinIds = CHARACTER_CATALOG.filter(skin => skin.id === DEFAULT_CHARACTER_ID || skin.id === selected).map(skin => skin.id);
       return result;
     }
+    const neonIds=readIds(data.ownedNeonIds);
+    result.ownedNeonIds=VEHICLE_NEON_CATALOG.filter(item=>neonIds.has(item.id)).map(item=>item.id);
+    result.selectedNeonId=result.ownedNeonIds.includes(data.selectedNeonId)?data.selectedNeonId:null;
     result.brains = brainCounter(data.brains);
     const ownedSkins = readIds(data.ownedSkinIds);
     result.ownedSkinIds = CHARACTER_CATALOG.filter(skin => skin.id === DEFAULT_CHARACTER_ID || ownedSkins.has(skin.id)).map(skin => skin.id);
