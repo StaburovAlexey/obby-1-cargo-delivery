@@ -64,8 +64,8 @@ test('Renderer rotates only its clone, cancels closed requests, disposes only ow
 test('Shop viewport swipes preview, only owned base applies, and close does not apply', async () => {
   const { doc } = dom(), previews = [], applied = [];
   const shop = createVehicleLiveryShop(doc, { autoPreview: true, onPreview: (...args) => previews.push(args), onApply: (...args) => applied.push(args) });
-  shop.open(); assert.deepEqual(previews, [['pickup', 'base']]);
-  const host = shop.getPreviewHost(), apply = doc.body.all().find(node => node.className === 'vehicle-livery-apply');
+  shop.open(); assert.equal(previews.length, 11); assert.deepEqual(previews[0], ['pickup', 'base']);
+  const host = shop.getPreviewHost(), apply = doc.body.all().find(node => node.getAttribute('data-apply-vehicle') === 'pickup');
   assert.equal(apply.disabled, false); apply.dispatch('click'); await Promise.resolve();
   assert.deepEqual(applied, [['pickup', 'base']]);
   host.dispatch('pointerdown', { pointerId: 1, clientX: 150, clientY: 50 });
@@ -74,4 +74,23 @@ test('Shop viewport swipes preview, only owned base applies, and close does not 
   assert.deepEqual(previews.at(-1), ['pickup', 'neon']); assert.equal(apply.disabled, true);
   apply.dispatch('click'); assert.equal(applied.length, 1);
   shop.close(); assert.equal(applied.length, 1); shop.dispose();
+});
+
+test('Every vehicle has its own carousel and independent Apply, with no locked finish bypass', async () => {
+  const { doc } = dom(), applied = [];
+  const shop = createVehicleLiveryShop(doc, { autoPreview: true, onApply: (...args) => applied.push(args) });
+  shop.open();
+  const buttons = doc.body.all().filter(node => node.getAttribute('data-apply-vehicle'));
+  assert.equal(buttons.length, 11);
+  assert.notEqual(shop.getPreviewHost('pickup'), shop.getPreviewHost('bmwreward'));
+  shop.preview('pickup', 'anime');
+  const pickup = buttons.find(node => node.getAttribute('data-apply-vehicle') === 'pickup');
+  const bmw = buttons.find(node => node.getAttribute('data-apply-vehicle') === 'bmwreward');
+  assert.equal(pickup.disabled, true); assert.equal(bmw.disabled, false);
+  pickup.disabled = false; pickup.dispatch('click'); // DOM mutation cannot bypass ownership policy.
+  assert.equal(applied.length, 0);
+  bmw.dispatch('click'); bmw.dispatch('click'); await Promise.resolve();
+  assert.deepEqual(applied, [['bmwreward', 'base']], 'Double clicks cannot apply twice');
+  shop.close(); bmw.dispatch('click'); assert.equal(applied.length, 1);
+  shop.dispose();
 });

@@ -16,7 +16,7 @@ import {createPauseState} from './pause-state.js';
 import {createOnlineSession} from './online-session.js';
 import {createAdvertising,isAdvertisingSafe} from './advertising.js';
 import {createVehicleLiveryShop} from './vehicle-livery-shop.js';
-import {createVehicleLiveryPreview} from './vehicle-livery-preview.js';
+import {createVehicleLiveryGallery} from './vehicle-livery-preview.js';
 import {createHangarDriftLeaderboard} from './hangar-drift-leaderboard.js';
 import {createCanyonLeaderboard} from './canyon-leaderboard.js';
 import {createCanyonMode} from './canyon-mode.js';
@@ -444,7 +444,7 @@ liveryShop=createVehicleLiveryShop(document,{
   if(!liveryShopOpen||!hangarLeaderboardAvailable())return false;
   const vehicle=garage.vehicles.find(v=>v.id===vehicleId);
   if(!vehicle?.visual)throw new Error('Vehicle is not loaded');
-  if(!liveryPreview)liveryPreview=createVehicleLiveryPreview(THREE,liveryShop.getPreviewHost());
+  if(!liveryPreview)liveryPreview=createVehicleLiveryGallery(THREE,vehicleId=>liveryShop.getPreviewHost(vehicleId));
   return liveryPreview.show(vehicle.visual,vehicleId,liveryId);
  },
  onApply(vehicleId,liveryId){

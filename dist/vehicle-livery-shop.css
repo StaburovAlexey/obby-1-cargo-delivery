@@ -38,3 +38,19 @@
 @media(max-width:600px){.vehicle-livery-panel{max-height:92dvh}.vehicle-livery-preview-host{height:clamp(145px,25dvh,220px)}.vehicle-livery-preview-stage{margin:0 9px 9px}.vehicle-livery-intro .vehicle-livery-count{display:none}.vehicle-livery-scroll{min-height:120px}.vehicle-livery-intro{padding:6px 13px}}
 @media(max-height:600px) and (min-width:601px){.vehicle-livery-panel{width:min(48vw,440px)}.vehicle-livery-preview-host{height:110px}.vehicle-livery-intro .vehicle-livery-count{display:none}.vehicle-livery-preview-stage{margin-bottom:7px}.vehicle-livery-scroll{min-height:90px}}
 .vehicle-livery-apply{position:absolute;right:9px;top:9px;min-height:34px;padding:6px 12px;border:1px solid #a8f6dc;border-radius:9px;background:#a8f6dc;color:#102b4e;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer}.vehicle-livery-apply:disabled{background:#16364acc;border-color:#8ba6c455;color:#91a1b7;cursor:not-allowed}
+/* Reusable per-car carousel. Each card owns a view, not a WebGL context. */
+.item-carousel{position:relative;min-width:0;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.item-carousel-viewport{height:210px;border-radius:14px;overflow:hidden;background:radial-gradient(ellipse at 50% 70%,#477b9a,#173752 65%);touch-action:pan-y}
+.item-carousel-arrow{position:absolute;top:78px;z-index:1;width:40px;height:44px;border:1px solid #c8efff66;border-radius:12px;background:#123453b8;color:#fff;font-size:32px;line-height:1;cursor:pointer;touch-action:manipulation}
+.item-carousel-previous{left:5px}.item-carousel-next{right:5px}.item-carousel-arrow:disabled{opacity:.3;cursor:default}
+.item-carousel-pagination{justify-content:center;gap:7px;padding:10px 0 0}
+.item-carousel-pagination .vehicle-livery-option{position:relative;flex:1;min-height:44px;padding:5px 3px;border-radius:9px}
+.item-carousel-pagination .vehicle-livery-code{position:static;width:auto;height:auto;background:none;font-size:12px}
+.item-carousel-pagination .vehicle-livery-option-name{font-size:9px;margin-top:3px}
+.item-carousel-pagination .vehicle-livery-lock{right:4px;bottom:5px;transform:scale(.7)}
+.vehicle-livery-card .vehicle-livery-preview-caption{position:static;padding:8px 0 6px;background:none;font-size:12px;min-height:17px}
+.vehicle-livery-card .vehicle-livery-apply{position:static;display:block;width:100%;min-height:44px;margin:0;padding:8px 14px;font-size:14px}
+.vehicle-livery-card .vehicle-livery-card-bottom{margin-top:7px}
+.vehicle-livery-scroll{flex:1 1 auto;min-height:120px}
+@media(max-width:600px){.item-carousel-viewport{height:clamp(175px,27dvh,230px)}.item-carousel-arrow{top:calc(clamp(175px,27dvh,230px)/2 - 22px)}.vehicle-livery-panel{max-height:92dvh}}
+@media(max-height:500px) and (min-width:601px){.item-carousel-viewport{height:145px}.item-carousel-arrow{top:50px}}

@@ -1,3 +1,4 @@
+import { createItemCarousel } from './item-carousel.js';
 import { modalPart } from './modal-ui.js';
 import { BASE_VEHICLE_LIVERY_ID, VEHICLE_LIVERY_CATALOG, getVehicleLivery, vehicleLiveryName } from './vehicle-livery-catalog.js';
 
@@ -78,11 +79,6 @@ export function createVehicleLiveryShop(doc, {
   const description = make('p', '', intro, { id: 'vehicle-livery-description' });
   const previewNote = make('p', 'vehicle-livery-preview-note', intro);
   const count = make('p', 'vehicle-livery-count', intro);
-  const previewStage = make('div', 'vehicle-livery-preview-stage', panel);
-  const previewHost = make('div', 'vehicle-livery-preview-host', previewStage, { id: 'vehicle-livery-preview-host', role: 'img' });
-  const previewCaption = make('p', 'vehicle-livery-preview-caption', previewStage, { 'aria-live': 'polite' });
-  const applyButton = make('button', 'vehicle-livery-apply', previewStage, { type: 'button', disabled: '' });
-  applyButton.disabled = true;
   const scroll = make('div', 'vehicle-livery-scroll', panel, { id: 'vehicle-livery-list', role: 'list' });
   const footer = make('footer', 'vehicle-livery-footer', panel);
   const unavailable = make('p', '', footer, { id: 'vehicle-livery-purchase-note' });
@@ -98,15 +94,14 @@ export function createVehicleLiveryShop(doc, {
     row.root.setAttribute('data-active', String(row.active));
     row.status.textContent = row.loading ? text.loading : row.error ? text.failed : row.selected === BASE_VEHICLE_LIVERY_ID ? text.base : text.preview;
     row.status.setAttribute('data-state', row.error ? 'error' : row.loading ? 'loading' : selected.owned ? 'owned' : 'preview');
-    if (row.active) {
-      const caption = `${row.vehicle.name[lang()]} · ${vehicleLiveryName(row.vehicle.id, row.selected, lang())}`;
-      previewCaption.textContent = `${caption} · ${row.status.textContent}`;
-      previewHost.setAttribute('aria-label', caption);
-      previewStage.setAttribute('aria-busy', String(row.loading));
-      applyButton.disabled = !selected.owned || row.loading || row.error;
-      applyButton.textContent = text.apply;
-      applyButton.setAttribute('aria-label', `${text.apply}: ${caption}`);
-    }
+    const caption = `${row.vehicle.name[lang()]} · ${vehicleLiveryName(row.vehicle.id, row.selected, lang())}`;
+    row.previewCaption.textContent = caption;
+    row.previewHost.setAttribute('aria-label', caption);
+    row.carousel.update(row.selected);
+    row.carousel.setLabels({ title: `${text.choose} ${row.vehicle.name[lang()]}`, previous: lang() === 'ru' ? 'Предыдущая расцветка' : 'Previous livery', next: lang() === 'ru' ? 'Следующая расцветка' : 'Next livery' });
+    row.apply.disabled = row.selected !== BASE_VEHICLE_LIVERY_ID || row.loading || row.error || row.applying;
+    row.apply.textContent = row.applyResult === true ? text.applied : row.applyResult === false ? text.applyFailed : text.apply;
+    row.apply.setAttribute('aria-label', `${text.apply}: ${caption}`);
     row.purchase.textContent = text.purchase;
     row.purchase.title = text.unavailable;
     row.purchase.hidden = row.selected === BASE_VEHICLE_LIVERY_ID;
@@ -126,7 +121,6 @@ export function createVehicleLiveryShop(doc, {
   function refresh() {
     if (disposed) return;
     const text = words();
-    applyButton.textContent = text.apply;
     menu.setAttribute('lang', lang());
     title.textContent = text.title;
     eyebrow.textContent = text.eyebrow;
@@ -149,6 +143,7 @@ export function createVehicleLiveryShop(doc, {
     row.selected = liveryId;
     row.error = false;
     row.loading = true;
+    row.applyResult = null; row.applying = false;
     for (const other of rows.values()) {
       other.active = other === row;
       updateRow(other);
@@ -171,14 +166,7 @@ export function createVehicleLiveryShop(doc, {
     return true;
   }
 
-  function resetGesture(row) {
-    const gesture = row.gesture;
-    row.gesture = null;
-    row.rail.classList.remove('is-swiping');
-    if (gesture && row.rail.hasPointerCapture?.(gesture.id)) {
-      try { row.rail.releasePointerCapture(gesture.id); } catch { /* Pointer already cancelled by the browser. */ }
-    }
-  }
+  const resetGesture = row => row.carousel.resetGesture();
 
   for (const [index, vehicle] of VEHICLE_LIVERY_CATALOG.entries()) {
     const root = make('article', 'vehicle-livery-card', scroll, { role: 'listitem', 'data-vehicle-id': vehicle.id, 'data-biome': vehicle.biome });
@@ -190,140 +178,60 @@ export function createVehicleLiveryShop(doc, {
     const name = make('span', 'vehicle-livery-car-name', show);
     const eye = make('span', 'vehicle-livery-eye', show, { 'aria-hidden': 'true' });
     eye.textContent = '↗';
-    const rail = make('div', 'vehicle-livery-variants', root, { role: 'radiogroup', 'data-vehicle-options': vehicle.id });
-    const row = { vehicle, root, show, name, rail, options: new Map(), selected: BASE_VEHICLE_LIVERY_ID,
-      applied: BASE_VEHICLE_LIVERY_ID, token: 0, loading: false, error: false, active: false, gesture: null, suppressClick: false };
-    for (const variant of vehicle.variants) {
-      const option = make('button', 'vehicle-livery-option', rail, {
-        type: 'button', role: 'radio', 'data-livery-id': variant.id, 'aria-checked': String(variant.owned),
-      });
-      const swatch = make('span', 'vehicle-livery-swatch', option, { 'aria-hidden': 'true' });
-      const code = make('span', 'vehicle-livery-code', swatch);
-      code.textContent = variant.code === '0' ? '✓' : variant.code;
-      const lock = make('span', 'vehicle-livery-lock', swatch);
-      // A CSS-drawn padlock avoids platform-dependent coloured emoji.
-      const optionName = make('span', 'vehicle-livery-option-name', option);
-      row.options.set(variant.id, { button: option, name: optionName, lock });
-      listen(option, 'click', event => {
-        if (row.suppressClick && event.detail !== 0) { row.suppressClick = false; event.preventDefault(); return; }
-        row.suppressClick = false;
-        select(vehicle.id, variant.id);
-      });
-    }
+    const row = { vehicle, root, show, name, selected: BASE_VEHICLE_LIVERY_ID,
+      applied: BASE_VEHICLE_LIVERY_ID, token: 0, loading: false, error: false, active: false,
+      applying: false, applyResult: null };
+    row.carousel = createItemCarousel(doc, {
+      parent: root, items: vehicle.variants,
+      onSelect: (id, options) => select(vehicle.id, id, options),
+      renderItem: (variant, option) => {
+        option.className += ' vehicle-livery-option';
+        option.setAttribute('data-livery-id', variant.id);
+        const code = make('span', 'vehicle-livery-code', option, { 'aria-hidden': 'true' });
+        code.textContent = variant.code === '0' ? '✓' : variant.code;
+        const lock = make('span', 'vehicle-livery-lock', option, { 'aria-hidden': 'true' });
+        const name = make('span', 'vehicle-livery-option-name', option);
+        return { name, lock };
+      },
+    });
+    row.rail = row.carousel.rail; row.options = row.carousel.options;
+    row.rail.className += ' vehicle-livery-variants';
+    row.rail.setAttribute('data-vehicle-options', vehicle.id);
+    row.previewHost = row.carousel.viewport;
+    row.previewHost.className += ' vehicle-livery-preview-host';
+    row.previewHost.setAttribute('id', `vehicle-livery-preview-${vehicle.id}`);
+    row.previewCaption = make('p', 'vehicle-livery-preview-caption', root, { 'aria-live': 'polite' });
+    row.apply = make('button', modalPart('button', 'vehicle-livery-apply'), root, { type: 'button', 'data-apply-vehicle': vehicle.id });
+    listen(row.apply, 'click', () => {
+      if (!opened || row.apply.disabled || row.applying || row.selected !== BASE_VEHICLE_LIVERY_ID || !canOpen()) return;
+      const token = row.token, openEpoch = epoch;
+      row.applying = true; row.applyResult = null; updateRow(row);
+      const settle = success => {
+        if (!opened || disposed || epoch !== openEpoch || row.token !== token) return;
+        row.applying = false; row.applyResult = success; updateRow(row);
+      };
+      try { Promise.resolve(onApply(vehicle.id, row.selected)).then(result => settle(result !== false), () => settle(false)); }
+      catch { settle(false); }
+    });
     const bottom = make('div', 'vehicle-livery-card-bottom', root);
     row.status = make('p', 'vehicle-livery-status', bottom, { role: 'status', 'aria-live': 'polite', 'aria-atomic': 'true' });
     row.purchase = make('button', 'vehicle-livery-purchase', bottom, { type: 'button', disabled: '', 'aria-describedby': 'vehicle-livery-purchase-note' });
     row.purchase.disabled = true;
     rows.set(vehicle.id, row);
     listen(show, 'click', () => select(vehicle.id, row.selected));
-    listen(rail, 'keydown', event => {
-      const last = vehicle.variants.length - 1, current = vehicle.variants.findIndex(item => item.id === row.selected);
-      const next = event.key === 'ArrowRight' ? Math.min(last, current + 1) : event.key === 'ArrowLeft' ? Math.max(0, current - 1) : event.key === 'Home' ? 0 : event.key === 'End' ? last : null;
-      if (next === null) return;
-      event.preventDefault(); event.stopPropagation();
-      select(vehicle.id, vehicle.variants[next].id, { focus: true });
-    });
-    listen(rail, 'pointerdown', event => {
-      if (!opened || row.gesture || event.isPrimary === false || (event.button != null && event.button !== 0)) return;
-      row.suppressClick = false;
-      row.gesture = { id: event.pointerId, x: event.clientX, y: event.clientY, dx: 0, axis: null };
-    });
-    listen(rail, 'pointermove', event => {
-      const gesture = row.gesture;
-      if (!gesture || gesture.id !== event.pointerId) return;
-      const dx = event.clientX - gesture.x, dy = event.clientY - gesture.y;
-      gesture.dx = dx;
-      if (!gesture.axis && Math.max(Math.abs(dx), Math.abs(dy)) >= 9) {
-        if (Math.abs(dx) > Math.abs(dy) * 1.2) {
-          gesture.axis = 'x'; row.suppressClick = true;
-          row.rail.classList.add('is-swiping');
-          try { rail.setPointerCapture?.(gesture.id); } catch { /* Capture is optional. */ }
-        } else if (Math.abs(dy) > Math.abs(dx) * 1.2) gesture.axis = 'y';
-      }
-      if (gesture.axis === 'x') event.preventDefault();
-    }, { passive: false });
-    listen(rail, 'pointerup', event => {
-      const gesture = row.gesture;
-      if (!gesture || gesture.id !== event.pointerId) return;
-      const moved = gesture.axis === 'x' && Math.abs(gesture.dx) >= 32;
-      const direction = gesture.dx < 0 ? 1 : -1;
-      resetGesture(row);
-      if (!moved) return;
-      event.preventDefault();
-      const current = vehicle.variants.findIndex(item => item.id === row.selected);
-      const next = Math.max(0, Math.min(vehicle.variants.length - 1, current + direction));
-      if (next !== current) select(vehicle.id, vehicle.variants[next].id);
-    });
-    for (const type of ['pointercancel', 'lostpointercapture']) listen(rail, type, event => {
-      if (row.gesture?.id === event.pointerId) resetGesture(row);
-    });
   }
-
-  listen(applyButton, 'click', () => {
-    const row = [...rows.values()].find(item => item.active);
-    if (!opened || applyButton.disabled || !row || !getVehicleLivery(row.vehicle.id, row.selected)?.owned) return;
-    const token = row.token, openEpoch = epoch;
-    applyButton.disabled = true;
-    const settle = success => {
-      if (!opened || disposed || epoch !== openEpoch || row.token !== token || !row.active) return;
-      applyButton.disabled = false;
-      applyButton.textContent = success ? words().applied : words().applyFailed;
-    };
-    try { Promise.resolve(onApply(row.vehicle.id, row.selected)).then(result => settle(result !== false), () => settle(false)); }
-    catch { settle(false); }
-  });
-  let previewGesture = null;
-  const resetPreviewGesture = () => {
-    const gesture = previewGesture; previewGesture = null;
-    if (gesture && previewHost.hasPointerCapture?.(gesture.id)) {
-      try { previewHost.releasePointerCapture(gesture.id); } catch { /* Capture ended. */ }
-    }
-  };
-  listen(previewHost, 'pointerdown', event => {
-    if (!opened || previewGesture || event.isPrimary === false || (event.button != null && event.button !== 0)) return;
-    previewGesture = { id: event.pointerId, x: event.clientX, y: event.clientY, dx: 0, axis: null };
-  });
-  listen(previewHost, 'pointermove', event => {
-    const gesture = previewGesture;
-    if (!gesture || gesture.id !== event.pointerId) return;
-    const dx = event.clientX - gesture.x, dy = event.clientY - gesture.y;
-    gesture.dx = dx;
-    if (!gesture.axis && Math.max(Math.abs(dx), Math.abs(dy)) >= 9) {
-      if (Math.abs(dx) > Math.abs(dy) * 1.2) {
-        gesture.axis = 'x';
-        try { previewHost.setPointerCapture?.(gesture.id); } catch { /* Capture optional. */ }
-      } else if (Math.abs(dy) > Math.abs(dx) * 1.2) gesture.axis = 'y';
-    }
-    if (gesture.axis === 'x') event.preventDefault();
-  }, { passive: false });
-  listen(previewHost, 'pointerup', event => {
-    const gesture = previewGesture;
-    if (!gesture || gesture.id !== event.pointerId) return;
-    resetPreviewGesture();
-    if (gesture.axis !== 'x' || Math.abs(gesture.dx) < 32) return;
-    event.preventDefault();
-    const row = [...rows.values()].find(item => item.active);
-    if (!row) return;
-    const current = row.vehicle.variants.findIndex(item => item.id === row.selected);
-    const next = Math.max(0, Math.min(row.vehicle.variants.length - 1, current + (gesture.dx < 0 ? 1 : -1)));
-    if (current !== next) select(row.vehicle.id, row.vehicle.variants[next].id);
-  });
-  for (const type of ['pointercancel', 'lostpointercapture']) listen(previewHost, type, resetPreviewGesture);
-  listen(doc.defaultView || doc, 'blur', resetPreviewGesture);
 
   function releaseBackground() {
     for (const [node, inert] of background) node.inert = inert;
     background = [];
   }
   function resetRows() {
-    resetPreviewGesture();
-    previewCaption.textContent = '';
-    applyButton.disabled = true;
     for (const row of rows.values()) {
       resetGesture(row);
       row.token++;
       row.selected = row.applied = BASE_VEHICLE_LIVERY_ID;
-      row.loading = row.error = row.active = row.suppressClick = false;
+      row.loading = row.error = row.active = row.applying = false; row.applyResult = null;
+      row.carousel.setEnabled(opened);
       updateRow(row);
     }
   }
@@ -368,11 +276,11 @@ export function createVehicleLiveryShop(doc, {
     refresh();
     onOpenChange(true);
     if (!opened || disposed) return false;
-    if (autoPreview) select(VEHICLE_LIVERY_CATALOG[0].id, BASE_VEHICLE_LIVERY_ID);
+    if (autoPreview) for (const vehicle of VEHICLE_LIVERY_CATALOG) select(vehicle.id, BASE_VEHICLE_LIVERY_ID);
     closeButton.focus?.();
     return true;
   }
-  const focusable = () => [closeButton, ...(!applyButton.disabled ? [applyButton] : []), ...[...rows.values()].flatMap(row => [row.show, row.options.get(row.selected).button])];
+  const focusable = () => [closeButton, ...[...rows.values()].flatMap(row => [row.show, row.carousel.previous, row.carousel.next, row.options.get(row.selected).button, row.apply].filter(node => !node.disabled))];
   function onKeyDown(event) {
     if (!opened) return;
     event.stopPropagation();
@@ -412,6 +320,7 @@ export function createVehicleLiveryShop(doc, {
     finally {
       for (const remove of listeners.splice(0)) remove();
       releaseBackground();
+      for (const row of rows.values()) row.carousel.destroy();
       menu.remove();
     }
   }
@@ -424,7 +333,7 @@ export function createVehicleLiveryShop(doc, {
       return visible;
     },
     isOpen: () => opened, refresh,
-    getPreviewHost: () => previewHost,
+    getPreviewHost: vehicleId => rows.get(vehicleId || VEHICLE_LIVERY_CATALOG[0].id)?.previewHost,
     setLanguage(next) { languageOverride = next === 'en' ? 'en' : 'ru'; refresh(); return lang(); },
     preview: select,
     getSelection: vehicleId => rows.get(vehicleId)?.selected ?? null,

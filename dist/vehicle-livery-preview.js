@@ -43,6 +43,7 @@ export function createVehicleLiveryPreview(THREE, host, options = {}) {
   function draw(time) {
     frame = null;
     if (!renderer || disposed || doc.hidden) return;
+    if (options.shouldDraw && !options.shouldDraw()) { frame = requestFrame(draw); lastFrame = 0; return; }
     if (!lastFrame || time - lastFrame >= 1000 / 30) {
       const dt = lastFrame ? Math.min((time - lastFrame) / 1000, .1) : 0;
       lastFrame = time;
@@ -126,5 +127,94 @@ export function createVehicleLiveryPreview(THREE, host, options = {}) {
     },
     close,
     dispose() { if (!disposed) { close(); disposed = true; } },
+  };
+}
+
+
+/** Multiple visible car cards, one shared WebGL context; each card receives a 2D frame. */
+export function createVehicleLiveryGallery(THREE, getHost, options = {}) {
+  const slots = new Map();
+  let shared = null, disposed = false, scheduler = null, win = null;
+  let bufferWidth = 0, bufferHeight = 0, bufferRatio = 0;
+  const visible = host => {
+    if (!host?.isConnected || host.ownerDocument.hidden) return false;
+    const rect = host.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) return false;
+    let top = 0, bottom = win.innerHeight || 10000;
+    for (let parent = host.parentElement; parent; parent = parent.parentElement) {
+      if (parent.classList?.contains('vehicle-livery-scroll')) {
+        const bounds = parent.getBoundingClientRect(); top = Math.max(top, bounds.top); bottom = Math.min(bottom, bounds.bottom); break;
+      }
+    }
+    return rect.bottom > top && rect.top < bottom;
+  };
+  function rendererFor(host) {
+    if (!shared) shared = options.createRenderer ? options.createRenderer() : new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'low-power' });
+    const canvas = host.ownerDocument.createElement('canvas'), context = canvas.getContext('2d');
+    if (!context) throw new Error('Car preview needs a 2D canvas.');
+    let width = 1, height = 1, ratio = 1;
+    // The offscreen WebGL canvas is never attached to or moved between cards.
+    return {
+      domElement: canvas,
+      setPixelRatio(value) { ratio = value; },
+      setSize(w, h) { width = w; height = h; canvas.width = Math.round(w * ratio); canvas.height = Math.round(h * ratio); },
+      setClearColor(...args) { shared.setClearColor(...args); },
+      set outputColorSpace(value) { shared.outputColorSpace = value; },
+      set toneMapping(value) { shared.toneMapping = value; },
+      set toneMappingExposure(value) { shared.toneMappingExposure = value; },
+      render(scene, camera) {
+        if (width !== bufferWidth || height !== bufferHeight || ratio !== bufferRatio) {
+          if (shared.setDrawingBufferSize) shared.setDrawingBufferSize(width, height, ratio);
+          else {
+            if (ratio !== bufferRatio) shared.setPixelRatio(ratio);
+            shared.setSize(width, height, false);
+          }
+          bufferWidth = width; bufferHeight = height; bufferRatio = ratio;
+        }
+        shared.render(scene, camera);
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(shared.domElement, 0, 0, canvas.width, canvas.height);
+      },
+      dispose() {},
+    };
+  }
+  function pump() {
+    scheduler = null;
+    if (disposed || !slots.size) return;
+    for (const slot of slots.values()) {
+      if (!slot.pending || !visible(slot.host)) continue;
+      const pending = slot.pending; slot.pending = null;
+      try {
+        if (!slot.preview) slot.preview = createVehicleLiveryPreview(THREE, slot.host, {
+          ...options, createRenderer: () => rendererFor(slot.host), shouldDraw: () => visible(slot.host),
+        });
+        slot.preview.show(...pending.args).then(pending.resolve, () => pending.resolve(false));
+      } catch { pending.resolve(false); }
+    }
+    scheduler = win.requestAnimationFrame(pump);
+  }
+  function close() {
+    if (scheduler !== null) win.cancelAnimationFrame(scheduler);
+    scheduler = null;
+    for (const slot of slots.values()) { slot.pending?.resolve(false); slot.preview?.dispose(); }
+    slots.clear();
+    shared?.dispose(); shared?.forceContextLoss?.(); shared = null;
+    bufferWidth = bufferHeight = bufferRatio = 0;
+  }
+  return {
+    show(adapter, vehicleId, liveryId = 'base') {
+      if (disposed) return Promise.resolve(false);
+      const host = getHost(vehicleId);
+      if (!host) return Promise.resolve(false);
+      win = host.ownerDocument.defaultView || globalThis;
+      let slot = slots.get(vehicleId);
+      if (!slot) { slot = { host, preview: null, pending: null }; slots.set(vehicleId, slot); }
+      slot.pending?.resolve(false);
+      const result = new Promise(resolve => { slot.pending = { args: [adapter, vehicleId, liveryId], resolve }; });
+      if (scheduler === null) scheduler = win.requestAnimationFrame(pump);
+      return result;
+    },
+    close,
+    dispose() { close(); disposed = true; },
   };
 }

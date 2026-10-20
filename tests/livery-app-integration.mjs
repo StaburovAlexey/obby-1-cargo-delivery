@@ -90,8 +90,8 @@ test('all 11 cars preview in an isolated viewer without changing hangar, ownersh
    assert.deepEqual(d.garage.vehicles.map(v=>v.visual.mesh.material),materials);
    assert.deepEqual(pose(f),camera);
   }
-  assert.equal(f.livery.controllers.length,1);assert.equal(f.livery.calls.length,56);
-  assert.equal(f.livery.controllers[0].host,shop.getPreviewHost());
+  assert.equal(f.livery.controllers.length,1);assert.equal(f.livery.calls.length,66);
+  assert.equal(f.livery.controllers[0].host('pickup'),shop.getPreviewHost('pickup'));
   assert.equal(JSON.stringify(d.gameplay.snapshot()),before);
   assert.equal(JSON.stringify({money:d.gameplay.state.money,fuels:d.gameplay.state.fuels,selectedId:d.gameplay.state.selectedId,mode:d.gameplay.state.mode}),state);
   assert.deepEqual(VEHICLE_CONFIG.map(v=>getVehiclePerformance(v.id,d.gameplay.state.upgrades[v.id])),performance);
@@ -167,7 +167,7 @@ test('Apply is restricted to the owned base finish and never changes ownership o
  const f=make();try{
   const shop=f.livery.shop,before=JSON.stringify(f.debug.gameplay.snapshot());
   const stored=f.storage.getItem(ECONOMY_CONFIG.saveKey);
-  const apply=f.ids.get('vehicle-livery-panel').all().find(el=>el.className==='vehicle-livery-apply');
+  const apply=f.ids.get('vehicle-livery-panel').all().find(el=>el.getAttribute('data-apply-vehicle')==='pickup');
   shop.open();await settle();assert.equal(apply.disabled,false);
   apply.dispatch('click');await settle();assert.equal(apply.disabled,false);
   assert.equal(JSON.stringify(f.debug.gameplay.snapshot()),before);

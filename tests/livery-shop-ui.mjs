@@ -133,8 +133,8 @@ test('Keyboard arrows, Home/End and focus trapping work without exposing backgro
   f.rail('pickup').dispatch('keydown', { key: 'Home' }); assert.equal(f.ui.getSelection('pickup'), 'base');
   f.get('close').focus();
   event = f.get('close').dispatch('keydown', { key: 'Tab', shiftKey: true });
-  assert.equal(event.defaultPrevented, true); assert.equal(f.doc.activeElement, f.option('bmwreward', 'base'));
-  event = f.option('bmwreward', 'base').dispatch('keydown', { key: 'Tab' });
+  assert.equal(event.defaultPrevented, true); assert.equal(f.doc.activeElement.getAttribute('data-apply-vehicle'), 'bmwreward');
+  event = f.doc.activeElement.dispatch('keydown', { key: 'Tab' });
   assert.equal(event.defaultPrevented, true); assert.equal(f.doc.activeElement, f.get('close'));
   f.world.dispatch('focusin'); assert.equal(f.doc.activeElement, f.get('close'));
   for (const type of ['pointerdown', 'pointermove', 'pointerup', 'pointercancel', 'touchstart', 'touchmove', 'touchend', 'touchcancel', 'wheel', 'keyup']) {
@@ -253,4 +253,19 @@ test('Styling preserves visible actual-car preview, vertical scroll, touch targe
   assert.match(css, /\.vehicle-livery-close\{[^}]*width:44px;height:44px/);
   assert.match(css, /prefers-reduced-motion:reduce/);
   assert.doesNotMatch(js, /localStorage|sessionStorage|saveCareer|purchaseVehicle|spendMoney|fetch\(/);
+});
+
+
+test('A vertical mouse drag released outside the carousel cannot strand the next swipe', () => {
+  const f = fixture(); f.ui.open(); const rail = f.rail('pickup');
+  pointer(rail, 'pointerdown', 100, 20);
+  pointer(rail, 'pointermove', 105, 90);
+  // Emulate window capture before the sibling/menu stops bubbling.
+  f.win.dispatch('pointerup', { target: f.get('close'), pointerId: 1, clientX: 200, clientY: 400 });
+  f.get('close').dispatch('pointerup', { pointerId: 1 });
+  pointer(rail, 'pointerdown', 100, 20);
+  pointer(rail, 'pointermove', 30, 22);
+  pointer(rail, 'pointerup', 30, 22);
+  assert.equal(f.ui.getSelection('pickup'), 'neon');
+  f.ui.dispose();
 });

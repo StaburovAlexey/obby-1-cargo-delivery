@@ -1,0 +1,9 @@
+# Per-vehicle livery carousels
+
+Each of the eleven vehicle cards contains an independent rotating 3D car view, five selectable finishes, previous/next controls and an Apply button below the carousel. Swiping horizontally changes that car's finish only. Vertical gestures remain native list scrolling. Arrow keys and Home/End work; focus stays trapped in the modal. Locked finishes can be viewed but cannot be applied, including through a manually enabled DOM button. The app callback separately rejects every non-base finish.
+
+`dist/item-carousel.js` is the reusable DOM component. It accepts items, a caller-defined item-control renderer and an onSelect callback. It has no car, shop, currency or WebGL dependencies. The host controls the selected item through update(). `viewport` is supplied to the content renderer. Lifecycle methods reset pointer capture, enable/disable gestures and remove listeners.
+
+`createVehicleLiveryGallery` in `dist/vehicle-livery-preview.js` renders the actual vehicle clones to one shared offscreen WebGL canvas and copies each rendered frame to the visible card's 2D canvas. It does not allocate one GPU context per card or slide. Cards load their previews only when visible, invisible cards stop rendering, render density is capped at 1.5 and rotation at 30 FPS. Source geometry/materials remain shared and unchanged. Closing destroys all preview controllers and the shared GPU context, cancels queued requests and removes canvases. No preview is persisted or sent to multiplayer.
+
+Verification: `npm run test:liveries`, `npm run build:all`, and development preview build with `PUBLIC_GAME_DEVELOPMENT=1`. Unit/integration tests cover independent per-card selection, base-only Apply, double-click protection, keyboard, vertical/horizontal gestures, async supersession, close/reopen, lazy visibility, one GPU context and disposal. CPU tests do not establish actual GPU/browser appearance.
