@@ -35,23 +35,23 @@ test('Clone maps the actual body, exposes the hidden source, and preserves share
 });
 test('Renderer rotates only its clone, cancels closed requests, disposes only owned resources, and reopens', async () => {
   const { doc } = dom(), host = doc.createElement('div'); host.clientWidth = 400; host.clientHeight = 220;
-  const frames = new Map(), renders = [], renderers = []; let next = 0, resolveTexture;
+  const frames = new Map(), renders = [], renderers = []; let next = 0; const textureResolvers = [];
   const original = vehicle(), sourceMesh = original.body.children[0]; let disposedShared = 0;
   sourceMesh.geometry.addEventListener('dispose', () => disposedShared++);
   sourceMesh.material.addEventListener('dispose', () => disposedShared++);
   const preview = createVehicleLiveryPreview(THREE, host, {
     requestFrame: fn => { frames.set(++next, fn); return next; }, cancelFrame: id => frames.delete(id),
-    textureLoader: () => new Promise(resolve => { resolveTexture = resolve; }),
+    textureLoader: () => new Promise(resolve => { textureResolvers.push(resolve); }),
     createRenderer: () => { const renderer = { domElement: doc.createElement('canvas'), setPixelRatio() {}, setClearColor() {}, setSize() {}, render: (scene, camera) => renders.push([scene, camera]), dispose() { this.disposed = true; }, forceContextLoss() {} }; renderers.push(renderer); return renderer; },
   });
   assert.equal(await preview.show(original, 'bmwreward', 'base'), true);
   assert.equal(host.children.length, 1); assert.equal(frames.size, 1);
-  const scene = renders.at(-1)[0], pivot = scene.children[0], initialAngle = pivot.rotation.y;
+  const scene = renders.at(-1)[0], pivot = scene.children[0], turntable = pivot.children[0].children[0], initialAngle = turntable.rotation.y;
   const tick = time => { const [id, fn] = frames.entries().next().value; frames.delete(id); fn(time); };
   tick(100); tick(150);
-  assert.ok(pivot.rotation.y > initialAngle); assert.equal(original.group.rotation.y, 1);
+  assert.ok(turntable.rotation.y > initialAngle); assert.equal(pivot.rotation.y, 0); assert.equal(original.group.rotation.y, 1);
   const pending = preview.show(original, 'bmwreward', 'anime');
-  preview.close(); resolveTexture(new THREE.Texture());
+  preview.close(); textureResolvers.forEach(resolve => resolve(new THREE.Texture()));
   assert.equal(await pending, false); assert.equal(host.children.length, 0); assert.equal(frames.size, 0);
   assert.equal(disposedShared, 0); assert.equal(renderers[0].disposed, true);
   assert.equal(await preview.show(original, 'bmwreward', 'base'), true);

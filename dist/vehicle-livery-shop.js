@@ -3,30 +3,8 @@ import { modalPart } from './modal-ui.js';
 import { BASE_VEHICLE_LIVERY_ID, VEHICLE_LIVERY_CATALOG, getVehicleLivery, vehicleLiveryName } from './vehicle-livery-catalog.js';
 
 const copy = Object.freeze({
-  ru: {
-    title: 'Расцветки', close: 'Закрыть магазин расцветок', eyebrow: 'МАГАЗИН АНГАРА',
-    description: 'Листайте машины вниз, расцветки — влево и вправо.',
-    previewNote: 'Проведите по машине, чтобы сменить расцветку.',
-    unavailable: 'Покупка пока недоступна. Цены и валюта ещё не выбраны.',
-    resetNote: 'Примерка не меняет машину в ангаре.', apply: 'Применить', applied: 'Применено', applyFailed: 'Не удалось применить',
-    base: 'Базовая · установлена', preview: 'Примерка · не куплено', loading: 'Загружаем примерку…',
-    failed: 'Не удалось загрузить. Нажмите на расцветку ещё раз.',
-    purchase: 'Покупка недоступна', owned: 'В наличии', locked: 'Закрыто',
-    show: 'Показать машину', choose: 'Выбрать расцветку для', selected: 'Выбрано для примерки',
-    count: '11 машин · 44 новые расцветки', reward: 'Наградная машина',
-  },
-  en: {
-    title: 'Liveries', close: 'Close livery shop', eyebrow: 'HANGAR SHOP',
-    description: 'Scroll down for cars. Swipe sideways for liveries.',
-    previewNote: 'Swipe across the rotating car to change its livery.',
-    unavailable: 'Purchases are unavailable. Prices and currency are not set yet.',
-    resetNote: 'Previewing does not change your hangar car.', apply: 'Apply', applied: 'Applied', applyFailed: 'Could not apply',
-    base: 'Base · equipped', preview: 'Preview · not owned', loading: 'Loading preview…',
-    failed: 'Preview could not load. Tap the livery to retry.',
-    purchase: 'Purchase unavailable', owned: 'Owned', locked: 'Locked',
-    show: 'Preview car', choose: 'Choose a livery for', selected: 'Selected for preview',
-    count: '11 cars · 44 new liveries', reward: 'Reward car',
-  },
+  ru: { title: 'Расцветки', close: 'Закрыть магазин расцветок', apply: 'Выбрать', choose: 'Расцветки машины', loading: 'Загрузка', failed: 'Не удалось загрузить', base: 'Стандартная', preview: 'Только просмотр' },
+  en: { title: 'Liveries', close: 'Close livery shop', apply: 'Select', choose: 'Car liveries', loading: 'Loading', failed: 'Could not load', base: 'Standard', preview: 'Preview only' },
 });
 
 /**
@@ -67,55 +45,29 @@ export function createVehicleLiveryShop(doc, {
   menu.hidden = true;
   const panel = make('section', modalPart('panel', 'vehicle-livery-panel'), menu, {
     id: 'vehicle-livery-panel', role: 'dialog', 'aria-modal': 'true',
-    'aria-labelledby': 'vehicle-livery-title', 'aria-describedby': 'vehicle-livery-description', tabindex: '-1',
+    'aria-labelledby': 'vehicle-livery-title', tabindex: '-1',
   });
   const heading = make('header', modalPart('heading', 'vehicle-livery-heading'), panel);
   const headingText = make('div', 'vehicle-livery-heading-text', heading);
-  const eyebrow = make('span', 'vehicle-livery-eyebrow', headingText);
   const title = make('h2', '', headingText, { id: 'vehicle-livery-title' });
   const closeButton = make('button', modalPart('close', 'vehicle-livery-close'), heading, { id: 'vehicle-livery-close', type: 'button' });
   closeButton.textContent = '×';
-  const intro = make('div', 'vehicle-livery-intro', panel);
-  const description = make('p', '', intro, { id: 'vehicle-livery-description' });
-  const previewNote = make('p', 'vehicle-livery-preview-note', intro);
-  const count = make('p', 'vehicle-livery-count', intro);
   const scroll = make('div', 'vehicle-livery-scroll', panel, { id: 'vehicle-livery-list', role: 'list' });
-  const footer = make('footer', 'vehicle-livery-footer', panel);
-  const unavailable = make('p', '', footer, { id: 'vehicle-livery-purchase-note' });
-  const resetNote = make('p', 'vehicle-livery-reset-note', footer);
 
   function updateRow(row) {
     const text = words(), selected = getVehicleLivery(row.vehicle.id, row.selected);
-    row.name.textContent = row.vehicle.name[lang()];
-    row.show.title = `${text.show}: ${row.vehicle.name[lang()]}`;
-    row.show.setAttribute('aria-label', row.show.title);
-    row.rail.setAttribute('aria-label', `${text.choose} ${row.vehicle.name[lang()]}`);
+    row.root.setAttribute('aria-label', row.vehicle.name[lang()]);
     row.root.setAttribute('aria-busy', String(row.loading));
     row.root.setAttribute('data-active', String(row.active));
     row.status.textContent = row.loading ? text.loading : row.error ? text.failed : row.selected === BASE_VEHICLE_LIVERY_ID ? text.base : text.preview;
     row.status.setAttribute('data-state', row.error ? 'error' : row.loading ? 'loading' : selected.owned ? 'owned' : 'preview');
     const caption = `${row.vehicle.name[lang()]} · ${vehicleLiveryName(row.vehicle.id, row.selected, lang())}`;
-    row.previewCaption.textContent = caption;
     row.previewHost.setAttribute('aria-label', caption);
     row.carousel.update(row.selected);
-    row.carousel.setLabels({ title: `${text.choose} ${row.vehicle.name[lang()]}`, previous: lang() === 'ru' ? 'Предыдущая расцветка' : 'Previous livery', next: lang() === 'ru' ? 'Следующая расцветка' : 'Next livery' });
+    row.carousel.setLabels({ title: `${text.choose} ${row.vehicle.name[lang()]}` });
     row.apply.disabled = row.selected !== BASE_VEHICLE_LIVERY_ID || row.loading || row.error || row.applying;
-    row.apply.textContent = row.applyResult === true ? text.applied : row.applyResult === false ? text.applyFailed : text.apply;
+    row.apply.textContent = text.apply;
     row.apply.setAttribute('aria-label', `${text.apply}: ${caption}`);
-    row.purchase.textContent = text.purchase;
-    row.purchase.title = text.unavailable;
-    row.purchase.hidden = row.selected === BASE_VEHICLE_LIVERY_ID;
-    row.purchase.disabled = true;
-    for (const [id, entry] of row.options) {
-      const variant = getVehicleLivery(row.vehicle.id, id), checked = id === row.selected;
-      const name = vehicleLiveryName(row.vehicle.id, id, lang());
-      entry.name.textContent = name;
-      entry.button.setAttribute('aria-checked', String(checked));
-      entry.button.setAttribute('aria-label', `${variant.code === '0' ? '' : variant.code + ' · '}${name} · ${variant.owned ? text.owned : text.locked}`);
-      entry.button.tabIndex = checked ? 0 : -1;
-      entry.button.title = `${name} · ${variant.owned ? text.owned : text.locked}`;
-      entry.lock.hidden = variant.owned;
-    }
   }
 
   function refresh() {
@@ -123,13 +75,7 @@ export function createVehicleLiveryShop(doc, {
     const text = words();
     menu.setAttribute('lang', lang());
     title.textContent = text.title;
-    eyebrow.textContent = text.eyebrow;
     closeButton.setAttribute('aria-label', text.close);
-    description.textContent = text.description;
-    previewNote.textContent = text.previewNote;
-    count.textContent = text.count;
-    unavailable.textContent = text.unavailable;
-    resetNote.textContent = text.resetNote;
     if (button) {
       button.setAttribute('aria-label', text.title);
       button.setAttribute('title', text.title);
@@ -148,7 +94,7 @@ export function createVehicleLiveryShop(doc, {
       other.active = other === row;
       updateRow(other);
     }
-    if (focus) row.options.get(liveryId).button.focus?.({ preventScroll: true });
+    if (focus) row.previewHost.focus?.({ preventScroll: true });
     const settle = success => {
       if (disposed || !opened || epoch !== openEpoch || row.token !== token) return;
       row.loading = false;
@@ -168,39 +114,18 @@ export function createVehicleLiveryShop(doc, {
 
   const resetGesture = row => row.carousel.resetGesture();
 
-  for (const [index, vehicle] of VEHICLE_LIVERY_CATALOG.entries()) {
+  for (const vehicle of VEHICLE_LIVERY_CATALOG) {
     const root = make('article', 'vehicle-livery-card', scroll, { role: 'listitem', 'data-vehicle-id': vehicle.id, 'data-biome': vehicle.biome });
-    const head = make('h3', 'vehicle-livery-card-heading', root, { id: `vehicle-livery-car-${vehicle.id}` });
-    root.setAttribute('aria-labelledby', `vehicle-livery-car-${vehicle.id}`);
-    const show = make('button', 'vehicle-livery-show', head, { type: 'button', 'data-show-vehicle': vehicle.id });
-    const number = make('span', 'vehicle-livery-number', show, { 'aria-hidden': 'true' });
-    number.textContent = String(index + 1).padStart(2, '0');
-    const name = make('span', 'vehicle-livery-car-name', show);
-    const eye = make('span', 'vehicle-livery-eye', show, { 'aria-hidden': 'true' });
-    eye.textContent = '↗';
-    const row = { vehicle, root, show, name, selected: BASE_VEHICLE_LIVERY_ID,
+    const row = { vehicle, root, selected: BASE_VEHICLE_LIVERY_ID,
       applied: BASE_VEHICLE_LIVERY_ID, token: 0, loading: false, error: false, active: false,
       applying: false, applyResult: null };
     row.carousel = createItemCarousel(doc, {
       parent: root, items: vehicle.variants,
       onSelect: (id, options) => select(vehicle.id, id, options),
-      renderItem: (variant, option) => {
-        option.className += ' vehicle-livery-option';
-        option.setAttribute('data-livery-id', variant.id);
-        const code = make('span', 'vehicle-livery-code', option, { 'aria-hidden': 'true' });
-        code.textContent = variant.code === '0' ? '✓' : variant.code;
-        const lock = make('span', 'vehicle-livery-lock', option, { 'aria-hidden': 'true' });
-        const name = make('span', 'vehicle-livery-option-name', option);
-        return { name, lock };
-      },
     });
-    row.rail = row.carousel.rail; row.options = row.carousel.options;
-    row.rail.className += ' vehicle-livery-variants';
-    row.rail.setAttribute('data-vehicle-options', vehicle.id);
     row.previewHost = row.carousel.viewport;
     row.previewHost.className += ' vehicle-livery-preview-host';
     row.previewHost.setAttribute('id', `vehicle-livery-preview-${vehicle.id}`);
-    row.previewCaption = make('p', 'vehicle-livery-preview-caption', root, { 'aria-live': 'polite' });
     row.apply = make('button', modalPart('button', 'vehicle-livery-apply'), root, { type: 'button', 'data-apply-vehicle': vehicle.id });
     listen(row.apply, 'click', () => {
       if (!opened || row.apply.disabled || row.applying || row.selected !== BASE_VEHICLE_LIVERY_ID || !canOpen()) return;
@@ -213,12 +138,8 @@ export function createVehicleLiveryShop(doc, {
       try { Promise.resolve(onApply(vehicle.id, row.selected)).then(result => settle(result !== false), () => settle(false)); }
       catch { settle(false); }
     });
-    const bottom = make('div', 'vehicle-livery-card-bottom', root);
-    row.status = make('p', 'vehicle-livery-status', bottom, { role: 'status', 'aria-live': 'polite', 'aria-atomic': 'true' });
-    row.purchase = make('button', 'vehicle-livery-purchase', bottom, { type: 'button', disabled: '', 'aria-describedby': 'vehicle-livery-purchase-note' });
-    row.purchase.disabled = true;
+    row.status = make('p', 'vehicle-livery-status sr-only', root, { role: 'status', 'aria-live': 'polite', 'aria-atomic': 'true' });
     rows.set(vehicle.id, row);
-    listen(show, 'click', () => select(vehicle.id, row.selected));
   }
 
   function releaseBackground() {
@@ -231,6 +152,7 @@ export function createVehicleLiveryShop(doc, {
       row.token++;
       row.selected = row.applied = BASE_VEHICLE_LIVERY_ID;
       row.loading = row.error = row.active = row.applying = false; row.applyResult = null;
+      row.carousel.update(BASE_VEHICLE_LIVERY_ID, { immediate: true });
       row.carousel.setEnabled(opened);
       updateRow(row);
     }
@@ -280,7 +202,7 @@ export function createVehicleLiveryShop(doc, {
     closeButton.focus?.();
     return true;
   }
-  const focusable = () => [closeButton, ...[...rows.values()].flatMap(row => [row.show, row.carousel.previous, row.carousel.next, row.options.get(row.selected).button, row.apply].filter(node => !node.disabled))];
+  const focusable = () => [closeButton, ...[...rows.values()].flatMap(row => [row.previewHost, row.apply].filter(node => !node.disabled))];
   function onKeyDown(event) {
     if (!opened) return;
     event.stopPropagation();

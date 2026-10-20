@@ -1,4 +1,5 @@
 import { createVehicleLiveryController } from './vehicle-livery-materials.js';
+import { VEHICLE_LIVERY_CATALOG } from './vehicle-livery-catalog.js';
 
 /** Clone transforms only. Geometry, textures and original materials remain source-owned. */
 export function cloneVehicleForLiveryPreview(adapter) {
@@ -17,15 +18,18 @@ export function cloneVehicleForLiveryPreview(adapter) {
   return { group, body, metadata: adapter.metadata };
 }
 
-/** One lazily-created canvas for the selected car. Call close() on dialog close. */
+/** One lazily-created canvas, five isolated finishes, and a continuous circular carousel. */
 export function createVehicleLiveryPreview(THREE, host, options = {}) {
   const doc = host.ownerDocument, win = doc.defaultView || globalThis;
   const requestFrame = options.requestFrame || (fn => win.requestAnimationFrame(fn));
   const cancelFrame = options.cancelFrame || (id => win.cancelAnimationFrame(id));
-  let renderer = null, scene = null, camera = null, pivot = null, controller = null;
-  let source = null, vehicle = null, model = null, frame = null, observer = null;
+  let renderer = null, scene = null, camera = null, pivot = null;
+  let source = null, vehicle = null, models = [], frame = null, observer = null;
   let revision = 0, disposed = false, lastFrame = 0, width = 0, height = 0;
+  let selectedIndex = 0, drawnPosition = NaN, spinAngle = -.5;
+  const right = new THREE.Vector3(), back = new THREE.Vector3();
   const reducedMotion = win.matchMedia?.('(prefers-reduced-motion: reduce)');
+  const position = () => Number.isFinite(host.carouselPosition) ? host.carouselPosition : selectedIndex;
   function resize() {
     if (!renderer) return;
     const w = Math.max(1, host.clientWidth || 320), h = Math.max(1, host.clientHeight || 210);
@@ -33,22 +37,52 @@ export function createVehicleLiveryPreview(THREE, host, options = {}) {
     width = w; height = h;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
-    // Fit the entire spinning bounding sphere, including portrait screens.
+    // Fit both side cars on narrow screens without changing their relative orbit.
     const halfFov = THREE.MathUtils.degToRad(camera.fov / 2);
-    const distance = 2.65 / Math.sin(Math.min(halfFov, Math.atan(Math.tan(halfFov) * camera.aspect)));
+    const distance = Math.max(2.8, 5.4 / camera.aspect) / Math.tan(halfFov);
     camera.position.set(distance * .65, distance * .36, distance * .67);
     camera.lookAt(0, .15, 0);
     camera.updateProjectionMatrix();
+    right.set(1, 0, 0).applyQuaternion(camera.quaternion);
+    back.set(0, 0, 1).applyQuaternion(camera.quaternion);
+  }
+  function layout(carouselPosition = position()) {
+    const count = models.length;
+    if (!count) return;
+    const step = Math.PI * 2 / count;
+    for (const entry of models) {
+      // Wrapping the phase, not the index, keeps the last/first transition continuous.
+      const phase = ((entry.index - carouselPosition) % count + count) % count;
+      const angle = (phase > count / 2 ? phase - count : phase) * step;
+      const depth = Math.cos(angle);
+      // Far-back cars disappear at the back of the orbit, never at the side. Scale
+      // this transition instead of changing any of the source-owned materials.
+      const rear = 1 - THREE.MathUtils.smoothstep(Math.abs(angle), step * 1.25, step * 1.9);
+      entry.model.position.copy(right).multiplyScalar(Math.sin(angle) * 4.5)
+        .addScaledVector(back, (depth - 1) * 3);
+      // Keep hidden matrices invertible while an asynchronous controller prepares UVs.
+      entry.model.scale.setScalar(Math.max(.001, (.76 + .24 * Math.max(0, depth)) * rear));
+      entry.model.visible = entry.ready && rear > .0001;
+      entry.turntable.rotation.y = spinAngle;
+    }
+    drawnPosition = carouselPosition;
+  }
+  function render() {
+    if (!renderer || doc.hidden || (options.shouldDraw && !options.shouldDraw())) return;
+    resize(); layout(); renderer.render(scene, camera);
   }
   function draw(time) {
     frame = null;
     if (!renderer || disposed || doc.hidden) return;
     if (options.shouldDraw && !options.shouldDraw()) { frame = requestFrame(draw); lastFrame = 0; return; }
-    if (!lastFrame || time - lastFrame >= 1000 / 30) {
+    const nextPosition = position();
+    // Idle rotation is 30 fps; direct manipulation follows every animation frame.
+    if (!lastFrame || time - lastFrame >= 1000 / 30 || nextPosition !== drawnPosition) {
       const dt = lastFrame ? Math.min((time - lastFrame) / 1000, .1) : 0;
       lastFrame = time;
       resize();
-      if (pivot && !reducedMotion?.matches) pivot.rotation.y += dt * .32;
+      if (!reducedMotion?.matches) spinAngle += dt * .32;
+      layout(nextPosition);
       renderer.render(scene, camera);
     }
     frame = requestFrame(draw);
@@ -66,7 +100,7 @@ export function createVehicleLiveryPreview(THREE, host, options = {}) {
     next.outputColorSpace = THREE.SRGBColorSpace;
     next.toneMapping = THREE.ACESFilmicToneMapping;
     next.toneMappingExposure = 1.3;
-    next.setClearColor(0x0c223c, 0);
+    next.setClearColor(0x000000, 0);
     next.domElement.setAttribute('aria-hidden', 'true');
     host.append(next.domElement);
     renderer = next;
@@ -81,11 +115,50 @@ export function createVehicleLiveryPreview(THREE, host, options = {}) {
     doc.addEventListener('visibilitychange', visibility);
     resize(); start();
   }
-  function releaseModel() {
-    controller?.dispose(); controller = null;
-    if (model) pivot?.remove(model);
-    // Shared source geometry/materials/textures must never be disposed here.
-    source = vehicle = model = null;
+  function releaseModels() {
+    for (const entry of models) {
+      entry.controller.dispose();
+      pivot?.remove(entry.model);
+    }
+    // Only controllers own paint clones; source geometry/materials/textures stay untouched.
+    models = []; source = vehicle = null;
+    drawnPosition = NaN;
+  }
+  function loadFinish(entry) {
+    entry.failed = false;
+    entry.pending = entry.controller.preview(entry.id).then(result => {
+      entry.ready = result.applied !== false && !entry.controller.disposed;
+      entry.failed = !entry.ready && !entry.controller.disposed;
+      if (entry.ready && models.includes(entry)) render();
+      return entry.ready;
+    }, () => { entry.failed = !entry.controller.disposed; return false; });
+    return entry.pending;
+  }
+  function loadModels(adapter, vehicleId, variants) {
+    releaseModels();
+    spinAngle = -.5;
+    source = adapter; vehicle = vehicleId;
+    // Normalize once, before any carousel transform can influence body-local UVs.
+    const reference = cloneVehicleForLiveryPreview(adapter);
+    const box = new THREE.Box3().setFromObject(reference.group, true);
+    const size = box.getSize(new THREE.Vector3()), center = box.getCenter(new THREE.Vector3());
+    const factor = 4.4 / Math.max(size.length(), .001);
+    models = variants.map((variant, index) => {
+      const clone = index === 0 ? reference : cloneVehicleForLiveryPreview(adapter);
+      const model = new THREE.Group(), turntable = new THREE.Group(), normalized = new THREE.Group();
+      clone.group.position.sub(center);
+      normalized.scale.setScalar(factor); normalized.add(clone.group);
+      turntable.add(normalized); model.add(turntable); pivot.add(model);
+      model.userData.vehicleLiveryPreview = { vehicleId, liveryId: variant.id, index };
+      const controller = createVehicleLiveryController(THREE, clone, vehicleId, options);
+      const entry = { index, id: variant.id, model, turntable, controller, ready: false, failed: false, pending: null };
+      model.visible = false;
+      // Each finish gets its own controller. A pending neighboring texture can never
+      // paint the focused car or restore somebody else's materials after a swipe.
+      loadFinish(entry);
+      return entry;
+    });
+    layout();
   }
   function close() {
     ++revision;
@@ -93,7 +166,7 @@ export function createVehicleLiveryPreview(THREE, host, options = {}) {
     frame = null; lastFrame = 0;
     observer?.disconnect(); observer = null;
     doc.removeEventListener('visibilitychange', visibility);
-    releaseModel();
+    releaseModels();
     if (renderer) {
       renderer.domElement.remove();
       renderer.dispose(); renderer.forceContextLoss?.();
@@ -104,26 +177,20 @@ export function createVehicleLiveryPreview(THREE, host, options = {}) {
   return {
     async show(adapter, vehicleId, liveryId = 'base') {
       if (disposed) return false;
+      const variants = VEHICLE_LIVERY_CATALOG.find(item => item.id === vehicleId)?.variants;
+      const index = variants?.findIndex(item => item.id === liveryId) ?? -1;
+      if (index < 0) throw new RangeError(`Unknown livery: ${vehicleId}/${liveryId}`);
       const token = ++revision;
       ensureRenderer();
-      if (source !== adapter || vehicle !== vehicleId) {
-        releaseModel();
-        const clone = cloneVehicleForLiveryPreview(adapter);
-        model = new THREE.Group(); model.add(clone.group);
-        const box = new THREE.Box3().setFromObject(clone.group, true);
-        const size = box.getSize(new THREE.Vector3()), center = box.getCenter(new THREE.Vector3());
-        const factor = 4.4 / Math.max(size.length(), .001);
-        clone.group.position.sub(center);
-        model.scale.setScalar(factor);
-        pivot.rotation.y = -.5;
-        pivot.add(model);
-        controller = createVehicleLiveryController(THREE, clone, vehicleId, options);
-        source = adapter; vehicle = vehicleId;
-      }
-      const result = await controller.preview(liveryId);
+      selectedIndex = index;
+      if (source !== adapter || vehicle !== vehicleId) loadModels(adapter, vehicleId, variants);
+      const selected = models[index];
+      if (selected.failed) loadFinish(selected);
+      render();
+      const applied = await selected.pending;
       if (disposed || token !== revision || !renderer) return false;
-      renderer.render(scene, camera);
-      return result.applied !== false;
+      render();
+      return applied;
     },
     close,
     dispose() { if (!disposed) { close(); disposed = true; } },
@@ -182,21 +249,45 @@ export function createVehicleLiveryGallery(THREE, getHost, options = {}) {
     scheduler = null;
     if (disposed || !slots.size) return;
     for (const slot of slots.values()) {
-      if (!slot.pending || !visible(slot.host)) continue;
-      const pending = slot.pending; slot.pending = null;
+      if (!visible(slot.host)) {
+        // Retain only the source + latest selection offscreen, not five paint clones
+        // and their texture leases. Pending user requests resume when visible again.
+        slot.running = null;
+        slot.preview?.dispose(); slot.preview = null;
+        slot.failed = false;
+        continue;
+      }
+      const pending = slot.pending;
+      if (slot.preview && (!pending || slot.running?.pending === pending)) continue;
+      if (!slot.preview && slot.failed && !pending) continue;
       try {
         if (!slot.preview) slot.preview = createVehicleLiveryPreview(THREE, slot.host, {
           ...options, createRenderer: () => rendererFor(slot.host), shouldDraw: () => visible(slot.host),
         });
-        slot.preview.show(...pending.args).then(pending.resolve, () => pending.resolve(false));
-      } catch { pending.resolve(false); }
+        slot.failed = false;
+        const running = { pending, preview: slot.preview }; slot.running = running;
+        const settle = value => {
+          if (slot.running !== running) return;
+          slot.running = null;
+          if (pending && slot.pending === pending) { slot.pending = null; pending.resolve(value); }
+        };
+        slot.preview.show(...(pending?.args || slot.args)).then(settle, () => settle(false));
+      } catch {
+        slot.running = null; slot.failed = true;
+        slot.preview?.dispose(); slot.preview = null;
+        if (pending && slot.pending === pending) { slot.pending = null; pending.resolve(false); }
+      }
     }
     scheduler = win.requestAnimationFrame(pump);
   }
   function close() {
     if (scheduler !== null) win.cancelAnimationFrame(scheduler);
     scheduler = null;
-    for (const slot of slots.values()) { slot.pending?.resolve(false); slot.preview?.dispose(); }
+    for (const slot of slots.values()) {
+      slot.running = null;
+      slot.pending?.resolve(false); slot.pending = null;
+      slot.preview?.dispose();
+    }
     slots.clear();
     shared?.dispose(); shared?.forceContextLoss?.(); shared = null;
     bufferWidth = bufferHeight = bufferRatio = 0;
@@ -208,9 +299,10 @@ export function createVehicleLiveryGallery(THREE, getHost, options = {}) {
       if (!host) return Promise.resolve(false);
       win = host.ownerDocument.defaultView || globalThis;
       let slot = slots.get(vehicleId);
-      if (!slot) { slot = { host, preview: null, pending: null }; slots.set(vehicleId, slot); }
+      if (!slot) { slot = { host, preview: null, pending: null, running: null, args: null, failed: false }; slots.set(vehicleId, slot); }
       slot.pending?.resolve(false);
-      const result = new Promise(resolve => { slot.pending = { args: [adapter, vehicleId, liveryId], resolve }; });
+      slot.args = [adapter, vehicleId, liveryId];
+      const result = new Promise(resolve => { slot.pending = { args: slot.args, resolve }; });
       if (scheduler === null) scheduler = win.requestAnimationFrame(pump);
       return result;
     },

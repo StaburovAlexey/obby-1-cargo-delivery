@@ -32,29 +32,26 @@ function fixture(options = {}) {
   });
   const get = id => doc.getElementById(`vehicle-livery-${id}`);
   const row = id => get('list').children.find(node => node.getAttribute('data-vehicle-id') === id);
-  const rail = id => row(id).all().find(node => node.getAttribute('role') === 'radiogroup');
-  const option = (id, variant) => rail(id).children.find(node => node.getAttribute('data-livery-id') === variant);
+  const rail = id => ui.getPreviewHost(id);
   const status = id => row(id).all().find(node => node.getAttribute('role') === 'status');
-  const purchase = id => row(id).all().find(node => node.getAttribute('aria-describedby') === 'vehicle-livery-purchase-note');
-  return { doc, win, button, world, alreadyInert, ui, previews, closes, changes, order, get, row, rail, option, status, purchase };
+  const apply = id => row(id).all().find(node => node.getAttribute('data-apply-vehicle') === id);
+  return { doc, win, button, world, alreadyInert, ui, previews, closes, changes, order, get, row, rail, status, apply };
 }
 const flush = () => new Promise(resolve => setImmediate(resolve));
 
-test('Constructor creates all 11 rows and 55 selectable finishes without callback or persistence side effects', () => {
+test('Constructor creates all 11 minimal rows with only carousel and Select button without callback or persistence side effects', () => {
   const f = fixture();
   assert.equal(f.ui.isOpen(), false);
   assert.equal(f.get('menu').hidden, true);
   assert.equal(f.get('list').children.length, 11);
-  assert.equal(f.doc.body.all().filter(node => node.getAttribute('role') === 'radio').length, 55);
+  assert.equal(f.doc.body.all().filter(node => node.getAttribute('role') === 'radio').length, 0);
   assert.deepEqual(f.previews, []); assert.deepEqual(f.closes, []); assert.deepEqual(f.changes, []);
   for (const vehicle of VEHICLE_LIVERY_CATALOG) {
     assert.equal(f.ui.getSelection(vehicle.id), 'base');
-    assert.equal(f.option(vehicle.id, 'base').getAttribute('aria-checked'), 'true');
-    assert.equal(f.option(vehicle.id, 'base').tabIndex, 0);
-    assert.equal(f.option(vehicle.id, 'neon').tabIndex, -1);
-    assert.equal(f.option(vehicle.id, 'neon').disabled, undefined, 'Locked finishes remain previewable');
-    assert.equal(f.purchase(vehicle.id).disabled, true);
-    assert.equal(f.purchase(vehicle.id).hidden, true);
+    assert.equal(f.rail(vehicle.id).tabIndex, 0);
+    assert.equal(f.apply(vehicle.id).textContent, 'Выбрать');
+    assert.equal(f.row(vehicle.id).all().filter(node => node.tagName === 'BUTTON').length, 1);
+    assert.equal(f.row(vehicle.id).children.length, 3, 'Carousel, Select button, screen-reader status only');
   }
   f.ui.destroy();
 });
@@ -62,17 +59,15 @@ test('Constructor creates all 11 rows and 55 selectable finishes without callbac
 test('All cars including locked vehicles preview immediately; base stays owned and purchasing never activates', () => {
   const f = fixture(); f.ui.show();
   for (const vehicle of VEHICLE_LIVERY_CATALOG) for (const variant of vehicle.variants) {
-    f.option(vehicle.id, variant.id).dispatch('click', { detail: 1 });
+    f.ui.preview(vehicle.id, variant.id);
     assert.deepEqual(f.previews.at(-1), [vehicle.id, variant.id]);
     assert.equal(f.ui.getSelection(vehicle.id), variant.id);
-    assert.equal(f.option(vehicle.id, variant.id).getAttribute('aria-checked'), 'true');
-    assert.equal(f.purchase(vehicle.id).hidden, variant.id === 'base');
-    assert.equal(f.purchase(vehicle.id).disabled, true);
+    assert.equal(f.apply(vehicle.id).disabled, variant.id !== 'base');
     assert.equal(f.status(vehicle.id).getAttribute('data-state'), variant.id === 'base' ? 'owned' : 'preview');
     assert.equal(vehicle.variants[0].equipped, true);
     assert.ok(vehicle.variants.slice(1).every(item => !item.owned && !item.equipped));
   }
-  const before = f.previews.length; f.purchase('bmwreward').dispatch('click');
+  const before = f.previews.length; f.rail('bmwreward').dispatch('click');
   assert.equal(f.previews.length, before);
   assert.equal(f.ui.preview('unknown', 'base'), false);
   assert.equal(f.ui.preview('pickup', 'made-up'), false);
@@ -124,10 +119,10 @@ test('Visibility controls only the hangar trigger and never opens or reopens the
 
 test('Keyboard arrows, Home/End and focus trapping work without exposing background controls', () => {
   const f = fixture(); f.ui.open();
-  let event = f.option('pickup', 'base').dispatch('keydown', { key: 'ArrowRight' });
+  let event = f.rail('pickup').dispatch('keydown', { key: 'ArrowRight' });
   assert.equal(event.defaultPrevented, true);
   assert.equal(f.ui.getSelection('pickup'), 'neon');
-  assert.equal(f.doc.activeElement, f.option('pickup', 'neon'));
+  assert.equal(f.doc.activeElement, f.rail('pickup'));
   f.rail('pickup').dispatch('keydown', { key: 'End' }); assert.equal(f.ui.getSelection('pickup'), 'biome');
   f.rail('pickup').dispatch('keydown', { key: 'ArrowLeft' }); assert.equal(f.ui.getSelection('pickup'), 'racing');
   f.rail('pickup').dispatch('keydown', { key: 'Home' }); assert.equal(f.ui.getSelection('pickup'), 'base');
@@ -155,12 +150,12 @@ test('Horizontal swipes select one finish, release capture, and suppress their s
   assert.equal(rail.hasPointerCapture(1), true);
   pointer(rail, 'pointerup', 40, 24);
   assert.equal(f.ui.getSelection('pickup'), 'neon'); assert.equal(rail.hasPointerCapture(1), false);
-  f.option('pickup', 'racing').dispatch('click', { detail: 1 });
+  f.rail('pickup').dispatch('click', { detail: 1 });
   assert.equal(f.ui.getSelection('pickup'), 'neon');
   pointer(rail, 'pointerdown', 100, 20); pointer(rail, 'pointermove', 150, 21); pointer(rail, 'pointerup', 150, 21);
   assert.equal(f.ui.getSelection('pickup'), 'base');
-  // Keyboard-generated clicks still work even if the browser sent no post-swipe click.
-  f.option('pickup', 'anime').dispatch('click', { detail: 0 }); assert.equal(f.ui.getSelection('pickup'), 'anime');
+  // Keyboard navigation stays available without click targets.
+  f.rail('pickup').dispatch('keydown', { key: 'ArrowRight' }); f.rail('pickup').dispatch('keydown', { key: 'ArrowRight' }); assert.equal(f.ui.getSelection('pickup'), 'anime');
   f.ui.destroy();
 });
 
@@ -198,7 +193,7 @@ test('Preview promises show loading/error truthfully and ignore older finish res
   f.ui.preview('pickup', 'racing'); pending[2].resolve(false); await flush();
   assert.equal(f.status('pickup').getAttribute('data-state'), 'error');
   assert.match(f.status('pickup').textContent, /Не удалось/);
-  f.option('pickup', 'racing').dispatch('click'); assert.equal(pending.length, 4, 'Same finish can be retried');
+  f.ui.preview('pickup', 'racing'); assert.equal(pending.length, 4, 'Same finish can be retried');
   pending[3].resolve(true); await flush(); assert.equal(f.status('pickup').getAttribute('data-state'), 'preview');
   f.ui.destroy();
 });
@@ -226,8 +221,8 @@ test('Language can follow host or switch explicitly; access gate blocks opening 
   allowed = true; f.ui.open(); language = 'en'; f.ui.refresh();
   assert.equal(f.get('title').textContent, 'Liveries'); assert.equal(f.button.getAttribute('aria-label'), 'Liveries');
   assert.equal(f.get('menu').getAttribute('lang'), 'en');
-  assert.equal(f.option('bmwreward', 'biome').title, 'Premium · Locked');
-  f.ui.preview('bmwreward', 'biome'); assert.match(f.status('bmwreward').textContent, /not owned/);
+  assert.equal(f.apply('bmwreward').textContent, 'Select');
+  f.ui.preview('bmwreward', 'biome'); assert.match(f.status('bmwreward').textContent, /Preview only/);
   f.ui.setLanguage('ru'); assert.equal(f.get('title').textContent, 'Расцветки');
   allowed = false; assert.equal(f.ui.preview('pickup', 'neon'), false); f.ui.setVisible(false);
   assert.equal(f.ui.isOpen(), false); f.ui.destroy();
@@ -246,10 +241,10 @@ test('Disposal is idempotent, removes all listeners and handles reentrant close 
 test('Styling preserves visible actual-car preview, vertical scroll, touch targets, and reduced motion', () => {
   const css = fs.readFileSync(new URL('../dist/vehicle-livery-shop.css', import.meta.url), 'utf8');
   const js = fs.readFileSync(new URL('../dist/vehicle-livery-shop.js', import.meta.url), 'utf8');
-  assert.match(css, /width:min\(100%,380px\)/);
-  assert.match(css, /max-height:55dvh/);
+  assert.match(css, /width:min\(100%,440px\)/);
+  assert.match(css, /max-height:92dvh/);
   assert.match(css, /\.vehicle-livery-scroll\{[^}]*overflow-y:auto[^}]*min-height:0/);
-  assert.match(css, /\.vehicle-livery-variants\{[^}]*touch-action:pan-y/);
+  assert.match(css, /\.item-carousel\{[^}]*touch-action:pan-y/);
   assert.match(css, /\.vehicle-livery-close\{[^}]*width:44px;height:44px/);
   assert.match(css, /prefers-reduced-motion:reduce/);
   assert.doesNotMatch(js, /localStorage|sessionStorage|saveCareer|purchaseVehicle|spendMoney|fetch\(/);
@@ -268,4 +263,66 @@ test('A vertical mouse drag released outside the carousel cannot strand the next
   pointer(rail, 'pointerup', 30, 22);
   assert.equal(f.ui.getSelection('pickup'), 'neon');
   f.ui.dispose();
+});
+
+
+test('Looping swipe wraps both directions without click-to-select behavior or hangar mutation', () => {
+  const f = fixture(); f.ui.open(); const view = f.rail('pickup');
+  pointer(view, 'pointerdown', 100, 20); pointer(view, 'pointermove', 170, 20); pointer(view, 'pointerup', 170, 20);
+  assert.equal(f.ui.getSelection('pickup'), 'biome');
+  assert.equal(f.apply('pickup').disabled, true);
+  view.dispatch('click'); assert.equal(f.ui.getSelection('pickup'), 'biome');
+  pointer(view, 'pointerdown', 100, 20); pointer(view, 'pointermove', 20, 20); pointer(view, 'pointerup', 20, 20);
+  assert.equal(f.ui.getSelection('pickup'), 'base');
+  assert.equal(f.apply('pickup').disabled, false);
+  f.ui.destroy();
+});
+
+test('Dragging drives fractional model position and release eases continuously across the wrap', () => {
+  const f = fixture(), frames = new Map(); let serial = 0;
+  f.win.requestAnimationFrame = fn => { frames.set(++serial, fn); return serial; };
+  f.win.cancelAnimationFrame = id => frames.delete(id);
+  const tick = time => { const work = [...frames.values()]; frames.clear(); work.forEach(fn => fn(time)); };
+  f.ui.open(); const view = f.rail('pickup');
+  pointer(view, 'pointerdown', 100, 20); pointer(view, 'pointermove', 170, 20);
+  assert.ok(view.carouselPosition < 0 && view.carouselPosition > -1);
+  const dragged = view.carouselPosition;
+  pointer(view, 'pointerup', 170, 20);
+  assert.equal(view.carouselPosition, dragged, 'Release must not jump to an integer');
+  tick(100); tick(230);
+  assert.ok(view.carouselPosition < dragged && view.carouselPosition > -1);
+  tick(400); assert.equal(view.carouselPosition, -1, 'Last item wraps backward instead of traversing all five');
+  view.dispatch('keydown', { key: 'ArrowRight' }); tick(500); tick(800);
+  assert.equal(view.carouselPosition, 0);
+  assert.equal(f.ui.getSelection('pickup'), 'base');
+  f.ui.close(); assert.equal(view.carouselPosition, 0); assert.equal(frames.size, 0);
+  f.ui.destroy(); assert.equal(frames.size, 0);
+});
+
+test('Select is the only commit action and locked finishes are rejected even after DOM tampering', async () => {
+  const applied = []; const f = fixture({ onApply: (car, finish) => { applied.push([car, finish]); return true; } });
+  f.ui.open(); const view = f.rail('pickup');
+  view.dispatch('click'); assert.deepEqual(applied, []);
+  f.ui.preview('pickup', 'neon'); f.apply('pickup').disabled = false; f.apply('pickup').dispatch('click');
+  assert.deepEqual(applied, []);
+  f.ui.preview('pickup', 'base'); f.apply('pickup').dispatch('click'); await flush();
+  assert.deepEqual(applied, [['pickup', 'base']]);
+  assert.equal(f.apply('pickup').textContent, 'Выбрать', 'No extra applied/error caption is introduced');
+  f.ui.destroy();
+});
+
+test('Interrupting a settle animation starts the next drag from its visible fractional position', () => {
+  const f = fixture(), frames = new Map(); let serial = 0;
+  f.win.requestAnimationFrame = fn => { frames.set(++serial, fn); return serial; };
+  f.win.cancelAnimationFrame = id => frames.delete(id);
+  const tick = time => { const work = [...frames.values()]; frames.clear(); work.forEach(fn => fn(time)); };
+  f.ui.open(); const view = f.rail('pickup');
+  view.dispatch('keydown', { key: 'ArrowRight' }); tick(100); tick(120);
+  const before = view.carouselPosition;
+  assert.ok(before > 0 && before < .5);
+  pointer(view, 'pointerdown', 100, 20); pointer(view, 'pointermove', 90, 20);
+  assert.ok(view.carouselPosition > before && view.carouselPosition < before + .11, 'No jump toward the previous target');
+  pointer(view, 'pointercancel', 90, 20); tick(200); tick(500);
+  assert.equal(view.carouselPosition, 1);
+  f.ui.destroy();
 });

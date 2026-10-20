@@ -1,14 +1,14 @@
 # Vehicle livery shop
 
-The hangar shop lists all 11 cars vertically. Each keeps its original free base finish and has four preview variants: Neon, Anime, Racing and Biome (Premium on the reward BMW). Tap an option or swipe its row horizontally. Vertical gestures scroll the list.
+The hangar shop lists all 11 cars vertically. Each keeps its original free base finish and has four preview variants: Neon, Anime, Racing and Biome (Premium on the reward BMW). Swipe its row horizontally; the carousel wraps in both directions. Vertical gestures scroll the list.
 
-Each car has its own reusable carousel with a rotating 3D preview cloned from its actual model and an Apply button below. Swipe that car horizontally, use its arrows or tap a finish. All cards share one WebGL context; only visible cards render. Preview never changes the parked car or the hangar camera. Only Apply can equip an owned finish. All cars can be inspected, including cars not yet unlocked. Car ownership, BMW reward requirements, handling upgrades and career currency are unchanged.
+Each car has a reusable circular 3D carousel showing the current and adjacent textured models, with a Select button below. There are no visible labels, captions, arrows, dots or card backgrounds. Horizontal dragging animates the models around an orbit; keyboard arrows and Home/End remain available. All cards share one WebGL context; only visible cards render. Preview never changes the parked car or the hangar camera. Only Select can confirm the standard finish. All cars can be inspected, including cars not yet unlocked. Car ownership, BMW reward requirements, handling upgrades and career currency are unchanged.
 
-Only the original finish is owned. The additional 44 finishes are locked. Prices and purchase currency have deliberately not been defined, and purchase controls are disabled. No paid livery can be equipped, driven, persisted or sent to other players. Closing the shop, leaving the hangar or rebuilding cancels pending preview requests and disposes the isolated renderer. No preview is saved or applied by closing.
+Only the original finish is owned. The additional 44 finishes are locked. Prices and purchase currency have deliberately not been defined, and purchase controls are not displayed. No paid livery can be equipped, driven, persisted or sent to other players. Closing the shop, leaving the hangar or rebuilding cancels pending preview requests and disposes the isolated renderer. No preview is saved or applied by closing.
 
 ## Artwork and runtime
 
-- Four 1024×1024 WebP atlases per car, loaded only when selected, with a shared cache and four idle textures retained.
+- Four 1024×1024 WebP atlases per car, loaded when the car becomes visible, with a shared cache and four idle textures retained.
 - Existing GLB assets and palette UVs remain unchanged. Body triangles receive additional face-projected UVs and an audited paint mask in local memory.
 - Wheels, glass, lamps and non-paint surfaces retain the original material behaviour. Original hangar resources are never modified by preview.
 - Both sides have separately authored atlas panels, so English body text is not mirrored. Anime artwork uses a different original fictional character for each car.
@@ -24,6 +24,6 @@ Rspack rewrites the dynamic asset URL expression into a context module returning
 
 Run `npm run test:liveries` and `npm run build:all`. See [carousel architecture](vehicle-livery-carousel.md).
 
-Tests cover the real 11 GLBs, body UV validity, hashes of all 44 atlases, base/wheel/window/lamp preservation, cache/load races and disposal, all options and gestures, modal/input rules, unchanged hangar camera and materials, isolated rotation, Apply ownership gates, fast swipe races, hidden-tab pause and close/reopen disposal.
+Tests cover the real 11 GLBs, body UV validity, hashes of all 44 atlases, base/wheel/window/lamp preservation, cache/load races and disposal, all options and gestures, modal/input rules, unchanged hangar camera and materials, isolated rotation, Select ownership gates, fast swipe races, hidden-tab pause and close/reopen disposal.
 
 CPU tests and Blender validation renders are separate from browser/WebGL verification. A successful build or geometric projection test does not prove GPU shader compilation or the final browser appearance.
