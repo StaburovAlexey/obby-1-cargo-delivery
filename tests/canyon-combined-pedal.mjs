@@ -86,9 +86,10 @@ test('BMW capture failure still releases via window and destruction clears all c
   h.down(h.reverse,3);assert.equal(h.input.handbrake,0);
  }finally{h.c.destroy();}
 });
-test('ordinary vehicle reverse behavior and ignored S/Shift remain unchanged',()=>{
+test('ordinary vehicle S selects reverse while Shift stays ignored and touch behavior is preserved',()=>{
  const h=setup(false);try{
-  h.key('KeyS');h.key('ShiftLeft');assert.deepEqual(h.input,{steering:0,active:false});
+  h.key('KeyS');h.key('ShiftLeft');assert.deepEqual(h.input,{steering:0,active:true});assert.equal(h.gears.at(-1),'R');
+  h.key('KeyS','keyup');assert.deepEqual(h.input,{steering:0,active:false});
   h.down(h.reverse,2);assert.equal(h.gears.at(-1),'R');assert.deepEqual(h.input,{steering:0,active:true});
   h.down(h.pedal,1);assert.equal(h.gears.at(-1),'R');h.up(h.reverse,2);assert.equal(h.gears.at(-1),'D');
  }finally{h.c.destroy();}

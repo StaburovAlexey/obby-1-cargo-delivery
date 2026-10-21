@@ -2,6 +2,7 @@ import {VEHICLE_NEON_CATALOG} from './vehicle-neon-catalog.js';
 import {createCloudCareer} from './cloud-career.js';
 import {createPremiumSkins,PREMIUM_SKIN_IDS} from './premium-skins.js';
 import {createPauseState} from './pause-state.js';
+import {installBrowserGestureGuard} from './browser-gestures.js';
 
 export async function createGameServices({platform,development=false,serverUrl='',pause=createPauseState()}={}) {
   const cloud=createCloudCareer({platform,...(platform.id==='vk'?{legacyStorage:null}:{}),onReplace:()=>{pause.set('cloud-reload',true);globalThis.location.reload();}});
@@ -24,6 +25,7 @@ export async function createGameServices({platform,development=false,serverUrl='
 }
 
 export async function bootstrapGame({initializePlatform,development,serverUrl,platformOptions={},loadApp=()=>import('./app.js')}={}) {
+  installBrowserGestureGuard();
   const pause=createPauseState();
   let services;
   const refreshPurchases=()=>{if(services){void services.premium.initialize();void services.neon.initialize();}};

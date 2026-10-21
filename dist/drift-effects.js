@@ -3,7 +3,7 @@ const fallbackWheels=[{center:[-1.3025,.615,2.2215],halfWidth:.23},{center:[1.30
 const vertex='attribute float opacity; varying float fade; void main(){fade=opacity; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}';
 const fragment='varying float fade; void main(){if(fade<0.003)discard;gl_FragColor=vec4(vec3(0.045,0.05,0.055),fade); #include <colorspace_fragment>\n}';
 export function createDriftEffects(THREE,{height=()=>0}={}){
- const group=new THREE.Group();group.name='BMW tire smoke and skid trails';
+ const group=new THREE.Group();group.name='Vehicle tire smoke and skid trails';
  const smokeGeometry=new THREE.PlaneGeometry(1,1),smokeAlpha=new Float32Array(DRIFT_EFFECTS.smokeCapacity);
  smokeGeometry.setAttribute('opacity',new THREE.InstancedBufferAttribute(smokeAlpha,1));
  const pixels=new Uint8Array(32*32*4);

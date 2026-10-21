@@ -41,7 +41,7 @@ export function createVehicleInput({
   let enabled = true, destroyed = false, wasActive = false;
   let driftEnabled = false, combinedMode, moving = false;
   const combinedHeld = () => reversePointer !== undefined
-    || (driftEnabled && [...REVERSE_KEYS].some(key => keys.has(key)));
+    || [...REVERSE_KEYS].some(key => keys.has(key));
   const gasHeld = () => pedalPointer !== undefined || [...GAS_KEYS].some(key => keys.has(key));
   // Use total velocity, including sideways motion. The dead band prevents low-speed chatter.
   function updateCombinedMode() {
@@ -209,7 +209,7 @@ export function createVehicleInput({
   }
   listen(win, 'keydown', event => {
     const code = keyCode(event);
-    if(!driftEnabled&&(REVERSE_KEYS.has(code)||HANDBRAKE_KEYS.has(code)))return;
+    if(!driftEnabled&&HANDBRAKE_KEYS.has(code))return;
     if (!enabled || destroyed || !code || event.ctrlKey || event.metaKey || event.altKey || isEditable(event.target)) return;
     event.preventDefault();
     event.stopImmediatePropagation?.();

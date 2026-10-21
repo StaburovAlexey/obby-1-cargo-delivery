@@ -19,6 +19,7 @@ import {NETWORK_CONFIG} from './route-network-config.js';
 import {BRIDGES} from './road-bridges.js';
 import {createBrickPlasticMaterial,createEnvironmentMaterial} from './building-material.js';
 import {createGroundMaterial} from './ground-material.js';
+import {createTerrainCliffs} from './terrain-cliffs.js';
 import {createPaintedRoadMaterial,applyRoadSurfaceShader} from './road-material.js';
 
 const cross=(a,b,c)=>(b.x-a.x)*(c.z-a.z)-(b.z-a.z)*(c.x-a.x);
@@ -203,6 +204,8 @@ export function buildCity(THREE,{seed=42}={}){
   const groundMaterial=createGroundMaterial(THREE,'grass',0xffffff);groundMaterial.vertexColors=true;
   applyRoadSurfaceShader(THREE,groundMaterial,{fringe:true,network:true});
   surface('Closed continuous terrain foundation',bridgeGround,groundMaterial,true);
+  const landRoad=clipBridgeSurfaces(ROAD_MESH,{terrain:true});
+  group('Terrain').add(createTerrainCliffs(THREE,[bridgeGround,landRoad],{heightOffset:NETWORK.ROAD_SURFACE_OFFSET,biomeAt:q=>BIOMES.find(b=>q>=b.from&&q<b.to)||BIOMES.at(-1)}));
   group('Bridges').add(bridgeUnderdeck(THREE,clipBridgeSurfaces(ROAD_MESH,{onlyBridges:true})));
   const edgePaint=clipBridgeSurfaces(ROAD_MESH,{onlyBridges:true,edgeStrips:true});
   edgePaint.positions=edgePaint.positions.map((v,i)=>v+(i%3===1?.006:0));

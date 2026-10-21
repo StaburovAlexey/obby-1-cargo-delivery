@@ -9,10 +9,12 @@
   --hud-cream: #fff4d0;
   --hud-shadow: -1px -1px 0 #14213d, 1px -1px 0 #14213d, -1px 1px 0 #14213d, 1px 2px 0 #14213d, 0 3px 0 #14213d;
 }
-* { box-sizing: border-box; }
+* { box-sizing: border-box; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; }
+input, textarea, [contenteditable]:not([contenteditable="false"]) { user-select: text; -webkit-user-select: text; -webkit-touch-callout: default; }
 body { margin: 0; overflow: hidden; overscroll-behavior: none; touch-action: none; }
 button, input { font: inherit; }
 button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+button:focus:not(:focus-visible), [role="button"]:focus:not(:focus-visible), canvas:focus:not(:focus-visible) { outline: none; }
 button:focus-visible, input:focus-visible, [role="button"]:focus-visible {
   outline: 4px solid #fff49a;
   outline-offset: 5px;

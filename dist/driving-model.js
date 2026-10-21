@@ -530,9 +530,12 @@ export function createDrivingModel({
 
 
     const roughness = surface.vibration * Math.min(1, state.linearSpeed / 3);
-    state.bodyPitch = springs.pitch.value + roughness * Math.sin(phase * .83) * .0015;
-    state.bodyRoll = springs.roll.value + roughness * Math.sin(phase * 1.13) * .003;
-    state.bodyBob = springs.bob.value + roughness * (Math.sin(phase * 1.7) * .011 + Math.sin(phase * .67) * .004);
+    // The ordinary models have tight wheel arches. Limit visual body travel
+    // without moving contact patches or changing the BMW suspension response.
+    const suspensionTravel = spec.rewardDrift ? 1 : 1 / 3;
+    state.bodyPitch = (springs.pitch.value + roughness * Math.sin(phase * .83) * .0015) * suspensionTravel;
+    state.bodyRoll = (springs.roll.value + roughness * Math.sin(phase * 1.13) * .003) * suspensionTravel;
+    state.bodyBob = (springs.bob.value + roughness * (Math.sin(phase * 1.7) * .011 + Math.sin(phase * .67) * .004)) * suspensionTravel;
   };
   return {
     state,
