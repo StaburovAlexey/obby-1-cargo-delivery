@@ -1,5 +1,5 @@
 /** Reusable continuous, looping carousel. The caller renders items from viewport.carouselPosition. */
-export function createItemCarousel(doc, { parent, items, onSelect, label = '' }) {
+export function createItemCarousel(doc, { parent, items, onSelect, onPositionChange = () => {}, label = '' }) {
   const listeners = [], win = doc.defaultView || globalThis;
   const root = doc.createElement('div'); root.className = 'item-carousel'; parent?.append(root);
   root.setAttribute('role', 'region'); root.setAttribute('aria-roledescription', 'carousel');
@@ -9,15 +9,16 @@ export function createItemCarousel(doc, { parent, items, onSelect, label = '' })
   const modulo = value => (value % items.length + items.length) % items.length;
   const listen = (node, name, fn, options) => { node.addEventListener(name, fn, options); listeners.push(() => node.removeEventListener(name, fn, options)); };
   const stop = () => { if (frame !== null) win.cancelAnimationFrame?.(frame); frame = null; };
+  const setPosition = value => { viewport.carouselPosition = value; onPositionChange(value); };
   function animate(to) {
     stop(); target = to;
     const from = viewport.carouselPosition, duration = 260;
-    if (from === to || !win.requestAnimationFrame || win.matchMedia?.('(prefers-reduced-motion: reduce)').matches) { viewport.carouselPosition = to; return; }
+    if (from === to || !win.requestAnimationFrame || win.matchMedia?.('(prefers-reduced-motion: reduce)').matches) { setPosition(to); return; }
     let started;
     const tick = time => {
       started ??= time;
       const t = Math.min(1, (time - started) / duration);
-      viewport.carouselPosition = from + (to - from) * (1 - (1 - t) ** 3);
+      setPosition(from + (to - from) * (1 - (1 - t) ** 3));
       frame = t < 1 ? win.requestAnimationFrame(tick) : null;
     };
     frame = win.requestAnimationFrame(tick);
@@ -35,7 +36,7 @@ export function createItemCarousel(doc, { parent, items, onSelect, label = '' })
       let delta = modulo(index - modulo(Math.round(current)));
       if (delta > items.length / 2) delta -= items.length;
       const next = Math.round(current) + delta;
-      if (immediate) { stop(); target = index; viewport.carouselPosition = index; }
+      if (immediate) { stop(); target = index; setPosition(index); }
       else animate(next);
     }
     viewport.setAttribute('data-item-id', id);
@@ -65,7 +66,7 @@ export function createItemCarousel(doc, { parent, items, onSelect, label = '' })
     }
     if (gesture.axis === 'x') {
       event.preventDefault();
-      viewport.carouselPosition = gesture.start - Math.max(-.95, Math.min(.95, dx / Math.max(100, (viewport.clientWidth || 320) * .65)));
+      setPosition(gesture.start - Math.max(-.95, Math.min(.95, dx / Math.max(100, (viewport.clientWidth || 320) * .65))));
     }
   }, { passive: false });
   listen(viewport, 'pointerup', event => {
@@ -85,7 +86,7 @@ export function createItemCarousel(doc, { parent, items, onSelect, label = '' })
   update(selected);
   return { root, viewport, update, resetGesture,
     setLabels({ title = label } = {}) { root.setAttribute('aria-label', title); },
-    setEnabled(value) { enabled = !!value; if (!enabled) { resetGesture(); stop(); viewport.carouselPosition = target; } },
+    setEnabled(value) { enabled = !!value; if (!enabled) { resetGesture(); stop(); setPosition(target); } },
     destroy() { resetGesture(); stop(); for (const remove of listeners.splice(0)) remove(); root.remove(); },
   };
 }

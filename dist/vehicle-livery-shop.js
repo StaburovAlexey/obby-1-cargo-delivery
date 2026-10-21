@@ -1,11 +1,12 @@
 import { createItemCarousel } from './item-carousel.js';
 import { VEHICLE_NEON_COLORS } from './vehicle-neon-catalog.js';
+import { DEFAULT_VEHICLE_SMOKE_ID, VEHICLE_SMOKE_STYLES, getVehicleSmokeStyle } from './vehicle-smoke-catalog.js';
 import { modalPart } from './modal-ui.js';
 import { BASE_VEHICLE_LIVERY_ID, VEHICLE_LIVERY_CATALOG, getVehicleLivery, vehicleLiveryName } from './vehicle-livery-catalog.js';
 
 const copy = Object.freeze({
-  ru: { shop: 'Магазин', newLook: 'Новый внешний вид!', neon: 'Неоновая подсветка', back: 'Назад', neonPreview: 'Предпросмотр', title: 'Расцветки', close: 'Закрыть магазин расцветок', apply: 'Выбрать', choose: 'Расцветки машины', loading: 'Загрузка', failed: 'Не удалось загрузить', base: 'Стандартная', preview: 'Только просмотр' },
-  en: { shop: 'Shop', newLook: 'New look!', neon: 'Neon lighting', back: 'Back', neonPreview: 'Preview', title: 'Liveries', close: 'Close livery shop', apply: 'Select', choose: 'Car liveries', loading: 'Loading', failed: 'Could not load', base: 'Standard', preview: 'Preview only' },
+  ru: { shop: 'Магазин', newLook: 'Новый внешний вид!', neon: 'Неоновая подсветка', smoke: 'Дым из-под колёс', smokeNote: 'Один эффект для всех машин.', soon: 'Скоро', selected: 'Выбрано', smokeFailed: 'Не удалось выбрать эффект. Попробуйте ещё раз.', back: 'Назад', neonPreview: 'Предпросмотр', title: 'Расцветки', close: 'Закрыть магазин расцветок', apply: 'Выбрать', choose: 'Расцветки машины', loading: 'Загрузка', failed: 'Не удалось загрузить', base: 'Стандартная', preview: 'Только просмотр' },
+  en: { shop: 'Shop', newLook: 'New look!', neon: 'Neon lighting', smoke: 'Tire smoke', smokeNote: 'One effect for every car.', soon: 'Coming soon', selected: 'Selected', smokeFailed: 'Could not select effect. Please try again.', back: 'Back', neonPreview: 'Preview', title: 'Liveries', close: 'Close livery shop', apply: 'Select', choose: 'Car liveries', loading: 'Loading', failed: 'Could not load', base: 'Standard', preview: 'Preview only' },
 });
 
 /**
@@ -19,10 +20,13 @@ const copy = Object.freeze({
 export function createVehicleLiveryShop(doc, {
   language = () => 'ru', canOpen = () => true, button = null,
   autoPreview = false, onApply = () => true,
+  canUseSmoke = () => false, getSelectedSmokeId = () => DEFAULT_VEHICLE_SMOKE_ID, onSmokeApply = () => false,
   onPreview = () => true, onNeonPreview = () => true, getNeonOffer = () => null, onNeonApply = () => false, onNeonDisable = () => false, onSectionChange = () => {}, onClose = () => {}, onOpenChange = () => {},
 } = {}) {
   let opened = false, disposed = false, closing = false, visible = true, epoch = 0, returnFocus = null;
   let background = [], languageOverride = null, section = 'categories', neonSelected = VEHICLE_NEON_COLORS[0].id, neonToken = 0, neonLoading = false, neonError = false, neonBuying = false, neonPurchaseError = false;
+  let smokeSelected = DEFAULT_VEHICLE_SMOKE_ID, smokeApplying = false, smokeApplyError = false;
+  const appliedSmokeId = () => getVehicleSmokeStyle(getSelectedSmokeId())?.id ?? DEFAULT_VEHICLE_SMOKE_ID;
   const listeners = [], rows = new Map();
   const lang = () => (languageOverride ?? (typeof language === 'function' ? language() : language)) === 'en' ? 'en' : 'ru';
   const words = () => copy[lang()];
@@ -57,15 +61,52 @@ export function createVehicleLiveryShop(doc, {
   closeButton.textContent = '×';
   const categories = make('div', 'vehicle-shop-categories', panel, { id: 'vehicle-shop-categories' });
   const categoryButtons = {};
-  for (const [id, asset] of [['liveries', 'new-look.webp'], ['neon', 'neon.webp']]) {
+  for (const id of ['liveries', 'neon', 'smoke']) {
     const entry = make('button', 'vehicle-shop-category', categories, { type: 'button', 'data-shop-category': id });
     const picture = make('img', '', entry, { alt: '', draggable: 'false' });
     // Literal URLs are required by the production bundler.
-    picture.src = id === 'liveries' ? new URL('./assets/shop/new-look.webp', import.meta.url).href : new URL('./assets/shop/neon.webp', import.meta.url).href;
+    picture.src = id === 'liveries' ? new URL('./assets/shop/new-look.webp', import.meta.url).href : id === 'neon' ? new URL('./assets/shop/neon.webp', import.meta.url).href : new URL('./assets/shop/tire-smoke.webp', import.meta.url).href;
     const label = make('span', 'vehicle-shop-category-title', entry);
     categoryButtons[id] = { entry, label };
     listen(entry, 'click', () => setSection(id));
   }
+  const smokeSoon = make('span', 'vehicle-smoke-soon', categoryButtons.smoke.entry);
+  const smokePanel = make('div', 'vehicle-smoke-panel', panel, { id: 'vehicle-smoke-panel' });
+  const smokeSlides = [];
+  function renderSmoke(position) {
+    for (let index = 0; index < smokeSlides.length; index++) {
+      const item = smokeSlides[index];
+      // Nearest wrapped position allows a single image per style to loop continuously.
+      let offset = ((index - position) % smokeSlides.length + smokeSlides.length) % smokeSlides.length;
+      if (offset > smokeSlides.length / 2) offset -= smokeSlides.length;
+      item.slide.hidden = Math.abs(offset) > 1.4;
+      item.slide.style.transform = `translateX(${offset * 112 - 50}%) scale(${1 - Math.min(1, Math.abs(offset)) * .12})`;
+      item.slide.style.opacity = String(1 - Math.min(1, Math.abs(offset)) * .45);
+      if (opened && section === 'smoke' && !item.slide.hidden && !item.image.src) item.image.src = item.style.iconUrl;
+    }
+  }
+  const smokeCarousel = createItemCarousel(doc, { parent: smokePanel, items: VEHICLE_SMOKE_STYLES, onSelect: (id, options) => selectSmoke(id, options), onPositionChange: renderSmoke });
+  const smokeHost = smokeCarousel.viewport;
+  smokeHost.className += ' vehicle-smoke-preview-host';
+  smokeHost.setAttribute('id', 'vehicle-smoke-preview');
+  for (const style of VEHICLE_SMOKE_STYLES) {
+    const slide = make('div', 'vehicle-smoke-slide', smokeHost, { 'aria-hidden': 'true' });
+    const image = make('img', 'vehicle-smoke-image', slide, { alt: '', draggable: 'false', loading: 'lazy', decoding: 'async' });
+    const fallback = make('span', 'vehicle-smoke-image-fallback', slide);
+    fallback.hidden = true;
+    listen(image, 'error', () => { image.hidden = true; fallback.hidden = false; });
+    smokeSlides.push({ style, slide, image, fallback });
+  }
+  const smokeName = make('p', 'vehicle-smoke-name', smokePanel, { id: 'vehicle-smoke-name', role: 'status', 'aria-live': 'polite' });
+  const smokeNote = make('p', 'vehicle-smoke-note', smokePanel);
+  const smokeApply = make('button', modalPart('button', 'vehicle-smoke-apply'), smokePanel, { id: 'vehicle-smoke-apply', type: 'button' });
+  listen(smokeApply, 'click', () => {
+    if (disposed || !opened || section !== 'smoke' || !canOpen() || !canUseSmoke() || smokeApply.disabled || smokeApplying || smokeSelected === appliedSmokeId()) return;
+    smokeApplying = true; smokeApplyError = false;
+    try { smokeApplyError = onSmokeApply(smokeSelected) === false; }
+    catch { smokeApplyError = true; }
+    finally { smokeApplying = false; refresh(); }
+  });
   const neonPanel = make('div', 'vehicle-neon-panel', panel, { id: 'vehicle-neon-panel' });
   const neonCarousel = createItemCarousel(doc, { parent: neonPanel, items: VEHICLE_NEON_COLORS, onSelect: id => selectNeon(id) });
   const neonHost = neonCarousel.viewport;
@@ -104,19 +145,37 @@ export function createVehicleLiveryShop(doc, {
     if (disposed) return;
     const text = words();
     menu.setAttribute('lang', lang());
-    title.textContent = section === 'categories' ? text.shop : section === 'neon' ? text.neon : text.title;
+    title.textContent = section === 'categories' ? text.shop : section === 'neon' ? text.neon : section === 'smoke' ? text.smoke : text.title;
     backButton.hidden = section === 'categories';
     backButton.setAttribute('aria-label', text.back);
     categoryButtons.liveries.label.textContent = text.newLook;
     categoryButtons.neon.label.textContent = text.neon;
     categoryButtons.liveries.entry.setAttribute('aria-label', text.newLook);
     categoryButtons.neon.entry.setAttribute('aria-label', text.neon);
+    const smokeAllowed = !!canUseSmoke();
+    categoryButtons.smoke.label.textContent = text.smoke;
+    categoryButtons.smoke.entry.disabled = !smokeAllowed;
+    categoryButtons.smoke.entry.setAttribute('aria-disabled', String(!smokeAllowed));
+    categoryButtons.smoke.entry.setAttribute('aria-label', smokeAllowed ? text.smoke : `${text.smoke} · ${text.soon}`);
+    smokeSoon.textContent = text.soon; smokeSoon.hidden = smokeAllowed;
     categories.hidden = section !== 'categories';
     scroll.hidden = section !== 'liveries';
     neonPanel.hidden = section !== 'neon';
+    smokePanel.hidden = section !== 'smoke';
+    const smokeStyle = getVehicleSmokeStyle(smokeSelected);
+    smokeName.textContent = smokeStyle.name[lang()];
+    smokeNote.textContent = smokeApplyError ? text.smokeFailed : text.smokeNote;
+    const smokeIsSelected = smokeSelected === appliedSmokeId();
+    smokeApply.disabled = !smokeAllowed || smokeApplying || smokeIsSelected;
+    smokeApply.textContent = smokeIsSelected ? text.selected : text.apply;
+    smokeApply.setAttribute('aria-label', `${smokeApply.textContent}: ${smokeStyle.name[lang()]}`);
+    smokeHost.setAttribute('aria-label', `${text.smoke}: ${smokeStyle.name[lang()]}`);
+    smokeCarousel.setLabels({ title: text.smoke });
+    for (const item of smokeSlides) item.fallback.textContent = item.style.name[lang()];
+    renderSmoke(smokeHost.carouselPosition);
     const neonColor = VEHICLE_NEON_COLORS.find(item => item.id === neonSelected);
     neonLabel.textContent = neonLoading ? text.loading : neonError ? text.failed : neonColor.name[lang()];
-    const offer=getNeonOffer(neonSelected);
+    const offer=section === 'neon' ? getNeonOffer(neonSelected) : null;
     neonNote.textContent = neonPurchaseError ? (lang()==='ru'?'Покупка не завершена. Попробуйте ещё раз.':'Purchase not completed. Please try again.') : offer ? (lang()==='ru'?'Один цвет для всех машин. Покупка навсегда.':'One color for every car. Permanent unlock.') : text.neonPreview;
     neonApply.hidden=!offer;neonDisable.hidden=!offer;
     neonApply.disabled=!offer||offer.disabled||neonBuying||neonLoading||neonError||offer.selected;
@@ -206,12 +265,24 @@ export function createVehicleLiveryShop(doc, {
     catch { settle(false); }
     return true;
   }
+  function selectSmoke(id, { focus = false } = {}) {
+    if (disposed || !opened || section !== 'smoke' || !canOpen() || !canUseSmoke() || !getVehicleSmokeStyle(id)) return false;
+    smokeSelected = id; smokeApplyError = false;
+    smokeCarousel.update(id, { focus });
+    refresh();
+    return true;
+  }
   function setSection(next) {
-    if (!opened || disposed || !canOpen() || !['categories', 'liveries', 'neon'].includes(next)) return false;
+    if (!opened || disposed || !canOpen() || !['categories', 'liveries', 'neon', 'smoke'].includes(next) || (next === 'smoke' && !canUseSmoke())) return false;
     if (section === next) return true;
     epoch++; neonToken++;
     section = next;
     neonCarousel.resetGesture(); neonCarousel.setEnabled(next === 'neon');
+    smokeCarousel.setEnabled(next === 'smoke');
+    if (next === 'smoke') {
+      smokeSelected = appliedSmokeId(); smokeApplyError = false;
+      smokeCarousel.update(smokeSelected, { immediate: true });
+    }
     resetRows();
     for (const row of rows.values()) row.carousel.setEnabled(next === 'liveries');
     onSectionChange(next);
@@ -244,6 +315,7 @@ export function createVehicleLiveryShop(doc, {
     epoch++;
     menu.hidden = true;
     neonToken++; neonCarousel.resetGesture(); neonCarousel.setEnabled(false);
+    smokeCarousel.setEnabled(false);
     button?.setAttribute('aria-expanded', 'false');
     doc.body.classList.remove('vehicle-livery-shop-open');
     releaseBackground();
@@ -269,6 +341,8 @@ export function createVehicleLiveryShop(doc, {
     opened = true;
     section = 'categories'; neonSelected = VEHICLE_NEON_COLORS[0].id; neonLoading = neonError = false;
     neonCarousel.update(neonSelected, { immediate: true }); neonCarousel.setEnabled(false);
+    smokeSelected = appliedSmokeId(); smokeApplyError = false;
+    smokeCarousel.update(smokeSelected, { immediate: true }); smokeCarousel.setEnabled(false);
     epoch++;
     returnFocus = button || doc.activeElement;
     resetRows();
@@ -284,7 +358,7 @@ export function createVehicleLiveryShop(doc, {
     closeButton.focus?.();
     return true;
   }
-  const focusable = () => [closeButton, ...(section === 'categories' ? Object.values(categoryButtons).map(item => item.entry) : section === 'neon' ? [backButton, neonHost, ...[neonApply,neonDisable].filter(node=>!node.hidden&&!node.disabled)] : [backButton, ...[...rows.values()].flatMap(row => [row.previewHost, row.apply].filter(node => !node.disabled))])];
+  const focusable = () => [closeButton, ...(section === 'categories' ? Object.values(categoryButtons).map(item => item.entry).filter(node => !node.disabled) : section === 'smoke' ? [backButton, smokeHost, ...[smokeApply].filter(node => !node.disabled)] : section === 'neon' ? [backButton, neonHost, ...[neonApply,neonDisable].filter(node=>!node.hidden&&!node.disabled)] : [backButton, ...[...rows.values()].flatMap(row => [row.previewHost, row.apply].filter(node => !node.disabled))])];
   function onKeyDown(event) {
     if (!opened) return;
     event.stopPropagation();
@@ -311,7 +385,7 @@ export function createVehicleLiveryShop(doc, {
   listen(menu, 'keydown', onKeyDown);
   listen(doc, 'keydown', onKeyDown);
   listen(doc, 'focusin', event => { if (opened && !contains(menu, event.target)) closeButton.focus?.(); });
-  listen(doc.defaultView || doc, 'blur', () => { for (const row of rows.values()) resetGesture(row); neonCarousel.resetGesture(); });
+  listen(doc.defaultView || doc, 'blur', () => { for (const row of rows.values()) resetGesture(row); neonCarousel.resetGesture(); smokeCarousel.resetGesture(); });
   for (const node of [menu, button].filter(Boolean)) {
     for (const type of ['keyup', 'click', 'pointerdown', 'pointermove', 'pointerup', 'pointercancel', 'touchstart', 'touchmove', 'touchend', 'touchcancel', 'wheel']) {
       listen(node, type, event => event.stopPropagation());
@@ -327,6 +401,7 @@ export function createVehicleLiveryShop(doc, {
       releaseBackground();
       for (const row of rows.values()) row.carousel.destroy();
       neonCarousel.destroy();
+      smokeCarousel.destroy();
       menu.remove();
     }
   }
@@ -340,6 +415,7 @@ export function createVehicleLiveryShop(doc, {
     },
     isOpen: () => opened, refresh, setSection, getSection: () => section,
     getNeonPreviewHost: () => neonHost, previewNeon: selectNeon, getNeonSelection: () => neonSelected,
+    getSmokePreviewHost: () => smokeHost, previewSmoke: selectSmoke, getSmokeSelection: () => smokeSelected,
     getPreviewHost: vehicleId => rows.get(vehicleId || VEHICLE_LIVERY_CATALOG[0].id)?.previewHost,
     setLanguage(next) { languageOverride = next === 'en' ? 'en' : 'ru'; refresh(); return lang(); },
     preview: select,

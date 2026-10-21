@@ -34,13 +34,13 @@ try{
     const raw=meshVertices(gltf.scene),sourceBounds=new THREE.Box3().setFromObject(gltf.scene,true),size=sourceBounds.getSize(new THREE.Vector3()),center=sourceBounds.getCenter(new THREE.Vector3());
 
 
-    const priorScale=Math.min(3.1/size.x,5.76/size.z),scale=priorScale*1.5;
+    const scale=Math.min(4.1/size.x,8.64/size.z),priorScale=scale/1.5;
     const normalize=([x,y,z])=>[-(x-center.x)*scale,(y-sourceBounds.min.y)*scale+.05,-(z-center.z)*scale];
     const adapter=createCosmoVehicleAdapter(THREE,spec.id,gltf),metadata=adapter.metadata;adapters.push(adapter);
     vectorNear(adapter.group.scale.toArray(),[1,1,1],`${spec.id} identity render scale`);
     near(metadata.uniformScale,scale,`${spec.id} actual normalized scale`);
     vectorNear(metadata.dimensions,size.toArray().map(value=>value*scale),`${spec.id} uniform dimensions`);
-    near(metadata.footprint.width,4.65,'normalization cap width');near(metadata.footprint.length,8.64,'normalization cap length');
+    near(metadata.footprint.width,4.1,'normalization cap width');near(metadata.footprint.length,8.64,'normalization cap length');
     near(metadata.bounds.min[1],.05,`${spec.id} tire-bottom anchor`);
     assert.equal(metadata.sourceWheelRadius,.68,'unchanged physics-distance conversion radius');
     const actual=meshVertices(adapter.group);

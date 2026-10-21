@@ -35,6 +35,18 @@ body.is-driving .top-actions .button-label{display:none}
 #settings-language{font:inherit;font-size:16px;max-width:65%;min-height:44px;padding:8px 12px;border:2px solid #8cbcf2;border-radius:11px;background:#0f2b5b;color:#fff;touch-action:manipulation}
 .settings-note{font-size:12px;color:#cbdcf5;line-height:1.45}
 #settings-volume-note{margin:0}
+.settings-music{padding:18px 0;border-bottom:1px solid #a4c8ff3d;min-width:0}
+.settings-music h3{margin:0 0 12px;font-size:20px;color:#ffe59b}
+#settings-music-track-label{display:block;margin-bottom:6px;font-size:13px;font-weight:800;color:#d4e4ff}
+#settings-music-track{display:block;box-sizing:border-box;width:100%;min-width:0;min-height:44px;padding:8px 12px;border:2px solid #8cbcf2;border-radius:11px;background:#0f2b5b;color:#fff;font:inherit;font-size:15px;touch-action:manipulation}
+#settings-music-artist{margin:6px 0 12px}
+.settings-music-controls{display:grid;grid-template-columns:48px minmax(0,1fr) 48px;gap:10px}
+#settings-panel #settings-music button{display:flex;align-items:center;justify-content:center;gap:10px;min-height:48px;min-width:0;margin:0;padding:8px;border:2px solid #14213d;border-radius:12px;background:#4265a4;color:#fff;font:inherit;font-size:16px;font-weight:900;cursor:pointer;touch-action:manipulation}
+#settings-panel #settings-music #settings-music-toggle{background:#80d99b;color:#102c3d}
+#settings-panel #settings-music button:hover{filter:brightness(1.12)}
+.settings-music-controls svg{width:24px;height:24px;fill:currentColor;stroke:currentColor;stroke-width:2;stroke-linejoin:round}
+#settings-music-status{margin:10px 0 0;min-height:1.45em;color:#fff0b5}
+#settings-music-note{margin:6px 0 0}
 .settings-credits{font-size:13px;line-height:1.5;overflow-wrap:anywhere}
 .settings-credits h3{font-size:20px;margin:20px 0 14px;color:#ffe59b}
 .settings-credits h4{font-size:16px;margin:18px 0 10px}

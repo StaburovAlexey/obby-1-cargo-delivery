@@ -102,7 +102,7 @@ const phrases = Object.freeze({
   "Улучшения машины": "Vehicle upgrades",
   "Гаечный ключ доступен в машине. Открывает четыре улучшения за мозги только для текущей машины.": "The wrench is available in a vehicle. It opens four brain-funded upgrades for the current vehicle only.",
   "Настройки": "Settings",
-  "Шестерёнка открывает это окно: громкость, язык, правила, значки и авторы. Закройте окно крестиком или клавишей Escape, чтобы продолжить.": "The gear opens this window: volume, language, instructions, icons and credits. Close it with the cross or Escape to resume.",
+  "Шестерёнка открывает это окно: громкость, язык, музыку, правила, значки и авторов. Закройте окно крестиком или клавишей Escape, чтобы продолжить.": "The gear opens this window: volume, language, music, instructions, icons and credits. Close it with the cross or Escape to resume.",
   "Звук": "Sound",
   "Динамик включает или выключает звук. Перечёркнутый динамик означает тишину. Точная громкость меняется ползунком в настройках.": "The speaker toggles sound. A crossed-out speaker means muted. Use the settings slider to adjust the volume.",
   "Закрыть окно": "Close window",

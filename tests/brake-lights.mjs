@@ -41,14 +41,17 @@ function matrices(root) {
 }
 function pngPixels(bytes) {
   assert.equal(bytes[24], 8, '8-bit palette PNG');
-  assert.equal(bytes[25], 6, 'RGBA palette PNG');
+  const channels = ({ 2: 3, 3: 1, 6: 4 })[bytes[25]];
+  assert.ok(channels, 'RGB, indexed, or RGBA source PNG');
   const width = bytes.readUInt32BE(16), height = bytes.readUInt32BE(20), chunks = [];
+  let palette = null;
   for (let p = 8; p < bytes.length;) {
     const length = bytes.readUInt32BE(p), type = bytes.toString('ascii', p + 4, p + 8);
     if (type === 'IDAT') chunks.push(bytes.subarray(p + 8, p + 8 + length));
+    if (type === 'PLTE') palette = bytes.subarray(p + 8, p + 8 + length);
     p += length + 12;
   }
-  const packed = inflateSync(Buffer.concat(chunks)), stride = width * 4;
+  const packed = inflateSync(Buffer.concat(chunks)), stride = width * channels;
   const data = Buffer.alloc(stride * height);
   const paeth = (a, b, c) => {
     const p = a + b - c, pa = Math.abs(p - a), pb = Math.abs(p - b), pc = Math.abs(p - c);
@@ -58,19 +61,24 @@ function pngPixels(bytes) {
     const filter = packed[y * (stride + 1)];
     assert.ok(filter >= 0 && filter <= 4);
     for (let x = 0; x < stride; x++) {
-      const i = y * stride + x, a = x >= 4 ? data[i - 4] : 0;
-      const b = y ? data[i - stride] : 0, c = y && x >= 4 ? data[i - stride - 4] : 0;
+      const i = y * stride + x, a = x >= channels ? data[i - channels] : 0;
+      const b = y ? data[i - stride] : 0, c = y && x >= channels ? data[i - stride - channels] : 0;
       const predictor = [0, a, b, Math.floor((a + b) / 2), paeth(a, b, c)][filter];
       data[i] = packed[y * (stride + 1) + x + 1] + predictor;
     }
   }
-  return (u, v) => Array.from(data.subarray((Math.floor(v * height) * width + Math.floor(u * width)) * 4,
-    (Math.floor(v * height) * width + Math.floor(u * width)) * 4 + 3));
+  return (u, v) => {
+    const index = (Math.min(height - 1, Math.max(0, Math.floor(v * height))) * width +
+      Math.min(width - 1, Math.max(0, Math.floor(u * width)))) * channels;
+    return Array.from(palette ? palette.subarray(data[index] * 3, data[index] * 3 + 3) : data.subarray(index, index + 3));
+  };
 }
 function paletteOf(bytes) {
   const jsonLength = bytes.readUInt32LE(12), json = JSON.parse(bytes.subarray(20, 20 + jsonLength));
   if (!json.images?.length) return null;
-  const view = json.bufferViews[json.images[0].bufferView], offset = 28 + jsonLength + (view.byteOffset ?? 0);
+  const optics = json.materials?.find(material => material.name === 'Passenger Optics');
+  const image = optics ? json.textures[optics.pbrMetallicRoughness.baseColorTexture.index].source : 0;
+  const view = json.bufferViews[json.images[image].bufferView], offset = 28 + jsonLength + (view.byteOffset ?? 0);
   return pngPixels(bytes.subarray(offset, offset + view.byteLength));
 }
 function triangles(geometry) {
@@ -80,27 +88,30 @@ function triangles(geometry) {
 
 const reports = [];
 for (const spec of [...COSMO_VEHICLES, BMW_VEHICLE]) {
+  const passenger = spec.url.includes('/passenger/');
   const bytes = fs.readFileSync(new URL(spec.url)), pixel = paletteOf(bytes);
   const parse = () => new GLTFLoader().parseAsync(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.length), '');
   const gltf = await parse(), twinGLTF = await parse();
   const originalResources = resources(gltf.scene), originals = [];
   gltf.scene.updateWorldMatrix(true, true);
-  let expectedRearTriangles = 0, excludedRearTriangles = 0;
+  let expectedRearTriangles = 0, excludedRearTriangles = 0, redRearTriangles = 0;
   gltf.scene.traverse(mesh => {
     if (!mesh.isMesh) return;
     const geometry = mesh.geometry, position = geometry.attributes.position;
     const records = triangles(geometry);
     originals.push({ mesh, attributes: Object.fromEntries(Object.entries(geometry.attributes).map(([key, attr]) => [key, Array.from(attr.array)])),
       triangles: records.map(t => t.join(',')).sort() });
-    if (!['light', 'Material.018'].includes(mesh.material.name)) return;
+    if (!['light', 'Material.018', 'Passenger Optics'].includes(mesh.material.name)) return;
     for (const triangle of records) {
       if (!triangle.every(index => new THREE.Vector3().fromBufferAttribute(position, index).applyMatrix4(mesh.matrixWorld).z < 0)) continue;
       const uv = geometry.attributes.uv;
       const rgb = pixel ? pixel(triangle.reduce((s, i) => s + uv.getX(i), 0) / 3,
         triangle.reduce((s, i) => s + uv.getY(i), 0) / 3) : [255, 0, 0];
       const [r, g, b] = rgb;
-      const lens = spec.model === 'kamaro' ? r > 180 && g > 120 && b < g * .8 : r > 150 && r > g * 2 && r > b * 2;
-      if (lens) expectedRearTriangles++; else excludedRearTriangles++;
+      const lens = passenger ? r > 30 && r > g * 2 && r > b * 2 && b >= g * .8 :
+        spec.model === 'kamaro' ? r > 180 && g > 120 && b < g * .8 : r > 150 && r > g * 2 && r > b * 2;
+      if (lens) redRearTriangles++;
+      if (passenger || lens) expectedRearTriangles++; else excludedRearTriangles++;
     }
   });
   const create = spec.id === BMW_VEHICLE.id ? createBMWVehicleAdapter : createCosmoVehicleAdapter;
@@ -108,6 +119,7 @@ for (const spec of [...COSMO_VEHICLES, BMW_VEHICLE]) {
   const owned = resources(adapter.group), twinOwned = resources(twin.group);
   const lamps = [...owned.materials].filter(m => m.userData.vehicleBrakeLamp);
   assert.ok(lamps.length > 0, `${spec.model}: brake lamps exist`);
+  if (passenger) assert.ok(redRearTriangles > 0, `${spec.model}: original rear optics contain actual red lens texture`);
   assert.equal(adapter.metadata.brakeLights.triangles, expectedRearTriangles + (spec.model === 'lamb' ? 24 : 0), `${spec.model}: every eligible rear triangle selected`);
   assert.equal(adapter.metadata.brakeLights.addedTriangles, spec.model === 'lamb' ? 24 : 0);
   for (const entry of originals) {
@@ -131,14 +143,14 @@ for (const spec of [...COSMO_VEHICLES, BMW_VEHICLE]) {
         if (isBrake) {
           selectedTriangles++;
           assert.ok(points.every(p => p.z > 0), `${spec.model}: brake face entirely behind vehicle center`);
-          if (pixel) {
+          if (pixel && !passenger) {
             const uv = mesh.geometry.attributes.uv;
             const [r, g, b] = pixel(records[i].reduce((s, v) => s + uv.getX(v), 0) / 3,
               records[i].reduce((s, v) => s + uv.getY(v), 0) / 3);
             assert.ok(spec.model === 'kamaro' ? r > 180 && g > 120 && b < g * .8 : r > 150 && r > g * 2 && r > b * 2,
               `${spec.model}: selected actual red/yellow palette cell, no white/blue lamp`);
           }
-        } else if (material?.name === 'light' || material?.name === 'Material.019') {
+        } else if (['light','Material.019','Passenger Optics'].includes(material?.name)) {
           if (points.every(p => p.z < 0)) frontTriangles++;
         }
       }
@@ -181,6 +193,7 @@ for (const spec of [...COSMO_VEHICLES, BMW_VEHICLE]) {
       assert.equal(material.emissiveIntensity, 3);
       assert.ok(material.emissive.r > material.emissive.g * 20 && material.emissive.r > material.emissive.b * 20, 'brake emission is red');
       assert.ok(!twinOwned.materials.has(material), 'independent per-car brake material');
+      if (passenger) assert.deepEqual(material.color.toArray(), baseline.get(material).color, 'original lens diffuse colors stay exact');
     }
   }
   for (const [material, before] of twinBaseline) assert.deepEqual(appearance(material), before, 'other car stays off');

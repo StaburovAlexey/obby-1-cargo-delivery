@@ -7,6 +7,7 @@ import { CITY_SURFACE, normalizeSurfaceDynamics } from './biome-surfaces.js';
 import { vehicleConfig } from './economy-config.js';
 import { getUpgradeModifiers, steeringResponseSeconds } from './vehicle-upgrades.js';
 import {BMW_DRIFT,evaluateDriftDynamics,driftTelemetry,driftWheelTarget} from './drift-dynamics.js';
+import {vehiclePhysicsGeometry, rearTireSlip} from './vehicle-physics.js';
 
 
 export const TOW_DRIVING = Object.freeze({
@@ -144,6 +145,7 @@ const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
 const finite = (v, fallback = 0) => Number.isFinite(v) ? v : fallback;
 const normalizeMaxSpeed = (speed, reward=false) => clamp(finite(Number(speed), TOW_DRIVING.maxSpeed), 1, reward?50:40);
 const forwardSpeed = (s) => (-Math.sin(s.heading) * s.velocityX - Math.cos(s.heading) * s.velocityZ) || 0;
+const MAX_SPEED_ASSIST_RATIO = 1.10;
 
 // Ordinary vehicles slide on their rear contact patches under a fast cornering
 // load. This is tire compliance, not a sideways push or a requested body angle.
@@ -162,20 +164,22 @@ export const CONTROLLED_SKID = Object.freeze({
   loadStart: .6,
   loadRange: 2.4,
 });
-const ordinaryRearStiffness = (state, ground, speed, gripUpgrade) => {
+const ordinaryRearStiffness = (state, ground, speed, gripUpgrade, geometry, speedAssistRatio) => {
   if (state.gear === 'R') return 1;
   const p = CONTROLLED_SKID;
   const speedBlend = clamp((Math.abs(speed) - p.startSpeed) / (p.fullSpeed - p.startSpeed), 0, 1);
   const bodySideSpeed = Math.cos(state.heading) * state.velocityX - Math.sin(state.heading) * state.velocityZ;
-  const bodySlip = Math.abs(Math.atan2(bodySideSpeed, Math.max(2, Math.abs(speed))));
-  const catchBlend = clamp((bodySlip - p.catchSlipStart) / p.catchSlipRange, 0, 1);
-  const cornerLoad = speed * speed * Math.abs(Math.tan(state.frontWheelAngle)) / 3.36;
+  const slip = geometry ? Math.abs(rearTireSlip(state, geometry.rearZ)) : Math.abs(Math.atan2(bodySideSpeed, Math.max(2, Math.abs(speed))));
+  // A longer body has substantial normal COM-sideways motion in a turn.
+  // Catch the actual rear tire slide instead of treating that motion as slip.
+  const catchBlend = clamp((slip - (geometry ? .22 : p.catchSlipStart)) / (geometry ? .10 : p.catchSlipRange), 0, 1);
+  const cornerLoad = speed * speed * Math.abs(Math.tan(state.frontWheelAngle)) / (geometry?.wheelbase ?? 3.36);
   const loadBlend = clamp((cornerLoad - p.loadStart) / p.loadRange, 0, 1);
   // Unsuitable-biome profiles already trade lateral for longitudinal traction.
   // Do not compound that existing difficulty with this road-tire compliance.
   const supportedTire = clamp(2 / ground.longitudinalGripFactor - 1, 0, 1);
   const surfaceCompliance = Math.min(1, (ground.lateralDampingFactor / ground.frictionFactor) ** 2);
-  const fastScale = Math.min(1, p.fastSpeedScale / Math.max(1, Math.abs(speed)));
+  const fastScale = Math.min(1, p.fastSpeedScale / Math.max(1, Math.abs(speed) / speedAssistRatio));
   const compliance = p.rearCompliance - p.gripRecovery * (clamp(finite(gripUpgrade, 1), 1, 1.2) - 1);
   return 1 - speedBlend * loadBlend * (1 - catchBlend) * compliance * fastScale * surfaceCompliance * supportedTire;
 };
@@ -201,6 +205,9 @@ export function evaluateVehicleForces(state, {
   speedFraction = 1,
   rewardDrift = null,
   skidGrip = 1,
+  geometry = null,
+  speedAssistRatio = 1,
+  rearGripDeficit = 0,
 } = {}) {
   const p = VEHICLE_DYNAMICS;
   const ground = normalizeSurfaceDynamics(surface);
@@ -231,11 +238,25 @@ export function evaluateVehicleForces(state, {
   let forceX = -p.mass * p.gravity * p.gradeGravityScale * gx / (1 + slopeSquared);
   let forceZ = -p.mass * p.gravity * p.gradeGravityScale * gz / (1 + slopeSquared);
   let torque = 0;
-  const normalLoad = p.mass * p.gravity / Math.sqrt(1 + slopeSquared) / VEHICLE_WHEELS.length;
-  const grip = normalLoad * p.tireFriction * ground.frictionFactor;
-  const rearStiffness = rewardDrift ? 1 : ordinaryRearStiffness(state, ground, speed, skidGrip);
+  const totalNormalLoad = p.mass * p.gravity / Math.sqrt(1 + slopeSquared);
+  const rearStiffness = rewardDrift ? 1 : ordinaryRearStiffness(state, ground, speed, skidGrip, geometry,
+    clamp(finite(speedAssistRatio, 1), 1, MAX_SPEED_ASSIST_RATIO));
+  const gripDeficit = !rewardDrift && state.gear === 'D' ? clamp(finite(rearGripDeficit), 0, 1) : 0;
+  // Reduce only rear lateral capacity. Recover it progressively at large tire
+  // slip, keeping lift-off and countersteer effective after the rear breaks away.
+  const rearLateralGrip = gripDeficit > 0 ? 1 - .35 * gripDeficit /
+    (1 + (rearTireSlip(state, geometry?.rearZ ?? 1.73) / .5) ** 2) : 1;
+  // Firm contact damping during parking fades into the finite slip-angle tire
+  // at road speed. Only contact forces change; velocity and yaw stay integrated.
+  const lowSpeedStiffness = geometry ? 1 + 3 * (1 - clamp((Math.abs(speed) - 4) / 4, 0, 1)) : 1;
   const tires = [];
-  for (const wheel of rewardDrift?BMW_DRIFT.wheels:VEHICLE_WHEELS) {
+  for (const wheel of rewardDrift?BMW_DRIFT.wheels:(geometry?.wheels ?? VEHICLE_WHEELS)) {
+    const loadShare = rewardDrift ? .25 : (wheel.loadShare ?? .25);
+    const normalLoad = totalNormalLoad * loadShare;
+    // A small front/rear stiffness and grip bias keeps saturation progressive:
+    // the front starts to push before the rear can sustain an uncontrolled spin.
+    const axleStiffness = geometry ? (wheel.front ? .95 : 1.05) : 1;
+    const grip = normalLoad * p.tireFriction * ground.frictionFactor * (geometry && wheel.front ? .95 : 1);
     const rx = c * wheel.x + s * wheel.z;
     const rz = -s * wheel.x + c * wheel.z;
     const pointVelocityX = state.velocityX + state.angularVelocity * rz;
@@ -245,23 +266,23 @@ export function evaluateVehicleForces(state, {
     const rightX = Math.cos(angle), rightZ = -Math.sin(angle);
     const longitudinalSpeed = pointVelocityX * fx + pointVelocityZ * fz;
     const lateralSpeed = pointVelocityX * rightX + pointVelocityZ * rightZ;
-    let longitudinalForce = p.mass * driveAcceleration * (rewardDrift?(wheel.front?.05:.45):1/VEHICLE_WHEELS.length) -
-      p.mass * drag * longitudinalSpeed / VEHICLE_WHEELS.length -
+    let longitudinalForce = p.mass * driveAcceleration * (rewardDrift?(wheel.front?.05:.45):loadShare) -
+      p.mass * drag * longitudinalSpeed * loadShare -
       normalLoad * rollingCoefficient * Math.tanh(longitudinalSpeed / p.rollingTransitionSpeed);
     if (braking) longitudinalForce += clamp(
-      -longitudinalSpeed * p.brakeViscosity * brakeScale * Number(braking),
-      -p.mass * p.brakeAcceleration * brakeScale / VEHICLE_WHEELS.length,
-      p.mass * p.brakeAcceleration * brakeScale / VEHICLE_WHEELS.length,
+      -longitudinalSpeed * p.brakeViscosity * brakeScale * Number(braking) * loadShare * 4,
+      -p.mass * p.brakeAcceleration * brakeScale * loadShare,
+      p.mass * p.brakeAcceleration * brakeScale * loadShare,
     );
 
 
     const rearDrift = !wheel.front && rewardDrift && powered && Math.abs(state.frontWheelAngle)>.008;
-    const lateralGrip = rearDrift ? clamp(rewardDrift.rearLateralGrip,.4,1) : 1;
+    const lateralGrip = rearDrift ? clamp(rewardDrift.rearLateralGrip,.4,1) : wheel.front ? 1 : rearLateralGrip;
     // At speed, use a finite slip-angle stiffness instead of an increasingly
     // rigid velocity damper. Slow bridge maneuvering retains high tire stiffness.
     const supportedTire = Math.min(1, 1 / ground.longitudinalGripFactor);
     const slipStiffness = 1 - supportedTire * (1 - 1 / Math.sqrt(1 + (longitudinalSpeed / 8) ** 2));
-    let lateralForce = -lateralSpeed * p.lateralViscosity * slipStiffness * ground.lateralDampingFactor * (wheel.front ? 1 : rearStiffness) * (rearDrift?clamp(rewardDrift.rearLateralDamping,.3,1):1);
+    let lateralForce = -lateralSpeed * p.lateralViscosity * slipStiffness * ground.lateralDampingFactor * loadShare * 4 * axleStiffness * lowSpeedStiffness * (wheel.front ? 1 : rearStiffness) * (rearDrift?clamp(rewardDrift.rearLateralDamping,.3,1):1);
 
 
     const requestedForce = Math.hypot(longitudinalForce / ground.longitudinalGripFactor, lateralForce/lateralGrip);
@@ -293,10 +314,20 @@ export function createDrivingModel({
   groundSurface = () => CITY_SURFACE,
   vehicleId = 'pickup',
   getUpgrades = () => undefined,
+  getVehicleMetadata = () => undefined,
   maxSpeed = TOW_DRIVING.maxSpeed,
 } = {}) {
   const spec = vehicleConfig(vehicleId);
-  const p = spec.rewardDrift?{...VEHICLE_DYNAMICS,yawInertia:BMW_DRIFT.yawInertia,halfWidth:BMW_DRIFT.halfWidth,halfLength:BMW_DRIFT.halfLength,colliderReach:Math.hypot(BMW_DRIFT.halfWidth,BMW_DRIFT.halfLength)}:VEHICLE_DYNAMICS;
+  let p = spec.rewardDrift?{...VEHICLE_DYNAMICS,yawInertia:BMW_DRIFT.yawInertia,halfWidth:BMW_DRIFT.halfWidth,halfLength:BMW_DRIFT.halfLength,colliderReach:Math.hypot(BMW_DRIFT.halfWidth,BMW_DRIFT.halfLength)}:VEHICLE_DYNAMICS;
+  let geometry = null, metadataSource;
+  const syncGeometry = () => {
+    if (spec.rewardDrift) return;
+    const metadata = getVehicleMetadata();
+    if (metadata === metadataSource) return;
+    metadataSource = metadata;
+    geometry = vehiclePhysicsGeometry(metadata, VEHICLE_DYNAMICS.mass);
+    p = geometry ? {...VEHICLE_DYNAMICS, ...geometry} : VEHICLE_DYNAMICS;
+  };
   maxSpeed = normalizeMaxSpeed(maxSpeed,!!spec.rewardDrift);
 
 
@@ -457,14 +488,39 @@ export function createDrivingModel({
     surface.frictionFactor *= upgrades.grip;
     surface.lateralDampingFactor *= upgrades.grip;
     const effectiveMaxSpeed = maxSpeed * upgrades.speed;
-    const responseSeconds = (spec.rewardDrift ? .22 / (spec.handling * upgrades.handling ** 1.35) : steeringResponseSeconds(spec.handling * upgrades.handling, state.linearSpeed)) / surface.handlingFactor;
+    // Extra speed is relative to this car's stock terrain cap, never to bought
+    // levels or pedal demand. Slow driving therefore keeps its original feel.
+    const stockSurfaceSpeed = Math.max(CONTROLLED_SKID.startSpeed, maxSpeed * surface.speedFactor);
+    const speedAssistRatio = !spec.rewardDrift && state.gear === 'D' ?
+      clamp(state.speed / stockSurfaceSpeed, 1, MAX_SPEED_ASSIST_RATIO) : 1;
+    const speedLoad = (speedAssistRatio - 1) / (MAX_SPEED_ASSIST_RATIO - 1);
+    const speedLoadBlend = speedLoad * speedLoad * (3 - 2 * speedLoad);
+    // Total motion keeps the load present when the body turns across its path.
+    // A tiny onset gate ignores stock-governor noise, without hiding S5's load.
+    // Analog gear selection happens below; bypass the new load immediately on
+    // a reverse request while preserving the existing rack/gear update order.
+    const requestingReverse = Number.isFinite(state.speedDemand) && state.speedDemand < -.001;
+    const rawLoad = !spec.rewardDrift && state.gear === 'D' && !requestingReverse ?
+      clamp((state.linearSpeed / stockSurfaceSpeed - 1) / .10, 0, 1) : 0;
+    const onset = clamp((rawLoad - .001) / .009, 0, 1);
+    const speedDemand = rawLoad * onset * onset * (3 - 2 * onset);
+    // Unsuitable tires already have their own traction penalty. Apply this mask
+    // once to both deficits, including while crossing a blended terrain edge.
+    const supportedTire = clamp(2 / surface.longitudinalGripFactor - 1, 0, 1);
+    const gripProgress = clamp((upgrades.grip - 1) / (1.2 - 1), 0, 1);
+    const handlingProgress = clamp((upgrades.handling - 1) / (1.3 - 1), 0, 1);
+    const rearGripDeficit = Math.max(0, speedDemand - gripProgress) * supportedTire;
+    const handlingDeficit = Math.max(0, speedDemand - handlingProgress) * supportedTire;
+    const responseSeconds = (spec.rewardDrift ? .22 / (spec.handling * upgrades.handling ** 1.35) : steeringResponseSeconds(spec.handling * upgrades.handling, state.linearSpeed)) / surface.handlingFactor * (1 + .20 * speedLoadBlend + handlingDeficit);
 
 
 
 
     const steeringGripScale = Math.sqrt(Math.min(1, surface.frictionFactor * surface.longitudinalGripFactor));
     const reverseGripScale = state.gear === 'R' ? Math.min(1, surface.frictionFactor) : 1;
-    const targetWheelAngle = spec.rewardDrift&&state.gear!=='R'?driftWheelTarget(state.steering,state.linearSpeed,state.slipAngle):roadWheelTarget(state.steering, state.linearSpeed / steeringGripScale, 9 + 7 * Math.min(1, 1 / surface.longitudinalGripFactor)) * reverseGripScale;
+    // Bound only the extra speed assistance. Tire velocities and corner loads
+    // still use actual motion; speed limiting resumes beyond the +10% range.
+    const targetWheelAngle = spec.rewardDrift&&state.gear!=='R'?driftWheelTarget(state.steering,state.linearSpeed,state.slipAngle):roadWheelTarget(state.steering, state.linearSpeed / speedAssistRatio / steeringGripScale, 9 + 7 * Math.min(1, 1 / surface.longitudinalGripFactor)) * reverseGripScale;
     state.frontWheelAngle += (targetWheelAngle - state.frontWheelAngle) *
       (1 - Math.exp(-dt / responseSeconds));
     const analog = Number.isFinite(state.speedDemand);
@@ -495,7 +551,7 @@ export function createDrivingModel({
     // Calibrate only the forward drift model; reverse uses its regular tires.
     const driftSurface = bmwForward ? {...surface, frictionFactor: Math.min(surface.frictionFactor / upgrades.grip, 1.4) * upgrades.grip} : surface;
     const forces = bmwForward?evaluateDriftDynamics(state,{maxSpeed:targetSpeed,engineAcceleration:catalogAcceleration*upgrades.engine*surface.engineFactor,surface:driftSurface,gradient,braking:serviceBraking,dt,mass:p.mass,inertia:p.yawInertia}):evaluateVehicleForces(state, { maxSpeed: effectiveMaxSpeed, gradient, braking: state.braking, speedFraction, surface,
-      engineAcceleration: catalogAcceleration * upgrades.engine, brakeFactor: spec.grip * upgrades.grip, rewardDrift:spec.rewardDrift, skidGrip:upgrades.grip });
+      engineAcceleration: catalogAcceleration * upgrades.engine, brakeFactor: spec.grip * upgrades.grip, rewardDrift:spec.rewardDrift, skidGrip:upgrades.grip, geometry, speedAssistRatio, rearGripDeficit });
     state.velocityX += forces.forceX / p.mass * dt;
     state.velocityZ += forces.forceZ / p.mass * dt;
     state.angularVelocity += forces.torque / p.yawInertia * dt;
@@ -539,6 +595,7 @@ export function createDrivingModel({
   };
   return {
     state,
+    get physicsGeometry() { syncGeometry(); return geometry; },
     setInput({ steering = 0, active = false, speedDemand,brake=0,handbrake=0 }) {
       state.steering = clamp(finite(Number(steering)), -1, 1);
       state.speedDemand = Number.isFinite(speedDemand) ? clamp(speedDemand, -1, 1) : null;
@@ -584,6 +641,7 @@ export function createDrivingModel({
       return renderState;
     },
     step(deltaSeconds) {
+      syncGeometry();
       syncRender();
 
       state.travel = state.pathDistance = state.movingSeconds = 0;

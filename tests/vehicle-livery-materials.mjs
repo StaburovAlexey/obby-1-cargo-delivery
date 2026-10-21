@@ -99,7 +99,11 @@ for (const id of VEHICLE_LIVERY_IDS) {
       const shader = { uniforms:{}, vertexShader:THREE.ShaderLib.standard.vertexShader, fragmentShader:THREE.ShaderLib.standard.fragmentShader };
       material.onBeforeCompile(shader);
       assert.match(shader.vertexShader,/vLiveryUv = liveryUv/);
-      assert.match(shader.fragmentShader,/mix\(diffuseColor.rgb, vehicleLiveryColor, vLiveryMask\)/);
+      assert.match(shader.fragmentShader,/mix\(diffuseColor.rgb, vehicleLiveryColor, (vLiveryMask|vehicleLiveryCoverage)\)/);
+      if (material.name.startsWith('Passenger Body')) {
+        assert.match(shader.fragmentShader,/passengerPaintRoughness/,'source ORM mask protects passenger grille/chrome/plastic');
+        assert.ok(material.roughnessMap?.isTexture,'source roughness atlas remains available');
+      }
       assert.ok(shader.uniforms.vehicleLiveryMap.value.isTexture);
       assert.equal(shader.uniforms.vehicleLiveryMap.value.flipY,false);
       assert.equal(shader.uniforms.vehicleLiveryMap.value.colorSpace,THREE.SRGBColorSpace);
@@ -112,7 +116,7 @@ for (const id of VEHICLE_LIVERY_IDS) {
   });
   for (const entry of before) {
     const materials=Array.isArray(entry.material)?entry.material:[entry.material];
-    if (materials.every(material=>['glass','light'].includes(material.name)) || (id==='citycourier' && materials.every(material=>material.name==='texture'))) {
+    if (materials.every(material=>['glass','light','Passenger Glass','Passenger Optics','Passenger Wheel','Passenger Wheel Trim'].includes(material.name) || material.userData.vehicleBrakeLamp) || (id==='citycourier' && materials.every(material=>material.name==='texture'))) {
       assert.equal(entry.mesh.material,entry.material,'window/light material unchanged');assert.equal(entry.mesh.geometry,entry.geometry);
     }
   }

@@ -331,7 +331,7 @@ test('Shop opens category artwork with live translated labels and no renderer un
  const calls=[],sections=[], f=fixture({autoPreview:true,onNeonPreview:id=>{calls.push(id);return true;},onSectionChange:id=>sections.push(id)});
  f.ui.open(); assert.equal(f.ui.getSection(),'categories'); assert.equal(f.previews.length,0);
  const entries=f.doc.body.all().filter(n=>n.getAttribute('data-shop-category'));
- assert.equal(entries.length,2); assert.equal(entries[0].children[1].textContent,'Новый внешний вид!');
+ assert.equal(entries.length,3); assert.equal(entries[0].children[1].textContent,'Новый внешний вид!');
  assert.ok(entries.every(n=>n.children[0].tagName==='IMG'&&n.children[0].src.endsWith('.webp')));
  entries[1].dispatch('click');await flush();assert.equal(f.ui.getSection(),'neon');assert.deepEqual(calls,['red']);
  const host=f.ui.getNeonPreviewHost();host.dispatch('keydown',{key:'ArrowRight'});await flush();assert.equal(f.ui.getNeonSelection(),'orange');
@@ -341,6 +341,92 @@ test('Shop opens category artwork with live translated labels and no renderer un
  entries[0].dispatch('click');assert.equal(f.previews.length,11);assert.equal(f.ui.previewNeon('blue'),false);
  f.ui.close();f.ui.open();assert.equal(f.ui.getSection(),'categories');assert.equal(f.ui.getNeonSelection(),'red');
  assert.deepEqual(sections,['neon','categories','liveries']);f.ui.destroy();
+});
+
+test('smoke category stays unavailable outside development even after DOM tampering',()=>{
+ const f=fixture();f.ui.open();
+ const entry=f.doc.body.all().find(n=>n.getAttribute('data-shop-category')==='smoke');
+ assert.ok(entry,'smoke category exists');assert.equal(entry.disabled,true);
+ assert.equal(f.ui.setSection('smoke'),false);
+ entry.disabled=false;entry.dispatch('click');assert.equal(f.ui.getSection(),'categories');
+ f.ui.destroy();
+});
+
+test('development smoke carousel uses six images and applies only the explicitly chosen global effect',()=>{
+ let selected='standard';const applied=[];
+ const f=fixture({canUseSmoke:()=>true,getSelectedSmokeId:()=>selected,onSmokeApply:id=>{applied.push(id);selected=id;return true;}});
+ f.ui.open();assert.equal(f.ui.setSection('smoke'),true);
+ const host=f.ui.getSmokePreviewHost(),apply=f.doc.getElementById('vehicle-smoke-apply');
+ assert.equal(host.all().filter(n=>n.tagName==='IMG').length,6);
+ assert.equal(host.all().filter(n=>n.tagName==='CANVAS').length,0);
+ assert.equal(f.ui.getSmokeSelection(),'standard');assert.equal(apply.disabled,true);
+ for(const id of ['flowers','hearts','skulls','coins','smileys','standard']){
+  host.dispatch('keydown',{key:'ArrowRight'});assert.equal(f.ui.getSmokeSelection(),id);
+  assert.equal(applied.length,id==='standard'?5:['flowers','hearts','skulls','coins','smileys'].indexOf(id));
+  apply.dispatch('click');assert.equal(selected,id);assert.equal(apply.textContent,'Выбрано');
+ }
+ f.ui.previewSmoke('hearts');f.ui.close();assert.equal(selected,'standard');
+ f.ui.open();f.ui.setSection('smoke');assert.equal(f.ui.getSmokeSelection(),'standard');
+ assert.equal(f.ui.previewSmoke('unknown'),false);f.ui.destroy();
+});
+
+test('smoke swipe wraps both ways, keeps vertical scrolling free and localizes the selected name',()=>{
+ const f=fixture({canUseSmoke:()=>true});f.ui.open();f.ui.setSection('smoke');const host=f.ui.getSmokePreviewHost();
+ pointer(host,'pointerdown',100,20);pointer(host,'pointermove',170,20);pointer(host,'pointerup',170,20);
+ assert.equal(f.ui.getSmokeSelection(),'smileys');
+ pointer(host,'pointerdown',100,20);const move=pointer(host,'pointermove',102,95);pointer(host,'pointerup',102,95);
+ assert.equal(move.defaultPrevented,false);assert.equal(f.ui.getSmokeSelection(),'smileys');
+ f.ui.setLanguage('en');assert.equal(f.doc.getElementById('vehicle-smoke-name').textContent,'Smileys');
+ f.doc.getElementById('vehicle-shop-back').dispatch('click');assert.equal(f.ui.getSection(),'categories');
+ assert.equal(f.ui.previewSmoke('hearts'),false);f.ui.destroy();
+});
+
+test('smoke imagery follows fractional drag and settles without a perpetual animation loop',()=>{
+ const f=fixture({canUseSmoke:()=>true}),frames=new Map();let serial=0;
+ f.win.requestAnimationFrame=fn=>{frames.set(++serial,fn);return serial;};
+ f.win.cancelAnimationFrame=id=>frames.delete(id);
+ const tick=time=>{const work=[...frames.values()];frames.clear();work.forEach(fn=>fn(time));};
+ f.ui.open();f.ui.setSection('smoke');const host=f.ui.getSmokePreviewHost();
+ const slide=host.children[0],before=slide.style.transform;
+ pointer(host,'pointerdown',100,20);pointer(host,'pointermove',160,20);
+ assert.notEqual(slide.style.transform,before,'Visible image must follow fractional pointer movement');
+ const dragged=slide.style.transform;pointer(host,'pointerup',160,20);
+ assert.equal(slide.style.transform,dragged,'Release keeps the visible image position');
+ tick(100);tick(230);assert.notEqual(slide.style.transform,dragged);
+ tick(400);assert.equal(frames.size,0,'No frames remain when settling completes');
+ host.dispatch('keydown',{key:'ArrowRight'});assert.ok(frames.size>0);
+ f.ui.close();assert.equal(frames.size,0);assert.equal(host.hasPointerCapture(1),false);
+ f.ui.destroy();assert.equal(frames.size,0);
+});
+
+test('smoke icon failure keeps a named fallback and never consults neon purchase offers',()=>{
+ let neonOffers=0,selected='standard';
+ const f=fixture({canUseSmoke:()=>true,getNeonOffer:()=>{neonOffers++;return null;},getSelectedSmokeId:()=>selected,onSmokeApply:id=>{selected=id;return true;}});
+ f.ui.open();f.ui.setSection('smoke');const host=f.ui.getSmokePreviewHost(),before=neonOffers;
+ f.ui.previewSmoke('flowers');const image=host.all().find(n=>n.tagName==='IMG'&&n.src?.endsWith('/flowers.webp'));
+ assert.ok(image,'Visible image is loaded on demand');image.dispatch('error');
+ assert.equal(image.hidden,true);
+ assert.equal(image.parent.children.find(n=>n.tagName==='SPAN').hidden,false,'Failed art has a visible text fallback');
+ const apply=f.doc.getElementById('vehicle-smoke-apply');apply.dispatch('click');
+ assert.equal(selected,'flowers');assert.equal(neonOffers,before,'Smoke refresh has no neon offer dependency');
+ f.ui.setLanguage('en');assert.equal(image.parent.children.find(n=>n.tagName==='SPAN').textContent,'Flowers');
+ f.ui.destroy();
+});
+
+test('smoke permissions, focus trapping and interrupted gestures remain enforced throughout the session',()=>{
+ let allowed=true;const applied=[];
+ const f=fixture({canUseSmoke:()=>allowed,onSmokeApply:id=>{applied.push(id);return true;}});
+ f.ui.open();f.ui.setSection('smoke');const host=f.ui.getSmokePreviewHost(),apply=f.doc.getElementById('vehicle-smoke-apply');
+ f.ui.previewSmoke('hearts');apply.focus();let event=apply.dispatch('keydown',{key:'Tab'});
+ assert.equal(event.defaultPrevented,true);assert.equal(f.doc.activeElement,f.get('close'));
+ pointer(host,'pointerdown',100,20);pointer(host,'pointermove',20,21);f.win.dispatch('blur');
+ assert.equal(host.hasPointerCapture(1),false);pointer(host,'pointerup',20,21);assert.equal(f.ui.getSmokeSelection(),'hearts');
+ allowed=false;apply.disabled=false;apply.dispatch('click');assert.deepEqual(applied,[]);
+ assert.equal(f.ui.previewSmoke('coins'),false);f.ui.refresh();
+ assert.equal(apply.disabled,true);assert.equal(f.doc.body.all().find(n=>n.getAttribute('data-shop-category')==='smoke').disabled,true);
+ f.ui.setSection('categories');f.get('close').focus();event=f.get('close').dispatch('keydown',{key:'Tab',shiftKey:true});
+ assert.equal(event.defaultPrevented,true);assert.equal(f.doc.activeElement.getAttribute('data-shop-category'),'neon','Disabled category is omitted from focus trap');
+ f.ui.destroy();assert.equal(f.ui.previewSmoke('flowers'),false);
 });
 
 test('Shop action and car purchase buttons share the exact green appearance rule',()=>{

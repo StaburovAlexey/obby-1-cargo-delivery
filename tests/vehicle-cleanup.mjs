@@ -2,7 +2,7 @@
 
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import crypto from 'node:crypto';
+import {PASSENGER_MODELS, passengerInventory} from './fixtures/passenger-assets.mjs';
 import {createAppDom} from './fixtures/app-dom.mjs';
 import {earnedRewardCareer} from './fixtures/reward-career.mjs';
 import {attachCosmoGarage} from '../dist/cosmo-garage.js';
@@ -13,10 +13,11 @@ const originalFetch=globalThis.fetch,originalSelf=globalThis.self,originalBitmap
 globalThis.self=globalThis;
 globalThis.createImageBitmap=async blob=>{const b=Buffer.from(await blob.arrayBuffer());return{width:b.readUInt32BE(16),height:b.readUInt32BE(20),close(){}}};
 globalThis.fetch=async request=>{const url=typeof request==='string'?request:request.url;return url.startsWith('blob:')?originalFetch(request):new Response(fs.readFileSync(new URL(url)));};
-const files=fs.readdirSync(new URL('../dist/assets/vehicles/cosmo/',import.meta.url)).filter(name=>name.endsWith('.glb')).sort();
+const files=fs.readdirSync(new URL('../dist/assets/vehicles/passenger/',import.meta.url)).filter(name=>name.endsWith('.glb')).sort();
 assert.deepEqual(files,COSMO_VEHICLES.map(v=>v.model+'.glb').sort());
-const manifest=JSON.parse(fs.readFileSync(new URL('../dist/assets/vehicles/cosmo/manifest.json',import.meta.url)));
-for(const file of manifest.files){const bytes=fs.readFileSync(new URL('../dist/assets/vehicles/cosmo/'+file.file,import.meta.url));assert.equal(bytes.length,file.bytes);assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),file.sha256)}
+passengerInventory();
+assert.deepEqual(Object.fromEntries(COSMO_VEHICLES.map(v=>[v.id,v.model])),PASSENGER_MODELS);
+for(const spec of COSMO_VEHICLES)assert.match(spec.url,/\/vehicles\/passenger\/[^/]+\.glb$/,'active production vehicles use passenger assets');
 assert(fs.existsSync(new URL(BMW_VEHICLE.url)));
 let pendingRoots=0,completed=0;
 const f=createAppDom({startDriving:false,career:earnedRewardCareer(),attachVehicleVisuals:(T,g)=>{

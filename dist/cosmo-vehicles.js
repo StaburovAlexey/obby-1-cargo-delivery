@@ -12,11 +12,14 @@ const GROUND_CLEARANCE = 0.05;
 
 
 export const COSMO_VEHICLE_SCALE = 1.5;
-const MAX_WIDTH = 3.1 * COSMO_VEHICLE_SCALE;
+// Keep a walkable gap between adjacent bays, including the wider compact/SUV bodies.
+const MAX_WIDTH = 4.1;
 const MAX_LENGTH = 5.76 * COSMO_VEHICLE_SCALE;
 const byteCache = new Map();
 const adoptedScenes = new WeakSet();
 const paletteTextures = new Map();
+const passengerTextures = new Map();
+const passengerImages = new Map();
 let paletteSource = null;
 let paletteUsers = 0;
 
@@ -80,20 +83,82 @@ function acquirePalette(scene) {
   };
 }
 
+// Reuse identical embedded textures across the independently loaded cars.
+// Hashes are written by the asset preparation script, before GLB packaging.
+function acquirePassengerTextures(scene) {
+  const originals = new Set(), materials = new Set();
+  scene.traverse(node => {
+    for (const material of [].concat(node.material ?? [])) {
+      materials.add(material);
+      for (const value of Object.values(material)) if (value?.isTexture) originals.add(value);
+    }
+  });
+  const replacements = new Map(), entries = new Set(), images = new Set();
+  const originalImages = new Set();
+  for (const texture of originals) {
+    const hash = texture.userData.passengerTextureHash ?? /^Passenger texture ([a-f0-9]{64})$/.exec(texture.name)?.[1];
+    if (!hash) continue;
+    originalImages.add(texture.source.data);
+    let image = passengerImages.get(hash);
+    if (!image) {
+      image = { source: texture.source, users: 0 };
+      passengerImages.set(hash, image);
+    }
+    const key = JSON.stringify([hash, texture.wrapS, texture.wrapT, texture.magFilter, texture.minFilter,
+      texture.anisotropy, texture.format, texture.type, texture.colorSpace, texture.flipY,
+      texture.premultiplyAlpha, texture.unpackAlignment, texture.generateMipmaps,
+      texture.offset.toArray(), texture.repeat.toArray(), texture.center.toArray(), texture.rotation, texture.channel]);
+    let entry = passengerTextures.get(key);
+    if (!entry) {
+      texture.source = image.source;
+      entry = { key, texture, users: 0 };
+      passengerTextures.set(key, entry);
+    }
+    replacements.set(texture, entry.texture);
+    entries.add(entry);
+    images.add(image);
+  }
+  for (const entry of entries) entry.users++;
+  for (const image of images) image.users++;
+  for (const material of materials) for (const [key, value] of Object.entries(material))
+    if (replacements.has(value)) material[key] = replacements.get(value);
+  const retained = new Set([...entries].map(entry => entry.texture));
+  const retainedImages = new Set([...images].map(image => image.source.data));
+  for (const texture of originals) if (replacements.has(texture) && !retained.has(texture)) texture.dispose();
+  for (const image of originalImages)
+    if (!retainedImages.has(image) && typeof image?.close === 'function') image.close();
+  let released = false;
+  return {
+    textures: retained, images: retainedImages,
+    release() {
+      if (released) return;
+      released = true;
+      for (const entry of entries) if (--entry.users === 0) {
+        entry.texture.dispose();
+        passengerTextures.delete(entry.key);
+      }
+      for (const image of images) if (--image.users === 0) {
+        for (const [hash, entry] of passengerImages) if (entry === image) passengerImages.delete(hash);
+        image.source.data?.close?.();
+      }
+    },
+  };
+}
+
 export const COSMO_VEHICLES = Object.freeze([
 
-  { id: 'pickup', model: 'coupe', url: new URL('./assets/vehicles/cosmo/coupe.glb', import.meta.url).href, biome: 'city', cargoZ: 0.55 },
-  { id: 'citycourier', model: 'police', url: new URL('./assets/vehicles/cosmo/police.glb', import.meta.url).href, biome: 'city', cargoZ: 0.95 },
-  { id: 'rover', model: 'jeep', url: new URL('./assets/vehicles/cosmo/jeep.glb', import.meta.url).href, biome: 'forest', cargoZ: 0.3, paint: [[0xfe9a2e, 0x4b8956], [0xff8000, 0x72aa5b]] },
-  { id: 'foresthauler', model: 'van', url: new URL('./assets/vehicles/cosmo/van.glb', import.meta.url).href, biome: 'forest', cargoZ: 1.35 },
-  { id: 'van', model: 'kamaro', url: new URL('./assets/vehicles/cosmo/kamaro.glb', import.meta.url).href, biome: 'desert', cargoZ: 0.3 },
-  { id: 'desertscout', model: 'ghini', url: new URL('./assets/vehicles/cosmo/ghini.glb', import.meta.url).href, biome: 'desert', cargoZ: 0.075, paint: [[0x585858, 0xc59843]] },
-  { id: 'snowgrip', model: 'rally', url: new URL('./assets/vehicles/cosmo/rally.glb', import.meta.url).href, biome: 'snow', cargoZ: 0.7, paint: [[0xfe642e, 0x58bed6], [0xff4000, 0xaddfeb]] },
-  { id: 'snowrunner', model: 'armor', url: new URL('./assets/vehicles/cosmo/armor.glb', import.meta.url).href, biome: 'snow', cargoZ: 0.1, paint: [[0x424242, 0xc6d9e6]] },
-  { id: 'lavacrawler', model: 'lamb', url: new URL('./assets/vehicles/cosmo/lamb.glb', import.meta.url).href, biome: 'lava', cargoZ: 0.15 },
-  { id: 'ashhauler', model: 'fenyr', url: new URL('./assets/vehicles/cosmo/fenyr.glb', import.meta.url).href, biome: 'lava', cargoZ: 0.275, paint: [[0x2e2efe, 0xf17a35]] },
+  { id: 'pickup', model: 'pickup', url: new URL('./assets/vehicles/passenger/pickup.glb', import.meta.url).href, biome: 'city', cargoZ: 0.55 },
+  { id: 'citycourier', model: 'compact', url: new URL('./assets/vehicles/passenger/compact.glb', import.meta.url).href, biome: 'city', cargoZ: 0.95 },
+  { id: 'rover', model: 'offroad', url: new URL('./assets/vehicles/passenger/offroad.glb', import.meta.url).href, biome: 'forest', cargoZ: 0.3 },
+  { id: 'foresthauler', model: 'wagon', url: new URL('./assets/vehicles/passenger/wagon.glb', import.meta.url).href, biome: 'forest', cargoZ: 1.35 },
+  { id: 'van', model: 'minivan', url: new URL('./assets/vehicles/passenger/minivan.glb', import.meta.url).href, biome: 'desert', cargoZ: 0.3 },
+  { id: 'desertscout', model: 'hatchback', url: new URL('./assets/vehicles/passenger/hatchback.glb', import.meta.url).href, biome: 'desert', cargoZ: 0.075 },
+  { id: 'snowgrip', model: 'sedan', url: new URL('./assets/vehicles/passenger/sedan.glb', import.meta.url).href, biome: 'snow', cargoZ: 0.7 },
+  { id: 'snowrunner', model: 'suv', url: new URL('./assets/vehicles/passenger/suv.glb', import.meta.url).href, biome: 'snow', cargoZ: 0.1 },
+  { id: 'lavacrawler', model: 'coupe', url: new URL('./assets/vehicles/passenger/coupe.glb', import.meta.url).href, biome: 'lava', cargoZ: 0.15 },
+  { id: 'ashhauler', model: 'sport', url: new URL('./assets/vehicles/passenger/sport.glb', import.meta.url).href, biome: 'lava', cargoZ: 0.275 },
 ].map(spec => Object.freeze({
-  ...spec, paint: Object.freeze((spec.paint ?? []).map(pair => Object.freeze(pair))),
+  ...spec, assetFamily: 'passenger', paint: Object.freeze((spec.paint ?? []).map(pair => Object.freeze(pair))),
 })));
 
 function vehicleSpec(id) {
@@ -123,7 +188,7 @@ function resourcesOf(scene, palette) {
       materials.forEach(value => value.dispose());
       textures.forEach(value => { if (!palette.textures.has(value)) value.dispose(); });
 
-      images.forEach(value => { if (value !== palette.image && typeof value.close === 'function') value.close(); });
+      images.forEach(value => { if (value !== palette.image && !palette.images?.has(value) && typeof value.close === 'function') value.close(); });
       palette.release();
     },
   };
@@ -208,7 +273,7 @@ export function createCosmoVehicleAdapter(THREE, vehicleId, gltf) {
   if (!scene?.isObject3D) throw new TypeError('Cosmo visual requires a parsed GLTF scene.');
   if (adoptedScenes.has(scene)) throw new Error('This GLTF scene already belongs to a Cosmo adapter.');
   adoptedScenes.add(scene);
-  const resources = resourcesOf(scene, acquirePalette(scene));
+  const resources = resourcesOf(scene, spec.assetFamily === 'passenger' ? acquirePassengerTextures(scene) : acquirePalette(scene));
   const group = new THREE.Group();
   group.name = `Cosmo vehicle visual · ${vehicleId}`;
   const body = new THREE.Group();
@@ -308,6 +373,11 @@ export function createCosmoVehicleAdapter(THREE, vehicleId, gltf) {
         material.shadowSide = THREE.BackSide;
       if (typeof material.emissiveIntensity === 'number')
         material.emissiveIntensity = Math.min(material.emissiveIntensity, 0.65);
+      // These source materials expect a studio environment map. Match the game's
+      // diffuse daylight while retaining their original metal/roughness detail.
+      if (material.name === 'Passenger Body' || material.name === 'Passenger Wheel Trim')
+        material.metalness = Math.min(material.metalness, .22);
+      if (material.name === 'Passenger Wheel') material.metalness = Math.min(material.metalness, .35);
       if (typeof material.roughness === 'number' && material.name !== 'glass')
         material.roughness = Math.max(material.roughness, 0.24);
     }
@@ -370,8 +440,9 @@ export function createCosmoVehicleAdapter(THREE, vehicleId, gltf) {
       wheelHalfWidth: Math.max(...wheels.map(wheel => Math.abs(wheel.localPosition.x))),
       bodyHalfWidth: dimensions.x / 2,
       triangles, primitives, materialCount: resources.materials.size,
-      textureCount: resources.textures.size, sharedPalette: true, cargoPosition: Object.freeze(cargoPosition.toArray()),
-      palette: 'Embedded palette retained; only audited body-paint swatches remapped.',
+      textureCount: resources.textures.size, sharedPalette: false, sharedTextures: true,
+      assetFamily: spec.assetFamily, cargoPosition: Object.freeze(cargoPosition.toArray()),
+      palette: 'Optimized source textures retained; identical maps shared across vehicles.',
       paintSwatches: spec.paint,
       brakeLights: brakeLights.metadata,
     });

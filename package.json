@@ -44,6 +44,7 @@
     "test:vehicle-effects": "node tests/vehicle-audio.mjs && node tests/brake-lights.mjs && node tests/vehicle-effects-telemetry.mjs && node tests/vehicle-effects-app.mjs",
     "test:all-hazards": "node --test tests/varied-road-hazards.mjs && node tests/all-hazard-motion.mjs && node tests/all-hazard-visuals.mjs && node tests/all-hazard-app.mjs",
     "test:settings": "node tests/settings-help.mjs && node tests/settings-menu.mjs && node tests/localization.mjs && node tests/settings-app.mjs && node tests/vehicle-audio.mjs",
+    "test:music": "node --test --test-concurrency=2 tests/background-music.mjs tests/settings-music.mjs tests/music-app.mjs",
     "test:integer-fuel": "node tests/integer-fuel-hud.mjs && node tests/compact-fuel-hud.mjs && node tests/settings-app.mjs",
     "test:startup": "node --test --test-concurrency=2 tests/startup-*.mjs",
     "test:vehicle-cleanup": "node tests/vehicle-cleanup.mjs && node tests/vehicle-rig.mjs && node tests/cosmo-garage.mjs",

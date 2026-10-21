@@ -51,7 +51,8 @@ try{
     near(bounds.getCenter(new THREE.Vector3()).x,0,spec.id+' centered X');near(bounds.getCenter(new THREE.Vector3()).z,0,spec.id+' centered Z');
     near(size.x,adapter.metadata.bounds.max[0]-adapter.metadata.bounds.min[0],spec.id+' bounds X');
     near(size.z,adapter.metadata.bounds.max[2]-adapter.metadata.bounds.min[2],spec.id+' bounds Z');
-    assert(size.x<=4.65001&&size.z<=8.64001);near(size.z,8.64,spec.id+' enlarged length');
+    assert(size.x<=4.10001&&size.z<=8.64001);
+    near(Math.max(size.x/4.1,size.z/8.64),1,spec.id+' fills the bounded vehicle envelope');
     cars.push({id:spec.id,...footprint});report.cars.push({id:spec.id,width:size.x,length:size.z});
     const {x,z,heading}=GAMEPLAY.roadSpawn;
     assert.equal(getTruckContact(x,z,heading,[],undefined,footprint),undefined,spec.id+' clear road spawn');
@@ -147,15 +148,21 @@ try{
     assert.deepEqual(parkedVehicleContact(0,6,h,[parked],'active'),parkedVehicleContact(0,6,h,[parked],'active',routeDefault));
   }
   const system=createRoadHazards(42),descriptors=JSON.stringify(system.hazards),identities=[...system.poses];
-  assert.equal(system.hazards.length,30);assert.equal(system.movers.length,20);assert.equal(ROAD_HAZARD_RULES.moverTravelSeconds,8);
+  assert.equal(system.hazards.length,ROAD_HAZARD_RULES.count);assert.equal(system.movers.length,ROAD_HAZARD_RULES.movingCount);assert.equal(ROAD_HAZARD_RULES.moverTravelSeconds,8);
   for(let frame=0;frame<=188;frame++){
     if(frame)system.update(.1,{x:0,z:6,heading:0},true);
     if(frame%10!==0&&frame!==188)continue;
     for(const h of system.movers){
       const p=pointOnEdge(h.edgeId,h.edgeDistance),side=h.offset<=0?1:-1;
-      near(h.x,p.x+p.right.x*h.offset,h.id+' live X');near(h.z,p.z+p.right.z*h.offset,h.id+' live Z');
+      const along=h.alongOffset||0;
+      near(h.x,p.x+p.right.x*h.offset+Math.sin(h.heading)*along,h.id+' live X');
+      near(h.z,p.z+p.right.z*h.offset+Math.cos(h.heading)*along,h.id+' live Z');
       const passage=15-h.width/2+Math.abs(h.offset);report.minimumPassage=Math.min(report.minimumPassage,passage);
       for(const footprint of cars){
+        if(!h.solid){
+          assert.equal(system.contact(h.x,h.z,h.heading,footprint),undefined,h.id+' surface patch is not a solid collider');
+          continue;
+        }
         assert(passage>footprint.halfWidth*2+1,`${footprint.id}: no usable moving-hazard passage`);
         assert(system.contact(h.x,h.z,h.heading,footprint),h.id+' current pose must collide');
         const probe=(h.width/2+footprint.halfWidth-.02),x=h.x+Math.cos(h.heading)*probe,z=h.z-Math.sin(h.heading)*probe;

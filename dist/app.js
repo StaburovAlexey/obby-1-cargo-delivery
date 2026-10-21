@@ -1,5 +1,6 @@
 import {createFleetNeon} from './vehicle-neon.js';
 import {getVehicleNeon} from './vehicle-neon-catalog.js';
+import {DEFAULT_VEHICLE_SMOKE_ID,getVehicleSmokeStyle} from './vehicle-smoke-catalog.js';
 import { createVehicleNeonPreview } from './vehicle-neon-preview.js';
 import {createFinishCelebration} from './finish-celebration.js';
 import {createSpatialRenderer} from './spatial-render.js';
@@ -8,6 +9,9 @@ import {createStartupGate} from './startup-gate.js';
 import {createLocalization} from './localization.js';
 import {createSettingsMenu} from './settings-menu.js';
 import {createVehicleAudio} from './vehicle-audio.js';
+import {createBackgroundMusic} from './background-music.js';
+import {MUSIC_TRACKS} from './music-catalog.js';
+import {createSettingsMusic} from './settings-music.js';
 import {projectLabelPixel,usableViewportRect} from './world-label-projection.js';
 import {createFinishLine} from './finish-line.js';
 import {vehicleFootprint} from './vehicle-contact.js';
@@ -32,10 +36,12 @@ const pauseState=services?.pause??createPauseState();
 const vehicleAudio=createVehicleAudio();
 let audioVolume=services?.settings?.audioVolume??1,lastAudibleVolume=services?.settings?.lastAudibleVolume??1,selectedLanguage=services?.settings?.language??'ru',settingsUi=null;
 vehicleAudio.setVolume?.(audioVolume);vehicleAudio.setMuted(audioVolume===0);
+const backgroundMusic=createBackgroundMusic({tracks:MUSIC_TRACKS,volume:audioVolume});
+backgroundMusic.setSuspended(true);
 const localization=createLocalization(document,{language:selectedLanguage});
 function setAudioVolume(value){
  audioVolume=Math.max(0,Math.min(1,Number(value)||0));if(audioVolume>0)lastAudibleVolume=audioVolume;
- vehicleAudio.setVolume?.(audioVolume);vehicleAudio.setMuted(audioVolume===0);
+ vehicleAudio.setVolume?.(audioVolume);vehicleAudio.setMuted(audioVolume===0);backgroundMusic.setVolume(audioVolume);
  services?.cloud?.setSettings({audioVolume,lastAudibleVolume,language:selectedLanguage});
  settingsUi?.setVolume(audioVolume);syncAudioButton();
 }
@@ -77,7 +83,7 @@ import { BIOME_DESTINATIONS, safeBiomeDestination } from "./biome-travel.js";
 import { createWheelParticles } from "./wheel-particles.js";
 import { createRoadHazards } from "./road-hazards.js";
 import { createRoadHazardsScene } from "./road-hazards-scene.js";
-import { SCHOOL_CONFIG, SKIN_CONFIG, schoolConfig, skinConfig } from "./progression-config.js";
+import { PROGRESSION_CONFIG, SCHOOL_CONFIG, SKIN_CONFIG, schoolConfig, skinConfig } from "./progression-config.js";
 import { UPGRADE_STATS, getVehiclePerformance } from "./vehicle-upgrades.js";
 import { updateProgressionHud, updateProgressionWorldLabels, WORLD_LABEL_DROP } from "./progression-hud.js";
 const memoryRecords=new Map();
@@ -162,26 +168,32 @@ let city,
   lastTime = 0,
   graphicsLost = false;
 let liveryShop=null,liveryPreview=null,neonPreview=null;
+// Developer cosmetics are session-only and shared by every driven vehicle.
+// Keep the choice outside the rebuilt world, like the shop controller itself.
+let selectedSmokeId=DEFAULT_VEHICLE_SMOKE_ID;
 const fleetNeon=createFleetNeon(THREE);
 function syncFleetNeon(){if(!gameplay||!garage)return;fleetNeon.setColor(gameplay.state.selectedNeonId);for(const vehicle of garage.vehicles)fleetNeon.attach(vehicle.visual);}
 function syncPremiumNeon(){if(!gameplay)return;for(const id of services?.neon?.ownedIds||[])gameplay.grantPremiumNeon(id);liveryShop?.refresh();}
 let hangarLeaderboardUi=null,canyonMode=null,onlineSession=null,advertising=null,spatialRenderer=null,teleportId=0,onlineClock=0,lastWalkSpeed=0,disposedOnline=false;
 const gameplayPaused=()=>pauseState.paused||!appFocused||document.hidden||graphicsLost||!playing||biomeMenuOpen||upgradeMenuOpen||careerMenuOpen||settingsMenuOpen||hangarLeaderboardOpen||liveryShopOpen;
-pauseState.subscribe(paused=>{if(paused){canyonMode?.pause();stopVehicleEffects();inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();}lastTime=0;onlineClock=0;advertising?.setSuspended(gameplay.state.eventMode==='finish'||!!canyonMode?.active||document.hidden||!appFocused||graphicsLost||pauseState.reasons.has('platform')||(pauseState.reasons.has('payment')||pauseState.reasons.has('neon-payment')));onlineSession?.update(0);});
+pauseState.subscribe(paused=>{syncBackgroundMusic();if(paused){canyonMode?.pause();stopVehicleEffects();inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();}lastTime=0;onlineClock=0;advertising?.setSuspended(gameplay.state.eventMode==='finish'||!!canyonMode?.active||document.hidden||!appFocused||graphicsLost||pauseState.reasons.has('platform')||(pauseState.reasons.has('payment')||pauseState.reasons.has('neon-payment')));onlineSession?.update(0);});
 const startup=createStartupGate({
   onReady(){
     lastTime=0;inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();
     document.body.classList.remove('is-loading');document.getElementById('loading').hidden=true;
     document.getElementById('audio-toggle').hidden=false;syncMode(true);
-    services?.platform.ready();onlineSession?.start();
+    syncBackgroundMusic();services?.platform.ready();onlineSession?.start();
   },
   onError(error){
-    lastTime=0;stopVehicleEffects();syncMode();
+    lastTime=0;stopVehicleEffects();syncBackgroundMusic();syncMode();
     document.getElementById('loading').hidden=true;document.getElementById('error').hidden=false;
     document.getElementById('error-text').textContent='Не удалось полностью загрузить мир. Проверьте соединение и нажмите «Повторить».';
     console.error('World startup failed',error);
   },
 });
+// Settings pause driving; music follows only platform, page and renderer interruptions.
+function syncBackgroundMusic(){backgroundMusic.setSuspended(pauseState.paused||!appFocused||document.hidden||graphicsLost||!startup.ready);}
+syncBackgroundMusic();
 for(const type of ['pointerdown','click','keydown'])window.addEventListener(type,event=>{
   if((!startup.ready||pauseState.paused)&&!event.target?.closest?.('#error')){event.preventDefault();event.stopImmediatePropagation?.();}
 },{capture:true});
@@ -289,6 +301,7 @@ function rebuild(value) {
   attachCosmoGarage(THREE,garage);
   scene.add(garage.group);
   gameplay = createGameplay({vehicles:garage.vehicles,stations:garage.stations,deliveries:garage.deliveries,desks:garage.desks,stands:garage.stands,solids:garage.walkingSolids||garage.classroomSolids,career:previousCareer??services?.initialCareer??(developerMode?careerStore.load():undefined),persistence:developerMode?undefined:careerStore,developerMode,hardBranches:HARD_BRANCHES});
+  if(developerMode&&!previousCareer)gameplay.state.brains=Math.min(PROGRESSION_CONFIG.maxBrains,gameplay.state.brains+10_000_000);
   onlineSession?.bindGameplay(gameplay);
   for(const vehicle of garage.vehicles){
     vehicle.model=createDrivingModel({
@@ -300,6 +313,7 @@ function rebuild(value) {
       },
       groundSurface:(x,z,id)=>canyonMode?.surface(x,z,8)?canyonMode.groundSurface():roadHazards.surfaceAt(x,z,roadGroundSurface(x,z,id,vehicle.routeContext)),
       vehicleId:vehicle.id,getUpgrades:()=>gameplay.state.upgrades[vehicle.id],
+      getVehicleMetadata:()=>vehicle.visual?.metadata,
       contact:(x,z,h)=>{
         const footprint=vehicleFootprint(vehicle.visual?.metadata,vehicle.model?.state.frontWheelAngle,vehicle.contactFootprint??={});
         if(canyonMode?.entrance.near(x,z))return canyonMode.entrance.contact(x,z,h,footprint);
@@ -325,6 +339,7 @@ function rebuild(value) {
     getContext:()=>({garage,gameplay,city,finishLine,roadHazardsScene,biomeWeather,model,rig,driving,online:onlineSession}),
     onEnter:()=>{careerRouteTracker.reset();wheelParticles?.clear();updateEconomyHud();},
     onExit:()=>{careerRouteTracker.reset();updateEconomyHud();}});
+  canyonMode.effects.setSmokeStyle(selectedSmokeId);
   if(!baselineRendering)spatialRenderer=createSpatialRenderer(THREE,{roots:[city.group,canyonMode.environment.group]});
   inputController?.setGear("D");
   syncMode(true);
@@ -340,7 +355,7 @@ function rebuild(value) {
     city,
     get spatialRenderer(){return spatialRenderer;},
     renderProfiler,
-    finishCelebration, vehicleAudio, settingsUi, localization, get settingsMenuOpen(){return settingsMenuOpen}, get hangarLeaderboardOpen(){return hangarLeaderboardOpen},get hangarLeaderboardUi(){return hangarLeaderboardUi}, developerMode, get rig(){return rig}, get model(){return model}, obstacles,
+    finishCelebration, vehicleAudio, backgroundMusic, settingsUi, localization, get settingsMenuOpen(){return settingsMenuOpen}, get hangarLeaderboardOpen(){return hangarLeaderboardOpen},get hangarLeaderboardUi(){return hangarLeaderboardUi}, developerMode, get rig(){return rig}, get model(){return model}, obstacles,
     get garage(){return garage}, get gameplay(){return gameplay},
     get startup(){return startup}, get character(){return character}, get characterReady(){return characterReady},
     get canyon(){return canyonMode},get driftLeaderboard(){return driftLeaderboard},get online(){return onlineSession},get advertising(){return advertising},pauseState,
@@ -433,8 +448,9 @@ settingsUi=createSettingsMenu(document,{volume:audioVolume,language:selectedLang
   inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();model?.pause();stopVehicleEffects();gameplay?.flushProgress();lastTime=0;syncMode();
  },
  onVolumeChange:value=>setAudioVolume(value),
- onLanguageChange:value=>{selectedLanguage=value==='en'?'en':'ru';localization.setLanguage(selectedLanguage);canyonMode?.entrance.refreshSign();hangarLeaderboardUi?.refresh();liveryShop?.refresh();services?.cloud?.setSettings({audioVolume,lastAudibleVolume,language:selectedLanguage});}
+ onLanguageChange:value=>{selectedLanguage=value==='en'?'en':'ru';localization.setLanguage(selectedLanguage);settingsMusic.setLanguage(selectedLanguage);canyonMode?.entrance.refreshSign();hangarLeaderboardUi?.refresh();liveryShop?.refresh();services?.cloud?.setSettings({audioVolume,lastAudibleVolume,language:selectedLanguage});}
 });
+const settingsMusic=createSettingsMusic(document,{music:backgroundMusic,tracks:MUSIC_TRACKS,language:selectedLanguage,canControl:()=>settingsUi.isOpen()&&!pauseState.paused&&startup.ready});
 function hangarLeaderboardAvailable(){
  return startup.ready&&characterReady&&playing&&!graphicsLost&&!canyonMode?.active&&gameplay?.state.mode==='walking'&&gameplay.state.eventMode!=='finish'&&isInGarage(gameplay.state.player.x,gameplay.state.player.z);
 }
@@ -450,6 +466,13 @@ function restoreLiveryPreviews(){
 }
 liveryShop=createVehicleLiveryShop(document,{
  button:document.getElementById('livery-shop-button'),language:()=>selectedLanguage,autoPreview:true,
+ canUseSmoke:()=>developerMode,
+ getSelectedSmokeId:()=>selectedSmokeId,
+ onSmokeApply(id){
+  if(!developerMode||!liveryShopOpen||!hangarLeaderboardAvailable()||!getVehicleSmokeStyle(id))return false;
+  if(canyonMode?.effects.setSmokeStyle(id)!==true)return false;
+  selectedSmokeId=id;return true;
+ },
  canOpen:()=>hangarLeaderboardAvailable()&&!settingsMenuOpen&&!careerMenuOpen&&!biomeMenuOpen&&!upgradeMenuOpen&&!hangarLeaderboardOpen&&!pauseState.paused,
  onOpenChange:open=>{
   liveryShopOpen=!!open;transition=null;
@@ -906,11 +929,11 @@ window.addEventListener('keydown',e=>{
   if(e.key==='Escape'){e.preventDefault();setUpgradeMenu(false);return;}
   if(e.key==='Tab'){e.preventDefault();const items=[...UPGRADE_STATS.map(s=>document.getElementById('upgrade-'+s.id+'-buy')).filter(b=>!b.disabled),document.getElementById('upgrade-close')],i=items.indexOf(document.activeElement);items[(i+(e.shiftKey?-1:1)+items.length)%items.length].focus?.();}
 });
-const pauseProgression=()=>{canyonMode?.pause();stopVehicleEffects();appFocused=false;advertising?.setSuspended(true);onlineClock=0;gameplay?.flushProgress();void services?.cloud?.flush();inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();model?.pause();lastTime=0;onlineSession?.update(0);};
+const pauseProgression=()=>{canyonMode?.pause();stopVehicleEffects();appFocused=false;syncBackgroundMusic();advertising?.setSuspended(true);onlineClock=0;gameplay?.flushProgress();void services?.cloud?.flush();inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();model?.pause();lastTime=0;onlineSession?.update(0);};
 window.addEventListener('blur',pauseProgression);
 window.addEventListener('pagehide',pauseProgression);
-window.addEventListener('focus',()=>{appFocused=true;lastTime=0;onlineClock=0;onlineSession?.update(0);});
-document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseProgression();else {appFocused=document.hasFocus?.()??true;lastTime=0;onlineClock=0;onlineSession?.update(0);}});
+window.addEventListener('focus',()=>{appFocused=true;syncBackgroundMusic();lastTime=0;onlineClock=0;onlineSession?.update(0);});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseProgression();else {appFocused=document.hasFocus?.()??true;syncBackgroundMusic();lastTime=0;onlineClock=0;onlineSession?.update(0);}});
 document.getElementById('buy-vehicle').addEventListener('click',event=>{event.stopPropagation();if(careerMenuOpen||settingsMenuOpen||hangarLeaderboardOpen||liveryShopOpen||!playing||!characterReady||gameplay.state.mode!=='walking')return;const id=gameplay.state.purchaseCandidateId;if(!id)return;walkInput?.reset();lookInput?.reset();gameplay.buy(id);handleGameplayEvents();updateEconomyHud();});
 document.getElementById('stand-up').addEventListener('click',standCharacter);
 document.getElementById('mode-toggle').addEventListener('click',()=>{if(!careerMenuOpen&&!settingsMenuOpen&&!hangarLeaderboardOpen&&!liveryShopOpen)setDriving(!playing)});
@@ -950,7 +973,7 @@ window.addEventListener("resize", () => {
 renderer.domElement.addEventListener("webglcontextlost", (e) => {
   e.preventDefault();
   startup.fail(new Error('WebGL context lost during startup'));
-  graphicsLost=true;inputController.reset();walkInput.reset();jumpInput.reset();lookInput.reset();model.pause();lastTime=0;syncMode();
+  graphicsLost=true;syncBackgroundMusic();inputController.reset();walkInput.reset();jumpInput.reset();lookInput.reset();model.pause();lastTime=0;syncMode();
   document.getElementById("error").hidden = false;
   document.getElementById("error-text").textContent =
     "Браузер потерял графический контекст. Нажмите «Повторить», чтобы пересобрать сцену.";
@@ -1084,8 +1107,8 @@ if(services?.serverUrl){
     getContext:()=>({gameplay,garage,character,model,rig,paused:gameplayPaused(),walkSpeed:lastWalkSpeed,teleportId})});
   onlineSession.bindGameplay(gameplay);
 }
-window.addEventListener('pagehide',event=>{if(event.persisted||disposedOnline)return;disposedOnline=true;fleetNeon.dispose();renderProfiler?.dispose();spatialRenderer?.dispose();liveryShop?.dispose();liveryPreview?.dispose();neonPreview?.dispose();hangarLeaderboardUi?.dispose();canyonMode?.dispose();driftLeaderboard.dispose();onlineSession?.dispose();advertising?.destroy();});
-window.addEventListener('pageshow',event=>{if(!event.persisted)return;appFocused=document.hasFocus?.()??true;lastTime=0;onlineClock=0;inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();syncMode();});
+window.addEventListener('pagehide',event=>{if(event.persisted||disposedOnline)return;disposedOnline=true;settingsMusic.dispose();backgroundMusic.dispose();fleetNeon.dispose();renderProfiler?.dispose();spatialRenderer?.dispose();liveryShop?.dispose();liveryPreview?.dispose();neonPreview?.dispose();hangarLeaderboardUi?.dispose();canyonMode?.dispose();driftLeaderboard.dispose();onlineSession?.dispose();advertising?.destroy();});
+window.addEventListener('pageshow',event=>{if(!event.persisted)return;appFocused=document.hasFocus?.()??true;syncBackgroundMusic();lastTime=0;onlineClock=0;inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();syncMode();});
 requestAnimationFrame(frame);
 
 
@@ -1095,7 +1118,8 @@ const initialAssets=Promise.all([
   populateDisplays({required:true}),
   garage.vehicleVisuals?.ready.then(result=>{if(result.loaded!==result.total)throw new Error('Vehicle models incomplete');}),
   document.fonts?.ready,
-  ...Array.from(document.images||[]).map(image=>image.decode?.()),
+  // Unopened carousels load their icons on demand and may not have a source yet.
+  ...Array.from(document.images||[]).filter(image=>image.src&&image.getAttribute('loading')!=='lazy').map(image=>image.decode?.()),
 ]);
 startup.start(initialAssets,{
   async prepare(){

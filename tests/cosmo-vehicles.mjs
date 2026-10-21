@@ -3,7 +3,7 @@
 
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { createHash } from 'node:crypto';
+import {PASSENGER_MODELS, PASSENGER_TRIANGLES, passengerInventory, sha256, textureHash} from './fixtures/passenger-assets.mjs';
 import * as THREE from '../dist/vendor/three.module.js';
 import { GLTFLoader } from '../dist/vendor/GLTFLoader.js';
 import {
@@ -15,7 +15,7 @@ const bitmaps = [], requests = new Map();
 globalThis.self = globalThis;
 globalThis.createImageBitmap = async blob => {
   const png = Buffer.from(await blob.arrayBuffer());
-  const bitmap = { width: png.readUInt32BE(16), height: png.readUInt32BE(20), closes: 0, close() { this.closes++; } };
+  const bitmap = { width: png.readUInt32BE(16), height: png.readUInt32BE(20), hash:sha256(png), closes: 0, close() { this.closes++; } };
   bitmaps.push(bitmap);
   return bitmap;
 };
@@ -49,27 +49,38 @@ function matrices(group) {
 assert.equal(COSMO_VEHICLES.length, 10);
 assert.equal(new Set(COSMO_VEHICLES.map(spec => spec.model)).size, 10);
 assert.deepEqual(COSMO_VEHICLES.map(spec => spec.id), ['pickup', 'citycourier', 'rover', 'foresthauler', 'van', 'desertscout', 'snowgrip', 'snowrunner', 'lavacrawler', 'ashhauler']);
+assert.deepEqual(Object.fromEntries(COSMO_VEHICLES.map(spec => [spec.id,spec.model])), PASSENGER_MODELS);
 for (const biome of ['city', 'forest', 'desert', 'snow', 'lava'])
   assert.equal(COSMO_VEHICLES.filter(spec => spec.biome === biome).length, 2);
-const manifest = JSON.parse(fs.readFileSync(new URL('../dist/assets/vehicles/cosmo/manifest.json', import.meta.url), 'utf8'));
-assert.equal(manifest.files.length, 10);
-for (const entry of manifest.files) {
-  const bytes = fs.readFileSync(new URL(`../dist/assets/vehicles/cosmo/${entry.file}`, import.meta.url));
-  assert.equal(bytes.length, entry.bytes);
-  assert.equal(createHash('sha256').update(bytes).digest('hex'), entry.sha256);
-}
-assert.match(fs.readFileSync(new URL('../dist/assets/vehicles/cosmo/License.txt', import.meta.url), 'utf8'), /CC0 1.0 Universal/);
+const {assets} = passengerInventory();
+const imageHashes = new Set([...assets.values()].flatMap(asset => asset.images.map(image => image.hash)));
+assert.equal(imageHashes.size, 39, 'audited passenger image inventory');
+for (const spec of COSMO_VEHICLES) assert.match(spec.url, new RegExp(`/vehicles/passenger/${spec.model}\\.glb$`));
 
 const adapters = await Promise.all(COSMO_VEHICLES.map(spec => loadCosmoVehicle(THREE, spec.id)));
 const sharedTextures = new Set(adapters.flatMap(adapter => [...resourceSets(adapter.group).textures]));
-assert.equal(sharedTextures.size, 2, 'ten cars share exactly two original sampler variants');
-assert.equal(new Set([...sharedTextures].map(texture => texture.source)).size, 1);
-assert.equal(bitmaps.filter(bitmap => bitmap.closes === 0).length, 1, 'one retained decoded palette');
+const sourceByHash = new Map(), textureBySampler = new Map();
+for (const texture of adapters.flatMap(adapter => [...resourceSets(adapter.group).textures])) {
+  const hash = textureHash(texture);
+  assert(imageHashes.has(hash), 'all maps retain audited source PNGs');
+  assert.equal(texture.source.data.hash, hash, 'texture hash identifies its actual decoded image');
+  if (sourceByHash.has(hash)) assert.equal(texture.source, sourceByHash.get(hash), 'one shared decoded source per PNG');
+  else sourceByHash.set(hash, texture.source);
+  const key = JSON.stringify([hash,texture.colorSpace,texture.wrapS,texture.wrapT,texture.magFilter,texture.minFilter,texture.flipY,texture.channel,texture.offset.toArray(),texture.repeat.toArray(),texture.rotation]);
+  if (textureBySampler.has(key)) assert.equal(texture, textureBySampler.get(key), 'same image/sampler textures pooled');
+  else textureBySampler.set(key, texture);
+}
+assert.equal(sourceByHash.size, imageHashes.size);
+assert.equal(bitmaps.filter(bitmap => bitmap.closes === 0).length, imageHashes.size, 'one retained bitmap per unique PNG');
 let sharedTextureDisposes = 0;
 for (const texture of sharedTextures) texture.addEventListener('dispose', () => sharedTextureDisposes++);
 let totalTriangles = 0, totalPrimitives = 0;
 for (const adapter of adapters) {
   const { group, body, wheels, metadata } = adapter;
+  assert.equal(metadata.assetFamily, 'passenger');
+  assert.equal(metadata.sharedPalette, false);
+  assert.equal(metadata.sharedTextures, true);
+  assert.equal(metadata.triangles, PASSENGER_TRIANGLES[metadata.model]);
   totalTriangles += metadata.triangles;
   totalPrimitives += metadata.primitives;
   const rest = matrices(group);
@@ -80,7 +91,7 @@ for (const adapter of adapters) {
   const size = bounds.getSize(new THREE.Vector3());
   assert.equal(COSMO_VEHICLE_SCALE, 1.5);
   assert.equal(metadata.sizeMultiplier, 1.5);
-  assert.ok(size.x <= 4.65 + 1e-6 && size.z <= 8.64 + 1e-6, `${metadata.id} footprint`);
+  assert.ok(size.x <= 4.1 + 1e-6 && size.z <= 8.64 + 1e-6, `${metadata.id} footprint`);
   nearArray(size.toArray(), metadata.dimensions);
   metadata.sourceSize.forEach((v, i) => near(v * metadata.uniformScale, metadata.dimensions[i]));
   assert.equal(metadata.sourceForward, '+Z');
@@ -118,7 +129,10 @@ for (const adapter of adapters) {
     assert.ok(node.castShadow && node.receiveShadow);
     for (const material of (Array.isArray(node.material) ? node.material : [node.material])) {
       assert.ok(material.emissiveIntensity <= 0.65);
-      assert.ok(material.map || material.emissiveMap, `${metadata.id} retained palette texture`);
+      if (material.name === 'Passenger Glass') {
+        assert.equal(material.transparent, true);
+        assert(material.opacity < 1, 'source transparent windows retained');
+      } else assert.ok(material.map || material.emissiveMap, `${metadata.id} retained source texture`);
     }
   });
   adapter.update({ position: [100, 20, -60], quaternion: [0, 1, 0, 0], steerAngle: 0.42, wheelSpin: 1.8, bodyPitch: .12, bodyRoll: -.08, bodyBob: .17 });
@@ -147,7 +161,7 @@ for (const adapter of adapters) {
 
   const painted = [];
   body.traverse(node => {
-    if (node.material && ['metallic', 'texture'].includes(node.material.name)) {
+    if (node.material && node.material.name === 'Passenger Body') {
       assert.ok(node.material.metalness <= .22);
       assert.ok(node.material.roughness >= .32);
     }
@@ -157,7 +171,7 @@ for (const adapter of adapters) {
   if (metadata.paintSwatches.length) {
     assert.ok(painted.length > 0);
     for (const material of new Set(painted)) {
-      assert.ok(['metallic', 'texture'].includes(material.name));
+      assert.equal(material.name, 'Passenger Body');
       const shader = { uniforms: {}, fragmentShader: 'void main() {\n#include <map_fragment>\n}' };
       material.onBeforeCompile(shader);
       assert.match(shader.fragmentShader, /texture2D\( map, vMapUv \)/);
@@ -171,9 +185,9 @@ for (const adapter of adapters) {
   });
   console.log(`PASS ${metadata.id}: ${metadata.model}, 4 pivoted wheels, ${metadata.triangles} triangles, ${metadata.primitives} primitives`);
 }
-assert.equal(totalTriangles, 23207);
-assert.equal(totalPrimitives, 109);
-console.log('PASS all ten source palettes, +Z→-Z, uniform fit, grounding, articulation and cargo metadata');
+assert.equal(totalTriangles, 69280);
+assert.equal(totalPrimitives, 74);
+console.log('PASS all ten source textures, +Z→-Z, uniform fit, grounding, articulation and cargo metadata');
 
 
 const [a, b] = await Promise.all([loadCosmoVehicle(THREE, 'pickup'), loadCosmoVehicle(THREE, 'pickup')]);
@@ -181,7 +195,7 @@ assert.equal(requests.get(COSMO_VEHICLES[0].url), 1);
 const aResources = resourceSets(a.group), bResources = resourceSets(b.group);
 for (const key of ['geometries', 'materials'])
   for (const resource of aResources[key]) assert.ok(!bResources[key].has(resource), `independent ${key}`);
-for (const texture of aResources.textures) assert.ok(bResources.textures.has(texture), 'immutable palette textures shared');
+for (const texture of aResources.textures) assert.ok(bResources.textures.has(texture), 'immutable passenger textures shared');
 const foreignGeometry = new THREE.BoxGeometry(), foreignMaterial = new THREE.MeshBasicMaterial();
 let foreignDisposes = 0;
 foreignGeometry.addEventListener('dispose', () => foreignDisposes++);
@@ -198,7 +212,7 @@ assert.equal(a.group.parent, null);
 assert.equal(a.disposed, true);
 assert.equal(actualDisposes, expectedDisposes);
 assert.equal(foreignDisposes, 0, 'externally-owned cargo resources survive disposal');
-assert.equal(sharedTextureDisposes, 0, 'shared palette survives individual adapter disposal');
+assert.equal(sharedTextureDisposes, 0, 'pooled textures survive individual adapter disposal');
 b.update({ bodyBob: .2 }); near(b.body.position.y, .2);
 b.dispose();
 foreignGeometry.dispose(); foreignMaterial.dispose();
@@ -211,7 +225,7 @@ assert.throws(() => createCosmoVehicleAdapter(THREE, 'pickup', gltf), /already b
 raw.dispose();
 await assert.rejects(loadCosmoVehicle(THREE, 'not-a-car'), /Unknown/);
 for (const adapter of adapters) adapter.dispose();
-assert.equal(sharedTextureDisposes, 2, 'each pooled texture disposes once after final adapter');
+assert.equal(sharedTextureDisposes, sharedTextures.size, 'each pooled texture disposes once after final adapter');
 assert.ok(bitmaps.length > 0);
 assert.ok(bitmaps.every(bitmap => bitmap.closes === 1), 'every owned bitmap closes exactly once');
 clearCosmoVehicleCache();

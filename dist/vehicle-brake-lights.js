@@ -18,7 +18,7 @@ function isBrakeSwatch(uv, index, model) {
 
 
 export function attachVehicleBrakeLights(THREE, { scene, normalized, model, resources }) {
-  const lamps = [], meshes = [];
+  const lamps = [], meshes = [], passengerEntries = [];
   const red = new THREE.Color(0xff0803);
   const toSource = new THREE.Matrix4().copy(normalized.matrixWorld).invert();
   const position = new THREE.Vector3(), transform = new THREE.Matrix4();
@@ -26,20 +26,36 @@ export function attachVehicleBrakeLights(THREE, { scene, normalized, model, reso
 
   function adoptLamp(original) {
     const material = original.clone();
+    const passenger = original.name === 'Passenger Optics';
     material.userData.vehicleBrakeLamp = true;
     material.userData.vehicleBrakeModel = model;
     resources.materials.add(material);
     lamps.push({ material, color: material.color.clone(), emissive: material.emissive.clone(),
-      intensity: material.emissiveIntensity });
+      intensity: material.emissiveIntensity, passenger });
+    if (passenger) {
+      const baseHook = original.onBeforeCompile, baseKey = original.customProgramCacheKey();
+      const baseEmission = original.emissive.clone().multiplyScalar(original.emissiveIntensity);
+      material.customProgramCacheKey = () => `${baseKey}|passenger-rear-red-lens-v1`;
+      material.onBeforeCompile = shader => {
+        baseHook.call(original, shader);
+        shader.uniforms.passengerBrakeBaseEmission = { value: baseEmission };
+        // Rear optics include white reverse lenses and amber indicators. Sample
+        // their actual texture color rather than assuming old palette UV cells.
+        shader.fragmentShader = `uniform vec3 passengerBrakeBaseEmission;\n${shader.fragmentShader}`
+          .replace('#include <emissivemap_fragment>', '#include <emissivemap_fragment>\nfloat passengerBrakeLens = 0.0;\n#ifdef USE_MAP\nvec3 passengerBrakeSource = texture2D( map, vMapUv ).rgb;\npassengerBrakeLens = step(0.01, passengerBrakeSource.r) * step(passengerBrakeSource.g * 0.8, passengerBrakeSource.b) * smoothstep(1.3, 2.0, passengerBrakeSource.r / max(max(passengerBrakeSource.g, passengerBrakeSource.b), 0.001));\n#endif\ntotalEmissiveRadiance = mix(passengerBrakeBaseEmission, totalEmissiveRadiance, passengerBrakeLens);');
+      };
+    }
     return material;
   }
 
   const candidates = [];
   scene.traverse(mesh => {
     if (mesh.isMesh && !Array.isArray(mesh.material) &&
-        mesh.material.name === (model === 'bmw-g80-m3' ? 'Material.018' : 'light')) candidates.push(mesh);
+        (mesh.material.name === 'Passenger Optics' ||
+        mesh.material.name === (model === 'bmw-g80-m3' ? 'Material.018' : 'light'))) candidates.push(mesh);
   });
   for (const mesh of candidates) {
+    const originalMaterial = mesh.material, passenger = originalMaterial.name === 'Passenger Optics';
     const source = mesh.geometry, vertices = source.attributes.position, uv = source.attributes.uv;
     const indices = source.index, normal = [], rear = [];
     transform.multiplyMatrices(toSource, mesh.matrixWorld);
@@ -47,7 +63,7 @@ export function attachVehicleBrakeLights(THREE, { scene, normalized, model, reso
       const triangle = [0, 1, 2].map(offset => indices ? indices.getX(i + offset) : i + offset);
       const selected = triangle.every(index => {
         position.fromBufferAttribute(vertices, index).applyMatrix4(transform);
-        return position.z < 0 && (model === 'bmw-g80-m3' || (uv && isBrakeSwatch(uv, index, model)));
+        return position.z < 0 && (passenger || model === 'bmw-g80-m3' || (uv && isBrakeSwatch(uv, index, model)));
       });
       (selected ? rear : normal).push(...triangle);
     }
@@ -67,6 +83,9 @@ export function attachVehicleBrakeLights(THREE, { scene, normalized, model, reso
     } else {
       mesh.material = material;
     }
+    if (passenger) passengerEntries.push({ mesh, originalMaterial, originalGeometry: source,
+      material, geometry: mesh.geometry === source ? null : mesh.geometry,
+      originalTriangleCount: mesh.userData.vehicleBrakeTriangles });
     mesh.userData.vehicleBrakeTriangles = rear.length / 3;
     triangleCount += rear.length / 3;
     meshes.push(mesh);
@@ -130,7 +149,7 @@ export function attachVehicleBrakeLights(THREE, { scene, normalized, model, reso
       if (next === amount) return;
       amount = next;
       for (const lamp of lamps) {
-        lamp.material.color.copy(lamp.color).lerp(red, amount);
+        if (!lamp.passenger) lamp.material.color.copy(lamp.color).lerp(red, amount);
         lamp.material.emissive.copy(lamp.emissive).lerp(red, amount);
         lamp.material.emissiveIntensity = lamp.intensity + (BRAKE_EMISSION - lamp.intensity) * amount;
       }
@@ -139,8 +158,21 @@ export function attachVehicleBrakeLights(THREE, { scene, normalized, model, reso
       if (disposed) return;
       this.set(false);
       disposed = true;
-
-
+      // Passenger effects can be removed independently of the adapter. Return
+      // source references and remove owned clones from the adapter's disposal
+      // sets, so its later cleanup never disposes the same resource twice.
+      for (const entry of passengerEntries) {
+        entry.mesh.geometry = entry.originalGeometry;
+        entry.mesh.material = entry.originalMaterial;
+        if (entry.originalTriangleCount === undefined) delete entry.mesh.userData.vehicleBrakeTriangles;
+        else entry.mesh.userData.vehicleBrakeTriangles = entry.originalTriangleCount;
+        resources.materials.delete(entry.material);
+        entry.material.dispose();
+        if (entry.geometry) {
+          resources.geometries.delete(entry.geometry);
+          entry.geometry.dispose();
+        }
+      }
     },
   };
 }

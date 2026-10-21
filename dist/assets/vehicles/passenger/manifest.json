@@ -1,0 +1,416 @@
+{
+  "title": "Generic passenger car pack",
+  "author": "Comrade1280 (https://sketchfab.com/comrade1280)",
+  "sourceUrl": "https://sketchfab.com/3d-models/generic-passenger-car-pack-20f9af9b8a404d5cb022ac6fe87f21f5",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+  "localSource": "new/generic_passenger_car_pack.glb",
+  "sourceSha256": "a2d5667f3a1d47fa0dbb84cf2cf76b8aeee6a69f7fff209af09973c625f9be6e",
+  "sourceBytes": 11761956,
+  "generator": "scripts/prepare-passenger-vehicles.py",
+  "coordinateSystem": {
+    "up": "+Y",
+    "forward": "+Z",
+    "wheelAxle": "X",
+    "ground": 0
+  },
+  "changes": [
+    "Extracted ten cars and excluded the display pedestal",
+    "Normalized orientation, centered X/Z and grounded Y; regrouped and centered four separate wheels",
+    "Preserved triangle topology, normals and source UVs; stored indices as unsigned 16-bit",
+    "Resized body PNG maps to 512 pixels and wheel/optics maps to 256 pixels",
+    "Optimized base-color PNGs with 256-color palettes; retained RGB PBR data maps"
+  ],
+  "files": [
+    {
+      "file": "compact.glb",
+      "model": "compact",
+      "bytes": 450740,
+      "sha256": "505cddb5aa3763522d32794b04f8349f25e2dfad0d0af68495a0ec09faa3d8ec",
+      "triangles": 7257,
+      "primitives": 7,
+      "materials": 4,
+      "textures": 5,
+      "maxTextureSize": 512,
+      "textureSizes": [
+        [
+          512,
+          512
+        ],
+        [
+          512,
+          512
+        ],
+        [
+          256,
+          256
+        ],
+        [
+          256,
+          256
+        ],
+        [
+          256,
+          256
+        ]
+      ],
+      "dimensions": [
+        1.6073952991721407,
+        1.3151690516150745,
+        3.2568164233444685
+      ]
+    },
+    {
+      "file": "coupe.glb",
+      "model": "coupe",
+      "bytes": 427140,
+      "sha256": "0784433e1a4cb065669bf44d6fc1adcc1475fa08fcbd0b750679fb57df5ed2ed",
+      "triangles": 6022,
+      "primitives": 7,
+      "materials": 4,
+      "textures": 5,
+      "maxTextureSize": 512,
+      "textureSizes": [
+        [
+          512,
+          512
+        ],
+        [
+          512,
+          512
+        ],
+        [
+          256,
+          256
+        ],
+        [
+          256,
+          256
+        ],
+        [
+          256,
+          256
+        ]
+      ],
+      "dimensions": [
+        1.884220622083799,
+        1.2777575971764572,
+        4.2391929724440605
+      ]
+    },
+    {
+      "file": "hatchback.glb",
+      "model": "hatchback",
+      "bytes": 456800,
+      "sha256": "91d5987a388e0bad604647dcab6576b5f703aa05d378fc2c4deda22c965bb1c6",
+      "triangles": 6808,
+      "primitives": 7,
+      "materials": 4,
+      "textures": 5,
+      "maxTextureSize": 512,
+      "textureSizes": [
+        [
+          512,
+          512
+        ],
+        [
+          512,
+          512
+        ],
+        [
+          256,
+          256
+        ],
+        [
+          256,
+          256
+        ],
+        [
+          256,
+          256
+        ]
+      ],
+      "dimensions": [
+        1.7413692071574474,
+        1.3522358351232084,
+        3.955899543431912
+      ]
+    },
+    {
+      "file": "minivan.glb",
+      "model": "minivan",
+      "bytes": 473504,
+      "sha256": "1d8862cc5a29915153255bf6718ad875814826d56e28d7c5a6097ddddbb9329c",
+      "triangles": 7450,
+      "primitives": 7,
+      "materials": 4,
+      "textures": 5,
+      "maxTextureSize": 512,
+      "textureSizes": [
+        [
+          512,
+          512
+        ],
+        [
+          512,
+          512
+        ],
+        [
+          256,
+          256
+        ],
+        [
+          256,
+          256
+        ],
+        [
+          256,
+          256
+        ]
+      ],
+      "dimensions": [
+        1.8683385036135156,
+        1.7628454144490622,
+        4.609071269744902
+      ]
+    },
+    {
+      "file": "offroad.glb",
+      "model": "offroad",
+      "bytes": 425260,
+      "sha256": "3ea4ed283077c29221830e44c164491d0baf03f78db417a20a5bfd4fe0492c4f",
+      "triangles": 6502,
+      "primitives": 7,
+      "materials": 4,
+      "textures": 5,
+      "maxTextureSize": 512,
+      "textureSizes": [
+        [
+          512,
+          512
+        ],
+        [
+          512,
+          512
+        ],
+        [
+          256,
+          256
+        ],
+        [
+          256,
+          256
+        ],
+        [
+          256,
+          256
+        ]
+      ],
+      "dimensions": [
+        1.96002677484995,
+        1.569612541742789,
+        3.9394360485562174
+      ]
+    },
+    {
+      "file": "pickup.glb",
+      "model": "pickup",
+      "bytes": 452164,
+      "sha256": "8068f6ada11414e12e4c3c6bc390a949234d8f6369e7203df5600ff05baa8446",
+      "triangles": 6918,
+      "primitives": 7,
+      "materials": 4,
+      "textures": 5,
+      "maxTextureSize": 512,
+      "textureSizes": [
+        [
+          512,
+          512
+        ],
+        [
+          512,
+          512
+        ],
+        [
+          256,
+          256
+        ],
+        [
+          256,
+          256
+        ],
+        [
+          256,
+          256
+        ]
+      ],
+      "dimensions": [
+        2.067609016252021,
+        1.6975895714929694,
+        5.180059170144716
+      ]
+    },
+    {
+      "file": "sedan.glb",
+      "model": "sedan",
+      "bytes": 483088,
+      "sha256": "e08279f160f3c1fd5d5693bc4d084ae62979f1f5974b84bbd1de85b17f84b90a",
+      "triangles": 7122,
+      "primitives": 7,
+      "materials": 4,
+      "textures": 5,
+      "maxTextureSize": 512,
+      "textureSizes": [
+        [
+          512,
+          512
+        ],
+        [
+          512,
+          512
+        ],
+        [
+          256,
+          256
+        ],
+        [
+          256,
+          256
+        ],
+        [
+          256,
+          256
+        ]
+      ],
+      "dimensions": [
+        1.9415223203751442,
+        1.3421647379657913,
+        4.359073353902664
+      ]
+    },
+    {
+      "file": "sport.glb",
+      "model": "sport",
+      "bytes": 448148,
+      "sha256": "6be37c7a9ae989b5351d78ef1034aaa09aecd630bff57e17779e412755bcb7cd",
+      "triangles": 6268,
+      "primitives": 7,
+      "materials": 4,
+      "textures": 5,
+      "maxTextureSize": 512,
+      "textureSizes": [
+        [
+          512,
+          512
+        ],
+        [
+          512,
+          512
+        ],
+        [
+          256,
+          256
+        ],
+        [
+          256,
+          256
+        ],
+        [
+          256,
+          256
+        ]
+      ],
+      "dimensions": [
+        1.7683692346119249,
+        1.0396878068618172,
+        3.9124043446797714
+      ]
+    },
+    {
+      "file": "suv.glb",
+      "model": "suv",
+      "bytes": 526568,
+      "sha256": "08e927e6c0023cc2bdf2edfe111fc7609335283041ff27adc2ab37ab9213fee9",
+      "triangles": 7951,
+      "primitives": 11,
+      "materials": 5,
+      "textures": 7,
+      "maxTextureSize": 512,
+      "textureSizes": [
+        [
+          512,
+          512
+        ],
+        [
+          512,
+          512
+        ],
+        [
+          256,
+          256
+        ],
+        [
+          256,
+          256
+        ],
+        [
+          256,
+          256
+        ],
+        [
+          256,
+          256
+        ],
+        [
+          256,
+          256
+        ]
+      ],
+      "dimensions": [
+        2.067609016252021,
+        1.7332332754720112,
+        4.611267357026888
+      ]
+    },
+    {
+      "file": "wagon.glb",
+      "model": "wagon",
+      "bytes": 465800,
+      "sha256": "3d248fbdc29d5a10d3e34af5c6adac3818108e2be8ffb23cf00ec09f66f2d7ea",
+      "triangles": 6982,
+      "primitives": 7,
+      "materials": 4,
+      "textures": 5,
+      "maxTextureSize": 512,
+      "textureSizes": [
+        [
+          512,
+          512
+        ],
+        [
+          512,
+          512
+        ],
+        [
+          256,
+          256
+        ],
+        [
+          256,
+          256
+        ],
+        [
+          256,
+          256
+        ]
+      ],
+      "dimensions": [
+        1.9499595306322568,
+        1.3800394890638028,
+        4.382640394885925
+      ]
+    }
+  ],
+  "totalBytes": 4609212,
+  "totalTriangles": 69280
+}

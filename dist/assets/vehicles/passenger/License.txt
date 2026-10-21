@@ -1,0 +1,12 @@
+Generic passenger car pack
+By Comrade1280 (https://sketchfab.com/comrade1280)
+Source: https://sketchfab.com/3d-models/generic-passenger-car-pack-20f9af9b8a404d5cb022ac6fe87f21f5
+License: Creative Commons Attribution 4.0 International (CC BY 4.0)
+https://creativecommons.org/licenses/by/4.0/
+
+Adapted for Obby Cargo Delivery. Changes: extracted ten vehicles; removed the
+display pedestal; normalized axes, origin and wheel hierarchy; reduced texture
+resolution; converted all images to PNG and palette-optimized color maps;
+repacked indices without decimation.
+The original author does not endorse these changes or this game.
+Retain this attribution and license link when redistributing these assets.

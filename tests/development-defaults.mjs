@@ -18,11 +18,15 @@ test('npm dev exposes developer tools and all cars on the normal URL without cha
  try{
   const d=f.debug;
   assert.equal(d.developerMode,true,'the development server enables tools without a URL parameter');
+  assert.equal(d.gameplay.state.brains,10_000_567,'developer sessions receive ten million test brains');
   assert.equal(f.ids.get('mode-toggle').hidden,false);
   for(const vehicle of d.garage.vehicles)assert.ok(d.gameplay.isOwned(vehicle.id),`${vehicle.id} is available for local testing`);
   d.gameplay.state.cooldown=0;assert.equal(d.enterVehicle('bmwreward'),true);
   assert.equal(f.ids.get('biome-button').hidden,false);assert.equal(d.gameplay.state.testMode,true);
   d.gameplay.state.money+=100;d.gameplay.flushProgress();d.returnToGarage();
+  d.gameplay.state.brains-=42;const remaining=d.gameplay.state.brains;
+  f.ids.get('regenerate').dispatch('click');
+  assert.equal(f.debug.gameplay.state.brains,remaining,'regenerating preserves spending without another grant');
  }finally{f.dispose();}
  assert.equal(writes,0,'automatic developer sessions cannot overwrite regular progress');
 });
@@ -31,6 +35,7 @@ test('dev=0 on the development server provides the ordinary locked gameplay',()=
  const f=fromConfig('development',{search:'?dev=0',services:{development:true,platform}});
  try{
   const d=f.debug;assert.equal(d.developerMode,false);
+  assert.equal(d.gameplay.state.brains,0,'dev=0 receives no test currency');
   assert.equal(f.ids.get('mode-toggle').hidden,true);assert.equal(d.gameplay.isOwned('bmwreward'),false);
   assert.equal(d.enterVehicle('bmwreward'),false);assert.equal(d.setBiomeMenu(true),false);
  }finally{f.dispose();}
@@ -44,6 +49,6 @@ test('production demo builds still require explicit dev=1 and live platforms ign
   const explicit=fromConfig('production',{search:'?dev=1',services:{development:true,platform}});
   try{assert.equal(explicit.debug.developerMode,true);assert.equal(explicit.debug.gameplay.isOwned('bmwreward'),true);}finally{explicit.dispose();}
   const live=fromConfig('development',{search:'?dev=1',services:{development:false,platform}});
-  try{assert.equal(live.debug.developerMode,false);assert.equal(live.debug.gameplay.isOwned('bmwreward'),false);}finally{live.dispose();}
+  try{assert.equal(live.debug.developerMode,false);assert.equal(live.debug.gameplay.state.brains,0,'live platforms receive no test currency');assert.equal(live.debug.gameplay.isOwned('bmwreward'),false);}finally{live.dispose();}
  }finally{if(original===undefined)delete process.env.PUBLIC_GAME_DEVELOPMENT;else process.env.PUBLIC_GAME_DEVELOPMENT=original;}
 });

@@ -4,7 +4,7 @@ import {CANYON_TRACK,canyonContact,canyonHeight,canyonPose,canyonSurface} from '
 import {surfaceForBiome} from './biome-surfaces.js';
 import {createDriftScore} from './drift-score.js';
 import {createDriftEffects} from './drift-effects.js';
-import {driftTelemetry} from './drift-dynamics.js';
+import {ordinaryDriftTelemetry} from './ordinary-drift-telemetry.js';
 import {createCanyonUi} from './canyon-ui.js';
 import {createCanyonLeaderboard} from './canyon-leaderboard.js';
 import {vehicleConfig} from './economy-config.js';
@@ -90,11 +90,17 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,leaderboard:
   updateEffects(dt,{paused=false,grounded=true,camera}={}){
    const c=getContext(),v=active?vehicle:c.garage.vehicles.find(v=>v.model===c.model);
    const state=active?drivingModel().state:c.model.state;
-   // Ordinary cars do not publish BMW drift telemetry. Measure their actual
-   // slip for visuals only, preserving physics and camera state.
-   const effectState=c.gameplay.state.selectedId==='bmwreward'?state:{...state,...driftTelemetry(state)};
-   // The fleet's controlled skids have smaller slip angles than the BMW.
-   if(effectState!==state)effectState.driftIntensity=Math.min(1,effectState.driftIntensity*2);
+   // Ordinary effects follow rear contact slip rather than the body angle in
+   // a normal tight turn. Preserve the BMW's published drift telemetry.
+   let effectState=state;
+   if(c.gameplay.state.selectedId!=='bmwreward'){
+    let geometry=v?.model?.physicsGeometry;
+    if(!geometry){
+     const rear=v?.visual?.metadata?.wheelContacts?.filter(w=>!w.front&&Number.isFinite(w.center?.[2]));
+     if(rear?.length)geometry={rearZ:rear.reduce((z,w)=>z+w.center[2],0)/rear.length};
+    }
+    effectState={...state,...ordinaryDriftTelemetry(state,geometry)};
+   }
    effects.update(dt,effectState,{enabled:c.driving&&!paused&&!api.controlsLocked,grounded,metadata:v?.visual?.metadata,pose:v?.rig.pose,camera});
   },
   leave(){

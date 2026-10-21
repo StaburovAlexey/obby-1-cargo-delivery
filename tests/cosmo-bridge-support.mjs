@@ -99,11 +99,11 @@ try{
 
     if(spec.id==='citycourier'){
       const legacyOuterHalfWidth=1.535;
-      assert.ok(extent<legacyOuterHalfWidth);
+      assert.ok(Math.abs(extent-legacyOuterHalfWidth)>.01);
       const comparisonOffset=BRIDGES[0].halfWidth-(extent+legacyOuterHalfWidth)/2;
       const {pose,route}=poseAt(BRIDGES[0],(BRIDGES[0].from+BRIDGES[0].to)/2,comparisonOffset);
-      assert.equal(bridgeSupport(pose,route).fall,true);
-      assert.equal(bridgeSupport(pose,route,metadata).fall,false);
+      assert.equal(bridgeSupport(pose,route).fall,legacyOuterHalfWidth>extent);
+      assert.equal(bridgeSupport(pose,route,metadata).fall,extent>legacyOuterHalfWidth);
     }
     for(const b of BRIDGES.filter((_,i)=>i%5===0))for(const q of [b.from-.5,b.from+.5,(b.from+b.to)/2,b.to-.5,b.to+.5])for(const yaw of [0,.42,Math.PI,Math.PI+.42,Math.PI/2,Math.PI*1.5])for(const side of [-1,1]){
       const {pose,route}=poseAt(b,q,side*1.4,yaw,side*.36,side*1.13);

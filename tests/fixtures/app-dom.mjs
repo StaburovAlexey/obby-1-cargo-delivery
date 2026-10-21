@@ -1,5 +1,6 @@
 import {createFleetNeon} from '../../dist/vehicle-neon.js';
 import {getVehicleNeon} from '../../dist/vehicle-neon-catalog.js';
+import {DEFAULT_VEHICLE_SMOKE_ID,getVehicleSmokeStyle} from '../../dist/vehicle-smoke-catalog.js';
 import {createCanyonLeaderboard} from '../../dist/canyon-leaderboard.js';
 import {createVehicleLiveryShop} from '../../dist/vehicle-livery-shop.js';
 import {createVehicleLiveryController} from '../../dist/vehicle-livery-materials.js';
@@ -16,6 +17,9 @@ import {PREMIUM_SKIN_IDS} from '../../dist/premium-skins.js';
 import {createSettingsMenu} from '../../dist/settings-menu.js';
 import {createLocalization} from '../../dist/localization.js';
 import {createVehicleAudio} from '../../dist/vehicle-audio.js';
+import {createBackgroundMusic} from '../../dist/background-music.js';
+import {MUSIC_TRACKS} from '../../dist/music-catalog.js';
+import {createSettingsMusic} from '../../dist/settings-music.js';
 import {projectLabelPixel,usableViewportRect} from '../../dist/world-label-projection.js';
 import {createFinishLine} from '../../dist/finish-line.js';
 import {vehicleFootprint} from '../../dist/vehicle-contact.js';
@@ -46,13 +50,13 @@ import { createCareerStore } from '../../dist/career-save.js';
 import { vehicleConfig, BIOME_SEQUENCE, ECONOMY_CONFIG } from '../../dist/economy-config.js';
 import { createInputDom } from './vehicle-input-dom.mjs';
 import {BIOME_DESTINATIONS,safeBiomeDestination} from '../../dist/biome-travel.js';
-import { SCHOOL_CONFIG, SKIN_CONFIG, schoolConfig, skinConfig } from '../../dist/progression-config.js';
+import { PROGRESSION_CONFIG, SCHOOL_CONFIG, SKIN_CONFIG, schoolConfig, skinConfig } from '../../dist/progression-config.js';
 import { UPGRADE_STATS, getVehiclePerformance } from '../../dist/vehicle-upgrades.js';
 import { updateProgressionHud, updateProgressionWorldLabels, WORLD_LABEL_DROP } from '../../dist/progression-hud.js';
 import {createWheelParticles} from '../../dist/wheel-particles.js';
 import {createRoadHazards} from '../../dist/road-hazards.js';
 import {createRoadHazardsScene} from '../../dist/road-hazards-scene.js';
-export function createAppDom({width=390,height=844,startDriving=true,realStartup=false,loadFailure=false,deferCharacters=false,career,storage,attachVehicleVisuals=()=>null,search='',services,createAudio=createVehicleAudio,createCanvasContext,loadDisplay,devServer=false,createLiveryShop=createVehicleLiveryShop,createLiveryController=createVehicleLiveryController,createNeonPreview=()=>({show:()=>true,close(){},dispose(){}}),createLiveryPreview=()=>({show:()=>true,close(){},dispose(){}})}={}){
+export function createAppDom({width=390,height=844,startDriving=true,realStartup=false,loadFailure=false,deferCharacters=false,career,storage,attachVehicleVisuals=()=>null,search='',services,createAudio=createVehicleAudio,createMusic=createBackgroundMusic,createCanvasContext,decodeImage,loadDisplay,devServer=false,createLiveryShop=createVehicleLiveryShop,createLiveryController=createVehicleLiveryController,createNeonPreview=()=>({show:()=>true,close(){},dispose(){}}),createLiveryPreview=()=>({show:()=>true,close(){},dispose(){}})}={}){
  const stored=new Map();if(career)stored.set(ECONOMY_CONFIG.saveKey,JSON.stringify(career));
  const testStorage=storage||{getItem:k=>stored.get(k)??null,setItem:(k,v)=>stored.set(k,v)};
  const dom=createInputDom(),Element=dom.wheel.constructor,Target=dom.win.constructor,ids=new Map([['drive-ui',dom.root]]),frames=[];let now=1000;
@@ -65,7 +69,7 @@ export function createAppDom({width=390,height=844,startDriving=true,realStartup
  nest('hangar-drift-panel','hangar-drift-menu');
  for(const id of ['title','close','note','table','rows','self','rank','player','score'])nest(`hangar-drift-${id}`,'hangar-drift-panel');
  nest('settings-panel','settings-menu');nest('settings-close','settings-panel');nest('settings-scroll','settings-panel');
- for(const id of ['settings-volume','settings-volume-value','settings-language'])nest(id,'settings-scroll');
+ for(const id of ['settings-volume','settings-volume-value','settings-language','settings-music','settings-music-track','settings-music-previous','settings-music-toggle','settings-music-next'])nest(id,'settings-scroll');
 
 
  nest('fuel-current','fuel-value');
@@ -94,10 +98,14 @@ export function createAppDom({width=390,height=844,startDriving=true,realStartup
   const setAttribute=el.setAttribute.bind(el);
   el.setAttribute=(key,value)=>{setAttribute(key,value);if(key==='id'){el.id=String(value);ids.set(el.id,el);}if(key.startsWith('data-'))el.dataset[key.slice(5).replace(/-([a-z])/g,(_,letter)=>letter.toUpperCase())]=String(value);};
   if(tag==='canvas'&&createCanvasContext){const context=createCanvasContext();el.getContext=()=>context;}
+  if(tag==='img'&&decodeImage)el.decode=()=>decodeImage(el);
   return el;
  };
+ Object.defineProperty(dom.doc,'images',{get:()=>dom.doc.body.all().filter(node=>node.tagName==='IMG')});
  for(const el of ids.values())el.replaceChildren=(...children)=>{el.children=[];children.forEach(child=>el.append(child));};
  Object.assign(deps,{createFleetNeon,getVehicleNeon,createVehicleNeonPreview:createNeonPreview,createVehicleLiveryGallery:createLiveryPreview,createVehicleLiveryPreview:createLiveryPreview,createVehicleLiveryShop:createLiveryShop,createVehicleLiveryController:createLiveryController,createCanyonLeaderboard,createRenderProfiler,createSpatialRenderer,createHangarDriftLeaderboard,createCanyonMode,createPauseState,createOnlineSession,createAdvertising,isAdvertisingSafe,PREMIUM_SKIN_IDS,__URBAN_DEV_SERVER__:devServer});
+ deps.PROGRESSION_CONFIG=PROGRESSION_CONFIG;
+ Object.assign(deps,{DEFAULT_VEHICLE_SMOKE_ID,getVehicleSmokeStyle,createBackgroundMusic:createMusic,MUSIC_TRACKS,createSettingsMusic});
  new Function(...Object.keys(deps),source)(...Object.values(deps));
  if(startDriving&&!loadFailure){const d=dom.win.__sceneDebug;d.gameplay.state.cooldown=0;d.enterVehicle('pickup');Object.assign(d.model.state,{x:1.8,z:9.8});d.applyTruckPose();d.followTruck(1,true);}
  return{...dom,ids,views,storage:testStorage,resolveCharacter(id,fail=false){const p=pendingCharacters.get(id);if(fail)p.reject(new Error('Deferred load failed'));else p.resolve({id,name:id,group:new THREE.Group(),update(){},setSeated(){},dispose(){}});pendingCharacters.delete(id);},get debug(){return dom.win.__sceneDebug;},frame(time=now+1000/60){now=time;const callback=frames.shift();if(!callback)throw Error('No queued animation frame');callback(time);},dispose(){dom.win.dispatch('pagehide');const {garage,city}=dom.win.__sceneDebug;dom.win.__sceneDebug.wheelParticles?.dispose();dom.win.__sceneDebug.roadHazardsScene?.dispose();garage.dispose();city.dispose();}};

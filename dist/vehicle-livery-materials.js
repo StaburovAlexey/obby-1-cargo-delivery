@@ -85,13 +85,14 @@ export function getVehicleLiveryTextureCacheStats() {
 }
 
 const materialList = mesh => Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+const isPassengerBody = material => material?.name === 'Passenger Body';
 function isCandidate(material, spec) {
-  return material && (spec.material ? material.name === spec.material :
-    (spec.materialNames ?? ['metallic', 'texture']).includes(material.name) && material.map?.name === 'texture-palette');
+  return material && (isPassengerBody(material) || (spec.material ? material.name === spec.material :
+    (spec.materialNames ?? ['metallic', 'texture']).includes(material.name) && material.map?.name === 'texture-palette'));
 }
 function isPaintFace(geometry, face, material, spec) {
   if (!isCandidate(material, spec)) return false;
-  if (spec.material) return true;
+  if (isPassengerBody(material) || spec.material) return true;
   const uv = geometry.attributes.uv;
   if (!uv) return false;
   let u = 0, v = 0;
@@ -178,7 +179,13 @@ function makePaintMaterial(THREE, original, uniformState, spec) {
   material.userData.vehicleLivery = true;
   const baseHook = original.onBeforeCompile;
   const baseKey = original.customProgramCacheKey();
-  material.customProgramCacheKey = () => `${baseKey}|vehicle-livery-uv-v1`;
+  const passenger = isPassengerBody(original);
+  const mask = passenger ? 'vehicleLiveryCoverage' : 'vLiveryMask';
+  material.customProgramCacheKey = () => `${baseKey}|vehicle-livery-uv-v1${passenger ? '|passenger-roughness-mask-v1' : ''}`;
+  // The pack's original ORM atlas identifies painted panels with roughness 27/255.
+  // Chrome is 0 and rubber/plastic is > 150/255. Unlike a color threshold this
+  // also covers the black SUV and keeps grille/trim detail in every body atlas.
+  const coverage = passenger ? '\nfloat vehicleLiveryCoverage = 0.0;\n#ifdef USE_ROUGHNESSMAP\nfloat passengerPaintRoughness = texture2D( roughnessMap, vRoughnessMapUv ).g;\nvehicleLiveryCoverage = vLiveryMask * smoothstep(0.05, 0.08, passengerPaintRoughness) * (1.0 - smoothstep(0.13, 0.2, passengerPaintRoughness));\n#endif' : '';
   material.onBeforeCompile = shader => {
     // Preserve the source vehicle's own biome/body-paint hook before adding our masked artwork.
     baseHook.call(original, shader);
@@ -189,10 +196,10 @@ function makePaintMaterial(THREE, original, uniformState, spec) {
     shader.vertexShader = `attribute vec2 liveryUv;\nattribute float liveryMask;\nvarying vec2 vLiveryUv;\nvarying float vLiveryMask;\n${shader.vertexShader}`
       .replace('#include <begin_vertex>', '#include <begin_vertex>\nvLiveryUv = liveryUv;\nvLiveryMask = liveryMask;');
     shader.fragmentShader = `uniform sampler2D vehicleLiveryMap;\nuniform float vehicleLiveryGlow;\nuniform float vehicleLiveryMetalness;\nuniform float vehicleLiveryRoughness;\nvarying vec2 vLiveryUv;\nvarying float vLiveryMask;\n${shader.fragmentShader}`
-      .replace('#include <color_fragment>', '#include <color_fragment>\nvec3 vehicleLiveryColor = texture2D(vehicleLiveryMap, vLiveryUv).rgb;\ndiffuseColor.rgb = mix(diffuseColor.rgb, vehicleLiveryColor, vLiveryMask);')
-      .replace('#include <roughnessmap_fragment>', '#include <roughnessmap_fragment>\nroughnessFactor = mix(roughnessFactor, vehicleLiveryRoughness, vLiveryMask);')
-      .replace('#include <metalnessmap_fragment>', '#include <metalnessmap_fragment>\nmetalnessFactor = mix(metalnessFactor, vehicleLiveryMetalness, vLiveryMask);')
-      .replace('#include <emissivemap_fragment>', '#include <emissivemap_fragment>\ntotalEmissiveRadiance = mix(totalEmissiveRadiance, vehicleLiveryColor * vehicleLiveryGlow, vLiveryMask);');
+      .replace('#include <color_fragment>', `#include <color_fragment>${coverage}\nvec3 vehicleLiveryColor = texture2D(vehicleLiveryMap, vLiveryUv).rgb;\ndiffuseColor.rgb = mix(diffuseColor.rgb, vehicleLiveryColor, ${mask});`)
+      .replace('#include <roughnessmap_fragment>', `#include <roughnessmap_fragment>\nroughnessFactor = mix(roughnessFactor, vehicleLiveryRoughness, ${mask});`)
+      .replace('#include <metalnessmap_fragment>', `#include <metalnessmap_fragment>\nmetalnessFactor = mix(metalnessFactor, vehicleLiveryMetalness, ${mask});`)
+      .replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>\ntotalEmissiveRadiance = mix(totalEmissiveRadiance, vehicleLiveryColor * vehicleLiveryGlow, ${mask});`);
   };
   return material;
 }

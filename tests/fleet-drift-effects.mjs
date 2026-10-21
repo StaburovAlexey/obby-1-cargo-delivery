@@ -16,9 +16,9 @@ function fixture(){
  const context={driving:true,gameplay:{state:freshCareer(),snapshot(){return this.state;}},garage:{vehicles:[],walkingSolids:[]}};
  const mode=createCanyonMode(THREE,{scene:new THREE.Scene(),document:doc,getContext:()=>context,leaderboard:{},language:()=> 'ru'});
  return {mode,context,select(spec){
-  const model=createDrivingModel({vehicleId:spec.id,maxSpeed:spec.maxSpeed,groundSurface:()=>surfaceForBiome(spec.specialty||'city',spec.id)});
+  const metadata={dimensions:[4.7,2,7],wheelContacts:[{front:true,center:[-1,0,-2]},{front:true,center:[1,0,-2]},{front:false,center:[-2,0,3],halfWidth:.35},{front:false,center:[2,0,3],halfWidth:.35}]};
+  const model=createDrivingModel({vehicleId:spec.id,maxSpeed:spec.maxSpeed,getVehicleMetadata:()=>metadata,groundSurface:()=>surfaceForBiome(spec.specialty||'city',spec.id)});
   context.model=model;context.gameplay.state.selectedId=spec.id;
-  const metadata={wheelContacts:[{front:true,center:[-1,0,-2]},{front:true,center:[1,0,-2]},{front:false,center:[-2,0,3],halfWidth:.35},{front:false,center:[2,0,3],halfWidth:.35}]};
   context.garage.vehicles=[{model,visual:{metadata},rig:{}}];mode.effects.clear();return model;
  }};
 }
