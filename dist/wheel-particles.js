@@ -13,8 +13,10 @@ export function createWheelParticles(THREE,{groundHeight=()=>0}={}){
  function clear(){for(const p of items)p.life=0;credit=0;mesh.count=0;mesh.visible=false;}
  function update(dt,state,enabled=true,visual){
   dt=Math.max(0,Math.min(.05,Number(dt)||0));if(disposed||!dt)return;
-  for(const p of items)if(p.life>0){p.life-=dt;p.vy-=WHEEL_PARTICLES.gravity*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.z+=p.vz*dt;p.angle+=p.spin*dt;if(p.y<=groundHeight(p.x,p.z)+.07)p.life=0;}
-  if(enabled&&state&&state.pathDistance>1e-5&&state.linearSpeed>.15){
+  for(const p of items)if(p.life>0){p.life-=dt;p.vy-=WHEEL_PARTICLES.gravity*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.z+=p.vz*dt;p.angle+=p.spin*dt;if(p.contactPlane?(p.x-p.gx)*p.nx+(p.y-p.gy)*p.ny+(p.z-p.gz)*p.nz<=.07:p.y<=groundHeight(p.x,p.z)+.07)p.life=0;}
+  const contacts=state?.wheelContacts,physicalContacts=contacts!==undefined;
+  const supported=physicalContacts?contacts?.filter(w=>w.grounded&&w.point&&[w.point.x,w.point.y,w.point.z].every(Number.isFinite)):null;
+  if(enabled&&(!physicalContacts||supported?.length)&&state&&state.pathDistance>1e-5&&state.linearSpeed>.15){
    const b=biomeSurfaceBlend(projectRoad(state.x,state.z,state.routeContext)?.progress),weight=(b.from==='city'?0:1)*(1-b.blend)+(b.to==='city'?0:1)*b.blend;
    color.set(COLORS[b.from]);targetColor.set(COLORS[b.to]);color.lerp(targetColor,b.blend);
    const c=Math.cos(state.heading),s=Math.sin(state.heading),lateral=Math.abs(state.velocityX*c-state.velocityZ*s),boost=1+Math.min(1.4,lateral*.35);
@@ -22,10 +24,21 @@ export function createWheelParticles(THREE,{groundHeight=()=>0}={}){
    const count=Math.min(4,Math.floor(credit));credit-=count;
    for(let i=0;i<count;i++){
     const p=items[cursor];cursor=(cursor+1)%items.length;
-    const wheel=wheelCursor++%4,contact=visual?.wheels?.[wheel]?.center,dx=contact?contact[0]:(wheel%2?-1.32:1.32),dz=contact?contact[2]:(wheel<2?-1.63:1.73);
-    p.x=state.x+c*dx+s*dz;p.z=state.z-s*dx+c*dz;p.y=groundHeight(p.x,p.z)+.16;
-    const side=Math.sign(dx),spread=.35+random()*.65;
-    p.vx=state.velocityX*.12+c*side*spread;p.vz=state.velocityZ*.12-s*side*spread;p.vy=1.4+random()*1.3;
+    const wheel=wheelCursor++%4,hit=physicalContacts?supported[wheel%supported.length]:null;
+    p.contactPlane=!!hit;
+    let dx;
+    if(hit){
+     const normal=hit.normal,length=normal&&Math.hypot(normal.x,normal.y,normal.z);
+     p.nx=length>0?normal.x/length:0;p.ny=length>0?normal.y/length:1;p.nz=length>0?normal.z/length:0;
+     p.gx=hit.point.x;p.gy=hit.point.y;p.gz=hit.point.z;
+     p.x=p.gx+p.nx*.16;p.y=p.gy+p.ny*.16;p.z=p.gz+p.nz*.16;
+     dx=hit.name?.endsWith('left')?-1:1;
+    }else{
+     const contact=visual?.wheels?.[wheel]?.center;dx=contact?contact[0]:(wheel%2?-1.32:1.32);const dz=contact?contact[2]:(wheel<2?-1.63:1.73);
+     p.x=state.x+c*dx+s*dz;p.z=state.z-s*dx+c*dz;p.y=groundHeight(p.x,p.z)+.16;p.nx=0;p.ny=1;p.nz=0;
+    }
+    const side=Math.sign(dx),spread=.35+random()*.65,lift=1.4+random()*1.3;
+    p.vx=state.velocityX*.12+c*side*spread+p.nx*lift;p.vz=state.velocityZ*.12-s*side*spread+p.nz*lift;p.vy=p.ny*lift;
     p.life=.55+random()*.35;p.total=p.life;p.angle=random()*Math.PI;p.spin=(random()-.5)*7;p.size=.7+random()*.65;p.color.copy(color).multiplyScalar(.8+random()*.35);
    }
   } else credit=0;

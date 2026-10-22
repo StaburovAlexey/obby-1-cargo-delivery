@@ -47,11 +47,11 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,leaderboard:
   retry(){if(!active||disposed||phase==='celebrating'||platform?.status?.reloadRequired)return false;epoch++;phase='touring';scorer=null;result=null;resultEligible=false;ui.hide();return true;},
   tryEnter(){access();const c=getContext();return !active&&c.driving?api.enter():false;},
   pose(state=drivingModel().state){const model=drivingModel(),currentVehicle=vehicle??getContext().garage.vehicles.find(v=>v.model===model);return canyonPose(THREE,state,currentVehicle?.visual?.metadata);},
-  step(rawDelta){
+  step(rawDelta,{simulatedSeconds=rawDelta}={}){
    if(!active||disposed||phase==='celebrating')return;
-   const model=drivingModel(),g=getContext().gameplay,dt=Number.isFinite(rawDelta)?Math.max(0,Math.min(.05,rawDelta)):0;
+   const model=drivingModel(),g=getContext().gameplay,dt=Number.isFinite(simulatedSeconds)?Math.max(0,Math.min(.1,simulatedSeconds)):0;
    if(g.state.fuels.bmwreward<=0)model.setInput({active:false});
-   model.step(dt);
+   // The application advances the shared Rapier world before canyon scoring.
    g.state.player.x=model.state.x;g.state.player.z=model.state.z;
    g.state.fuels.bmwreward=Math.max(0,g.state.fuels.bmwreward-model.state.pathDistance*vehicleConfig('bmwreward').consumption);
    if(!canyonSurface(model.state.x,model.state.z,3)){api.leave();return;}
@@ -77,7 +77,6 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,leaderboard:
    if(celebrating)ui.update({phase:'celebrating',score:local.score,multiplier:runScorer.state.multiplier,progress:CANYON_TRACK.finish,length:CANYON_TRACK.finish,angle:model.state.slipAngle});
    else ui.showResult(local,{status:local?'checking':'cancelled'});
    onControlsChanged();
-   vehicle.rig.update({...api.pose(),steerAngle:model.state.frontWheelAngle,wheelSpin:model.state.wheelSpin,bodyPitch:-model.state.bodyPitch,bodyRoll:-model.state.bodyRoll,bodyBob:model.state.bodyBob});
    const valid=()=>celebrating?!disposed&&token===epoch&&owner===account()&&!platform?.status?.reloadRequired:current(token,owner);
    if(!valid())return null;
    if(local&&!development)g.recordDriftResult(local);

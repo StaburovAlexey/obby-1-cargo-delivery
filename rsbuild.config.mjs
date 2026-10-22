@@ -34,6 +34,7 @@ export default defineConfig(({env})=>{
 
       { from: './dist/assets', to: 'assets', globOptions: { ignore: ['**/*.glb', '**/liveries/**'] } },
       { from: './dist/vendor/THREE-LICENSE.txt', to: 'licenses/THREE-LICENSE.txt' },
+      { from: './dist/vendor/RAPIER-LICENSE.txt', to: 'licenses/RAPIER-LICENSE.txt' },
       ...(vk?[{from:'./publishing/yandex/inapp/icons',to:'assets/inapp'}]:[]),
       ...(vk?[{from:'./node_modules/@vkontakte/vk-bridge/LICENSE',to:'licenses/VK-BRIDGE-LICENSE.txt'}]:[]),
     ],

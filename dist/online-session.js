@@ -13,7 +13,7 @@ export function createOnlineSession({THREE,scene,document:doc,serverUrl,pause,ge
       vehicleId:driving?g.state.selectedId:null,position:[p.x,p.y,p.z],quaternion:[q.x,q.y,q.z,q.w],
       heading:driving?m.heading:g.state.player.heading,speed:driving?Math.hypot(m.velocityX||0,m.velocityZ||0):c.walkSpeed||0,
       steer:m.frontWheelAngle||0,wheelSpin:m.wheelSpin||0,bodyPitch:pose.bodyPitch||0,bodyRoll:pose.bodyRoll||0,bodyBob:pose.bodyBob||0,
-      braking:!!(driving&&m.braking),airborne:!driving&&g.state.jump.airborne,jumpElapsed:g.state.jump.elapsed,
+      braking:!!(driving&&m.braking),airborne:driving?!!m.airborne:g.state.jump.airborne,jumpElapsed:driving?0:g.state.jump.elapsed,
       paused:!!c.paused,teleportId:c.teleportId,seatId:client.seatId};
   },onSnapshot(snapshot){
     remotes.receive(snapshot.players);

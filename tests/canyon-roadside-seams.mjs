@@ -69,7 +69,7 @@ test('biome strata join at graph nodes with continuous metric texture coordinate
  const city=buildCity(THREE);
  try{
   const mesh=city.group.getObjectByName('Massive biome barriers'),g=mesh.geometry,m=g.getAttribute('urPrismMeters'),parts=g.userData.parts.filter(p=>p.continuous);
-  assert.ok(parts.length>30);assert.equal(city.stats.continuousBarrierSurfaces,true);assert.equal(city.stats.drawCalls,6);
+  assert.ok(parts.length>30);assert.equal(city.stats.continuousBarrierSurfaces,true);assert.ok(city.stats.drawCalls<=7,'the second fork remains within the static draw-call budget');
   for(const part of parts){assertClosed(g,part.indexStart,part.indexCount);assertSharedSections(g,part);
    for(const face of [0,1])for(let i=1;i<part.sectionCount;i++)assert.ok(m.getZ(part.start+face*part.sectionCount*2+i*2)>m.getZ(part.start+face*part.sectionCount*2+(i-1)*2),'metric texture phase increases through every shared section');
   }

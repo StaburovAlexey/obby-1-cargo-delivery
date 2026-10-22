@@ -20,7 +20,8 @@ export function createDriftScore(){
    const forward=-Math.sin(pose.heading)*pose.velocityX-Math.cos(pose.heading)*pose.velocityZ,lateral=Math.cos(pose.heading)*pose.velocityX-Math.sin(pose.heading)*pose.velocityZ;
    const speed=Math.hypot(pose.velocityX,pose.velocityZ),angle=Math.abs(Math.atan2(lateral,forward));
    const delta=p.progress-previous.progress,newDistance=Math.max(0,p.progress-state.maxProgress);
-   const bad=Math.abs(p.offset)>CANYON_TRACK.halfWidth-.1||forward<=0||angle>DRIFT_RULES.maxAngle||(pose.impactSpeed||0)>1.2||pose.blocked||delta<-.05;
+   const unsupported=pose.grounded===false||pose.airborne===true||(Number.isFinite(pose.upY)&&pose.upY<.5);
+   const bad=unsupported||Math.abs(p.offset)>CANYON_TRACK.halfWidth-.1||forward<=0||angle>DRIFT_RULES.maxAngle||(pose.impactSpeed||0)>1.2||pose.blocked||delta<-.05;
    const drifting=!bad&&speed>=DRIFT_RULES.minSpeed&&angle>=DRIFT_RULES.minAngle&&newDistance>0&&delta>0;
    if(bad)breakCombo();
    else if(drifting){

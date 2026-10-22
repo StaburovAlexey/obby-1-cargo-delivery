@@ -9,14 +9,25 @@ const services=await createTestServices();
 const f=createAppDom({services,createAudio:()=>audio,search:'?dev=1'});
 try{
  const d=f.debug,lamps=new Map();for(const v of d.garage.vehicles)v.visual={setBrakeLights:b=>lamps.set(v.id,b)};
- f.frame();assert(updates.at(-1).active);assert.equal(lamps.size,11);
- d.model.state.velocityZ=-10;d.model.setGear('R');d.model.setInput({active:true,steering:0});f.frame();assert(updates.at(-1).braking>0);assert(lamps.get('pickup')>0);assert([...lamps].filter(([,b])=>b>0).length===1);
+ const advanceUntil=(predicate,message)=>{
+  for(let i=0;i<180;i++){f.frame();if(predicate())return;}
+  assert.fail(message);
+ };
+ const settle=()=>advanceUntil(()=>d.model.state.grounded&&d.model.state.wheelContacts.some(w=>w.grounded)&&Math.abs(d.model.state.velocityY)<.15,'vehicle must settle on physical wheel support');
+ settle();assert(updates.at(-1).active);assert.equal(lamps.size,11);
+ const heading=d.model.state.heading;
+ d.model.body.setLinvel({x:-Math.sin(heading)*10,y:d.model.body.linvel().y,z:-Math.cos(heading)*10},true);
+ d.model.setGear('R');d.model.setInput({active:true,steering:0});f.frame();assert(updates.at(-1).braking>0);assert(lamps.get('pickup')>0);assert([...lamps].filter(([,b])=>b>0).length===1);
  d.setUpgradeMenu(true);assert(stops>0);assert([...lamps.values()].every(v=>v===0));f.frame();assert(!updates.at(-1).active);d.setUpgradeMenu(false);
  f.ids.get('audio-toggle').dispatch('click');assert(muted);assert.equal((await services.cloud.initialize()).settings.audioVolume,0);f.ids.get('audio-toggle').dispatch('click');assert(!muted);assert(unlocks>0);
  f.win.dispatch('blur');assert(!d.appFocused);assert([...lamps.values()].every(v=>v===0));f.win.dispatch('focus');
  f.doc.hidden=true;const stopped=stops;f.frame();assert(stops>stopped);f.doc.hidden=false;
- const b=BRIDGES[0],p=routePointAtProgress((b.from+b.to)/2);Object.assign(d.model.state,{x:p.x+p.right.x*(b.offset+5),z:p.z+p.right.z*(b.offset+5),heading:p.heading,velocityX:0,velocityZ:0});d.model.pause();f.frame();assert(!updates.at(-1).active,'fall silences engine');
- d.returnToGarage();d.gameplay.state.cooldown=0;d.enterVehicle('pickup');d.gameplay.state.fuels.pickup=0;f.frame();assert(!updates.at(-1).active,'empty tank silences engine');
+ const b=BRIDGES[0],p=routePointAtProgress((b.from+b.to)/2);
+ d.model.pause();d.model.setPose({x:p.x+p.right.x*(b.offset+5),y:p.height+2,z:p.z+p.right.z*(b.offset+5),heading:p.heading});
+ advanceUntil(()=>d.model.state.airborne&&d.model.state.wheelContacts.every(w=>!w.grounded)&&d.model.state.velocityY<-.1,'vehicle must physically fall clear of the bridge');
+ assert(!updates.at(-1).active,'fall silences engine');
+ d.returnToGarage();d.gameplay.state.cooldown=0;assert(d.enterVehicle('pickup'));settle();assert(updates.at(-1).active,'supported vehicle with fuel has an active engine');
+ d.gameplay.state.fuels.pickup=0;f.frame();assert(!updates.at(-1).active,'empty tank silences engine');
  d.returnToGarage();f.frame();assert(!updates.at(-1).active);assert([...lamps.values()].every(v=>v===0));
  for(const v of d.garage.vehicles)v.visual=null;
  console.log('PASS actual app audio/brake integration: selected car only, genuine reverse braking, modal/blur/garage silence, mute persistence, no extra engines.');

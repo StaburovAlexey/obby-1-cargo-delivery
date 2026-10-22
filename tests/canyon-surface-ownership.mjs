@@ -1,3 +1,4 @@
+import {physicsTestClearanceQuads} from '../dist/physics-test-track.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as THREE from '../dist/vendor/three.module.js';
@@ -79,8 +80,9 @@ test('opposite main-road residences fill the gap facing the canyon exit',()=>{
   const houses=city.features.filter(f=>f.type==='building');
   const opposite=houses.filter(f=>f.edgeId==='city--17-3000'&&f.side===-1).sort((a,b)=>a.from-b.from);
   const restored=opposite.filter(f=>f.from>=36&&f.to<=109);
-  assert.equal(restored.length,4,'four regular city houses fill the formerly cleared opposite frontage');
-  for(let i=1;i<opposite.length&&opposite[i].from<125;i++)assert.ok(Math.abs(opposite[i].from-opposite[i-1].to)<1e-8,'continuous opposite row');
+  assert.equal(restored.length,2,'the two houses outside the physical test fork remain');
+  const reserved=physicsTestClearanceQuads(1);
+  for(const house of opposite){const polygon=house.footprint.map(v=>({x:v.x,z:-v.y}));for(const q of reserved)assert.ok(polygonIntersectionArea(polygon,q)<1e-6,'the new west fork remains unobstructed');}
   for(const b of restored){
    const p=b.footprint.map(v=>({x:v.x,z:-v.y}));
    assert.ok(p.every(v=>v.x<-15),'restored houses stay across the main road');
