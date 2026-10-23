@@ -29,11 +29,10 @@ import {createCareerRouteTracker,HARD_BRANCHES} from '../../dist/career-route-tr
 import {SHADOW_LAYOUT,followShadowLight} from '../../dist/scene-lighting.js';
 import {createBiomeWeather} from '../../dist/biome-weather.js';
 import {BRIDGES,bridgeAtProgress,bridgeSupport,bridgeFallPose,createBridgeFall} from '../../dist/road-bridges.js';
-import { projectRoad, routePointAtProgress, pointInRoad } from '../../dist/road-layout.js';
+import { projectRoad, routePointAtProgress } from '../../dist/road-layout.js';
 import {initializeRapier} from '../../dist/rapier-runtime.js';
 import {createRapierDrivingModel} from '../../dist/rapier-vehicle.js';
 import {createPhysicsWorld} from '../../dist/physics-world.js';
-import {createPhysicsTestTrack,containsPhysicsTestTrack,physicsTestCheckpoint} from '../../dist/physics-test-track.js';
 
 await initializeRapier();
 
@@ -68,7 +67,7 @@ export function createAppDom({width=390,height=844,startDriving=true,realStartup
  const dom=createInputDom(),Element=dom.wheel.constructor,Target=dom.win.constructor,ids=new Map([['drive-ui',dom.root]]),frames=[];let now=1000;
  dom.win.location={search};dom.win.localStorage=testStorage;dom.win.__urbanServices=services;
  dom.doc.body=new Element();dom.doc.body.ownerDocument=dom.doc;dom.doc.documentElement=dom.doc.body;dom.doc.body.append(dom.root);
- for(const id of['physics-recover','biome-button','biome-menu','biome-panel','biome-close','biome-test-note',...BIOME_SEQUENCE.map(b=>'biome-go-'+b.id),'viewport','seed','wire','regenerate','metrics','speed-value','biome-name','drive-status','mode-toggle','mode-label','rotate','view-name','gear-note','error','error-text','loading','walk-ui','walk-stick','walk-thumb','session-note','vehicle-name','fuel-hud','fuel-value','fuel-fill','fuel-meter','garage-button','stand-up','jump-button','wallet-hud','wallet-value','save-notice','buy-vehicle','buy-label','world-labels',...Array.from({length:8},(_,i)=>`delivery-label-${i+1}`),...Array.from({length:8},(_,i)=>`delivery-value-${i+1}`),...Array.from({length:10},(_,i)=>`vehicle-price-${i+1}`),...Array.from({length:10},(_,i)=>`vehicle-price-value-${i+1}`),...Array.from({length:10},(_,i)=>`vehicle-spec-${i+1}`)]){const el=new Element();el.ownerDocument=dom.doc;el.id=id;ids.set(id,el);dom.doc.body.append(el);}
+ for(const id of['biome-button','biome-menu','biome-panel','biome-close','biome-test-note',...BIOME_SEQUENCE.map(b=>'biome-go-'+b.id),'viewport','seed','wire','regenerate','metrics','speed-value','biome-name','drive-status','mode-toggle','mode-label','rotate','view-name','gear-note','error','error-text','loading','walk-ui','walk-stick','walk-thumb','session-note','vehicle-name','fuel-hud','fuel-value','fuel-fill','fuel-meter','garage-button','stand-up','jump-button','wallet-hud','wallet-value','save-notice','buy-vehicle','buy-label','world-labels',...Array.from({length:8},(_,i)=>`delivery-label-${i+1}`),...Array.from({length:8},(_,i)=>`delivery-value-${i+1}`),...Array.from({length:10},(_,i)=>`vehicle-price-${i+1}`),...Array.from({length:10},(_,i)=>`vehicle-price-value-${i+1}`),...Array.from({length:10},(_,i)=>`vehicle-spec-${i+1}`)]){const el=new Element();el.ownerDocument=dom.doc;el.id=id;ids.set(id,el);dom.doc.body.append(el);}
  const html=fs.readFileSync(new URL('../../dist/index.html',import.meta.url),'utf8');
  for(const [,id]of html.matchAll(/\bid="([^"]+)"/g)){if(ids.has(id))continue;const el=new Element();el.ownerDocument=dom.doc;el.id=id;ids.set(id,el);dom.doc.body.append(el);}
  const nest=(id,parent)=>{const child=ids.get(id),target=ids.get(parent);if(!child||!target)return;dom.doc.body.children=dom.doc.body.children.filter(n=>n!==child);target.append(child);};
@@ -117,7 +116,7 @@ export function createAppDom({width=390,height=844,startDriving=true,realStartup
  Object.assign(deps,{createFleetNeon,getVehicleNeon,createVehicleNeonPreview:createNeonPreview,createVehicleLiveryGallery:createLiveryPreview,createVehicleLiveryPreview:createLiveryPreview,createVehicleLiveryShop:createLiveryShop,createVehicleLiveryController:createLiveryController,createCanyonLeaderboard,createRenderProfiler,createSpatialRenderer,createHangarDriftLeaderboard,createCanyonMode,createPauseState,createOnlineSession,createAdvertising,isAdvertisingSafe,PREMIUM_SKIN_IDS,__URBAN_DEV_SERVER__:devServer});
  deps.PROGRESSION_CONFIG=PROGRESSION_CONFIG;
  Object.assign(deps,{DEFAULT_VEHICLE_SMOKE_ID,getVehicleSmokeStyle,createBackgroundMusic:createMusic,MUSIC_TRACKS,createSettingsMusic});
- Object.assign(deps,{createRapierDrivingModel,createPhysicsWorld,createPhysicsTestTrack,containsPhysicsTestTrack,physicsTestCheckpoint,pointInRoad});
+ Object.assign(deps,{createRapierDrivingModel,createPhysicsWorld});
  new Function(...Object.keys(deps),source)(...Object.values(deps));
  if(startDriving&&!loadFailure){const d=dom.win.__sceneDebug;d.gameplay.state.cooldown=0;d.enterVehicle('pickup');d.model.setPose({x:1.8,z:9.8});d.applyTruckPose();d.followTruck(1,true);}
  return{...dom,ids,views,storage:testStorage,resolveCharacter(id,fail=false){const p=pendingCharacters.get(id);if(fail)p.reject(new Error('Deferred load failed'));else p.resolve({id,name:id,group:new THREE.Group(),update(){},setSeated(){},dispose(){}});pendingCharacters.delete(id);},get debug(){return dom.win.__sceneDebug;},frame(time=now+1000/60){now=time;const callback=frames.shift();if(!callback)throw Error('No queued animation frame');callback(time);},dispose(){dom.win.dispatch('pagehide');const {garage,city}=dom.win.__sceneDebug;dom.win.__sceneDebug.wheelParticles?.dispose();dom.win.__sceneDebug.roadHazardsScene?.dispose();garage.dispose();city.dispose();}};

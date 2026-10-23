@@ -55,8 +55,10 @@ test('fixed clock performs one raw world step per tick at 30/60/120fps',()=>{
  }
 });
 
-test('solid descriptors stop dynamic bodies and retain contact tags',()=>{
- const w=createPhysicsWorld(options(fixture(),{physicsTestTrack:{colliders:[{type:'box',position:[2,2,0],halfExtents:[.5,4,4],tag:'wall'}]}}));
+test('visible walls stop dynamic bodies and retain contact tags',()=>{
+ const city=fixture(),wall=new THREE.Mesh(new THREE.BoxGeometry(1,8,8),new THREE.MeshBasicMaterial());
+ wall.name='Continuous storefront residences';wall.position.set(2,2,0);city.group.add(wall);
+ const w=createPhysicsWorld(options(city));
  const body=fallBody(w,0,2,0);body.setLinvel({x:8,y:0,z:0},true);run(w,20);assert.ok(body.translation().x<1.3);let tag;w.world.colliders.forEach(c=>{if(c.userData?.tag==='wall')tag=c.userData.tag;});assert.equal(tag,'wall');w.dispose();w.dispose();assert.equal(w.stats.disposed,true);
 });
 

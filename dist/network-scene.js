@@ -3,7 +3,6 @@
 
 import {CANYON_APPROACH_ROCKS} from './canyon-rocks.js';
 import {canyonApproachQuads} from './canyon-approach.js';
-import {physicsTestClearanceQuads,physicsTestGroundCuts} from './physics-test-track.js';
 import {barrierStripData,barrierTierDepth} from './roadside-barrier.js';
 import {CANYON_TRACK,canyonPointAt} from './canyon-track.js';
 import {polygonIndex,cutSurfaceMesh} from './surface-cut.js';
@@ -13,10 +12,8 @@ import {polygonIndex,cutSurfaceMesh} from './surface-cut.js';
 // A wider speculative buffer erased safe houses on both sides of the exit.
 const canyonClearance=[...canyonApproachQuads(1),...CANYON_APPROACH_ROCKS.map(p=>p.footprint)];
 for(let s=0;s<CANYON_TRACK.length;s+=2){const a=canyonPointAt(s),b=canyonPointAt(s+2),edge=(p,w)=>({x:p.x+p.right.x*w,z:p.z+p.right.z*w});canyonClearance.push([edge(a,-70),edge(b,-70),edge(b,70),edge(a,70)]);}
-// One metre of facade clearance opens the four local west lots geometrically.
-const physicsClearance=physicsTestClearanceQuads(1);
-const canyonClearanceIndex=polygonIndex([...canyonClearance,...physicsClearance]);
-const approachGroundCut=polygonIndex([...canyonApproachQuads(1),...CANYON_APPROACH_ROCKS.map(p=>p.footprint),...physicsTestGroundCuts()]);
+const canyonClearanceIndex=polygonIndex(canyonClearance);
+const approachGroundCut=polygonIndex([...canyonApproachQuads(1),...CANYON_APPROACH_ROCKS.map(p=>p.footprint)]);
 import * as NETWORK from './route-network.js';
 import {NETWORK_CONFIG} from './route-network-config.js';
 import {BRIDGES} from './road-bridges.js';
@@ -180,33 +177,6 @@ function prismBatch(THREE){
   }};
 }
 
-// A subtraction can split one side of a shared triangle edge. Conform the
-// neighbouring triangle to those vertices before finding exposed cliff edges;
-// otherwise the two unequal edge segments appear to be independent walls.
-function conformPhysicsCliffEdges(surfaces){
-  const cell=16,bins=new Map(),unique=new Set(),footprints=polygonIndex(physicsTestGroundCuts());
-  const visit=(a,b,fn)=>{for(let x=Math.floor(Math.min(a[0],b[0])/cell);x<=Math.floor(Math.max(a[0],b[0])/cell);x++)for(let z=Math.floor(Math.min(a[2],b[2])/cell);z<=Math.floor(Math.max(a[2],b[2])/cell);z++)fn(`${x},${z}`);};
-  for(const data of surfaces)for(let i=0;i<data.positions.length;i+=3){const p=data.positions.slice(i,i+3),key=p.map(v=>Math.round(v*1e6)).join(',');if(unique.has(key))continue;unique.add(key);visit(p,p,k=>{if(!bins.has(k))bins.set(k,[]);bins.get(k).push(p);});}
-  return surfaces.map(data=>{
-    const out={positions:[],progress:[],indices:[]};
-    const emit=(points,q)=>{for(let i=0;i<points.length;i++){out.indices.push(out.progress.length);out.positions.push(...points[i]);out.progress.push(q[i]);}};
-    for(let i=0;i<data.indices.length;i+=3){
-      const ids=[data.indices[i],data.indices[i+1],data.indices[i+2]],tri=ids.map(id=>data.positions.slice(id*3,id*3+3)),q=ids.map(id=>data.progress[id]);
-      if(!footprints.candidates(tri.map(p=>({x:p[0],z:p[2]}))).length){emit(tri,q);continue;}
-      const border=[];
-      for(let j=0;j<3;j++){
-        const a=tri[j],b=tri[(j+1)%3],dx=b[0]-a[0],dy=b[1]-a[1],dz=b[2]-a[2],l2=dx*dx+dz*dz,points=new Map([[0,a]]);
-        if(l2>1e-12)visit(a,b,k=>{for(const p of bins.get(k)||[]){const t=((p[0]-a[0])*dx+(p[2]-a[2])*dz)/l2;if(t<=1e-7||t>=1-1e-7)continue;if(Math.abs(p[0]-a[0]-t*dx)>1e-6||Math.abs(p[2]-a[2]-t*dz)>1e-6||Math.abs(p[1]-a[1]-t*dy)>1e-6)continue;points.set(t,p);}});
-        for(const [t,p] of [...points].sort((a,b)=>a[0]-b[0]))border.push({p,q:q[j]+(q[(j+1)%3]-q[j])*t});
-      }
-      if(border.length===3){emit(tri,q);continue;}
-      const center=[0,1,2].map(j=>(tri[0][j]+tri[1][j]+tri[2][j])/3),progress=(q[0]+q[1]+q[2])/3;
-      for(let j=0;j<border.length;j++){const a=border[j],b=border[(j+1)%border.length];emit([center,a.p,b.p],[progress,a.q,b.q]);}
-    }
-    return out;
-  });
-}
-
 export function buildCity(THREE,{seed=42}={}){
   const {ROAD_MESH,GROUND_MESH,NETWORK_EDGES,NETWORK_NODES,BIOMES,ROUTE_LENGTH,ROUTE}=NETWORK;
   const root=new THREE.Group();root.name='Urban Route • five long curved biomes and rejoining forks';
@@ -235,15 +205,7 @@ export function buildCity(THREE,{seed=42}={}){
   applyRoadSurfaceShader(THREE,groundMaterial,{fringe:true,network:true});
   surface('Closed continuous terrain foundation',bridgeGround,groundMaterial,true);
   const landRoad=clipBridgeSurfaces(ROAD_MESH,{terrain:true});
-  const cliffs=createTerrainCliffs(THREE,conformPhysicsCliffEdges([bridgeGround,landRoad]),{heightOffset:NETWORK.ROAD_SURFACE_OFFSET,biomeAt:q=>BIOMES.find(b=>q>=b.from&&q<b.to)||BIOMES.at(-1)});
-  // Clipping changes the segmentation of the shared city-road boundary. Its
-  // unmatched T-junction edges are internal to the new branch, not cliff faces.
-  // Keep the exposed cut perimeter; only the strict interior opens the fork.
-  const cliffOpenings=polygonIndex(physicsTestGroundCuts().map(p=>{const cx=p.reduce((n,v)=>n+v.x,0)/p.length,cz=p.reduce((n,v)=>n+v.z,0)/p.length;return p.map(v=>({x:cx+(v.x-cx)*.9998,z:cz+(v.z-cz)*.9998}));}));
-  const p=cliffs.geometry.attributes.position,ix=cliffs.geometry.index,kept=[];
-  const inside=(x,z)=>cliffOpenings.candidates([{x,z}]).some(poly=>{const sign=Math.sign(signedArea(poly));return poly.every((a,i)=>sign*cross(a,poly[(i+1)%poly.length],{x,z})>=0);});
-  for(let i=0;i<ix.count;i+=3){const ids=[ix.getX(i),ix.getX(i+1),ix.getX(i+2)],x=ids.reduce((n,id)=>n+p.getX(id),0)/3,z=ids.reduce((n,id)=>n+p.getZ(id),0)/3;if(!inside(x,z))kept.push(...ids);}
-  cliffs.geometry.setIndex(kept);
+  const cliffs=createTerrainCliffs(THREE,[bridgeGround,landRoad],{heightOffset:NETWORK.ROAD_SURFACE_OFFSET,biomeAt:q=>BIOMES.find(b=>q>=b.from&&q<b.to)||BIOMES.at(-1)});
   group('Terrain').add(cliffs);
   group('Bridges').add(bridgeUnderdeck(THREE,clipBridgeSurfaces(ROAD_MESH,{onlyBridges:true})));
   const edgePaint=clipBridgeSurfaces(ROAD_MESH,{onlyBridges:true,edgeStrips:true});

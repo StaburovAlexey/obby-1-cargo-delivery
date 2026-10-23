@@ -265,7 +265,7 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
     tickProgress(dt,{distance=0,active=false}={}){
 
 
-      if(state.eventMode==='canyon'||state.eventMode==='physics-test'||developerVehicle(state.selectedId))return 0;
+      if(state.eventMode==='canyon'||developerVehicle(state.selectedId))return 0;
       if(active!==true||typeof dt!=='number'||!Number.isFinite(dt)||dt<=0||dt>PROGRESSION_CONFIG.maxFrameSeconds)return 0;
       let rate=0;
       if(state.mode==='walking'&&state.seatedId&&state.seatedSchoolId&&isSchoolOwned(state.seatedSchoolId)){
@@ -415,17 +415,6 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       api.flushProgress();clearShopPrompts();resetJump();state.run=null;runProgress=null;state.testMode=false;state.testBiome=null;state.stationId=null;state.seatedId=null;state.seatedSchoolId=null;state.eventMode='canyon';state.mode='driving';state.selectedId=REWARD_VEHICLE_ID;return true;
     },
     endCanyonRun(){if(state.eventMode!=='canyon')return false;state.eventMode=null;state.testMode=developerVehicle(state.selectedId);return true;},
-    beginPhysicsTest(){
-      if(state.mode!=='driving'||state.eventMode||!isOwned(state.selectedId))return false;
-      api.flushProgress();clearShopPrompts();finishPrevious=null;blockedDeliveryId=null;
-      if(state.run)state.run.loaded=false;
-      state.run=null;runProgress=null;state.testMode=true;state.testBiome=null;state.stationId=null;state.eventMode='physics-test';
-      emit('physics-test');return true;
-    },
-    endPhysicsTest(){
-      if(state.eventMode!=='physics-test')return false;
-      state.eventMode=null;state.testMode=true;finishPrevious=null;emit('physics-test-exit');return true;
-    },
     beginBiomeTest(id){
       if(state.eventMode)return false;
       if(state.mode!=='driving'||!BIOME_SEQUENCE.some(b=>b.id===id))return false;
@@ -491,7 +480,7 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       return false;
     },
     drive(distance,x,z) {
-      if(state.mode!=='driving'||state.eventMode==='canyon'||state.eventMode==='finish'||state.eventMode==='physics-test')return;
+      if(state.mode!=='driving'||state.eventMode==='canyon'||state.eventMode==='finish')return;
       clearPurchase();
       const id=state.selectedId,spec=vehicleConfig(id);
 

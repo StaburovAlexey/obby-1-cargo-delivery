@@ -17,7 +17,7 @@ const CANYON_WALL = /^(?:Canyon steel guardrails(?: \d+)?|Canyon guardrail posts
 const supportTags = new Set(['road', 'ground', 'support']);
 
 /** Build fixed colliders once from the final rendered meshes. Must follow initializeRapier(). */
-export function createPhysicsWorld({THREE, city, garage, canyon, roadHazards, physicsTestTrack} = {}) {
+export function createPhysicsWorld({THREE, city, garage, canyon, roadHazards} = {}) {
   if (!THREE) throw new TypeError('createPhysicsWorld requires THREE');
   const R = getRapier();
   const world = new R.World({x: 0, y: -9.81, z: 0});
@@ -154,11 +154,6 @@ export function createPhysicsWorld({THREE, city, garage, canyon, roadHazards, ph
       else if (mesh.name === 'Closed red and white barrier arm') addMesh(mesh, 'gate');
     });
   }
-  for (const collider of physicsTestTrack?.colliders || []) {
-    if (collider.type === 'trimesh') addTrimesh(collider.vertices, collider.indices, collider.tag || 'support', collider.name || 'Physics test track');
-    else if (collider.type === 'box') addBox(collider.halfExtents, collider.position, collider.quaternion, collider.tag || 'obstacle', collider.name || 'Physics test track');
-  }
-
   const hazardPose = h => roadHazards?.poseFor?.(h.id) || h;
   const hazardPosition = h => ({x: h.x, y: (h.groundHeight || 0) + h.height / 2, z: h.z});
   const hazardRotation = h => ({x: 0, y: Math.sin((h.heading || 0) / 2), z: 0, w: Math.cos((h.heading || 0) / 2)});

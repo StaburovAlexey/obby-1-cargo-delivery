@@ -1,4 +1,3 @@
-import {physicsTestClearanceQuads} from '../dist/physics-test-track.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as THREE from '../dist/vendor/three.module.js';
@@ -79,10 +78,14 @@ test('opposite main-road residences fill the gap facing the canyon exit',()=>{
  try{
   const houses=city.features.filter(f=>f.type==='building');
   const opposite=houses.filter(f=>f.edgeId==='city--17-3000'&&f.side===-1).sort((a,b)=>a.from-b.from);
-  const restored=opposite.filter(f=>f.from>=36&&f.to<=109);
-  assert.equal(restored.length,2,'the two houses outside the physical test fork remain');
-  const reserved=physicsTestClearanceQuads(1);
-  for(const house of opposite){const polygon=house.footprint.map(v=>({x:v.x,z:-v.y}));for(const q of reserved)assert.ok(polygonIntersectionArea(polygon,q)<1e-6,'the new west fork remains unobstructed');}
+  const restored=opposite.filter(f=>f.from<150);
+  assert.ok(restored.length>=8,'west residences fill the removed fork');
+  for(let i=1;i<restored.length;i++)assert.ok(Math.abs(restored[i].from-restored[i-1].to)<1e-8,'west facades have no fork gap');
+  const terrain=createRoadFootprintIndex(data(city.group.getObjectByName('Closed continuous terrain foundation')));
+  for(const [x,z] of [[-17,-92],[-33,-111],[-69,-147],[-104,-182]]){
+   const r=.01,probe=[{x:x-r,z:z-r},{x:x+r,z:z-r},{x:x+r,z:z+r},{x:x-r,z:z+r}];
+   assert.ok(terrain.intersects(probe,1e-8),`restored west terrain at ${x},${z}`);
+  }
   for(const b of restored){
    const p=b.footprint.map(v=>({x:v.x,z:-v.y}));
    assert.ok(p.every(v=>v.x<-15),'restored houses stay across the main road');

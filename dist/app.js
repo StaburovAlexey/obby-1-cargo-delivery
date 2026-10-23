@@ -34,7 +34,6 @@ import {BRIDGES} from './road-bridges.js';
 import {initializeRapier} from './rapier-runtime.js';
 import {createRapierDrivingModel} from './rapier-vehicle.js';
 import {createPhysicsWorld} from './physics-world.js';
-import {createPhysicsTestTrack,containsPhysicsTestTrack,physicsTestCheckpoint} from './physics-test-track.js';
 import * as THREE from "three";
 import { OrbitControls } from "./vendor/OrbitControls.js";
 import { buildCity } from "./network-scene.js";
@@ -49,7 +48,7 @@ import { createLookInput } from "./look-input.js";
 import { createGameplay, garageRoadContact, parkedVehicleContact, isInGarage, GAMEPLAY } from "./gameplay.js";
 import { createVehicleInput } from "./vehicle-input.js";
 import { TOW_DRIVING } from "./driving-model.js";
-import { projectRoad, routePointAtProgress, pointInRoad } from "./road-layout.js";
+import { projectRoad, routePointAtProgress } from "./road-layout.js";
 import { roadGroundGradient, roadGroundSurface } from "./driving-ground.js";
 import {
   fitTruckToGround,
@@ -241,7 +240,7 @@ let selectedSmokeId=DEFAULT_VEHICLE_SMOKE_ID;
 const fleetNeon=createFleetNeon(THREE);
 function syncFleetNeon(){if(!gameplay||!garage)return;fleetNeon.setColor(gameplay.state.selectedNeonId);for(const vehicle of garage.vehicles)fleetNeon.attach(vehicle.visual);}
 function syncPremiumNeon(){if(!gameplay)return;for(const id of services?.neon?.ownedIds||[])gameplay.grantPremiumNeon(id);liveryShop?.refresh();}
-let physicsWorld=null,physicsTestTrack=null,physicsTestActive=false,physicsRecovery=null,overturnedSeconds=0;
+let physicsWorld=null,overturnedSeconds=0;
 let fallenSeconds=0;
 let hangarLeaderboardUi=null,canyonMode=null,onlineSession=null,advertising=null,spatialRenderer=null,teleportId=0,onlineClock=0,lastWalkSpeed=0,disposedOnline=false;
 const gameplayPaused=()=>pauseState.paused||!appFocused||document.hidden||graphicsLost||!playing||biomeMenuOpen||upgradeMenuOpen||careerMenuOpen||settingsMenuOpen||hangarLeaderboardOpen||liveryShopOpen;
@@ -331,7 +330,7 @@ function rebuild(value) {
   spatialRenderer?.dispose();spatialRenderer=null;
   const seed = developerMode ? Math.max(1, Math.min(4294967295, Number(value) || 42)) >>> 0 : 42;
   for(const v of garage?.vehicles||[])v.model?.dispose?.();
-  physicsWorld?.dispose();physicsWorld=null;physicsTestTrack?.dispose();physicsTestTrack=null;physicsTestActive=false;physicsRecovery=null;
+  physicsWorld?.dispose();physicsWorld=null;
   canyonMode?.dispose();canyonMode=null;
   inputController?.reset();
   biomeMenuOpen=false;upgradeMenuOpen=false;document.getElementById("biome-menu").hidden=true;document.getElementById("upgrade-menu").hidden=true;
@@ -374,20 +373,19 @@ function rebuild(value) {
   gameplay = createGameplay({vehicles:garage.vehicles,stations:garage.stations,deliveries:garage.deliveries,desks:garage.desks,stands:garage.stands,solids:garage.walkingSolids||garage.classroomSolids,career:previousCareer??services?.initialCareer??(developerMode?careerStore.load():undefined),persistence:developerMode?undefined:careerStore,developerMode,hardBranches:HARD_BRANCHES});
   if(developerMode&&!previousCareer)gameplay.state.brains=Math.min(PROGRESSION_CONFIG.maxBrains,gameplay.state.brains+10_000_000);
   onlineSession?.bindGameplay(gameplay);
-  physicsTestTrack=createPhysicsTestTrack(THREE,{document,language:()=>selectedLanguage});scene.add(physicsTestTrack.group);
   canyonMode=createCanyonMode(THREE,{scene,document,platform:services?.platform,leaderboard:driftLeaderboard,language:()=>selectedLanguage,
     getContext:()=>({garage,gameplay,city,finishLine,roadHazardsScene,biomeWeather,model,rig,driving,online:onlineSession}),
     onEnter:()=>{careerRouteTracker.reset();wheelParticles?.clear();updateEconomyHud();},
     onExit:()=>{careerRouteTracker.reset();updateEconomyHud();}});
   canyonMode.effects.setSmokeStyle(selectedSmokeId);
-  physicsWorld=createPhysicsWorld({THREE,city,garage,canyon:canyonMode,roadHazards,physicsTestTrack});
+  physicsWorld=createPhysicsWorld({THREE,city,garage,canyon:canyonMode,roadHazards});
   for(const vehicle of garage.vehicles){
     const parkPose=fitTruckToGround(THREE,vehicle.park.x,vehicle.park.z,vehicle.park.heading,null,vehicle.visual?.metadata);
     vehicle.model=createRapierDrivingModel({
       world:physicsWorld.world,...vehicle.park,y:parkPose.position.y,maxSpeed:vehicleConfig(vehicle.id).maxSpeed,
       vehicleId:vehicle.id,getUpgrades:()=>gameplay.state.upgrades[vehicle.id],
       getVehicleMetadata:()=>vehicle.visual?.metadata,
-      groundSurface:(x,z,id)=>containsPhysicsTestTrack(x,z)?roadGroundSurface(0,0,id):canyonMode?.surface(x,z,8)?canyonMode.groundSurface():roadHazards.surfaceAt(x,z,roadGroundSurface(x,z,id,vehicle.routeContext)),
+      groundSurface:(x,z,id)=>canyonMode?.surface(x,z,8)?canyonMode.groundSurface():roadHazards.surfaceAt(x,z,roadGroundSurface(x,z,id,vehicle.routeContext)),
       onCollision:()=>{if(driving&&gameplay.state.selectedId===vehicle.id)gameplay.recordRunCollision({runId:gameplay.state.run?.id});},
     });
     vehicle.model.setEnabled(false);vehicle.position=vehicle.model.state;poseVehicle(vehicle);
@@ -396,7 +394,7 @@ function rebuild(value) {
   gameplay.returnToGarage('start');gameplay.events();
   if(character)populateDisplays();
   playing=true;driving=false;
-  if(!baselineRendering)spatialRenderer=createSpatialRenderer(THREE,{roots:[city.group,canyonMode.environment.group,physicsTestTrack.group]});
+  if(!baselineRendering)spatialRenderer=createSpatialRenderer(THREE,{roots:[city.group,canyonMode.environment.group]});
   inputController?.setGear("D");
   syncMode(true);
   document.getElementById("seed").value = seed;
@@ -414,7 +412,7 @@ function rebuild(value) {
     finishCelebration, vehicleAudio, backgroundMusic, settingsUi, localization, get settingsMenuOpen(){return settingsMenuOpen}, get hangarLeaderboardOpen(){return hangarLeaderboardOpen},get hangarLeaderboardUi(){return hangarLeaderboardUi}, developerMode, get rig(){return rig}, get model(){return model}, obstacles,
     get garage(){return garage}, get gameplay(){return gameplay},
     get startup(){return startup}, get character(){return character}, get characterReady(){return characterReady},
-    get physics(){return physicsWorld},get physicsTestTrack(){return physicsTestTrack},recoverPhysicsVehicle,get canyon(){return canyonMode},get driftLeaderboard(){return driftLeaderboard},get online(){return onlineSession},get advertising(){return advertising},pauseState,
+    get physics(){return physicsWorld},get canyon(){return canyonMode},get driftLeaderboard(){return driftLeaderboard},get online(){return onlineSession},get advertising(){return advertising},pauseState,
     get input(){return inputController}, get walkInput(){return walkInput}, get lookInput(){return lookInput}, cameraState, requestJump,
     get driving(){return driving}, get playing(){return playing},
     get biomeMenuOpen(){return biomeMenuOpen}, get wheelParticles(){return wheelParticles}, get roadHazards(){return roadHazards}, get roadHazardsScene(){return roadHazardsScene}, get biomeWeather(){return biomeWeather}, setBiomeMenu, travelToBiome,
@@ -499,7 +497,7 @@ settingsUi=createSettingsMenu(document,{volume:audioVolume,language:selectedLang
   inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();model?.pause();stopVehicleEffects();gameplay?.flushProgress();lastTime=0;syncMode();
  },
  onVolumeChange:value=>setAudioVolume(value),
- onLanguageChange:value=>{selectedLanguage=value==='en'?'en':'ru';localization.setLanguage(selectedLanguage);settingsMusic.setLanguage(selectedLanguage);canyonMode?.entrance.refreshSign();physicsTestTrack?.refreshSign();document.getElementById('physics-recover').textContent=selectedLanguage==='en'?'Recover':'Восстановить';hangarLeaderboardUi?.refresh();liveryShop?.refresh();services?.cloud?.setSettings({audioVolume,lastAudibleVolume,language:selectedLanguage});}
+ onLanguageChange:value=>{selectedLanguage=value==='en'?'en':'ru';localization.setLanguage(selectedLanguage);settingsMusic.setLanguage(selectedLanguage);canyonMode?.entrance.refreshSign();hangarLeaderboardUi?.refresh();liveryShop?.refresh();services?.cloud?.setSettings({audioVolume,lastAudibleVolume,language:selectedLanguage});}
 });
 const settingsMusic=createSettingsMusic(document,{music:backgroundMusic,tracks:MUSIC_TRACKS,language:selectedLanguage,canControl:()=>settingsUi.isOpen()&&!pauseState.paused&&startup.ready});
 function hangarLeaderboardAvailable(){
@@ -815,7 +813,7 @@ function enterVehicle(id){
 function returnToGarage(reason='garage'){
   if(gameplay?.state.eventMode==='finish'&&reason!=='finish')return false;
   finishCelebration?.clear();pendingFinishReceipt=null;
-  canyonMode?.leave();gameplay?.endPhysicsTest?.();physicsTestActive=false;physicsRecovery=null;overturnedSeconds=fallenSeconds=0;
+  canyonMode?.leave();overturnedSeconds=fallenSeconds=0;
   teleportId++;
   liveryShop?.close();restoreLiveryPreviews();
   settingsUi?.close();
@@ -826,51 +824,21 @@ function returnToGarage(reason='garage'){
   biomeMenuOpen=false;upgradeMenuOpen=false;gameplay?.flushProgress();wheelParticles?.clear();
   inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();
   for(const v of garage.vehicles){v.model.setEnabled(false);v.model.reset();v.routeContext=null;poseVehicle(v);}
-  document.getElementById('physics-recover').hidden=true;
   gameplay.returnToGarage(reason);
   void driftLeaderboard.load();
   gameplay.events();lastTime=0;playing=true;model=garage.vehicles[0].model;rig=garage.vehicles[0].rig;
   inputController?.setGear('D');syncMode(true);
   notify(reason==='bridge'?'Вы в ангаре. За потерянный груз награда не начисляется.':reason==='empty'?'Топливо закончилось. Вы в ангаре — выберите машину.':'Подойдите к купленной машине, чтобы сесть.');
 }
-function updatePhysicsTestSession(){
-  if(!driving||gameplay.state.eventMode==='finish')return;
-  const s=model.state,inside=physicsTestTrack.contains(s.x,s.z),onRoad=pointInRoad(s.x,s.z);
-  if(!physicsTestActive&&!canyonMode?.active&&inside&&!onRoad&&gameplay.beginPhysicsTest()){
-    physicsTestActive=true;physicsRecovery=physicsTestCheckpoint(s.x,s.z);careerRouteTracker.reset();
-    notify('Физический полигон · свободные испытания. Рейс завершён без выплаты.');
-  }
-  if(physicsTestActive){
-    const safelySupported=s.wheelContacts?.length===4&&s.wheelContacts.every(c=>c.grounded&&c.normal?.y>.5);
-    if(safelySupported&&s.upY>.7&&inside&&s.y>-.5)physicsRecovery=physicsTestCheckpoint(s.x,s.z);
-    if(onRoad&&s.grounded){
-      gameplay.endPhysicsTest();physicsTestActive=false;physicsRecovery=null;careerRouteTracker.reset();
-      notify('Тестовая поездка. Новый грузовой рейс — из ангара.');
-    }
-  }
-  document.getElementById('physics-recover').hidden=!physicsTestActive;
-  document.getElementById('physics-recover').textContent=selectedLanguage==='en'?'Recover':'Восстановить';
-}
-function recoverPhysicsVehicle(){
-  if(!physicsTestActive||!driving||gameplayPaused())return false;
-  const checkpoint=physicsRecovery??physicsTestCheckpoint(model.state.x,model.state.z);
-  const metadata=garage.vehicles.find(v=>v.model===model)?.visual?.metadata;
-  const wheels=metadata?.wheels??metadata?.wheelContacts;
-  const lift=Array.isArray(wheels)&&wheels.length?Math.max(...wheels.map(w=>(w.radius||.6)-(w.center?.[1]||0))):.1;
-  inputController?.reset();model.pause();physicsWorld.resetTime();
-  model.setPose({...checkpoint,y:checkpoint.y+lift+.04});model.setEnabled(true);model.setGear('D');
-  inputController?.setGear('D');overturnedSeconds=fallenSeconds=0;wheelParticles?.clear();canyonMode?.effects.clear();
-  teleportId++;applyTruckPose();followTruck(1,true);lastTime=0;return true;
-}
 function checkPhysicsRecovery(dt){
   if(!driving||gameplay.state.eventMode==='finish')return false;
   const s=model.state;
   overturnedSeconds=s.upY<.2?overturnedSeconds+dt:0;
   const reference=canyonMode?.active?(canyonMode.surface(s.x,s.z,100)?.height??s.y):groundHeight(s.x,s.z);
-  const fallen=physicsTestActive?s.y< -2.4:s.y<reference-12||s.y< -250;
+  const fallen=s.y<reference-12||s.y< -250;
   fallenSeconds=fallen?fallenSeconds+dt:0;
   if(fallenSeconds>.65||overturnedSeconds>2.5){
-    if(physicsTestActive)recoverPhysicsVehicle();else returnToGarage('bridge');
+    returnToGarage('bridge');
     return true;
   }
   return false;
@@ -936,7 +904,6 @@ inputController=createVehicleInput({root:document.getElementById('drive-ui'),
   onInput:input=>{if(driving)model?.setInput(input)},
   onGear:gear=>{if(driving)model?.setGear(gear)},
   onSafetyReset:()=>{model?.pause();lastTime=0}});
-document.getElementById('physics-recover').addEventListener('click',recoverPhysicsVehicle);
 const walkCameraForward=new THREE.Vector3();
 walkInput=createWalkInput({root:document.getElementById('walk-ui'),joystick:document.getElementById('walk-stick'),thumb:document.getElementById('walk-thumb'),
   getCameraForward:()=>camera.getWorldDirection(walkCameraForward),onSafetyReset:()=>{lastTime=0}});
@@ -1111,11 +1078,9 @@ function frame(now) {
   }
   if (playing && startup.ready && characterReady && !gameplayPaused()) {
     if(driving){
-      updatePhysicsTestSession();
       canyonMode?.refreshAccess();physicsWorld.updateGate(canyonMode?.entrance.unlocked);
       physicsWorld.syncParkedVehicles(gameplay.state.selectedId);physicsWorld.step(dt,model);
       applyTruckPose();roadHazardsScene.update(dt);
-      updatePhysicsTestSession();
       if(checkPhysicsRecovery(dt)){
         handleGameplayEvents();
       }else if(gameplay.state.eventMode==='finish'){
@@ -1132,7 +1097,7 @@ function frame(now) {
         if(driving){
           wheelParticles.update(dt,model.state,model.state.grounded,garage.vehicles.find(v=>v.model===model)?.visual?.metadata);
           followTruck(dt,false,actualDistance);
-          if(!physicsTestActive&&gameplay.state.eventMode!=='finish')canyonMode?.tryEnter();
+          if(gameplay.state.eventMode!=='finish')canyonMode?.tryEnter();
         }
       }
     }else{
@@ -1155,7 +1120,7 @@ function frame(now) {
     if (t === 1) transition = null;
   }
   if (!playing&&!settingsMenuOpen&&!hangarLeaderboardOpen&&!liveryShopOpen) controls.update();
-  const effectsActive=playing&&driving&&startup.ready&&characterReady&&!gameplayPaused()&&!canyonMode?.controlsLocked&&!model?.state.airborne&&(physicsTestActive||(gameplay.state.fuels[gameplay.state.selectedId]??0)>0);
+  const effectsActive=playing&&driving&&startup.ready&&characterReady&&!gameplayPaused()&&!canyonMode?.controlsLocked&&!model?.state.airborne&&(gameplay.state.fuels[gameplay.state.selectedId]??0)>0;
   const motion=model.state,lateral=Math.cos(motion.heading)*motion.velocityX-Math.sin(motion.heading)*motion.velocityZ;
   vehicleAudio.update(dt,{active:effectsActive,speed:motion.linearSpeed,slip:Math.abs(lateral),throttle:motion.active?1:0,braking:motion.braking||0,impact:Math.max(0,Math.min(1,((motion.impactSpeed||0)-1)/12))});
   syncFleetNeon();
@@ -1197,7 +1162,7 @@ if(services?.serverUrl){
     getContext:()=>({gameplay,garage,character,model,rig,paused:gameplayPaused(),walkSpeed:lastWalkSpeed,teleportId})});
   onlineSession.bindGameplay(gameplay);
 }
-window.addEventListener('pagehide',event=>{if(event.persisted||disposedOnline)return;disposedOnline=true;settingsMusic.dispose();backgroundMusic.dispose();for(const v of garage?.vehicles||[])v.model?.dispose?.();physicsWorld?.dispose();physicsTestTrack?.dispose();fleetNeon.dispose();renderProfiler?.dispose();spatialRenderer?.dispose();liveryShop?.dispose();liveryPreview?.dispose();neonPreview?.dispose();hangarLeaderboardUi?.dispose();canyonMode?.dispose();driftLeaderboard.dispose();onlineSession?.dispose();advertising?.destroy();});
+window.addEventListener('pagehide',event=>{if(event.persisted||disposedOnline)return;disposedOnline=true;settingsMusic.dispose();backgroundMusic.dispose();for(const v of garage?.vehicles||[])v.model?.dispose?.();physicsWorld?.dispose();fleetNeon.dispose();renderProfiler?.dispose();spatialRenderer?.dispose();liveryShop?.dispose();liveryPreview?.dispose();neonPreview?.dispose();hangarLeaderboardUi?.dispose();canyonMode?.dispose();driftLeaderboard.dispose();onlineSession?.dispose();advertising?.destroy();});
 window.addEventListener('pageshow',event=>{if(!event.persisted)return;appFocused=document.hasFocus?.()??true;syncBackgroundMusic();lastTime=0;onlineClock=0;inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();syncMode();});
 requestAnimationFrame(frame);
 

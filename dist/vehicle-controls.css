@@ -144,7 +144,6 @@ body.is-driving canvas { touch-action: none; }
 .drive-speed small { font-size: 12px; color: #eef5ff; }
 #drive-status { min-width: 20px; color: #aeff52; font-size: 19px; }
 #drive-status:empty { display: none; }
-#physics-recover { position: fixed; top: max(190px, calc(env(safe-area-inset-top) + 178px)); right: max(16px, env(safe-area-inset-right)); z-index: 25; padding: 10px 16px; border: 1px solid #ffffff66; border-radius: 12px; color: #fff; background: #172d3ae8; font: 600 14px system-ui; cursor: pointer; touch-action: manipulation; }
 .drive-readout p { display: none; }
 .drive-bottom-row { display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center; gap: 12px; height: 44px; }
 .drive-bottom-row .drive-speed { flex: 0 0 128px; height: 44px; align-items: center; justify-content: center; padding: 0 8px; gap: 4px; white-space: nowrap; }

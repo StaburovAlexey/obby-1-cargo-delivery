@@ -347,9 +347,8 @@ test('shared step controls translation and interpolates free pitch and roll in t
 test('real shared world keeps the same vehicle motion at 30, 60 and 120 fps', () => {
   const results=[];
   for(const fps of [30,60,120]) {
-    const manager=createPhysicsWorld({THREE,physicsTestTrack:{colliders:[{
-      type:'box',halfExtents:[100,.5,100],position:[0,-.5,0],tag:'support',
-    }]}});
+    const manager=createPhysicsWorld({THREE});
+    manager.world.createCollider(R.ColliderDesc.cuboid(100,.5,100).setTranslation(0,-.5,0).setFriction(.85));
     const model=createRapierDrivingModel({world:manager.world,x:0,z:0,
       getVehicleMetadata:()=>metadata.get('pickup')});
     try {

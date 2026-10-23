@@ -76,7 +76,7 @@
     "test:online:hosting": "node --test tests/online-server-cluster.mjs tests/online-server-packaging.mjs",
     "test:controlled-skid": "node tests/controlled-skid.mjs && node tests/controlled-skid-help.mjs && node tests/localization.mjs && node tests/controlled-skid-routes.mjs",
     "test:liveries": "node --test tests/livery-*.mjs tests/vehicle-livery-materials.mjs",
-    "test:rapier": "node --test --test-concurrency=2 tests/rapier-*.mjs tests/physics-world.mjs tests/physics-test-track.mjs tests/physics-test-gameplay.mjs tests/physics-drift-support.mjs tests/physics-contact-effects.mjs"
+    "test:rapier": "node --test --test-concurrency=2 tests/rapier-*.mjs tests/physics-world.mjs tests/physics-drift-support.mjs tests/physics-contact-effects.mjs"
   },
   "devDependencies": {
     "@rsbuild/core": "2.2.13",

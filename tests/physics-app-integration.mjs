@@ -120,7 +120,8 @@ check('Road gradient matches the rendered height convention and influences actua
   const app=make(),d=app.debug,s=d.model.state;
 
   setupPose(app,{x:p.x,z:p.z,heading:0},0,-4);
-  const flatPhysics=createPhysicsWorld({THREE,physicsTestTrack:{colliders:[{type:'box',halfExtents:[100,.5,100],position:[0,-.5,0]}]}});
+  const flatPhysics=createPhysicsWorld({THREE});
+  flatPhysics.world.createCollider(getRapier().ColliderDesc.cuboid(100,.5,100).setTranslation(0,-.5,0).setFriction(.85));
   const flat=createRapierDrivingModel({world:flatPhysics.world,x:0,z:0,vehicleId:'pickup',maxSpeed:vehicleConfig('pickup').maxSpeed,groundSurface:()=>roadGroundSurface(p.x,p.z,'pickup')});
   try{
     // Let each real suspension establish its support before comparing coasting.
