@@ -1,3 +1,5 @@
+import {makeVehicleWindowsOpaque} from './vehicle-window-materials.js';
+import {updateVisualSuspension} from './wheel-contact-visuals.js';
 
 
 
@@ -225,6 +227,7 @@ export function createBMWVehicleAdapter(THREE, vehicleId, gltf) {
       triangles += (mesh.geometry.index?.count ?? mesh.geometry.attributes.position.count) / 3;
       primitives += materialList(mesh).length;
     });
+    makeVehicleWindowsOpaque(resources.materials);
     for (const material of resources.materials) {
 
 
@@ -277,6 +280,7 @@ export function createBMWVehicleAdapter(THREE, vehicleId, gltf) {
           throw new TypeError(`BMW ${key} must be finite.`);
         for (const key of Object.keys(state)) if (pose[key] !== undefined) state[key] = pose[key];
 
+        updateVisualSuspension(wheels,pose);
         body.position.y = state.bodyBob;
         body.rotation.set(state.bodyPitch % TAU, 0, state.bodyRoll % TAU, 'XYZ');
         for (const wheel of wheels) {

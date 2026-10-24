@@ -1,3 +1,4 @@
+import {wheelContactVisual} from './wheel-contact-visuals.js';
 import {DEFAULT_VEHICLE_SMOKE_ID,getVehicleSmokeStyle} from './vehicle-smoke-catalog.js';
 import {createSmokeSpriteAtlas,SMOKE_SPRITE_INDEX} from './vehicle-smoke-sprites.js';
 
@@ -33,8 +34,10 @@ export function createDriftEffects(THREE,{height=()=>0}={}){
    const name=wheel.name||(index===0?'rear-left':'rear-right');
    const contact=state.wheelContacts?.find(w=>w.name===name),hit=contact?.point;
    if(!contact?.grounded||!hit||![hit.x,hit.y,hit.z].every(Number.isFinite))return null;
+   const rendered=wheelContactVisual(wheel,state.wheelContacts,pose);
+   if(rendered)return rendered;
    const n=contact.normal,len=n&&Math.hypot(n.x,n.y,n.z);
-   return {x:hit.x,y:hit.y,z:hit.z,nx:len>0?n.x/len:0,ny:len>0?n.y/len:1,nz:len>0?n.z/len:0};
+   return {x:hit.x,y:hit.y,z:hit.z,nx:len>0?n.x/len:0,ny:len>0?n.y/len:1,nz:len>0?n.z/len:0,radius:wheel.radius,scale:Math.max(.6,Math.min(1.5,(wheel.radius??.68)/.68))};
   }
   const center=wheel.center;
   if(pose?.quaternion&&pose?.position)point.set(...center).applyQuaternion(pose.quaternion).add(pose.position);else point.set(state.x+c*center[0]+s*center[2],0,state.z-s*center[0]+c*center[2]);
@@ -48,7 +51,7 @@ export function createDriftEffects(THREE,{height=()=>0}={}){
   const scale=width/(2*length);x*=scale;y*=scale;z*=scale;
   return [-1,1].map(side=>({x:p.x+side*x+p.nx*.02,y:p.y+side*y+p.ny*.02,z:p.z+side*z+p.nz*.02}));
  }
- function smokeOrigin(patch){point.set(patch.x+(patch.nx||0)*.22,patch.y+(patch.ny??1)*.22,patch.z+(patch.nz||0)*.22);}
+ function smokeOrigin(patch){const lift=.22*(patch.scale??1);point.set(patch.x+(patch.nx||0)*lift,patch.y+(patch.ny??1)*lift,patch.z+(patch.nz||0)*lift);}
 
  function clearSmoke(){clouds.forEach(p=>p.life=0);smokeAlpha.fill(0);smoke.count=smokeCount=credit=0;smokeGeometry.attributes.opacity.needsUpdate=true;}
  function clear(){clearSmoke();marks.forEach(p=>p.life=0);opacity.fill(0);skidCount=0;previous=[null,null];lastRoot=null;group.visible=false;skidGeometry.attributes.opacity.needsUpdate=true;}
@@ -80,7 +83,7 @@ export function createDriftEffects(THREE,{height=()=>0}={}){
    for(let i=0;i<2;i++){
     const wheel=rear[i]||fallbackWheels[i],p=patches[i]=wheelPatch(state,wheel,i,pose,c,s);
     if(!p){previous[i]=null;continue;}supportCount++;
-    if(previous[i])addMark(previous[i],p,Math.max(.24,(wheel.halfWidth||.23)*2),strength,i);else previous[i]=p;
+    if(previous[i])addMark(previous[i],p,Math.max(.08,(wheel.halfWidth||.23)*2),strength,i);else previous[i]=p;
    }
    const custom=smokeStyleId!==DEFAULT_VEHICLE_SMOKE_ID;
    if(supportCount)credit+=dt*(custom?4+3*strength:12+22*strength);else credit=0;
@@ -93,13 +96,13 @@ export function createDriftEffects(THREE,{height=()=>0}={}){
        const p=clouds[cloudCursor];cloudCursor=(cloudCursor+1)%clouds.length;
        const angle=random()*Math.PI*2,speed=.45+random()*1.8;
        p.x=point.x;p.y=point.y;p.z=point.z;p.vx=state.velocityX*.07+Math.cos(angle)*speed;p.vz=state.velocityZ*.07+Math.sin(angle)*speed;
-       const lift=.35+random()*1.5;p.vx+=(patch.nx||0)*lift;p.vz+=(patch.nz||0)*lift;p.vy=(patch.ny??1)*lift;p.life=.75+((member+wheelIndex*2)%4+random())*.2;p.total=p.life;p.size=.22+(member+random())*.13;
+       const lift=.35+random()*1.5;p.vx+=(patch.nx||0)*lift;p.vz+=(patch.nz||0)*lift;p.vy=(patch.ny??1)*lift;p.life=.75+((member+wheelIndex*2)%4+random())*.2;p.total=p.life;p.size=(.22+(member+random())*.13)*(patch.scale??1);
       }
      }
     }else{
      const patch=patches[cloudCursor%2]||patches[(cloudCursor+1)%2],p=clouds[cloudCursor];cloudCursor=(cloudCursor+1)%clouds.length;smokeOrigin(patch);
      const lift=.5+random()*.6;
-     Object.assign(p,{x:point.x,y:point.y,z:point.z,vx:state.velocityX*.1+(random()-.5)*.6+(patch.nx||0)*lift,vz:state.velocityZ*.1+(random()-.5)*.6+(patch.nz||0)*lift,vy:(patch.ny??1)*lift,life:1.1+random()*.5,size:.45+random()*.45});p.total=p.life;
+     Object.assign(p,{x:point.x,y:point.y,z:point.z,vx:state.velocityX*.1+(random()-.5)*.6+(patch.nx||0)*lift,vz:state.velocityZ*.1+(random()-.5)*.6+(patch.nz||0)*lift,vy:(patch.ny??1)*lift,life:1.1+random()*.5,size:(.45+random()*.45)*(patch.scale??1)});p.total=p.life;
     }
    }
   }else{previous=[null,null];credit=0;}

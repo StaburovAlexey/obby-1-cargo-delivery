@@ -15,7 +15,7 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,leaderboard:
  const environment=createCanyonScene(THREE);scene.add(environment.group);
  const effects=createDriftEffects(THREE,{height:(x,z)=>canyonSurface(x,z,12)?canyonHeight(x,z):groundHeight(x,z)});scene.add(effects.group);
  const leaderboard=sharedLeaderboard??createCanyonLeaderboard({platform});
- let active=false,phase='idle',disposed=false,epoch=0,vehicle=null,scorer=null,result=null,resultEligible=false,rankings=false,accessProof=Symbol('initial'),accessDevelopment=null,accessVehicle=null;
+ let active=false,phase='idle',disposed=false,epoch=0,vehicle=null,scorer=null,result=null,resultEligible=false,rankings=false,accessProof=Symbol('initial'),accessDevelopment=null,accessVehicle=null,accessUnlocked=null;
  const account=()=>platform?.accountGeneration??0;
  const current=(token,owner)=>!disposed&&active&&token===epoch&&owner===account()&&!platform?.status?.reloadRequired;
  const ui=createCanyonUi(doc,{language,rankingsEnabled:platform?.id==='yandex',onRetry:()=>api.retry(),onExit:()=>api.retry(),onRankings:()=>api.showRankings(),onLogin:()=>api.login()});
@@ -23,7 +23,13 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,leaderboard:
  solids?.push(...entrance.solids);
  const drivingModel=()=>vehicle?.model??getContext().model;
  const developerMode=()=>getContext().gameplay.state.developerMode===true;
- function access(){const career=getContext().gameplay.state,development=developerMode(),vehicleId=career.selectedId;if(career.routeCompletion!==accessProof||development!==accessDevelopment||vehicleId!==accessVehicle){accessProof=career.routeCompletion;accessDevelopment=development;accessVehicle=vehicleId;entrance.updateAccess(getContext().gameplay.snapshot(),{developerMode:development,vehicleId});}}
+ function access(){
+  const gameplay=getContext().gameplay,career=gameplay.state,development=developerMode(),vehicleId=career.selectedId,vehicleUnlocked=gameplay.isOwned(vehicleId);
+  if(career.routeCompletion!==accessProof||development!==accessDevelopment||vehicleId!==accessVehicle||vehicleUnlocked!==accessUnlocked){
+   accessProof=career.routeCompletion;accessDevelopment=development;accessVehicle=vehicleId;accessUnlocked=vehicleUnlocked;
+   entrance.updateAccess(gameplay.snapshot(),{developerMode:development,vehicleId,vehicleUnlocked});
+  }
+ }
  function prepare(){
   epoch++;result=null;resultEligible=false;rankings=false;scorer=createDriftScore();
   phase='running';start();ui.update({phase});
@@ -37,10 +43,10 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,leaderboard:
   refreshAccess:access,
   surface(x,z,padding=0){return canyonSurface(x,z,padding);},
   contact(x,z,h,footprint){return canyonContact(x,z,h,footprint);},
-  groundSurface(){return surfaceForBiome('city','bmwreward');},
+  groundSurface(){return surfaceForBiome('city',vehicle?.id??getContext().gameplay.state.selectedId??'bmwreward');},
   enter(){
    access();const c=getContext(),p=c.model?.state;
-   if(disposed||active||!c.driving||!p||!canyonSurface(p.x,p.z,2)||!canEnterCanyon(c.gameplay.snapshot(),c.gameplay.state.selectedId,{developerMode:developerMode()}))return false;
+   if(disposed||active||!c.driving||!p||!canyonSurface(p.x,p.z,2)||!canEnterCanyon(c.gameplay.snapshot(),c.gameplay.state.selectedId,{developerMode:developerMode(),vehicleUnlocked:c.gameplay.isOwned(c.gameplay.state.selectedId)}))return false;
    vehicle=c.garage.vehicles.find(v=>v.model===c.model);if(!vehicle||!c.gameplay.beginCanyonRun())return false;
    active=true;documentClass(true);prepare();onEnter({model:vehicle.model,vehicle});return true;
   },
@@ -49,11 +55,11 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,leaderboard:
   pose(state=drivingModel().state){const model=drivingModel(),currentVehicle=vehicle??getContext().garage.vehicles.find(v=>v.model===model);return canyonPose(THREE,state,currentVehicle?.visual?.metadata);},
   step(rawDelta,{simulatedSeconds=rawDelta}={}){
    if(!active||disposed||phase==='celebrating')return;
-   const model=drivingModel(),g=getContext().gameplay,dt=Number.isFinite(simulatedSeconds)?Math.max(0,Math.min(.1,simulatedSeconds)):0;
-   if(g.state.fuels.bmwreward<=0)model.setInput({active:false});
+   const model=drivingModel(),g=getContext().gameplay,id=vehicle.id,dt=Number.isFinite(simulatedSeconds)?Math.max(0,Math.min(.1,simulatedSeconds)):0;
+   if(g.state.fuels[id]<=0)model.setInput({active:false});
    // The application advances the shared Rapier world before canyon scoring.
    g.state.player.x=model.state.x;g.state.player.z=model.state.z;
-   g.state.fuels.bmwreward=Math.max(0,g.state.fuels.bmwreward-model.state.pathDistance*vehicleConfig('bmwreward').consumption);
+   g.state.fuels[id]=Math.max(0,g.state.fuels[id]-model.state.pathDistance*vehicleConfig(id).consumption);
    if(!canyonSurface(model.state.x,model.state.z,3)){api.leave();return;}
    // An edge-of-road entry can precede the score start zone. Keep arming
    // until the same physical car reaches it; a dismissed run stays touring.
@@ -61,7 +67,7 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,leaderboard:
    if(phase==='running'&&dt>0){
     if(rawDelta>.100001)api.pause('time-gap');
     scorer.update(dt,model.state);
-    if(scorer.state.finished||!scorer.state.valid||g.state.fuels.bmwreward<=0)void api.complete();
+    if(scorer.state.finished||!scorer.state.valid||g.state.fuels[id]<=0)void api.complete();
    }
    if(phase==='running')ui.update({phase,score:scorer?.state.score,multiplier:scorer?.state.multiplier,progress:scorer?.state.progress,angle:model.state.slipAngle,length:CANYON_TRACK.finish});
   },
@@ -92,7 +98,7 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,leaderboard:
    // Ordinary effects follow rear contact slip rather than the body angle in
    // a normal tight turn. Preserve the BMW's published drift telemetry.
    let effectState=state;
-   if(c.gameplay.state.selectedId!=='bmwreward'){
+   if(!vehicleConfig(c.gameplay.state.selectedId).rewardDrift){
     let geometry=v?.model?.physicsGeometry;
     if(!geometry){
      const rear=v?.visual?.metadata?.wheelContacts?.filter(w=>!w.front&&Number.isFinite(w.center?.[2]));
@@ -100,7 +106,7 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,leaderboard:
     }
     effectState={...state,...ordinaryDriftTelemetry(state,geometry)};
    }
-   effects.update(dt,effectState,{enabled:c.driving&&!paused&&!api.controlsLocked,grounded,metadata:v?.visual?.metadata,pose:v?.rig.pose,camera});
+   effects.update(dt,effectState,{enabled:c.driving&&!paused&&!api.controlsLocked,grounded,metadata:v?.visual?.metadata,pose:v?.rig.root?{position:v.rig.root.position,quaternion:v.rig.root.quaternion}:v?.rig.pose,camera});
   },
   leave(){
    if(!active)return;if(phase!=='celebrating')epoch++;active=false;phase='idle';ui.hide();effects.clear();

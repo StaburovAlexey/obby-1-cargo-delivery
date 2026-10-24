@@ -1,3 +1,4 @@
+import {SHOWCASE_VEHICLES} from './showcase-vehicle-catalog.js';
 import { routeDistanceAt } from './route-network.js';
 import { BIOME_DEFINITIONS, NETWORK_CONFIG, CHECKPOINT_PROGRESS } from './route-network-config.js';
 
@@ -30,9 +31,13 @@ export const VEHICLE_CONFIG = Object.freeze([
 
   {id:REWARD_VEHICLE_ID,name:'BMW — награда',price:0,rewardOnly:true,unlock:'full-route',capacity:1800,range:6000,maxSpeed:42,acceleration:4.8,specialty:'volcanic',
     rewardDrift:Object.freeze({rearLateralGrip:.85,rearLateralDamping:.7,steeringSpeedRatio:.65})},
+  ...SHOWCASE_VEHICLES.map(vehicle=>({id:vehicle.id,name:vehicle.name,price:0,rewardOnly:true,devUnlock:true,unlock:'developer',
+    capacity:1800,range:6000,maxSpeed:42,acceleration:4.8,specialty:'volcanic',
+    rewardDrift:Object.freeze({rearLateralGrip:.85,rearLateralDamping:.7,steeringSpeedRatio:.65})})),
 ].map((v,index)=>Object.freeze({...v,progressionOrder:index+1,pairRole:index%2?'advanced':'standard',
-  handling:.5*1.12**index,grip:.5*1.12**index,consumption:v.capacity/v.range})));
+  handling:.5*1.12**(v.devUnlock?10:index),grip:.5*1.12**(v.devUnlock?10:index),consumption:v.capacity/v.range})));
 export const vehicleConfig = id => VEHICLE_CONFIG.find(v=>v.id===id) || VEHICLE_CONFIG[0];
+export const isCanyonVehicle=id=>VEHICLE_CONFIG.some(vehicle=>vehicle.id===id&&!!vehicle.rewardDrift);
 
 
 const CHECKPOINT_REWARDS=Object.freeze([110,260,470,730,1080,1550,2180,3020,4090,5350,6780,8460,12000,14500,18000,26000]);

@@ -1,6 +1,8 @@
+import {loadShowcaseVehicle} from './showcase-vehicles.js';
+import {isShowcaseVehicle} from './showcase-vehicle-catalog.js';
 import {loadCosmoVehicle} from './cosmo-vehicles.js';
 import {loadBMWVehicle} from './bmw-vehicle.js';
-const loadGarageVehicle=(THREE,id)=>id==='bmwreward'?loadBMWVehicle(THREE,id):loadCosmoVehicle(THREE,id);
+const loadGarageVehicle=(THREE,id)=>isShowcaseVehicle(id)?loadShowcaseVehicle(THREE,id):id==='bmwreward'?loadBMWVehicle(THREE,id):loadCosmoVehicle(THREE,id);
 
 
 
@@ -45,6 +47,8 @@ export function attachCosmoGarage(THREE,garage,{load=loadGarageVehicle,onError=c
     rig.update=function(pose={}){
       const result=originalUpdate.call(rig,pose);
       for(const key of ['steerAngle','wheelSpin','bodyPitch','bodyRoll','bodyBob'])if(pose[key]!==undefined)record.lastPose[key]=pose[key];
+      record.lastPose.wheelContacts=pose.wheelContacts;
+      record.lastPose.rootPose=pose.position&&pose.quaternion?{position:pose.position,quaternion:pose.quaternion}:undefined;
       record.adapter?.update(record.lastPose);
       return result;
     };

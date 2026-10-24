@@ -1,3 +1,4 @@
+import {SHOWCASE_VEHICLES} from './showcase-vehicle-catalog.js';
 
 
 
@@ -9,7 +10,9 @@ import { routePointAtDistance, biomeAt, TRUCK_HALF_WIDTH, TRUCK_HALF_LENGTH } fr
 import { DELIVERY_CHECKPOINTS, ECONOMY_CONFIG, vehicleConfig } from './economy-config.js';
 import {createClassroomBoard} from './classroom-board.js';
 
-const HANGAR_BOUNDS = Object.freeze({ minX: -57, maxX: 31, minZ: 26, maxZ: 90 });
+const HANGAR_BOUNDS = Object.freeze({ minX: -57, maxX: 31, minZ: 26, maxZ: 96 });
+const HANGAR_DEPTH=HANGAR_BOUNDS.maxZ-HANGAR_BOUNDS.minZ;
+const HANGAR_CENTER_Z=(HANGAR_BOUNDS.minZ+HANGAR_BOUNDS.maxZ)/2;
 const PARKING_BAYS = Object.freeze(Array.from({length:10},(_,i)=>Object.freeze({
   id:`parking-${String(i+1).padStart(2,'0')}`,row:'right',column:i+1,
   x:24,z:30+i*4.8,heading:Math.PI/2,halfWidth:4.5,halfLength:2.25,
@@ -18,18 +21,20 @@ const PARKING_BAYS = Object.freeze(Array.from({length:10},(_,i)=>Object.freeze({
 
 
 
-const REWARD_CENTER_Z=(75.169616825+HANGAR_BOUNDS.maxZ)/2;
+const REWARD_CENTER_Z=HANGAR_BOUNDS.maxZ-7.5;
 export const REWARD_PEDESTAL = Object.freeze({
   id:'reward-pedestal',x:24,z:REWARD_CENTER_Z,heading:Math.PI/2,radius:4.9,height:.65,
   restPitch:-.09,rotationSpeed:.14,tiltClearance:.4,
-  approach:Object.freeze({x:16.8,z:REWARD_CENTER_Z-1.8}),approachRadius:.9,
+  approach:Object.freeze({x:24,z:REWARD_CENTER_Z-6.8}),approachRadius:.9,
 });
-export const CHARACTER_STANDS = Object.freeze(Array.from({length:17},(_,i)=>Object.freeze({
-
-
-  index:i,x:-46+i*3.5,z:85,
-  heading:0,triggerRadius:1.25,
-})).map(s=>Object.freeze({...s,trigger:Object.freeze({x:s.x,z:s.z-3})})));
+export const CHARACTER_STANDS = Object.freeze(Array.from({length:17},(_,index)=>{
+  const rear=index>=9,column=rear?index-9:index,columns=rear?8:9;
+  // Looking toward the displays (+Z), the right wall is the negative-X wall.
+  // Keep the front row's outer plinth one metre clear of it.
+  const x=HANGAR_BOUNDS.minX+14.5+(column-(columns-1)/2)*3,z=HANGAR_BOUNDS.maxZ-(rear?2.55:11.55),y=rear?2:.16;
+  return Object.freeze({index,row:rear?'rear':'front',column,x,y,z,heading:0,triggerRadius:1.25,
+    trigger:Object.freeze({x,y:rear?2:0,z:z-3})});
+}));
 
 
 
@@ -48,8 +53,8 @@ export const CLASSROOM_ENTRIES = Object.freeze([-51,-46,-41,-36,-31].map((x,inde
 })));
 export const CLASSROOM_ENTRY = CLASSROOM_ENTRIES[0];
 export const GARAGE_LAYOUT = Object.freeze({
-  ...HANGAR_BOUNDS,bounds:HANGAR_BOUNDS,center:Object.freeze({x:-13,z:58}),
-  frontZ:26,rearZ:90,entranceZ:26,entranceHalfWidth:8,detached:true,roadside:true,roadGap:3,
+  ...HANGAR_BOUNDS,bounds:HANGAR_BOUNDS,center:Object.freeze({x:-13,z:HANGAR_CENTER_Z}),
+  frontZ:26,rearZ:HANGAR_BOUNDS.maxZ,entranceZ:26,entranceHalfWidth:8,detached:true,roadside:true,roadGap:3,
   roofHeight:20,spawn:Object.freeze({x:0,z:60}),bays:PARKING_BAYS,
   rewardPedestal:REWARD_PEDESTAL,
 });
@@ -71,6 +76,7 @@ const VEHICLES = Object.freeze([
   { id: 'lavacrawler', color: 0x554e56, shape: 'pickup', bay: 8 },
   { id: 'ashhauler', color: 0x914a5e, shape: 'van', bay: 9 },
   { id: 'bmwreward', color: 0x274c86, shape: 'rover', rewardDisplay: true },
+  ...SHOWCASE_VEHICLES.map(vehicle=>({id:vehicle.id,color:0x000000,shape:'rover',rewardDisplay:true})),
 ].map(spec=>Object.freeze({...spec,name:vehicleConfig(spec.id).name})));
 
 
@@ -172,27 +178,33 @@ export function createGarageScene(THREE, city, {document:doc=globalThis.document
   const floorY = groundHeight(0, GARAGE_LAYOUT.center.z);
   const rewardPedestal={...REWARD_PEDESTAL,baseY:floorY,topY:floorY+REWARD_PEDESTAL.height,
     pose:Object.freeze({x:REWARD_PEDESTAL.x,y:floorY+REWARD_PEDESTAL.height+REWARD_PEDESTAL.tiltClearance,z:REWARD_PEDESTAL.z})};
+  const rewardPedestals=[rewardPedestal,...SHOWCASE_VEHICLES.map((vehicle,index)=>{
+    const x=REWARD_PEDESTAL.x-(SHOWCASE_VEHICLES.length-index)*10.2,z=REWARD_PEDESTAL.z;
+    return {...rewardPedestal,id:`pedestal-${vehicle.id}`,vehicleId:vehicle.id,x,z,
+      approach:{x,z:z-6.8},pose:{x,y:rewardPedestal.pose.y,z}};
+  })];
+  const pedestalByVehicle=new Map([['bmwreward',rewardPedestal],...rewardPedestals.slice(1).map(p=>[p.vehicleId,p])]);
   const hangarParts = [
     entry('Flush roadside entrance apron',[0,floorY-.05,24],[16,.1,2],0x8a806b),
-    entry('Garage floor', [-13, floorY - 0.2, 58], [90, 0.4, 66], 0x8a806b),
-    entry('Garage left wall', [-57.4, 10, 58], [0.8, 20, 65.6], 0xb87b3c),
-    entry('Garage right wall', [31.4, 10, 58], [0.8, 20, 65.6], 0xb87b3c),
+    entry('Garage floor', [-13, floorY - 0.2, HANGAR_CENTER_Z], [90, 0.4, HANGAR_DEPTH+2], 0x8a806b),
+    entry('Garage left wall', [-57.4, 10, HANGAR_CENTER_Z], [0.8, 20, HANGAR_DEPTH+1.6], 0xb87b3c),
+    entry('Garage right wall', [31.4, 10, HANGAR_CENTER_Z], [0.8, 20, HANGAR_DEPTH+1.6], 0xb87b3c),
     entry('Garage front left wall', [-32.9, 10, 25.6], [49.8, 20, 0.8], 0xa1662e),
     entry('Garage front right wall', [19.9, 10, 25.6], [23.8, 20, 0.8], 0xa1662e),
     entry('Garage door lintel', [0, 15, 25.6], [16, 10, .8], 0xa1662e),
-    entry('Garage rear wall', [-13, 10, 90.4], [89.6, 20, 0.8], 0xa1662e),
-    entry('Garage roof', [-13, 20.3, 58], [90, 0.6, 66], 0xc99550),
+    entry('Garage rear wall', [-13, 10, HANGAR_BOUNDS.maxZ+.4], [89.6, 20, 0.8], 0xa1662e),
+    entry('Garage roof', [-13, 20.3, HANGAR_CENTER_Z], [90, 0.6, HANGAR_DEPTH+2], 0xc99550),
     entry('Open door left trim', [-8.1,5,26.06],[.2,10,.16],0xe3d4a6),
     entry('Open door right trim', [8.1,5,26.06],[.2,10,.16],0xe3d4a6),
     entry('Open door threshold', [0,floorY+.012,26.5],[16,.014,.24],0xefbc55),
-    entry('Garage rear stripe', [-13, 3.5, 89.98], [88, 0.5, 0.025], 0xefbc55),
+    entry('Garage rear stripe', [-13, 3.5, HANGAR_BOUNDS.maxZ-.02], [88, 0.5, 0.025], 0xefbc55),
   ];
   const walls = [
-    { name: 'Garage left wall', minX: -57.8, maxX: -57, minZ: 25.2, maxZ: 90.8 },
-    { name: 'Garage right wall', minX: 31, maxX: 31.8, minZ: 25.2, maxZ: 90.8 },
+    { name: 'Garage left wall', minX: -57.8, maxX: -57, minZ: 25.2, maxZ: HANGAR_BOUNDS.maxZ+.8 },
+    { name: 'Garage right wall', minX: 31, maxX: 31.8, minZ: 25.2, maxZ: HANGAR_BOUNDS.maxZ+.8 },
     { name: 'Garage front left wall', minX: -57.8, maxX: -8, minZ: 25.2, maxZ: 26 },
     { name: 'Garage front right wall', minX: 8, maxX: 31.8, minZ: 25.2, maxZ: 26 },
-    { name: 'Garage rear wall', minX: -57.8, maxX: 31.8, minZ: 90, maxZ: 90.8 },
+    { name: 'Garage rear wall', minX: -57.8, maxX: 31.8, minZ: HANGAR_BOUNDS.maxZ, maxZ: HANGAR_BOUNDS.maxZ+.8 },
   ];
   for (const bay of GARAGE_LAYOUT.bays) {
     for (const side of [-1, 1]) {
@@ -205,7 +217,7 @@ export function createGarageScene(THREE, city, {document:doc=globalThis.document
     }
   }
   for (const x of [-48,-36,-24,-12,0,12,24])
-    hangarParts.push(entry('Garage ceiling strip', [x, 19.85, 58], [0.22, 0.08, 55], 0xe8f5cc));
+    hangarParts.push(entry('Garage ceiling strip', [x, 19.85, HANGAR_CENTER_Z], [0.22, 0.08, HANGAR_DEPTH-9], 0xe8f5cc));
   const classroomSolids=[];
   hangarParts.push(entry('Separate classroom floor',[-41,floorY+.007,47],[26,.012,32],0xc69b4d));
 
@@ -238,33 +250,39 @@ export function createGarageScene(THREE, city, {document:doc=globalThis.document
   for(const y of [2.5,11])hangarParts.push(entry('Classroom board wooden horizontal rail',[-41,y,26.29],[28,.5,.1],0xd9ac64));
   for(const x of [-54.75,-27.25])hangarParts.push(entry('Classroom board wooden vertical rail',[x,6.75,26.29],[.5,8,.1],0xd9ac64));
   hangarParts.push(entry('Classroom board chalk ledge',[-41,2.54,26.45],[27.7,.16,.4],0xc99550));
+  // One continuous raised deck holds the complete rear row and its markers.
+  const rearStands=CHARACTER_STANDS.filter(stand=>stand.row==='rear');
+  const skinPlatform={id:'character-rear-row-pedestal',type:'pedestal',walkableTop:true,
+    minX:rearStands[0].x-1.5,maxX:rearStands.at(-1).x+1.5,minZ:rearStands[0].z-4.5,maxZ:rearStands[0].z+2.5,minY:0,maxY:2};
+  classroomSolids.push(skinPlatform);
+  hangarParts.push(entry('Character rear row pedestal',[(skinPlatform.minX+skinPlatform.maxX)/2,1,(skinPlatform.minZ+skinPlatform.maxZ)/2],
+    [skinPlatform.maxX-skinPlatform.minX,2,skinPlatform.maxZ-skinPlatform.minZ],0xd3b77a));
   for(const stand of CHARACTER_STANDS){
-    hangarParts.push(entry(`Character stand ${stand.index+1}`,[stand.x,.08,stand.z],[3,.16,3],0xd3b77a));
-    hangarParts.push(entry('Character approach marker',[stand.trigger.x,.018,stand.trigger.z],[1.7,.02,1.1],0xeec45e));
+    if(stand.row==='front')hangarParts.push(entry(`Character stand ${stand.index+1}`,[stand.x,stand.y/2,stand.z],[3,stand.y,3],0xd3b77a));
+    hangarParts.push(entry('Character approach marker',[stand.trigger.x,stand.trigger.y+.018,stand.trigger.z],[1.7,.02,1.1],0xeec45e));
   }
   const shell = batch(hangar, 'Garage shell and flush bay markings', boxGeometry, environmentMaterial, hangarParts);
   shell.userData.parkingBayIds = GARAGE_LAYOUT.bays.map(bay => bay.id);
-  hangar.userData = { detached: true, closed: false, parkingBayCount: GARAGE_LAYOUT.bays.length, rewardDisplayCount:1 };
+  hangar.userData = { detached: true, closed: false, parkingBayCount: GARAGE_LAYOUT.bays.length, rewardDisplayCount:rewardPedestals.length };
   const roomBoard=createClassroomBoard(THREE,{document:doc,parent:hangar,garageBounds:GARAGE_LAYOUT.bounds});
 
   const pedestalGeometry=ownGeometry(new THREE.CylinderGeometry(1,1,1,64));
-  const pedestalMesh=batch(hangar,'BMW reward display pedestal',pedestalGeometry,environmentMaterial,[
-    entry('Reward pedestal foundation',[rewardPedestal.x,floorY+.25,rewardPedestal.z],[4.9,.5,4.9],0x233342),
-    entry('Reward pedestal silver rim',[rewardPedestal.x,floorY+.515,rewardPedestal.z],[4.82,.03,4.82],0xdce8f0),
-    entry('Reward pedestal top',[rewardPedestal.x,floorY+.59,rewardPedestal.z],[4.75,.12,4.75],0x34495b),
-  ]);
+  const pedestalMesh=batch(hangar,'Reward vehicle display pedestals',pedestalGeometry,environmentMaterial,rewardPedestals.flatMap(p=>[
+    entry('Reward pedestal foundation',[p.x,floorY+.25,p.z],[4.9,.5,4.9],0x233342),
+    entry('Reward pedestal silver rim',[p.x,floorY+.515,p.z],[4.82,.03,4.82],0xdce8f0),
+    entry('Reward pedestal top',[p.x,floorY+.59,p.z],[4.75,.12,4.75],0x34495b),
+  ]));
   pedestalMesh.userData.rewardDisplay=true;
-  const pedestalSolids=[{id:rewardPedestal.id,type:'pedestal',
-    minX:rewardPedestal.x-rewardPedestal.radius,maxX:rewardPedestal.x+rewardPedestal.radius,
-    minZ:rewardPedestal.z-rewardPedestal.radius,maxZ:rewardPedestal.z+rewardPedestal.radius,
-    minY:floorY,maxY:rewardPedestal.topY}];
+  const pedestalSolids=rewardPedestals.map(p=>({id:p.id,type:'pedestal',
+    minX:p.x-p.radius,maxX:p.x+p.radius,minZ:p.z-p.radius,maxZ:p.z+p.radius,minY:floorY,maxY:p.topY}));
   const rewardMarkerGeometry=ownGeometry(new THREE.RingGeometry(.6,.82,48));rewardMarkerGeometry.rotateX(-Math.PI/2);
   const rewardMarkerMaterial=ownMaterial(new THREE.MeshBasicMaterial({color:0x89c6ff,side:THREE.DoubleSide,toneMapped:false}));
-  const rewardMarker=new THREE.Mesh(rewardMarkerGeometry,rewardMarkerMaterial);
-  rewardMarker.name='BMW reward display approach';
-  rewardMarker.position.set(rewardPedestal.approach.x,floorY+.035,rewardPedestal.approach.z);
-  rewardMarker.userData={nonBlocking:true,vehicleId:'bmwreward',triggerRadius:rewardPedestal.approachRadius};
-  hangar.add(rewardMarker);
+  const rewardMarkers=rewardPedestals.map((p,index)=>{
+    const marker=new THREE.Mesh(rewardMarkerGeometry,rewardMarkerMaterial);marker.name=`Reward vehicle approach ${index+1}`;
+    marker.position.set(p.approach.x,floorY+.035,p.approach.z);
+    marker.userData={nonBlocking:true,vehicleId:p.vehicleId||'bmwreward',triggerRadius:p.approachRadius};hangar.add(marker);return marker;
+  });
+  const rewardMarker=rewardMarkers[0];
 
   const markerGeometry=ownGeometry(new THREE.RingGeometry(1.3,1.6,48));markerGeometry.rotateX(-Math.PI/2);
   const classMarkers=CLASSROOM_ENTRIES.map(school=>{
@@ -279,14 +297,14 @@ export function createGarageScene(THREE, city, {document:doc=globalThis.document
 
   const cargoMaterial=ownMaterial(createEnvironmentMaterial(THREE));cargoMaterial.color.setHex(0xe5ab46);
   const vehicles = VEHICLES.map(spec => {
-    const root = new THREE.Group();
-    const parked = spec.rewardDisplay?{id:rewardPedestal.id,row:'right',column:11,
-      x:rewardPedestal.x,z:rewardPedestal.z,heading:rewardPedestal.heading,
-      halfWidth:rewardPedestal.radius,halfLength:rewardPedestal.radius}:GARAGE_LAYOUT.bays[spec.bay];
+    const root = new THREE.Group(),pedestal=pedestalByVehicle.get(spec.id);
+    const parked = spec.rewardDisplay?{id:pedestal.id,row:'right',column:11,
+      x:pedestal.x,z:pedestal.z,heading:pedestal.heading,
+      halfWidth:pedestal.radius,halfLength:pedestal.radius}:GARAGE_LAYOUT.bays[spec.bay];
     const pose = fitTruckToGround(THREE, parked.x, parked.z, parked.heading);
     const rigContainer = new THREE.Group();
     rigContainer.add(root); group.add(rigContainer);
-    const initialPose=spec.rewardDisplay?rewardDisplayPose(THREE,{rewardDisplay:true,pedestal:rewardPedestal}):pose;
+    const initialPose=spec.rewardDisplay?rewardDisplayPose(THREE,{rewardDisplay:true,pedestal:pedestal}):pose;
     root.position.copy(initialPose.position);
     root.quaternion.copy(initialPose.quaternion);
     const rig = createVehicleRig(THREE, root);
@@ -298,11 +316,11 @@ export function createGarageScene(THREE, city, {document:doc=globalThis.document
     const cargo=new THREE.Group();cargo.name='Delivery cargo anchor';cargo.visible=false;root.add(cargo);
     return { id: spec.id, name: spec.name, color: spec.color, shape: spec.shape,
       rig, root, cargo, config:vehicleConfig(spec.id), group: rigContainer, parkingId: parked.id, park: { ...parked },
-      ...(spec.rewardDisplay?{rewardDisplay:true,pedestal:rewardPedestal,
-        parkedFootprint:{halfWidth:rewardPedestal.radius,halfLength:rewardPedestal.radius},
-        approachRadius:rewardPedestal.approachRadius}:{}),
-      priceAnchor: { x: parked.x, y: groundHeight(parked.x,parked.z)+6.1+(spec.rewardDisplay?rewardPedestal.height+rewardPedestal.tiltClearance:0), z: parked.z },
-      approach: spec.rewardDisplay?{...rewardPedestal.approach}:{ x: parked.x-5.15, z: parked.z },
+      ...(spec.rewardDisplay?{rewardDisplay:true,pedestal:pedestal,
+        parkedFootprint:{halfWidth:pedestal.radius,halfLength:pedestal.radius},
+        approachRadius:pedestal.approachRadius}:{}),
+      priceAnchor: { x: parked.x, y: groundHeight(parked.x,parked.z)+6.1+(spec.rewardDisplay?pedestal.height+pedestal.tiltClearance:0), z: parked.z },
+      approach: spec.rewardDisplay?{...pedestal.approach}:{ x: parked.x-5.15, z: parked.z },
       footprint: { halfWidth: TRUCK_HALF_WIDTH, halfLength: TRUCK_HALF_LENGTH } };
   });
   const vehicleMarkers=vehicles.filter(vehicle=>!vehicle.rewardDisplay).map(vehicle=>{
@@ -383,7 +401,7 @@ export function createGarageScene(THREE, city, {document:doc=globalThis.document
   let disposed = false;
   return {
     group, hangar, vehicles, stations, deliveries, walls, classroomSolids,roomBoard,
-    pedestalSolids,walkingSolids:[...classroomSolids,...pedestalSolids],rewardPedestal,rewardMarker,vehicleMarkers,
+    pedestalSolids,walkingSolids:[...classroomSolids,...pedestalSolids],rewardPedestal,rewardPedestals,rewardMarker,rewardMarkers,vehicleMarkers,
     desks:CLASSROOM_DESKS, stands:CHARACTER_STANDS,
     classroomEntries:CLASSROOM_ENTRIES, classMarkers, classroomEntry:CLASSROOM_ENTRY, classMarker,
     layout: GARAGE_LAYOUT,

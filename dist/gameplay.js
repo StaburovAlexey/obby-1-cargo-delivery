@@ -4,7 +4,7 @@ import {crossesFinishLine, FINISH_CELEBRATION_SECONDS} from './finish-celebratio
 import { biomeSurfaceAt } from './biome-surfaces.js';
 import { projectRoad, pointInRoad, TRUCK_HALF_WIDTH, TRUCK_HALF_LENGTH } from './road-layout.js';
 import { GARAGE_LAYOUT, CLASSROOM_ENTRY, CLASSROOM_ENTRIES } from './garage-scene.js';
-import { ECONOMY_CONFIG, VEHICLE_CONFIG, vehicleConfig, BIOME_SEQUENCE, DELIVERY_CHECKPOINTS, REWARD_VEHICLE_ID, ROUTE_COMPLETION_PROOF, FINAL_DELIVERY_CHECKPOINT } from './economy-config.js';
+import { ECONOMY_CONFIG, VEHICLE_CONFIG, vehicleConfig, isCanyonVehicle, BIOME_SEQUENCE, DELIVERY_CHECKPOINTS, REWARD_VEHICLE_ID, ROUTE_COMPLETION_PROOF, FINAL_DELIVERY_CHECKPOINT } from './economy-config.js';
 import { CHARACTER_CATALOG } from './character-catalog.js';
 import { PREMIUM_SKIN_IDS } from './premium-skins.js';
 import { freshCareer, sanitizeCareer } from './career-save.js';
@@ -21,7 +21,7 @@ let runSequence = 0;
 const characterIds = new Set(CHARACTER_CATALOG.map(character => character.id));
 const premiumSkinIds = new Set(PREMIUM_SKIN_IDS);
 
-export const GAMEPLAY = Object.freeze({ spawn: Object.freeze({...GARAGE_LAYOUT.spawn,heading:0}), roadSpawn: Object.freeze({x:0,z:6,heading:0}), walkSpeed:4.5, runSpeed:7, entryRadius:5.2, fuelRange:460, fuelCapacity:100, exitCooldown:1.1,jumpSpeed:8,gravity:22,jumpDuration:16/22 });
+export const GAMEPLAY = Object.freeze({ spawn: Object.freeze({...GARAGE_LAYOUT.spawn,heading:0}), roadSpawn: Object.freeze({x:0,z:6,heading:0}), walkSpeed:4.5, runSpeed:7, entryRadius:5.2, fuelRange:460, fuelCapacity:100, exitCooldown:1.1,jumpSpeed:12,gravity:22,jumpDuration:24/22 });
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 
 
@@ -81,8 +81,9 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
     try {const result=persistence.save(snapshot());if(result===false||result?.ok===false||persistence.status?.failed){warnSave();return false;}state.saveFailed=false;progressDirty=false;progressSinceSave=0;return true;}
     catch {warnSave();return false;}
   };
+  const developerUnlocked=new Set();
   const careerOwnsVehicle=id=>state.ownedVehicleIds.includes(id)&&(id!==REWARD_VEHICLE_ID||rewardEarned);
-  const developerVehicle=id=>developerSession&&VEHICLE_CONFIG.some(vehicle=>vehicle.id===id)&&!careerOwnsVehicle(id);
+  const developerVehicle=id=>developerSession&&VEHICLE_CONFIG.some(vehicle=>vehicle.id===id&&(!vehicle.devUnlock||developerUnlocked.has(id)))&&!careerOwnsVehicle(id);
   const isOwned=id=>developerVehicle(id)||careerOwnsVehicle(id);
   const getVehicleAvailability=id=>{
     const spec=VEHICLE_CONFIG.find(vehicle=>vehicle.id===id);
@@ -91,7 +92,7 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
     const lockedBiome=!owned&&!rewardOnly&&!state.discoveredBiomeIds.includes(spec.specialty);
     return {id,owned,rewardOnly,purchasable:!owned&&!rewardOnly&&!lockedBiome,
       status:owned?'owned':rewardOnly||lockedBiome?'locked':'purchasable',price:rewardOnly?null:spec.price,
-      reason:!owned&&rewardOnly?'complete-full-route':lockedBiome?'discover-biome':null,
+      reason:!owned&&spec.devUnlock?'developer-unlock':!owned&&rewardOnly?'complete-full-route':lockedBiome?'discover-biome':null,
       ...(lockedBiome?{biomeId:spec.specialty,biomeName:BIOME_SEQUENCE.find(biome=>biome.id===spec.specialty).name}:{})};
   };
   const deliveryBiomes=new Map(deliveries.map(delivery=>[delivery.id,
@@ -104,11 +105,13 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
   };
   const isSkinOwned=id=>state.ownedSkinIds.includes(id);
   const isSchoolOwned=id=>state.ownedSchoolIds.includes(id);
-  const canShop=()=>state.mode==='walking'&&!state.seatedId&&!state.jump.airborne&&state.jump.height===0;
+  const canShop=()=>state.mode==='walking'&&!state.seatedId&&!state.jump.airborne;
   const schoolEntry=id=>CLASSROOM_ENTRIES.find(entry=>(entry.schoolId||entry.id)===id);
   const skinStand=id=>stands.find(stand=>CHARACTER_CATALOG[stand.index]?.id===id);
   const nearSchool=id=>{const entry=schoolEntry(id);return !!entry&&Math.hypot(state.player.x-entry.x,state.player.z-entry.z)<=entry.radius;};
-  const nearSkin=id=>{const stand=skinStand(id);return !!stand&&Math.hypot(state.player.x-stand.trigger.x,state.player.z-stand.trigger.z)<stand.triggerRadius;};
+  const nearStand=stand=>!!stand&&!state.jump.airborne&&Math.abs(state.jump.height-(stand.trigger.y??0))<.08&&
+    Math.hypot(state.player.x-stand.trigger.x,state.player.z-stand.trigger.z)<stand.triggerRadius;
+  const nearSkin=id=>nearStand(skinStand(id));
   const clearPurchase=()=>{state.purchaseCandidateId=null;};
   const clearShopPrompts=()=>{clearPurchase();state.skinPurchaseCandidateId=null;state.schoolPurchaseCandidateId=null;};
   const updateShopPrompts=()=>{
@@ -134,7 +137,9 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
     if(id){const {price}=vehicleConfig(id),availability=getVehicleAvailability(id);emit('purchase-prompt',{id,price,affordable:availability.purchasable&&state.money>=price,...availability});}
   };
   const radius=()=>state.jump.airborne||state.landingCooldown>0?(state.characterId==='jandel'?2.05:1.8):(state.characterId==='jandel'?1.85:1.6);
-  const canWalk=(x,z)=>walkPointAllowed(x,z,radius())&&walkable(x,z,radius())&&!solids.some(b=>x>b.minX-radius()&&x<b.maxX+radius()&&z>b.minZ-radius()&&z<b.maxZ+radius())&&!stands.some(b=>Math.hypot(x-b.x,z-b.z)<1+radius())&&!vehicles.some(v=>{const p=pose(v),h=p.heading||0,dx=x-p.x,dz=z-p.z;const footprint=v.parkedFootprint||{halfWidth:1.75,halfLength:3.05};return Math.abs(dx*Math.cos(h)-dz*Math.sin(h))<footprint.halfWidth+radius()&&Math.abs(-dx*Math.sin(h)-dz*Math.cos(h))<footprint.halfLength+radius();});
+  const canWalk=(x,z)=>walkPointAllowed(x,z,radius())&&walkable(x,z,radius())&&!solids.some(b=>{const margin=b.walkableTop?0:radius();return (!b.walkableTop||state.jump.height<b.maxY-.03)&&x>b.minX-margin&&x<b.maxX+margin&&z>b.minZ-margin&&z<b.maxZ+margin;})&&!stands.some(b=>Math.hypot(x-b.x,z-b.z)<1+radius())&&!vehicles.some(v=>{const p=pose(v),h=p.heading||0,dx=x-p.x,dz=z-p.z;const footprint=v.parkedFootprint||{halfWidth:1.75,halfLength:3.05};return Math.abs(dx*Math.cos(h)-dz*Math.sin(h))<footprint.halfWidth+radius()&&Math.abs(-dx*Math.sin(h)-dz*Math.cos(h))<footprint.halfLength+radius();});
+  const supportHeight=(x,z,ceiling=state.jump.height+.03)=>solids.reduce((height,b)=>
+    b.walkableTop&&b.maxY<=ceiling&&x>=b.minX&&x<=b.maxX&&z>=b.minZ&&z<=b.maxZ?Math.max(height,b.maxY):height,0);
   const bridgeIds=new Set(BRIDGES.map(bridge=>bridge.id));
 
 
@@ -153,7 +158,7 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
   const acceptsTelemetry=input=>!!input&&typeof input==='object'&&state.mode==='driving'&&!state.testMode&&
     !!state.run?.loaded&&state.run.vehicleId===state.selectedId&&isOwned(state.selectedId)&&
     input.runId===state.run.id&&runProgress?.runId===state.run.id;
-  const resetJump=()=>Object.assign(state.jump,{height:0,velocity:0,elapsed:0,airborne:false});
+  const resetJump=(height=0)=>Object.assign(state.jump,{height,velocity:0,elapsed:0,airborne:false});
   const routeProofComplete=(progress,x,z)=>{
     const route=progress?.route,previous=route?.previous;
     return !!previous&&route.samples>=Math.ceil((previous.progress-route.startProgress)/9)&&
@@ -370,8 +375,15 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       state.retention.testCashGranted=Math.min(ECONOMY_CONFIG.maxSavedMoney,state.retention.testCashGranted+amount);
       persist();emit('vehicle-funds',{amount,money:state.money,testCashGranted:state.retention.testCashGranted,careerCashEarned:state.retention.careerCashEarned});return true;
     },
-    jump(){if(state.mode!=='walking'||state.seatedId||state.jump.airborne)return false;state.jump.airborne=true;if(!canWalk(state.player.x,state.player.z)){resetJump();return false;}clearShopPrompts();Object.assign(state.jump,{height:0,velocity:GAMEPLAY.jumpSpeed,elapsed:0,airborne:true});state.interactionCooldown=Math.max(state.interactionCooldown,.25);emit('jump');return true;},
+    jump(){if(state.mode!=='walking'||state.seatedId||state.jump.airborne)return false;const height=state.jump.height;state.jump.airborne=true;if(!canWalk(state.player.x,state.player.z)){resetJump(height);return false;}clearShopPrompts();Object.assign(state.jump,{height,velocity:GAMEPLAY.jumpSpeed,elapsed:0,airborne:true});state.interactionCooldown=Math.max(state.interactionCooldown,.25);emit('jump');return true;},
     setCharacter(id){if(!characterIds.has(id)||!isSkinOwned(id))return false;if(state.characterId!==id){state.characterId=id;persist();}return true;},
+    unlockDeveloperVehicle(id){
+      const vehicle=vehicles.find(v=>v.id===id),spec=VEHICLE_CONFIG.find(v=>v.id===id);
+      if(!developerSession||!spec?.devUnlock||!vehicle||isOwned(id)||!canShop()||state.jump.height>0||vehicleDistance(vehicle)>=vehicleEntryRadius(vehicle))return false;
+      developerUnlocked.add(id);state.purchaseCandidateId=null;state.blockedEntry=id;state.walked=0;
+      state.interactionCooldown=Math.max(state.interactionCooldown,1.2);
+      emit('vehicle-unlocked',{id,reason:'developer'});return true;
+    },
     buy(id){
       const vehicle=vehicles.find(v=>v.id===id),spec=VEHICLE_CONFIG.find(v=>v.id===id);
       const deny=reason=>{updatePurchase();emit('purchase-denied',{id,reason});return false;};
@@ -411,8 +423,8 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       emit('enter',{id,runId:state.run?.id??null,...(preview?{developerPreview:true}:{})});return true;
     },
     beginCanyonRun(){
-      if(state.mode!=='driving'||state.selectedId!==REWARD_VEHICLE_ID||!isOwned(REWARD_VEHICLE_ID)||(!developerSession&&(!state.routeCompletion||!sanitizeCareer(snapshot()).routeCompletion)))return false;
-      api.flushProgress();clearShopPrompts();resetJump();state.run=null;runProgress=null;state.testMode=false;state.testBiome=null;state.stationId=null;state.seatedId=null;state.seatedSchoolId=null;state.eventMode='canyon';state.mode='driving';state.selectedId=REWARD_VEHICLE_ID;return true;
+      if(state.mode!=='driving'||!isCanyonVehicle(state.selectedId)||!isOwned(state.selectedId)||(!developerSession&&(!state.routeCompletion||!sanitizeCareer(snapshot()).routeCompletion)))return false;
+      api.flushProgress();clearShopPrompts();resetJump();state.run=null;runProgress=null;state.testMode=false;state.testBiome=null;state.stationId=null;state.seatedId=null;state.seatedSchoolId=null;state.eventMode='canyon';state.mode='driving';return true;
     },
     endCanyonRun(){if(state.eventMode!=='canyon')return false;state.eventMode=null;state.testMode=developerVehicle(state.selectedId);return true;},
     beginBiomeTest(id){
@@ -427,10 +439,8 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
 
     exit() { return false; },
     walk(dt,input={}) {dt=clamp(Number(dt)||0,0,.05);state.elapsed+=dt;state.cooldown=Math.max(0,state.cooldown-dt);state.interactionCooldown=Math.max(0,state.interactionCooldown-dt);state.landingCooldown=Math.max(0,state.landingCooldown-dt);if(state.mode!=='walking'){clearShopPrompts();return;}
-      const airborneAtStart=state.jump.airborne;
-      if(state.jump.airborne){const j=state.jump;j.height+=j.velocity*dt-.5*GAMEPLAY.gravity*dt*dt;j.velocity-=GAMEPLAY.gravity*dt;j.elapsed+=dt;
-        if(j.height<=0&&j.velocity<0){resetJump();state.landingCooldown=.25;state.interactionCooldown=Math.max(state.interactionCooldown,.25);state.walked=0;emit('land');}
-      }
+      const airborneAtStart=state.jump.airborne,previousHeight=state.jump.height;
+      if(state.jump.airborne){const j=state.jump;j.height+=j.velocity*dt-.5*GAMEPLAY.gravity*dt*dt;j.velocity-=GAMEPLAY.gravity*dt;j.elapsed+=dt;}
       if(state.seatedId){clearShopPrompts();if(Math.hypot(input.x||0,input.z||0)>.15)api.stand();return;}
       const p=state.player,mag=Math.min(1,Math.hypot(input.x||0,input.z||0)),speed=(input.running?GAMEPLAY.runSpeed:GAMEPLAY.walkSpeed);
       if(mag>0){
@@ -440,13 +450,21 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
         if(canWalk(p.x+dx,p.z+dz)){p.x+=dx;p.z+=dz;}else {if(canWalk(p.x+dx,p.z))p.x+=dx;if(canWalk(p.x,p.z+dz))p.z+=dz;}
         state.walked+=Math.hypot(p.x-before.x,p.z-before.z);p.heading=Math.atan2(-input.x,-input.z);
       }
+      // Resolve landing after horizontal motion, including crossing onto the
+      // deck during descent. Stepping off keeps the current height and falls.
+      const support=supportHeight(p.x,p.z,previousHeight+.03),j=state.jump;
+      if(j.airborne&&j.velocity<0&&j.height<=support){
+        resetJump(support);state.landingCooldown=.25;state.interactionCooldown=Math.max(state.interactionCooldown,.25);state.walked=0;emit('land');
+      }else if(!j.airborne&&support<j.height-.03){
+        Object.assign(j,{airborne:true,velocity:0,elapsed:0});clearShopPrompts();
+      }
       if(state.blockedEntry){const v=vehicles.find(v=>v.id===state.blockedEntry);if(!v||vehicleDistance(v)>vehicleEntryRadius(v)+1)state.blockedEntry=null;}
       if(CLASSROOM_ENTRIES.every(entry=>Math.hypot(p.x-entry.x,p.z-entry.z)>entry.rearmRadius))state.classroomArmed=true;
       if(state.blockedStand!==null){const d=stands.find(d=>d.index===state.blockedStand);if(!d||Math.hypot(p.x-d.trigger.x,p.z-d.trigger.z)>3.3)state.blockedStand=null;}
       updatePurchase();updateShopPrompts();
       if(airborneAtStart||state.jump.airborne)return;
       if(mag>.02&&state.walked>.4&&state.interactionCooldown===0){
-        const stand=stands.find(d=>d.index!==state.blockedStand&&Math.hypot(p.x-d.trigger.x,p.z-d.trigger.z)<d.triggerRadius);
+        const stand=stands.find(d=>d.index!==state.blockedStand&&nearStand(d));
         if(stand){
           const id=CHARACTER_CATALOG[stand.index]?.id;state.blockedStand=stand.index;state.interactionCooldown=1.2;
           if(isSkinOwned(id))emit('character',{id,index:stand.index});

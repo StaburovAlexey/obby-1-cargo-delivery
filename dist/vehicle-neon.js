@@ -14,9 +14,11 @@ export function createFleetNeon(THREE){
  let selected=null;
  return {
   get size(){return entries.size;},
-  setColor(id){if(id===selected)return;const color=getVehicleNeon(id);selected=color?.id||null;if(color){material.color.setHex(color.color);haloMaterial.color.setHex(color.color);}for(const entry of entries.values())entry.visible=!!selected;},
+  setColor(id){if(id===selected)return;const color=getVehicleNeon(id);selected=color?.id||null;if(color){material.color.setHex(color.color);haloMaterial.color.setHex(color.color);}for(const [adapter,entry]of entries)entry.visible=!!selected&&!adapter.locked;},
   attach(adapter){
-   if(!adapter?.body||entries.has(adapter))return;
+   if(!adapter?.body)return;
+   if(entries.has(adapter)){entries.get(adapter).visible=!!selected&&!adapter.locked;return;}
+   if(adapter.locked)return;
    // Bounds in the body's local frame, independent of the parked/driving pose.
    adapter.body.updateWorldMatrix(true,true);
    const inverse=adapter.body.matrixWorld.clone().invert(),box=new THREE.Box3().makeEmpty();

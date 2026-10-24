@@ -240,7 +240,7 @@ let liveryShop=null,liveryPreview=null,neonPreview=null;
 // Keep the choice outside the rebuilt world, like the shop controller itself.
 let selectedSmokeId=DEFAULT_VEHICLE_SMOKE_ID;
 const fleetNeon=createFleetNeon(THREE);
-function syncFleetNeon(){if(!gameplay||!garage)return;fleetNeon.setColor(gameplay.state.selectedNeonId);for(const vehicle of garage.vehicles)fleetNeon.attach(vehicle.visual);}
+function syncFleetNeon(){if(!gameplay||!garage)return;fleetNeon.setColor(gameplay.state.selectedNeonId);for(const vehicle of garage.vehicles){vehicle.visual?.setLocked?.(!gameplay.isOwned(vehicle.id));fleetNeon.attach(vehicle.visual);}}
 function syncPremiumNeon(){if(!gameplay)return;for(const id of services?.neon?.ownedIds||[])gameplay.grantPremiumNeon(id);liveryShop?.refresh();}
 let physicsWorld=null,overturnedSeconds=0;
 let roadPits=[];
@@ -464,6 +464,7 @@ function applyTruckPose() {
     position:new THREE.Vector3(rendered.x,rendered.y,rendered.z),
     quaternion:new THREE.Quaternion(rendered.quaternion.x,rendered.quaternion.y,rendered.quaternion.z,rendered.quaternion.w),
     steerAngle:rendered.frontWheelAngle,wheelSpin:rendered.wheelSpin,
+    wheelContacts:state.wheelContacts,
     bodyPitch:0,bodyRoll:0,bodyBob:0,
   });
   document.getElementById("speed-value").textContent = String(
@@ -638,8 +639,12 @@ function updateEconomyHud(){
   if(canyonMode?.active)for(const id of ['upgrade-button','biome-button','career-mission-button','career-goal-button']){const el=document.getElementById(id);if(el)el.hidden=true;}
   document.getElementById('wallet-hud').setAttribute('aria-label',`Заработанные деньги: ${state.money}`);
   const candidate=state.purchaseCandidateId,button=document.getElementById('buy-vehicle');
-  button.hidden=liveryShopOpen||hangarLeaderboardOpen||settingsMenuOpen||careerMenuOpen||!playing||state.mode!=='walking'||!candidate||!!state.seatedId||state.jump.airborne||!!(candidate&&vehicleConfig(candidate).rewardOnly);
-  if(candidate&&!vehicleConfig(candidate).rewardOnly){
+  const devUnlockCandidate=developerMode&&!!candidate&&vehicleConfig(candidate).devUnlock;
+  button.hidden=liveryShopOpen||hangarLeaderboardOpen||settingsMenuOpen||careerMenuOpen||!playing||state.mode!=='walking'||!candidate||!!state.seatedId||state.jump.airborne||!!(candidate&&vehicleConfig(candidate).rewardOnly&&!devUnlockCandidate);
+  if(devUnlockCandidate){
+    button.disabled=false;button.dataset.affordable='true';document.getElementById('buy-label').textContent='Разблокировать';
+    button.setAttribute('aria-label','Разблокировать секретную машину');
+  }else if(candidate&&!vehicleConfig(candidate).rewardOnly){
     const spec=vehicleConfig(candidate),availability=gameplay.getVehicleAvailability(candidate),affordable=availability.purchasable&&state.money>=spec.price;
     const locked=availability.reason==='discover-biome';button.disabled=!availability.purchasable;
     document.getElementById('buy-label').textContent=locked?`Откройте: ${availability.biomeName}`:`Купить ${spec.price}`;
@@ -704,7 +709,8 @@ function handleGameplayEvents(){
     if(event.type==='garage'){const receipt=pendingFinishReceipt;returnToGarage(event.reason);if(event.reason==='finish'&&receipt)retentionUi.showDelivery({...receipt.breakdown,unlockedVehicleId:receipt.unlockedVehicleId});if(delivered)notify(`Груз доставлен! +${delivered.reward} · Всего ${gameplay.state.money}`);}
     if(event.type==='refuel'){const id=gameplay.state.selectedId,capacity=getVehiclePerformance(id,gameplay.state.upgrades[id]).capacity;notify(gameplay.state.testMode?`Бак заправлен · ${capacity}/${capacity}. Тестовая поездка.`:`Бак заправлен · ${capacity}/${capacity}. Груз сохранён.`);}
     if(event.type==='enter'&&!driving)enterVehicle(event.id);
-    if(event.type==='purchase-prompt'){const v=vehicleConfig(event.id);notify(`${v.name} · ${v.price}. Покупка только кнопкой.`);}
+    if(event.type==='purchase-prompt'){const v=vehicleConfig(event.id);notify(v.devUnlock?(developerMode?'Секретная машина. Подойдите к маркеру и нажмите «Разблокировать».':'Секретная машина пока заблокирована.'):`${v.name} · ${v.price}. Покупка только кнопкой.`);}
+    if(event.type==='vehicle-unlocked'&&event.reason==='developer'){notify(`${vehicleConfig(event.id).name} разблокирован. Отойдите и подойдите снова, чтобы сесть.`);syncFleetNeon();}
     if(event.type==='purchase')notify(`${vehicleConfig(event.id).name} куплен. Отойдите и подойдите снова, чтобы сесть.`);
     if(event.type==='purchase-denied')notify(event.reason==='funds'||event.reason==='insufficient'||event.reason==='insufficient-funds'?'Недостаточно денег. Выполните доставку на пикапе.':'Подойдите к машине для покупки.');
     if(event.type==='skin-purchase-prompt'){const skin=skinConfig(event.id);if(skin?.premium&&services?.platform?.id==='vk'&&!services.premium.status.busy)void services.premium.initialize();notify(skin?.premium?`${skin.name}. Покупка через ${services?.platform?.name||'Яндекс Игры'}.`:`${skin?.name} · ${event.price}. Покупка только кнопкой.`);}
@@ -798,7 +804,7 @@ function syncMode(snap=false){
   (document.getElementById('mode-label')||document.getElementById('mode-toggle')).textContent=playing?'Обзор':'Вернуться';
   document.getElementById('mode-toggle').setAttribute('aria-pressed',String(playing));
   inputController?.setEnabled(driving&&!canyonMode?.controlsLocked&&startup.ready&&characterReady&&!graphicsLost&&!biomeMenuOpen&&!upgradeMenuOpen&&!careerMenuOpen&&!settingsMenuOpen&&!hangarLeaderboardOpen&&!liveryShopOpen);
-  inputController?.setDriftEnabled?.(driving&&gameplay.state.selectedId==='bmwreward');
+  inputController?.setDriftEnabled?.(driving&&!!vehicleConfig(gameplay.state.selectedId).rewardDrift);
   walkInput?.setEnabled(walking&&startup.ready&&characterReady&&!graphicsLost&&!upgradeMenuOpen&&!careerMenuOpen&&!settingsMenuOpen&&!hangarLeaderboardOpen&&!liveryShopOpen);
   jumpInput?.setEnabled(walking&&startup.ready&&characterReady&&!graphicsLost&&!upgradeMenuOpen&&!careerMenuOpen&&!settingsMenuOpen&&!hangarLeaderboardOpen&&!liveryShopOpen);
   lookInput?.setEnabled(playing&&startup.ready&&characterReady&&!graphicsLost&&!biomeMenuOpen&&!upgradeMenuOpen&&!careerMenuOpen&&!settingsMenuOpen&&!hangarLeaderboardOpen&&!liveryShopOpen);
@@ -965,7 +971,7 @@ async function populateDisplays({required=false}={}){
       try{
         const display=await createCharacterDisplay(THREE,{id:spec.id});
         if(generation!==displayGeneration||failed){display.dispose();return;}
-        display.group.position.set(stand.x,.17,stand.z);display.group.name=`Выбор · ${spec.name}`;
+        display.group.position.set(stand.x,(stand.y??.16)+.01,stand.z);display.group.name=`Выбор · ${spec.name}`;
         if(!baselineRendering)display.group.traverse(node=>{node.updateMatrix();node.matrixAutoUpdate=false;});
         loaded[index]=display;
       }catch(error){console.error('Character display loading failed',error);if(required){failed=true;throw error;}}
@@ -1029,7 +1035,7 @@ window.addEventListener('blur',pauseProgression);
 window.addEventListener('pagehide',pauseProgression);
 window.addEventListener('focus',()=>{appFocused=true;syncBackgroundMusic();lastTime=0;onlineClock=0;onlineSession?.update(0);});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseProgression();else {appFocused=document.hasFocus?.()??true;syncBackgroundMusic();lastTime=0;onlineClock=0;onlineSession?.update(0);}});
-document.getElementById('buy-vehicle').addEventListener('click',event=>{event.stopPropagation();if(careerMenuOpen||settingsMenuOpen||hangarLeaderboardOpen||liveryShopOpen||!playing||!characterReady||gameplay.state.mode!=='walking')return;const id=gameplay.state.purchaseCandidateId;if(!id)return;walkInput?.reset();lookInput?.reset();gameplay.buy(id);handleGameplayEvents();updateEconomyHud();});
+document.getElementById('buy-vehicle').addEventListener('click',event=>{event.stopPropagation();if(careerMenuOpen||settingsMenuOpen||hangarLeaderboardOpen||liveryShopOpen||!playing||!characterReady||gameplay.state.mode!=='walking')return;const id=gameplay.state.purchaseCandidateId;if(!id)return;walkInput?.reset();lookInput?.reset();if(vehicleConfig(id).devUnlock)gameplay.unlockDeveloperVehicle(id);else gameplay.buy(id);handleGameplayEvents();updateEconomyHud();});
 document.getElementById('stand-up').addEventListener('click',standCharacter);
 document.getElementById('mode-toggle').addEventListener('click',()=>{if(!careerMenuOpen&&!settingsMenuOpen&&!hangarLeaderboardOpen&&!liveryShopOpen)setDriving(!playing)});
 document.getElementById('garage-button').addEventListener('click',()=>{if(!careerMenuOpen&&!settingsMenuOpen&&!hangarLeaderboardOpen&&!liveryShopOpen)returnToGarage()});
@@ -1132,7 +1138,7 @@ function frame(now) {
         careerRouteTracker.update(gameplay,model.state,dt);
         gameplay.drive(actualDistance,model.state.x,model.state.z);handleGameplayEvents();
         if(driving){
-          wheelParticles.update(dt,model.state,model.state.grounded,garage.vehicles.find(v=>v.model===model)?.visual?.metadata);
+          wheelParticles.update(dt,model.state,model.state.grounded,garage.vehicles.find(v=>v.model===model)?.visual?.metadata,{position:rig.root.position,quaternion:rig.root.quaternion});
           followTruck(dt,false,actualDistance);
           if(gameplay.state.eventMode!=='finish')canyonMode?.tryEnter();
         }

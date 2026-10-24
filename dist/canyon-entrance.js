@@ -1,3 +1,4 @@
+import {isCanyonVehicle} from './economy-config.js';
 import {CANYON_TRACK,canyonContains,projectCanyon} from './canyon-track.js';
 import {createCanyonSignTexture} from './canyon-sign.js';
 import {sanitizeCareer} from './career-save.js';
@@ -6,7 +7,11 @@ import {polygonIndex,meshFootprints,subtractFootprints} from './surface-cut.js';
 import {pointInRoad,projectRoad} from './road-layout.js';
 import {CANYON_APPROACH_HEIGHT,CANYON_GATE_DISTANCE,CANYON_APPROACH_SAMPLES,canyonApproachPoint,canyonApproachContains,projectCanyonApproach,canyonApproachQuads,CANYON_APPROACH_LENGTH} from './canyon-approach.js';
 
-export function canEnterCanyon(career,vehicleId,{developerMode=false}={}){return vehicleId==='bmwreward'&&(developerMode===true||!!sanitizeCareer(career).routeCompletion);}
+export function canEnterCanyon(career,vehicleId,{developerMode=false,vehicleUnlocked=false}={}){
+ if(!isCanyonVehicle(vehicleId))return false;
+ if(vehicleId!=='bmwreward'&&vehicleUnlocked!==true)return false;
+ return developerMode===true||!!sanitizeCareer(career).routeCompletion;
+}
 export function createCanyonEntrance(THREE,{document:doc=globalThis.document,language=()=>'ru'}={}){
  const group=new THREE.Group();group.name='Canyon entrance and personal progression barrier';
  const geometries=new Set(),materials=new Set();let unlocked=false,eligible=false,disposed=false;
@@ -55,7 +60,7 @@ export function createCanyonEntrance(THREE,{document:doc=globalThis.document,lan
  const near=(x,z)=>z<-17&&projectCanyonApproach(x,z).distance<24;
  return {group,solids:[gateSolid],refreshSign,get unlocked(){return unlocked;},contains,near,
   updateAccess(career,{vehicleId='bmwreward',...options}={}){eligible=canEnterCanyon(career,'bmwreward',options);unlocked=canEnterCanyon(career,vehicleId,options);pivot.rotation.z=unlocked?Math.PI/2:0;gateSolid.minX=unlocked?Infinity:gate.x-7.5;gateSolid.maxX=unlocked?-Infinity:gate.x+7.5;refreshSign();},
-  shouldEnter(position,vehicleId){const p=canyonContains(position.x,position.z)&&projectCanyon(position.x,position.z);return unlocked&&vehicleId==='bmwreward'&&!!p&&p.progress<=30&&Math.abs(p.offset)<=CANYON_TRACK.halfWidth-.1;},
+  shouldEnter(position,vehicleId){const p=canyonContains(position.x,position.z)&&projectCanyon(position.x,position.z);return unlocked&&isCanyonVehicle(vehicleId)&&!!p&&p.progress<=30&&Math.abs(p.offset)<=CANYON_TRACK.halfWidth-.1;},
   contact(x,z,h,footprint={halfWidth:1.7,halfLength:4.05}){
    if(!near(x,z))return undefined;
    const c=Math.cos(h),s=Math.sin(h),rx=footprint.halfWidth*Math.abs(c)+footprint.halfLength*Math.abs(s),rz=footprint.halfWidth*Math.abs(s)+footprint.halfLength*Math.abs(c);

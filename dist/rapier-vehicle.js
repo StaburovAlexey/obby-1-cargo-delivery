@@ -1,3 +1,4 @@
+import {WHEEL_SUSPENSION} from './wheel-contact-visuals.js';
 import {getRapier} from './rapier-runtime.js';
 import {vehicleConfig} from './economy-config.js';
 import {CITY_SURFACE, normalizeSurfaceDynamics} from './biome-surfaces.js';
@@ -175,18 +176,18 @@ export function createRapierDrivingModel({
   const castWheels=()=>{
     const position=body.translation(),q=body.rotation(),down=rotate(vec(0,-1,0),q);
     return geometry.wheels.map(wheel=>{
-      const origin=add(position,rotate(vec(wheel.x,wheel.y+.10,wheel.z),q));
+      const origin=add(position,rotate(vec(wheel.x,wheel.y+WHEEL_SUSPENSION.rayLift,wheel.z),q));
       const contact={...wheel,grounded:false,normalLoad:0,longitudinalForce:0,lateralForce:0,
-        suspensionLength:.32,suspensionCompression:0};
+        suspensionLength:WHEEL_SUSPENSION.rayReach,suspensionCompression:0};
       if(down.y>-.15) return contact;
       const ray=new R.Ray(origin,down);
-      const hit=world.castRayAndGetNormal(ray,wheel.radius+.32,true,R.QueryFilterFlags.EXCLUDE_SENSORS,
+      const hit=world.castRayAndGetNormal(ray,wheel.radius+WHEEL_SUSPENSION.rayReach,true,R.QueryFilterFlags.EXCLUDE_SENSORS,
         undefined,collider,body,c=>!c.isSensor() && c.parent()?.handle!==body.handle);
       if(!hit || hit.normal.y<.15 || dot(hit.normal,down)>-.2) return contact;
       const point=add(origin,scale(down,hit.timeOfImpact));
       Object.assign(contact,{grounded:true,point,normal:{...hit.normal},collider:hit.collider,
         suspensionLength:hit.timeOfImpact-wheel.radius,
-        suspensionCompression:wheel.radius+.22-hit.timeOfImpact});
+        suspensionCompression:wheel.radius+WHEEL_SUSPENSION.restRayLength-hit.timeOfImpact});
       return contact;
     });
   };
@@ -393,7 +394,7 @@ export function createRapierDrivingModel({
       for(const contact of contacts) {
         if(!contact.grounded) continue;
         const nominal=MASS*GRAVITY*contact.loadShare;
-        const stiffness=nominal/.12;
+        const stiffness=nominal/WHEEL_SUSPENSION.staticCompression;
         const damping=2*Math.sqrt(stiffness*MASS*contact.loadShare)*.8;
         const relative=sub(body.velocityAtPoint(contact.point),supportVelocity(contact,contact.point));
         const inverse=inverseMassAt(contact.point,contact.normal);

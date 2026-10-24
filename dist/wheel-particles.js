@@ -1,3 +1,4 @@
+import {wheelContactVisual} from './wheel-contact-visuals.js';
 import { projectRoad } from './road-layout.js';
 import { biomeSurfaceBlend } from './biome-surfaces.js';
 const COLORS={city:0x777777,forest:0x885129,desert:0xeabd53,snow:0xdeefff,volcanic:0x48414c};
@@ -11,7 +12,7 @@ export function createWheelParticles(THREE,{groundHeight=()=>0}={}){
  let cursor=0,credit=0,sequence=0,wheelCursor=0,disposed=false;
  const random=()=>{sequence=(Math.imul(sequence,1664525)+1013904223)>>>0;return sequence/4294967296};
  function clear(){for(const p of items)p.life=0;credit=0;mesh.count=0;mesh.visible=false;}
- function update(dt,state,enabled=true,visual){
+ function update(dt,state,enabled=true,visual,pose){
   dt=Math.max(0,Math.min(.05,Number(dt)||0));if(disposed||!dt)return;
   for(const p of items)if(p.life>0){p.life-=dt;p.vy-=WHEEL_PARTICLES.gravity*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.z+=p.vz*dt;p.angle+=p.spin*dt;if(p.contactPlane?(p.x-p.gx)*p.nx+(p.y-p.gy)*p.ny+(p.z-p.gz)*p.nz<=.07:p.y<=groundHeight(p.x,p.z)+.07)p.life=0;}
   const contacts=state?.wheelContacts,physicalContacts=contacts!==undefined;
@@ -28,9 +29,12 @@ export function createWheelParticles(THREE,{groundHeight=()=>0}={}){
     p.contactPlane=!!hit;
     let dx;
     if(hit){
+     const wheelSpec=(visual?.wheelContacts??visual?.wheels)?.find(w=>w.name===hit.name);
+     const patch=wheelSpec&&wheelContactVisual(wheelSpec,contacts,pose);
+     const emission=patch??hit.point;
      const normal=hit.normal,length=normal&&Math.hypot(normal.x,normal.y,normal.z);
      p.nx=length>0?normal.x/length:0;p.ny=length>0?normal.y/length:1;p.nz=length>0?normal.z/length:0;
-     p.gx=hit.point.x;p.gy=hit.point.y;p.gz=hit.point.z;
+     p.gx=emission.x;p.gy=emission.y;p.gz=emission.z;
      p.x=p.gx+p.nx*.16;p.y=p.gy+p.ny*.16;p.z=p.gz+p.nz*.16;
      dx=hit.name?.endsWith('left')?-1:1;
     }else{

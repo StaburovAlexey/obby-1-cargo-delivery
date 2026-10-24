@@ -102,7 +102,7 @@ export function updateProgressionWorldLabels(doc,{gameplay,garage,playing,projec
     const priceNode=doc.getElementById(`skin-price-${i+1}`),product=skin.premium?premium?.catalog.get(skin.id):null;
     setPortalPrice(doc,priceNode,skin.premium?(product?.price||'—'):String(skin.price),product);
     const label=doc.getElementById(`skin-label-${i+1}`);label.dataset.premium=String(skin.premium);
-    project(doc.getElementById(`skin-label-${i+1}`),stand.x,5.0-WORLD_LABEL_DROP,stand.z,visible&&!owned,45);
+    project(doc.getElementById(`skin-label-${i+1}`),stand.x,(stand.y??.16)+4.84-WORLD_LABEL_DROP,stand.z,visible&&!owned,45);
   }
 }
 

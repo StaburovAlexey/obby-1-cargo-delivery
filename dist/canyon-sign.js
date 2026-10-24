@@ -15,7 +15,7 @@ export function createCanyonSignTexture(THREE,{document:doc=globalThis.document}
   context.fillStyle='#fff4cf';context.font='900 62px Arial, sans-serif';
   context.fillText(english?'Canyon Drift':'Каньон · дрифт',384,94,700);
   context.fillStyle='#f5d7a2';context.font='700 36px Arial, sans-serif';
-  context.fillText(unlocked?(english?'Enter in your BMW':'Въезжайте на BMW'):eligible?(english?'BMW only':'Только на BMW'):(english?'Complete the main route':'Пройдите основной маршрут'),384,177,700);
+  context.fillText(unlocked?(english?'Drift cars welcome':'Въезжайте на дрифт-машине'):eligible?(english?'Drift cars only':'Только дрифт-машины'):(english?'Complete the main route':'Пройдите основной маршрут'),384,177,700);
   texture.needsUpdate=true;
  },dispose(){if(disposed)return;disposed=true;texture.dispose();}};
 }

@@ -1,3 +1,5 @@
+import {loadShowcaseVehicle} from './showcase-vehicles.js';
+import {isShowcaseVehicle} from './showcase-vehicle-catalog.js';
 import {loadCharacter} from './character.js';
 import {loadCosmoVehicle} from './cosmo-vehicles.js';
 import {loadBMWVehicle} from './bmw-vehicle.js';
@@ -32,7 +34,7 @@ export function createRemotePlayers(THREE,{scene,onError=console.warn}={}){
     clearVisual(record);record.key=key;record.loading=true;
     const generation=record.generation;
     queue.push({record,generation,kind:driving?'vehicle':'character',load:()=>driving
-      ?(state.vehicleId==='bmwreward'?loadBMWVehicle:loadCosmoVehicle)(THREE,state.vehicleId)
+      ?(isShowcaseVehicle(state.vehicleId)?loadShowcaseVehicle:state.vehicleId==='bmwreward'?loadBMWVehicle:loadCosmoVehicle)(THREE,state.vehicleId).then(vehicle=>{vehicle.setLocked?.(false);return vehicle;})
       :loadCharacter(THREE,{id:state.characterId})});pump();
   }
   return {

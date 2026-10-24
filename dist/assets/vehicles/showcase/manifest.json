@@ -1,0 +1,24 @@
+{
+  "assets": [
+    {
+      "asset": "bmw-e30.glb",
+      "source": "new/1/low_poly_car_-_bmw_e30_1985_white.glb",
+      "sha256": "81362f494fc6cadcd6b6adaae231628abe530b27ffcbb140f76e0a0291e2653e"
+    },
+    {
+      "asset": "cadillac-75.glb",
+      "source": "new/1/low_poly_car_-_cadillac_75_sedan_1953.glb",
+      "sha256": "d2095544a03940b3e4addac08835280af227506298143947fd1d259980c73a59"
+    },
+    {
+      "asset": "koenigsegg-one1.glb",
+      "source": "new/1/koenigsegg_one1_low_poly.glb",
+      "sha256": "b4218693cce2a1b0e7cd9eb82ae879852b5011f2d52d4b3d7ec9858e7735e5dc"
+    },
+    {
+      "asset": "phoenix-interceptor.glb",
+      "source": "new/1/phoenix_455_71_interceptor_-_low_poly_model.glb",
+      "sha256": "05debdbcc604b368f8528841c953444efa39aa644124724dd55bc79629a68b72"
+    }
+  ]
+}

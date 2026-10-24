@@ -12,7 +12,7 @@ export const VEHICLE_LIVERY_VARIANTS = Object.freeze([
   { id: 'biome', code: 'D', name: { ru: 'Биомная', en: 'Biome' }, owned: false, equipped: false },
 ].map(variant => Object.freeze({ ...variant, name: Object.freeze(variant.name), purchasable: false })));
 
-export const VEHICLE_LIVERY_CATALOG = Object.freeze(VEHICLE_CONFIG.map(vehicle => Object.freeze({
+export const VEHICLE_LIVERY_CATALOG = Object.freeze(VEHICLE_CONFIG.filter(vehicle=>!vehicle.devUnlock).map(vehicle => Object.freeze({
   id: vehicle.id,
   name: Object.freeze({ ru: vehicle.name, en: translateGameText(vehicle.name, 'en') }),
   biome: vehicle.specialty,

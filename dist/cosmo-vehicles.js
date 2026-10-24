@@ -1,3 +1,5 @@
+import {makeVehicleWindowsOpaque} from './vehicle-window-materials.js';
+import {updateVisualSuspension} from './wheel-contact-visuals.js';
 
 
 
@@ -364,6 +366,7 @@ export function createCosmoVehicleAdapter(THREE, vehicleId, gltf) {
       triangles += (node.geometry.index?.count ?? node.geometry.attributes.position.count) / 3;
       primitives += Array.isArray(node.material) ? node.material.length : 1;
     });
+    makeVehicleWindowsOpaque(resources.materials);
     for (const material of resources.materials) {
 
 
@@ -462,6 +465,7 @@ export function createCosmoVehicleAdapter(THREE, vehicleId, gltf) {
           if (pose[key] !== undefined && !Number.isFinite(pose[key]))
             throw new TypeError(`Cosmo ${key} must be finite.`);
         for (const key of Object.keys(state)) if (pose[key] !== undefined) state[key] = pose[key];
+        updateVisualSuspension(wheels,pose);
         body.position.y = state.bodyBob;
         body.rotation.set(state.bodyPitch % TAU, 0, state.bodyRoll % TAU, 'XYZ');
         for (const wheel of wheels) {
