@@ -10,6 +10,9 @@ const CITY_SURFACES = new Map([
   ['Single-car bridge underdecks', 'support'],
   ['Continuous storefront residences', 'wall'],
   ['Massive biome barriers', 'wall'],
+  ['Road pit walls', 'wall'],
+  ['Road pit floors', 'ground'],
+  ['Road jump ramps', 'road'],
 ]);
 const GARAGE_PART = /^(?:Garage floor|Flush roadside entrance apron|Garage (?:left wall|right wall|front left wall|front right wall|rear wall|door lintel|roof)|Open door (?:left trim|right trim|threshold)|Reward pedestal (?:foundation|silver rim|top))$/;
 const CANYON_SURFACE = /^(?:Canyon (?:asphalt|left shoulder|right shoulder|approach asphalt|basin floor)|Entrance curved shoulders)$/;
@@ -111,17 +114,27 @@ export function createPhysicsWorld({THREE, city, garage, canyon, roadHazards} = 
   function addCliffWalls(mesh) {
     // The visual cliff has seven detailed strata per four-metre segment.
     // Keep its exact exposed top edge and replace those strata with one flat wall.
-    const p = mesh.geometry.getAttribute('position'), positions = [], indices = [];
-    if (!p || p.count % 28 !== 0) return;
-    // A cut fork can remove a whole rendered wall section while retaining its
-    // unused vertices. Respect the final index instead of recreating that wall.
-    const visibleSections=mesh.geometry.index?new Set(Array.from(mesh.geometry.index.array,index=>Math.floor(index/28))):null;
-    for (let i = 0; i < p.count; i += 28) {
-      if(visibleSections&&!visibleSections.has(i/28))continue;
+    const positions = [], indices = [];
+    const addWall=(a,b)=>{
       const base = positions.length / 3;
-      const a = [p.getX(i), p.getY(i), p.getZ(i)], b = [p.getX(i + 1), p.getY(i + 1), p.getZ(i + 1)];
       positions.push(...a, ...b, b[0], b[1] - 48, b[2], a[0], a[1] - 48, a[2]);
       indices.push(base, base + 1, base + 2, base, base + 2, base + 3);
+    };
+    const edges=mesh.userData.physicsCliffEdges;
+    if(edges){
+      // Rendering may omit long perimeter walls while physics retains the
+      // original float32 edge pairs, in their original section order.
+      for(let i=0;i+5<edges.length;i+=6)addWall([edges[i],edges[i+1],edges[i+2]],[edges[i+3],edges[i+4],edges[i+5]]);
+    }else{
+      const p=mesh.geometry.getAttribute('position');
+      if(!p||p.count%28!==0)return;
+      // Without a separate physics source, respect cut visual indices so a
+      // removed branch section does not become an invisible collision wall.
+      const visibleSections=mesh.geometry.index?new Set(Array.from(mesh.geometry.index.array,index=>Math.floor(index/28))):null;
+      for(let i=0;i<p.count;i+=28){
+        if(visibleSections&&!visibleSections.has(i/28))continue;
+        addWall([p.getX(i),p.getY(i),p.getZ(i)],[p.getX(i+1),p.getY(i+1),p.getZ(i+1)]);
+      }
     }
     addTrimesh(positions, indices, 'wall', 'Simplified exposed terrain cliffs', mesh.matrixWorld);
   }

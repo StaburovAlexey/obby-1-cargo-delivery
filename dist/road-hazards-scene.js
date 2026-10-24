@@ -6,6 +6,7 @@
 import { queryRoadSurface, ROAD_SURFACE_OFFSET, ROAD_MESH } from './route-network.js';
 import { groundHeight as roadGroundHeight } from './city-driving.js';
 import { useGrassCheckerTexture } from './square-stud-texture.js';
+import {roadHazardPatchOutline,roadHazardPatchDistance} from './road-hazards.js';
 
 export const ROAD_HAZARD_VISUALS = Object.freeze({
   surfaceNormalOffset: .022,
@@ -130,37 +131,38 @@ function patchGroundSampler(h,groundHeight) {
     return patchGroundHeight(groundHeight,x,z,h);
   };
 }
-function patchGeometry(THREE, hazards, groundHeight, kind) {
-  const p=[],colors=[],uv=[],indices=[],records=[];
-  const low=new THREE.Color(kind==='ice'?0x50bddb:0xdca744),high=new THREE.Color(kind==='ice'?0xd6fbff:0xffdb75);
-  const color=new THREE.Color();
-  for(const h of hazards) {
-    const start=p.length/3, nx=Math.max(2,Math.ceil(h.width/ROAD_HAZARD_VISUALS.patchStep)),nz=Math.max(4,Math.ceil(h.length/ROAD_HAZARD_VISUALS.patchStep));
-    const local=new Float64Array((nx+1)*(nz+1)*3),sampleGround=patchGroundSampler(h,groundHeight);
-    const c=Math.cos(h.heading),s=Math.sin(h.heading);
-    for(let j=0;j<=nz;j++)for(let i=0;i<=nx;i++) {
-      const lx=(i/nx-.5)*h.width,lz=(j/nz-.5)*h.length;
-      const x=h.x+c*lx+s*lz,z=h.z-s*lx+c*lz;
-
-
-      const base=sampleGround(x,z);
-      const edge=Math.min(h.width/2-Math.abs(lx),h.length/2-Math.abs(lz));
-      const blend=smooth(edge/ROAD_HAZARD_VISUALS.patchEdgeBlend);
-      const crest=.64+.36*Math.cos(lz/h.length*Math.PI*3+.28*lx);
-      const lift=kind==='dune'?h.height*(blend*crest):0;
-      const streak=kind==='ice'?(Math.abs(Math.sin(lz*.38+lx*.72))<.24?.95:.23+.38*blend):.25+.6*blend*crest;
-      color.copy(low).lerp(high,streak);
-      p.push(x,base+lift,z);colors.push(color.r,color.g,color.b);uv.push(x/4,-z/4);
-      const k=(j*(nx+1)+i)*3;local[k]=lx;local[k+1]=kind==='dune'?blend*crest:0;local[k+2]=lz;
-      if(i<nx&&j<nz) {const a=start+j*(nx+1)+i;indices.push(a,a+nx+1,a+1,a+1,a+nx+1,a+nx+2);}
-    }
-    records.push({id:h.id,type:kind,start,count:(nx+1)*(nz+1),nx,nz,local,sampleGround,moving:!!h.motion,footprint:{x:h.x,z:h.z,heading:h.heading,width:h.width,length:h.length,height:h.height}});
-  }
-  const g=geometry(THREE,p,colors,uv,indices);g.userData.hazards=records;g.userData.surfaceNormalOffset=ROAD_HAZARD_VISUALS.surfaceNormalOffset;
-  for(const key of ['position','normal','uv'])g.attributes[key].setUsage(THREE.DynamicDrawUsage);
-  return g;
+function patchGeometry(THREE,hazards,groundHeight,kind){
+ const p=[],colors=[],uv=[],indices=[],records=[];
+ const low=new THREE.Color(kind==='ice'?0x50bddb:0xdca744),high=new THREE.Color(kind==='ice'?0xd6fbff:0xffdb75),color=new THREE.Color();
+ for(const h of hazards){
+  const start=p.length/3,local=[],sampleGround=patchGroundSampler(h,groundHeight),c=Math.cos(h.heading),s=Math.sin(h.heading);
+  const outline=roadHazardPatchOutline(h),vectors=outline.map(v=>new THREE.Vector2(v.x,v.z));
+  const vertex=v=>{
+   const lx=v.x,lz=v.z,x=h.x+c*lx+s*lz,z=h.z-s*lx+c*lz;
+   const blend=smooth(roadHazardPatchDistance(h,x,z)/ROAD_HAZARD_VISUALS.patchEdgeBlend),crest=.64+.36*Math.cos(lz/h.length*Math.PI*3+.28*lx);
+   const lift=kind==='dune'?blend*crest:0;
+   const streak=kind==='ice'?(Math.abs(Math.sin(lz*.38+lx*.72))<.24?.95:.23+.38*blend):.25+.6*blend*crest;
+   color.copy(low).lerp(high,streak);
+   indices.push(p.length/3);p.push(x,sampleGround(x,z)+h.height*lift,z);colors.push(color.r,color.g,color.b);uv.push(x/4,-z/4);local.push(lx,lift,lz);
+  };
+  // Subdivide the actual concave footprint so the surface follows road grades
+  // while its visible edge remains identical to the gameplay boundary.
+  const midpoint=(a,b)=>({x:(a.x+b.x)/2,z:(a.z+b.z)/2});
+  const triangle=(a,b,c)=>{
+   const ab=Math.hypot(a.x-b.x,a.z-b.z),bc=Math.hypot(b.x-c.x,b.z-c.z),ca=Math.hypot(c.x-a.x,c.z-a.z);
+   if(Math.max(ab,bc,ca)>ROAD_HAZARD_VISUALS.patchStep){
+    const d=midpoint(a,b),e=midpoint(b,c),f=midpoint(c,a);
+    triangle(a,d,f);triangle(d,b,e);triangle(f,e,c);triangle(d,e,f);return;
+   }
+   const cross=(b.x-a.x)*(c.z-a.z)-(b.z-a.z)*(c.x-a.x);
+   for(const v of cross>0?[a,c,b]:[a,b,c])vertex(v);
+  };
+  for(const face of THREE.ShapeUtils.triangulateShape(vectors,[]))triangle(...face.map(i=>outline[i]));
+  records.push({id:h.id,type:kind,start,count:p.length/3-start,local:new Float64Array(local),sampleGround,moving:false,footprint:{x:h.x,z:h.z,heading:h.heading,width:h.width,length:h.length,height:h.height}});
+ }
+ const g=geometry(THREE,p,colors,uv,indices);g.userData.hazards=records;g.userData.surfaceNormalOffset=ROAD_HAZARD_VISUALS.surfaceNormalOffset;
+ return g;
 }
-
 
 
 

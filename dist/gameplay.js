@@ -56,7 +56,7 @@ export function resolveFreeClassroomSeat(desks,occupiedSeatIds=[]) {
 }
 
 
-export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],stands=[],solids=[],characterId='bacon',occupiedSeatIds=[],career,persistence,hardBranches={},developerMode=false}={}) {
+export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],stands=[],solids=[],characterId='bacon',occupiedSeatIds=[],career,persistence,hardBranches={},developerMode=false,walkable=()=>true}={}) {
   const developerSession=developerMode===true;
   let loadedCareer=career, loadFailed=!!persistence?.status?.failed;
   if(loadedCareer===undefined&&persistence){
@@ -134,7 +134,7 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
     if(id){const {price}=vehicleConfig(id),availability=getVehicleAvailability(id);emit('purchase-prompt',{id,price,affordable:availability.purchasable&&state.money>=price,...availability});}
   };
   const radius=()=>state.jump.airborne||state.landingCooldown>0?(state.characterId==='jandel'?2.05:1.8):(state.characterId==='jandel'?1.85:1.6);
-  const canWalk=(x,z)=>walkPointAllowed(x,z,radius())&&!solids.some(b=>x>b.minX-radius()&&x<b.maxX+radius()&&z>b.minZ-radius()&&z<b.maxZ+radius())&&!stands.some(b=>Math.hypot(x-b.x,z-b.z)<1+radius())&&!vehicles.some(v=>{const p=pose(v),h=p.heading||0,dx=x-p.x,dz=z-p.z;const footprint=v.parkedFootprint||{halfWidth:1.75,halfLength:3.05};return Math.abs(dx*Math.cos(h)-dz*Math.sin(h))<footprint.halfWidth+radius()&&Math.abs(-dx*Math.sin(h)-dz*Math.cos(h))<footprint.halfLength+radius();});
+  const canWalk=(x,z)=>walkPointAllowed(x,z,radius())&&walkable(x,z,radius())&&!solids.some(b=>x>b.minX-radius()&&x<b.maxX+radius()&&z>b.minZ-radius()&&z<b.maxZ+radius())&&!stands.some(b=>Math.hypot(x-b.x,z-b.z)<1+radius())&&!vehicles.some(v=>{const p=pose(v),h=p.heading||0,dx=x-p.x,dz=z-p.z;const footprint=v.parkedFootprint||{halfWidth:1.75,halfLength:3.05};return Math.abs(dx*Math.cos(h)-dz*Math.sin(h))<footprint.halfWidth+radius()&&Math.abs(-dx*Math.sin(h)-dz*Math.cos(h))<footprint.halfLength+radius();});
   const bridgeIds=new Set(BRIDGES.map(bridge=>bridge.id));
 
 
@@ -478,6 +478,12 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       state.finishRemaining=Math.max(0,state.finishRemaining-Math.min(.05,dt));
       if(state.finishRemaining<=1e-8){api.returnToGarage('finish');return true;}
       return false;
+    },
+    applyRoadHazardPenalty(fraction=.1){
+      if(state.mode!=='driving'||state.eventMode==='canyon'||state.eventMode==='finish')return;
+      const id=state.selectedId;
+      state.fuels[id]=Math.max(0,state.fuels[id]-fuelCapacity(id)*Math.max(0,Math.min(1,fraction)));
+      if(state.fuels[id]<=1e-9)api.returnToGarage('empty');
     },
     drive(distance,x,z) {
       if(state.mode!=='driving'||state.eventMode==='canyon'||state.eventMode==='finish')return;

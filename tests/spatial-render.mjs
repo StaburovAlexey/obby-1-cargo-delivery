@@ -90,3 +90,28 @@ test('unmarked dynamic objects are never replaced or frozen',()=>{
  const f=fixture();f.controller.dispose();delete f.mesh.userData.spatialStatic;
  const c=createSpatialRenderer(THREE,{roots:[f.root]});assert.equal(f.root.children.length,1);assert.equal(f.mesh.visible,true);assert.equal(f.mesh.matrixAutoUpdate,true);c.dispose();
 });
+
+test('fog distance rejects distant cells but preserves crossing geometry and offscreen shadow casters',()=>{
+ const f=fixture({castShadow:true});
+ f.camera.far=2000;f.camera.updateProjectionMatrix();f.update({maxDistance:100});
+ assert.deepEqual(indices(f.proxy),[0,1,2]);
+ const shadow=new THREE.OrthographicCamera(-20,20,20,-20,.1,50);
+ shadow.position.z=-1170;shadow.updateMatrixWorld();f.update({maxDistance:100,shadowCameras:[shadow]});
+ assert.deepEqual(indices(f.proxy),[0,1,2,3,4,5]);f.controller.dispose();
+});
+test('hidden parent zones submit no geometry and restore on reentry without destroying buffers',()=>{
+ const f=fixture();f.update();f.root.visible=false;f.update();
+ assert.equal(f.controller.stats.submittedTriangles,0);
+ const version=f.proxy.geometry.index.version;f.update();assert.equal(f.proxy.geometry.index.version,version);
+ f.root.visible=true;f.update();assert.deepEqual(indices(f.proxy),[0,1,2]);f.controller.dispose();
+});
+
+test('manual local matrices survive registration and later transform changes through renderer traversal',()=>{
+ const f=fixture();f.controller.dispose();f.mesh.matrixAutoUpdate=false;f.mesh.matrix.makeTranslation(10,0,0);
+ const c=createSpatialRenderer(THREE,{roots:[f.root]});
+ const proxy=f.root.children.find(o=>o.userData.spatialRenderProxy);
+ assert.equal(f.mesh.matrix.elements[12],10);
+ f.mesh.matrix.makeTranslation(50,0,0);f.mesh.matrixWorldNeedsUpdate=true;
+ f.camera.position.x=50;f.scene.updateMatrixWorld(true);c.update({camera:f.camera});f.scene.updateMatrixWorld(true);
+ assert.equal(proxy.matrixWorld.elements[12],50);c.dispose();
+});

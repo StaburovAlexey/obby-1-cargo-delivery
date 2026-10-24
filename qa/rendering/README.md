@@ -65,3 +65,11 @@ proxy index/instance buffers must not accumulate, and shared materials/textures
 must survive proxy teardown. Check WebGL context loss/restoration and bfcache.
 Existing five failures in tests/physics-app-integration.mjs must be compared
 against main 7f30d49; they are not a green full npm test result.
+
+## Current development panel and zones (2026-10-23)
+
+The panel now activates automatically in developer sessions; use `?perf=0` to
+hide it. Rolling FPS, frame graph, measured CPU stages and visibility zones are
+described in [docs/render-performance.md](../../docs/render-performance.md).
+The new 60 FPS objective is stricter than this document's original 30 FPS phone
+baseline. It still requires a sustained measurement on the actual target phone.

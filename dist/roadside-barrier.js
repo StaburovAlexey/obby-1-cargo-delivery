@@ -1,3 +1,5 @@
+import {polygonIndex,subtractFootprints} from './surface-cut.js';
+
 // Scale a tier about the wall's depth center. Anchoring every tier to the
 // rear edge makes their overlapping vertical ranges render on the same plane.
 export function barrierTierDepth(near,depth,scale=1){
@@ -8,7 +10,7 @@ export function barrierTierDepth(near,depth,scale=1){
 // A roadside wall is a sweep of shared cross-sections, never overlapping boxes.
 // Vertices are shared along each face (smooth bends), but split at the four
 // profile corners (crisp steel/stone edges). Only real run ends receive caps.
-export function barrierStripData(sections,{capStart=true,capEnd=true}={}){
+export function barrierStripData(sections,{capStart=true,capEnd=true,capStartOccluders=[],capEndOccluders=[]}={}){
  const data={position:[],normal:[],color:[],urPrismMeters:[],urPrismSize:[],urPrismFace:[],urShopData:[],uv:[],indices:[]};
  if(sections.length<2)return data;
  const nearArc=[sections[0].distance||0],farArc=[sections[0].distance||0];
@@ -34,7 +36,21 @@ export function barrierStripData(sections,{capStart=true,capEnd=true}={}){
   }
  }
  for(const [i,enabled,sign]of [[0,capStart,-1],[sections.length-1,capEnd,1]])if(enabled){
-  const s=sections[i],a=sections[Math.max(0,i-1)],b=sections[Math.min(sections.length-1,i+1)],outward=[sign*(b.near.x+b.far.x-a.near.x-a.far.x),0,sign*(b.near.z+b.far.z-a.near.z-a.far.z)],ids=corners(s).map((p,k)=>vertex(p,s,[0,0,sign],k===0||k===3?nearArc[i]:farArc[i]));quad(ids,outward);
+  const s=sections[i],a=sections[Math.max(0,i-1)],b=sections[Math.min(sections.length-1,i+1)],outward=[sign*(b.near.x+b.far.x-a.near.x-a.far.x),0,sign*(b.near.z+b.far.z-a.near.z-a.far.z)];
+  const width=Math.hypot(s.far.x-s.near.x,s.far.z-s.near.z),ux=(s.far.x-s.near.x)/width,uz=(s.far.z-s.near.z)/width;
+  const rectangle=(near,far,bottom,top)=>[{x:near,z:bottom},{x:far,z:bottom},{x:far,z:top},{x:near,z:top}];
+  const occluders=(i===0?capStartOccluders:capEndOccluders).map(other=>{
+    const near=(other.near.x-s.near.x)*ux+(other.near.z-s.near.z)*uz,far=(other.far.x-s.near.x)*ux+(other.far.z-s.near.z)*uz;
+    return rectangle(Math.min(near,far),Math.max(near,far),other.bottom,other.top);
+  });
+  for(const patch of subtractFootprints(rectangle(0,width,s.bottom,s.top),polygonIndex(occluders))){
+    let points=patch.map(v=>[s.near.x+ux*v.x,v.z,s.near.z+uz*v.x]);
+    const u=points[1].map((v,j)=>v-points[0][j]),v=points[2].map((v,j)=>v-points[0][j]);
+    const normal=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]];
+    if(normal.reduce((sum,n,j)=>sum+n*outward[j],0)<0)points.reverse();
+    const ids=points.map(point=>vertex(point,s,[0,0,sign],nearArc[i]));
+    for(let j=1;j<ids.length-1;j++)data.indices.push(ids[0],ids[j],ids[j+1]);
+  }
  }
  for(let i=0;i<data.indices.length;i+=3){const ids=data.indices.slice(i,i+3),p=ids.map(j=>data.position.slice(j*3,j*3+3)),a=p[1].map((v,j)=>v-p[0][j]),b=p[2].map((v,j)=>v-p[0][j]),n=[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];for(const id of ids)for(let j=0;j<3;j++)data.normal[id*3+j]+=n[j];}
  for(let i=0;i<data.normal.length;i+=3){const length=Math.hypot(...data.normal.slice(i,i+3));if(length)for(let j=0;j<3;j++)data.normal[i+j]/=length;}

@@ -377,6 +377,7 @@ export function createGarageScene(THREE, city, {document:doc=globalThis.document
   }
   const stations=FUEL_STATION_SPECS.map((spec,index)=>checkpoint(spec,index,'fuel'));
   const deliveries=DELIVERY_SPECS.map((spec,index)=>checkpoint(spec,index,'delivery'));
+  const animatedCheckpoints=[...stations,...deliveries];
   group.userData = { garage: { ...GARAGE_LAYOUT }, parkingBayCount: GARAGE_LAYOUT.bays.length, vehicleCount: vehicles.length,
     fuelStationCount: stations.length, deliveryPointCount: deliveries.length, procedural: true, sharedMaterialPattern: 'grass-checker' };
   let disposed = false;
@@ -389,9 +390,10 @@ export function createGarageScene(THREE, city, {document:doc=globalThis.document
     bounds: GARAGE_LAYOUT.bounds,
     spawn: { ...GARAGE_LAYOUT.spawn, y: floorY },
     getContact(x, z, heading = 0, options) { return garageWallContact(x, z, heading, walls, options); },
-    animate(time) {
+    animate(time,{isVisible=()=>true}={}) {
       if (disposed || !Number.isFinite(time)) return;
-      for (const station of [...stations,...deliveries]) {
+      for (const station of animatedCheckpoints) {
+        if (!isVisible(station.group)) continue;
         station.canister.rotation.y = time * 0.68 + station.phase;
         station.canister.position.y = station.y + 5.2 + 0.24 * Math.sin(time * 2.1 + station.phase);
       }

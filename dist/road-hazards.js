@@ -9,7 +9,7 @@ import { CHECKPOINT_PROGRESS, PREVIEW_PROGRESS, HAZARD_FREE_DRIVING_SECTIONS } f
 import {BRIDGES} from './road-bridges.js';
 
 export const ROAD_HAZARD_RULES = Object.freeze({
-  count: 90, baseCount: 30, staticCount: 0, movingCount: 90, moversPerBiome: 4,
+  count: 94, additionalSurfacePatches: 4, baseCount: 30, staticCount: 6, movingCount: 88, moversPerBiome: 4,
   moverCountByBiome: Object.freeze({city: 4, forest: 4, desert: 4, snow: 3, volcanic: 4}),
   staticSpacingMetres: 150, staticMoverSpacingMetres: 180, staticPerBiome: 2,
   exclusionMetres: 40, baseExclusionMetres: 100, junctionExclusionMetres: 100,
@@ -133,7 +133,7 @@ function additionalCandidatesFor(biome, sample) {
 
 
 
-export function buildRoadHazards(seed = 42) {
+export function buildRoadHazards(seed = 42, {reservedIntervals = []} = {}) {
   // Adjacent candidates check the same 2.5/5m approach stations repeatedly.
   // Retain exact samples only during this build; runtime poses stay independent.
   const samples=new Map();
@@ -280,7 +280,7 @@ export function buildRoadHazards(seed = 42) {
     }
     return {biome,packed,count:2*Math.floor(Math.min(packed.length,R.additionalMoversPerBiome)/2)};
   });
-  let remaining=R.count-moving.length-plans.reduce((sum,plan)=>sum+plan.count,0);
+  let remaining=R.count-R.additionalSurfacePatches-moving.length-plans.reduce((sum,plan)=>sum+plan.count,0);
   while (remaining>0) {
     const available=plans.filter(plan=>plan.packed.length>=plan.count+2)
       .sort((a,b)=>a.count-b.count||biomes.indexOf(a.biome)-biomes.indexOf(b.biome));
@@ -305,14 +305,129 @@ export function buildRoadHazards(seed = 42) {
         series:`${biome}-extra-mover-${i+1}`,pattern:path==='oval'?'oval-loop':'diagonal-sweep',motion,...moverBypass(offset,width)}));
     }
   }
-  if (moving.length!==R.count) throw new Error(`Unexpected hazard count: ${moving.length}`);
-  return Object.freeze(moving.sort((a, b) => a.distance - b.distance || a.edgeId.localeCompare(b.edgeId)));
+  if (moving.length!==R.count-R.additionalSurfacePatches) throw new Error(`Unexpected hazard count: ${moving.length}`);
+  const hazards=Object.freeze(moving.sort((a, b) => a.distance - b.distance || a.edgeId.localeCompare(b.edgeId)));
+  const surfaces=hazards.filter(h=>h.type==='dune'||h.type==='ice');
+  const obstacles=hazards.filter(h=>h.type!=='dune'&&h.type!=='ice');
+  const packed=[...(reservedIntervals.length?repackReservedHazards(obstacles,reservedIntervals,sample):obstacles)];
+  // Add new surface encounters without replacing any existing obstacle.
+  for(const [biome,type] of [['desert','dune'],['snow','ice']]){
+    const size=STATIC_DIMENSIONS[type],extent=Math.hypot(size.width,size.length)/2+1;
+    const definition=BIOME_DEFINITIONS.find(b=>b.id===biome),from=routeDistanceAt(definition.from),to=routeDistanceAt(definition.to);
+    for(let slot=1;slot<=3;slot++){
+      const target=from+(to-from)*(slot===1?.5:slot===2?.25:.75);
+      const available=additionalCandidatesFor(biome,sample).filter(p=>
+        !reservedIntervals.some(r=>p.distance+extent>=r.from&&p.distance-extent<=r.to)&&
+        !ROAD_HAZARD_EXCLUSIONS.some(e=>Math.abs(p.distance-e.distance)<e.radius+extent)&&
+        !inRecoverySection(p.distance,extent)&&
+        packed.every(h=>Math.abs(h.distance-p.distance)>=extent+h.length/2+(h.motion?.alongAmplitude||0)+2));
+      available.sort((a,b)=>Math.abs(a.distance-target)-Math.abs(b.distance-target)||a.distance-b.distance);
+      const point=available[0];
+      if(!point)throw new Error(`Insufficient native surface patch slots: ${biome}/${slot}`);
+      packed.push(Object.freeze({id:slot===1?surfaces.find(h=>h.type===type).id:`${biome}-${type}-fixed-patch-${slot}`,type,biome,expanded:true,
+        station:point.progress,progress:point.progress,distance:point.distance,edgeId:point.edgeId,edgeDistance:point.edgeDistance,branch:point.branch,
+        x:point.x,z:point.z,heading:point.heading,roadHeading:point.heading,headingDelta:0,offset:slot===2?-4.5:4.5,
+        width:size.width,length:size.length,height:size.height,solid:false,edgeBlend:R.softEdgeMetres,motion:null,
+        series:`${biome}-surface-${slot}`}));
+    }
+  }
+  packed.sort((a,b)=>a.distance-b.distance||a.id.localeCompare(b.id));
+  return Object.freeze(packed.map(h=>{
+    if(h.type!=='dune'&&h.type!=='ice')return h;
+    const point=sample(h.edgeId,h.edgeDistance),offset=h.offset<0?-4.5:4.5;
+    const x=point.x+point.right.x*offset,z=point.z+point.right.z*offset;
+    return Object.freeze({...h,x,z,offset,motion:null,pattern:'fixed-rounded-patch',alongOffset:0,
+      groundHeight:queryRoadSurface(x,z,point).height,...moverBypass(offset,h.width),
+      patchOutline:makePatchOutline(h,`${seed}:${h.id}:patch`)});
+  }));
+}
+
+function repackReservedHazards(hazards,intervals,sample){
+  const ranges=intervals.map(range=>{
+    if(!Number.isFinite(range.from)||!Number.isFinite(range.to)||range.from>range.to)throw new TypeError('Reserved route interval must have finite ordered endpoints');
+    return range;
+  });
+  const extent=h=>Math.hypot(h.width,h.length)/2+(h.motion.alongAmplitude||0)+1;
+  const clear=(p,h)=>ranges.every(r=>p.distance+extent(h)<r.from||p.distance-extent(h)>r.to);
+  const result=[],bases=hazards.filter(h=>h.motion.path==='lateral'),extras=hazards.filter(h=>h.motion.path!=='lateral');
+  const biomes=BIOME_DEFINITIONS.map(b=>b.id);
+  const basePool=[...biomes.flatMap(b=>moverCandidatesFor(b,sample)),...bases.map(h=>sample(h.edgeId,h.edgeDistance))];
+  function relocate(h,p){
+    const pose={},offset=motionOffset(h.motion,0,pose),alongOffset=pose.alongOffset;
+    const x=p.x+p.right.x*offset+Math.sin(p.heading)*alongOffset,z=p.z+p.right.z*offset+Math.cos(p.heading)*alongOffset;
+    return Object.freeze({...h,biome:p.biome,station:p.progress,progress:p.progress,distance:p.distance,edgeId:p.edgeId,edgeDistance:p.edgeDistance,branch:p.branch,x,z,heading:p.heading,roadHeading:p.heading,headingDelta:0,offset,...(h.alongOffset===undefined?{}:{alongOffset}),groundHeight:queryRoadSurface(x,z,p).height,...moverBypass(offset,h.width)});
+  }
+  // The original 30 have the longest sightlines. Pack them before the faster
+  // short movers; retaining all unblocked extras first can strand a base mover.
+  for(const h of bases)if(clear(h,h))result.push(h);
+  const legalBase=(p,h,ignore=-1)=>(h.type!=='dune'||p.biome==='desert')&&(h.type!=='ice'||p.biome==='snow')&&clear(p,h)&&result.every((other,j)=>j===ignore||Math.abs(other.distance-p.distance)>=R.moverSpacingMetres)&&
+    ROAD_HAZARD_EXCLUSIONS.every(e=>Math.abs(p.distance-e.distance)>R.baseExclusionMetres+extent(h))&&
+    !inRecoverySection(p.distance,extent(h))&&(h.type!=='rock'||rockApproachIsClear({...h,edgeId:p.edgeId,edgeDistance:p.edgeDistance},sample));
+  function selectBase(h,ownBiomeOnly){
+    const matching=p=>!ownBiomeOnly||p.biome===h.biome;
+    let available=basePool.filter(p=>matching(p)&&legalBase(p,h));
+    // Seeded legacy encounters can leave a five-metre packing sliver. Move one
+    // neighbour within its own protected sightline before exporting the surplus.
+    if(!available.length)for(let i=0;i<result.length&&!available.length;i++){
+      const neighbour=result[i];if(ownBiomeOnly&&neighbour.biome!==h.biome)continue;
+      const alternatives=basePool.filter(p=>p.biome===neighbour.biome&&Math.abs(p.distance-neighbour.distance)<=60&&legalBase(p,neighbour,i)).sort((a,b)=>Math.abs(a.distance-neighbour.distance)-Math.abs(b.distance-neighbour.distance));
+      for(const p of alternatives){result[i]=relocate(neighbour,p);available=basePool.filter(q=>matching(q)&&legalBase(q,h));if(available.length)break;result[i]=neighbour;}
+    }
+    available.sort((a,b)=>(a.biome===h.biome?0:1)-(b.biome===h.biome?0:1)||Math.abs(a.distance-h.distance)-Math.abs(b.distance-h.distance)||a.distance-b.distance);
+    return available[0];
+  }
+  const baseSurplus=[];
+  // Allocate every biome's own long crossing before admitting overflow. A city
+  // crossing must not consume Snow's last legal ice slot while Snow is pending.
+  for(const h of bases.filter(h=>!clear(h,h))){
+    const p=selectBase(h,true);if(!p){baseSurplus.push(h);continue;}
+    result.push(relocate(h,p));
+  }
+  for(const h of baseSurplus){
+    const p=selectBase(h,false);if(!p)throw new Error(`Insufficient reserved base mover positions: ${h.id}`);
+    result.push(relocate(h,p));
+  }
+  const extraExtent=Math.max(...extras.map(extent));
+  const extraPool=biomes.flatMap(b=>additionalCandidatesFor(b,sample)).sort((a,b)=>a.distance-b.distance).filter(p=>!(
+      ranges.some(r=>p.distance+extraExtent>=r.from&&p.distance-extraExtent<=r.to)||
+      ROAD_HAZARD_EXCLUSIONS.some(e=>Math.abs(p.distance-e.distance)<=e.radius+extraExtent)||
+      inRecoverySection(p.distance,extraExtent)));
+  function packExtras(bases){const packed=[];for(const p of extraPool){if(bases.some(h=>Math.abs(h.distance-p.distance)<R.additionalSpacingMetres)||packed.length&&p.distance-packed.at(-1).distance<R.additionalSpacingMetres)continue;packed.push(p);}return packed;}
+  let packed=packExtras(result);
+  // Shift a long crossing within its legal sightline to leave whole 60 m slots,
+  // rather than two unusable fragments on either side of an otherwise safe pose.
+  for(let pass=0;packed.length<extras.length&&pass<3;pass++){
+    let improved=false;
+    for(let i=0;i<result.length&&packed.length<extras.length;i++){
+      const h=result[i];let best=h,bestPacked=packed;
+      for(const p of basePool){
+        if(p.biome!==h.biome||!clear(p,h)||result.some((other,j)=>i!==j&&Math.abs(other.distance-p.distance)<R.moverSpacingMetres)||
+          ROAD_HAZARD_EXCLUSIONS.some(e=>Math.abs(p.distance-e.distance)<=R.baseExclusionMetres+extent(h))||inRecoverySection(p.distance,extent(h))||
+          h.type==='rock'&&!rockApproachIsClear({...h,edgeId:p.edgeId,edgeDistance:p.edgeDistance},sample))continue;
+        const alternative=result.slice();alternative[i]=p;const slots=packExtras(alternative);
+        if(slots.length>bestPacked.length){best=relocate(h,p);bestPacked=slots;}
+      }
+      if(best!==h){result[i]=best;packed=bestPacked;improved=true;}
+    }
+    if(!improved)break;
+  }
+  if(packed.length<extras.length)throw new Error(`Insufficient reserved extra mover positions: ${packed.length}/${extras.length}`);
+  const surplus=[];
+  // Give each biome its own short crossings before filling spare capacity with
+  // surplus from another biome; otherwise an early overflow causes a cascade.
+  for(const biome of biomes)for(const h of extras.filter(h=>h.biome===biome)){
+    const local=packed.filter(p=>p.biome===biome).sort((a,b)=>Math.abs(a.distance-h.distance)-Math.abs(b.distance-h.distance)||a.distance-b.distance);
+    if(!local.length){surplus.push(h);continue;}
+    const p=local[0];packed.splice(packed.indexOf(p),1);result.push(relocate(h,p));
+  }
+  for(const h of surplus){packed.sort((a,b)=>Math.abs(a.distance-h.distance)-Math.abs(b.distance-h.distance)||a.distance-b.distance);result.push(relocate(h,packed.shift()));}
+  return Object.freeze(result.sort((a,b)=>a.distance-b.distance||a.edgeId.localeCompare(b.edgeId)));
 }
 const STATIC_DIMENSIONS = Object.freeze({
   repair: Object.freeze({width: 4, length: 3.5, height: 1.3, lateral: 8.7}),
   log: Object.freeze({width: 7.3, length: 1.25, height: 1.25, lateral: 9.95}),
-  dune: Object.freeze({width: 7.4, length: 18, height: .15, lateral: 10}),
-  ice: Object.freeze({width: 7.6, length: 19, height: .035, lateral: 10}),
+  dune: Object.freeze({width: 21, length: 18, height: .15, lateral: 10}),
+  ice: Object.freeze({width: 21, length: 19, height: .035, lateral: 10}),
   rock: Object.freeze({width: 4.7, length: 4.8, height: 2.2, lateral: 9.8}),
 });
 
@@ -368,19 +483,39 @@ export function roadHazardContact(hazard, x, z, heading, padding = 0, footprint)
   }
   return { normalX: nx, normalZ: nz, depth, name: `Road hazard ${hazard.id}` };
 }
-function patchWeight(h, x, z) {
-  const c = Math.cos(h.heading), s = Math.sin(h.heading), dx = x - h.x, dz = z - h.z;
-  const across = Math.abs(c * dx - s * dz), along = Math.abs(s * dx + c * dz);
-  return smooth(Math.min(h.width / 2 - across, h.length / 2 - along) / R.softEdgeMetres);
+function makePatchOutline(h,seed){
+ const random=randomFor(seed),points=[],count=64,phase=random()*Math.PI*2;
+ // Smooth rounded lobes preserve an organic outline without torn teeth.
+ for(let i=0;i<count;i++){
+  const angle=i*Math.PI*2/count,radius=1+.045*Math.sin(3*angle+phase)+.025*Math.sin(5*angle-phase);
+  points.push({x:Math.cos(angle)*radius,z:Math.sin(angle)*radius});
+ }
+ const minX=Math.min(...points.map(p=>p.x)),maxX=Math.max(...points.map(p=>p.x)),minZ=Math.min(...points.map(p=>p.z)),maxZ=Math.max(...points.map(p=>p.z));
+ return Object.freeze(points.map(p=>Object.freeze({x:((p.x-minX)/(maxX-minX)-.5)*h.width,z:((p.z-minZ)/(maxZ-minZ)-.5)*h.length})));
 }
+export function roadHazardPatchOutline(h){return h.patchOutline||makePatchOutline(h,h.id);}
+// One signed boundary distance drives paint blending, grip and entry effects.
+export function roadHazardPatchDistance(h,x,z){
+ const c=Math.cos(h.heading),s=Math.sin(h.heading),dx=x-h.x,dz=z-h.z;
+ const px=c*dx-s*dz,pz=s*dx+c*dz,polygon=roadHazardPatchOutline(h);
+ let inside=false,nearest=Infinity;
+ for(let i=0;i<polygon.length;i++){
+  const a=polygon[i],b=polygon[(i+1)%polygon.length],ex=b.x-a.x,ez=b.z-a.z;
+  const t=clamp(((px-a.x)*ex+(pz-a.z)*ez)/(ex*ex+ez*ez||1),0,1);
+  nearest=Math.min(nearest,Math.hypot(px-a.x-ex*t,pz-a.z-ez*t));
+  if((a.z>pz)!==(b.z>pz)&&px<a.x+(b.x-a.x)*(pz-a.z)/(b.z-a.z))inside=!inside;
+ }
+ return inside?nearest:-nearest;
+}
+function patchWeight(h,x,z){return smooth(roadHazardPatchDistance(h,x,z)/R.softEdgeMetres);}
 const PATCH_FACTORS = Object.freeze({
   dune: Object.freeze({ frictionFactor: .95, lateralDampingFactor: .95, rollingFactor: 1.28, engineFactor: .86, speedFactor: .80, coastingFactor: 1.1 }),
   ice: Object.freeze({ frictionFactor: .62, lateralDampingFactor: .5, rollingFactor: .9, engineFactor: .94, coastingFactor: .76 }),
 });
 
 
-export function createRoadHazards(seed = 42) {
-  const hazards = buildRoadHazards(seed);
+export function createRoadHazards(seed = 42, options = {}) {
+  const hazards = buildRoadHazards(seed,options);
   const poses = Object.freeze(hazards.map(h => h.motion ? {...h} : h));
   const poseById = new Map(poses.map(h => [h.id,h])), solids = poses.filter(h => h.solid), patches=poses.filter(h=>h.edgeBlend);
   const movers = Object.freeze(poses.filter(h => h.motion));
@@ -419,6 +554,10 @@ export function createRoadHazards(seed = 42) {
     }
     return deepest;
   }
+  function patchAt(x,z,margin=0){
+    if(![x,z,margin].every(Number.isFinite))return null;
+    return patches.find(h=>roadHazardPatchDistance(h,x,z)>=-margin-1e-8)||null;
+  }
   function surfaceAt(x, z, baseSurface) {
     if (![x, z].every(Number.isFinite) || !baseSurface || typeof baseSurface !== 'object') return baseSurface;
     for (const h of patches) {
@@ -435,5 +574,5 @@ export function createRoadHazards(seed = 42) {
     return baseSurface;
   }
   setMoverPoses();
-  return Object.freeze({ hazards, poses, movers, rocks, poseFor, get elapsed(){return elapsed;}, update, reset, contact, surfaceAt });
+  return Object.freeze({ hazards, poses, movers, rocks, poseFor, get elapsed(){return elapsed;}, update, reset, contact, surfaceAt, patchAt });
 }

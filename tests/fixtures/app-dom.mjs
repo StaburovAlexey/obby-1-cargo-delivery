@@ -1,3 +1,4 @@
+import {buildRoadPits,roadPitAt,roadPitRampHeight,roadPitReservations} from '../../dist/road-pits.js';
 import {createFleetNeon} from '../../dist/vehicle-neon.js';
 import {getVehicleNeon} from '../../dist/vehicle-neon-catalog.js';
 import {DEFAULT_VEHICLE_SMOKE_ID,getVehicleSmokeStyle} from '../../dist/vehicle-smoke-catalog.js';
@@ -6,6 +7,7 @@ import {createVehicleLiveryShop} from '../../dist/vehicle-livery-shop.js';
 import {createVehicleLiveryController} from '../../dist/vehicle-livery-materials.js';
 import {createHangarDriftLeaderboard} from '../../dist/hangar-drift-leaderboard.js';
 import {createSpatialRenderer} from '../../dist/spatial-render.js';
+import {createRenderZones} from '../../dist/render-zones.js';
 import {createRenderProfiler} from '../../dist/render-profiler.js';
 import {createFinishCelebration} from '../../dist/finish-celebration.js';
 import {createStartupGate} from '../../dist/startup-gate.js';
@@ -87,7 +89,7 @@ export function createAppDom({width=390,height=844,startDriving=true,realStartup
  ids.get('error').hidden=true;ids.get('seed').value=42;ids.get('viewport').appendChild=el=>ids.get('viewport').append(el);
  const views=['street','overview','delivery','fuel'].map(view=>{const el=new Element([],{view});el.ownerDocument=dom.doc;return el;});
  dom.doc.getElementById=id=>ids.get(id)||null;dom.doc.querySelectorAll=selector=>selector==='[data-view]'?views:[];
- class Renderer {constructor(){this.domElement=new Element();this.domElement.ownerDocument=dom.doc;this.shadowMap={};this.renderCount=0;}setSize(w,h){this.size=[w,h];this.domElement.bounds={left:ids.get('viewport').bounds.left,top:ids.get('viewport').bounds.top,width:w,height:h};}setPixelRatio(value){this.pixelRatio=value;}render(){this.renderCount++;}}
+ class Renderer {constructor(){this.domElement=new Element();this.domElement.ownerDocument=dom.doc;this.shadowMap={};this.renderCount=0;}setSize(w,h){this.size=[w,h];this.domElement.bounds={left:ids.get('viewport').bounds.left,top:ids.get('viewport').bounds.top,width:w,height:h};}setPixelRatio(value){this.pixelRatio=value;}getPixelRatio(){return this.pixelRatio;}render(){this.renderCount++;}}
  class Orbit extends Target {constructor(camera,element){super();this.camera=camera;this.domElement=element;this.target=new THREE.Vector3();this.enabled=true;this.updates=0;}update(){this.updates++;}}
  const CHARACTER_CATALOG=['bacon','pack1','pack2','pack3','pack4','pack5','pack6','pack7','pack9','pirate','robux-man','jeff-the-killer','spider-man','spyder-sammy','kreekcraft','jandel','dancing-npc-girl'].map(id=>({id,name:id}));
  const createCharacterDisplay=loadDisplay|| (async()=>({group:new THREE.Group(),dispose(){}}));
@@ -113,10 +115,10 @@ export function createAppDom({width=390,height=844,startDriving=true,realStartup
  };
  Object.defineProperty(dom.doc,'images',{get:()=>dom.doc.body.all().filter(node=>node.tagName==='IMG')});
  for(const el of ids.values())el.replaceChildren=(...children)=>{el.children=[];children.forEach(child=>el.append(child));};
- Object.assign(deps,{createFleetNeon,getVehicleNeon,createVehicleNeonPreview:createNeonPreview,createVehicleLiveryGallery:createLiveryPreview,createVehicleLiveryPreview:createLiveryPreview,createVehicleLiveryShop:createLiveryShop,createVehicleLiveryController:createLiveryController,createCanyonLeaderboard,createRenderProfiler,createSpatialRenderer,createHangarDriftLeaderboard,createCanyonMode,createPauseState,createOnlineSession,createAdvertising,isAdvertisingSafe,PREMIUM_SKIN_IDS,__URBAN_DEV_SERVER__:devServer});
+ Object.assign(deps,{createFleetNeon,getVehicleNeon,createVehicleNeonPreview:createNeonPreview,createVehicleLiveryGallery:createLiveryPreview,createVehicleLiveryPreview:createLiveryPreview,createVehicleLiveryShop:createLiveryShop,createVehicleLiveryController:createLiveryController,createCanyonLeaderboard,createRenderProfiler,createSpatialRenderer,createRenderZones,createHangarDriftLeaderboard,createCanyonMode,createPauseState,createOnlineSession,createAdvertising,isAdvertisingSafe,PREMIUM_SKIN_IDS,__URBAN_DEV_SERVER__:devServer});
  deps.PROGRESSION_CONFIG=PROGRESSION_CONFIG;
  Object.assign(deps,{DEFAULT_VEHICLE_SMOKE_ID,getVehicleSmokeStyle,createBackgroundMusic:createMusic,MUSIC_TRACKS,createSettingsMusic});
- Object.assign(deps,{createRapierDrivingModel,createPhysicsWorld});
+ Object.assign(deps,{createRapierDrivingModel,createPhysicsWorld,buildRoadPits,roadPitAt,roadPitRampHeight,roadPitReservations});
  new Function(...Object.keys(deps),source)(...Object.values(deps));
  if(startDriving&&!loadFailure){const d=dom.win.__sceneDebug;d.gameplay.state.cooldown=0;d.enterVehicle('pickup');d.model.setPose({x:1.8,z:9.8});d.applyTruckPose();d.followTruck(1,true);}
  return{...dom,ids,views,storage:testStorage,resolveCharacter(id,fail=false){const p=pendingCharacters.get(id);if(fail)p.reject(new Error('Deferred load failed'));else p.resolve({id,name:id,group:new THREE.Group(),update(){},setSeated(){},dispose(){}});pendingCharacters.delete(id);},get debug(){return dom.win.__sceneDebug;},frame(time=now+1000/60){now=time;const callback=frames.shift();if(!callback)throw Error('No queued animation frame');callback(time);},dispose(){dom.win.dispatch('pagehide');const {garage,city}=dom.win.__sceneDebug;dom.win.__sceneDebug.wheelParticles?.dispose();dom.win.__sceneDebug.roadHazardsScene?.dispose();garage.dispose();city.dispose();}};

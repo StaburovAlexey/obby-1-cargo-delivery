@@ -4,6 +4,7 @@ import {DEFAULT_VEHICLE_SMOKE_ID,getVehicleSmokeStyle} from './vehicle-smoke-cat
 import { createVehicleNeonPreview } from './vehicle-neon-preview.js';
 import {createFinishCelebration} from './finish-celebration.js';
 import {createSpatialRenderer} from './spatial-render.js';
+import {createRenderZones} from './render-zones.js';
 import {createRenderProfiler} from './render-profiler.js';
 import {createStartupGate} from './startup-gate.js';
 import {createLocalization} from './localization.js';
@@ -34,6 +35,7 @@ import {BRIDGES} from './road-bridges.js';
 import {initializeRapier} from './rapier-runtime.js';
 import {createRapierDrivingModel} from './rapier-vehicle.js';
 import {createPhysicsWorld} from './physics-world.js';
+import {buildRoadPits,roadPitAt,roadPitRampHeight,roadPitRampBoost,roadPitReservations} from './road-pits.js';
 import * as THREE from "three";
 import { OrbitControls } from "./vendor/OrbitControls.js";
 import { buildCity } from "./network-scene.js";
@@ -160,8 +162,8 @@ const devServer=typeof __URBAN_DEV_SERVER__!=='undefined'&&__URBAN_DEV_SERVER__=
 const renderQuery=new URLSearchParams(window.location?.search||'');
 const renderDiagnosticsAllowed=devServer&&(!services||services.development!==false);
 const baselineRendering=renderDiagnosticsAllowed&&renderQuery.get('render')==='baseline';
-const renderProfiler=createRenderProfiler({document,enabled:renderDiagnosticsAllowed&&renderQuery.get('perf')==='1',baseline:baselineRendering});
 const developerMode=(!services||services.development)&&(devQuery==='1'||devServer&&devQuery!=='0');
+const renderProfiler=createRenderProfiler({document,enabled:renderDiagnosticsAllowed&&renderQuery.get('perf')!=='0'&&(developerMode||renderQuery.get('perf')==='1'),baseline:baselineRendering});
 document.body.classList.toggle('developer-mode',developerMode);
 const viewport = document.getElementById("viewport");
 const scene = new THREE.Scene();
@@ -241,8 +243,9 @@ const fleetNeon=createFleetNeon(THREE);
 function syncFleetNeon(){if(!gameplay||!garage)return;fleetNeon.setColor(gameplay.state.selectedNeonId);for(const vehicle of garage.vehicles)fleetNeon.attach(vehicle.visual);}
 function syncPremiumNeon(){if(!gameplay)return;for(const id of services?.neon?.ownedIds||[])gameplay.grantPremiumNeon(id);liveryShop?.refresh();}
 let physicsWorld=null,overturnedSeconds=0;
+let roadPits=[];
 let fallenSeconds=0;
-let hangarLeaderboardUi=null,canyonMode=null,onlineSession=null,advertising=null,spatialRenderer=null,teleportId=0,onlineClock=0,lastWalkSpeed=0,disposedOnline=false;
+let hangarLeaderboardUi=null,canyonMode=null,onlineSession=null,advertising=null,spatialRenderer=null,renderZones=null,teleportId=0,onlineClock=0,lastWalkSpeed=0,disposedOnline=false,lastEconomyFrame=-Infinity;
 const gameplayPaused=()=>pauseState.paused||!appFocused||document.hidden||graphicsLost||!playing||biomeMenuOpen||upgradeMenuOpen||careerMenuOpen||settingsMenuOpen||hangarLeaderboardOpen||liveryShopOpen;
 pauseState.subscribe(paused=>{syncBackgroundMusic();if(paused){physicsWorld?.resetTime();canyonMode?.pause();stopVehicleEffects();inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();}lastTime=0;onlineClock=0;advertising?.setSuspended(gameplay.state.eventMode==='finish'||!!canyonMode?.active||document.hidden||!appFocused||graphicsLost||pauseState.reasons.has('platform')||(pauseState.reasons.has('payment')||pauseState.reasons.has('neon-payment')));onlineSession?.update(0);});
 const startup=createStartupGate({
@@ -327,6 +330,7 @@ function setWire(value) {
 }
 function rebuild(value) {
   liveryShop?.close();restoreLiveryPreviews();
+  renderZones?.dispose();renderZones=null;lastEconomyFrame=-Infinity;
   spatialRenderer?.dispose();spatialRenderer=null;
   const seed = developerMode ? Math.max(1, Math.min(4294967295, Number(value) || 42)) >>> 0 : 42;
   for(const v of garage?.vehicles||[])v.model?.dispose?.();
@@ -338,7 +342,8 @@ function rebuild(value) {
   if(wheelParticles){scene.remove(wheelParticles.mesh);wheelParticles.dispose();}
   if(roadHazardsScene){scene.remove(roadHazardsScene.group);roadHazardsScene.dispose();}
   walkInput?.reset();jumpInput?.reset();lookInput?.reset();
-  const next = buildCity(THREE, { seed });
+  const nextPits=buildRoadPits(seed);
+  const next = buildCity(THREE, { seed,roadPits:nextPits });
   gameplay?.flushProgress();
   const previousCareer=gameplay?.snapshot();
   displayGeneration++;
@@ -351,6 +356,7 @@ function rebuild(value) {
     city.dispose();
   }
   city = next;
+  roadPits=nextPits;
 
 
   const roadBounds=city.group.getObjectByName('Continuous 30m-wide road').geometry;
@@ -364,13 +370,13 @@ function rebuild(value) {
   biomeWeather=createBiomeWeather(THREE);scene.add(biomeWeather.group);
   wheelParticles=createWheelParticles(THREE,{groundHeight});scene.add(wheelParticles.mesh);
   obstacles = collectObstacles(THREE, city);
-  roadHazards=createRoadHazards(seed);
+  roadHazards=createRoadHazards(seed,{reservedIntervals:roadPitReservations(roadPits)});
   roadHazardsScene=createRoadHazardsScene(THREE,{system:roadHazards,groundHeight});
   scene.add(roadHazardsScene.group);
   garage = createGarageScene(THREE, city, {document});
   attachCosmoGarage(THREE,garage);
   scene.add(garage.group);
-  gameplay = createGameplay({vehicles:garage.vehicles,stations:garage.stations,deliveries:garage.deliveries,desks:garage.desks,stands:garage.stands,solids:garage.walkingSolids||garage.classroomSolids,career:previousCareer??services?.initialCareer??(developerMode?careerStore.load():undefined),persistence:developerMode?undefined:careerStore,developerMode,hardBranches:HARD_BRANCHES});
+  gameplay = createGameplay({vehicles:garage.vehicles,stations:garage.stations,deliveries:garage.deliveries,desks:garage.desks,stands:garage.stands,solids:garage.walkingSolids||garage.classroomSolids,career:previousCareer??services?.initialCareer??(developerMode?careerStore.load():undefined),persistence:developerMode?undefined:careerStore,developerMode,hardBranches:HARD_BRANCHES,walkable:(x,z,radius)=>!roadPitAt(roadPits,x,z,radius)});
   if(developerMode&&!previousCareer)gameplay.state.brains=Math.min(PROGRESSION_CONFIG.maxBrains,gameplay.state.brains+10_000_000);
   onlineSession?.bindGameplay(gameplay);
   canyonMode=createCanyonMode(THREE,{scene,document,platform:services?.platform,leaderboard:driftLeaderboard,language:()=>selectedLanguage,
@@ -385,6 +391,9 @@ function rebuild(value) {
       world:physicsWorld.world,...vehicle.park,y:parkPose.position.y,maxSpeed:vehicleConfig(vehicle.id).maxSpeed,
       vehicleId:vehicle.id,getUpgrades:()=>gameplay.state.upgrades[vehicle.id],
       getVehicleMetadata:()=>vehicle.visual?.metadata,
+      getRampBoost:(x,z)=>roadPitRampBoost(roadPits,x,z),
+      getSurfaceHazard:(x,z,margin)=>canyonMode?.active?null:roadHazards.patchAt(x,z,margin),
+      onSurfaceHazard:()=>{if(driving&&gameplay.state.selectedId===vehicle.id)gameplay.applyRoadHazardPenalty(.1);},
       groundSurface:(x,z,id)=>canyonMode?.surface(x,z,8)?canyonMode.groundSurface():roadHazards.surfaceAt(x,z,roadGroundSurface(x,z,id,vehicle.routeContext)),
       onCollision:()=>{if(driving&&gameplay.state.selectedId===vehicle.id)gameplay.recordRunCollision({runId:gameplay.state.run?.id});},
     });
@@ -394,7 +403,21 @@ function rebuild(value) {
   gameplay.returnToGarage('start');gameplay.events();
   if(character)populateDisplays();
   playing=true;driving=false;
-  if(!baselineRendering)spatialRenderer=createSpatialRenderer(THREE,{roots:[city.group,canyonMode.environment.group]});
+  if(!baselineRendering){
+    spatialRenderer=createSpatialRenderer(THREE,{roots:[city.group,canyonMode.environment.group]});
+    renderZones=createRenderZones(THREE);
+    renderZones.register(city.group);
+    renderZones.register(canyonMode.environment.group);
+    renderZones.register(garage.hangar,{margin:2});
+    // Models arrive asynchronously. Conservative local boxes follow the current
+    // rig transform, including the selected vehicle away from its parking bay.
+    for(const vehicle of garage.vehicles){
+      const record=renderZones.register(vehicle.root,{box:new THREE.Box3(new THREE.Vector3(-15,-5,-15),new THREE.Vector3(15,15,15)),margin:2});
+      record.castShadow=true;
+    }
+    for(const station of [...garage.stations,...garage.deliveries])renderZones.register(station.group,{margin:2});
+    for(const display of characterDisplays)registerDisplayZone(display);
+  }
   inputController?.setGear("D");
   syncMode(true);
   document.getElementById("seed").value = seed;
@@ -407,7 +430,9 @@ function rebuild(value) {
     renderer,
     controls,
     city,
+    get roadPits(){return roadPits;},
     get spatialRenderer(){return spatialRenderer;},
+    get renderZones(){return renderZones;},renderScene,
     renderProfiler,
     finishCelebration, vehicleAudio, backgroundMusic, settingsUi, localization, get settingsMenuOpen(){return settingsMenuOpen}, get hangarLeaderboardOpen(){return hangarLeaderboardOpen},get hangarLeaderboardUi(){return hangarLeaderboardUi}, developerMode, get rig(){return rig}, get model(){return model}, obstacles,
     get garage(){return garage}, get gameplay(){return gameplay},
@@ -707,7 +732,7 @@ function refreshPremiumUi(){
 services?.neon?.subscribe?.(()=>{syncPremiumNeon();syncFleetNeon();});
 services?.premium?.subscribe?.(()=>{if(gameplay){refreshPremiumUi();handleGameplayEvents();updateEconomyHud();}});
 function followCharacter(dt,snap=false){
-  const p=gameplay.state.player,y=groundHeight(p.x,p.z)+gameplay.state.jump.height;
+  const p=gameplay.state.player,y=(roadPitRampHeight(roadPits,p.x,p.z)??groundHeight(p.x,p.z))+gameplay.state.jump.height;
   if(snap)cameraState.reset({mode:'walking',heading:p.heading});
   cameraState.update({dt,heading:p.heading,distance:0});
   const offset=computeFollowOffset(cameraState.state),scale=camera.aspect<.8?1.12:1;
@@ -736,7 +761,7 @@ function updateCharacter(dt,speed=0){
   const desk=garage.desks.find(d=>d.id===gameplay.state.seatedId);
   character.setSeated?.(!!desk);
   const jump=gameplay.state.jump;character.setAirborne?.({airborne:jump.airborne,elapsed:jump.elapsed,duration:GAMEPLAY.jumpDuration,verticalVelocity:jump.velocity,height:jump.height});
-  character.group.position.set(p.x,groundHeight(p.x,p.z)+gameplay.state.jump.height,p.z);
+  character.group.position.set(p.x,(roadPitRampHeight(roadPits,p.x,p.z)??groundHeight(p.x,p.z))+gameplay.state.jump.height,p.z);
   character.group.visible=gameplay.state.mode==='walking';
   character.update(dt,speed,p.heading);
   if(desk&&character.seatAnchor){
@@ -795,7 +820,7 @@ function enterVehicle(id){
   const spawn=GAMEPLAY.roadSpawn;
 
   const footprint=vehicleFootprint(vehicle.visual?.metadata,0,vehicle.contactFootprint??={});
-  if(getTruckContact(spawn.x,spawn.z,spawn.heading,obstacles,undefined,footprint)||roadHazards.contact(spawn.x,spawn.z,spawn.heading,footprint)){
+  if(roadPitAt(roadPits,spawn.x,spawn.z,Math.hypot(footprint?.halfWidth??3,footprint?.halfLength??5))||getTruckContact(spawn.x,spawn.z,spawn.heading,obstacles,undefined,footprint)||roadHazards.contact(spawn.x,spawn.z,spawn.heading,footprint)){
     returnToGarage('blocked');notify('Стартовая полоса занята. Вы возвращены в ангар.');return false;
   }
   liveryShop?.close();restoreLiveryPreviews();
@@ -884,7 +909,7 @@ function setUpgradeMenu(open){
 function travelToBiome(id){
   if(!developerMode||!biomeMenuOpen||!playing||!driving||!characterReady||graphicsLost)return false;
   const vehicle=garage.vehicles.find(v=>v.model===model),footprint=vehicleFootprint(vehicle?.visual?.metadata,0,vehicle.contactFootprint??={});
-  const target=safeBiomeDestination(id,(x,z,h)=>getTruckContact(x,z,h,obstacles,undefined,footprint)||roadHazards.contact(x,z,h,footprint));
+  const target=safeBiomeDestination(id,(x,z,h)=>roadPitAt(roadPits,x,z,Math.hypot(footprint?.halfWidth??3,footprint?.halfLength??5))||getTruckContact(x,z,h,obstacles,undefined,footprint)||roadHazards.contact(x,z,h,footprint));
   if(!target){notify('Точка перехода недоступна');return false;}
   if(!gameplay.beginBiomeTest(target.biomeId||id))return false;
   roadHazards.reset();roadHazardsScene.update(0);
@@ -950,8 +975,14 @@ async function populateDisplays({required=false}={}){
   try{await Promise.all([worker(),worker(),worker()]);}
   catch(error){for(const display of loaded)display?.dispose();throw error;}
   if(generation!==displayGeneration){for(const display of loaded)display?.dispose();return;}
-  for(const display of loaded)if(display){scene.add(display.group);characterDisplays.push(display);}
+  for(const display of loaded)if(display){scene.add(display.group);characterDisplays.push(display);registerDisplayZone(display);}
 }
+function registerDisplayZone(display){
+  if(!renderZones)return;
+  const record=renderZones.register(display.group,{box:new THREE.Box3(new THREE.Vector3(-5,-2,-5),new THREE.Vector3(5,10,5)),margin:1});
+  record.castShadow=true;
+}
+function isRenderVisible(object){return renderZones?.isVisible(object)??true;}
 function standCharacter(){if(careerMenuOpen||settingsMenuOpen||hangarLeaderboardOpen||liveryShopOpen)return;if(gameplay.stand()){gameplay.events();walkInput.reset();character?.resetMotion?.(gameplay.state.player.heading);syncMode(false);followCharacter(1,false);notify('Вы рядом с классом. Выберите вход с нужной скоростью обучения.');}}
 const initialCharacter=selectCharacter(gameplay.state.characterId,true);
 for(const id of ['biome-button','biome-menu',...BIOME_DESTINATIONS.map(b=>'biome-go-'+b.id),'biome-close']){
@@ -1046,6 +1077,9 @@ renderer.domElement.addEventListener("webglcontextlost", (e) => {
 function frame(now) {
   if(disposedOnline)return;
   requestAnimationFrame(frame);
+  const frameStarted=renderProfiler?performance.now():0;
+  const timings=renderProfiler?{network:0,physics:0,ui:0}:null;
+  const physicsStepsBefore=physicsWorld?.stats.steps??0;
   const networkDt=onlineClock?Math.max(0,(now-onlineClock)/1000):0;onlineClock=now;
   const baseActive=startup.ready&&characterReady&&!gameplayPaused();
   const actor=driving?model.state:gameplay.state.player;
@@ -1054,12 +1088,13 @@ function frame(now) {
   const adState=advertising?.getState();
   const checkSafety=!canyonMode?.active&&adState&&(adState.pending||adState.phase==='countdown'||adState.activeSeconds+networkDt>=240);
   const safe=!!checkSafety&&isAdvertisingSafe({position:actor,heading:actor.heading||0,speed,footprint,
-    bridges:BRIDGES,hazards:roadHazards.hazards,jumping:gameplay.state.jump.airborne,falling:!!model?.state.airborne,
+    bridges:BRIDGES,hazards:roadHazards.hazards,roadPits,jumping:gameplay.state.jump.airborne,falling:!!model?.state.airborne,
     loading:!startup.ready||!characterReady,modal:biomeMenuOpen||upgradeMenuOpen||careerMenuOpen||settingsMenuOpen||hangarLeaderboardOpen||liveryShopOpen});
   advertising?.setSuspended(gameplay.state.eventMode==='finish'||!!canyonMode?.active||document.hidden||!appFocused||graphicsLost||pauseState.reasons.has('platform')||(pauseState.reasons.has('payment')||pauseState.reasons.has('neon-payment')));
   advertising?.update(networkDt,{active:baseActive,safe,visible:!document.hidden&&appFocused});
   onlineSession?.update(networkDt);
   if(services?.platform){if(startup.ready&&characterReady&&!gameplayPaused()&&!canyonMode?.controlsLocked)services.platform.gameplayStart();else services.platform.gameplayStop();}
+  if(timings)timings.network=performance.now()-frameStarted;
   if (!startup.ready || document.hidden || graphicsLost || !appFocused) {
     renderProfiler?.suspend();
     stopVehicleEffects();
@@ -1072,14 +1107,16 @@ function frame(now) {
   const rewardFrameValid=Number.isFinite(rawDelta)&&rawDelta>0&&rawDelta<=.100001;
   const dt=Number.isFinite(rawDelta)?Math.min(.1,Math.max(0,rawDelta)):0;
   lastTime = now;
-  garage.animate(now/1000);
-  for(const vehicle of garage.vehicles)if(vehicle.rewardDisplay&&(!driving||gameplay.state.selectedId!==vehicle.id)){
+  garage.animate(now/1000,{isVisible:isRenderVisible});
+  for(const vehicle of garage.vehicles)if(vehicle.rewardDisplay&&isRenderVisible(vehicle.root)&&(!driving||gameplay.state.selectedId!==vehicle.id)){
     vehicle.rig.update({...rewardDisplayPose(THREE,vehicle,now/1000),steerAngle:0,wheelSpin:0,bodyPitch:0,bodyRoll:0,bodyBob:0});
   }
   if (playing && startup.ready && characterReady && !gameplayPaused()) {
     if(driving){
+      const physicsStarted=timings?performance.now():0;
       canyonMode?.refreshAccess();physicsWorld.updateGate(canyonMode?.entrance.unlocked);
       physicsWorld.syncParkedVehicles(gameplay.state.selectedId);physicsWorld.step(dt,model);
+      if(timings)timings.physics+=performance.now()-physicsStarted;
       applyTruckPose();roadHazardsScene.update(dt);
       if(checkPhysicsRecovery(dt)){
         handleGameplayEvents();
@@ -1110,7 +1147,12 @@ function frame(now) {
       lastWalkSpeed=dt?Math.hypot(p.x-before.x,p.z-before.z)/dt:0;updateCharacter(dt,lastWalkSpeed);
       if(!driving)followCharacter(dt);
     }
-    updateFuelHud();updateJumpHud();updateEconomyHud();
+    const uiStarted=timings?performance.now():0;
+    updateFuelHud();updateJumpHud();
+    // Walking interactions need next-frame availability updates. Driving polls
+    // can be limited; explicit gameplay/menu events still refresh immediately.
+    if(!driving||now-lastEconomyFrame>=100||now<lastEconomyFrame){updateEconomyHud();lastEconomyFrame=now;}
+    if(timings)timings.ui+=performance.now()-uiStarted;
   }
   if (!playing && !settingsMenuOpen && !hangarLeaderboardOpen&&!liveryShopOpen && transition && !dragging) {
     let t = Math.min(1, (now - transition.start) / 950),
@@ -1126,7 +1168,9 @@ function frame(now) {
   syncFleetNeon();
   for(const v of garage.vehicles)v.visual?.setBrakeLights?.(effectsActive&&v.model===model?motion.braking||0:0);
   canyonMode?.updateEffects(dt,{paused:gameplayPaused(),grounded:model.state.grounded!==false,camera});
+  const labelsStarted=timings?performance.now():0;
   updateWorldLabels();
+  if(timings)timings.ui+=performance.now()-labelsStarted;
   const weatherRoad=driving&&!canyonMode?.active?projectRoad(model.state.x,model.state.z,model.state.routeContext):null;
   biomeWeather?.update(dt,{camera,biome:weatherRoad?.biome??'city',progress:weatherRoad?.progress,x:camera.position.x,y:camera.position.y,z:camera.position.z,active:!canyonMode?.active&&playing&&driving&&startup.ready&&characterReady,paused:gameplayPaused()});
   const weatherFog=biomeWeather?.fog;
@@ -1139,17 +1183,25 @@ function frame(now) {
   camera.getWorldDirection(shadowView);
   followShadowLight(sun,{x:lightAnchor.x,y:canyonMode?.active?rig.root.position.y:groundHeight(lightAnchor.x,lightAnchor.z),z:lightAnchor.z},driving?shadowView:null);
   onlineSession?.render(dt,{now,camera,anchor:driving?model.state:gameplay.state.player});
-  renderScene(now,true);
+  if(timings)timings.logic=Math.max(0,performance.now()-frameStarted-timings.network-timings.physics-timings.ui);
+  renderScene(now,true,timings,frameStarted,(physicsWorld?.stats.steps??0)-physicsStepsBefore);
 }
-function renderScene(now=performance.now(),sample=false){
+function renderScene(now=performance.now(),sample=false,timings=null,frameStarted=0,physicsSteps=0){
   const started=renderProfiler?performance.now():0;
   camera.updateWorldMatrix(true,false);
   sun.updateWorldMatrix(true,false);sun.target.updateWorldMatrix(true,false);sun.shadow.updateMatrices(sun);
-  spatialRenderer?.update({camera,shadowCameras:renderer.shadowMap.enabled&&sun.castShadow?[sun.shadow.camera]:[]});
+  const shadowCameras=renderer.shadowMap.enabled&&sun.castShadow?[sun.shadow.camera]:[];
+  const maxDistance=scene.fog?.isFog?scene.fog.far:Infinity;
+  renderZones?.update({camera,shadowCameras,maxDistance});
+  spatialRenderer?.update({camera,shadowCameras,maxDistance});
+  const renderStarted=renderProfiler?performance.now():0;
+  if(timings)timings.culling=renderStarted-started;
   renderer.render(scene,camera);
+  const finished=renderProfiler?performance.now():0;
+  if(timings){timings.render=finished-renderStarted;timings.frame=finished-frameStarted;}
   renderProfiler?.record({now,active:sample&&startup.ready&&characterReady&&!gameplayPaused()&&!(onlineSession?.remotes.loading>0),
     info:renderer.info,roomCount:onlineSession?.client.roomSnapshot?.players.length??1,loadedPeers:onlineSession?.remotes.loaded??0,
-    renderCpuMs:performance.now()-started,spatial:spatialRenderer?.stats});
+    renderCpuMs:finished-started,spatial:{...spatialRenderer?.stats,zones:renderZones?.stats},timings,physicsSteps,pixelRatio:renderer.getPixelRatio()});
 }
 advertising=services?createAdvertising({showAd:callbacks=>services.platform.showAd(callbacks),
   pause:()=>{pauseState.set('advertising',true);gameplay.flushProgress();void services.cloud.flush();},
@@ -1162,7 +1214,7 @@ if(services?.serverUrl){
     getContext:()=>({gameplay,garage,character,model,rig,paused:gameplayPaused(),walkSpeed:lastWalkSpeed,teleportId})});
   onlineSession.bindGameplay(gameplay);
 }
-window.addEventListener('pagehide',event=>{if(event.persisted||disposedOnline)return;disposedOnline=true;settingsMusic.dispose();backgroundMusic.dispose();for(const v of garage?.vehicles||[])v.model?.dispose?.();physicsWorld?.dispose();fleetNeon.dispose();renderProfiler?.dispose();spatialRenderer?.dispose();liveryShop?.dispose();liveryPreview?.dispose();neonPreview?.dispose();hangarLeaderboardUi?.dispose();canyonMode?.dispose();driftLeaderboard.dispose();onlineSession?.dispose();advertising?.destroy();});
+window.addEventListener('pagehide',event=>{if(event.persisted||disposedOnline)return;disposedOnline=true;displayGeneration++;settingsMusic.dispose();backgroundMusic.dispose();for(const v of garage?.vehicles||[])v.model?.dispose?.();physicsWorld?.dispose();fleetNeon.dispose();renderProfiler?.dispose();renderZones?.dispose();renderZones=null;spatialRenderer?.dispose();liveryShop?.dispose();liveryPreview?.dispose();neonPreview?.dispose();hangarLeaderboardUi?.dispose();canyonMode?.dispose();driftLeaderboard.dispose();onlineSession?.dispose();advertising?.destroy();});
 window.addEventListener('pageshow',event=>{if(!event.persisted)return;appFocused=document.hasFocus?.()??true;syncBackgroundMusic();lastTime=0;onlineClock=0;inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();syncMode();});
 requestAnimationFrame(frame);
 

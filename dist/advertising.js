@@ -2,7 +2,7 @@
 import {routePointAtProgress} from './route-network.js';
 
 const EPSILON=1e-8;
-const bridgeCache=new WeakMap(),hazardCache=new WeakMap();
+const bridgeCache=new WeakMap(),hazardCache=new WeakMap(),pitCache=new WeakMap();
 const cross=(a,b,c)=>(b.x-a.x)*(c.z-a.z)-(b.z-a.z)*(c.x-a.x);
 function hull(points){
   const sorted=points.slice().sort((a,b)=>a.x-b.x||a.z-b.z);
@@ -87,10 +87,10 @@ function hazardGeometry(hazard){
 
 
 
-export function isAdvertisingSafe({position,heading=0,speed=0,footprint,radius,bridges=[],hazards=[],jumping=false,falling=false,teleporting=false,loading=false,modal=false}={}){
+export function isAdvertisingSafe({position,heading=0,speed=0,footprint,radius,bridges=[],hazards=[],roadPits=[],jumping=false,falling=false,teleporting=false,loading=false,modal=false}={}){
   if(jumping||falling||teleporting||loading||modal)return false;
   const x=Array.isArray(position)?position[0]:position?.x,z=Array.isArray(position)?position[2]:position?.z;
-  if(![x,z,heading,speed].every(Number.isFinite)||!Array.isArray(bridges)||!Array.isArray(hazards))return false;
+  if(![x,z,heading,speed].every(Number.isFinite)||!Array.isArray(bridges)||!Array.isArray(hazards)||!Array.isArray(roadPits))return false;
   let body;
   if(footprint?.halfWidth!==undefined||footprint?.halfLength!==undefined){
     const {halfWidth,halfLength}=footprint;
@@ -102,6 +102,13 @@ export function isAdvertisingSafe({position,heading=0,speed=0,footprint,radius,b
     body={center:{x,z},radius:r,minX:x-r,maxX:x+r,minZ:z-r,maxZ:z+r};
   }
   const margin=Math.max(50,Math.abs(speed)*5);
+  for(const pit of roadPits){
+    const points=pit.reservationFootprint??pit.cutFootprint;
+    if(!points?.length)return false;
+    let bounds=pitCache.get(pit);
+    if(!bounds){bounds=geometry(points);if(Object.isFrozen(pit))pitCache.set(pit,bounds);}
+    if(closeTo(body,bounds,margin))return false;
+  }
   for(const bridge of bridges){const obstacle=bridgeGeometry(bridge);if(!obstacle||closeTo(body,obstacle,margin+.02))return false;}
   for(const hazard of hazards){const obstacle=hazardGeometry(hazard);if(!obstacle||closeTo(body,obstacle,margin))return false;}
   return true;

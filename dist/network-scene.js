@@ -19,7 +19,8 @@ import {NETWORK_CONFIG} from './route-network-config.js';
 import {BRIDGES} from './road-bridges.js';
 import {createBrickPlasticMaterial,createEnvironmentMaterial} from './building-material.js';
 import {createGroundMaterial} from './ground-material.js';
-import {createTerrainCliffs} from './terrain-cliffs.js';
+import {createTerrainCliffs,createTerrainCliffExcluder} from './terrain-cliffs.js';
+import {buildRoadPitMeshes,compileRoadPitFootprints} from './road-pits-scene.js';
 import {createPaintedRoadMaterial,applyRoadSurfaceShader} from './road-material.js';
 
 const cross=(a,b,c)=>(b.x-a.x)*(c.z-a.z)-(b.z-a.z)*(c.x-a.x);
@@ -166,8 +167,8 @@ function prismBatch(THREE){
     }
     ranges.push({name,start,count:24,indexStart:faceStart,indexCount:36});
   }
-  function addStrip(name,sections){
-    const data=barrierStripData(sections),start=arrays.position.length/3,indexStart=indices.length;
+  function addStrip(name,sections,options){
+    const data=barrierStripData(sections,options),start=arrays.position.length/3,indexStart=indices.length;
     for(const key of Object.keys(arrays))arrays[key].push(...data[key]);
     for(const index of data.indices)indices.push(start+index);
     ranges.push({name,start,count:data.position.length/3,indexStart,indexCount:data.indices.length,continuous:true,sectionCount:sections.length});
@@ -177,7 +178,7 @@ function prismBatch(THREE){
   }};
 }
 
-export function buildCity(THREE,{seed=42}={}){
+export function buildCity(THREE,{seed=42,roadPits=[]}={}){
   const {ROAD_MESH,GROUND_MESH,NETWORK_EDGES,NETWORK_NODES,BIOMES,ROUTE_LENGTH,ROUTE}=NETWORK;
   const root=new THREE.Group();root.name='Urban Route • five long curved biomes and rejoining forks';
   const features=[],groups={},roadIndex=createRoadFootprintIndex(ROAD_MESH);
@@ -199,14 +200,18 @@ export function buildCity(THREE,{seed=42}={}){
     g.computeVertexNormals();g.computeBoundingBox();g.computeBoundingSphere();
     const mesh=new THREE.Mesh(g,material);mesh.name=name;mesh.receiveShadow=true;mesh.userData.networkSurface=true;group(terrain?'Terrain':'Street').add(mesh);return mesh;
   }
-  const bridgeRoad=clipBridgeSurfaces(ROAD_MESH),bridgeGround=cutSurfaceMesh(clipBridgeSurfaces(GROUND_MESH,{terrain:true}),approachGroundCut);
+  const pitGeometry=compileRoadPitFootprints(THREE,roadPits),pitFootprints=roadPits.flatMap(p=>[...pitGeometry.get(p).cutPolygons,...(p.ramp?[p.ramp.footprint]:[])]),pitCuts=pitFootprints.length?polygonIndex(pitFootprints):null;
+  const cutPits=data=>pitCuts?cutSurfaceMesh(data,pitCuts):data;
+  const originalGround=cutSurfaceMesh(clipBridgeSurfaces(GROUND_MESH,{terrain:true}),approachGroundCut),originalLandRoad=clipBridgeSurfaces(ROAD_MESH,{terrain:true});
+  const bridgeRoad=cutPits(clipBridgeSurfaces(ROAD_MESH)),bridgeGround=cutPits(originalGround);
   const road=surface('Continuous 30m-wide road',bridgeRoad,createPaintedRoadMaterial(THREE,undefined,{network:true}));
   const groundMaterial=createGroundMaterial(THREE,'grass',0xffffff);groundMaterial.vertexColors=true;
   applyRoadSurfaceShader(THREE,groundMaterial,{fringe:true,network:true});
   surface('Closed continuous terrain foundation',bridgeGround,groundMaterial,true);
-  const landRoad=clipBridgeSurfaces(ROAD_MESH,{terrain:true});
-  const cliffs=createTerrainCliffs(THREE,[bridgeGround,landRoad],{heightOffset:NETWORK.ROAD_SURFACE_OFFSET,biomeAt:q=>BIOMES.find(b=>q>=b.from&&q<b.to)||BIOMES.at(-1)});
+  const landRoad=cutPits(originalLandRoad),pitOwnsBoundary=roadPits.length?createTerrainCliffExcluder([originalGround,originalLandRoad]):undefined;
+  const cliffs=createTerrainCliffs(THREE,[bridgeGround,landRoad],{heightOffset:NETWORK.ROAD_SURFACE_OFFSET,excludeEdge:pitOwnsBoundary,bridges:BRIDGES,bankMargin:10,biomeAt:q=>BIOMES.find(b=>q>=b.from&&q<b.to)||BIOMES.at(-1)});
   group('Terrain').add(cliffs);
+  if(roadPits.length){group('Road pits').add(buildRoadPitMeshes(THREE,roadPits,{compiled:pitGeometry}));for(const pit of roadPits)features.push({...pit,type:'roadPit',pitType:pit.type});}
   group('Bridges').add(bridgeUnderdeck(THREE,clipBridgeSurfaces(ROAD_MESH,{onlyBridges:true})));
   const edgePaint=clipBridgeSurfaces(ROAD_MESH,{onlyBridges:true,edgeStrips:true});
   edgePaint.positions=edgePaint.positions.map((v,i)=>v+(i%3===1?.006:0));
@@ -227,12 +232,25 @@ export function buildCity(THREE,{seed=42}={}){
       const target=arc.at(-1)*i/count;while(k+1<arc.length-1&&arc[k+1]<target)k++;
       const t=(target-arc[k])/(arc[k+1]-arc[k]);cuts.push(curve[k].s+(curve[k+1].s-curve[k].s)*t);
     }
-    cuts.push(edge.length);let error=0;
-    for(let i=0;i<count;i++){
+    cuts.push(edge.length);
+    if(edge.biome!=='city'){
+      // End the wall at the actual bank instead of omitting an entire 42m lot.
+      // A tiny bank-side separation also keeps cliff and wall caps off one plane.
+      for(const bridge of BRIDGES)for(const q of [bridge.from-.08,bridge.to+.08]){
+        if(q<=edge.progressFrom||q>=edge.progressTo)continue;
+        let lo=0,hi=edge.length;
+        for(let j=0;j<40;j++){const mid=(lo+hi)/2;if(sample(edge,mid).progress<q)lo=mid;else hi=mid;}
+        cuts.push((lo+hi)/2);
+      }
+      cuts.sort((a,b)=>a-b);
+      for(let i=cuts.length-1;i>0;i--)if(cuts[i]-cuts[i-1]<1e-5)cuts.splice(i,1);
+    }
+    let error=0;
+    for(let i=0;i<cuts.length-1;i++){
       const a=sample(edge,cuts[i]),b=sample(edge,cuts[i+1]),aa=offset(a,side*15),bb=offset(b,side*15);
       for(let j=1;j<8;j++){const t=j/8,p=sample(edge,cuts[i]+(cuts[i+1]-cuts[i])*t),pp=offset(p,side*15);error=Math.max(error,Math.hypot(pp.x-aa.x-(bb.x-aa.x)*t,pp.z-aa.z-(bb.z-aa.z)*t));}
     }
-    const setback=Math.max(.35,.08+error);maximumFacadeSetback=Math.max(maximumFacadeSetback,setback);return {count,cuts,setback};
+    const setback=Math.max(.35,.08+error);maximumFacadeSetback=Math.max(maximumFacadeSetback,setback);return {count:cuts.length-1,cuts,setback};
   }
   function envelope(edge,side,from,to,setback,depth){
     const a=sample(edge,from),b=sample(edge,to),fa=offset(a,side*(15+setback)),fb=offset(b,side*(15+setback));
@@ -269,7 +287,7 @@ export function buildCity(THREE,{seed=42}={}){
         // Change setback only across the existing first-bridge gap, so every
         // adjoining facade still shares its exact boundary with its neighbor.
         const setback=biome.id==='city' ? (q1<=firstCityBridge.from ? .35 : profileSetback) : barrierSetback;
-        if(BRIDGES.some(b=>q0<b.to&&q1>b.from)){omittedJunctionSections++;continue;}
+        if(BRIDGES.some(b=>biome.id==='city'?(q0<b.to&&q1>b.from):(q0<b.to+.08-1e-6&&q1>b.from-.08+1e-6))){omittedJunctionSections++;continue;}
 
 
 
@@ -361,7 +379,7 @@ export function buildCity(THREE,{seed=42}={}){
   const values=record=>({bottom:record.lo,top:record.hi,...barrierTierDepth(15+record.setback,record.depth,record.ds),color:record.color});
   const between=(a,b,t)=>({bottom:a.bottom+(b.bottom-a.bottom)*t,top:a.top+(b.top-a.top)*t,near:a.near+(b.near-a.near)*t,far:a.far+(b.far-a.far)*t,color:a.color.clone().lerp(b.color,t)});
   const boundary=(a,b)=>{const v=between(values(a),values(b),.5);v.bottom=Math.min(a.lo,b.lo);return v;};
-  const visited=new Set();
+  const visited=new Set(),barrierStrips=[];
   for(const first of barrierTiers){if(previous.has(first)||visited.has(first))continue;const sections=[];let record=first;
     while(record&&!visited.has(record)){
       visited.add(record);const before=previous.get(record),after=next.get(record),middle=values(record),a=before?boundary(before,record):middle,b=after?boundary(record,after):middle,count=Math.max(4,Math.ceil((record.to-record.from)/12));
@@ -371,8 +389,19 @@ export function buildCity(THREE,{seed=42}={}){
       }
       record=after;
     }
-    barrierBatch.addStrip(first.name+' continuous',sections);
+    barrierStrips.push({name:first.name+' continuous',side:first.side,sections});
   }
+  // All strata at one run end share a cap plane. Keep only the exposed area
+  // of each later cap, rather than stacking colored coplanar rectangles.
+  const capGroups=new Map();
+  for(const strip of barrierStrips){
+    strip.caps=[];
+    for(const [end,section] of [['start',strip.sections[0]],['end',strip.sections.at(-1)]]){
+      const key=`${strip.side}:${end}:${section.distance.toFixed(6)}`;
+      const preceding=capGroups.get(key)||[];strip.caps.push(preceding.slice());preceding.push(section);capGroups.set(key,preceding);
+    }
+  }
+  for(const strip of barrierStrips)barrierBatch.addStrip(strip.name,strip.sections,{capStartOccluders:strip.caps[0],capEndOccluders:strip.caps[1]});
   const end=NETWORK.routePointAtProgress(ROUTE.end),forward={x:-Math.sin(end.heading),z:-Math.cos(end.heading)};
   const cap=[[-27,.25],[-27,8.25],[27,8.25],[27,.25]].map(([a,b])=>({x:end.x+end.right.x*a+forward.x*b,z:end.z+end.right.z*a+forward.z*b}));
   barrierBatch.add('Biome barrier volcanic route end',cap,end.height-.2,end.height+12.8,new THREE.Color(0x41373b));
@@ -396,6 +425,6 @@ export function buildCity(THREE,{seed=42}={}){
     importedModels:0,externalTextures:0,proceduralBuildingMaterial:true,roofStuds:0,roadUnion:true,mergedMetricPrisms:true,continuousBarrierSurfaces:true,omittedJunctionSections};
   root.traverse(o=>{if(o.isMesh)o.userData.spatialStatic=true;});
   const network={nodes:NETWORK_NODES,edges:NETWORK_EDGES};root.userData={stats,features,biomes:BIOMES,network};
-  return {group:root,stats,features,biomes:BIOMES,network,biomeAt:NETWORK.biomeAt,
+  return {group:root,stats,features,biomes:BIOMES,network,roadPits,biomeAt:NETWORK.biomeAt,
     dispose(){const geometries=new Set(),materials=new Set();root.traverse(o=>{if(o.isInstancedMesh)o.dispose();if(o.geometry)geometries.add(o.geometry);if(o.material)materials.add(o.material);});geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());}};
 }

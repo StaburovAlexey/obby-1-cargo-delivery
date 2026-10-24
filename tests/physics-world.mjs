@@ -45,6 +45,38 @@ test('removed visual cliff sections remain open to physics queries',()=>{
  assert.ok(cast(25),'retained cliff section must remain solid');w.dispose();
 });
 
+test('original cliff edges preserve exact transformed colliders with one or no visual sections',()=>{
+ const edgeData=new Float32Array([10.000001,3.125,2.25,0,3.125,2.25,30.000002,4.25,2.25,20,4.25,2.25]);
+ const colliderData=w=>{
+  const result=[];
+  w.world.colliders.forEach(c=>{if(c.userData?.name.startsWith('Simplified exposed terrain cliffs'))result.push({vertices:Array.from(c.shape.vertices),indices:Array.from(c.shape.indices)});});
+  return result;
+ };
+ function createCliffWorld(selected,metadata){
+  const city=fixture(),vertices=[],indices=[];
+  for(const section of selected){
+   const offset=vertices.length/3,a=Array.from(edgeData.slice(section*6,section*6+3)),b=Array.from(edgeData.slice(section*6+3,section*6+6));
+   for(let i=0;i<28;i++)vertices.push(...(i===0?a:i===1?b:[a[0],a[1]-48,a[2]]));
+   indices.push(offset,offset+1,offset+2);
+  }
+  const cliff=surface(city.group,'Layered earth and rock cliffs',vertices,indices);
+  cliff.matrixAutoUpdate=false;
+  cliff.matrix.compose(new THREE.Vector3(300.125,7.5,-40.25),new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),.4),new THREE.Vector3(1.2,1,2));
+  if(metadata)cliff.userData.physicsCliffEdges=edgeData;
+  return createPhysicsWorld(options(city));
+ }
+ const reference=createCliffWorld([0,1],false);
+ try{
+  assert.equal(reference.stats.staticTriangles,4);
+  const expected=colliderData(reference);
+  for(const selected of [[1],[]]){
+   const w=createCliffWorld(selected,true);
+   try{assert.equal(w.stats.staticTriangles,4);assert.deepEqual(colliderData(w),expected);}
+   finally{w.dispose();}
+  }
+ }finally{reference.dispose();}
+});
+
 test('fixed clock performs one raw world step per tick at 30/60/120fps',()=>{
  for(const fps of [30,60,120]){
   const w=createPhysicsWorld(options());let raw=0,before=0,after=0,frames=0,alpha=-1;const original=w.world.step.bind(w.world);w.world.step=(...args)=>{raw++;return original(...args);};
@@ -96,7 +128,10 @@ test('actual city bridge gaps stay empty and simplified cliffs preserve exposed 
  const {buildCity}=await import('../dist/network-scene.js');const {BRIDGES}=await import('../dist/road-bridges.js');const {routePointAtProgress}=await import('../dist/route-network.js');
  const city=buildCity(THREE),start=performance.now(),w=createPhysicsWorld(options(city));
  const road=city.group.getObjectByName('Continuous 30m-wide road');const terrain=city.group.getObjectByName('Closed continuous terrain foundation');
- const cliffs=city.group.getObjectByName('Layered earth and rock cliffs');const expectedCliffTriangles=new Set(Array.from(cliffs.geometry.index.array,index=>Math.floor(index/28))).size*2;
+ const cliffs=city.group.getObjectByName('Layered earth and rock cliffs');
+ assert.ok(cliffs.userData.physicsCliffEdges instanceof Float32Array);
+ const expectedCliffTriangles=cliffs.userData.physicsCliffEdges.length/6*2;
+ assert.equal(expectedCliffTriangles,32326,'the full original perimeter remains a physical wall');
  let realCliffTriangles=0;w.world.colliders.forEach(c=>{if(c.userData?.name.startsWith('Simplified exposed terrain cliffs'))realCliffTriangles+=c.shape.indices.length/3;});assert.equal(realCliffTriangles,expectedCliffTriangles);
  assert.ok(w.stats.staticTriangles>=road.geometry.index.count/3+terrain.geometry.index.count/3);assert.ok(w.stats.staticTriangles<150000);
  const bridge=BRIDGES[0],point=routePointAtProgress((bridge.from+bridge.to)/2);

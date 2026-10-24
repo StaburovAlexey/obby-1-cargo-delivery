@@ -77,7 +77,7 @@ export function createRapierDrivingModel({
   world, x=1.8, z=9.8, y, heading=0, vehicleId='pickup',
   maxSpeed=TOW_DRIVING.maxSpeed, getUpgrades=()=>undefined,
   getVehicleMetadata=()=>undefined, groundSurface=()=>CITY_SURFACE,
-  onCollision=()=>{},
+  onCollision=()=>{}, getRampBoost=()=>null, getSurfaceHazard=()=>null, onSurfaceHazard=()=>{},
 }={}) {
   const R=getRapier();
   if (!world?.createRigidBody) throw new TypeError('Vehicle requires the shared Rapier World.');
@@ -115,6 +115,8 @@ export function createRapierDrivingModel({
     grounded:false,airborne:true,wheelContacts:[],upY:1};
   const previousRender={},currentRender={},renderState={quaternion:identity(),angularVelocity3D:vec()};
   let previousStep=vec(x,y,z),previousHeading=heading,preStepVelocity=vec();
+  const enteredPatches=new Set();
+  let hazardSpin=null;
   const copyRender=target=>{
     for(const key of RENDER_FIELDS) target[key]=state[key];
     target.quaternion={...state.quaternion};
@@ -324,6 +326,7 @@ export function createRapierDrivingModel({
     body.setTranslation(vec(pose.x??position.x,pose.y??position.y,pose.z??position.z),true);
     body.setRotation(q,true);
     if(clearMotion) stopMotion();else readBody();
+    enteredPatches.clear();hazardSpin=null;
     previousStep=vec(state.x,state.y,state.z);previousHeading=state.heading;
     state.travel=state.pathDistance=state.movingSeconds=0;
     state.blocked=false;state.impactSpeed=0;state.grounded=false;state.airborne=true;
@@ -363,7 +366,7 @@ export function createRapierDrivingModel({
       state.active=false;state.speedDemand=Number.isFinite(state.speedDemand)?0:null;
       state.steering=state.frontWheelAngle=state.brake=state.handbrake=state.braking=0;
       state.travel=state.pathDistance=state.movingSeconds=state.impactSpeed=0;
-      state.blocked=false;gearBraking=false;stopMotion();resetRender();
+      state.blocked=false;gearBraking=false;hazardSpin=null;stopMotion();resetRender();
     },
     reset() {
       if(!isLive()) return;
@@ -408,11 +411,53 @@ export function createRapierDrivingModel({
       else for(const contact of contacts) if(contact.grounded) tireImpulse(contact,dt,upgrades,controls);
       state.grounded=contacts.some(c=>c.grounded && c.normalLoad>0);
       state.airborne=!state.grounded;
+      // Keep an entry latched through wheel bounce and through the whole car
+      // crossing the patch. Only a fresh supported entry takes fuel again.
+      const nearby=new Set(),position=body.translation(),rotation=body.rotation();
+      for(const wheel of [vec(),...geometry.wheels]){
+        const point=add(position,rotate(vec(wheel.x,0,wheel.z),rotation));
+        const patch=getSurfaceHazard(point.x,point.z,2);
+        if(patch)nearby.add(patch.id);
+      }
+      for(const id of enteredPatches)if(!nearby.has(id))enteredPatches.delete(id);
+      if(state.grounded&&state.linearSpeed>.8&&state.upY>.65){
+        for(const contact of contacts){
+          if(!contact.grounded||contact.normalLoad<=0)continue;
+          const patch=getSurfaceHazard(contact.point.x,contact.point.z,0);
+          if(!patch||enteredPatches.has(patch.id))continue;
+          enteredPatches.add(patch.id);
+          if(!hazardSpin)hazardSpin={remaining:Math.PI,direction:patch.offset<0?1:-1,seconds:0};
+          onSurfaceHazard(patch);
+        }
+      }
+      if(hazardSpin){
+        const angular=body.angvel();
+        body.setAngvel(vec(angular.x,hazardSpin.direction*Math.min(3.8,hazardSpin.remaining/dt),angular.z),true);
+        hazardSpin.seconds+=dt;
+      }
+      // The pad supplies a bounded impulse along its uphill direction. Query
+      // actual loaded wheel contacts so passing above/beside it gives no boost.
+      if(state.grounded&&state.gear==='D'&&state.active&&state.braking<.1&&state.upY>.65){
+        const contact=contacts.find(c=>c.grounded&&c.normalLoad>0&&getRampBoost(c.point.x,c.point.z));
+        const boost=contact&&getRampBoost(contact.point.x,contact.point.z);
+        if(boost&&Math.cos(state.heading-boost.heading)>.85){
+          const direction=unit(vec(-Math.sin(boost.heading),boost.slope,-Math.cos(boost.heading)));
+          const speed=dot(body.linvel(),direction),gain=Math.min(boost.acceleration*dt,Math.max(0,boost.speed-speed));
+          if(gain>0)body.applyImpulse(scale(direction,MASS*gain),true);
+        }
+      }
     },
     afterStep(dt) {
       if(!isLive() || !enabled || !(dt>0)) return;
       readBody();
       const dx=state.x-previousStep.x,dy=state.y-previousStep.y,dz=state.z-previousStep.z;
+      if(hazardSpin){
+        const turn=Math.atan2(Math.sin(state.heading-previousHeading),Math.cos(state.heading-previousHeading));
+        hazardSpin.remaining=Math.max(0,hazardSpin.remaining-turn*hazardSpin.direction);
+        if(hazardSpin.remaining<.025||hazardSpin.seconds>=1.5){
+          const angular=body.angvel();body.setAngvel(vec(angular.x,0,angular.z),true);hazardSpin=null;readBody();
+        }
+      }
       const middle=(previousHeading+state.heading)/2;
       const travel=-Math.sin(middle)*dx-Math.cos(middle)*dz;
       const distance=Math.hypot(dx,dy,dz);

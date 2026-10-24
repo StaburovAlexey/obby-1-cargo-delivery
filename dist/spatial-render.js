@@ -1,6 +1,6 @@
 // Keep canonical meshes for gameplay/inspection. Render one compacted batch per
 // source instead of creating hundreds of draw calls or requiring multi-draw.
-export function createSpatialRenderer(THREE,{roots=[],cellSize=256}={}){
+export function createSpatialRenderer(THREE,{roots=[],cellSize=128}={}){
  const records=[],candidates=new Set(),point=new THREE.Vector3(),matrix=new THREE.Matrix4();
  let disposed=false;
  const stats={sourceBatches:0,activeBatches:0,cells:0,sourceTriangles:0,submittedTriangles:0,uploads:0};
@@ -58,7 +58,7 @@ export function createSpatialRenderer(THREE,{roots=[],cellSize=256}={}){
    renderGeometry.boundingSphere=geometry.boundingSphere.clone();
    proxy=new THREE.Mesh(renderGeometry,source.material);
   }
-  source.updateMatrix();
+  if(source.matrixAutoUpdate)source.updateMatrix();
   proxy.matrix.copy(source.matrix);proxy.matrixAutoUpdate=false;
   proxy.name=source.name+' (spatial render)';proxy.userData.spatialRenderProxy=true;
   proxy.castShadow=source.castShadow;proxy.receiveShadow=source.receiveShadow;
@@ -71,11 +71,16 @@ export function createSpatialRenderer(THREE,{roots=[],cellSize=256}={}){
   stats.sourceTriangles+=triangles*(instanced?sourceCount:1);stats.cells+=cells.length;
  }
  stats.sourceBatches=records.length;
- const projection=new THREE.Matrix4(),view=new THREE.Frustum(),shadowViews=[];
- function update({camera,shadowCameras=[]}={}){
+ const projection=new THREE.Matrix4(),view=new THREE.Frustum(),shadowViews=[],fogPlane=new THREE.Plane(),direction=new THREE.Vector3(),origin=new THREE.Vector3();
+ function update({camera,shadowCameras=[],maxDistance=Infinity}={}){
   if(disposed||!camera)return;
   camera.updateWorldMatrix(true,false);
   view.setFromProjectionMatrix(projection.multiplyMatrices(camera.projectionMatrix,camera.matrixWorldInverse),camera.coordinateSystem,camera.reversedDepth);
+  const fogLimited=Number.isFinite(maxDistance)&&maxDistance>0;
+  if(fogLimited){
+   camera.getWorldDirection(direction);camera.getWorldPosition(origin).addScaledVector(direction,maxDistance);
+   fogPlane.setFromNormalAndCoplanarPoint(direction.negate(),origin);
+  }
   shadowViews.length=shadowCameras.length;
   for(let i=0;i<shadowCameras.length;i++){
    const c=shadowCameras[i];c.updateWorldMatrix(true,false);
@@ -85,16 +90,18 @@ export function createSpatialRenderer(THREE,{roots=[],cellSize=256}={}){
   stats.submittedTriangles=stats.activeBatches=0;
   for(const r of records){
    const {source,proxy}=r;source.updateWorldMatrix(true,false);proxy.layers.mask=source.layers.mask;
+   let parentVisible=true;
+   for(let parent=source.parent;parent;parent=parent.parent)if(!parent.visible){parentVisible=false;break;}
    if(!r.world.equals(source.matrixWorld)){
-    r.world.copy(source.matrixWorld);proxy.matrixWorld.copy(source.matrixWorld);
+    r.world.copy(source.matrixWorld);proxy.matrix.copy(source.matrix);proxy.matrixWorld.copy(source.matrixWorld);
     for(const cell of r.cells)cell.world.copy(cell.local).applyMatrix4(r.world);
    }
    let changed=false;
    for(let i=0;i<r.cells.length;i++){
     const box=r.cells[i].world;
-    let keep=source.layers.test(camera.layers)&&view.intersectsBox(box);
+    let keep=parentVisible&&source.layers.test(camera.layers)&&view.intersectsBox(box)&&(!fogLimited||box.intersectsPlane(fogPlane)||fogPlane.distanceToPoint(box.getCenter(point))>=0);
     // WebGLShadowMap selects caster layers using the main camera.
-    if(!keep&&source.castShadow&&source.layers.test(camera.layers))for(const entry of shadowViews)if(entry.frustum.intersectsBox(box)){keep=true;break;}
+    if(!keep&&parentVisible&&source.castShadow&&source.layers.test(camera.layers))for(const entry of shadowViews)if(entry.frustum.intersectsBox(box)){keep=true;break;}
     const bit=Number(keep);if(r.mask[i]!==bit){r.mask[i]=bit;changed=true;}
    }
    if(changed){

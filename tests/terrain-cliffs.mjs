@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import * as THREE from '../dist/vendor/three.module.js';
 import {buildCity} from '../dist/network-scene.js';
+import {createTerrainCliffs} from '../dist/terrain-cliffs.js';
 import {BRIDGES} from '../dist/road-bridges.js';
 import {routePointAtProgress,ROAD_SURFACE_OFFSET} from '../dist/route-network.js';
 
@@ -34,5 +35,25 @@ test('Cliffs use finite, bounded geometry and participate in spatial culling',()
  assert.ok(cliffs.geometry.index.count/3<250000);
  for(const value of cliffs.geometry.attributes.position.array)assert.ok(Number.isFinite(value));
  assert.ok(cliffs.material.vertexColors);
- city.dispose();
+});
+test.after(()=>city.dispose());
+
+
+test('only bridge banks plus a ten-metre margin keep visual strata while all physical walls remain',()=>{
+ assert.equal(cliffs.geometry.index.count/3,46102);
+ assert.ok(cliffs.userData.physicsCliffEdges instanceof Float32Array);
+ assert.equal(cliffs.userData.physicsCliffEdges.length/6,16163);
+ assert.equal(cliffs.userData.physicsCliffEdges.length/6*14,226282);
+});
+
+test('bank margin includes its boundary and excludes unrelated perimeter without dropping collision edges',()=>{
+ const surface=q=>({positions:[0,0,0,2,0,0,0,0,2],indices:[0,1,2],progress:[q,q,q]});
+ for(const [q,visible] of [[0,true],[10,true],[11,false],[14,true],[100,false]]){
+  const mesh=createTerrainCliffs(THREE,[surface(q)],{bridges:[{from:0,to:24}],bankMargin:10});
+  try{
+   assert.equal(mesh.geometry.index.count>0,visible,'progress '+q);
+   assert.ok(mesh.userData.physicsCliffEdges instanceof Float32Array);
+   assert.equal(mesh.userData.physicsCliffEdges.length/6,3);
+  }finally{mesh.geometry.dispose();mesh.material.dispose();}
+ }
 });
