@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: unchanged kinematic targets avoid repeated WASM writes while generic mutable headings and positions update
+not ok 1 - unchanged kinematic targets avoid repeated WASM writes while generic mutable headings and positions update
+  ---
+  duration_ms: 342.705196
+  type: 'test'
+  location: '/home/gilbertfrost/storage/dev/obby-cargo-delivery/tests/fps-kinematic-sync.mjs:15:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    constant heading must not resend the same kinematic rotation
+    
+    120 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 120
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/gilbertfrost/storage/dev/obby-cargo-delivery/tests/fps-kinematic-sync.mjs:18:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: cached and original kinematics retain every next/current pose, velocity, support velocity and dynamic contact over move/dwell transitions
+ok 2 - cached and original kinematics retain every next/current pose, velocity, support velocity and dynamic contact over move/dwell transitions
+  ---
+  duration_ms: 4586.609279
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 1
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5661.530827

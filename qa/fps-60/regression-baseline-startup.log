@@ -1,0 +1,30 @@
+TAP version 13
+# <anonymous_script>:116
+# configureModelLoading(renderer);
+# ^
+# ReferenceError: configureModelLoading is not defined
+#     at eval (eval at createAppDom (file:///home/gilbertfrost/storage/dev/obby-cargo-delivery/output/fps-60/baseline/tests/fixtures/app-dom.mjs:122:2), <anonymous>:116:1)
+#     at createAppDom (file:///home/gilbertfrost/storage/dev/obby-cargo-delivery/output/fps-60/baseline/tests/fixtures/app-dom.mjs:122:43)
+#     at file:///home/gilbertfrost/storage/dev/obby-cargo-delivery/output/fps-60/baseline/tests/startup-app.mjs:7:9
+# Node.js v22.23.3
+# Subtest: tests/startup-app.mjs
+not ok 1 - tests/startup-app.mjs
+  ---
+  duration_ms: 3111.843215
+  type: 'test'
+  location: '/home/gilbertfrost/storage/dev/obby-cargo-delivery/output/fps-60/baseline/tests/startup-app.mjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 1
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3141.060464

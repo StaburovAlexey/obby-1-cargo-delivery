@@ -1,0 +1,42 @@
+{
+  "recordedAt": "2026-10-24T16:33:52.908Z",
+  "runtime": "v22.23.3",
+  "platform": "linux",
+  "cpu": "13th Gen Intel(R) Core(TM) i7-13700H",
+  "logicalCpus": 20,
+  "seed": 42,
+  "frames": 60,
+  "dt": 0.016666666666666666,
+  "rounds": 3,
+  "warmupRounds": 2,
+  "movers": 88,
+  "moverUpdatesPerRound": 5280,
+  "elapsedMs": {
+    "baseline": [
+      776.0222039999999,
+      697.9732039999999,
+      700.4025109999993
+    ],
+    "current": [
+      10.663690999999744,
+      10.707572000000255,
+      10.939964999999575
+    ]
+  },
+  "medianMs": {
+    "baseline": 700.4025109999993,
+    "current": 10.707572000000255
+  },
+  "medianMicrosecondsPerMover": {
+    "baseline": 132.65199071969684,
+    "current": 2.027949242424291
+  },
+  "projectRoadCalls": {
+    "baseline": 5280,
+    "current": 0
+  },
+  "projectionReductionPercent": 100,
+  "elapsedMedianReductionPercent": 98.47122592625881,
+  "allPoseFieldsExact": true,
+  "scope": "Node roadHazards.update fixed-tick CPU workload versus the copied dirty runtime. Timed modules are uninstrumented; projection counts use separate instrumented imports. No hazards or physics are skipped. This is not GPU timing or Android FPS evidence."
+}

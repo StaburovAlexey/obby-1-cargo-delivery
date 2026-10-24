@@ -4,7 +4,7 @@ import {updateVisualSuspension} from './wheel-contact-visuals.js';
 
 
 
-import { GLTFLoader } from './vendor/GLTFLoader.js';
+import {createModelLoader} from './model-loader.js';
 import { attachVehicleBrakeLights } from './vehicle-brake-lights.js';
 
 const TAU = Math.PI * 2;
@@ -14,7 +14,7 @@ const MAX_WIDTH = 4.65;
 export const BMW_VEHICLE_LENGTH = 8;
 export const BMW_VEHICLE = Object.freeze({
   id: 'bmwreward', model: 'bmw-g80-m3', biome: 'reward',
-  url: new URL('./assets/vehicles/bmw/low-poly-bmw-g80-m3.glb', import.meta.url).href,
+  url: new URL('./assets/optimized/vehicles/bmw/low-poly-bmw-g80-m3.glb', import.meta.url).href,
 });
 const byteCache = new Map();
 const adoptedScenes = new WeakSet();
@@ -136,7 +136,7 @@ function applyGoldPaint(THREE, body, resources) {
 export async function loadBMWVehicle(THREE, vehicleId = BMW_VEHICLE.id) {
   const spec = vehicleSpec(vehicleId);
   const bytes = await sourceBytes(spec.url);
-  const gltf = await new GLTFLoader().parseAsync(bytes, new URL('.', spec.url).href);
+  const gltf = await createModelLoader().parseAsync(bytes, new URL('.', spec.url).href);
   return createBMWVehicleAdapter(THREE, vehicleId, gltf);
 }
 

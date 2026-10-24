@@ -1,0 +1,39 @@
+TAP version 13
+# 60 FPS: maximum car/camera jump 0.00003 px
+# 90 FPS: maximum car/camera jump 0.00002 px
+# 120 FPS: maximum car/camera jump 0.00001 px
+# 144 FPS: maximum car/camera jump 0.00001 px
+# variable-60 FPS: maximum car/camera jump 0.03569 px
+# Subtest: real application frames keep a steadily driven car stable relative to its follow camera
+ok 1 - real application frames keep a steadily driven car stable relative to its follow camera
+  ---
+  duration_ms: 70123.547159
+  type: 'test'
+  ...
+# Subtest: the rendered car and follow camera share the interpolated turn rather than the latest physics heading
+ok 2 - the rendered car and follow camera share the interpolated turn rather than the latest physics heading
+  ---
+  duration_ms: 10254.849699
+  type: 'test'
+  ...
+# Subtest: camera rotation continues through zero-tick render frames without adding fictitious return distance
+ok 3 - camera rotation continues through zero-tick render frames without adding fictitious return distance
+  ---
+  duration_ms: 11937.717566
+  type: 'test'
+  ...
+# Subtest: camera follows an angular-only displayed spin between physics ticks
+ok 4 - camera follows an angular-only displayed spin between physics ticks
+  ---
+  duration_ms: 11511.872952
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 105929.745368

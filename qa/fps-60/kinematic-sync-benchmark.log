@@ -1,0 +1,90 @@
+{
+  "recordedAt": "2026-10-24T16:57:02.654Z",
+  "runtime": "v22.23.3",
+  "cpu": "13th Gen Intel(R) Core(TM) i7-13700H",
+  "logicalCpus": 20,
+  "seed": 42,
+  "warmupTicks": 180,
+  "countTicks": 60,
+  "framesPerRound": 120,
+  "rounds": 3,
+  "dt": 0.016666666666666666,
+  "measuredSimulationRangeSeconds": [
+    4,
+    10
+  ],
+  "metrics": {
+    "baseline": {
+      "elapsedMs": [
+        284.6016950000012,
+        244.49033299999792,
+        228.74767200000133
+      ],
+      "worldStepMs": [
+        187.87419899997622,
+        171.42052000001422,
+        159.82643900001494
+      ],
+      "medianTotalMs": 244.49033299999792,
+      "medianWorldStepMs": 171.42052000001422,
+      "kinematicWritesOver60Ticks": {
+        "translation": 5280,
+        "rotation": 5280
+      },
+      "finalVehicle": {
+        "x": -899.1475830078125,
+        "y": 37.9652214050293,
+        "z": -7066.05126953125,
+        "linearSpeed": 1.9799969657536534,
+        "grounded": true
+      },
+      "stats": {
+        "chunks": 2102,
+        "boxes": 364,
+        "staticTriangles": 171932,
+        "staticColliders": 2466,
+        "kinematicBodies": 88,
+        "steps": 600,
+        "disposed": false
+      }
+    },
+    "current": {
+      "elapsedMs": [
+        298.7625960000005,
+        291.00374699999884,
+        249.40796800000317
+      ],
+      "worldStepMs": [
+        202.4284899999875,
+        202.70200799999293,
+        178.5089630000257
+      ],
+      "medianTotalMs": 291.00374699999884,
+      "medianWorldStepMs": 202.4284899999875,
+      "kinematicWritesOver60Ticks": {
+        "translation": 4344,
+        "rotation": 0
+      },
+      "finalVehicle": {
+        "x": -899.1475830078125,
+        "y": 37.9652214050293,
+        "z": -7066.05126953125,
+        "linearSpeed": 1.9799969657536534,
+        "grounded": true
+      },
+      "stats": {
+        "chunks": 2102,
+        "boxes": 364,
+        "staticTriangles": 171932,
+        "staticColliders": 2466,
+        "kinematicBodies": 88,
+        "steps": 600,
+        "disposed": false
+      }
+    }
+  },
+  "totalMedianReductionPercent": -19.02464339970502,
+  "worldStepMedianReductionPercent": -18.088832072129236,
+  "allBodyAndMoverFieldsExact": true,
+  "scope": "Real Rapier world: complete generated city, garage, canyon, 88 continuously updated movers and one active desertscout driving model with source GLB bounds and default wheel geometry. No GLB visual downloads or road-pit cutouts. Reference restores only unconditional kinematic target writes; all other current optimizations are shared. Timed rounds are uninstrumented except identical world.step timers; setter counts use a separate preceding 60-tick pass. Measurement begins after the shared 1.2-second mover start pause. This is CPU-only, not browser/Android FPS evidence."
+}

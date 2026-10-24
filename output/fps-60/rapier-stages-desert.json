@@ -1,0 +1,89 @@
+{
+  "schema": "obby-rapier-stages-v1",
+  "recordedAt": "2026-10-24T17:03:21.254Z",
+  "state": "complete",
+  "requestedDurationMs": 8000,
+  "startedAt": 202612.90000000224,
+  "endedAt": 210615,
+  "elapsedMs": 8002.099999997765,
+  "steps": 480,
+  "startContext": {
+    "driving": true,
+    "canyon": false,
+    "vehicleId": "pickup",
+    "pose": {
+      "x": -1296.3642578125,
+      "y": 20.098264694213867,
+      "z": -5627.47998046875,
+      "speed": 1.8646580872049312,
+      "grounded": true
+    }
+  },
+  "endContext": {
+    "driving": true,
+    "canyon": false,
+    "vehicleId": "pickup",
+    "pose": {
+      "x": -1287.098388671875,
+      "y": 20.09807586669922,
+      "z": -5650.62158203125,
+      "speed": 3.1349648717226497,
+      "grounded": true
+    }
+  },
+  "outerWorldStep": {
+    "samples": 480,
+    "totalMs": 1345.400000013411,
+    "maxMs": 9.5,
+    "meanMs": 2.8029166666946064
+  },
+  "stages": {
+    "userChanges": {
+      "samples": 480,
+      "totalMs": 14.399999999999968,
+      "maxMs": 0.3,
+      "meanMs": 0.029999999999999933
+    },
+    "broadPhase": {
+      "samples": 480,
+      "totalMs": 301.0999999999999,
+      "maxMs": 1.7,
+      "meanMs": 0.6272916666666665
+    },
+    "narrowPhase": {
+      "samples": 480,
+      "totalMs": 21.100000000000023,
+      "maxMs": 0.2,
+      "meanMs": 0.043958333333333384
+    },
+    "solver": {
+      "samples": 480,
+      "totalMs": 61.40000000000041,
+      "maxMs": 0.3,
+      "meanMs": 0.1279166666666675
+    },
+    "ccd": {
+      "samples": 480,
+      "totalMs": 0,
+      "maxMs": 0,
+      "meanMs": 0
+    },
+    "islandConstruction": {
+      "samples": 480,
+      "totalMs": 2.9000000000000012,
+      "maxMs": 0.1,
+      "meanMs": 0.006041666666666669
+    },
+    "rapierStep": {
+      "samples": 480,
+      "totalMs": 704.2000000000006,
+      "maxMs": 4.3,
+      "meanMs": 1.4670833333333346
+    }
+  },
+  "previousProfilerEnabled": false,
+  "restorationErrors": [],
+  "error": null,
+  "invalid": [],
+  "note": "Milliseconds from actual Rapier World.step calls. Rapier counters overlap and must not be summed. Outer timing excludes counter reads; enabling profiling adds diagnostic overhead. No input, timestep, force, collision or solver settings changed."
+}

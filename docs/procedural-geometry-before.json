@@ -1,0 +1,1461 @@
+{
+  "scope": "CPU geometry construction and immutable source accounting; no tests, renderer, device FPS or visual validation",
+  "seed": 42,
+  "pits": 15,
+  "city": {
+    "triangles": 165507,
+    "meshes": [
+      {
+        "name": "Continuous 30m-wide road",
+        "triangles": 8316,
+        "vertices": 24948,
+        "instances": 1,
+        "canonicalTriangles": 8316,
+        "canonicalHash": "909a945d6598de5536545f594e2964ba683c8723cd1f3f3dc5af96bd6359e35e"
+      },
+      {
+        "name": "Flat yellow bridge edge markings",
+        "triangles": 868,
+        "vertices": 2604,
+        "instances": 1,
+        "canonicalTriangles": 868,
+        "canonicalHash": "1644b27da8e429bace1406852590bafa83ff82041e0706e3d798cc8e2d91ab53"
+      },
+      {
+        "name": "Closed continuous terrain foundation",
+        "triangles": 15794,
+        "vertices": 47382,
+        "instances": 1,
+        "canonicalTriangles": 15794,
+        "canonicalHash": "02cc99e79643ee04a959ed052f9ccc3e879a09fd169007565b96f619392071fb"
+      },
+      {
+        "name": "Layered earth and rock cliffs",
+        "triangles": 46102,
+        "vertices": 92204,
+        "instances": 1,
+        "canonicalTriangles": 46102,
+        "canonicalHash": "5f6d3ec74f3f4bdb9c75798548eba9b78fdc553917f8719390b4c79e5fa8b5e6",
+        "cliffEdges": 16138,
+        "cliffEdgeHash": "76550b8291476853b77eb1099255c4ae89fafd7fe6b84e5c8cb230bf6aea05d9"
+      },
+      {
+        "name": "Road pit walls",
+        "triangles": 13392,
+        "vertices": 26784,
+        "instances": 1,
+        "canonicalTriangles": 13392,
+        "canonicalHash": "ceb2bf60df2b5c3ea02ca31c23f4e20de6134640bb5ed4931f3f5c0ce609a388"
+      },
+      {
+        "name": "Road pit floors",
+        "triangles": 1254,
+        "vertices": 3762,
+        "instances": 1,
+        "canonicalTriangles": 1254,
+        "canonicalHash": "01ddb80cbbb9bc052f61a8b7baec80e6f9130cbde8e8ed32b3e49c2f71731525"
+      },
+      {
+        "name": "Road jump ramps",
+        "triangles": 480,
+        "vertices": 970,
+        "instances": 1,
+        "canonicalTriangles": 480,
+        "canonicalHash": "9af72cdf9a25cef40b5f3342eb8e6b8d1a37b9b290df92a9d1b64662abd3b05d"
+      },
+      {
+        "name": "Road pit warnings",
+        "triangles": 2359,
+        "vertices": 5453,
+        "instances": 1,
+        "canonicalTriangles": 2359,
+        "canonicalHash": "773a8d5b2f38fe9ec3b21add9eeae149b2c9fd8ecb741d5efbb25c33ad1eafe9"
+      },
+      {
+        "name": "Single-car bridge underdecks",
+        "triangles": 1450,
+        "vertices": 3350,
+        "instances": 1,
+        "canonicalTriangles": 1450,
+        "canonicalHash": "b6a8775a0f758c3c124fbe2fa769c16504ce1ae4f84900444e1322adff44dcef"
+      },
+      {
+        "name": "Continuous storefront residences",
+        "triangles": 3708,
+        "vertices": 7416,
+        "instances": 1,
+        "canonicalTriangles": 3708,
+        "canonicalHash": "38cd37c1944a79b992eaccd7b53ac592a5a8faf396a0cf7cb5f93366f5ac9a64"
+      },
+      {
+        "name": "Massive biome barriers",
+        "triangles": 71784,
+        "vertices": 76208,
+        "instances": 1,
+        "canonicalTriangles": 71784,
+        "canonicalHash": "af333a25276fb0bcf8c0abb792ea083520f78713e2b29f71cbdd2e7198b390e2"
+      }
+    ]
+  },
+  "canyon": {
+    "triangles": 45596,
+    "meshes": [
+      {
+        "name": "Canyon asphalt",
+        "triangles": 1850,
+        "vertices": 1852,
+        "instances": 1,
+        "canonicalTriangles": 1850,
+        "canonicalHash": "93c8e01da626722e47948e42b926daa679a9cd351313c35ada21c28ab0bee9f3"
+      },
+      {
+        "name": "Canyon left shoulder",
+        "triangles": 1850,
+        "vertices": 1852,
+        "instances": 1,
+        "canonicalTriangles": 1850,
+        "canonicalHash": "6f7cb07c7e82faf932c5e4e92f868dd32545411fc3b6894032d209bcb6695158"
+      },
+      {
+        "name": "Canyon right shoulder",
+        "triangles": 1850,
+        "vertices": 1852,
+        "instances": 1,
+        "canonicalTriangles": 1850,
+        "canonicalHash": "9d094387f905c51afec093b3023b247bec5cded5b485c509be1653f0536187b7"
+      },
+      {
+        "name": "Canyon left edge paint",
+        "triangles": 1850,
+        "vertices": 1852,
+        "instances": 1,
+        "canonicalTriangles": 1850,
+        "canonicalHash": "9d5ae4d4cd48a3d23404d6fa5cc9f5ebddde3aa140f199f55c9643f059f6506e"
+      },
+      {
+        "name": "Canyon right edge paint",
+        "triangles": 1850,
+        "vertices": 1852,
+        "instances": 1,
+        "canonicalTriangles": 1850,
+        "canonicalHash": "cc5b84f95043eaa1b4928a65afaa7bd4c13157acc8579162063188dbd90962ba"
+      },
+      {
+        "name": "Canyon steel guardrails",
+        "triangles": 16652,
+        "vertices": 16664,
+        "instances": 1,
+        "canonicalTriangles": 16652,
+        "canonicalHash": "b319398cfb1ad2094c563788f9acf734ab83731e0eb708f29252dcb3a92fa3b6"
+      },
+      {
+        "name": "Canyon guardrail posts",
+        "triangles": 4176,
+        "vertices": 24,
+        "instances": 348,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Canyon center dashes",
+        "triangles": 1584,
+        "vertices": 24,
+        "instances": 132,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Canyon sandstone stratum 0",
+        "triangles": 3990,
+        "vertices": 46,
+        "instances": 190,
+        "canonicalTriangles": 21,
+        "canonicalHash": "c7d581dbcbd470c23295eff42cdf95454bf6967fa7fd4720aed548d32097870e"
+      },
+      {
+        "name": "Canyon approach sandstone stratum 0",
+        "triangles": 392,
+        "vertices": 46,
+        "instances": 28,
+        "canonicalTriangles": 14,
+        "canonicalHash": "09ef99d90cace136a3a22ab27e76ad5a3d12c3fd3f8112426cc7e1a2b2878d14"
+      },
+      {
+        "name": "Canyon sandstone stratum 1",
+        "triangles": 2660,
+        "vertices": 46,
+        "instances": 190,
+        "canonicalTriangles": 14,
+        "canonicalHash": "09ef99d90cace136a3a22ab27e76ad5a3d12c3fd3f8112426cc7e1a2b2878d14"
+      },
+      {
+        "name": "Canyon approach sandstone stratum 1",
+        "triangles": 392,
+        "vertices": 46,
+        "instances": 28,
+        "canonicalTriangles": 14,
+        "canonicalHash": "09ef99d90cace136a3a22ab27e76ad5a3d12c3fd3f8112426cc7e1a2b2878d14"
+      },
+      {
+        "name": "Canyon sandstone stratum 2",
+        "triangles": 3990,
+        "vertices": 46,
+        "instances": 190,
+        "canonicalTriangles": 21,
+        "canonicalHash": "f09fcd354a70c872e140e30c8f871c012fda9ac771f936599aa0826a2aac06b0"
+      },
+      {
+        "name": "Canyon approach sandstone stratum 2",
+        "triangles": 588,
+        "vertices": 46,
+        "instances": 28,
+        "canonicalTriangles": 21,
+        "canonicalHash": "f09fcd354a70c872e140e30c8f871c012fda9ac771f936599aa0826a2aac06b0"
+      },
+      {
+        "name": "Canyon start arch",
+        "triangles": 36,
+        "vertices": 24,
+        "instances": 3,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Canyon finish arch",
+        "triangles": 36,
+        "vertices": 24,
+        "instances": 3,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Canyon basin floor",
+        "triangles": 1850,
+        "vertices": 1852,
+        "instances": 1,
+        "canonicalTriangles": 1850,
+        "canonicalHash": "a2216ccb57e2d2f1e59f85aba1658242960dd82dd7d18c8068abb47b589770a9"
+      }
+    ]
+  },
+  "garage": {
+    "triangles": 22200,
+    "meshes": [
+      {
+        "name": "Garage shell and flush bay markings",
+        "triangles": 5460,
+        "vertices": 24,
+        "instances": 455,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Reward vehicle display pedestals",
+        "triangles": 3840,
+        "vertices": 388,
+        "instances": 15,
+        "canonicalTriangles": 256,
+        "canonicalHash": "74332ae55317ffadce1a277f4a018d68b3bbdf278c579974b297cd2d72a1a1fe"
+      },
+      {
+        "name": "Reward vehicle approach 1",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "de44a49dffb48e9a006a2e04b57e983fb6dbd7130516425ee762366371b33a84"
+      },
+      {
+        "name": "Reward vehicle approach 2",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "de44a49dffb48e9a006a2e04b57e983fb6dbd7130516425ee762366371b33a84"
+      },
+      {
+        "name": "Reward vehicle approach 3",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "de44a49dffb48e9a006a2e04b57e983fb6dbd7130516425ee762366371b33a84"
+      },
+      {
+        "name": "Reward vehicle approach 4",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "de44a49dffb48e9a006a2e04b57e983fb6dbd7130516425ee762366371b33a84"
+      },
+      {
+        "name": "Reward vehicle approach 5",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "de44a49dffb48e9a006a2e04b57e983fb6dbd7130516425ee762366371b33a84"
+      },
+      {
+        "name": "Classroom entry school-1: choose a free seat",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "eb7d6151d6ab393ef720f3ab298305fcf9cb441014963ae86b6c54183775ad4a"
+      },
+      {
+        "name": "Classroom entry school-2: choose a free seat",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "eb7d6151d6ab393ef720f3ab298305fcf9cb441014963ae86b6c54183775ad4a"
+      },
+      {
+        "name": "Classroom entry school-3: choose a free seat",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "eb7d6151d6ab393ef720f3ab298305fcf9cb441014963ae86b6c54183775ad4a"
+      },
+      {
+        "name": "Classroom entry school-4: choose a free seat",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "eb7d6151d6ab393ef720f3ab298305fcf9cb441014963ae86b6c54183775ad4a"
+      },
+      {
+        "name": "Classroom entry school-5: choose a free seat",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "eb7d6151d6ab393ef720f3ab298305fcf9cb441014963ae86b6c54183775ad4a"
+      },
+      {
+        "name": "Vehicle approach · pickup",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "de44a49dffb48e9a006a2e04b57e983fb6dbd7130516425ee762366371b33a84"
+      },
+      {
+        "name": "Vehicle approach · rover",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "de44a49dffb48e9a006a2e04b57e983fb6dbd7130516425ee762366371b33a84"
+      },
+      {
+        "name": "Vehicle approach · van",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "de44a49dffb48e9a006a2e04b57e983fb6dbd7130516425ee762366371b33a84"
+      },
+      {
+        "name": "Vehicle approach · citycourier",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "de44a49dffb48e9a006a2e04b57e983fb6dbd7130516425ee762366371b33a84"
+      },
+      {
+        "name": "Vehicle approach · foresthauler",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "de44a49dffb48e9a006a2e04b57e983fb6dbd7130516425ee762366371b33a84"
+      },
+      {
+        "name": "Vehicle approach · desertscout",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "de44a49dffb48e9a006a2e04b57e983fb6dbd7130516425ee762366371b33a84"
+      },
+      {
+        "name": "Vehicle approach · snowgrip",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "de44a49dffb48e9a006a2e04b57e983fb6dbd7130516425ee762366371b33a84"
+      },
+      {
+        "name": "Vehicle approach · snowrunner",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "de44a49dffb48e9a006a2e04b57e983fb6dbd7130516425ee762366371b33a84"
+      },
+      {
+        "name": "Vehicle approach · lavacrawler",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "de44a49dffb48e9a006a2e04b57e983fb6dbd7130516425ee762366371b33a84"
+      },
+      {
+        "name": "Vehicle approach · ashhauler",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "de44a49dffb48e9a006a2e04b57e983fb6dbd7130516425ee762366371b33a84"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "62a0bb1b7c48d472a503b769664cc20711115e8106a7df2034b4198891b94d44"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "3cb69257017d41e56aa83663244c8d474ba3feab74c1a1921f3f901ba8ddbb04"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "7549c0b14e978a79c7bc5db965188180d42281397a70052b9a5364e5555c87ae"
+      },
+      {
+        "name": "Procedural fuel canister",
+        "triangles": 108,
+        "vertices": 24,
+        "instances": 9,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "62a0bb1b7c48d472a503b769664cc20711115e8106a7df2034b4198891b94d44"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "3cb69257017d41e56aa83663244c8d474ba3feab74c1a1921f3f901ba8ddbb04"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "7549c0b14e978a79c7bc5db965188180d42281397a70052b9a5364e5555c87ae"
+      },
+      {
+        "name": "Procedural fuel canister",
+        "triangles": 108,
+        "vertices": 24,
+        "instances": 9,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "62a0bb1b7c48d472a503b769664cc20711115e8106a7df2034b4198891b94d44"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "3cb69257017d41e56aa83663244c8d474ba3feab74c1a1921f3f901ba8ddbb04"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "7549c0b14e978a79c7bc5db965188180d42281397a70052b9a5364e5555c87ae"
+      },
+      {
+        "name": "Procedural fuel canister",
+        "triangles": 108,
+        "vertices": 24,
+        "instances": 9,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "1788734d7813cc3a1984b795aa87b3fb41f24d2a85044461a61e49ced7779eda"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "01ddca7b735b218ca17dfd4bd1de67a49af67cd62ce46db4800afc1a4f9ab48f"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "728fe7d81f0669b0b4a64304a05657470813bb47c498ea64cf87e38e639c6d37"
+      },
+      {
+        "name": "Procedural fuel canister",
+        "triangles": 108,
+        "vertices": 24,
+        "instances": 9,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "e5a95456fc96cb14aced7181f6b2cda58a56bdb5e3a1efff6f17a5a5efc41810"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "f091481cc237e42ab9790fc4bb93697790fc70434471fea7c221583dbee4b2dd"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "661f439cb21ca6b813e418d0cb39567410ea97edf4b75348d33124611186b277"
+      },
+      {
+        "name": "Procedural fuel canister",
+        "triangles": 108,
+        "vertices": 24,
+        "instances": 9,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "0698e1299c16dfe9829e00d5fde1e0a771c06fab0f3bf14bd8630cae868f4126"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "bdafae7e6434c75fef325fc40fbfe36735afd9940ebe6cf5057033658488bafc"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "4e4d2395990251f2d37bf578fe9fa2387e458dcda6086c98e9e4ba5cd273f9bc"
+      },
+      {
+        "name": "Procedural fuel canister",
+        "triangles": 108,
+        "vertices": 24,
+        "instances": 9,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "f48595cb4d78d397b927f58bfcc64c40cc8378d5b1cd08aca20bd6a0fadbc9b6"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "ed04bcb42b3fedeb7b0b5eaf7123a8a6d72696d298d83264b01ca0d7a3399b53"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "172c2e2cc5cfe6f130af173b74f8fa80c8a3e8ceac8672e55a1978e01a9acd60"
+      },
+      {
+        "name": "Procedural fuel canister",
+        "triangles": 108,
+        "vertices": 24,
+        "instances": 9,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "3d80ecfd92a11514564130c3f38965de86ca2e64309223ec0f650f7016e0111f"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "3c558a73dc640f1910e602c8cfc844db6b3008da6d73183db92d26d259989ad4"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "2f39159885de01686216d268eb61765f3db23d8453146f4c0762f8d786c4d16a"
+      },
+      {
+        "name": "Procedural fuel canister",
+        "triangles": 108,
+        "vertices": 24,
+        "instances": 9,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "8a31fd379fc10ef7491363a024fa626479bc5afe8a8c11952837c4e0d87c4731"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "a181d44dfaaf92e7a30f74b15c3f2622890da47d7929cf6a9e48bd952516bd29"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "3f2a915cc64964bccc2bfb16770e0f80c0c4e0a85ea24a6e22aee996a4cf2bb9"
+      },
+      {
+        "name": "Procedural fuel canister",
+        "triangles": 108,
+        "vertices": 24,
+        "instances": 9,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "13aa527d2f84af4177e792bb1029c2c069b61347f865ddc3c58a50a20a430c19"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "564e0513f642215ee8da198ea95489706a6b806abb7f6ec14005e252db686e36"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "b1c4a1c6edf6613a8a466cf8fbff15df1d10f54104c27e7de17353937cf5e92a"
+      },
+      {
+        "name": "Procedural fuel canister",
+        "triangles": 108,
+        "vertices": 24,
+        "instances": 9,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "a1e74a1bf688ec5ad3ee2a8da4b29924a784502ab46d8df4dac8eefd7fa4ecf3"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "d32355dee30ddf5f70a4d1cadf48620c31426fd3f617c35e0128e050ccde1bba"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "31d7b7d1bf06f14464b623a883563ee8abe1493a4d63fded473024571b6379ec"
+      },
+      {
+        "name": "Procedural fuel canister",
+        "triangles": 108,
+        "vertices": 24,
+        "instances": 9,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "7e5868fe3536c76fe768cb9682d915378043440711f91276048c8a9bc9a0cf3f"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "e496b3d6a5c54d2c48b4e52e06f4062a439978e41f0aec882bb960c904009dda"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "d3af85a7012e4e43a58843a09970b9a1d4514b7dfdf585eada8314bbb37b641d"
+      },
+      {
+        "name": "Procedural fuel canister",
+        "triangles": 108,
+        "vertices": 24,
+        "instances": 9,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "6e2cafdc1d92d42a457b3063c8bf1a5012d2c509d38533fc55df8d78350d30be"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "47cbe7abc5195261b9a144a567636c278a03e74a47487101ada87c435ad89289"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "73e884e10e0266aae61c3a0901063e695877ea260ae2d20ae9ad66faae0d12fe"
+      },
+      {
+        "name": "Procedural fuel canister",
+        "triangles": 108,
+        "vertices": 24,
+        "instances": 9,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "5223510ce75954150330c20de10688f3cca03ad5b88e9de00815e197b868505f"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "2afafb8e5d68f0a61424c6280f49bddcef2319de295823a3e38b22534262ecf4"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "5c893c1268d882f1cc11481fd93464c7a243a7fd48c179ac3360a38519f5ca04"
+      },
+      {
+        "name": "Procedural fuel canister",
+        "triangles": 108,
+        "vertices": 24,
+        "instances": 9,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "27abd4cff11f2ab537a6673c0c4db84f3a88b5b15c49c03f7aa6360b070a606e"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "672f3f0a1ab42b194160456add9e1179b596233478751067004c5a9dade3d9bf"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "56518c23a7c533fc9c9d930f81587ac6bb11abc0baf266cdb067c239567446f9"
+      },
+      {
+        "name": "Procedural fuel canister",
+        "triangles": 108,
+        "vertices": 24,
+        "instances": 9,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "62a0bb1b7c48d472a503b769664cc20711115e8106a7df2034b4198891b94d44"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "3cb69257017d41e56aa83663244c8d474ba3feab74c1a1921f3f901ba8ddbb04"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "7549c0b14e978a79c7bc5db965188180d42281397a70052b9a5364e5555c87ae"
+      },
+      {
+        "name": "Procedural delivery crate",
+        "triangles": 48,
+        "vertices": 24,
+        "instances": 4,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "62a0bb1b7c48d472a503b769664cc20711115e8106a7df2034b4198891b94d44"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "3cb69257017d41e56aa83663244c8d474ba3feab74c1a1921f3f901ba8ddbb04"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "7549c0b14e978a79c7bc5db965188180d42281397a70052b9a5364e5555c87ae"
+      },
+      {
+        "name": "Procedural delivery crate",
+        "triangles": 48,
+        "vertices": 24,
+        "instances": 4,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "62a0bb1b7c48d472a503b769664cc20711115e8106a7df2034b4198891b94d44"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "3cb69257017d41e56aa83663244c8d474ba3feab74c1a1921f3f901ba8ddbb04"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "7549c0b14e978a79c7bc5db965188180d42281397a70052b9a5364e5555c87ae"
+      },
+      {
+        "name": "Procedural delivery crate",
+        "triangles": 48,
+        "vertices": 24,
+        "instances": 4,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "1788734d7813cc3a1984b795aa87b3fb41f24d2a85044461a61e49ced7779eda"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "01ddca7b735b218ca17dfd4bd1de67a49af67cd62ce46db4800afc1a4f9ab48f"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "728fe7d81f0669b0b4a64304a05657470813bb47c498ea64cf87e38e639c6d37"
+      },
+      {
+        "name": "Procedural delivery crate",
+        "triangles": 48,
+        "vertices": 24,
+        "instances": 4,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "e5a95456fc96cb14aced7181f6b2cda58a56bdb5e3a1efff6f17a5a5efc41810"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "f091481cc237e42ab9790fc4bb93697790fc70434471fea7c221583dbee4b2dd"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "661f439cb21ca6b813e418d0cb39567410ea97edf4b75348d33124611186b277"
+      },
+      {
+        "name": "Procedural delivery crate",
+        "triangles": 48,
+        "vertices": 24,
+        "instances": 4,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "0698e1299c16dfe9829e00d5fde1e0a771c06fab0f3bf14bd8630cae868f4126"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "bdafae7e6434c75fef325fc40fbfe36735afd9940ebe6cf5057033658488bafc"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "4e4d2395990251f2d37bf578fe9fa2387e458dcda6086c98e9e4ba5cd273f9bc"
+      },
+      {
+        "name": "Procedural delivery crate",
+        "triangles": 48,
+        "vertices": 24,
+        "instances": 4,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "f48595cb4d78d397b927f58bfcc64c40cc8378d5b1cd08aca20bd6a0fadbc9b6"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "ed04bcb42b3fedeb7b0b5eaf7123a8a6d72696d298d83264b01ca0d7a3399b53"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "172c2e2cc5cfe6f130af173b74f8fa80c8a3e8ceac8672e55a1978e01a9acd60"
+      },
+      {
+        "name": "Procedural delivery crate",
+        "triangles": 48,
+        "vertices": 24,
+        "instances": 4,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "3d80ecfd92a11514564130c3f38965de86ca2e64309223ec0f650f7016e0111f"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "3c558a73dc640f1910e602c8cfc844db6b3008da6d73183db92d26d259989ad4"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "2f39159885de01686216d268eb61765f3db23d8453146f4c0762f8d786c4d16a"
+      },
+      {
+        "name": "Procedural delivery crate",
+        "triangles": 48,
+        "vertices": 24,
+        "instances": 4,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "8a31fd379fc10ef7491363a024fa626479bc5afe8a8c11952837c4e0d87c4731"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "a181d44dfaaf92e7a30f74b15c3f2622890da47d7929cf6a9e48bd952516bd29"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "3f2a915cc64964bccc2bfb16770e0f80c0c4e0a85ea24a6e22aee996a4cf2bb9"
+      },
+      {
+        "name": "Procedural delivery crate",
+        "triangles": 48,
+        "vertices": 24,
+        "instances": 4,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "13aa527d2f84af4177e792bb1029c2c069b61347f865ddc3c58a50a20a430c19"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "564e0513f642215ee8da198ea95489706a6b806abb7f6ec14005e252db686e36"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "b1c4a1c6edf6613a8a466cf8fbff15df1d10f54104c27e7de17353937cf5e92a"
+      },
+      {
+        "name": "Procedural delivery crate",
+        "triangles": 48,
+        "vertices": 24,
+        "instances": 4,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "a1e74a1bf688ec5ad3ee2a8da4b29924a784502ab46d8df4dac8eefd7fa4ecf3"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "d32355dee30ddf5f70a4d1cadf48620c31426fd3f617c35e0128e050ccde1bba"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "31d7b7d1bf06f14464b623a883563ee8abe1493a4d63fded473024571b6379ec"
+      },
+      {
+        "name": "Procedural delivery crate",
+        "triangles": 48,
+        "vertices": 24,
+        "instances": 4,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "7e5868fe3536c76fe768cb9682d915378043440711f91276048c8a9bc9a0cf3f"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "e496b3d6a5c54d2c48b4e52e06f4062a439978e41f0aec882bb960c904009dda"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "d3af85a7012e4e43a58843a09970b9a1d4514b7dfdf585eada8314bbb37b641d"
+      },
+      {
+        "name": "Procedural delivery crate",
+        "triangles": 48,
+        "vertices": 24,
+        "instances": 4,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "6e2cafdc1d92d42a457b3063c8bf1a5012d2c509d38533fc55df8d78350d30be"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "47cbe7abc5195261b9a144a567636c278a03e74a47487101ada87c435ad89289"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "73e884e10e0266aae61c3a0901063e695877ea260ae2d20ae9ad66faae0d12fe"
+      },
+      {
+        "name": "Procedural delivery crate",
+        "triangles": 48,
+        "vertices": 24,
+        "instances": 4,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "5223510ce75954150330c20de10688f3cca03ad5b88e9de00815e197b868505f"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "2afafb8e5d68f0a61424c6280f49bddcef2319de295823a3e38b22534262ecf4"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "5c893c1268d882f1cc11481fd93464c7a243a7fd48c179ac3360a38519f5ca04"
+      },
+      {
+        "name": "Procedural delivery crate",
+        "triangles": 48,
+        "vertices": 24,
+        "instances": 4,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      },
+      {
+        "name": "Checkpoint circle soft outer glow",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "27abd4cff11f2ab537a6673c0c4db84f3a88b5b15c49c03f7aa6360b070a606e"
+      },
+      {
+        "name": "Checkpoint circle translucent center",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "672f3f0a1ab42b194160456add9e1179b596233478751067004c5a9dade3d9bf"
+      },
+      {
+        "name": "Checkpoint circle luminous rim",
+        "triangles": 96,
+        "vertices": 98,
+        "instances": 1,
+        "canonicalTriangles": 96,
+        "canonicalHash": "56518c23a7c533fc9c9d930f81587ac6bb11abc0baf266cdb067c239567446f9"
+      },
+      {
+        "name": "Procedural delivery crate",
+        "triangles": 48,
+        "vertices": 24,
+        "instances": 4,
+        "canonicalTriangles": 12,
+        "canonicalHash": "5fd416eed67f438d39d00401ac9fd084985c0c76f4430e874c207933dd5a7677"
+      }
+    ]
+  },
+  "hazards": {
+    "triangles": 19092,
+    "meshes": [
+      {
+        "name": "Yellow black repair blocks",
+        "triangles": 168,
+        "vertices": 252,
+        "instances": 2,
+        "canonicalTriangles": 84,
+        "canonicalHash": "bb87b507d43c715f462e8773dc7dbbe8de452b13ec90027e04543482808d2905"
+      },
+      {
+        "name": "Forest log bodies",
+        "triangles": 24,
+        "vertices": 26,
+        "instances": 1,
+        "canonicalTriangles": 24,
+        "canonicalHash": "cfd949d5d5b34d1b0e0075308d142f4cd0e1f0edb30a94b9740adcf9d7af259f"
+      },
+      {
+        "name": "Forest cut log ends",
+        "triangles": 24,
+        "vertices": 14,
+        "instances": 2,
+        "canonicalTriangles": 12,
+        "canonicalHash": "eb76a6e65ac04f6f0d7c3b534b04b84528c739e6f529ed5caffc4425f96953d8"
+      },
+      {
+        "name": "Road-conforming sand dunes",
+        "triangles": 6864,
+        "vertices": 20592,
+        "instances": 1,
+        "canonicalTriangles": 6864,
+        "canonicalHash": "48229f873987771d7e4ebeb96dab9e01e1435516eee078aa3d521a229955633f",
+        "patchIds": [
+          "desert-dune-fixed-patch-2",
+          "desert-dune-fixed-patch-3",
+          "desert-dune-spaced-static-1"
+        ]
+      },
+      {
+        "name": "Road-conforming clear ice",
+        "triangles": 6816,
+        "vertices": 20448,
+        "instances": 1,
+        "canonicalTriangles": 6816,
+        "canonicalHash": "b1f0e8ff11da224d0c5e6252b25addf60bde4ec76cd2229350efdf89919bd854",
+        "patchIds": [
+          "snow-ice-fixed-patch-2",
+          "snow-ice-spaced-static-1",
+          "snow-ice-fixed-patch-3"
+        ]
+      },
+      {
+        "name": "Volcanic sliding basalt rocks",
+        "triangles": 288,
+        "vertices": 144,
+        "instances": 6,
+        "canonicalTriangles": 48,
+        "canonicalHash": "68e64fdbfac9f37115e9941110cad3a81fb0af8d1599bc4e3e63950bd85524c1"
+      },
+      {
+        "name": "Biome sliding and fixed barriers",
+        "triangles": 2604,
+        "vertices": 252,
+        "instances": 31,
+        "canonicalTriangles": 84,
+        "canonicalHash": "bb87b507d43c715f462e8773dc7dbbe8de452b13ec90027e04543482808d2905"
+      },
+      {
+        "name": "Biome sliding and fixed boulders",
+        "triangles": 2304,
+        "vertices": 144,
+        "instances": 48,
+        "canonicalTriangles": 48,
+        "canonicalHash": "68e64fdbfac9f37115e9941110cad3a81fb0af8d1599bc4e3e63950bd85524c1"
+      }
+    ]
+  }
+}

@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: unsupported and disabled GPU timers do not issue GL queries
+ok 1 - unsupported and disabled GPU timers do not issue GL queries
+  ---
+  duration_ms: 7.005259
+  type: 'test'
+  ...
+# Subtest: GPU results are read only when available and pending queries stay bounded
+ok 2 - GPU results are read only when available and pending queries stay bounded
+  ---
+  duration_ms: 5.335378
+  type: 'test'
+  ...
+# Subtest: disjoint results and reset are discarded without inventing GPU timings
+ok 3 - disjoint results and reset are discarded without inventing GPU timings
+  ---
+  duration_ms: 1.458433
+  type: 'test'
+  ...
+# Subtest: profiler preserves real GPU results separately from CPU submission time
+ok 4 - profiler preserves real GPU results separately from CPU submission time
+  ---
+  duration_ms: 6.017848
+  type: 'test'
+  ...
+# Subtest: profiler reset also resets the GPU sampling window
+ok 5 - profiler reset also resets the GPU sampling window
+  ---
+  duration_ms: 1.76305
+  type: 'test'
+  ...
+# Subtest: context loss drops active and pending handles plus timings, and restoration reacquires the extension
+ok 6 - context loss drops active and pending handles plus timings, and restoration reacquires the extension
+  ---
+  duration_ms: 3.080161
+  type: 'test'
+  ...
+# Subtest: loss detected before its event prevents end, reset and dispose from touching stale handles
+ok 7 - loss detected before its event prevents end, reset and dispose from touching stale handles
+  ---
+  duration_ms: 1.449546
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 255.562157

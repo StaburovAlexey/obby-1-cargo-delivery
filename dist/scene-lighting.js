@@ -15,7 +15,7 @@ export function followShadowLight(light,position,viewDirection=null){
 
 
 
- const texel=extent*2/p.mapSize;
+ const texel=extent*2/(light.shadow.mapSize?.x||p.mapSize);
  const u=Math.round((x*axisX.x+y*axisX.y+z*axisX.z)/texel)*texel;
  const v=Math.round((x*axisY.x+y*axisY.y+z*axisY.z)/texel)*texel;
  const depth=x*axisZ.x+y*axisZ.y+z*axisZ.z;

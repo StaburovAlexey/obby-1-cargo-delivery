@@ -1,3 +1,5 @@
+import {createProgressiveAssets} from './progressive-assets.js';
+import {VEHICLE_SOURCE_BOUNDS} from './vehicle-source-bounds.js';
 import {loadShowcaseVehicle} from './showcase-vehicles.js';
 import {isShowcaseVehicle} from './showcase-vehicle-catalog.js';
 import {loadCosmoVehicle} from './cosmo-vehicles.js';
@@ -12,7 +14,7 @@ const PARKED_APPROACH_RADIUS=.9;
 
 
 
-export function attachCosmoGarage(THREE,garage,{load=loadGarageVehicle,onError=console.warn}={}){
+export function attachCosmoGarage(THREE,garage,{load=loadGarageVehicle,prepare,onError=console.warn,autoLoad=true,concurrency=2}={}){
   let disposed=false,selectedId=null;
   function applyDisplay(record){
     if(!record.adapter)return;
@@ -33,10 +35,16 @@ export function attachCosmoGarage(THREE,garage,{load=loadGarageVehicle,onError=c
   };
   const records=garage.vehicles.map(vehicle=>{
     const rig=vehicle.rig,originalUpdate=rig.update,originalDispose=rig.dispose;
-    const record={vehicle,adapter:null,lastPose:{...rig.pose},error:null,cancelled:false,displayScale:null};
+    const record={id:vehicle.id,vehicle,adapter:null,lastPose:{...rig.pose},error:null,cancelled:false,displayScale:null};
 
 
-    if(!vehicle.rewardDisplay)vehicle.parkedFootprint={halfWidth:2.25,halfLength:4.32};
+    const bounds=VEHICLE_SOURCE_BOUNDS[vehicle.id];
+    vehicle.physicsBounds=bounds;
+    if(bounds&&!vehicle.rewardDisplay)vehicle.parkedFootprint={
+      halfWidth:Math.max(Math.abs(bounds.min[0]),Math.abs(bounds.max[0]))*PARKED_COSMO_SCALE,
+      halfLength:Math.max(Math.abs(bounds.min[2]),Math.abs(bounds.max[2]))*PARKED_COSMO_SCALE,
+    };
+    else if(!vehicle.rewardDisplay)vehicle.parkedFootprint={halfWidth:2.25,halfLength:4.32};
     if(vehicle.park&&!vehicle.rewardDisplay){
       const heading=vehicle.park.heading||0;
       vehicle.approach={x:vehicle.park.x-Math.sin(heading)*PARKED_APPROACH_DISTANCE,
@@ -61,14 +69,13 @@ export function attachCosmoGarage(THREE,garage,{load=loadGarageVehicle,onError=c
     return record;
   });
 
-  let next=0;
-  async function worker(){
-    while(next<records.length&&!disposed){
-      const record=records[next++],vehicle=record.vehicle;
-      let adapter;
+  const loading=createProgressiveAssets({items:records,concurrency,
+    load:record=>load(THREE,record.vehicle.id),
+    prepare:prepare?(adapter,record)=>prepare(adapter,record.vehicle.id):undefined,
+    onLoad(adapter,record){
+      const vehicle=record.vehicle;
+      if(record.cancelled){adapter.dispose();return;}
       try{
-        adapter=await load(THREE,vehicle.id);
-        if(disposed||record.cancelled){adapter.dispose();continue;}
         adapter.update(record.lastPose);
         vehicle.root.add(adapter.group);
         if(adapter.cargoPosition)vehicle.cargo.position.copy(adapter.cargoPosition);
@@ -82,17 +89,18 @@ export function attachCosmoGarage(THREE,garage,{load=loadGarageVehicle,onError=c
         };
         applyDisplay(record);
         vehicle.root.updateWorldMatrix(true,true);
-      }catch(error){
-        adapter?.dispose();record.adapter=null;vehicle.visual=null;
-        if(!disposed&&!record.cancelled){
-          record.error=new Error(`Vehicle visual ${vehicle.id} could not load.`,{cause:error});
-          record.error.vehicleId=vehicle.id;
-          onError(record.error.message,error);
-        }
-      }
-    }
-  }
-  const ready=Promise.all([worker(),worker()]).then(()=>{
+        record.error=null;
+      }catch(error){record.adapter=null;vehicle.visual=null;throw error;}
+    },
+    onError(error,record){
+      if(disposed||record.cancelled)return;
+      record.error=new Error(`Vehicle visual ${record.vehicle.id} could not load.`,{cause:error});
+      record.error.vehicleId=record.vehicle.id;
+      onError(record.error.message,error);
+    },
+  });
+  // Preserve eager loading for standalone callers; the app opts into per-ID work.
+  const ready=autoLoad?Promise.allSettled(records.map(record=>loading.ensure(record.id))).then(()=>{
     const errors=records.filter(record=>record.error).map(record=>record.error);
     if(errors.length&&!disposed){
       const error=new AggregateError(errors,`Required vehicle models failed to load: ${errors.map(error=>error.vehicleId).join(', ')}.`);
@@ -100,10 +108,12 @@ export function attachCosmoGarage(THREE,garage,{load=loadGarageVehicle,onError=c
       throw error;
     }
     return {loaded:records.filter(record=>record.adapter).length,total:records.length};
-  });
+  }):Promise.resolve({loaded:0,total:records.length});
   const originalGarageDispose=garage.dispose;
-  garage.dispose=function(){disposed=true;return originalGarageDispose.call(garage);};
-  const controller={ready,get disposed(){return disposed;},get loaded(){return records.filter(r=>r.adapter).length;},get failed(){return records.filter(r=>r.error).length;}};
+  const cancel=()=>{disposed=true;loading.dispose();};
+  garage.dispose=function(){cancel();return originalGarageDispose.call(garage);};
+  const controller={ready,ensure:loading.ensure,request:loading.request,status:loading.status,dispose:cancel,
+    get disposed(){return disposed;},get loaded(){return records.filter(r=>r.adapter).length;},get failed(){return records.filter(r=>r.error).length;}};
   garage.vehicleVisuals=controller;
   return controller;
 }

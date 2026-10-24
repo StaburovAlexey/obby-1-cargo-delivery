@@ -1,0 +1,1856 @@
+{
+  "format": 1,
+  "encoder": "KTX-Software 4.4.2",
+  "meshopt": "lossless geometry and animation buffers",
+  "models": [
+    {
+      "source": "bacon.glb",
+      "output": "optimized/bacon.glb",
+      "sourceSHA256": "1e35da383fa186bab4a557bede599df48e65520751acceaefc231e1db722632a",
+      "sha256": "a795fe0c8c2bcf4fd16b0b1c74400018a280ec1e70a59989036aba6d2ea509ca",
+      "sourceBytes": 924632,
+      "repackedBytes": 675028,
+      "bytes": 348344,
+      "trianglesBefore": 3817,
+      "trianglesAfter": 3817,
+      "simplified": null,
+      "textures": [
+        {
+          "name": "pack character_2",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 220570,
+          "bytes": 107364,
+          "width": 1024,
+          "height": 512
+        }
+      ]
+    },
+    {
+      "source": "characters/Obby_Jandel.glb",
+      "output": "optimized/characters/Obby_Jandel.glb",
+      "sourceSHA256": "6bef202d1169558d3863b5c10e6fa7ffd34f473e01b63033e50cd89dc307a5c7",
+      "sha256": "fad2836b4e6184da9ea1ed62c1e9e3ca949e6c822d97f3c56dc13720ecdc9487",
+      "sourceBytes": 1107888,
+      "repackedBytes": 723500,
+      "bytes": 347360,
+      "trianglesBefore": 4952,
+      "trianglesAfter": 4952,
+      "simplified": null,
+      "textures": [
+        {
+          "name": "Jandel_1",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 236603,
+          "bytes": 105027,
+          "width": 1024,
+          "height": 512
+        }
+      ]
+    },
+    {
+      "source": "characters/Obby_KreekCraft.glb",
+      "output": "optimized/characters/Obby_KreekCraft.glb",
+      "sourceSHA256": "788783b13fb01590ec36782c8430a61c2984125744c6f6f5221ae66fc30d82f9",
+      "sha256": "7d971220276de313c713cc5cbf496abc6d44328faa81e73577ed0f00e31517d2",
+      "sourceBytes": 1271828,
+      "repackedBytes": 1084856,
+      "bytes": 475376,
+      "trianglesBefore": 8714,
+      "trianglesAfter": 8714,
+      "simplified": null,
+      "textures": [
+        {
+          "name": "KreekCraft_1",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 278494,
+          "bytes": 107615,
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "name": "KreekCraft_2",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 52028,
+          "bytes": 13907,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "KreekCraft_3",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 39348,
+          "bytes": 9237,
+          "width": 256,
+          "height": 256
+        }
+      ]
+    },
+    {
+      "source": "characters/Obby_Pirate.glb",
+      "output": "optimized/characters/Obby_Pirate.glb",
+      "sourceSHA256": "81bff3759520f6f0ee3788aa2367410b8f02b6fc936419220d25360878873716",
+      "sha256": "e72277d051019abe5a784af4d7210b03636ded67b9ff664832c23219de859ca8",
+      "sourceBytes": 850344,
+      "repackedBytes": 690040,
+      "bytes": 340016,
+      "trianglesBefore": 2730,
+      "trianglesAfter": 2730,
+      "simplified": null,
+      "textures": [
+        {
+          "name": "Pirate_1",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 35636,
+          "bytes": 18840,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "Pirate_2",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 28870,
+          "bytes": 9733,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "Pirate_3",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 235403,
+          "bytes": 96212,
+          "width": 1024,
+          "height": 512
+        }
+      ]
+    },
+    {
+      "source": "characters/Obby_Robux_Man.glb",
+      "output": "optimized/characters/Obby_Robux_Man.glb",
+      "sourceSHA256": "45cc04bbbf5ed001ba8c737e121e01d7fd784f5698ec37fb6c824da13f6c037a",
+      "sha256": "c11eee5b1437e357ad296028cf5ee9f2858709521a34585c7973b3f83fa1ce1b",
+      "sourceBytes": 1369376,
+      "repackedBytes": 1157264,
+      "bytes": 570644,
+      "trianglesBefore": 10017,
+      "trianglesAfter": 10017,
+      "simplified": null,
+      "textures": [
+        {
+          "name": "Robux Man_4",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 227584,
+          "bytes": 114939,
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "name": "Robux Man_1",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 59396,
+          "bytes": 17310,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "Robux Man_2",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 10242,
+          "bytes": 8016,
+          "width": 128,
+          "height": 128
+        },
+        {
+          "name": "Robux Man_3",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 34392,
+          "bytes": 24294,
+          "width": 256,
+          "height": 256
+        }
+      ]
+    },
+    {
+      "source": "characters/Obby_Spider-Man.glb",
+      "output": "optimized/characters/Obby_Spider-Man.glb",
+      "sourceSHA256": "102ccb2e3a912b88b59dc97b00af1aa07b0f1d99ae4f9ff319a82cca3f649f71",
+      "sha256": "785fa084f0a1f9645e8f33b8d6db79738f9ad5f360b2b9519a862bf81002ca37",
+      "sourceBytes": 1497068,
+      "repackedBytes": 1475568,
+      "bytes": 562432,
+      "trianglesBefore": 6702,
+      "trianglesAfter": 6702,
+      "simplified": null,
+      "textures": [
+        {
+          "name": "",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 421654,
+          "bytes": 159671,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 488071,
+          "bytes": 110136,
+          "width": 1024,
+          "height": 1024
+        }
+      ]
+    },
+    {
+      "source": "characters/Obby_Spyder_Sammy.glb",
+      "output": "optimized/characters/Obby_Spyder_Sammy.glb",
+      "sourceSHA256": "2852b03da7f8b43d71af424dcbf696f0cd9d377aace4062276dd74c09e4615a2",
+      "sha256": "238e12308f24c892bebca307c9e8536e1860291b3d0931a49763b7a78ec12801",
+      "sourceBytes": 1738980,
+      "repackedBytes": 1274140,
+      "bytes": 566004,
+      "trianglesBefore": 9353,
+      "trianglesAfter": 9353,
+      "simplified": null,
+      "textures": [
+        {
+          "name": "Spyder Sammy_3",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 234031,
+          "bytes": 63311,
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "name": "Spyder Sammy_2",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 62182,
+          "bytes": 29171,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "Spyder Sammy_1",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 165796,
+          "bytes": 94735,
+          "width": 512,
+          "height": 512
+        }
+      ]
+    },
+    {
+      "source": "characters/Obby_dancing_NPC_girl.glb",
+      "output": "optimized/characters/Obby_dancing_NPC_girl.glb",
+      "sourceSHA256": "cd38c7ce10e8aa82955396169f0fefcba17bd46888b8724dc4c6267a7ef5f27d",
+      "sha256": "51b5b39659938bf3eac4fa84c3fd64132648149357c1ea8d521c800fac0be1b6",
+      "sourceBytes": 1437276,
+      "repackedBytes": 1265288,
+      "bytes": 565968,
+      "trianglesBefore": 11624,
+      "trianglesAfter": 11624,
+      "simplified": null,
+      "textures": [
+        {
+          "name": "dancing NPC girl_1",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 44979,
+          "bytes": 22200,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "dancing NPC girl_2",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 3918,
+          "bytes": 2053,
+          "width": 128,
+          "height": 128
+        },
+        {
+          "name": "dancing NPC girl_3",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 31893,
+          "bytes": 5059,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "dancing NPC girl_4",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 59250,
+          "bytes": 19637,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "dancing NPC girl_6",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 226355,
+          "bytes": 70479,
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "name": "dancing NPC girl_5",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 35382,
+          "bytes": 12440,
+          "width": 256,
+          "height": 256
+        }
+      ]
+    },
+    {
+      "source": "characters/Obby_pack1.glb",
+      "output": "optimized/characters/Obby_pack1.glb",
+      "sourceSHA256": "be8a5bfa2ab86b116304ecaa3509c836ca48f962394799d73839f333287f0c64",
+      "sha256": "a950668500b25d3633823863ea0b81b26e351123955112d6a7304a5ca0eae006",
+      "sourceBytes": 1008680,
+      "repackedBytes": 805288,
+      "bytes": 387016,
+      "trianglesBefore": 5544,
+      "trianglesAfter": 5544,
+      "simplified": null,
+      "textures": [
+        {
+          "name": "pack character_6",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 297524,
+          "bytes": 124853,
+          "width": 1024,
+          "height": 512
+        }
+      ]
+    },
+    {
+      "source": "characters/Obby_pack2.glb",
+      "output": "optimized/characters/Obby_pack2.glb",
+      "sourceSHA256": "6e0289626c9b487049accdc8f9b376395d9dbfec3fa919865f641c6bb5b1a850",
+      "sha256": "e507bd308b6325a752cfc4359a550147f2ee51a00d8b84446b066bbdab2cacc0",
+      "sourceBytes": 832592,
+      "repackedBytes": 661504,
+      "bytes": 335476,
+      "trianglesBefore": 3060,
+      "trianglesAfter": 3060,
+      "simplified": null,
+      "textures": [
+        {
+          "name": "pack character_7",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 262786,
+          "bytes": 121894,
+          "width": 1024,
+          "height": 512
+        }
+      ]
+    },
+    {
+      "source": "characters/Obby_pack3.glb",
+      "output": "optimized/characters/Obby_pack3.glb",
+      "sourceSHA256": "ff8486a64c26f4f9cc78964b49590ec7cfcda6e0dfd8982bdc912a848580c55e",
+      "sha256": "a7a14584827d2e9e09b225ab7b7c702144c9ba5ba21b02e17e224abd690ce53f",
+      "sourceBytes": 926348,
+      "repackedBytes": 693604,
+      "bytes": 327836,
+      "trianglesBefore": 3376,
+      "trianglesAfter": 3376,
+      "simplified": null,
+      "textures": [
+        {
+          "name": "pack character_3",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 289322,
+          "bytes": 111898,
+          "width": 1024,
+          "height": 512
+        }
+      ]
+    },
+    {
+      "source": "characters/Obby_pack4.glb",
+      "output": "optimized/characters/Obby_pack4.glb",
+      "sourceSHA256": "5bd110921fc3c227d8690516a7563697eea330d69bef229d1d323d5dd2093240",
+      "sha256": "912934e05178dfe9d8188871fa11bbafa2a14788c204cff411c24c8084964228",
+      "sourceBytes": 1050236,
+      "repackedBytes": 784924,
+      "bytes": 367032,
+      "trianglesBefore": 5326,
+      "trianglesAfter": 5326,
+      "simplified": null,
+      "textures": [
+        {
+          "name": "pack character_4",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 288837,
+          "bytes": 109452,
+          "width": 1024,
+          "height": 512
+        }
+      ]
+    },
+    {
+      "source": "characters/Obby_pack5.glb",
+      "output": "optimized/characters/Obby_pack5.glb",
+      "sourceSHA256": "ca6b84de7b7c75bff4ebc397ffe46304708331196f60c7d863b0883ec093a523",
+      "sha256": "f5a6c84e6bbd233d9af8f78db924b66f5467cf6d7a3f36e808e7aa1e2ae952a1",
+      "sourceBytes": 955472,
+      "repackedBytes": 822488,
+      "bytes": 373644,
+      "trianglesBefore": 6322,
+      "trianglesAfter": 6322,
+      "simplified": null,
+      "textures": [
+        {
+          "name": "pack character_1",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 273686,
+          "bytes": 98419,
+          "width": 1024,
+          "height": 512
+        }
+      ]
+    },
+    {
+      "source": "characters/Obby_pack6.glb",
+      "output": "optimized/characters/Obby_pack6.glb",
+      "sourceSHA256": "5da6d58f72416b30f5639b0b749041470e5a39c0c602dff6816bd10dbd93cb0b",
+      "sha256": "81949857427c0bb851daf92c4d31390eb7b944b2ed6097eeb8e52308e1055819",
+      "sourceBytes": 1079252,
+      "repackedBytes": 736460,
+      "bytes": 375424,
+      "trianglesBefore": 5348,
+      "trianglesAfter": 5348,
+      "simplified": null,
+      "textures": [
+        {
+          "name": "pack character_11",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 231520,
+          "bytes": 115940,
+          "width": 1024,
+          "height": 512
+        }
+      ]
+    },
+    {
+      "source": "characters/Obby_pack7.glb",
+      "output": "optimized/characters/Obby_pack7.glb",
+      "sourceSHA256": "082e6f84003314fbd04360b9375ed8e91dbe811de61dc1743956ade908c82e19",
+      "sha256": "c8e632c3025b0a3752c161fe8cf8ac62beeb1d2d0cd6f8ee5db5de1577e2f7db",
+      "sourceBytes": 941748,
+      "repackedBytes": 762724,
+      "bytes": 352692,
+      "trianglesBefore": 5251,
+      "trianglesAfter": 5251,
+      "simplified": null,
+      "textures": [
+        {
+          "name": "pack character_9",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 262839,
+          "bytes": 93635,
+          "width": 1024,
+          "height": 512
+        }
+      ]
+    },
+    {
+      "source": "characters/Obby_pack9.glb",
+      "output": "optimized/characters/Obby_pack9.glb",
+      "sourceSHA256": "98d49dfdc70b84bb4628aebf89a87dde704d95a21769497738e84ede456a1e57",
+      "sha256": "ea70a047f88cebc5dd3d5b78a8c5bad468fc51a1e3148d80b369cc25d49dfb6b",
+      "sourceBytes": 989056,
+      "repackedBytes": 688608,
+      "bytes": 324520,
+      "trianglesBefore": 3317,
+      "trianglesAfter": 3317,
+      "simplified": null,
+      "textures": [
+        {
+          "name": "pack character_5",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 272024,
+          "bytes": 98690,
+          "width": 1024,
+          "height": 512
+        }
+      ]
+    },
+    {
+      "source": "vehicles/passenger/compact.glb",
+      "output": "optimized/vehicles/passenger/compact.glb",
+      "sourceSHA256": "505cddb5aa3763522d32794b04f8349f25e2dfad0d0af68495a0ec09faa3d8ec",
+      "sha256": "d6cfed9b7617bfd72c210f641186ae98b04e7554b3a0672a28b0297be7d27699",
+      "sourceBytes": 450740,
+      "repackedBytes": 410372,
+      "bytes": 298340,
+      "trianglesBefore": 7257,
+      "trianglesAfter": 7257,
+      "simplified": null,
+      "textures": [
+        {
+          "name": "Passenger texture 29d95afe15e4e39efce9778f6f674926fe96632c9f8e759abefabcd96bfda05e",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 69808,
+          "bytes": 50854,
+          "width": 512,
+          "height": 512
+        },
+        {
+          "name": "Passenger texture f55f449c265d360b982cf131a96cfb33208073272ceca68d482e7c594d04e56b",
+          "slots": [
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 20181,
+          "bytes": 27505,
+          "width": 512,
+          "height": 512
+        },
+        {
+          "name": "Passenger texture c12167e765831573011643c301ebd0c5195c344d619cfd4f27fd6c95b7f89ff1",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 44300,
+          "bytes": 26150,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "Passenger texture 288c189a0bcc27f091172d09bf3aa16eaa56835fb05907da599069095a76effb",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 24317,
+          "bytes": 11517,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "Passenger texture eadcab06c0be49501879d11530f82f1755dd1f5287dadf57260dfcb8f5970971",
+          "slots": [
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 11332,
+          "bytes": 14546,
+          "width": 256,
+          "height": 256
+        }
+      ]
+    },
+    {
+      "source": "vehicles/passenger/coupe.glb",
+      "output": "optimized/vehicles/passenger/coupe.glb",
+      "sourceSHA256": "0784433e1a4cb065669bf44d6fc1adcc1475fa08fcbd0b750679fb57df5ed2ed",
+      "sha256": "12a6a2d4d7a19bb8290b78a2b72cda29912908edc211e29b85ed71b73c577462",
+      "sourceBytes": 427140,
+      "repackedBytes": 401336,
+      "bytes": 282296,
+      "trianglesBefore": 6022,
+      "trianglesAfter": 6022,
+      "simplified": null,
+      "textures": [
+        {
+          "name": "Passenger texture 12c73635f064c7d815216921cac34a6c1a4e5a5642460f0eb0717b16b7d6fb52",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 70463,
+          "bytes": 36388,
+          "width": 512,
+          "height": 512
+        },
+        {
+          "name": "Passenger texture cd0ee6c7213bd8dd0765013dd31aaf3e9a4b79c2101c5a639a4a229a676bc512",
+          "slots": [
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 20339,
+          "bytes": 27723,
+          "width": 512,
+          "height": 512
+        },
+        {
+          "name": "Passenger texture c12167e765831573011643c301ebd0c5195c344d619cfd4f27fd6c95b7f89ff1",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 44300,
+          "bytes": 26150,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "Passenger texture ea6cb19a115aa667d535d083a4a4c9b16ac25385a27d3327f0e4383bf2a18352",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 26156,
+          "bytes": 11846,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "Passenger texture 895913c94ecdaab2fafa58a216359684b335a745e6b53c8b4053a56c6adb381c",
+          "slots": [
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 13616,
+          "bytes": 18170,
+          "width": 256,
+          "height": 256
+        }
+      ]
+    },
+    {
+      "source": "vehicles/passenger/hatchback.glb",
+      "output": "optimized/vehicles/passenger/hatchback.glb",
+      "sourceSHA256": "91d5987a388e0bad604647dcab6576b5f703aa05d378fc2c4deda22c965bb1c6",
+      "sha256": "7fa7b096d8be5889c874d4796a67efbbb4414efff189e787659699279ff7032e",
+      "sourceBytes": 456800,
+      "repackedBytes": 418052,
+      "bytes": 301532,
+      "trianglesBefore": 6808,
+      "trianglesAfter": 6808,
+      "simplified": null,
+      "textures": [
+        {
+          "name": "Passenger texture 21f63042e31f331ed4df9649fde9ec579198fe2e44d7f4a6333a6a60712e701c",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 74403,
+          "bytes": 45833,
+          "width": 512,
+          "height": 512
+        },
+        {
+          "name": "Passenger texture 23d56492b03d0c04567fb420329ff158bda5a9bf42d3de2481c15726c9b598d4",
+          "slots": [
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 24330,
+          "bytes": 33759,
+          "width": 512,
+          "height": 512
+        },
+        {
+          "name": "Passenger texture c12167e765831573011643c301ebd0c5195c344d619cfd4f27fd6c95b7f89ff1",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 44300,
+          "bytes": 26150,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "Passenger texture 0d4d4d85eb3253e1891c026fba7f148be3d1211793bbafbe5c31aca2b2233277",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 26232,
+          "bytes": 11968,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "Passenger texture ea06fa3c4be26fe4bc7904f0b7b492c54889f07cc2f087df4dee0aa20bf48c39",
+          "slots": [
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 9392,
+          "bytes": 12766,
+          "width": 256,
+          "height": 256
+        }
+      ]
+    },
+    {
+      "source": "vehicles/passenger/minivan.glb",
+      "output": "optimized/vehicles/passenger/minivan.glb",
+      "sourceSHA256": "1d8862cc5a29915153255bf6718ad875814826d56e28d7c5a6097ddddbb9329c",
+      "sha256": "c4f4332aa9bfe516c9c8decc2ca8fb97d7e692f7579abfba4593149753d416ea",
+      "sourceBytes": 473504,
+      "repackedBytes": 441332,
+      "bytes": 294248,
+      "trianglesBefore": 7450,
+      "trianglesAfter": 7450,
+      "simplified": null,
+      "textures": [
+        {
+          "name": "Passenger texture 4a79be6e7ef2d87a80e69f5c882d85a811b6d680416d612a3c4b1f73646446c3",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 79168,
+          "bytes": 32557,
+          "width": 512,
+          "height": 512
+        },
+        {
+          "name": "Passenger texture 769986f935fa5e8b10de4ad888336ced26721b8babf0e6bb6f16ab0b947f0763",
+          "slots": [
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 19177,
+          "bytes": 26772,
+          "width": 512,
+          "height": 512
+        },
+        {
+          "name": "Passenger texture c12167e765831573011643c301ebd0c5195c344d619cfd4f27fd6c95b7f89ff1",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 44300,
+          "bytes": 26150,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "Passenger texture 744b4b7741d501649abe782e52227f9127f18a3d067b5a8177cf6f4c168782f2",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 24239,
+          "bytes": 10757,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "Passenger texture 97542bec216ad58da3170f2e6efae0670922e69c9e17edea8fb36ec578dfa744",
+          "slots": [
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 12157,
+          "bytes": 15102,
+          "width": 256,
+          "height": 256
+        }
+      ]
+    },
+    {
+      "source": "vehicles/passenger/offroad.glb",
+      "output": "optimized/vehicles/passenger/offroad.glb",
+      "sourceSHA256": "3ea4ed283077c29221830e44c164491d0baf03f78db417a20a5bfd4fe0492c4f",
+      "sha256": "16d9cc1c9e6f8f00726890dd69ea89bfa7d8fe2dbdf5bf68ded8cf0080f45fb6",
+      "sourceBytes": 425260,
+      "repackedBytes": 396368,
+      "bytes": 272696,
+      "trianglesBefore": 6502,
+      "trianglesAfter": 6502,
+      "simplified": null,
+      "textures": [
+        {
+          "name": "Passenger texture 777c129d6ae155c50522ac5110f7a33adfd77957e6c3b8430840a2fd821d6ffb",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 66132,
+          "bytes": 29751,
+          "width": 512,
+          "height": 512
+        },
+        {
+          "name": "Passenger texture 43bcaf4c3735efdc2852a3dffffb6961bb9a6f140f1e2a9c549c9bb7559ca728",
+          "slots": [
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 25800,
+          "bytes": 35764,
+          "width": 512,
+          "height": 512
+        },
+        {
+          "name": "Passenger texture c12167e765831573011643c301ebd0c5195c344d619cfd4f27fd6c95b7f89ff1",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 44300,
+          "bytes": 26150,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "Passenger texture a0c0d514aec365233f186464e8ff6520d0b1ea161d74830d6587f412773a1f6c",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 24243,
+          "bytes": 10982,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "Passenger texture 84872e1a3114252e973d190d1b7e24fa9a81c2b57e1400e2289cf88de0a32dff",
+          "slots": [
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 8611,
+          "bytes": 11881,
+          "width": 256,
+          "height": 256
+        }
+      ]
+    },
+    {
+      "source": "vehicles/passenger/pickup.glb",
+      "output": "optimized/vehicles/passenger/pickup.glb",
+      "sourceSHA256": "8068f6ada11414e12e4c3c6bc390a949234d8f6369e7203df5600ff05baa8446",
+      "sha256": "9afbfd9fb93620fa5cbadfd322b98cfd22e6045ee57b274d7c6b8a1f743c3dff",
+      "sourceBytes": 452164,
+      "repackedBytes": 419412,
+      "bytes": 290568,
+      "trianglesBefore": 6918,
+      "trianglesAfter": 6918,
+      "simplified": null,
+      "textures": [
+        {
+          "name": "Passenger texture 4b1de2c7d86024005096bdbe38a0b6c43cebe8a34b790a379d520040288bf5a0",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 61532,
+          "bytes": 32020,
+          "width": 512,
+          "height": 512
+        },
+        {
+          "name": "Passenger texture aebf893addf36acc1b941951c33f0aac045ccc1f498dbc658359edbabd417cd4",
+          "slots": [
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 19359,
+          "bytes": 28509,
+          "width": 512,
+          "height": 512
+        },
+        {
+          "name": "Passenger texture c12167e765831573011643c301ebd0c5195c344d619cfd4f27fd6c95b7f89ff1",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 44300,
+          "bytes": 26150,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "Passenger texture 231725a79095313b90105bde9d18d2efa3d1fe2e3e3fd8a850308fcd7434c6bb",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 25780,
+          "bytes": 11433,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "Passenger texture 6d11d0e9f589637c6c9c25dd792efaa0fd722d0a4132d967bfaa9619c75a54d1",
+          "slots": [
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 9426,
+          "bytes": 12654,
+          "width": 256,
+          "height": 256
+        }
+      ]
+    },
+    {
+      "source": "vehicles/passenger/sedan.glb",
+      "output": "optimized/vehicles/passenger/sedan.glb",
+      "sourceSHA256": "e08279f160f3c1fd5d5693bc4d084ae62979f1f5974b84bbd1de85b17f84b90a",
+      "sha256": "29ab31d897d57f813d5a7ab5ba0c2c1cb4688e43320bca1ce1bc82a2d5daddb8",
+      "sourceBytes": 483088,
+      "repackedBytes": 443184,
+      "bytes": 316496,
+      "trianglesBefore": 7122,
+      "trianglesAfter": 7122,
+      "simplified": null,
+      "textures": [
+        {
+          "name": "Passenger texture 30ac47ce69370e69eac4bc1692c8c47f6885dad5b608de6df64abdc25ce9fe21",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 72497,
+          "bytes": 38761,
+          "width": 512,
+          "height": 512
+        },
+        {
+          "name": "Passenger texture 42bdad5a8ff3526ca98c6e1ae23b1fe253161d9af6a4d69739da2d15e761d749",
+          "slots": [
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 31019,
+          "bytes": 42432,
+          "width": 512,
+          "height": 512
+        },
+        {
+          "name": "Passenger texture c12167e765831573011643c301ebd0c5195c344d619cfd4f27fd6c95b7f89ff1",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 44300,
+          "bytes": 26150,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "Passenger texture 620024de2fddbc8a5bbe3135829b08c4b42980a1c57384077b96c86bac77d3b9",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 16985,
+          "bytes": 9151,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "Passenger texture e8a3f92e08855aa179e9ce20b7163c05d44779a4021c4eb11dadf88ffcb0e922",
+          "slots": [
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 10014,
+          "bytes": 12790,
+          "width": 256,
+          "height": 256
+        }
+      ]
+    },
+    {
+      "source": "vehicles/passenger/sport.glb",
+      "output": "optimized/vehicles/passenger/sport.glb",
+      "sourceSHA256": "6be37c7a9ae989b5351d78ef1034aaa09aecd630bff57e17779e412755bcb7cd",
+      "sha256": "36762a8beabbe118dbad303dd6eec1caf19157ae94bd8452fd8d61c929267444",
+      "sourceBytes": 448148,
+      "repackedBytes": 428536,
+      "bytes": 297804,
+      "trianglesBefore": 6268,
+      "trianglesAfter": 6268,
+      "simplified": null,
+      "textures": [
+        {
+          "name": "Passenger texture 68a11e6ee4b50c28ebfb934c32dc85dbbb37cb4e20d7d1c7dfda9e8a8645d7f6",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 79177,
+          "bytes": 38362,
+          "width": 512,
+          "height": 512
+        },
+        {
+          "name": "Passenger texture 59bdff704d00702b545e6039869fac730b9ff7b2e0d5c0c37a3df3253fa70494",
+          "slots": [
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 23742,
+          "bytes": 33359,
+          "width": 512,
+          "height": 512
+        },
+        {
+          "name": "Passenger texture c12167e765831573011643c301ebd0c5195c344d619cfd4f27fd6c95b7f89ff1",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 44300,
+          "bytes": 26150,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "Passenger texture 5ed44e06c642db59972310a163b33ad0f0ff6bbb4487d0cb18360af4eefda832",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 30272,
+          "bytes": 13243,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "Passenger texture 694a5b92bf6a20e5cbcbbbf928c729fc4f8f65a4192695de5d368ed25ec35c2a",
+          "slots": [
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 10424,
+          "bytes": 13652,
+          "width": 256,
+          "height": 256
+        }
+      ]
+    },
+    {
+      "source": "vehicles/passenger/suv.glb",
+      "output": "optimized/vehicles/passenger/suv.glb",
+      "sourceSHA256": "08e927e6c0023cc2bdf2edfe111fc7609335283041ff27adc2ab37ab9213fee9",
+      "sha256": "8f40552e9cbe151c74c33a54d01f1a3507e21b33b61839e593f880a1de9b5cf7",
+      "sourceBytes": 526568,
+      "repackedBytes": 489900,
+      "bytes": 338408,
+      "trianglesBefore": 7951,
+      "trianglesAfter": 7951,
+      "simplified": null,
+      "textures": [
+        {
+          "name": "Passenger texture 8bee4666b07e5377da849aae414d1432f9b9554f0588a158f326bb2e401b3a3e",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 63500,
+          "bytes": 29627,
+          "width": 512,
+          "height": 512
+        },
+        {
+          "name": "Passenger texture bc31cb0b3ce16bce5af82cd2f2f8b8788b95f951bbdc563ae6e68c588f33210d",
+          "slots": [
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 19553,
+          "bytes": 27053,
+          "width": 512,
+          "height": 512
+        },
+        {
+          "name": "Passenger texture c12167e765831573011643c301ebd0c5195c344d619cfd4f27fd6c95b7f89ff1",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 44300,
+          "bytes": 26150,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "Passenger texture 231725a79095313b90105bde9d18d2efa3d1fe2e3e3fd8a850308fcd7434c6bb",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 25780,
+          "bytes": 11433,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "Passenger texture 6d11d0e9f589637c6c9c25dd792efaa0fd722d0a4132d967bfaa9619c75a54d1",
+          "slots": [
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 9426,
+          "bytes": 12654,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "Passenger texture 394ede9a9f197c961c46289afb7ab419ff75272670d53df0ffad0bf38d19d8f1",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 22489,
+          "bytes": 11444,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "Passenger texture 291084bdfc1dd661c0786f90a80f4aca1d4e22f1e492d5161f0a404509a30258",
+          "slots": [
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 9664,
+          "bytes": 13430,
+          "width": 256,
+          "height": 256
+        }
+      ]
+    },
+    {
+      "source": "vehicles/passenger/wagon.glb",
+      "output": "optimized/vehicles/passenger/wagon.glb",
+      "sourceSHA256": "3d248fbdc29d5a10d3e34af5c6adac3818108e2be8ffb23cf00ec09f66f2d7ea",
+      "sha256": "801f9eb1cc916d1620f1fe416707718c9b3617c398cfdb2ecde15aaf73bbe9c5",
+      "sourceBytes": 465800,
+      "repackedBytes": 425892,
+      "bytes": 302184,
+      "trianglesBefore": 6982,
+      "trianglesAfter": 6982,
+      "simplified": null,
+      "textures": [
+        {
+          "name": "Passenger texture b638e2b7aa17aea6db955e6bc96eda87ea291db5714e4e396a1dfc26819d68a2",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 78338,
+          "bytes": 40313,
+          "width": 512,
+          "height": 512
+        },
+        {
+          "name": "Passenger texture cd6bed2415dae9597f66a2593010f1c713cbf36b7eba602c8d1ccfcd71cca2ca",
+          "slots": [
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 25195,
+          "bytes": 35384,
+          "width": 512,
+          "height": 512
+        },
+        {
+          "name": "Passenger texture c12167e765831573011643c301ebd0c5195c344d619cfd4f27fd6c95b7f89ff1",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 44300,
+          "bytes": 26150,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "Passenger texture 620024de2fddbc8a5bbe3135829b08c4b42980a1c57384077b96c86bac77d3b9",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 16985,
+          "bytes": 9151,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "name": "Passenger texture e8a3f92e08855aa179e9ce20b7163c05d44779a4021c4eb11dadf88ffcb0e922",
+          "slots": [
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 10014,
+          "bytes": 12790,
+          "width": 256,
+          "height": 256
+        }
+      ]
+    },
+    {
+      "source": "vehicles/bmw/low-poly-bmw-g80-m3.glb",
+      "output": "optimized/vehicles/bmw/low-poly-bmw-g80-m3.glb",
+      "sourceSHA256": "1d46ba0f0eb984b2cffff0279c13e4550d80d99fe95fc42a0559370cd3c5aba5",
+      "sha256": "5dfcdbee3658031ec42223f1a0f91a62a0773610e147c3962c136685beb51cc9",
+      "sourceBytes": 353124,
+      "repackedBytes": 351572,
+      "bytes": 197092,
+      "trianglesBefore": 6618,
+      "trianglesAfter": 6618,
+      "simplified": null,
+      "textures": []
+    },
+    {
+      "source": "vehicles/showcase/bmw-e30.glb",
+      "output": "optimized/vehicles/showcase/bmw-e30.glb",
+      "sourceSHA256": "81362f494fc6cadcd6b6adaae231628abe530b27ffcbb140f76e0a0291e2653e",
+      "sha256": "84f62ef395a06d6756f7811e95842f09c9183f0129897601466ee1b8afd5c089",
+      "sourceBytes": 3580232,
+      "repackedBytes": 3579108,
+      "bytes": 2917148,
+      "trianglesBefore": 13076,
+      "trianglesAfter": 13076,
+      "simplified": {
+        "removed": [],
+        "wheelMaterials": [
+          "Tire"
+        ]
+      },
+      "textures": [
+        {
+          "name": "",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 418147,
+          "bytes": 139835,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 334493,
+          "bytes": 448089,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "normalTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 633824,
+          "bytes": 725324,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 13233,
+          "bytes": 12471,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 655141,
+          "bytes": 160708,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 191218,
+          "bytes": 317838,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "normalTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 797295,
+          "bytes": 820160,
+          "width": 1024,
+          "height": 1024
+        }
+      ]
+    },
+    {
+      "source": "vehicles/showcase/cadillac-75.glb",
+      "output": "optimized/vehicles/showcase/cadillac-75.glb",
+      "sourceSHA256": "d2095544a03940b3e4addac08835280af227506298143947fd1d259980c73a59",
+      "sha256": "a371816d4f3afb20712f9fe3590662b5d99fced82ddba7646e101893bc25524b",
+      "sourceBytes": 3645096,
+      "repackedBytes": 3644040,
+      "bytes": 2935864,
+      "trianglesBefore": 14663,
+      "trianglesAfter": 14663,
+      "simplified": {
+        "removed": [],
+        "wheelMaterials": [
+          "Interior"
+        ]
+      },
+      "textures": [
+        {
+          "name": "",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 712774,
+          "bytes": 163763,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 350230,
+          "bytes": 374245,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "normalTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 821641,
+          "bytes": 867578,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 11103,
+          "bytes": 17301,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 337682,
+          "bytes": 101452,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 298159,
+          "bytes": 416322,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "normalTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 471963,
+          "bytes": 641994,
+          "width": 1024,
+          "height": 1024
+        }
+      ]
+    },
+    {
+      "source": "vehicles/showcase/koenigsegg-one1.glb",
+      "output": "optimized/vehicles/showcase/koenigsegg-one1.glb",
+      "sourceSHA256": "b4218693cce2a1b0e7cd9eb82ae879852b5011f2d52d4b3d7ec9858e7735e5dc",
+      "sha256": "1adb68f41f9b2d20b1e594d09695ac90132ee64122623ed82285cd395eea5343",
+      "sourceBytes": 11592488,
+      "repackedBytes": 11590472,
+      "bytes": 7765884,
+      "trianglesBefore": 42879,
+      "trianglesAfter": 38335,
+      "simplified": {
+        "removed": [],
+        "wheelMaterials": [
+          "lambert10SG"
+        ]
+      },
+      "textures": [
+        {
+          "name": "",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 382850,
+          "bytes": 103243,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "occlusionTexture",
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 888328,
+          "bytes": 881825,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "normalTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 979329,
+          "bytes": 569450,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 235309,
+          "bytes": 81199,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "occlusionTexture",
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 952372,
+          "bytes": 811353,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "emissiveTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 22905,
+          "bytes": 7162,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "normalTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 396949,
+          "bytes": 349459,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 618446,
+          "bytes": 144992,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "occlusionTexture",
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 937924,
+          "bytes": 977125,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "normalTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 1491825,
+          "bytes": 1063285,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 555868,
+          "bytes": 140340,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 276231,
+          "bytes": 229478,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 248177,
+          "bytes": 83492,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "occlusionTexture",
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 955115,
+          "bytes": 871331,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "normalTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 214922,
+          "bytes": 241543,
+          "width": 1024,
+          "height": 1024
+        }
+      ]
+    },
+    {
+      "source": "vehicles/showcase/phoenix-interceptor.glb",
+      "output": "optimized/vehicles/showcase/phoenix-interceptor.glb",
+      "sourceSHA256": "05debdbcc604b368f8528841c953444efa39aa644124724dd55bc79629a68b72",
+      "sha256": "d3bb38bcc5eaf2df291fd69c3b0b077692c947f08f8c2b02586eae493332ebd1",
+      "sourceBytes": 7974396,
+      "repackedBytes": 7563608,
+      "bytes": 6177540,
+      "trianglesBefore": 26501,
+      "trianglesAfter": 21440,
+      "simplified": {
+        "removed": [
+          "Phoenix445_Interior_UCB_Interiors_2_0",
+          "Phoenix445_Steering_Wheel_UCB_Interiors_2_0"
+        ],
+        "wheelMaterials": [
+          "RB1c_Tire_1k"
+        ]
+      },
+      "textures": [
+        {
+          "name": "",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 109261,
+          "bytes": 48970,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "occlusionTexture",
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 984646,
+          "bytes": 777455,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "specularTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 80287,
+          "bytes": 144827,
+          "width": 512,
+          "height": 512
+        },
+        {
+          "name": "",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 252822,
+          "bytes": 190915,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "occlusionTexture",
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 1135888,
+          "bytes": 937638,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "specularTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 419381,
+          "bytes": 575249,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 396958,
+          "bytes": 625761,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 257243,
+          "bytes": 142931,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 370145,
+          "bytes": 289156,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 151440,
+          "bytes": 126753,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "occlusionTexture",
+            "metallicRoughnessTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 971275,
+          "bytes": 906550,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "specularTexture"
+          ],
+          "mode": "uastc",
+          "sourceBytes": 421676,
+          "bytes": 503195,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 1001915,
+          "bytes": 259037,
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "name": "",
+          "slots": [
+            "baseColorTexture"
+          ],
+          "mode": "etc1s",
+          "sourceBytes": 73083,
+          "bytes": 62897,
+          "width": 512,
+          "height": 512
+        }
+      ]
+    }
+  ]
+}

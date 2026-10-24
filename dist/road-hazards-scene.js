@@ -12,6 +12,8 @@ export const ROAD_HAZARD_VISUALS = Object.freeze({
   surfaceNormalOffset: .022,
   solidInset: .006,
   patchStep: 1.6,
+  patchInteriorStep: 3.2,
+  duneInteriorStep: 2.4,
   patchEdgeBlend: 2.5,
   warningBorderFraction: .085,
   warningPulseHz: 2,
@@ -145,14 +147,24 @@ function patchGeometry(THREE,hazards,groundHeight,kind){
    color.copy(low).lerp(high,streak);
    indices.push(p.length/3);p.push(x,sampleGround(x,z)+h.height*lift,z);colors.push(color.r,color.g,color.b);uv.push(x/4,-z/4);local.push(lx,lift,lz);
   };
-  // Subdivide the actual concave footprint so the surface follows road grades
-  // while its visible edge remains identical to the gameplay boundary.
+  // Keep the complete concave outline and its fine edge spacing. Interior
+  // edges can be wider; every shared edge uses the same midpoint/length rule
+  // so adjacent triangles agree on their subdivisions.
   const midpoint=(a,b)=>({x:(a.x+b.x)/2,z:(a.z+b.z)/2});
+  const edgeRatio=(a,b)=>{
+   const q=midpoint(a,b),x=h.x+c*q.x+s*q.z,z=h.z-s*q.x+c*q.z;
+   const interior=smooth(roadHazardPatchDistance(h,x,z)/ROAD_HAZARD_VISUALS.patchEdgeBlend);
+   const target=kind==='ice'?ROAD_HAZARD_VISUALS.patchInteriorStep:ROAD_HAZARD_VISUALS.duneInteriorStep;
+   const step=ROAD_HAZARD_VISUALS.patchStep+(target-ROAD_HAZARD_VISUALS.patchStep)*interior;
+   return Math.hypot(a.x-b.x,a.z-b.z)/step;
+  };
   const triangle=(a,b,c)=>{
-   const ab=Math.hypot(a.x-b.x,a.z-b.z),bc=Math.hypot(b.x-c.x,b.z-c.z),ca=Math.hypot(c.x-a.x,c.z-a.z);
-   if(Math.max(ab,bc,ca)>ROAD_HAZARD_VISUALS.patchStep){
-    const d=midpoint(a,b),e=midpoint(b,c),f=midpoint(c,a);
-    triangle(a,d,f);triangle(d,b,e);triangle(f,e,c);triangle(d,e,f);return;
+   const ratios=[edgeRatio(a,b),edgeRatio(b,c),edgeRatio(c,a)],edge=ratios.indexOf(Math.max(...ratios));
+   if(ratios[edge]>1){
+    if(edge===0){const d=midpoint(a,b);triangle(a,d,c);triangle(d,b,c);}
+    else if(edge===1){const d=midpoint(b,c);triangle(a,b,d);triangle(a,d,c);}
+    else{const d=midpoint(c,a);triangle(a,b,d);triangle(d,b,c);}
+    return;
    }
    const cross=(b.x-a.x)*(c.z-a.z)-(b.z-a.z)*(c.x-a.x);
    for(const v of cross>0?[a,c,b]:[a,b,c])vertex(v);

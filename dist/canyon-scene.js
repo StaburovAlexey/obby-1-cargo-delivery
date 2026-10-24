@@ -2,7 +2,7 @@ import {CANYON_TRACK,canyonPointAt} from './canyon-track.js';
 import {CANYON_APPROACH_LENGTH,canyonApproachPoint} from './canyon-approach.js';
 import {CANYON_APPROACH_ROCKS} from './canyon-rocks.js';
 import {pointInRoad} from './road-layout.js';
-import {createBarrierGeometry} from './roadside-barrier.js';
+import {barrierStripData,createBarrierGeometry,simplifyBarrierSections} from './roadside-barrier.js';
 
 export function createCanyonScene(THREE){
  const group=new THREE.Group();group.name='Downhill sandstone drift canyon';
@@ -36,7 +36,7 @@ export function createCanyonScene(THREE){
    const p=railPoints[i],near={x:p.x+p.right.x*9.14*side,z:p.z+p.right.z*9.14*side},far={x:p.x+p.right.x*9.36*side,z:p.z+p.right.z*9.36*side};
    if(i<Math.ceil(CANYON_APPROACH_LENGTH/2)&&(pointInRoad(near.x,near.z)||pointInRoad(far.x,far.z))){flush();continue;}
    if(p.approachDistance!==undefined&&!approachRailStarts.has(side))approachRailStarts.set(side,p.approachDistance);
-   sections.push({near,far,bottom:p.height+.53,top:p.height+1.03});
+   sections.push({near,far,bottom:p.height+.53,top:p.height+1.03,preserve:p.approachDistance===undefined&&p.progress===0});
   }
   flush();
  }
@@ -49,7 +49,9 @@ export function createCanyonScene(THREE){
   left.sections.push(...right.sections.slice().reverse());runs.splice(runs.indexOf(right),1);
  }
  for(let i=0;i<runs.length;i++){
-  const geometry=createBarrierGeometry(THREE,runs[i].sections);geometries.add(geometry);
+  const sections=runs[i].sections,canonical=barrierStripData(sections);
+  const geometry=createBarrierGeometry(THREE,simplifyBarrierSections(sections,{horizontalError:.035,verticalError:.025,maxSpan:24}));geometries.add(geometry);
+  geometry.userData.physicsGeometry={positions:new Float32Array(canonical.position),indices:new Uint32Array(canonical.indices)};
   const mesh=new THREE.Mesh(geometry,railMaterial);mesh.name=i===0?'Canyon steel guardrails':'Canyon steel guardrails '+i;mesh.castShadow=mesh.receiveShadow=true;group.add(mesh);
  }
  for(const side of [-1,1])for(let s=Math.ceil((approachRailStarts.get(side)??CANYON_APPROACH_LENGTH)/12)*12;s<CANYON_APPROACH_LENGTH;s+=12){

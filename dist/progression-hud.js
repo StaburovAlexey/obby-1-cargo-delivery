@@ -1,6 +1,7 @@
 import { PROGRESSION_CONFIG, SCHOOL_CONFIG, SKIN_CONFIG, schoolConfig, skinConfig } from './progression-config.js';
 import { UPGRADE_STATS, getUpgradeOffer } from './vehicle-upgrades.js';
 import { vehicleConfig } from './economy-config.js';
+import {createUiCache} from './ui-cache.js';
 
 
 export const brainDisplay = n => {
@@ -37,72 +38,75 @@ export function upgradeValuePresentation(stat,offer){
       (offer.maxed?'':` (+${compactDecimal(next.range-current.range)} м)`)+'. Заправка отдельно.',
   };
 }
-export function updateProgressionHud(doc,{gameplay,playing,driving,upgradeMenuOpen,premium}){
-  const s=gameplay.state,el=id=>doc.getElementById(id),brains=brainDisplay(s.brains);
-  el('brain-value').textContent=brains;
-  el('brain-hud').style.setProperty('--brain-digits',String(brains.length));
-  el('brain-hud').setAttribute('aria-label',`Мозги: ${brains}`);
-  el('upgrade-button').hidden=!playing||!driving;
-  el('upgrade-button').setAttribute('aria-expanded',String(upgradeMenuOpen));
-  el('upgrade-menu').hidden=!upgradeMenuOpen;
-  doc.body.classList.toggle('upgrade-menu-open',upgradeMenuOpen);
-  el('vehicle-funds-button').hidden=!playing||driving||!!s.seatedId||s.vehicleGrantClaimed;
-  const canBuy=playing&&!driving&&!s.seatedId&&!s.jump.airborne;
+export function updateProgressionHud(doc,{gameplay,playing,driving,upgradeMenuOpen,premium,purchaseMenuOpen=false,vehicleFundsAvailable=true,controlsHidden=false}){
+  const s=gameplay.state,ui=createUiCache(doc),el=id=>ui.get(id),brains=brainDisplay(s.brains);
+  ui.text(el('brain-value'),brains);
+  ui.style(el('brain-hud'),'--brain-digits',String(brains.length));
+  ui.attribute(el('brain-hud'),'aria-label',`Мозги: ${brains}`);
+  ui.hidden(el('upgrade-button'),controlsHidden||!playing||!driving);
+  ui.attribute(el('upgrade-button'),'aria-expanded',String(upgradeMenuOpen));
+  ui.hidden(el('upgrade-menu'),!upgradeMenuOpen);
+  ui.class(doc.body,'upgrade-menu-open',upgradeMenuOpen);
+  ui.hidden(el('vehicle-funds-button'),!vehicleFundsAvailable||!playing||driving||!!s.seatedId||s.vehicleGrantClaimed);
+  const canBuy=playing&&!purchaseMenuOpen&&!driving&&!s.seatedId&&!s.jump.airborne;
   for(const kind of ['skin','school']){
     const id=s[kind+'PurchaseCandidateId'],spec=kind==='skin'?skinConfig(id):schoolConfig(id),owned=kind==='skin'?gameplay.isSkinOwned(id):gameplay.isSchoolOwned(id);
-    const button=el('buy-'+kind);button.hidden=!canBuy||!spec;
+    const button=el('buy-'+kind);ui.hidden(button,!canBuy||!spec);
     if(spec){const product=spec.premium?premium?.catalog.get(id):null,available=!spec.premium||!!product;
-      button.dataset.owned=String(owned);button.dataset.premium=String(!!spec.premium);const label=owned?(kind==='skin'?'Выбрать':`Сесть · +${brainRateDisplay(spec.rate)}/сек`):spec.premium?(product?`Купить ${product.price}`:'Покупки недоступны'):`Купить ${spec.price}`;
-      setPortalPrice(doc,el('buy-'+kind+'-label'),label,spec.premium&&!owned?product:null);button.disabled=!!premium?.status.busy||(!owned&&!available);button.dataset.affordable=String(owned||(spec.premium?available:s.money>=spec.price));button.setAttribute('aria-label',spec.premium?label:owned?label:`Купить ${spec.name} за ${spec.price} игровых денег`);
+      ui.data(button,'owned',String(owned));ui.data(button,'premium',String(!!spec.premium));const label=owned?(kind==='skin'?'Выбрать':`Сесть · +${brainRateDisplay(spec.rate)}/сек`):spec.premium?(product?`Купить ${product.price}`:'Покупки недоступны'):`Купить ${spec.price}`;
+      setPortalPrice(doc,el('buy-'+kind+'-label'),label,spec.premium&&!owned?product:null);ui.property(button,'disabled',!!premium?.status.busy||(!owned&&!available));ui.data(button,'affordable',String(owned||(spec.premium?available:s.money>=spec.price)));ui.attribute(button,'aria-label',spec.premium?label:owned?label:`Купить ${spec.name} за ${spec.price} игровых денег`);
     }
   }
   const school=schoolConfig(s.seatedSchoolId);
-  el('study-status').hidden=!playing||!s.seatedId||!school;
-  if(school)el('study-status').textContent=`${school.name} · +${brainRateDisplay(school.rate)} мозга/сек`;
-  for(const [i,skin]of SKIN_CONFIG.entries()){if(gameplay.isSkinOwned(skin.id))el(`skin-label-${i+1}`).hidden=true;}
+  ui.hidden(el('study-status'),!playing||!s.seatedId||!school);
+  if(school)ui.text(el('study-status'),`${school.name} · +${brainRateDisplay(school.rate)} мозга/сек`);
+  for(const [i,skin]of SKIN_CONFIG.entries()){if(gameplay.isSkinOwned(skin.id))ui.hidden(el(`skin-label-${i+1}`),true);}
   if(!upgradeMenuOpen||!s.selectedId)return;
-  el('upgrade-car-name').textContent=vehicleConfig(s.selectedId).name;
+  ui.text(el('upgrade-car-name'),vehicleConfig(s.selectedId).name);
   for(const stat of UPGRADE_STATS){
     const offer=getUpgradeOffer(s.selectedId,stat.id,s.upgrades[s.selectedId]),prefix='upgrade-'+stat.id;
     const presentation=upgradeValuePresentation(stat.id,offer);
-    el(prefix+'-level').textContent=`${offer.level} / ${offer.maxLevel}`;
-    el(prefix+'-value').textContent=presentation.value;
-    el(prefix+'-description').textContent=presentation.detail;
-    el(prefix+'-price').textContent=offer.maxed?'МАКС':String(offer.price);
-    const button=el(prefix+'-buy');button.disabled=offer.maxed||s.brains<offer.price;
-    button.setAttribute('aria-label',offer.maxed?`${stat.name}: максимальный уровень`:`${stat.name}: уровень ${offer.nextLevel}, ${offer.price} мозгов. ${presentation.value}. ${presentation.detail}`);
+    ui.text(el(prefix+'-level'),`${offer.level} / ${offer.maxLevel}`);
+    ui.text(el(prefix+'-value'),presentation.value);
+    ui.text(el(prefix+'-description'),presentation.detail);
+    ui.text(el(prefix+'-price'),offer.maxed?'МАКС':String(offer.price));
+    const button=el(prefix+'-buy');ui.property(button,'disabled',offer.maxed||s.brains<offer.price);
+    ui.attribute(button,'aria-label',offer.maxed?`${stat.name}: максимальный уровень`:`${stat.name}: уровень ${offer.nextLevel}, ${offer.price} мозгов. ${presentation.value}. ${presentation.detail}`);
   }
 }
+const worldLabels=new WeakMap();
+function progressionLabelNodes(doc,garage){
+  let labels=worldLabels.get(doc);if(labels?.garage===garage)return labels;
+  const ui=createUiCache(doc),el=id=>ui.get(id);
+  labels={garage,schools:garage.classroomEntries.map((entry,i)=>({entry,spec:schoolConfig(entry.id),
+    rate:el(`school-rate-${i+1}`),price:el(`school-price-${i+1}`),lock:el(`school-lock-${i+1}`),dollar:el(`school-dollar-${i+1}`),access:el(`school-access-${i+1}`),element:el(`school-label-${i+1}`)})),
+    skins:garage.stands.map((stand,i)=>({stand,skin:SKIN_CONFIG[i],price:el(`skin-price-${i+1}`),element:el(`skin-label-${i+1}`)}))};
+  worldLabels.set(doc,labels);return labels;
+}
 export function updateProgressionWorldLabels(doc,{gameplay,garage,playing,project,viewportWidth=390,premium}){
-  const visible=playing&&gameplay.state.mode==='walking',projectedSchools=[];
-  for(const [i,entry]of garage.classroomEntries.entries()){
-    const spec=SCHOOL_CONFIG.find(s=>s.id===entry.id),owned=gameplay.isSchoolOwned(entry.id),a=entry.labelAnchor;
-    doc.getElementById(`school-rate-${i+1}`).textContent=brainRateDisplay(spec.rate);
-    doc.getElementById(`school-price-${i+1}`).textContent=owned?'':String(spec.price);
-    doc.getElementById(`school-lock-${i+1}`).hidden=owned;
-    doc.getElementById(`school-dollar-${i+1}`).hidden=owned;
-    const access=doc.getElementById(`school-access-${i+1}`);
-    access.hidden=owned;
-    access.dataset.affordable=String(owned||gameplay.state.money>=spec.price);
-    const element=doc.getElementById(`school-label-${i+1}`);
-    const depth=project(element,a.x,a.y-WORLD_LABEL_DROP,a.z,visible,65);
+  const ui=createUiCache(doc),labels=progressionLabelNodes(doc,garage),visible=playing&&gameplay.state.mode==='walking',projectedSchools=[];
+  if(!visible){for(const label of [...labels.schools,...labels.skins])ui.hidden(label.element,true);return;}
+  for(const [i,label]of labels.schools.entries()){
+    const {entry,spec,rate,price,lock,dollar,access,element}=label,owned=gameplay.isSchoolOwned(entry.id),a=entry.labelAnchor;
+    ui.text(rate,brainRateDisplay(spec.rate));
+    ui.text(price,owned?'':String(spec.price));
+    ui.hidden(lock,owned);ui.hidden(dollar,owned);ui.hidden(access,owned);
+    ui.data(access,'affordable',String(owned||gameplay.state.money>=spec.price));
+    const depth=project(element,a.x,a.y-WORLD_LABEL_DROP,a.z,true,65);
     if(!element.hidden)projectedSchools.push({element,depth:Number.isFinite(depth)?depth:0,index:i});
   }
-
-
-
   const scale=schoolLabelScale(viewportWidth);
   projectedSchools.sort((a,b)=>b.depth-a.depth||a.index-b.index);
   for(const [rank,{element}]of projectedSchools.entries()){
-    element.style.setProperty('--school-scale',String(scale));
-    element.style.zIndex=String(rank+1);
+    ui.style(element,'--school-scale',String(scale));
+    if(element.style.zIndex!==String(rank+1))element.style.zIndex=String(rank+1);
   }
-  for(const [i,stand]of garage.stands.entries()){
-    const skin=SKIN_CONFIG[i],owned=gameplay.isSkinOwned(skin.id);
-    const priceNode=doc.getElementById(`skin-price-${i+1}`),product=skin.premium?premium?.catalog.get(skin.id):null;
-    setPortalPrice(doc,priceNode,skin.premium?(product?.price||'—'):String(skin.price),product);
-    const label=doc.getElementById(`skin-label-${i+1}`);label.dataset.premium=String(skin.premium);
-    project(doc.getElementById(`skin-label-${i+1}`),stand.x,(stand.y??.16)+4.84-WORLD_LABEL_DROP,stand.z,visible&&!owned,45);
+  for(const {stand,skin,price,element}of labels.skins){
+    const owned=gameplay.isSkinOwned(skin.id);
+    const product=skin.premium?premium?.catalog.get(skin.id):null;
+    setPortalPrice(doc,price,skin.premium?(product?.price||'—'):String(skin.price),product);
+    ui.data(element,'premium',String(skin.premium));
+    project(element,stand.x,(stand.y??.16)+4.84-WORLD_LABEL_DROP,stand.z,!owned,45);
   }
 }
 

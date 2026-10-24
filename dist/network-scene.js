@@ -3,7 +3,7 @@
 
 import {CANYON_APPROACH_ROCKS} from './canyon-rocks.js';
 import {canyonApproachQuads} from './canyon-approach.js';
-import {barrierStripData,barrierTierDepth} from './roadside-barrier.js';
+import {barrierStripData,barrierTierDepth,simplifyBarrierSections} from './roadside-barrier.js';
 import {CANYON_TRACK,canyonPointAt} from './canyon-track.js';
 import {polygonIndex,cutSurfaceMesh} from './surface-cut.js';
 // Reserve a landscape corridor as well as the asphalt: city facades cannot
@@ -136,8 +136,10 @@ function prismMaterial(THREE,shops){
   };
   return material;
 }
-function prismBatch(THREE){
+function prismBatch(THREE,{separatePhysics=false}={}){
   const arrays={position:[],normal:[],color:[],urPrismMeters:[],urPrismSize:[],urPrismFace:[],urShopData:[],uv:[]},indices=[],ranges=[];
+  const physicsPositions=[],physicsIndices=[];
+  const capturePhysics=(positions,source)=>{if(!separatePhysics)return;const start=physicsPositions.length/3;physicsPositions.push(...positions);for(const index of source)physicsIndices.push(start+index);};
   function add(name,footprint,bottom,top,color,shopBase=0,shopId=0){
 
     const p=footprint,v=p.map(q=>[q.x,bottom,q.z]).concat(p.map(q=>[q.x,top,q.z]));
@@ -166,15 +168,21 @@ function prismBatch(THREE){
       indices.push(base,base+1,base+2,base,base+2,base+3);
     }
     ranges.push({name,start,count:24,indexStart:faceStart,indexCount:36});
+    capturePhysics(arrays.position.slice(start*3),indices.slice(faceStart).map(index=>index-start));
   }
-  function addStrip(name,sections,options){
-    const data=barrierStripData(sections,options),start=arrays.position.length/3,indexStart=indices.length;
+  function addStrip(name,sections,options,visualOptions){
+    const canonical=barrierStripData(sections,options);
+    capturePhysics(canonical.position,canonical.indices);
+    const visualSections=separatePhysics?simplifyBarrierSections(sections):sections;
+    const data=separatePhysics?barrierStripData(visualSections,{...options,...visualOptions}):canonical,start=arrays.position.length/3,indexStart=indices.length;
     for(const key of Object.keys(arrays))arrays[key].push(...data[key]);
     for(const index of data.indices)indices.push(start+index);
-    ranges.push({name,start,count:data.position.length/3,indexStart,indexCount:data.indices.length,continuous:true,sectionCount:sections.length});
+    ranges.push({name,start,count:data.position.length/3,indexStart,indexCount:data.indices.length,continuous:true,sectionCount:visualSections.length,canonicalSectionCount:sections.length,closed:!visualOptions?.omitBottom});
   }
   return {add,addStrip,ranges,build(){
-    const g=new THREE.BufferGeometry();for(const [name,a] of Object.entries(arrays))g.setAttribute(name,new THREE.Float32BufferAttribute(a,name==='urShopData'||name==='uv'?2:3));g.setIndex(indices);g.computeBoundingBox();g.computeBoundingSphere();g.userData.parts=ranges;return g;
+    const g=new THREE.BufferGeometry();for(const [name,a] of Object.entries(arrays))g.setAttribute(name,new THREE.Float32BufferAttribute(a,name==='urShopData'||name==='uv'?2:3));g.setIndex(indices);g.computeBoundingBox();g.computeBoundingSphere();g.userData.parts=ranges;
+    if(separatePhysics)g.userData.physicsGeometry={positions:new Float32Array(physicsPositions),indices:new Uint32Array(physicsIndices)};
+    return g;
   }};
 }
 
@@ -217,7 +225,7 @@ export function buildCity(THREE,{seed=42,roadPits=[]}={}){
   edgePaint.positions=edgePaint.positions.map((v,i)=>v+(i%3===1?.006:0));
   surface('Flat yellow bridge edge markings',edgePaint,createEnvironmentMaterial(THREE,0xffc438));
   for(const b of BRIDGES)features.push({type:'bridge',...b,width:b.halfWidth*2,progressFrom:b.from,progressTo:b.to});
-  const houseBatch=prismBatch(THREE),frontageInfills=[],barrierBatch=prismBatch(THREE),barrierTiers=[],palette=[0xde7430,0xebb840,0x2dc65b,0x1f91df];
+  const houseBatch=prismBatch(THREE),frontageInfills=[],barrierBatch=prismBatch(THREE,{separatePhysics:true}),barrierTiers=[],palette=[0xde7430,0xebb840,0x2dc65b,0x1f91df];
   let buildingCount=0,barrierCount=0,omittedJunctionSections=0,minimumFrontage=Infinity,maximumFrontage=0,maximumFacadeSetback=0;
   const sample=(edge,s)=>NETWORK.pointOnEdge(edge.id,Math.max(0,Math.min(edge.length,s)));
   const offset=(p,d)=>({x:p.x+p.right.x*d,z:p.z+p.right.z*d});
@@ -389,7 +397,7 @@ export function buildCity(THREE,{seed=42,roadPits=[]}={}){
       }
       record=after;
     }
-    barrierStrips.push({name:first.name+' continuous',side:first.side,sections});
+    barrierStrips.push({name:first.name+' continuous',side:first.side,layer:first.layer,sections});
   }
   // All strata at one run end share a cap plane. Keep only the exposed area
   // of each later cap, rather than stacking colored coplanar rectangles.
@@ -401,7 +409,16 @@ export function buildCity(THREE,{seed=42,roadPits=[]}={}){
       const preceding=capGroups.get(key)||[];strip.caps.push(preceding.slice());preceding.push(section);capGroups.set(key,preceding);
     }
   }
-  for(const strip of barrierStrips)barrierBatch.addStrip(strip.name,strip.sections,{capStartOccluders:strip.caps[0],capEndOccluders:strip.caps[1]});
+  // Remove buried/fully enclosed undersides only. A safety margin exceeds the
+  // two sweeps' visual approximation error; exposed ledges remain complete.
+  const crossSections=new Map(),sectionKey=(side,s)=>`${side}:${s.distance.toFixed(6)}:${((s.near.x+s.far.x)/2).toFixed(5)},${((s.near.z+s.far.z)/2).toFixed(5)}`;
+  for(const strip of barrierStrips)for(const section of strip.sections){const key=sectionKey(strip.side,section);if(!crossSections.has(key))crossSections.set(key,[]);crossSections.get(key).push(section);}
+  const undersideCovered=strip=>strip.layer===0||strip.sections.every(section=>(crossSections.get(sectionKey(strip.side,section))||[]).some(other=>{
+    if(other===section||section.bottom<other.bottom+.1||section.bottom>other.top-.1)return false;
+    const dx=other.far.x-other.near.x,dz=other.far.z-other.near.z,width=Math.hypot(dx,dz),along=p=>((p.x-other.near.x)*dx+(p.z-other.near.z)*dz)/width;
+    return along(section.near)>=.1&&along(section.far)<=width-.1;
+  }));
+  for(const strip of barrierStrips)barrierBatch.addStrip(strip.name,strip.sections,{capStartOccluders:strip.caps[0],capEndOccluders:strip.caps[1]},{omitBottom:undersideCovered(strip)});
   const end=NETWORK.routePointAtProgress(ROUTE.end),forward={x:-Math.sin(end.heading),z:-Math.cos(end.heading)};
   const cap=[[-27,.25],[-27,8.25],[27,8.25],[27,.25]].map(([a,b])=>({x:end.x+end.right.x*a+forward.x*b,z:end.z+end.right.z*a+forward.z*b}));
   barrierBatch.add('Biome barrier volcanic route end',cap,end.height-.2,end.height+12.8,new THREE.Color(0x41373b));

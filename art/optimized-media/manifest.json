@@ -1,0 +1,1078 @@
+{
+  "schemaVersion": 1,
+  "tools": {
+    "sharp": {
+      "aom": "3.15.1",
+      "archive": "3.8.9",
+      "cairo": "1.18.6",
+      "cgif": "0.5.4",
+      "exif": "0.6.26",
+      "expat": "2.8.5",
+      "ffi": "3.8.0",
+      "fontconfig": "2.18.3",
+      "freetype": "2.14.3",
+      "fribidi": "1.0.17",
+      "glib": "2.90.0",
+      "harfbuzz": "14.5.0",
+      "heif": "1.23.5",
+      "highway": "1.4.0",
+      "imagequant": "2.4.1",
+      "lcms": "2.19.1",
+      "mozjpeg": "0826579",
+      "pango": "1.58.2",
+      "pixman": "0.46.4",
+      "png": "1.6.58",
+      "proxy-libintl": "0.5",
+      "rsvg": "2.63.2",
+      "tiff": "4.7.2",
+      "uhdr": "2.0.2",
+      "vips": "8.18.7",
+      "webp": "1.6.0",
+      "xml2": "2.15.4",
+      "zlib-ng": "2.3.3",
+      "sharp": "0.35.5"
+    },
+    "ffmpeg": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+    "ffprobe": "ffprobe version 6.1.1-3ubuntu5 Copyright (c) 2007-2023 the FFmpeg developers"
+  },
+  "command": "FFMPEG=/path/to/ffmpeg FFPROBE=/path/to/ffprobe node scripts/optimize-media.mjs",
+  "originalsRoot": "art/optimization-originals/media",
+  "settings": {
+    "audio": {
+      "codec": "libmp3lame",
+      "bitrate": "128k",
+      "compressionLevel": 2
+    },
+    "images": {
+      "qualities": [
+        85,
+        88,
+        90,
+        93
+      ],
+      "effort": 6,
+      "smartSubsample": true,
+      "minimumPsnrDb": 37,
+      "minimumBlockSsim": 0.975,
+      "preserveDimensions": true
+    }
+  },
+  "notes": [
+    "Existing compressed MP3/WebP files are the preserved input; no source-art PNGs are included in savings.",
+    "Audio encoding preserves decoded sample count, channel count, sample rate and track URLs; 128 kbps is lossy and has not been listening-verified.",
+    "All image dimensions are unchanged to preserve UV detail; similarity is measured against the decoded previous WebP.",
+    "Image similarity thresholds are heuristics, not in-game visual verification; no tests or browser checks are run by this command.",
+    "Originals are outside dist and are not part of release assets."
+  ],
+  "totals": {
+    "audio": {
+      "files": 5,
+      "originalBytes": 18942829,
+      "optimizedBytes": 9475613,
+      "savedBytes": 9467216
+    },
+    "liveries": {
+      "files": 44,
+      "originalBytes": 10056866,
+      "optimizedBytes": 8471748,
+      "savedBytes": 1585118
+    },
+    "shop": {
+      "files": 3,
+      "originalBytes": 535502,
+      "optimizedBytes": 473530,
+      "savedBytes": 61972
+    },
+    "all": {
+      "files": 52,
+      "originalBytes": 29535197,
+      "optimizedBytes": 18420891,
+      "savedBytes": 11114306
+    }
+  },
+  "audio": [
+    {
+      "path": "dist/assets/audio/music/adrenaline-sport.mp3",
+      "originalPath": "art/optimization-originals/media/assets/audio/music/adrenaline-sport.mp3",
+      "originalBytes": 4360986,
+      "optimizedBytes": 2181373,
+      "savedBytes": 2179613,
+      "originalSha256": "7052146996ffdf88fcbd584abe2e952fb86f118877061700ca9a30b9be01158a",
+      "optimizedSha256": "92319c1d7a5e0d3cb078d033b6e61e988a5eafea02e3277113e6c16e2539e2dc",
+      "original": {
+        "codec": "mp3",
+        "sampleRateHz": 44100,
+        "channels": 2,
+        "bitrate": 256000,
+        "containerDurationSeconds": 136.280813,
+        "decodedSamplesPerChannel": 6009984,
+        "decodedDurationSeconds": 136.2808163265306
+      },
+      "optimized": {
+        "codec": "mp3",
+        "sampleRateHz": 44100,
+        "channels": 2,
+        "bitrate": 128000,
+        "containerDurationSeconds": 136.306939,
+        "decodedSamplesPerChannel": 6009984,
+        "decodedDurationSeconds": 136.2808163265306
+      }
+    },
+    {
+      "path": "dist/assets/audio/music/brazil-phonk.mp3",
+      "originalPath": "art/optimization-originals/media/assets/audio/music/brazil-phonk.mp3",
+      "originalBytes": 3405312,
+      "optimizedBytes": 1703469,
+      "savedBytes": 1701843,
+      "originalSha256": "e8165cab1dddecd1ad1b6d89b82248e1db4caf1885526138d569bfb1a2da1d0c",
+      "optimizedSha256": "124bc6b49d6483646ac0f9396e22cbb6f2ad14eff3ea77c88de35fffd96627e1",
+      "original": {
+        "codec": "mp3",
+        "sampleRateHz": 48000,
+        "channels": 2,
+        "bitrate": 256000,
+        "containerDurationSeconds": 106.416,
+        "decodedSamplesPerChannel": 5107968,
+        "decodedDurationSeconds": 106.416
+      },
+      "optimized": {
+        "codec": "mp3",
+        "sampleRateHz": 48000,
+        "channels": 2,
+        "bitrate": 128000,
+        "containerDurationSeconds": 106.44,
+        "decodedSamplesPerChannel": 5107968,
+        "decodedDurationSeconds": 106.416
+      }
+    },
+    {
+      "path": "dist/assets/audio/music/drift-phonk.mp3",
+      "originalPath": "art/optimization-originals/media/assets/audio/music/drift-phonk.mp3",
+      "originalBytes": 4306944,
+      "optimizedBytes": 2154285,
+      "savedBytes": 2152659,
+      "originalSha256": "ff990a1599a80dc35ca7c1d1f27052ff907abdc7cb76370ff042039dfe3ecd6a",
+      "optimizedSha256": "30810377b7dae9ec02aaa4c59ae74f6bb3034c18db6095f5527b6ca09462b94f",
+      "original": {
+        "codec": "mp3",
+        "sampleRateHz": 48000,
+        "channels": 2,
+        "bitrate": 256000,
+        "containerDurationSeconds": 134.592,
+        "decodedSamplesPerChannel": 6460416,
+        "decodedDurationSeconds": 134.592
+      },
+      "optimized": {
+        "codec": "mp3",
+        "sampleRateHz": 48000,
+        "channels": 2,
+        "bitrate": 128000,
+        "containerDurationSeconds": 134.616,
+        "decodedSamplesPerChannel": 6460416,
+        "decodedDurationSeconds": 134.592
+      }
+    },
+    {
+      "path": "dist/assets/audio/music/phonk-gym.mp3",
+      "originalPath": "art/optimization-originals/media/assets/audio/music/phonk-gym.mp3",
+      "originalBytes": 3485779,
+      "optimizedBytes": 1743769,
+      "savedBytes": 1742010,
+      "originalSha256": "5a3f6280221aff2c595f5a6c070ee2c803bdf68139fa8be68fda36f7c18a9de1",
+      "optimizedSha256": "51191cd23b7e6e7483fb4cd390e9ab1b3e0e41d9eb81bbae07b9e39ecfd12a8e",
+      "original": {
+        "codec": "mp3",
+        "sampleRateHz": 44100,
+        "channels": 2,
+        "bitrate": 256000,
+        "containerDurationSeconds": 108.930594,
+        "decodedSamplesPerChannel": 4803840,
+        "decodedDurationSeconds": 108.93061224489796
+      },
+      "optimized": {
+        "codec": "mp3",
+        "sampleRateHz": 44100,
+        "channels": 2,
+        "bitrate": 128000,
+        "containerDurationSeconds": 108.956735,
+        "decodedSamplesPerChannel": 4803840,
+        "decodedDurationSeconds": 108.93061224489796
+      }
+    },
+    {
+      "path": "dist/assets/audio/music/phonk-instrumental.mp3",
+      "originalPath": "art/optimization-originals/media/assets/audio/music/phonk-instrumental.mp3",
+      "originalBytes": 3383808,
+      "optimizedBytes": 1692717,
+      "savedBytes": 1691091,
+      "originalSha256": "c09ff3233547841820767dec920236409040761f508162a7e516e1ddff3ec1f7",
+      "optimizedSha256": "ce9437b515f4daa928cebf2b16f88b1a2318033d2ab1ea5eb4888c4b17208fe4",
+      "original": {
+        "codec": "mp3",
+        "sampleRateHz": 48000,
+        "channels": 2,
+        "bitrate": 256000,
+        "containerDurationSeconds": 105.744,
+        "decodedSamplesPerChannel": 5075712,
+        "decodedDurationSeconds": 105.744
+      },
+      "optimized": {
+        "codec": "mp3",
+        "sampleRateHz": 48000,
+        "channels": 2,
+        "bitrate": 128000,
+        "containerDurationSeconds": 105.768,
+        "decodedSamplesPerChannel": 5075712,
+        "decodedDurationSeconds": 105.744
+      }
+    }
+  ],
+  "images": [
+    {
+      "path": "dist/assets/liveries/ashhauler/anime.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/ashhauler/anime.webp",
+      "originalBytes": 223666,
+      "optimizedBytes": 184754,
+      "savedBytes": 38912,
+      "originalSha256": "4e8a5058c593e7e02070958aab1fbd49af3987db739c9f824ad846384adb0991",
+      "optimizedSha256": "0ace71d72f785eaf6f23b7cbae0d02b1264959d9a58f42d832e09be05b97d0e4",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 39.34057090522694,
+        "meanAbsoluteError": 1.6732266743977864,
+        "blockSsim": 0.9826134355819391
+      }
+    },
+    {
+      "path": "dist/assets/liveries/ashhauler/biome.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/ashhauler/biome.webp",
+      "originalBytes": 371412,
+      "optimizedBytes": 305728,
+      "savedBytes": 65684,
+      "originalSha256": "5a7da3476ef22418e42d098a662c341d1541a86d4b264511932dc30cb231ace5",
+      "optimizedSha256": "c653d91c3c431ecb5bed1a44fff1eb1854ed11bc1bd43f33a385f9cd887c77ef",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 39.01190122265809,
+        "meanAbsoluteError": 2.05335267384847,
+        "blockSsim": 0.9877655678868309
+      }
+    },
+    {
+      "path": "dist/assets/liveries/ashhauler/neon.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/ashhauler/neon.webp",
+      "originalBytes": 254826,
+      "optimizedBytes": 235162,
+      "savedBytes": 19664,
+      "originalSha256": "de3ba36f2fd0aa8d30589633daa83f6a8ece9d20a5e57060c94533caa3e16095",
+      "optimizedSha256": "cd77e0b673ccbaf8ba02cef454a7d4bf20cc475e4abdd951db116e38fec44c85",
+      "width": 1024,
+      "height": 1024,
+      "quality": 88,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 40.98222835915382,
+        "meanAbsoluteError": 1.4379205703735352,
+        "blockSsim": 0.9798441067505529
+      }
+    },
+    {
+      "path": "dist/assets/liveries/ashhauler/racing.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/ashhauler/racing.webp",
+      "originalBytes": 162632,
+      "optimizedBytes": 135402,
+      "savedBytes": 27230,
+      "originalSha256": "8242ebf35c331809a18290e29d7008b0abbabd6ba318dd3dd26da486a76c2cbb",
+      "optimizedSha256": "d41572ca5272005d1c1ce197f126eb9364a031e14297b9c627b24d3a3a95a01f",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 41.59745176433982,
+        "meanAbsoluteError": 1.1716349919637044,
+        "blockSsim": 0.9833578270429119
+      }
+    },
+    {
+      "path": "dist/assets/liveries/bmwreward/anime.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/bmwreward/anime.webp",
+      "originalBytes": 366358,
+      "optimizedBytes": 306142,
+      "savedBytes": 60216,
+      "originalSha256": "c443d77cfe927ada83f2131df1d19126adcec452dbd9df53bd3d97c666ab75f6",
+      "optimizedSha256": "011a3be3504acf67de2c0c537566b2a9c4944c46b1b5d9f996a78964481249bb",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 38.389534997150605,
+        "meanAbsoluteError": 2.0710299809773765,
+        "blockSsim": 0.9879181852355238
+      }
+    },
+    {
+      "path": "dist/assets/liveries/bmwreward/biome.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/bmwreward/biome.webp",
+      "originalBytes": 378002,
+      "optimizedBytes": 323738,
+      "savedBytes": 54264,
+      "originalSha256": "f5bc390e61bf9d7d4d404e4b566526888d3859589829dbe644b4eb2ff420f51e",
+      "optimizedSha256": "e9ac13a42f3d36c335f997146f2ae56d077ef754c33c0506a8be3193536350e9",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 38.924709816717815,
+        "meanAbsoluteError": 1.980256716410319,
+        "blockSsim": 0.9897422306759083
+      }
+    },
+    {
+      "path": "dist/assets/liveries/bmwreward/neon.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/bmwreward/neon.webp",
+      "originalBytes": 361756,
+      "optimizedBytes": 302024,
+      "savedBytes": 59732,
+      "originalSha256": "36bf1753f981c4ddb222d9fd4c168cb856c6d50e098b81e07734819d86ca656d",
+      "optimizedSha256": "d53eff1703630a306793b40dc63ef744d9d22f27461416f8cc7e64874ee4db78",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 37.20152473146864,
+        "meanAbsoluteError": 2.233717918395996,
+        "blockSsim": 0.9780519669105114
+      }
+    },
+    {
+      "path": "dist/assets/liveries/bmwreward/racing.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/bmwreward/racing.webp",
+      "originalBytes": 222952,
+      "optimizedBytes": 190476,
+      "savedBytes": 32476,
+      "originalSha256": "a0f9cddcd394a65a1ea07cb545f94850e94c832f131a34f977174169f8f1d463",
+      "optimizedSha256": "aade2d75893c5112155a0826a526e182a2a8860b5e3361b0e6d1ec5268b3abe7",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 39.904801057068894,
+        "meanAbsoluteError": 1.595298131306966,
+        "blockSsim": 0.9795533200220773
+      }
+    },
+    {
+      "path": "dist/assets/liveries/citycourier/anime.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/citycourier/anime.webp",
+      "originalBytes": 291454,
+      "optimizedBytes": 234628,
+      "savedBytes": 56826,
+      "originalSha256": "e22fdf753174ec31910f51a44638242b9c03ac3e7a4c2e2a398ef585a9ac4dca",
+      "optimizedSha256": "840e936eca7f9492c7b6ba4004286711a6b7d33bc9681682969b3a7f17857b6a",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 38.83146019540494,
+        "meanAbsoluteError": 1.9520594278971355,
+        "blockSsim": 0.9822476766219913
+      }
+    },
+    {
+      "path": "dist/assets/liveries/citycourier/biome.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/citycourier/biome.webp",
+      "originalBytes": 305550,
+      "optimizedBytes": 254428,
+      "savedBytes": 51122,
+      "originalSha256": "d81da8c4ddc8539bcd37ab28d02bab2957d55f994e541a814b2c8dd9a603c929",
+      "optimizedSha256": "97e106bcbe79d02be472a64c6d29b446858796c5899d8ba02c6f9757cf7394fd",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 38.9655047841575,
+        "meanAbsoluteError": 1.8831418355305989,
+        "blockSsim": 0.9890672353368041
+      }
+    },
+    {
+      "path": "dist/assets/liveries/citycourier/neon.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/citycourier/neon.webp",
+      "originalBytes": 302496,
+      "optimizedBytes": 253760,
+      "savedBytes": 48736,
+      "originalSha256": "e3ade8159cd42aecf87ffb2a572e71e5def25e86a252f18653032063a0d2cf20",
+      "optimizedSha256": "a5f4fecff14b4f3a3e031c9fcf6fb3db14f78fa97fb71f67e6de1c6c476fcdd6",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 37.83833535578967,
+        "meanAbsoluteError": 2.053966204325358,
+        "blockSsim": 0.9787599421371614
+      }
+    },
+    {
+      "path": "dist/assets/liveries/citycourier/racing.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/citycourier/racing.webp",
+      "originalBytes": 250754,
+      "optimizedBytes": 214236,
+      "savedBytes": 36518,
+      "originalSha256": "be9cc98f1c60e571d8f2224cec5d74490781b209eafe63861f04701382ee5eba",
+      "optimizedSha256": "bb763fc3167410db951f3f523377ac58071c1326a6f8c0dd868409b7ba28e931",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 39.34661147640063,
+        "meanAbsoluteError": 1.9042914708455403,
+        "blockSsim": 0.9802508134664646
+      }
+    },
+    {
+      "path": "dist/assets/liveries/desertscout/anime.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/desertscout/anime.webp",
+      "originalBytes": 106656,
+      "optimizedBytes": 85966,
+      "savedBytes": 20690,
+      "originalSha256": "9be77fcc8085d605af10b1c3eae95af09fc86cb54fa3e1e0de2945a7341b17af",
+      "optimizedSha256": "49fa6b89997666ebbcbbc6879af1b95bbf51b291e2018e848b704a38bcc271c8",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 42.5357774060958,
+        "meanAbsoluteError": 0.9802128473917643,
+        "blockSsim": 0.9901248963421597
+      }
+    },
+    {
+      "path": "dist/assets/liveries/desertscout/biome.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/desertscout/biome.webp",
+      "originalBytes": 182172,
+      "optimizedBytes": 154080,
+      "savedBytes": 28092,
+      "originalSha256": "1ab5320b26b10cadb5f15cd544074320e034303cc454049de0f09ba56790b92c",
+      "optimizedSha256": "d9cd692f14d51f35b735d6e8f0071b9eee6d1539d7af592e9bb08e9f706ea458",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 40.86075523886091,
+        "meanAbsoluteError": 1.357516606648763,
+        "blockSsim": 0.9904157844395054
+      }
+    },
+    {
+      "path": "dist/assets/liveries/desertscout/neon.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/desertscout/neon.webp",
+      "originalBytes": 124918,
+      "optimizedBytes": 105242,
+      "savedBytes": 19676,
+      "originalSha256": "588ed0315455eb4afe2231d1c9d2eb4a89cf7b4b6fa6c259e968956f4153124a",
+      "optimizedSha256": "fb184bcbbb8fc21d32d3f711084f9b63e861b54301b31c7b6f474c729520c97a",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 41.19457200737992,
+        "meanAbsoluteError": 1.1311489741007488,
+        "blockSsim": 0.9882047737106592
+      }
+    },
+    {
+      "path": "dist/assets/liveries/desertscout/racing.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/desertscout/racing.webp",
+      "originalBytes": 72706,
+      "optimizedBytes": 59178,
+      "savedBytes": 13528,
+      "originalSha256": "2ea24976272cbf5ad433df35e891e834eb2d2d140722ba6f2f23508f7ae095ca",
+      "optimizedSha256": "7ce3f5be196cad48161d6180c2d75d802d1d8ffc4b1ad3500a78dd1000731c4f",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 43.6300890260388,
+        "meanAbsoluteError": 0.8258905410766602,
+        "blockSsim": 0.9927541262296974
+      }
+    },
+    {
+      "path": "dist/assets/liveries/foresthauler/anime.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/foresthauler/anime.webp",
+      "originalBytes": 252870,
+      "optimizedBytes": 206758,
+      "savedBytes": 46112,
+      "originalSha256": "52330d689c6c4dc32c9f63fcc443244b219f1640206ef6a505bbacb5ffaa4dba",
+      "optimizedSha256": "24f32a0535deeac6c8a415f00b12cf4b344b4f31c50b99474c1f2710bcda1258",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 39.010869427424694,
+        "meanAbsoluteError": 1.8362429936726887,
+        "blockSsim": 0.983677075805637
+      }
+    },
+    {
+      "path": "dist/assets/liveries/foresthauler/biome.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/foresthauler/biome.webp",
+      "originalBytes": 250786,
+      "optimizedBytes": 203236,
+      "savedBytes": 47550,
+      "originalSha256": "b2d04f235c0ff9a5e53495c081f542bf1cbf6693d6386e35b6a2e10ca4d1901a",
+      "optimizedSha256": "205387a46ac4e073c14b20aea8fbd902e071c6a670f2e3282c957df343b3293f",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 39.662869428530996,
+        "meanAbsoluteError": 1.6751349767049153,
+        "blockSsim": 0.9881570895397029
+      }
+    },
+    {
+      "path": "dist/assets/liveries/foresthauler/neon.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/foresthauler/neon.webp",
+      "originalBytes": 195890,
+      "optimizedBytes": 169562,
+      "savedBytes": 26328,
+      "originalSha256": "023b1ff4b554797422012880203f51de7f8c4c4ddd2a4c82168e1a87118bee2f",
+      "optimizedSha256": "242f1c8be5d8cb55f5f133c1fe2b46dbddff794e86f9bda8b45a5d653d6bfeff",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 39.35531518300258,
+        "meanAbsoluteError": 1.5057732264200847,
+        "blockSsim": 0.9879675751610012
+      }
+    },
+    {
+      "path": "dist/assets/liveries/foresthauler/racing.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/foresthauler/racing.webp",
+      "originalBytes": 166230,
+      "optimizedBytes": 136794,
+      "savedBytes": 29436,
+      "originalSha256": "e14b6b30547f3d161d76993a2517f31729290d4f13a7d04dab5b9faf14790720",
+      "optimizedSha256": "ef3b312c7f4b6dac79c6f89c3adbc6abaafef870557fe4784f5792c6a260dc40",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 40.852353138883686,
+        "meanAbsoluteError": 1.3216927846272786,
+        "blockSsim": 0.9818996307155824
+      }
+    },
+    {
+      "path": "dist/assets/liveries/lavacrawler/anime.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/lavacrawler/anime.webp",
+      "originalBytes": 227666,
+      "optimizedBytes": 191094,
+      "savedBytes": 36572,
+      "originalSha256": "303133f81b0f89e02321baefe110805772d6550cfa2f58b8fecabcfa5fa899a6",
+      "optimizedSha256": "ee06aec04c93778c9b3ca76aa5b5bff5108b842cc98b5a9f5af86e84721a5920",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 39.593606465296396,
+        "meanAbsoluteError": 1.4761892954508464,
+        "blockSsim": 0.9883173764232839
+      }
+    },
+    {
+      "path": "dist/assets/liveries/lavacrawler/biome.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/lavacrawler/biome.webp",
+      "originalBytes": 342672,
+      "optimizedBytes": 318244,
+      "savedBytes": 24428,
+      "originalSha256": "6c0e1a46d0292db143746c4835ab69cbd805bd9de909ed17699939b759e08101",
+      "optimizedSha256": "5d60416e3093de3923d2b040cd9dbb31df48646da0df4e8571dd07e51e69cb52",
+      "width": 1024,
+      "height": 1024,
+      "quality": 88,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 40.693459508372726,
+        "meanAbsoluteError": 1.5010999043782551,
+        "blockSsim": 0.9817701796579897
+      }
+    },
+    {
+      "path": "dist/assets/liveries/lavacrawler/neon.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/lavacrawler/neon.webp",
+      "originalBytes": 248780,
+      "optimizedBytes": 209060,
+      "savedBytes": 39720,
+      "originalSha256": "9e536dfacf97a47924743e1927d1364740efeb15fce9c41b9eae3166dded4150",
+      "optimizedSha256": "510924d73792dff084dbde01c0f131a3c8b0b1622a332cbcc7427360031e8e67",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 38.197447046656436,
+        "meanAbsoluteError": 1.9823061625162761,
+        "blockSsim": 0.9808059301885571
+      }
+    },
+    {
+      "path": "dist/assets/liveries/lavacrawler/racing.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/lavacrawler/racing.webp",
+      "originalBytes": 176348,
+      "optimizedBytes": 148236,
+      "savedBytes": 28112,
+      "originalSha256": "9fbf056ae8ccda7e59dd43a5eb8ac91b0a9503031ccf652db7423277fb138d20",
+      "optimizedSha256": "1840475432e38f89cdb2ab903c8974d12b8bc04dc330e20917ce5b92305b44fc",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 38.94073838591233,
+        "meanAbsoluteError": 1.6486956278483074,
+        "blockSsim": 0.9757669949992999
+      }
+    },
+    {
+      "path": "dist/assets/liveries/pickup/anime.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/pickup/anime.webp",
+      "originalBytes": 214928,
+      "optimizedBytes": 178128,
+      "savedBytes": 36800,
+      "originalSha256": "65e87d33c3869d3e956d54405229d0bdcaa126618110338ad0c8bb197ea50f6f",
+      "optimizedSha256": "dbee34b24e0d8713396859ef25c0a5e9764f6f74600ab91e0967a6d8eca029c0",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 39.95371135066883,
+        "meanAbsoluteError": 1.4853229522705078,
+        "blockSsim": 0.9905403082983529
+      }
+    },
+    {
+      "path": "dist/assets/liveries/pickup/biome.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/pickup/biome.webp",
+      "originalBytes": 373564,
+      "optimizedBytes": 320598,
+      "savedBytes": 52966,
+      "originalSha256": "a93db6701f1d02a551221ef9554d954f622f185404e1e17e6f6e4a39f68e63f5",
+      "optimizedSha256": "ad599f4e0ab5ee080f9884bb6acbbe173f17b13144acc8d8c50e0738651791d9",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 37.74409791418952,
+        "meanAbsoluteError": 2.2627232869466147,
+        "blockSsim": 0.9891019741931374
+      }
+    },
+    {
+      "path": "dist/assets/liveries/pickup/neon.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/pickup/neon.webp",
+      "originalBytes": 216856,
+      "optimizedBytes": 180940,
+      "savedBytes": 35916,
+      "originalSha256": "53bfa8340dcc62faf01a9ec1e0514c6b0e05ea0ca79bcb0a2546b83d75e76647",
+      "optimizedSha256": "c06062fc21f1395d4f67ced0d44aa33022c496cd02203363563dd2cc33c92e32",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 38.76651234120041,
+        "meanAbsoluteError": 1.7052316665649414,
+        "blockSsim": 0.9777716537743607
+      }
+    },
+    {
+      "path": "dist/assets/liveries/pickup/racing.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/pickup/racing.webp",
+      "originalBytes": 123420,
+      "optimizedBytes": 103072,
+      "savedBytes": 20348,
+      "originalSha256": "85bcf302025304846359b32252654694fa81c80f9d42ed7891aa66abc100c105",
+      "optimizedSha256": "38f6d42fb7c6ac7ed73e55d0727fc1cf7fd5284f04d945d5c40ff990315a85a1",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 42.036654294925455,
+        "meanAbsoluteError": 1.035233497619629,
+        "blockSsim": 0.9880155947671296
+      }
+    },
+    {
+      "path": "dist/assets/liveries/rover/anime.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/rover/anime.webp",
+      "originalBytes": 115550,
+      "optimizedBytes": 94542,
+      "savedBytes": 21008,
+      "originalSha256": "f751def9b676b48269a5c01b19addd9ee08a3724a860cd15b5f2e8611ec2b1e6",
+      "optimizedSha256": "35e9e5faa7dfb25d03f891c085783873c8d14094b4b8e7ea8c17b5620008e5f2",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 42.03953022251725,
+        "meanAbsoluteError": 0.9494524002075195,
+        "blockSsim": 0.9937983343427782
+      }
+    },
+    {
+      "path": "dist/assets/liveries/rover/biome.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/rover/biome.webp",
+      "originalBytes": 289350,
+      "optimizedBytes": 245432,
+      "savedBytes": 43918,
+      "originalSha256": "46dc9acf3d39fdffac5a71bee1777e4f4ab82f642ca172a8527dd753bc31b2e3",
+      "optimizedSha256": "2e8ec9c27224d8195a611feea59ce66b741db670c2bb4415eefb56d804479eec",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 38.959544286059874,
+        "meanAbsoluteError": 1.909955660502116,
+        "blockSsim": 0.9866688854612294
+      }
+    },
+    {
+      "path": "dist/assets/liveries/rover/neon.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/rover/neon.webp",
+      "originalBytes": 117984,
+      "optimizedBytes": 102348,
+      "savedBytes": 15636,
+      "originalSha256": "7e8dcc68e50c88bd651cc131b7ff718fd256bfe7e0b1b9b3e37525163b805d91",
+      "optimizedSha256": "fd6b69c0e9a37d8fcc346cd0d7b85c20ff19de2f3edcbe0a53f7b4b0c136f430",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 39.81936907959551,
+        "meanAbsoluteError": 1.3953771591186523,
+        "blockSsim": 0.9867038192682114
+      }
+    },
+    {
+      "path": "dist/assets/liveries/rover/racing.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/rover/racing.webp",
+      "originalBytes": 91998,
+      "optimizedBytes": 72448,
+      "savedBytes": 19550,
+      "originalSha256": "ccb634fc8e8a3273c37fc4c9d844636b6e1df2dd8d59a65c0b19ba0fcd3985c0",
+      "optimizedSha256": "e07dbae423bd89fd08fdf4c693eda798d0a2c045d38b7d6340476a18c55d5219",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 42.281901983481774,
+        "meanAbsoluteError": 1.1445910135904949,
+        "blockSsim": 0.9831052302593407
+      }
+    },
+    {
+      "path": "dist/assets/liveries/snowgrip/anime.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/snowgrip/anime.webp",
+      "originalBytes": 243438,
+      "optimizedBytes": 200104,
+      "savedBytes": 43334,
+      "originalSha256": "2f6a83e060e75c0cdae6e6534f08bdcb1e331d5a7a83ffde03514a0c20df8d2b",
+      "optimizedSha256": "d226b2a6c5cb719cdb50b61d7627ed517bc09b27a38cca467287a4e1a7afac93",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 39.2961620828534,
+        "meanAbsoluteError": 1.7073014577229817,
+        "blockSsim": 0.9861047871781116
+      }
+    },
+    {
+      "path": "dist/assets/liveries/snowgrip/biome.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/snowgrip/biome.webp",
+      "originalBytes": 303620,
+      "optimizedBytes": 256388,
+      "savedBytes": 47232,
+      "originalSha256": "3e4eeea82ed579e6d2c3c90d2b1ba9feaf76d73d60d6360125397e558cbb1d8b",
+      "optimizedSha256": "9736a2b88ee86fe04b3a43c60dd4b8539369e872f0725e346a3ae2893d77fac9",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 39.40383968654457,
+        "meanAbsoluteError": 1.7905470530192058,
+        "blockSsim": 0.9841998088276845
+      }
+    },
+    {
+      "path": "dist/assets/liveries/snowgrip/neon.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/snowgrip/neon.webp",
+      "originalBytes": 245958,
+      "optimizedBytes": 208380,
+      "savedBytes": 37578,
+      "originalSha256": "17e43ca53df26ffaff974c26399f2ea511143a07acc28b0c0803e7fa7331c752",
+      "optimizedSha256": "e58de81f94ddde1e5f6c8183f11ee9a0f59d7dca8ae38057fabc0860b2a24585",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 38.27122804349444,
+        "meanAbsoluteError": 1.9364887873331706,
+        "blockSsim": 0.9830874977454761
+      }
+    },
+    {
+      "path": "dist/assets/liveries/snowgrip/racing.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/snowgrip/racing.webp",
+      "originalBytes": 159394,
+      "optimizedBytes": 134632,
+      "savedBytes": 24762,
+      "originalSha256": "ec9ae4842d46439126a1ad1cf030f48f63aa4eed4881a859d973527696d0ad32",
+      "optimizedSha256": "ba6583f38252ee95357b8bba0642b25c72c42c70bd0859a0341f6b2a10110a89",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 41.03295853409641,
+        "meanAbsoluteError": 1.2172002792358398,
+        "blockSsim": 0.9896049759383989
+      }
+    },
+    {
+      "path": "dist/assets/liveries/snowrunner/anime.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/snowrunner/anime.webp",
+      "originalBytes": 287706,
+      "optimizedBytes": 244380,
+      "savedBytes": 43326,
+      "originalSha256": "2688fa8c5314d91b3a2bfba471abb2d1bc9679b7a5de699a57a1601993fd08fb",
+      "optimizedSha256": "38d12a6741a3e9cdc6e9ff897864a6260c1fbb59d6bb1a8cdb6edc4f24b98352",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 39.00017228775135,
+        "meanAbsoluteError": 1.8114531834920247,
+        "blockSsim": 0.9877149424783251
+      }
+    },
+    {
+      "path": "dist/assets/liveries/snowrunner/biome.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/snowrunner/biome.webp",
+      "originalBytes": 377382,
+      "optimizedBytes": 319672,
+      "savedBytes": 57710,
+      "originalSha256": "531da7f1426b00e8421be697659a81b7337865c247681e1bff20630636c455f6",
+      "optimizedSha256": "75c70d699c2ffec03e17a2c50295b8ad609811d8a305708902fbd91ea666a7f1",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 38.779421235895306,
+        "meanAbsoluteError": 2.044562657674154,
+        "blockSsim": 0.9844987360568486
+      }
+    },
+    {
+      "path": "dist/assets/liveries/snowrunner/neon.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/snowrunner/neon.webp",
+      "originalBytes": 263332,
+      "optimizedBytes": 221980,
+      "savedBytes": 41352,
+      "originalSha256": "8c593613f8ba4c47fca2cd2ea7a6feff8ff2288e97ae3cd3c9c95642773f126c",
+      "optimizedSha256": "07c4fc603cb54232864a145445939074ed7cd5dc95ed86ddcf4aac9a5250ad89",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 38.667112906270646,
+        "meanAbsoluteError": 1.8255561192830403,
+        "blockSsim": 0.9834744307218962
+      }
+    },
+    {
+      "path": "dist/assets/liveries/snowrunner/racing.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/snowrunner/racing.webp",
+      "originalBytes": 192968,
+      "optimizedBytes": 161612,
+      "savedBytes": 31356,
+      "originalSha256": "85e7a2ce60e9d7d2c315bb28cf2372edb34e866b3e95c1847d09c6322478643f",
+      "optimizedSha256": "ab416e6d75d3a5f29cd0b79bbff12af3cc36c581f8a329c2978a3556c32b9586",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 40.64203125977145,
+        "meanAbsoluteError": 1.5270840326944988,
+        "blockSsim": 0.984638712221818
+      }
+    },
+    {
+      "path": "dist/assets/liveries/van/anime.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/van/anime.webp",
+      "originalBytes": 155468,
+      "optimizedBytes": 126282,
+      "savedBytes": 29186,
+      "originalSha256": "cfbf0a84344f7e0dc4c4f91553102f94665ace3b2b49d08a1347ffd12bdf924d",
+      "optimizedSha256": "dfecae1af3f9cd2324929f32fad398f92e333fa789cb7a0712dd09e20be20d4a",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 41.40283186056705,
+        "meanAbsoluteError": 1.1488240559895833,
+        "blockSsim": 0.9926039677880046
+      }
+    },
+    {
+      "path": "dist/assets/liveries/van/biome.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/van/biome.webp",
+      "originalBytes": 80746,
+      "optimizedBytes": 66472,
+      "savedBytes": 14274,
+      "originalSha256": "22d474f918eb4d920d221dbeb8c39a64a7f7ff79d086ed5158b6111a1f91e164",
+      "optimizedSha256": "e5ff43980f07663e43cceadb87a5e9b3a495e778aafeb38274debf4c4f01dab9",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 42.94241452492252,
+        "meanAbsoluteError": 0.9906511306762695,
+        "blockSsim": 0.9888651433230452
+      }
+    },
+    {
+      "path": "dist/assets/liveries/van/neon.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/van/neon.webp",
+      "originalBytes": 243238,
+      "optimizedBytes": 210006,
+      "savedBytes": 33232,
+      "originalSha256": "c1353b033e6bffc953d4e1da8846d0dbbf46fe35709ede1890db9d3e87036cb2",
+      "optimizedSha256": "7c073bc5c10a333eb2cf358c69f1c8b293c15d0492e47afb8c8e9a9d3227d2f2",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 37.044588434875756,
+        "meanAbsoluteError": 2.0915966033935547,
+        "blockSsim": 0.9840268693536763
+      }
+    },
+    {
+      "path": "dist/assets/liveries/van/racing.webp",
+      "originalPath": "art/optimization-originals/media/assets/liveries/van/racing.webp",
+      "originalBytes": 120414,
+      "optimizedBytes": 96404,
+      "savedBytes": 24010,
+      "originalSha256": "50d18e1bab2962c2be72648e9d1464644dc171c625c737e408649e12c46f6aaf",
+      "optimizedSha256": "00c50b75f498db031d0f79b44c0152c9ee809de7ce5588cd49d97078e74c9caf",
+      "width": 1024,
+      "height": 1024,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 41.433084142915234,
+        "meanAbsoluteError": 1.246027946472168,
+        "blockSsim": 0.9888051785822207
+      }
+    },
+    {
+      "path": "dist/assets/shop/neon.webp",
+      "originalPath": "art/optimization-originals/media/assets/shop/neon.webp",
+      "originalBytes": 214290,
+      "optimizedBytes": 185056,
+      "savedBytes": 29234,
+      "originalSha256": "fbd04b06772dca51be067471ae03efe3f63d792623c6474b828cbcda1aece13f",
+      "optimizedSha256": "06d80f51a2fab5e27fac2885246a536417dbcefb4ce26cc7ea16ce5f4dd04973",
+      "width": 1774,
+      "height": 887,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 41.2792931772698,
+        "meanAbsoluteError": 1.3970481382294762,
+        "blockSsim": 0.9770611956942137
+      }
+    },
+    {
+      "path": "dist/assets/shop/new-look.webp",
+      "originalPath": "art/optimization-originals/media/assets/shop/new-look.webp",
+      "originalBytes": 227286,
+      "optimizedBytes": 199730,
+      "savedBytes": 27556,
+      "originalSha256": "5e0755cdae467ff9792e9d62ae043207ec167affafeac6a5441126b3e7a08f5b",
+      "optimizedSha256": "bcb7248bbcdbe789606590e9062e12ae2eaad544cb9a3ca135ef7cf96c238d54",
+      "width": 1774,
+      "height": 887,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 41.208927561680184,
+        "meanAbsoluteError": 1.4120029724946797,
+        "blockSsim": 0.9801239903634367
+      }
+    },
+    {
+      "path": "dist/assets/shop/tire-smoke.webp",
+      "originalPath": "art/optimization-originals/media/assets/shop/tire-smoke.webp",
+      "originalBytes": 93926,
+      "optimizedBytes": 88744,
+      "savedBytes": 5182,
+      "originalSha256": "62286d33242e0d4357cf16173b2f567c2938874648533860f1724c27e65356f2",
+      "optimizedSha256": "7e7233b6443bf8d60010d16a7244211c1955db229ac74234984ebad4d155c5a5",
+      "width": 896,
+      "height": 448,
+      "quality": 85,
+      "decision": "reencode",
+      "similarity": {
+        "psnrDb": 40.059449805542606,
+        "meanAbsoluteError": 1.64202424133716,
+        "blockSsim": 0.9843929967103047
+      }
+    }
+  ]
+}

@@ -1,0 +1,522 @@
+TAP version 13
+# Subtest: near and selected vehicles keep exact source assets; distant parked vehicles use shared cheap shading and one invisible shadow proxy
+ok 1 - near and selected vehicles keep exact source assets; distant parked vehicles use shared cheap shading and one invisible shadow proxy
+  ---
+  duration_ms: 27.412084
+  type: 'test'
+  ...
+# Subtest: cheap materials retain maps, alpha and vertex colors and are shared without mutating source resources
+ok 2 - cheap materials retain maps, alpha and vertex colors and are shared without mutating source resources
+  ---
+  duration_ms: 12.407495
+  type: 'test'
+  ...
+# Subtest: custom hooks, liveries, lamps, physical materials and locked visuals retain their original material paths
+ok 3 - custom hooks, liveries, lamps, physical materials and locked visuals retain their original material paths
+  ---
+  duration_ms: 21.591193
+  type: 'test'
+  ...
+# Subtest: material and shadow distances use independent three-metre hysteresis and profile changes restore detail
+ok 4 - material and shadow distances use independent three-metre hysteresis and profile changes restore detail
+  ---
+  duration_ms: 5.591964
+  type: 'test'
+  ...
+# Subtest: distant frozen characters lose only shadows and single-batch cars avoid adding a proxy draw
+ok 5 - distant frozen characters lose only shadows and single-batch cars avoid adding a proxy draw
+  ---
+  duration_ms: 4.04133
+  type: 'test'
+  ...
+# Subtest: async visuals and newly attached descendants are discovered while stable updates reuse the mesh registry
+ok 6 - async visuals and newly attached descendants are discovered while stable updates reuse the mesh registry
+  ---
+  duration_ms: 9.373612
+  type: 'test'
+  ...
+# Subtest: external material changes win over an older LOD snapshot
+ok 7 - external material changes win over an older LOD snapshot
+  ---
+  duration_ms: 3.865012
+  type: 'test'
+  ...
+# Subtest: clear restores originals and disposes only generated resources; disposal is idempotent and clear permits reuse
+ok 8 - clear restores originals and disposes only generated resources; disposal is idempotent and clear permits reuse
+  ---
+  duration_ms: 5.326254
+  type: 'test'
+  ...
+# Subtest: a simplified replacement visual does not keep a proxy with more triangles than its remaining source
+ok 9 - a simplified replacement visual does not keep a proxy with more triangles than its remaining source
+  ---
+  duration_ms: 5.110767
+  type: 'test'
+  ...
+# Subtest: materials with custom clipping, stencil or polygon offset keep their original render state
+ok 10 - materials with custom clipping, stencil or polygon offset keep their original render state
+  ---
+  duration_ms: 5.446736
+  type: 'test'
+  ...
+# Subtest: mesh and material visibility changes stop proxy shadows without requiring scene-tree changes
+ok 11 - mesh and material visibility changes stop proxy shadows without requiring scene-tree changes
+  ---
+  duration_ms: 4.348239
+  type: 'test'
+  ...
+# Subtest: high weather quality preserves original seeded motion, fades and biome transitions
+ok 12 - high weather quality preserves original seeded motion, fades and biome transitions
+  ---
+  duration_ms: 117.094664
+  type: 'test'
+  ...
+# Subtest: weather quality reduces both rendered and simulated slots without reallocating the pool
+ok 13 - weather quality reduces both rendered and simulated slots without reallocating the pool
+  ---
+  duration_ms: 12.996044
+  type: 'test'
+  ...
+# Subtest: quality changes keep deterministic RNG, camera rotation and two weather types through a boundary
+ok 14 - quality changes keep deterministic RNG, camera rotation and two weather types through a boundary
+  ---
+  duration_ms: 63.464584
+  type: 'test'
+  ...
+# Subtest: skid draw range includes only live ring segments and clears after the full lifetime
+ok 15 - skid draw range includes only live ring segments and clears after the full lifetime
+  ---
+  duration_ms: 311.369402
+  type: 'test'
+  ...
+# Subtest: smoke quality limits compacted instances while keeping skid emission, pool and RNG stable
+ok 16 - smoke quality limits compacted instances while keeping skid emission, pool and RNG stable
+  ---
+  duration_ms: 107.984913
+  type: 'test'
+  ...
+# patch equivalence: 43956 margin queries plus weighted surfaces
+# Subtest: static patch index rejects distant geometry and preserves overlap ordering and all finite margins
+ok 17 - static patch index rejects distant geometry and preserves overlap ordering and all finite margins
+  ---
+  duration_ms: 59.618603
+  type: 'test'
+  ...
+# Subtest: indexed surface and entry results exactly match the linear baseline across seeds, edges, margins and grid boundaries
+ok 18 - indexed surface and entry results exactly match the linear baseline across seeds, edges, margins and grid boundaries
+  ---
+  duration_ms: 6682.449031
+  type: 'test'
+  ...
+# Subtest: unchanged parked and gate state performs no repeated Rapier writes or world matrix refresh
+ok 19 - unchanged parked and gate state performs no repeated Rapier writes or world matrix refresh
+  ---
+  duration_ms: 42.409814
+  type: 'test'
+  ...
+# Subtest: parked proxies follow local, rotating pedestal, manual ancestor matrices and selection changes independently of visibility
+ok 20 - parked proxies follow local, rotating pedestal, manual ancestor matrices and selection changes independently of visibility
+  ---
+  duration_ms: 283.482279
+  type: 'test'
+  ...
+# exact plane samples: 6760
+# Subtest: plane sampler exactly matches full projection height and gradients at seeded mover poses and triangle borders
+ok 21 - plane sampler exactly matches full projection height and gradients at seeded mover poses and triangle borders
+  ---
+  duration_ms: 3282.299965
+  type: 'test'
+  ...
+# Subtest: plane sampler falls back to the full original result outside indexed surfaces and for invalid coordinates
+ok 22 - plane sampler falls back to the full original result outside indexed surfaces and for invalid coordinates
+  ---
+  duration_ms: 16.305972
+  type: 'test'
+  ...
+# Subtest: indexed plane samples do zero route projections while unsupported fallback still projects
+ok 23 - indexed plane samples do zero route projections while unsupported fallback still projects
+  ---
+  duration_ms: 1497.979543
+  type: 'test'
+  ...
+# Subtest: all live mover pose fields remain exact against the original projection sampler over fixed ticks, pause and reset
+ok 24 - all live mover pose fields remain exact against the original projection sampler over fixed ticks, pause and reset
+  ---
+  duration_ms: 3924.83818
+  type: 'test'
+  ...
+# Subtest: unsupported and disabled GPU timers do not issue GL queries
+ok 25 - unsupported and disabled GPU timers do not issue GL queries
+  ---
+  duration_ms: 2.7326
+  type: 'test'
+  ...
+# Subtest: GPU results are read only when available and pending queries stay bounded
+ok 26 - GPU results are read only when available and pending queries stay bounded
+  ---
+  duration_ms: 0.846529
+  type: 'test'
+  ...
+# Subtest: disjoint results and reset are discarded without inventing GPU timings
+ok 27 - disjoint results and reset are discarded without inventing GPU timings
+  ---
+  duration_ms: 0.751218
+  type: 'test'
+  ...
+# Subtest: profiler preserves real GPU results separately from CPU submission time
+ok 28 - profiler preserves real GPU results separately from CPU submission time
+  ---
+  duration_ms: 2.459856
+  type: 'test'
+  ...
+# Subtest: profiler reset also resets the GPU sampling window
+ok 29 - profiler reset also resets the GPU sampling window
+  ---
+  duration_ms: 0.540864
+  type: 'test'
+  ...
+# Subtest: warmup uploads at most two unique textures each frame and compiles detached models with scene lighting
+ok 30 - warmup uploads at most two unique textures each frame and compiles detached models with scene lighting
+  ---
+  duration_ms: 8.409598
+  type: 'test'
+  ...
+# Subtest: the two-texture budget is shared across concurrent models and shared textures upload once
+ok 31 - the two-texture budget is shared across concurrent models and shared textures upload once
+  ---
+  duration_ms: 4.064453
+  type: 'test'
+  ...
+# Subtest: disposing releases queued and compiling promises and suppresses later GPU work
+ok 32 - disposing releases queued and compiling promises and suppresses later GPU work
+  ---
+  duration_ms: 1.45929
+  type: 'test'
+  ...
+# Subtest: texture or compile failures reject only that model and do not stall the queue
+ok 33 - texture or compile failures reject only that model and do not stall the queue
+  ---
+  duration_ms: 2.485813
+  type: 'test'
+  ...
+# Subtest: models are not attached until their queued GPU preparation completes
+ok 34 - models are not attached until their queued GPU preparation completes
+  ---
+  duration_ms: 9.044435
+  type: 'test'
+  ...
+# Subtest: a world cancelled during preparation disposes the late model exactly once
+ok 35 - a world cancelled during preparation disposes the late model exactly once
+  ---
+  duration_ms: 2.174122
+  type: 'test'
+  ...
+# Subtest: failed GPU preparation reports a retryable load failure and frees its resources
+ok 36 - failed GPU preparation reports a retryable load failure and frees its resources
+  ---
+  duration_ms: 1.599746
+  type: 'test'
+  ...
+# Subtest: disabled diagnostics allocate no recorder or UI
+ok 37 - disabled diagnostics allocate no recorder or UI
+  ---
+  duration_ms: 5.017269
+  type: 'test'
+  ...
+# Subtest: frame statistics count complete intervals and renderer shadow-inclusive counters
+ok 38 - frame statistics count complete intervals and renderer shadow-inclusive counters
+  ---
+  duration_ms: 3.294994
+  type: 'test'
+  ...
+# Subtest: pauses, background, loading, suspension and clock resets never become frame stalls
+ok 39 - pauses, background, loading, suspension and clock resets never become frame stalls
+  ---
+  duration_ms: 0.871008
+  type: 'test'
+  ...
+# Subtest: real active stalls stay in the report and reset/disposal are complete
+ok 40 - real active stalls stay in the report and reset/disposal are complete
+  ---
+  duration_ms: 3.725958
+  type: 'test'
+  ...
+# Subtest: long sessions retain accurate bounded aggregate statistics
+ok 41 - long sessions retain accurate bounded aggregate statistics
+  ---
+  duration_ms: 50.382588
+  type: 'test'
+  ...
+# Subtest: overflow stall percentiles report a bound instead of the largest stall
+ok 42 - overflow stall percentiles report a bound instead of the largest stall
+  ---
+  duration_ms: 2.976671
+  type: 'test'
+  ...
+# Subtest: overflow retains a readable exact maximum and the histogram boundary stays numeric
+ok 43 - overflow retains a readable exact maximum and the histogram boundary stays numeric
+  ---
+  duration_ms: 1.242878
+  type: 'test'
+  ...
+# Subtest: current FPS follows the latest second while session percentiles retain earlier frames
+ok 44 - current FPS follows the latest second while session percentiles retain earlier frames
+  ---
+  duration_ms: 1.100156
+  type: 'test'
+  ...
+# Subtest: the recent frame graph remains bounded at high frame rates and through long runs
+ok 45 - the recent frame graph remains bounded at high frame rates and through long runs
+  ---
+  duration_ms: 54.224036
+  type: 'test'
+  ...
+# Subtest: suspension, inactive frames, reset and clock rewind clear the current window immediately
+ok 46 - suspension, inactive frames, reset and clock rewind clear the current window immediately
+  ---
+  duration_ms: 1.501885
+  type: 'test'
+  ...
+# Subtest: stage timings average valid samples independently and retain renderer memory and DPR
+ok 47 - stage timings average valid samples independently and retain renderer memory and DPR
+  ---
+  duration_ms: 1.401558
+  type: 'test'
+  ...
+# Subtest: compact diagnostics update at most four times per second and toggle details without canvas
+ok 48 - compact diagnostics update at most four times per second and toggle details without canvas
+  ---
+  duration_ms: 4.063411
+  type: 'test'
+  ...
+# Subtest: suspension immediately replaces visible FPS and active status once without another game frame
+ok 49 - suspension immediately replaces visible FPS and active status once without another game frame
+  ---
+  duration_ms: 2.650652
+  type: 'test'
+  ...
+# Subtest: inactive transition clears visible FPS immediately but repeated inactive frames remain throttled
+ok 50 - inactive transition clears visible FPS immediately but repeated inactive frames remain throttled
+  ---
+  duration_ms: 1.814807
+  type: 'test'
+  ...
+# Subtest: reset immediately replaces visible session and rolling statistics without another game frame
+ok 51 - reset immediately replaces visible session and rolling statistics without another game frame
+  ---
+  duration_ms: 1.755948
+  type: 'test'
+  ...
+# Subtest: mobile quality is orientation-independent and caps canvas pixels, not UI size
+ok 52 - mobile quality is orientation-independent and caps canvas pixels, not UI size
+  ---
+  duration_ms: 4.199036
+  type: 'test'
+  ...
+# Subtest: sustained slow frames reduce quality, isolated spikes and inactive time do not
+ok 53 - sustained slow frames reduce quality, isolated spikes and inactive time do not
+  ---
+  duration_ms: 4.266069
+  type: 'test'
+  ...
+# Subtest: quality recovery needs stable headroom and respects hysteresis
+ok 54 - quality recovery needs stable headroom and respects hysteresis
+  ---
+  duration_ms: 1.99934
+  type: 'test'
+  ...
+# Subtest: fixed diagnostic quality never adapts and invalid time does not corrupt state
+ok 55 - fixed diagnostic quality never adapts and invalid time does not corrupt state
+  ---
+  duration_ms: 0.929936
+  type: 'test'
+  ...
+# Subtest: whole groups hide on camera turn and return on reentry without changing descendant visibility
+ok 56 - whole groups hide on camera turn and return on reentry without changing descendant visibility
+  ---
+  duration_ms: 12.279772
+  type: 'test'
+  ...
+# Subtest: fixed local bounds follow moving scaled parents without traversing dynamic descendants during update
+ok 57 - fixed local bounds follow moving scaled parents without traversing dynamic descendants during update
+  ---
+  duration_ms: 5.499839
+  type: 'test'
+  ...
+# Subtest: shadow frusta retain offscreen descendant casters beyond fog but exclude ordinary receivers
+ok 58 - shadow frusta retain offscreen descendant casters beyond fog but exclude ordinary receivers
+  ---
+  duration_ms: 2.628432
+  type: 'test'
+  ...
+# Subtest: fog uses camera depth so screen corners and boxes crossing the full-fog plane remain visible
+ok 59 - fog uses camera depth so screen corners and boxes crossing the full-fog plane remain visible
+  ---
+  duration_ms: 2.333544
+  type: 'test'
+  ...
+# Subtest: world-unit margin retains near-edge groups without changing camera projection
+ok 60 - world-unit margin retains near-edge groups without changing camera projection
+  ---
+  duration_ms: 1.954945
+  type: 'test'
+  ...
+# Subtest: owner enabled flag and hidden ancestors stay authoritative when culling is disabled
+ok 61 - owner enabled flag and hidden ancestors stay authoritative when culling is disabled
+  ---
+  duration_ms: 1.573069
+  type: 'test'
+  ...
+# Subtest: initial automatic bounds are local snapshots and disposal restores initial visibility without disposing assets
+ok 62 - initial automatic bounds are local snapshots and disposal restores initial visibility without disposing assets
+  ---
+  duration_ms: 2.803669
+  type: 'test'
+  ...
+# Subtest: empty groups fail open until bounded explicitly and repeated registration does not double count
+ok 63 - empty groups fail open until bounded explicitly and repeated registration does not double count
+  ---
+  duration_ms: 1.087247
+  type: 'test'
+  ...
+# Subtest: async display owners can retain future casters and unregister restores a removed display
+ok 64 - async display owners can retain future casters and unregister restores a removed display
+  ---
+  duration_ms: 2.369211
+  type: 'test'
+  ...
+# Subtest: only visible triangles render through one proxy while canonical geometry and attributes stay intact
+ok 65 - only visible triangles render through one proxy while canonical geometry and attributes stay intact
+  ---
+  duration_ms: 18.789213
+  type: 'test'
+  ...
+# Subtest: camera plus shadow view retains offscreen casters; receivers do not keep unnecessary shadow geometry
+ok 66 - camera plus shadow view retains offscreen casters; receivers do not keep unnecessary shadow geometry
+  ---
+  duration_ms: 5.294831
+  type: 'test'
+  ...
+# Subtest: a crossing triangle is retained using its whole bounds even when its centroid is offscreen
+ok 67 - a crossing triangle is retained using its whole bounds even when its centroid is offscreen
+  ---
+  duration_ms: 3.036978
+  type: 'test'
+  ...
+# Subtest: full view preserves exact index order and empty view draws zero triangles
+ok 68 - full view preserves exact index order and empty view draws zero triangles
+  ---
+  duration_ms: 2.603693
+  type: 'test'
+  ...
+# Subtest: unchanged visibility performs no upload; original typed array and proxy capacity are stable
+ok 69 - unchanged visibility performs no upload; original typed array and proxy capacity are stable
+  ---
+  duration_ms: 2.361932
+  type: 'test'
+  ...
+# Subtest: instanced batches retain original instance order, matrices, colors and canonical count
+ok 70 - instanced batches retain original instance order, matrices, colors and canonical count
+  ---
+  duration_ms: 7.124438
+  type: 'test'
+  ...
+# Subtest: parent transforms and layer masks are respected
+ok 71 - parent transforms and layer masks are respected
+  ---
+  duration_ms: 2.616933
+  type: 'test'
+  ...
+# Subtest: shadow caster layers follow the main camera as in WebGLShadowMap, not the shadow camera layers
+ok 72 - shadow caster layers follow the main camera as in WebGLShadowMap, not the shadow camera layers
+  ---
+  duration_ms: 2.142344
+  type: 'test'
+  ...
+# Subtest: dispose restores canonical visibility and matrix settings without disposing shared assets
+ok 73 - dispose restores canonical visibility and matrix settings without disposing shared assets
+  ---
+  duration_ms: 2.225656
+  type: 'test'
+  ...
+# Subtest: unmarked dynamic objects are never replaced or frozen
+ok 74 - unmarked dynamic objects are never replaced or frozen
+  ---
+  duration_ms: 1.965876
+  type: 'test'
+  ...
+# Subtest: fog distance rejects distant cells but preserves crossing geometry and offscreen shadow casters
+ok 75 - fog distance rejects distant cells but preserves crossing geometry and offscreen shadow casters
+  ---
+  duration_ms: 2.446701
+  type: 'test'
+  ...
+# Subtest: hidden parent zones submit no geometry and restore on reentry without destroying buffers
+ok 76 - hidden parent zones submit no geometry and restore on reentry without destroying buffers
+  ---
+  duration_ms: 1.585371
+  type: 'test'
+  ...
+# Subtest: manual local matrices survive registration and later transform changes through renderer traversal
+ok 77 - manual local matrices survive registration and later transform changes through renderer traversal
+  ---
+  duration_ms: 1.384204
+  type: 'test'
+  ...
+# Subtest: BFCache pagehide preserves viewport listeners and restored pages invalidate cached rectangles
+ok 78 - BFCache pagehide preserves viewport listeners and restored pages invalidate cached rectangles
+  ---
+  duration_ms: 8772.171921
+  type: 'test'
+  ...
+# Subtest: unchanged progression HUD avoids repeated element queries and content writes while purchase availability stays immediate
+ok 79 - unchanged progression HUD avoids repeated element queries and content writes while purchase availability stays immediate
+  ---
+  duration_ms: 20.759295
+  type: 'test'
+  ...
+# Subtest: world labels project moving views every frame without repeating persistent label content
+ok 80 - world labels project moving views every frame without repeating persistent label content
+  ---
+  duration_ms: 13.052771
+  type: 'test'
+  ...
+# Subtest: hidden walking label categories skip projection and restore after mode and garage changes
+ok 81 - hidden walking label categories skip projection and restore after mode and garage changes
+  ---
+  duration_ms: 4.324824
+  type: 'test'
+  ...
+# Subtest: viewport rectangles reuse layout reads until resize, scroll and explicit layout invalidation
+ok 82 - viewport rectangles reuse layout reads until resize, scroll and explicit layout invalidation
+  ---
+  duration_ms: 6.548579
+  type: 'test'
+  ...
+# Subtest: app stable frames read no label layout rectangles while camera motion still updates visible positions
+ok 83 - app stable frames read no label layout rectangles while camera motion still updates visible positions
+  ---
+  duration_ms: 8199.002088
+  type: 'test'
+  ...
+# Subtest: walking app skips hidden delivery availability work and stable vehicle label writes
+ok 84 - walking app skips hidden delivery availability work and stable vehicle label writes
+  ---
+  duration_ms: 9254.468289
+  type: 'test'
+  ...
+# Subtest: modal and release restrictions are applied before persistent HUD visibility writes
+ok 85 - modal and release restrictions are applied before persistent HUD visibility writes
+  ---
+  duration_ms: 1.7638
+  type: 'test'
+  ...
+1..85
+# tests 85
+# suites 0
+# pass 85
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 52114.351352

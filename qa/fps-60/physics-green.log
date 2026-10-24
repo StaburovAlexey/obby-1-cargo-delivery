@@ -1,0 +1,35 @@
+TAP version 13
+# patch equivalence: 39072 margin queries plus weighted surfaces
+# Subtest: static patch index rejects distant geometry and preserves overlap ordering and all finite margins
+ok 1 - static patch index rejects distant geometry and preserves overlap ordering and all finite margins
+  ---
+  duration_ms: 93.860899
+  type: 'test'
+  ...
+# Subtest: indexed surface and entry results exactly match the linear baseline across seeds, edges, margins and grid boundaries
+ok 2 - indexed surface and entry results exactly match the linear baseline across seeds, edges, margins and grid boundaries
+  ---
+  duration_ms: 8850.2223
+  type: 'test'
+  ...
+# Subtest: unchanged parked and gate state performs no repeated Rapier writes or world matrix refresh
+ok 3 - unchanged parked and gate state performs no repeated Rapier writes or world matrix refresh
+  ---
+  duration_ms: 65.925452
+  type: 'test'
+  ...
+# Subtest: parked proxies follow local, rotating pedestal, manual ancestor matrices and selection changes independently of visibility
+ok 4 - parked proxies follow local, rotating pedestal, manual ancestor matrices and selection changes independently of visibility
+  ---
+  duration_ms: 509.147324
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 13167.6345

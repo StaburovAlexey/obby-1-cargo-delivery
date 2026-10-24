@@ -5,11 +5,11 @@ import {SKIN_CONFIG} from '../dist/progression-config.js';
 
 function fixture(product){
   let imageCreates=0;
-  const nodes=new Map();
-  const doc={body:{classList:{toggle(){}}},getElementById(id){
-    if(!nodes.has(id))nodes.set(id,{dataset:{},style:{setProperty(){}},attributes:{},
+  const nodes=new Map(),classes=new Set();
+  const doc={body:{classList:{contains:name=>classes.has(name),toggle(name,value){if(value)classes.add(name);else classes.delete(name);}}},getElementById(id){
+    if(!nodes.has(id))nodes.set(id,{dataset:{},style:{values:new Map(),setProperty(name,value){this.values.set(name,value);},getPropertyValue(name){return this.values.get(name)||'';}},attributes:{},
       set textContent(value){this.text=value;this.children=[];},get textContent(){return this.text;},
-      setAttribute(name,value){this.attributes[name]=value;},appendChild(value){this.children.push(value);}});
+      setAttribute(name,value){this.attributes[name]=value;},getAttribute(name){return this.attributes[name]??null;},appendChild(value){this.children.push(value);}});
     return nodes.get(id);
   },createElement(){imageCreates++;return {};}};
   const premium={catalog:new Map(SKIN_CONFIG.filter(s=>s.premium).map(s=>[s.id,product])),status:{busy:false}};

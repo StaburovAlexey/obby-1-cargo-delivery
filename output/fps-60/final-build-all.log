@@ -1,0 +1,276 @@
+npm notice run urban-route-procedural-three@1.70.2 build:all
+npm notice run npm run build:yandex && npm run build:vk
+npm notice run urban-route-procedural-three@1.70.2 build:yandex
+npm notice run GAME_PLATFORM=yandex rsbuild build
+Rsbuild v2.2.13
+
+info    build started...
+ready   built in 5.14s
+
+File (web)                                                 Size         Gzip   
+build/assets/vehicles/bmw/manifest.json                    0.47 kB      0.32 kB
+build/assets/hud-gear-panel.svg                            0.48 kB      0.27 kB
+build/assets/vehicles/cosmo/License.txt                    0.50 kB      0.29 kB
+build/assets/audio/Kenney-License.txt                      0.61 kB      0.34 kB
+build/assets/vehicles/passenger/License.txt                0.70 kB      0.45 kB
+build/assets/vehicles/showcase/manifest.json               0.81 kB      0.39 kB
+build/assets/hud-steering.svg                              0.97 kB      0.35 kB
+build/assets/audio/CREDITS.txt                             0.97 kB      0.51 kB
+build/licenses/MESHOPT-LICENSE.txt                         1.1 kB       0.67 kB
+build/licenses/THREE-LICENSE.txt                           1.1 kB       0.67 kB
+build/assets/vehicles/showcase/README.md                   1.2 kB       0.67 kB
+build/assets/vehicles/passenger/README.md                  1.2 kB       0.68 kB
+build/assets/vehicles/bmw/License.txt                      1.2 kB       0.63 kB
+build/assets/vehicles/cosmo/manifest.json                  1.5 kB       0.63 kB
+build/assets/vehicles/bmw/README.md                        3.5 kB       1.9 kB
+build/static/js/index.52f12993b2.js                        4.1 kB       2.1 kB
+build/assets/vehicles/cosmo/README.md                      4.3 kB       2.2 kB
+build/assets/audio/impact.ogg                              7.3 kB    
+build/assets/vehicles/passenger/manifest.json              8.1 kB       1.8 kB
+build/assets/characters/README.txt                         8.1 kB       3.1 kB
+build/licenses/RAPIER-LICENSE.txt                          11.3 kB      3.9 kB
+build/licenses/BASIS-LICENSE.txt                           11.3 kB      3.9 kB
+build/assets/vehicle-gear-panel-cropped.webp               17.3 kB   
+build/static/assets/basis_transcoder.1fe23d0cc5.js         28.5 kB      10.4 kB
+build/assets/audio/tire.ogg                                36.0 kB   
+build/static/image/standard.ad86abb014.webp                37.1 kB   
+build/static/image/skulls.0d8d7e4beb.webp                  39.2 kB   
+build/static/image/smileys.f0f03aa948.webp                 41.1 kB   
+build/static/image/flowers.db85cf924e.webp                 42.2 kB   
+build/static/image/hearts.3cc0f1cdc0.webp                  43.0 kB   
+build/assets/audio/engine.ogg                              44.5 kB   
+build/static/image/coins.ea86663a25.webp                   44.8 kB   
+build/static/image/racing.f8179b6613.webp                  59.2 kB   
+build/static/js/async/d.313d2b4218.js                      63.5 kB      23.6 kB
+build/static/image/biome.ec1d45071f.webp                   66.5 kB   
+build/index.html                                           71.7 kB      15.1 kB
+build/static/image/racing.525b46a678.webp                  72.4 kB   
+build/static/css/index.45e1618898.css                      77.7 kB      14.6 kB
+build/static/image/anime.43e47cec07.webp                   86.0 kB   
+build/static/image/tire-smoke.ba924d3e91.webp              88.7 kB   
+build/static/image/anime.5afad6402c.webp                   94.5 kB   
+build/static/image/racing.837a964e6c.webp                  96.4 kB   
+build/static/image/neon.fea5eed4b5.webp                    102.3 kB  
+build/static/image/racing.3020eae61f.webp                  103.1 kB  
+build/static/image/neon.43637e38ca.webp                    105.2 kB  
+build/static/image/anime.365f84ac8d.webp                   126.3 kB  
+build/static/image/racing.cc39fe7aa9.webp                  134.6 kB  
+build/static/image/racing.ef7dbcd342.webp                  135.4 kB  
+build/static/image/racing.ad0493d049.webp                  136.8 kB  
+build/static/image/racing.4e33f7dfeb.webp                  148.2 kB  
+build/static/image/biome.f0b493d103.webp                   154.1 kB  
+build/static/image/racing.28d95b8b66.webp                  161.6 kB  
+build/static/image/neon.41650151ba.webp                    169.6 kB  
+build/static/image/anime.c737986621.webp                   178.1 kB  
+build/static/image/neon.74ceaf7ddc.webp                    180.9 kB  
+build/static/image/anime.5040621aa5.webp                   184.8 kB  
+build/static/image/neon.fb203f3306.webp                    185.1 kB  
+build/static/image/racing.37b5dc0602.webp                  190.5 kB  
+build/static/image/anime.fc3f045beb.webp                   191.1 kB  
+build/static/assets/low-poly-bmw-g80-m3.40dfc520e6.glb     197.1 kB  
+build/static/image/new-look.772e243064.webp                199.7 kB  
+build/static/image/anime.5101fe55bb.webp                   200.1 kB  
+build/static/image/biome.1c4bea6338.webp                   203.2 kB  
+build/static/image/anime.aefaef2304.webp                   206.8 kB  
+build/static/image/neon.8bd3061121.webp                    208.4 kB  
+build/static/image/neon.b3a0eba565.webp                    209.1 kB  
+build/static/image/neon.1f0a13ef9e.webp                    210.0 kB  
+build/static/image/racing.9cdaf6be7f.webp                  214.2 kB  
+build/static/image/neon.a812f54ef3.webp                    222.0 kB  
+build/static/image/anime.d3af293595.webp                   234.6 kB  
+build/static/image/neon.dd57930fd9.webp                    235.2 kB  
+build/static/image/anime.ad18c52750.webp                   244.4 kB  
+build/static/image/biome.5fba29335b.webp                   245.4 kB  
+build/static/image/neon.d6120e7874.webp                    253.8 kB  
+build/static/image/biome.da079e9404.webp                   254.4 kB  
+build/static/image/biome.e39c1b5a94.webp                   256.4 kB  
+build/assets/vehicle-steering.png                          262.2 kB  
+build/static/assets/offroad.a79fbcb26b.glb                 272.7 kB  
+build/static/assets/coupe.8f7d4b8d7b.glb                   282.3 kB  
+build/static/assets/pickup.8ac780ccc9.glb                  290.6 kB  
+build/static/assets/minivan.420d8727ec.glb                 294.2 kB  
+build/static/assets/sport.ee1ad8ba00.glb                   297.8 kB  
+build/static/assets/compact.27ee93b157.glb                 298.3 kB  
+build/static/assets/hatchback.5716ee2c86.glb               301.5 kB  
+build/static/image/neon.c6010151a8.webp                    302.0 kB  
+build/static/assets/wagon.070f34d9a7.glb                   302.2 kB  
+build/static/image/biome.11accce97a.webp                   305.7 kB  
+build/static/image/anime.2e98ce8814.webp                   306.1 kB  
+build/static/assets/sedan.0f12ab2bd2.glb                   316.5 kB  
+build/static/image/biome.cebc1284e5.webp                   318.2 kB  
+build/static/image/biome.1e2dc73853.webp                   319.7 kB  
+build/static/image/biome.d9b69bbffc.webp                   320.6 kB  
+build/static/image/biome.502298c2b2.webp                   323.7 kB  
+build/static/assets/Obby_pack9.725ef32344.glb              324.5 kB  
+build/static/assets/Obby_pack3.e903a4abdf.glb              327.8 kB  
+build/static/assets/Obby_pack2.4bfcd2527d.glb              335.5 kB  
+build/static/assets/suv.4bab877cfc.glb                     338.4 kB  
+build/static/assets/Obby_Pirate.0b21fed6e0.glb             340.0 kB  
+build/static/assets/Obby_Jandel.365ac94242.glb             347.4 kB  
+build/static/assets/bacon.1e0347c066.glb                   348.3 kB  
+build/static/assets/Obby_pack7.cd7eee319f.glb              352.7 kB  
+build/static/assets/Obby_pack4.d045ea9d04.glb              367.0 kB  
+build/static/assets/Obby_pack5.fd59aacdef.glb              373.6 kB  
+build/static/assets/Obby_pack6.cc941bd8ca.glb              375.4 kB  
+build/static/assets/Obby_pack1.3d9bfd015f.glb              387.0 kB  
+build/static/assets/Obby_KreekCraft.bb0702eee8.glb         475.4 kB  
+build/static/wasm/1170806bdc.module.wasm                   527.3 kB     247.6 kB
+build/static/assets/Obby_Spider-Man.5de3ea36f0.glb         562.4 kB  
+build/static/assets/Obby_dancing_NPC_girl.9a427b6ea7.glb   566.0 kB  
+build/static/assets/Obby_Spyder_Sammy.618f4954c0.glb       566.0 kB  
+build/static/assets/Obby_Robux_Man.30c8061bc8.glb          570.6 kB  
+build/static/assets/Obby_Jeff_The_Killer.5f942bdaa2.glb    825.1 kB  
+build/assets/audio/music/phonk-instrumental.mp3            1692.7 kB 
+build/assets/audio/music/brazil-phonk.mp3                  1703.5 kB 
+build/assets/audio/music/phonk-gym.mp3                     1743.8 kB 
+build/assets/audio/music/drift-phonk.mp3                   2154.3 kB 
+build/assets/audio/music/adrenaline-sport.mp3              2181.4 kB 
+build/static/assets/bmw-e30.cbbf7e9d0b.glb                 2917.1 kB 
+build/static/assets/cadillac-75.e9a90b17d3.glb             2935.9 kB 
+build/static/js/async/1.7ef012928d.js                      5890.9 kB    2120.1 kB
+build/static/assets/phoenix-interceptor.fd86c1cca4.glb     6177.5 kB 
+build/static/assets/koenigsegg-one1.68d5f37138.glb         7765.9 kB 
+
+                                                  Total:   56191.8 kB   51925.8 kB
+
+npm notice run urban-route-procedural-three@1.70.2 build:vk
+npm notice run GAME_PLATFORM=vk rsbuild build
+Rsbuild v2.2.13
+
+info    build started...
+ready   built in 4.88s
+
+File (web)                                                    Size         Gzip   
+build-vk/assets/vehicles/bmw/manifest.json                    0.47 kB      0.32 kB
+build-vk/assets/hud-gear-panel.svg                            0.48 kB      0.27 kB
+build-vk/assets/vehicles/cosmo/License.txt                    0.50 kB      0.29 kB
+build-vk/assets/audio/Kenney-License.txt                      0.61 kB      0.34 kB
+build-vk/assets/vehicles/passenger/License.txt                0.70 kB      0.45 kB
+build-vk/assets/vehicles/showcase/manifest.json               0.81 kB      0.39 kB
+build-vk/assets/hud-steering.svg                              0.97 kB      0.35 kB
+build-vk/assets/audio/CREDITS.txt                             0.97 kB      0.51 kB
+build-vk/licenses/MESHOPT-LICENSE.txt                         1.1 kB       0.67 kB
+build-vk/licenses/THREE-LICENSE.txt                           1.1 kB       0.67 kB
+build-vk/licenses/VK-BRIDGE-LICENSE.txt                       1.1 kB       0.67 kB
+build-vk/assets/vehicles/showcase/README.md                   1.2 kB       0.67 kB
+build-vk/assets/vehicles/passenger/README.md                  1.2 kB       0.68 kB
+build-vk/assets/vehicles/bmw/License.txt                      1.2 kB       0.63 kB
+build-vk/assets/vehicles/cosmo/manifest.json                  1.5 kB       0.63 kB
+build-vk/assets/vehicles/bmw/README.md                        3.5 kB       1.9 kB
+build-vk/static/js/index.4d71091549.js                        4.1 kB       2.1 kB
+build-vk/assets/vehicles/cosmo/README.md                      4.3 kB       2.2 kB
+build-vk/static/js/async/n.73e973d328.js                      4.4 kB       1.8 kB
+build-vk/assets/audio/impact.ogg                              7.3 kB    
+build-vk/assets/vehicles/passenger/manifest.json              8.1 kB       1.8 kB
+build-vk/assets/characters/README.txt                         8.1 kB       3.1 kB
+build-vk/licenses/RAPIER-LICENSE.txt                          11.3 kB      3.9 kB
+build-vk/licenses/BASIS-LICENSE.txt                           11.3 kB      3.9 kB
+build-vk/assets/vehicle-gear-panel-cropped.webp               17.3 kB   
+build-vk/static/assets/basis_transcoder.1fe23d0cc5.js         28.5 kB      10.4 kB
+build-vk/assets/audio/tire.ogg                                36.0 kB   
+build-vk/static/image/standard.ad86abb014.webp                37.1 kB   
+build-vk/static/image/skulls.0d8d7e4beb.webp                  39.2 kB   
+build-vk/static/image/smileys.f0f03aa948.webp                 41.1 kB   
+build-vk/static/image/flowers.db85cf924e.webp                 42.2 kB   
+build-vk/static/image/hearts.3cc0f1cdc0.webp                  43.0 kB   
+build-vk/assets/audio/engine.ogg                              44.5 kB   
+build-vk/static/image/coins.ea86663a25.webp                   44.8 kB   
+build-vk/static/image/racing.f8179b6613.webp                  59.2 kB   
+build-vk/static/js/async/u.381788fd01.js                      63.3 kB      23.5 kB
+build-vk/static/image/biome.ec1d45071f.webp                   66.5 kB   
+build-vk/index.html                                           71.7 kB      15.1 kB
+build-vk/static/image/racing.525b46a678.webp                  72.4 kB   
+build-vk/static/css/index.45e1618898.css                      77.7 kB      14.6 kB
+build-vk/static/image/anime.43e47cec07.webp                   86.0 kB   
+build-vk/static/image/tire-smoke.ba924d3e91.webp              88.7 kB   
+build-vk/static/image/anime.5afad6402c.webp                   94.5 kB   
+build-vk/static/image/racing.837a964e6c.webp                  96.4 kB   
+build-vk/static/image/neon.fea5eed4b5.webp                    102.3 kB  
+build-vk/static/image/racing.3020eae61f.webp                  103.1 kB  
+build-vk/static/image/neon.43637e38ca.webp                    105.2 kB  
+build-vk/static/image/anime.365f84ac8d.webp                   126.3 kB  
+build-vk/static/image/racing.cc39fe7aa9.webp                  134.6 kB  
+build-vk/static/image/racing.ef7dbcd342.webp                  135.4 kB  
+build-vk/assets/inapp/skin_spyder-sammy.png                   135.5 kB  
+build-vk/assets/inapp/skin_jeff-the-killer.png                135.8 kB  
+build-vk/static/image/racing.ad0493d049.webp                  136.8 kB  
+build-vk/assets/inapp/skin_spider-man.png                     140.6 kB  
+build-vk/assets/inapp/skin_kreekcraft.png                     141.9 kB  
+build-vk/assets/inapp/skin_dancing-npc-girl.png               144.3 kB  
+build-vk/static/image/racing.4e33f7dfeb.webp                  148.2 kB  
+build-vk/assets/inapp/skin_jandel.png                         149.1 kB  
+build-vk/static/image/biome.f0b493d103.webp                   154.1 kB  
+build-vk/static/image/racing.28d95b8b66.webp                  161.6 kB  
+build-vk/static/image/neon.41650151ba.webp                    169.6 kB  
+build-vk/static/image/anime.c737986621.webp                   178.1 kB  
+build-vk/static/image/neon.74ceaf7ddc.webp                    180.9 kB  
+build-vk/static/image/anime.5040621aa5.webp                   184.8 kB  
+build-vk/static/image/neon.fb203f3306.webp                    185.1 kB  
+build-vk/static/image/racing.37b5dc0602.webp                  190.5 kB  
+build-vk/static/image/anime.fc3f045beb.webp                   191.1 kB  
+build-vk/static/assets/low-poly-bmw-g80-m3.40dfc520e6.glb     197.1 kB  
+build-vk/static/image/new-look.772e243064.webp                199.7 kB  
+build-vk/static/image/anime.5101fe55bb.webp                   200.1 kB  
+build-vk/static/image/biome.1c4bea6338.webp                   203.2 kB  
+build-vk/static/image/anime.aefaef2304.webp                   206.8 kB  
+build-vk/static/image/neon.8bd3061121.webp                    208.4 kB  
+build-vk/static/image/neon.b3a0eba565.webp                    209.1 kB  
+build-vk/static/image/neon.1f0a13ef9e.webp                    210.0 kB  
+build-vk/static/image/racing.9cdaf6be7f.webp                  214.2 kB  
+build-vk/static/image/neon.a812f54ef3.webp                    222.0 kB  
+build-vk/static/image/anime.d3af293595.webp                   234.6 kB  
+build-vk/static/image/neon.dd57930fd9.webp                    235.2 kB  
+build-vk/static/image/anime.ad18c52750.webp                   244.4 kB  
+build-vk/static/image/biome.5fba29335b.webp                   245.4 kB  
+build-vk/static/image/neon.d6120e7874.webp                    253.8 kB  
+build-vk/static/image/biome.da079e9404.webp                   254.4 kB  
+build-vk/static/image/biome.e39c1b5a94.webp                   256.4 kB  
+build-vk/assets/vehicle-steering.png                          262.2 kB  
+build-vk/static/assets/offroad.a79fbcb26b.glb                 272.7 kB  
+build-vk/static/assets/coupe.8f7d4b8d7b.glb                   282.3 kB  
+build-vk/static/assets/pickup.8ac780ccc9.glb                  290.6 kB  
+build-vk/static/assets/minivan.420d8727ec.glb                 294.2 kB  
+build-vk/static/assets/sport.ee1ad8ba00.glb                   297.8 kB  
+build-vk/static/assets/compact.27ee93b157.glb                 298.3 kB  
+build-vk/static/assets/hatchback.5716ee2c86.glb               301.5 kB  
+build-vk/static/image/neon.c6010151a8.webp                    302.0 kB  
+build-vk/static/assets/wagon.070f34d9a7.glb                   302.2 kB  
+build-vk/static/image/biome.11accce97a.webp                   305.7 kB  
+build-vk/static/image/anime.2e98ce8814.webp                   306.1 kB  
+build-vk/static/assets/sedan.0f12ab2bd2.glb                   316.5 kB  
+build-vk/static/image/biome.cebc1284e5.webp                   318.2 kB  
+build-vk/static/image/biome.1e2dc73853.webp                   319.7 kB  
+build-vk/static/image/biome.d9b69bbffc.webp                   320.6 kB  
+build-vk/static/image/biome.502298c2b2.webp                   323.7 kB  
+build-vk/static/assets/Obby_pack9.725ef32344.glb              324.5 kB  
+build-vk/static/assets/Obby_pack3.e903a4abdf.glb              327.8 kB  
+build-vk/static/assets/Obby_pack2.4bfcd2527d.glb              335.5 kB  
+build-vk/static/assets/suv.4bab877cfc.glb                     338.4 kB  
+build-vk/static/assets/Obby_Pirate.0b21fed6e0.glb             340.0 kB  
+build-vk/static/assets/Obby_Jandel.365ac94242.glb             347.4 kB  
+build-vk/static/assets/bacon.1e0347c066.glb                   348.3 kB  
+build-vk/static/assets/Obby_pack7.cd7eee319f.glb              352.7 kB  
+build-vk/static/assets/Obby_pack4.d045ea9d04.glb              367.0 kB  
+build-vk/static/assets/Obby_pack5.fd59aacdef.glb              373.6 kB  
+build-vk/static/assets/Obby_pack6.cc941bd8ca.glb              375.4 kB  
+build-vk/static/assets/Obby_pack1.3d9bfd015f.glb              387.0 kB  
+build-vk/static/assets/Obby_KreekCraft.bb0702eee8.glb         475.4 kB  
+build-vk/static/wasm/1170806bdc.module.wasm                   527.3 kB     247.6 kB
+build-vk/static/assets/Obby_Spider-Man.5de3ea36f0.glb         562.4 kB  
+build-vk/static/assets/Obby_dancing_NPC_girl.9a427b6ea7.glb   566.0 kB  
+build-vk/static/assets/Obby_Spyder_Sammy.618f4954c0.glb       566.0 kB  
+build-vk/static/assets/Obby_Robux_Man.30c8061bc8.glb          570.6 kB  
+build-vk/static/assets/Obby_Jeff_The_Killer.5f942bdaa2.glb    825.1 kB  
+build-vk/assets/audio/music/phonk-instrumental.mp3            1692.7 kB 
+build-vk/assets/audio/music/brazil-phonk.mp3                  1703.5 kB 
+build-vk/assets/audio/music/phonk-gym.mp3                     1743.8 kB 
+build-vk/assets/audio/music/drift-phonk.mp3                   2154.3 kB 
+build-vk/assets/audio/music/adrenaline-sport.mp3              2181.4 kB 
+build-vk/static/assets/bmw-e30.cbbf7e9d0b.glb                 2917.1 kB 
+build-vk/static/assets/cadillac-75.e9a90b17d3.glb             2935.9 kB 
+build-vk/static/js/async/1.7ef012928d.js                      5890.9 kB    2120.1 kB
+build-vk/static/assets/phoenix-interceptor.fd86c1cca4.glb     6177.5 kB 
+build-vk/static/assets/koenigsegg-one1.68d5f37138.glb         7765.9 kB 
+
+                                                     Total:   57044.4 kB   52775.5 kB
+

@@ -6,7 +6,7 @@ import {projectLabelPixel} from '../dist/world-label-projection.js';
 import {WORLD_LABEL_DROP} from '../dist/progression-hud.js';
 const f=createAppDom({startDriving:false});let checked=0;const categories={vehicle:0,skin:0,school:0};
 try{const d=f.debug;for(const rect of [{left:0,top:0,width:390,height:844},{left:0,top:0,width:390,height:640},{left:24,top:37,width:720,height:360},{left:11,top:18,width:320,height:600}]){
- f.ids.get('viewport').bounds=rect;f.ids.get('world-labels').bounds={left:7,top:13,width:850,height:900};
+ f.ids.get('viewport').bounds=rect;f.ids.get('world-labels').bounds={left:7,top:13,width:850,height:900};f.win.dispatch('resize');
  for(const position of [[8,65],[-20,70],[-40,70]])for(const yaw of [Math.PI/2,-Math.PI/2,Math.PI,0]){
   d.gameplay.state.player.x=position[0];d.gameplay.state.player.z=position[1];d.gameplay.state.player.heading=yaw;d.cameraState.state.yaw=yaw;d.followCharacter(1,true);f.frame();
   assert(Math.abs(d.camera.aspect-rect.width/rect.height)<1e-10);

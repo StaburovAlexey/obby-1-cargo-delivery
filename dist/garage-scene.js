@@ -89,7 +89,7 @@ export function rewardDisplayPose(THREE, vehicle, time = 0) {
   if (!vehicle?.rewardDisplay || !vehicle.pedestal) return null;
   const pedestal=vehicle.pedestal;
   let lift=pedestal.tiltClearance;
-  const bounds=vehicle.visual?.metadata?.bounds;
+  const bounds=vehicle.visual?.metadata?.bounds??vehicle.physicsBounds;
   if (bounds?.min?.length===3 && bounds?.max?.length===3 &&
       [...bounds.min,...bounds.max].every(Number.isFinite)) {
     const c=Math.cos(pedestal.restPitch),s=Math.sin(pedestal.restPitch);
@@ -266,7 +266,11 @@ export function createGarageScene(THREE, city, {document:doc=globalThis.document
   hangar.userData = { detached: true, closed: false, parkingBayCount: GARAGE_LAYOUT.bays.length, rewardDisplayCount:rewardPedestals.length };
   const roomBoard=createClassroomBoard(THREE,{document:doc,parent:hangar,garageBounds:GARAGE_LAYOUT.bounds});
 
-  const pedestalGeometry=ownGeometry(new THREE.CylinderGeometry(1,1,1,64));
+  const pedestalGeometry=ownGeometry(new THREE.CylinderGeometry(1,1,1,24));
+  // Keep the original round support collider independently of display detail.
+  const pedestalCollisionGeometry=new THREE.CylinderGeometry(1,1,1,64);
+  pedestalGeometry.userData.physicsGeometry={positions:pedestalCollisionGeometry.attributes.position.array,indices:pedestalCollisionGeometry.index.array};
+  pedestalCollisionGeometry.dispose();
   const pedestalMesh=batch(hangar,'Reward vehicle display pedestals',pedestalGeometry,environmentMaterial,rewardPedestals.flatMap(p=>[
     entry('Reward pedestal foundation',[p.x,floorY+.25,p.z],[4.9,.5,4.9],0x233342),
     entry('Reward pedestal silver rim',[p.x,floorY+.515,p.z],[4.82,.03,4.82],0xdce8f0),
@@ -275,7 +279,7 @@ export function createGarageScene(THREE, city, {document:doc=globalThis.document
   pedestalMesh.userData.rewardDisplay=true;
   const pedestalSolids=rewardPedestals.map(p=>({id:p.id,type:'pedestal',
     minX:p.x-p.radius,maxX:p.x+p.radius,minZ:p.z-p.radius,maxZ:p.z+p.radius,minY:floorY,maxY:p.topY}));
-  const rewardMarkerGeometry=ownGeometry(new THREE.RingGeometry(.6,.82,48));rewardMarkerGeometry.rotateX(-Math.PI/2);
+  const rewardMarkerGeometry=ownGeometry(new THREE.RingGeometry(.6,.82,24));rewardMarkerGeometry.rotateX(-Math.PI/2);
   const rewardMarkerMaterial=ownMaterial(new THREE.MeshBasicMaterial({color:0x89c6ff,side:THREE.DoubleSide,toneMapped:false}));
   const rewardMarkers=rewardPedestals.map((p,index)=>{
     const marker=new THREE.Mesh(rewardMarkerGeometry,rewardMarkerMaterial);marker.name=`Reward vehicle approach ${index+1}`;
@@ -284,7 +288,7 @@ export function createGarageScene(THREE, city, {document:doc=globalThis.document
   });
   const rewardMarker=rewardMarkers[0];
 
-  const markerGeometry=ownGeometry(new THREE.RingGeometry(1.3,1.6,48));markerGeometry.rotateX(-Math.PI/2);
+  const markerGeometry=ownGeometry(new THREE.RingGeometry(1.3,1.6,24));markerGeometry.rotateX(-Math.PI/2);
   const classMarkers=CLASSROOM_ENTRIES.map(school=>{
     const markerMaterial=ownMaterial(new THREE.MeshBasicMaterial({color:school.color,side:THREE.DoubleSide,toneMapped:false}));
     const marker=new THREE.Mesh(markerGeometry,markerMaterial);

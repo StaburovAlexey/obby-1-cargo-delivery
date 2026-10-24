@@ -3,7 +3,7 @@
 
 import { ROUTE, BIOME_DEFINITIONS, FORKS, NETWORK_EDGES,
   routeDistanceAt, pointOnEdge,
-  junctionDistance, queryRoadSurface,
+  junctionDistance, queryRoadSurface, sampleRoadSurfacePlane,
 } from './route-network.js';
 import { CHECKPOINT_PROGRESS, PREVIEW_PROGRESS, HAZARD_FREE_DRIVING_SECTIONS } from './route-network-config.js';
 import {BRIDGES} from './road-bridges.js';
@@ -508,6 +508,39 @@ export function roadHazardPatchDistance(h,x,z){
  return inside?nearest:-nearest;
 }
 function patchWeight(h,x,z){return smooth(roadHazardPatchDistance(h,x,z)/R.softEdgeMetres);}
+// Static patch outlines are immutable. Keep the signed polygon distance as the
+// narrow phase, but only run its 64 edge checks for nearby patches. Buckets and
+// merged results retain source order, including overlapping patches.
+export function createRoadHazardPatchIndex(patches) {
+  const cellSize=64,cells=new Map(),order=new Map(),empty=Object.freeze([]);
+  for(const [i,h] of patches.entries()){
+    order.set(h,i);
+    const c=Math.cos(h.heading),s=Math.sin(h.heading);
+    let minX=Infinity,maxX=-Infinity,minZ=Infinity,maxZ=-Infinity;
+    for(const p of roadHazardPatchOutline(h)){
+      const x=h.x+c*p.x+s*p.z,z=h.z-s*p.x+c*p.z;
+      minX=Math.min(minX,x);maxX=Math.max(maxX,x);minZ=Math.min(minZ,z);maxZ=Math.max(maxZ,z);
+    }
+    // patchAt accepts a 1e-8 boundary tolerance; include it on cell borders too.
+    for(let x=Math.floor((minX-1e-7)/cellSize);x<=Math.floor((maxX+1e-7)/cellSize);x++){
+      for(let z=Math.floor((minZ-1e-7)/cellSize);z<=Math.floor((maxZ+1e-7)/cellSize);z++){
+        const key=`${x},${z}`;let bucket=cells.get(key);
+        if(!bucket){bucket=[];cells.set(key,bucket);}bucket.push(h);
+      }
+    }
+  }
+  return Object.freeze({candidatesAt(x,z,margin=0){
+    if(!Number.isFinite(x)||!Number.isFinite(z)||!Number.isFinite(margin))return empty;
+    const radius=Math.max(0,margin+1e-8),minX=Math.floor((x-radius)/cellSize),maxX=Math.floor((x+radius)/cellSize),minZ=Math.floor((z-radius)/cellSize),maxZ=Math.floor((z+radius)/cellSize);
+    if(minX===maxX&&minZ===maxZ)return cells.get(`${minX},${minZ}`)||empty;
+    // A finite but enormous margin must keep baseline behavior without a huge
+    // cell traversal or overflowing x+margin. A linear fallback is rare/cheap.
+    if((maxX-minX+1)*(maxZ-minZ+1)>cells.size)return patches;
+    const found=new Set();
+    for(let cx=minX;cx<=maxX;cx++)for(let cz=minZ;cz<=maxZ;cz++)for(const h of cells.get(`${cx},${cz}`)||empty)found.add(h);
+    return found.size?[...found].sort((a,b)=>order.get(a)-order.get(b)):empty;
+  }});
+}
 const PATCH_FACTORS = Object.freeze({
   dune: Object.freeze({ frictionFactor: .95, lateralDampingFactor: .95, rollingFactor: 1.28, engineFactor: .86, speedFactor: .80, coastingFactor: 1.1 }),
   ice: Object.freeze({ frictionFactor: .62, lateralDampingFactor: .5, rollingFactor: .9, engineFactor: .94, coastingFactor: .76 }),
@@ -518,6 +551,7 @@ export function createRoadHazards(seed = 42, options = {}) {
   const hazards = buildRoadHazards(seed,options);
   const poses = Object.freeze(hazards.map(h => h.motion ? {...h} : h));
   const poseById = new Map(poses.map(h => [h.id,h])), solids = poses.filter(h => h.solid), patches=poses.filter(h=>h.edgeBlend);
+  const patchIndex=createRoadHazardPatchIndex(patches);
   const movers = Object.freeze(poses.filter(h => h.motion));
   const moverFrames = movers.map(h => pointOnEdge(h.edgeId,h.edgeDistance));
   let elapsed = 0;
@@ -534,7 +568,7 @@ export function createRoadHazards(seed = 42, options = {}) {
       moverBypass(h.offset,h.width,h);
       h.x=p.x+p.right.x*h.offset+Math.sin(h.heading)*h.alongOffset;
       h.z=p.z+p.right.z*h.offset+Math.cos(h.heading)*h.alongOffset;
-      const ground=queryRoadSurface(h.x,h.z,p);
+      const ground=sampleRoadSurfacePlane(h.x,h.z,p);
       h.groundHeight=ground.height;h.groundGradientX=ground.gradient.x;h.groundGradientZ=ground.gradient.z;
     }
   }
@@ -556,11 +590,11 @@ export function createRoadHazards(seed = 42, options = {}) {
   }
   function patchAt(x,z,margin=0){
     if(![x,z,margin].every(Number.isFinite))return null;
-    return patches.find(h=>roadHazardPatchDistance(h,x,z)>=-margin-1e-8)||null;
+    return patchIndex.candidatesAt(x,z,margin).find(h=>roadHazardPatchDistance(h,x,z)>=-margin-1e-8)||null;
   }
   function surfaceAt(x, z, baseSurface) {
     if (![x, z].every(Number.isFinite) || !baseSurface || typeof baseSurface !== 'object') return baseSurface;
-    for (const h of patches) {
+    for (const h of patchIndex.candidatesAt(x,z)) {
       const weight = patchWeight(h, x, z);
       if (weight <= 0) continue;
       const surface = { ...baseSurface };

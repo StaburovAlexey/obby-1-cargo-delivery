@@ -32,9 +32,11 @@ export default defineConfig(({env})=>{
     copy: [
 
 
-      { from: './dist/assets', to: 'assets', globOptions: { ignore: ['**/*.glb', '**/liveries/**'] } },
+      { from: './dist/assets', to: 'assets', globOptions: { ignore: ['**/*.glb', '**/liveries/**', '**/shop/*.webp', '**/smoke/*.webp', '**/decoders/**'] } },
       { from: './dist/vendor/THREE-LICENSE.txt', to: 'licenses/THREE-LICENSE.txt' },
       { from: './dist/vendor/RAPIER-LICENSE.txt', to: 'licenses/RAPIER-LICENSE.txt' },
+      { from: './dist/vendor/MESHOPT-LICENSE.txt', to: 'licenses/MESHOPT-LICENSE.txt' },
+      { from: './dist/vendor/BASIS-LICENSE.txt', to: 'licenses/BASIS-LICENSE.txt' },
       ...(vk?[{from:'./publishing/yandex/inapp/icons',to:'assets/inapp'}]:[]),
       ...(vk?[{from:'./node_modules/@vkontakte/vk-bridge/LICENSE',to:'licenses/VK-BRIDGE-LICENSE.txt'}]:[]),
     ],

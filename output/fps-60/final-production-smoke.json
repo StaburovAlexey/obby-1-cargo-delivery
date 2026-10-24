@@ -1,0 +1,20 @@
+{
+  "scenario": "final-production-build-smoke",
+  "sdk": "local deterministic adapter; real Yandex cabinet not exercised",
+  "startupReady": true,
+  "vehiclesLoaded": 15,
+  "skinsLoaded": 17,
+  "pickupDrive": {
+    "entered": true,
+    "distanceMeters": 4.884758831589245,
+    "durationMs": 2500,
+    "brakeApplied": 1,
+    "lampEmissionObserved": 3
+  },
+  "glError": 0,
+  "failedResources": [],
+  "sdkCalls": [
+    "ready",
+    "start"
+  ]
+}

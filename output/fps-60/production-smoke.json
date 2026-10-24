@@ -1,0 +1,18 @@
+{
+  "scenario": "production-yandex-local-smoke",
+  "sdk": "deterministic local adapter; real Yandex cabinet not exercised",
+  "ready": true,
+  "characterReady": true,
+  "loadedVehicles": 15,
+  "sdkCalls": [
+    "ready",
+    "start",
+    "stop",
+    "start",
+    "stop",
+    "start"
+  ],
+  "settingsAndShopOpenedAndClosed": true,
+  "failedResources": [],
+  "glError": 0
+}

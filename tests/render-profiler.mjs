@@ -99,8 +99,9 @@ test('compact diagnostics update at most four times per second and toggle detail
  const panel=descendant(doc.body,'render-performance'),output=descendant(panel,'render-performance-values');
  const details=descendant(panel,'render-performance-details'),toggle=descendant(panel,'render-performance-toggle');
  assert.ok(details);assert.ok(toggle);assert.equal(details.hidden,true);
+ const initialWrites=output.textWrites;
  for(let now=0;now<250;now+=10)p.record({now,active:true,timings:{render:2,frame:3},pixelRatio:2});
- assert.equal(output.textWrites,1);p.record({now:250,active:true});assert.equal(output.textWrites,2);
+ assert.equal(output.textWrites,initialWrites+1);p.record({now:250,active:true});assert.equal(output.textWrites,initialWrites+2);
  assert.match(output.textContent,/FPS 100/);assert.match(output.textContent,/p95.*p99/);
  toggle.click();assert.equal(details.hidden,false);assert.equal(toggle.attributes['aria-expanded'],'true');
  assert.match(details.textContent,/GPU.*недоступ/);assert.match(details.textContent,/DPR 2/);

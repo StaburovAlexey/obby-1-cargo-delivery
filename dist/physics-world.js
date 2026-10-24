@@ -29,6 +29,8 @@ export function createPhysicsWorld({THREE, city, garage, canyon, roadHazards} = 
   const moving = [], gateColliders = [];
   let accumulator = 0, disposed = false, frameSeconds = 0;
   const parked = new Map();
+  const parkedTransforms = new WeakMap();
+  let parkedSync = 0, gateEnabled;
   const vector = new THREE.Vector3();
   const identity = new THREE.Matrix4();
 
@@ -84,7 +86,10 @@ export function createPhysicsWorld({THREE, city, garage, canyon, roadHazards} = 
   }
 
   function addMesh(mesh, tag, matrix = mesh.matrixWorld, name = mesh.name) {
-    const geometry = mesh.geometry, p = geometry?.getAttribute('position');
+    const geometry = mesh.geometry;
+    const canonical=mesh.userData.physicsGeometry||geometry?.userData.physicsGeometry;
+    if(canonical){addTrimesh(canonical.positions,canonical.indices,tag,name,matrix);return;}
+    const p = geometry?.getAttribute('position');
     if (!p) return;
     // Box primitives remain cheap cuboids and preserve their actual transformed center.
     if (geometry.type === 'BoxGeometry') {
@@ -112,8 +117,8 @@ export function createPhysicsWorld({THREE, city, garage, canyon, roadHazards} = 
   }
 
   function addCliffWalls(mesh) {
-    // The visual cliff has seven detailed strata per four-metre segment.
-    // Keep its exact exposed top edge and replace those strata with one flat wall.
+    // Keep the exact exposed top edge and represent the full depth with one
+    // flat wall, independently of the current visual stratum count.
     const positions = [], indices = [];
     const addWall=(a,b)=>{
       const base = positions.length / 3;
@@ -185,29 +190,55 @@ export function createPhysicsWorld({THREE, city, garage, canyon, roadHazards} = 
 
   function updateGate(unlocked = canyon?.entrance?.unlocked ?? canyon?.unlocked ?? false) {
     if (disposed) return;
-    for (const collider of gateColliders) collider.setEnabled(!unlocked);
+    const enabled=!unlocked;
+    if(gateEnabled===enabled)return;
+    for (const collider of gateColliders) collider.setEnabled(enabled);
+    gateEnabled=enabled;
   }
   updateGate();
 
+  // Check shared ancestors once per sync. A stationary display needs no matrix
+  // multiplication, while a turning pedestal or manual parent matrix still
+  // invalidates every affected parking proxy before the next physics tick.
+  function parkedTransformChanged(object){
+    let state=parkedTransforms.get(object);
+    if(state?.sync===parkedSync)return state.changed;
+    const parentChanged=object.parent?parkedTransformChanged(object.parent):false;
+    const changed=!state||parentChanged||state.parent!==object.parent||state.auto!==object.matrixAutoUpdate||state.worldAuto!==object.matrixWorldAutoUpdate||object.matrixWorldNeedsUpdate||state.hasPivot!==!!object.pivot||(object.pivot&&!state.pivot.equals(object.pivot))||
+      (object.matrixAutoUpdate?(!state.position.equals(object.position)||!state.rotation.equals(object.quaternion)||!state.scale.equals(object.scale)):!state.matrix.equals(object.matrix))||
+      (!object.matrixWorldAutoUpdate&&!state.world.equals(object.matrixWorld));
+    if(!state){state={position:new THREE.Vector3(),rotation:new THREE.Quaternion(),scale:new THREE.Vector3(),pivot:new THREE.Vector3(),matrix:new THREE.Matrix4(),world:new THREE.Matrix4()};parkedTransforms.set(object,state);}
+    state.sync=parkedSync;state.changed=changed;state.parent=object.parent;state.auto=object.matrixAutoUpdate;state.worldAuto=object.matrixWorldAutoUpdate;state.hasPivot=!!object.pivot;
+    if(object.pivot)state.pivot.copy(object.pivot);
+    if(object.matrixAutoUpdate){state.position.copy(object.position);state.rotation.copy(object.quaternion);state.scale.copy(object.scale);}
+    else state.matrix.copy(object.matrix);
+    if(!object.matrixWorldAutoUpdate)state.world.copy(object.matrixWorld);
+    return changed;
+  }
+
   function syncParkedVehicles(selectedId=null){
     if(disposed)return;
+    parkedSync++;
     for(const vehicle of garage?.vehicles||[]){
-      const root=vehicle.rig?.root||vehicle.root,bounds=vehicle.visual?.metadata?.bounds;
+      const root=vehicle.rig?.root||vehicle.root,bounds=vehicle.visual?.metadata?.bounds??vehicle.physicsBounds;
       if(!root||!bounds?.min||!bounds?.max)continue;
       let record=parked.get(vehicle.id);
       if(record?.bounds!==bounds){
         if(record)world.removeCollider(record.collider,true);
         const half=new THREE.Vector3(...bounds.max).sub(new THREE.Vector3(...bounds.min)).multiplyScalar(.5);
         const proxy=register(R.ColliderDesc.cuboid(Math.max(.1,half.x),Math.max(.1,half.y),Math.max(.1,half.z)),'obstacle',`Parked ${vehicle.id}`);
-        record={bounds,collider:proxy,center:new THREE.Vector3(...bounds.max).add(new THREE.Vector3(...bounds.min)).multiplyScalar(.5),matrix:null};
+        record={bounds,collider:proxy,enabled:true,center:new THREE.Vector3(...bounds.max).add(new THREE.Vector3(...bounds.min)).multiplyScalar(.5),matrix:null};
         parked.set(vehicle.id,record);
       }
-      record.collider.setEnabled(vehicle.id!==selectedId);
+      const enabled=vehicle.id!==selectedId;
+      if(record.enabled!==enabled){record.collider.setEnabled(enabled);record.enabled=enabled;}
       if(vehicle.id===selectedId)continue;
-      root.updateWorldMatrix(true,false);
+      const transformChanged=parkedTransformChanged(root);
+      if(!record.matrix||transformChanged)root.updateWorldMatrix(true,false);
       if(!record.matrix||!record.matrix.equals(root.matrixWorld)){
         const position=record.center.clone().applyMatrix4(root.matrixWorld),rotation=new THREE.Quaternion();root.getWorldQuaternion(rotation);
-        record.collider.setTranslation(position);record.collider.setRotation(rotation);record.matrix=root.matrixWorld.clone();
+        record.collider.setTranslation(position);record.collider.setRotation(rotation);
+        if(record.matrix)record.matrix.copy(root.matrixWorld);else record.matrix=root.matrixWorld.clone();
       }
     }
   }

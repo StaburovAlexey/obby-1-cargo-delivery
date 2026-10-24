@@ -63,11 +63,11 @@ export function createVehicleLiveryShop(doc, {
   const categoryButtons = {};
   for (const id of ['liveries', 'neon', 'smoke']) {
     const entry = make('button', 'vehicle-shop-category', categories, { type: 'button', 'data-shop-category': id });
-    const picture = make('img', '', entry, { alt: '', draggable: 'false' });
+    const picture = make('img', '', entry, { alt: '', draggable: 'false', decoding: 'async' });
     // Literal URLs are required by the production bundler.
-    picture.src = id === 'liveries' ? new URL('./assets/shop/new-look.webp', import.meta.url).href : id === 'neon' ? new URL('./assets/shop/neon.webp', import.meta.url).href : new URL('./assets/shop/tire-smoke.webp', import.meta.url).href;
+    const pictureUrl = id === 'liveries' ? new URL('./assets/shop/new-look.webp', import.meta.url).href : id === 'neon' ? new URL('./assets/shop/neon.webp', import.meta.url).href : new URL('./assets/shop/tire-smoke.webp', import.meta.url).href;
     const label = make('span', 'vehicle-shop-category-title', entry);
-    categoryButtons[id] = { entry, label };
+    categoryButtons[id] = { entry, label, picture, pictureUrl };
     listen(entry, 'click', () => setSection(id));
   }
   const smokeSoon = make('span', 'vehicle-smoke-soon', categoryButtons.smoke.entry);
@@ -338,6 +338,7 @@ export function createVehicleLiveryShop(doc, {
   function show() {
     if (disposed || closing || !visible || !canOpen()) return false;
     if (opened) return true;
+    for (const {picture,pictureUrl} of Object.values(categoryButtons)) if(!picture.src)picture.src=pictureUrl;
     opened = true;
     section = 'categories'; neonSelected = VEHICLE_NEON_COLORS[0].id; neonLoading = neonError = false;
     neonCarousel.update(neonSelected, { immediate: true }); neonCarousel.setEnabled(false);

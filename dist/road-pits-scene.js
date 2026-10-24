@@ -20,17 +20,23 @@ export function compileRoadPitFootprints(THREE,pits){
 }
 
 function batch(THREE){
- const positions=[],colors=[],indices=[],parts=[];const color=new THREE.Color();
- function face(points,hex,normal){
+ const positions=[],colors=[],indices=[],parts=[],depths=[],middleColors=[],bottomColors=[];const color=new THREE.Color();
+ function face(points,hex,normal,strata){
   if(points.length<3)return;
-  let vertices=points;
-  if(normal){const a=points[0],b=points[1],c=points[2],ux=b[0]-a[0],uy=b[1]-a[1],uz=b[2]-a[2],vx=c[0]-a[0],vy=c[1]-a[1],vz=c[2]-a[2];if((uy*vz-uz*vy)*normal[0]+(uz*vx-ux*vz)*normal[1]+(ux*vy-uy*vx)*normal[2]<0)vertices=points.slice().reverse();}
+  let vertices=points,reverse=false;
+  if(normal){const a=points[0],b=points[1],c=points[2],ux=b[0]-a[0],uy=b[1]-a[1],uz=b[2]-a[2],vx=c[0]-a[0],vy=c[1]-a[1],vz=c[2]-a[2];if((uy*vz-uz*vy)*normal[0]+(uz*vx-ux*vz)*normal[1]+(ux*vy-uy*vx)*normal[2]<0){vertices=points.slice().reverse();reverse=true;}}
   const start=positions.length/3;color.setHex(hex);
   for(const p of vertices){positions.push(...p);colors.push(color.r,color.g,color.b);}
+  if(strata){
+   depths.push(...(reverse?strata.depths.slice().reverse():strata.depths));
+   const middle=new THREE.Color(strata.palette[1]),bottom=new THREE.Color(strata.palette[2]);
+   for(const p of vertices){middleColors.push(middle.r,middle.g,middle.b);bottomColors.push(bottom.r,bottom.g,bottom.b);}
+  }
   for(let i=1;i<vertices.length-1;i++)indices.push(start,start+i,start+i+1);
  }
- return {face,parts,part(id,fn){const start=indices.length;fn();parts.push({id,indexStart:start,indexCount:indices.length-start});},mesh(name,material){
+ return {face,parts,source(){return {positions:new Float32Array(positions),indices:new Uint32Array(indices)};},part(id,fn){const start=indices.length;fn();parts.push({id,indexStart:start,indexCount:indices.length-start});},mesh(name,material){
   const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));g.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));g.setIndex(indices);g.computeVertexNormals();g.computeBoundingBox();g.computeBoundingSphere();g.userData.parts=parts;
+  if(depths.length){g.setAttribute('urPitDepth',new THREE.Float32BufferAttribute(depths,1));g.setAttribute('urPitMiddleColor',new THREE.Float32BufferAttribute(middleColors,3));g.setAttribute('urPitBottomColor',new THREE.Float32BufferAttribute(bottomColors,3));}
   const mesh=new THREE.Mesh(g,material);mesh.name=name;mesh.receiveShadow=true;mesh.castShadow=name==='Road pit walls';mesh.userData.spatialStatic=true;return mesh;
  }};
 }
@@ -40,8 +46,22 @@ function batch(THREE){
 export function buildRoadPitMeshes(THREE,pits,{compiled=compileRoadPitFootprints(THREE,pits)}={}){
  const root=new THREE.Group();root.name='Road pits and forward jumps';
  if(!pits.length)return root;
- const walls=batch(THREE),floors=batch(THREE),ramps=batch(THREE),warnings=batch(THREE);
+ const walls=batch(THREE),canonicalWalls=batch(THREE),floors=batch(THREE),ramps=batch(THREE),warnings=batch(THREE);
  const material=new THREE.MeshStandardMaterial({vertexColors:true,roughness:1,metalness:0,flatShading:true});material.name='Road pit biome rock';
+ // All depth bands on one wall segment are coplanar. Shade their original
+ // .65m and 8m boundaries per fragment and retain the old triangles for physics.
+ const wallMaterial=material.clone();wallMaterial.name='Road pit biome strata';
+ wallMaterial.customProgramCacheKey=()=> 'road-pit-depth-strata-v1';
+ wallMaterial.onBeforeCompile=shader=>{
+  shader.vertexShader=shader.vertexShader.replace('#include <common>',`#include <common>
+   attribute float urPitDepth; attribute vec3 urPitMiddleColor; attribute vec3 urPitBottomColor;
+   varying float vUrPitDepth; varying vec3 vUrPitMiddleColor; varying vec3 vUrPitBottomColor;`)
+   .replace('#include <begin_vertex>',`#include <begin_vertex>
+    vUrPitDepth=urPitDepth; vUrPitMiddleColor=urPitMiddleColor; vUrPitBottomColor=urPitBottomColor;`);
+  shader.fragmentShader=shader.fragmentShader.replace('#include <common>',`#include <common>
+   varying float vUrPitDepth; varying vec3 vUrPitMiddleColor; varying vec3 vUrPitBottomColor;`)
+   .replace('#include <color_fragment>','diffuseColor.rgb *= vUrPitDepth < .65 ? vColor.rgb : (vUrPitDepth < 8.0 ? vUrPitMiddleColor : vUrPitBottomColor);');
+ };
  // Paint follows graded terrain; depth bias keeps it clear of the underlying
  // road triangles without lifting the border into a visibly floating ribbon.
  const warningMaterial=material.clone();warningMaterial.name='Road pit warning paint';
@@ -55,8 +75,9 @@ export function buildRoadPitMeshes(THREE,pits,{compiled=compileRoadPitFootprints
    const a=p[edge],b=p[(edge+1)%p.length],steps=Math.max(1,Math.ceil(Math.hypot(b.x-a.x,b.z-a.z)/4));
    for(let i=0;i<steps;i++){
     const left=lerp(a,b,i/steps),right=lerp(a,b,(i+1)/steps),ha=baseHeight(left.x,left.z),hb=baseHeight(right.x,right.z),inside=[-(b.z-a.z)*outline.winding,0,(b.x-a.x)*outline.winding];
+    walls.face([[left.x,ha,left.z],[right.x,hb,right.z],[right.x,hb-pit.depth,right.z],[left.x,ha-pit.depth,left.z]],palette[0],inside,{depths:[0,0,pit.depth,pit.depth],palette});
     const strata=[0,.65,3,8,pit.depth];
-    for(let j=0;j<strata.length-1;j++){const top=strata[j],bottom=strata[j+1],shade=palette[j<1?0:j<3?1:2];walls.face([[left.x,ha-top,left.z],[right.x,hb-top,right.z],[right.x,hb-bottom,right.z],[left.x,ha-bottom,left.z]],shade,inside);}
+    for(let j=0;j<strata.length-1;j++){const top=strata[j],bottom=strata[j+1],shade=palette[j<1?0:j<3?1:2];canonicalWalls.face([[left.x,ha-top,left.z],[right.x,hb-top,right.z],[right.x,hb-bottom,right.z],[left.x,ha-bottom,left.z]],shade,inside);}
    }
   }});
   floors.part(pit.id,()=>{for(const triangle of outline.triangles)floors.face(triangle.map(v=>[v.x,baseHeight(v.x,v.z)-pit.depth,v.z]),palette[2],[0,1,0]);});
@@ -112,6 +133,10 @@ export function buildRoadPitMeshes(THREE,pits,{compiled=compileRoadPitFootprints
 
   });
  }
- for(const [builder,name] of [[walls,'Road pit walls'],[floors,'Road pit floors'],[ramps,'Road jump ramps'],[warnings,'Road pit warnings']])root.add(builder.mesh(name,builder===warnings?warningMaterial:material));
+ for(const [builder,name] of [[walls,'Road pit walls'],[floors,'Road pit floors'],[ramps,'Road jump ramps'],[warnings,'Road pit warnings']]){
+  const mesh=builder.mesh(name,builder===warnings?warningMaterial:builder===walls?wallMaterial:material);
+  if(builder===walls)mesh.userData.physicsGeometry=canonicalWalls.source();
+  root.add(mesh);
+ }
  return root;
 }

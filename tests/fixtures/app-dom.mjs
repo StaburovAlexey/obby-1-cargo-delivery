@@ -1,4 +1,6 @@
-import {buildRoadPits,roadPitAt,roadPitRampHeight,roadPitReservations} from '../../dist/road-pits.js';
+import {createUiCache} from '../../dist/ui-cache.js';
+import {createProgressiveAssets} from '../../dist/progressive-assets.js';
+import {buildRoadPits,roadPitAt,roadPitRampHeight,roadPitRampBoost,roadPitReservations} from '../../dist/road-pits.js';
 import {createFleetNeon} from '../../dist/vehicle-neon.js';
 import {getVehicleNeon} from '../../dist/vehicle-neon-catalog.js';
 import {DEFAULT_VEHICLE_SMOKE_ID,getVehicleSmokeStyle} from '../../dist/vehicle-smoke-catalog.js';
@@ -9,6 +11,10 @@ import {createHangarDriftLeaderboard} from '../../dist/hangar-drift-leaderboard.
 import {createSpatialRenderer} from '../../dist/spatial-render.js';
 import {createRenderZones} from '../../dist/render-zones.js';
 import {createRenderProfiler} from '../../dist/render-profiler.js';
+import {createGpuTimer} from '../../dist/gpu-timer.js';
+import {createRenderQuality,isMobileRenderer} from '../../dist/render-quality.js';
+import {createDisplayQuality} from '../../dist/display-quality.js';
+import {createModelWarmup} from '../../dist/model-warmup.js';
 import {createFinishCelebration} from '../../dist/finish-celebration.js';
 import {createStartupGate} from '../../dist/startup-gate.js';
 import {createCanyonMode} from '../../dist/canyon-mode.js';
@@ -22,7 +28,7 @@ import {createVehicleAudio} from '../../dist/vehicle-audio.js';
 import {createBackgroundMusic} from '../../dist/background-music.js';
 import {MUSIC_TRACKS} from '../../dist/music-catalog.js';
 import {createSettingsMusic} from '../../dist/settings-music.js';
-import {projectLabelPixel,usableViewportRect} from '../../dist/world-label-projection.js';
+import {projectLabelPixel,usableViewportRect,createViewportRectCache} from '../../dist/world-label-projection.js';
 import {createFinishLine} from '../../dist/finish-line.js';
 import {vehicleFootprint} from '../../dist/vehicle-contact.js';
 import {FORK_DEFINITIONS} from '../../dist/route-network-config.js';
@@ -63,7 +69,11 @@ import { updateProgressionHud, updateProgressionWorldLabels, WORLD_LABEL_DROP } 
 import {createWheelParticles} from '../../dist/wheel-particles.js';
 import {createRoadHazards} from '../../dist/road-hazards.js';
 import {createRoadHazardsScene} from '../../dist/road-hazards-scene.js';
-export function createAppDom({width=390,height=844,startDriving=true,realStartup=false,loadFailure=false,deferCharacters=false,career,storage,attachVehicleVisuals=()=>null,search='',services,createAudio=createVehicleAudio,createMusic=createBackgroundMusic,createCanvasContext,decodeImage,loadDisplay,devServer=false,createLiveryShop=createVehicleLiveryShop,createLiveryController=createVehicleLiveryController,createNeonPreview=()=>({show:()=>true,close(){},dispose(){}}),createLiveryPreview=()=>({show:()=>true,close(){},dispose(){}})}={}){
+function attachFixtureVehicleVisuals(_,garage){
+ for(const vehicle of garage.vehicles)vehicle.visual={group:vehicle.root};
+ garage.vehicleVisuals={request(){},ensure:id=>Promise.resolve(garage.vehicles.find(vehicle=>vehicle.id===id)?.visual),status:()=>"loaded"};
+}
+export function createAppDom({width=390,height=844,startDriving=true,realStartup=false,loadFailure=false,deferCharacters=false,career,storage,attachVehicleVisuals=attachFixtureVehicleVisuals,search='',services,createAudio=createVehicleAudio,createMusic=createBackgroundMusic,createCanvasContext,decodeImage,loadDisplay,devServer=false,createLiveryShop=createVehicleLiveryShop,createLiveryController=createVehicleLiveryController,createNeonPreview=()=>({show:()=>true,close(){},dispose(){}}),createLiveryPreview=()=>({show:()=>true,close(){},dispose(){}})}={}){
  const stored=new Map();if(career)stored.set(ECONOMY_CONFIG.saveKey,JSON.stringify(career));
  const testStorage=storage||{getItem:k=>stored.get(k)??null,setItem:(k,v)=>stored.set(k,v)};
  const dom=createInputDom(),Element=dom.wheel.constructor,Target=dom.win.constructor,ids=new Map([['drive-ui',dom.root]]),frames=[];let now=1000;
@@ -89,7 +99,7 @@ export function createAppDom({width=390,height=844,startDriving=true,realStartup
  ids.get('error').hidden=true;ids.get('seed').value=42;ids.get('viewport').appendChild=el=>ids.get('viewport').append(el);
  const views=['street','overview','delivery','fuel'].map(view=>{const el=new Element([],{view});el.ownerDocument=dom.doc;return el;});
  dom.doc.getElementById=id=>ids.get(id)||null;dom.doc.querySelectorAll=selector=>selector==='[data-view]'?views:[];
- class Renderer {constructor(){this.domElement=new Element();this.domElement.ownerDocument=dom.doc;this.shadowMap={};this.renderCount=0;}setSize(w,h){this.size=[w,h];this.domElement.bounds={left:ids.get('viewport').bounds.left,top:ids.get('viewport').bounds.top,width:w,height:h};}setPixelRatio(value){this.pixelRatio=value;}getPixelRatio(){return this.pixelRatio;}render(){this.renderCount++;}}
+ class Renderer {constructor(){this.domElement=new Element();this.domElement.ownerDocument=dom.doc;this.shadowMap={};this.renderCount=0;}setSize(w,h){this.size=[w,h];this.domElement.bounds={left:ids.get('viewport').bounds.left,top:ids.get('viewport').bounds.top,width:w,height:h};}setPixelRatio(value){this.pixelRatio=value;}getPixelRatio(){return this.pixelRatio;}initTexture(){}compileAsync(){return Promise.resolve();}render(){this.renderCount++;}}
  class Orbit extends Target {constructor(camera,element){super();this.camera=camera;this.domElement=element;this.target=new THREE.Vector3();this.enabled=true;this.updates=0;}update(){this.updates++;}}
  const CHARACTER_CATALOG=['bacon','pack1','pack2','pack3','pack4','pack5','pack6','pack7','pack9','pirate','robux-man','jeff-the-killer','spider-man','spyder-sammy','kreekcraft','jandel','dancing-npc-girl'].map(id=>({id,name:id}));
  const createCharacterDisplay=loadDisplay|| (async()=>({group:new THREE.Group(),dispose(){}}));
@@ -101,7 +111,7 @@ export function createAppDom({width=390,height=844,startDriving=true,realStartup
   .replace(/^import[\s\S]*?;\r?\n/gm,'')
   .replace(/async function startApplication\(\)\{\s*await initializeRapier\(\);/,'')
   .replace(/\n\}\s*void startApplication\(\)\.catch\(error=>\{[\s\S]*?\n\}\);\s*$/,'');
- const deps={createFinishCelebration,createStartupGate:options=>realStartup?createStartupGate({...options,schedule:callback=>frames.push(callback)}):{ready:true,start:assets=>Promise.resolve(assets).catch(()=>{}),fail(){}},createSettingsMenu,createLocalization,createVehicleAudio:createAudio,projectLabelPixel,usableViewportRect,createFinishLine,rewardDisplayPose,vehicleFootprint,attachCosmoGarage:attachVehicleVisuals,FORK_DEFINITIONS,createRetentionUi,createCareerRouteTracker,HARD_BRANCHES,SHADOW_LAYOUT,followShadowLight,createBiomeWeather,BRIDGES,bridgeAtProgress,bridgeSupport,bridgeFallPose,createBridgeFall,projectRoad,routePointAtProgress,SCHOOL_CONFIG,SKIN_CONFIG,schoolConfig,skinConfig,UPGRADE_STATS,getVehiclePerformance,WORLD_LABEL_DROP,updateProgressionHud,updateProgressionWorldLabels,createCareerStore:()=>createCareerStore({storage:testStorage}),vehicleConfig,BIOME_SEQUENCE,THREE:{...THREE,WebGLRenderer:Renderer},OrbitControls:Orbit,createGarageScene,GARAGE_LAYOUT,createGameplay,garageRoadContact,parkedVehicleContact,isInGarage,GAMEPLAY,createWalkInput,createJumpInput,createLookInput,createFollowCameraState,computeFollowOffset,drivingCameraScale,loadCharacter,createCharacterDisplay,CHARACTER_CATALOG,console,buildCity,createVehicleRig,createVehicleInput,TOW_DRIVING,roadGroundGradient,roadGroundSurface,BIOME_DESTINATIONS,safeBiomeDestination,createWheelParticles,createRoadHazards,createRoadHazardsScene,fitTruckToGround,collectObstacles,getTruckContact,groundHeight,document:dom.doc,window:dom.win,innerWidth:width,innerHeight:height,devicePixelRatio:2,matchMedia:()=>({matches:false}),performance:{now:()=>now},requestAnimationFrame:callback=>frames.push(callback)};
+ const deps={createGpuTimer,createRenderQuality,isMobileRenderer,createDisplayQuality,createModelWarmup,configureModelLoading:()=>{},createProgressiveAssets,createUiCache,createViewportRectCache,createFinishCelebration,createStartupGate:options=>realStartup?createStartupGate({...options,schedule:callback=>frames.push(callback)}):{ready:true,start:assets=>Promise.resolve(assets).catch(()=>{}),fail(){}},createSettingsMenu,createLocalization,createVehicleAudio:createAudio,projectLabelPixel,usableViewportRect,createFinishLine,rewardDisplayPose,vehicleFootprint,attachCosmoGarage:attachVehicleVisuals,FORK_DEFINITIONS,createRetentionUi,createCareerRouteTracker,HARD_BRANCHES,SHADOW_LAYOUT,followShadowLight,createBiomeWeather,BRIDGES,bridgeAtProgress,bridgeSupport,bridgeFallPose,createBridgeFall,projectRoad,routePointAtProgress,SCHOOL_CONFIG,SKIN_CONFIG,schoolConfig,skinConfig,UPGRADE_STATS,getVehiclePerformance,WORLD_LABEL_DROP,updateProgressionHud,updateProgressionWorldLabels,createCareerStore:()=>createCareerStore({storage:testStorage}),vehicleConfig,BIOME_SEQUENCE,THREE:{...THREE,WebGLRenderer:Renderer},OrbitControls:Orbit,createGarageScene,GARAGE_LAYOUT,createGameplay,garageRoadContact,parkedVehicleContact,isInGarage,GAMEPLAY,createWalkInput,createJumpInput,createLookInput,createFollowCameraState,computeFollowOffset,drivingCameraScale,loadCharacter,createCharacterDisplay,CHARACTER_CATALOG,console,buildCity,createVehicleRig,createVehicleInput,TOW_DRIVING,roadGroundGradient,roadGroundSurface,BIOME_DESTINATIONS,safeBiomeDestination,createWheelParticles,createRoadHazards,createRoadHazardsScene,fitTruckToGround,collectObstacles,getTruckContact,groundHeight,document:dom.doc,window:dom.win,innerWidth:width,innerHeight:height,devicePixelRatio:2,matchMedia:()=>({matches:false}),performance:{now:()=>now},requestAnimationFrame:callback=>frames.push(callback)};
  dom.doc.createElement=tag=>{
   const el=new Element();el.tagName=tag.toUpperCase();el.ownerDocument=dom.doc;
   el.focus=()=>{dom.doc.activeElement=el;};
@@ -118,7 +128,7 @@ export function createAppDom({width=390,height=844,startDriving=true,realStartup
  Object.assign(deps,{createFleetNeon,getVehicleNeon,createVehicleNeonPreview:createNeonPreview,createVehicleLiveryGallery:createLiveryPreview,createVehicleLiveryPreview:createLiveryPreview,createVehicleLiveryShop:createLiveryShop,createVehicleLiveryController:createLiveryController,createCanyonLeaderboard,createRenderProfiler,createSpatialRenderer,createRenderZones,createHangarDriftLeaderboard,createCanyonMode,createPauseState,createOnlineSession,createAdvertising,isAdvertisingSafe,PREMIUM_SKIN_IDS,__URBAN_DEV_SERVER__:devServer});
  deps.PROGRESSION_CONFIG=PROGRESSION_CONFIG;
  Object.assign(deps,{DEFAULT_VEHICLE_SMOKE_ID,getVehicleSmokeStyle,createBackgroundMusic:createMusic,MUSIC_TRACKS,createSettingsMusic});
- Object.assign(deps,{createRapierDrivingModel,createPhysicsWorld,buildRoadPits,roadPitAt,roadPitRampHeight,roadPitReservations});
+ Object.assign(deps,{createRapierDrivingModel,createPhysicsWorld,buildRoadPits,roadPitAt,roadPitRampHeight,roadPitRampBoost,roadPitReservations});
  new Function(...Object.keys(deps),source)(...Object.values(deps));
  if(startDriving&&!loadFailure){const d=dom.win.__sceneDebug;d.gameplay.state.cooldown=0;d.enterVehicle('pickup');d.model.setPose({x:1.8,z:9.8});d.applyTruckPose();d.followTruck(1,true);}
  return{...dom,ids,views,storage:testStorage,resolveCharacter(id,fail=false){const p=pendingCharacters.get(id);if(fail)p.reject(new Error('Deferred load failed'));else p.resolve({id,name:id,group:new THREE.Group(),update(){},setSeated(){},dispose(){}});pendingCharacters.delete(id);},get debug(){return dom.win.__sceneDebug;},frame(time=now+1000/60){now=time;const callback=frames.shift();if(!callback)throw Error('No queued animation frame');callback(time);},dispose(){dom.win.dispatch('pagehide');const {garage,city}=dom.win.__sceneDebug;dom.win.__sceneDebug.wheelParticles?.dispose();dom.win.__sceneDebug.roadHazardsScene?.dispose();garage.dispose();city.dispose();}};

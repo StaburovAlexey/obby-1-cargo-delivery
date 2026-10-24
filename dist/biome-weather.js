@@ -25,7 +25,14 @@ function createWeatherLayer(THREE, seedOffset = 0) {
 
   const haze = new Float32Array(CAPACITY);
   for (let i = 0; i < CAPACITY; i += 32) haze[i] = 1;
+  const indices = new Uint16Array(CAPACITY);
+  const selected = new Uint8Array(CAPACITY);
+  for (let i = 0; i < CAPACITY; i++) { indices[i] = i; selected[i] = 1; }
+  let weatherScale = 1, hazeScale = 1, activeCount = CAPACITY;
   const geometry = new THREE.BufferGeometry();
+  const indexAttribute = new THREE.BufferAttribute(indices, 1);
+  indexAttribute.setUsage(THREE.DynamicDrawUsage);
+  geometry.setIndex(indexAttribute);
   const position = new THREE.BufferAttribute(positions, 3);
   position.setUsage(THREE.DynamicDrawUsage);
   geometry.setAttribute('position', position);
@@ -181,13 +188,39 @@ function createWeatherLayer(THREE, seedOffset = 0) {
     layer.weight = weight;
     material.uniforms.blendWeight.value = weight;
     particles.visible = weight > 0;
-    geometry.setDrawRange(0, particles.visible ? style.count : 0);
+    geometry.setDrawRange(0, particles.visible ? activeCount : 0);
+  }
+  function setQuality(quality) {
+    const nextWeather = Number.isFinite(quality.weatherScale) ? Math.max(0, Math.min(1, quality.weatherScale)) : weatherScale;
+    const nextHaze = Number.isFinite(quality.hazeScale) ? Math.max(0, Math.min(1, quality.hazeScale)) : hazeScale;
+    if (nextWeather === weatherScale && nextHaze === hazeScale) return;
+    weatherScale = nextWeather; hazeScale = nextHaze;
+    const weatherCount = Math.round((CAPACITY - CAPACITY / 32) * weatherScale);
+    const hazeCount = Math.round(CAPACITY / 32 * hazeScale);
+    let weatherOrdinal = 0, hazeOrdinal = 0;
+    activeCount = 0;
+    for (let i = 0; i < CAPACITY; i++) {
+      const isHaze = haze[i], ordinal = isHaze ? hazeOrdinal++ : weatherOrdinal++;
+      const count = isHaze ? hazeCount : weatherCount, capacity = isHaze ? CAPACITY / 32 : CAPACITY - CAPACITY / 32;
+      // Thin the whole padded view rather than cutting off its lower rows.
+      const keep = Math.floor((ordinal + 1) * count / capacity) > Math.floor(ordinal * count / capacity);
+      if (keep) {
+        indices[activeCount++] = i;
+        // A formerly hidden slot may have a stale position; reintroduce it softly.
+        if (!selected[i] && style) life[i] = 0;
+      }
+      selected[i] = keep ? 1 : 0;
+    }
+    indexAttribute.needsUpdate = true;
+    lifeAttribute.needsUpdate = true;
+    geometry.setDrawRange(0, particles.visible ? activeCount : 0);
   }
   function advance(step) {
     if (!style || !step || !layer.weight) return;
     velocityInView.set(style.wind, -style.fall, 0).applyQuaternion(inverseRotation);
     time += step;
-    for (let i = 0; i < style.count; i++) {
+    for (let slot = 0; slot < activeCount; slot++) {
+      const i = indices[slot];
       const offset = i * 3;
       life[i] = Math.min(0.3, life[i] + step);
       const sway = style.kind === 0 ? 0 : Math.sin(time * 0.8 + phases[i]) * 1.1;
@@ -219,7 +252,7 @@ function createWeatherLayer(THREE, seedOffset = 0) {
     material.dispose();
     particles.removeFromParent();
   }
-  const layer = { particles, id: null, weight: 0, updateView, configure, setWeight, advance, clear, dispose };
+  const layer = { particles, id: null, weight: 0, updateView, configure, setWeight, setQuality, advance, clear, dispose };
   return layer;
 }
 
@@ -331,5 +364,8 @@ export function createBiomeWeather(THREE) {
     for (const layer of layers) layer.dispose();
     group.removeFromParent();
   }
-  return { group, update, clear, dispose, get fog() { return group.visible ? fog : null; } };
+  function setQuality(quality = {}) {
+    if (!disposed) for (const layer of layers) layer.setQuality(quality);
+  }
+  return { group, update, clear, setQuality, dispose, get fog() { return group.visible ? fog : null; } };
 }

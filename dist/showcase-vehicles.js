@@ -1,7 +1,7 @@
 import {makeVehicleWindowsOpaque} from './vehicle-window-materials.js';
 import {attachShowcaseBrakeLights} from './showcase-brake-lights.js';
 import {updateVisualSuspension} from './wheel-contact-visuals.js';
-import {GLTFLoader} from './vendor/GLTFLoader.js';
+import {createModelLoader} from './model-loader.js';
 import {SHOWCASE_VEHICLES} from './showcase-vehicle-catalog.js';
 
 const bytesByURL=new Map(),CLEARANCE=.05,SOURCE_WHEEL_RADIUS=.68;
@@ -48,7 +48,7 @@ export async function loadShowcaseVehicle(THREE,id){
   const pending=fetch(spec.url).then(response=>{if(!response.ok)throw new Error(`Vehicle download failed: ${id} (${response.status})`);return response.arrayBuffer();});
   bytesByURL.set(spec.url,pending);pending.catch(()=>{if(bytesByURL.get(spec.url)===pending)bytesByURL.delete(spec.url);});
  }
- const gltf=await new GLTFLoader().parseAsync(await bytesByURL.get(spec.url),new URL('.',spec.url).href);
+ const gltf=await createModelLoader().parseAsync(await bytesByURL.get(spec.url),new URL('.',spec.url).href);
  return createShowcaseVehicleAdapter(THREE,spec,gltf);
 }
 

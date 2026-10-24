@@ -43,7 +43,8 @@
     ]
   },
   "notes": [
-    "44 individually illustrated designs. English text only. Original fictional characters. Existing runtime UVs and paint masks retained."
+    "44 individually illustrated designs. English text only. Original fictional characters. Existing runtime UVs and paint masks retained.",
+    "WebP recompressed at unchanged dimensions by scripts/optimize-media.mjs; original files are outside dist."
   ],
   "files": [
     {
@@ -51,352 +52,352 @@
       "model": "coupe",
       "variant": "neon",
       "file": "pickup/neon.webp",
-      "bytes": 216856,
-      "sha256": "53bfa8340dcc62faf01a9ec1e0514c6b0e05ea0ca79bcb0a2546b83d75e76647"
+      "bytes": 180940,
+      "sha256": "c06062fc21f1395d4f67ced0d44aa33022c496cd02203363563dd2cc33c92e32"
     },
     {
       "vehicleId": "pickup",
       "model": "coupe",
       "variant": "anime",
       "file": "pickup/anime.webp",
-      "bytes": 214928,
-      "sha256": "65e87d33c3869d3e956d54405229d0bdcaa126618110338ad0c8bb197ea50f6f"
+      "bytes": 178128,
+      "sha256": "dbee34b24e0d8713396859ef25c0a5e9764f6f74600ab91e0967a6d8eca029c0"
     },
     {
       "vehicleId": "pickup",
       "model": "coupe",
       "variant": "racing",
       "file": "pickup/racing.webp",
-      "bytes": 123420,
-      "sha256": "85bcf302025304846359b32252654694fa81c80f9d42ed7891aa66abc100c105"
+      "bytes": 103072,
+      "sha256": "38f6d42fb7c6ac7ed73e55d0727fc1cf7fd5284f04d945d5c40ff990315a85a1"
     },
     {
       "vehicleId": "pickup",
       "model": "coupe",
       "variant": "biome",
       "file": "pickup/biome.webp",
-      "bytes": 373564,
-      "sha256": "a93db6701f1d02a551221ef9554d954f622f185404e1e17e6f6e4a39f68e63f5"
+      "bytes": 320598,
+      "sha256": "ad599f4e0ab5ee080f9884bb6acbbe173f17b13144acc8d8c50e0738651791d9"
     },
     {
       "vehicleId": "citycourier",
       "model": "police",
       "variant": "neon",
       "file": "citycourier/neon.webp",
-      "bytes": 302496,
-      "sha256": "e3ade8159cd42aecf87ffb2a572e71e5def25e86a252f18653032063a0d2cf20"
+      "bytes": 253760,
+      "sha256": "a5f4fecff14b4f3a3e031c9fcf6fb3db14f78fa97fb71f67e6de1c6c476fcdd6"
     },
     {
       "vehicleId": "citycourier",
       "model": "police",
       "variant": "anime",
       "file": "citycourier/anime.webp",
-      "bytes": 291454,
-      "sha256": "e22fdf753174ec31910f51a44638242b9c03ac3e7a4c2e2a398ef585a9ac4dca"
+      "bytes": 234628,
+      "sha256": "840e936eca7f9492c7b6ba4004286711a6b7d33bc9681682969b3a7f17857b6a"
     },
     {
       "vehicleId": "citycourier",
       "model": "police",
       "variant": "racing",
       "file": "citycourier/racing.webp",
-      "bytes": 250754,
-      "sha256": "be9cc98f1c60e571d8f2224cec5d74490781b209eafe63861f04701382ee5eba"
+      "bytes": 214236,
+      "sha256": "bb763fc3167410db951f3f523377ac58071c1326a6f8c0dd868409b7ba28e931"
     },
     {
       "vehicleId": "citycourier",
       "model": "police",
       "variant": "biome",
       "file": "citycourier/biome.webp",
-      "bytes": 305550,
-      "sha256": "d81da8c4ddc8539bcd37ab28d02bab2957d55f994e541a814b2c8dd9a603c929"
+      "bytes": 254428,
+      "sha256": "97e106bcbe79d02be472a64c6d29b446858796c5899d8ba02c6f9757cf7394fd"
     },
     {
       "vehicleId": "rover",
       "model": "jeep",
       "variant": "neon",
       "file": "rover/neon.webp",
-      "bytes": 117984,
-      "sha256": "7e8dcc68e50c88bd651cc131b7ff718fd256bfe7e0b1b9b3e37525163b805d91"
+      "bytes": 102348,
+      "sha256": "fd6b69c0e9a37d8fcc346cd0d7b85c20ff19de2f3edcbe0a53f7b4b0c136f430"
     },
     {
       "vehicleId": "rover",
       "model": "jeep",
       "variant": "anime",
       "file": "rover/anime.webp",
-      "bytes": 115550,
-      "sha256": "f751def9b676b48269a5c01b19addd9ee08a3724a860cd15b5f2e8611ec2b1e6"
+      "bytes": 94542,
+      "sha256": "35e9e5faa7dfb25d03f891c085783873c8d14094b4b8e7ea8c17b5620008e5f2"
     },
     {
       "vehicleId": "rover",
       "model": "jeep",
       "variant": "racing",
       "file": "rover/racing.webp",
-      "bytes": 91998,
-      "sha256": "ccb634fc8e8a3273c37fc4c9d844636b6e1df2dd8d59a65c0b19ba0fcd3985c0"
+      "bytes": 72448,
+      "sha256": "e07dbae423bd89fd08fdf4c693eda798d0a2c045d38b7d6340476a18c55d5219"
     },
     {
       "vehicleId": "rover",
       "model": "jeep",
       "variant": "biome",
       "file": "rover/biome.webp",
-      "bytes": 289350,
-      "sha256": "46dc9acf3d39fdffac5a71bee1777e4f4ab82f642ca172a8527dd753bc31b2e3"
+      "bytes": 245432,
+      "sha256": "2e8ec9c27224d8195a611feea59ce66b741db670c2bb4415eefb56d804479eec"
     },
     {
       "vehicleId": "foresthauler",
       "model": "van",
       "variant": "neon",
       "file": "foresthauler/neon.webp",
-      "bytes": 195890,
-      "sha256": "023b1ff4b554797422012880203f51de7f8c4c4ddd2a4c82168e1a87118bee2f"
+      "bytes": 169562,
+      "sha256": "242f1c8be5d8cb55f5f133c1fe2b46dbddff794e86f9bda8b45a5d653d6bfeff"
     },
     {
       "vehicleId": "foresthauler",
       "model": "van",
       "variant": "anime",
       "file": "foresthauler/anime.webp",
-      "bytes": 252870,
-      "sha256": "52330d689c6c4dc32c9f63fcc443244b219f1640206ef6a505bbacb5ffaa4dba"
+      "bytes": 206758,
+      "sha256": "24f32a0535deeac6c8a415f00b12cf4b344b4f31c50b99474c1f2710bcda1258"
     },
     {
       "vehicleId": "foresthauler",
       "model": "van",
       "variant": "racing",
       "file": "foresthauler/racing.webp",
-      "bytes": 166230,
-      "sha256": "e14b6b30547f3d161d76993a2517f31729290d4f13a7d04dab5b9faf14790720"
+      "bytes": 136794,
+      "sha256": "ef3b312c7f4b6dac79c6f89c3adbc6abaafef870557fe4784f5792c6a260dc40"
     },
     {
       "vehicleId": "foresthauler",
       "model": "van",
       "variant": "biome",
       "file": "foresthauler/biome.webp",
-      "bytes": 250786,
-      "sha256": "b2d04f235c0ff9a5e53495c081f542bf1cbf6693d6386e35b6a2e10ca4d1901a"
+      "bytes": 203236,
+      "sha256": "205387a46ac4e073c14b20aea8fbd902e071c6a670f2e3282c957df343b3293f"
     },
     {
       "vehicleId": "van",
       "model": "kamaro",
       "variant": "neon",
       "file": "van/neon.webp",
-      "bytes": 243238,
-      "sha256": "c1353b033e6bffc953d4e1da8846d0dbbf46fe35709ede1890db9d3e87036cb2"
+      "bytes": 210006,
+      "sha256": "7c073bc5c10a333eb2cf358c69f1c8b293c15d0492e47afb8c8e9a9d3227d2f2"
     },
     {
       "vehicleId": "van",
       "model": "kamaro",
       "variant": "anime",
       "file": "van/anime.webp",
-      "bytes": 155468,
-      "sha256": "cfbf0a84344f7e0dc4c4f91553102f94665ace3b2b49d08a1347ffd12bdf924d"
+      "bytes": 126282,
+      "sha256": "dfecae1af3f9cd2324929f32fad398f92e333fa789cb7a0712dd09e20be20d4a"
     },
     {
       "vehicleId": "van",
       "model": "kamaro",
       "variant": "racing",
       "file": "van/racing.webp",
-      "bytes": 120414,
-      "sha256": "50d18e1bab2962c2be72648e9d1464644dc171c625c737e408649e12c46f6aaf"
+      "bytes": 96404,
+      "sha256": "00c50b75f498db031d0f79b44c0152c9ee809de7ce5588cd49d97078e74c9caf"
     },
     {
       "vehicleId": "van",
       "model": "kamaro",
       "variant": "biome",
       "file": "van/biome.webp",
-      "bytes": 80746,
-      "sha256": "22d474f918eb4d920d221dbeb8c39a64a7f7ff79d086ed5158b6111a1f91e164"
+      "bytes": 66472,
+      "sha256": "e5ff43980f07663e43cceadb87a5e9b3a495e778aafeb38274debf4c4f01dab9"
     },
     {
       "vehicleId": "desertscout",
       "model": "ghini",
       "variant": "neon",
       "file": "desertscout/neon.webp",
-      "bytes": 124918,
-      "sha256": "588ed0315455eb4afe2231d1c9d2eb4a89cf7b4b6fa6c259e968956f4153124a"
+      "bytes": 105242,
+      "sha256": "fb184bcbbb8fc21d32d3f711084f9b63e861b54301b31c7b6f474c729520c97a"
     },
     {
       "vehicleId": "desertscout",
       "model": "ghini",
       "variant": "anime",
       "file": "desertscout/anime.webp",
-      "bytes": 106656,
-      "sha256": "9be77fcc8085d605af10b1c3eae95af09fc86cb54fa3e1e0de2945a7341b17af"
+      "bytes": 85966,
+      "sha256": "49fa6b89997666ebbcbbc6879af1b95bbf51b291e2018e848b704a38bcc271c8"
     },
     {
       "vehicleId": "desertscout",
       "model": "ghini",
       "variant": "racing",
       "file": "desertscout/racing.webp",
-      "bytes": 72706,
-      "sha256": "2ea24976272cbf5ad433df35e891e834eb2d2d140722ba6f2f23508f7ae095ca"
+      "bytes": 59178,
+      "sha256": "7ce3f5be196cad48161d6180c2d75d802d1d8ffc4b1ad3500a78dd1000731c4f"
     },
     {
       "vehicleId": "desertscout",
       "model": "ghini",
       "variant": "biome",
       "file": "desertscout/biome.webp",
-      "bytes": 182172,
-      "sha256": "1ab5320b26b10cadb5f15cd544074320e034303cc454049de0f09ba56790b92c"
+      "bytes": 154080,
+      "sha256": "d9cd692f14d51f35b735d6e8f0071b9eee6d1539d7af592e9bb08e9f706ea458"
     },
     {
       "vehicleId": "snowgrip",
       "model": "rally",
       "variant": "neon",
       "file": "snowgrip/neon.webp",
-      "bytes": 245958,
-      "sha256": "17e43ca53df26ffaff974c26399f2ea511143a07acc28b0c0803e7fa7331c752"
+      "bytes": 208380,
+      "sha256": "e58de81f94ddde1e5f6c8183f11ee9a0f59d7dca8ae38057fabc0860b2a24585"
     },
     {
       "vehicleId": "snowgrip",
       "model": "rally",
       "variant": "anime",
       "file": "snowgrip/anime.webp",
-      "bytes": 243438,
-      "sha256": "2f6a83e060e75c0cdae6e6534f08bdcb1e331d5a7a83ffde03514a0c20df8d2b"
+      "bytes": 200104,
+      "sha256": "d226b2a6c5cb719cdb50b61d7627ed517bc09b27a38cca467287a4e1a7afac93"
     },
     {
       "vehicleId": "snowgrip",
       "model": "rally",
       "variant": "racing",
       "file": "snowgrip/racing.webp",
-      "bytes": 159394,
-      "sha256": "ec9ae4842d46439126a1ad1cf030f48f63aa4eed4881a859d973527696d0ad32"
+      "bytes": 134632,
+      "sha256": "ba6583f38252ee95357b8bba0642b25c72c42c70bd0859a0341f6b2a10110a89"
     },
     {
       "vehicleId": "snowgrip",
       "model": "rally",
       "variant": "biome",
       "file": "snowgrip/biome.webp",
-      "bytes": 303620,
-      "sha256": "3e4eeea82ed579e6d2c3c90d2b1ba9feaf76d73d60d6360125397e558cbb1d8b"
+      "bytes": 256388,
+      "sha256": "9736a2b88ee86fe04b3a43c60dd4b8539369e872f0725e346a3ae2893d77fac9"
     },
     {
       "vehicleId": "snowrunner",
       "model": "armor",
       "variant": "neon",
       "file": "snowrunner/neon.webp",
-      "bytes": 263332,
-      "sha256": "8c593613f8ba4c47fca2cd2ea7a6feff8ff2288e97ae3cd3c9c95642773f126c"
+      "bytes": 221980,
+      "sha256": "07c4fc603cb54232864a145445939074ed7cd5dc95ed86ddcf4aac9a5250ad89"
     },
     {
       "vehicleId": "snowrunner",
       "model": "armor",
       "variant": "anime",
       "file": "snowrunner/anime.webp",
-      "bytes": 287706,
-      "sha256": "2688fa8c5314d91b3a2bfba471abb2d1bc9679b7a5de699a57a1601993fd08fb"
+      "bytes": 244380,
+      "sha256": "38d12a6741a3e9cdc6e9ff897864a6260c1fbb59d6bb1a8cdb6edc4f24b98352"
     },
     {
       "vehicleId": "snowrunner",
       "model": "armor",
       "variant": "racing",
       "file": "snowrunner/racing.webp",
-      "bytes": 192968,
-      "sha256": "85e7a2ce60e9d7d2c315bb28cf2372edb34e866b3e95c1847d09c6322478643f"
+      "bytes": 161612,
+      "sha256": "ab416e6d75d3a5f29cd0b79bbff12af3cc36c581f8a329c2978a3556c32b9586"
     },
     {
       "vehicleId": "snowrunner",
       "model": "armor",
       "variant": "biome",
       "file": "snowrunner/biome.webp",
-      "bytes": 377382,
-      "sha256": "531da7f1426b00e8421be697659a81b7337865c247681e1bff20630636c455f6"
+      "bytes": 319672,
+      "sha256": "75c70d699c2ffec03e17a2c50295b8ad609811d8a305708902fbd91ea666a7f1"
     },
     {
       "vehicleId": "lavacrawler",
       "model": "lamb",
       "variant": "neon",
       "file": "lavacrawler/neon.webp",
-      "bytes": 248780,
-      "sha256": "9e536dfacf97a47924743e1927d1364740efeb15fce9c41b9eae3166dded4150"
+      "bytes": 209060,
+      "sha256": "510924d73792dff084dbde01c0f131a3c8b0b1622a332cbcc7427360031e8e67"
     },
     {
       "vehicleId": "lavacrawler",
       "model": "lamb",
       "variant": "anime",
       "file": "lavacrawler/anime.webp",
-      "bytes": 227666,
-      "sha256": "303133f81b0f89e02321baefe110805772d6550cfa2f58b8fecabcfa5fa899a6"
+      "bytes": 191094,
+      "sha256": "ee06aec04c93778c9b3ca76aa5b5bff5108b842cc98b5a9f5af86e84721a5920"
     },
     {
       "vehicleId": "lavacrawler",
       "model": "lamb",
       "variant": "racing",
       "file": "lavacrawler/racing.webp",
-      "bytes": 176348,
-      "sha256": "9fbf056ae8ccda7e59dd43a5eb8ac91b0a9503031ccf652db7423277fb138d20"
+      "bytes": 148236,
+      "sha256": "1840475432e38f89cdb2ab903c8974d12b8bc04dc330e20917ce5b92305b44fc"
     },
     {
       "vehicleId": "lavacrawler",
       "model": "lamb",
       "variant": "biome",
       "file": "lavacrawler/biome.webp",
-      "bytes": 342672,
-      "sha256": "6c0e1a46d0292db143746c4835ab69cbd805bd9de909ed17699939b759e08101"
+      "bytes": 318244,
+      "sha256": "5d60416e3093de3923d2b040cd9dbb31df48646da0df4e8571dd07e51e69cb52"
     },
     {
       "vehicleId": "ashhauler",
       "model": "fenyr",
       "variant": "neon",
       "file": "ashhauler/neon.webp",
-      "bytes": 254826,
-      "sha256": "de3ba36f2fd0aa8d30589633daa83f6a8ece9d20a5e57060c94533caa3e16095"
+      "bytes": 235162,
+      "sha256": "cd77e0b673ccbaf8ba02cef454a7d4bf20cc475e4abdd951db116e38fec44c85"
     },
     {
       "vehicleId": "ashhauler",
       "model": "fenyr",
       "variant": "anime",
       "file": "ashhauler/anime.webp",
-      "bytes": 223666,
-      "sha256": "4e8a5058c593e7e02070958aab1fbd49af3987db739c9f824ad846384adb0991"
+      "bytes": 184754,
+      "sha256": "0ace71d72f785eaf6f23b7cbae0d02b1264959d9a58f42d832e09be05b97d0e4"
     },
     {
       "vehicleId": "ashhauler",
       "model": "fenyr",
       "variant": "racing",
       "file": "ashhauler/racing.webp",
-      "bytes": 162632,
-      "sha256": "8242ebf35c331809a18290e29d7008b0abbabd6ba318dd3dd26da486a76c2cbb"
+      "bytes": 135402,
+      "sha256": "d41572ca5272005d1c1ce197f126eb9364a031e14297b9c627b24d3a3a95a01f"
     },
     {
       "vehicleId": "ashhauler",
       "model": "fenyr",
       "variant": "biome",
       "file": "ashhauler/biome.webp",
-      "bytes": 371412,
-      "sha256": "5a7da3476ef22418e42d098a662c341d1541a86d4b264511932dc30cb231ace5"
+      "bytes": 305728,
+      "sha256": "c653d91c3c431ecb5bed1a44fff1eb1854ed11bc1bd43f33a385f9cd887c77ef"
     },
     {
       "vehicleId": "bmwreward",
       "model": "bmw-g80-m3",
       "variant": "neon",
       "file": "bmwreward/neon.webp",
-      "bytes": 361756,
-      "sha256": "36bf1753f981c4ddb222d9fd4c168cb856c6d50e098b81e07734819d86ca656d"
+      "bytes": 302024,
+      "sha256": "d53eff1703630a306793b40dc63ef744d9d22f27461416f8cc7e64874ee4db78"
     },
     {
       "vehicleId": "bmwreward",
       "model": "bmw-g80-m3",
       "variant": "anime",
       "file": "bmwreward/anime.webp",
-      "bytes": 366358,
-      "sha256": "c443d77cfe927ada83f2131df1d19126adcec452dbd9df53bd3d97c666ab75f6"
+      "bytes": 306142,
+      "sha256": "011a3be3504acf67de2c0c537566b2a9c4944c46b1b5d9f996a78964481249bb"
     },
     {
       "vehicleId": "bmwreward",
       "model": "bmw-g80-m3",
       "variant": "racing",
       "file": "bmwreward/racing.webp",
-      "bytes": 222952,
-      "sha256": "a0f9cddcd394a65a1ea07cb545f94850e94c832f131a34f977174169f8f1d463"
+      "bytes": 190476,
+      "sha256": "aade2d75893c5112155a0826a526e182a2a8860b5e3361b0e6d1ec5268b3abe7"
     },
     {
       "vehicleId": "bmwreward",
       "model": "bmw-g80-m3",
       "variant": "biome",
       "file": "bmwreward/biome.webp",
-      "bytes": 378002,
-      "sha256": "f5bc390e61bf9d7d4d404e4b566526888d3859589829dbe644b4eb2ff420f51e"
+      "bytes": 323738,
+      "sha256": "e9ac13a42f3d36c335f997146f2ae56d077ef754c33c0506a8be3193536350e9"
     }
   ]
 }

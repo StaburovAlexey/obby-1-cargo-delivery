@@ -1,0 +1,131 @@
+TAP version 13
+# Subtest: unchanged parked and gate state performs no repeated Rapier writes or world matrix refresh
+ok 1 - unchanged parked and gate state performs no repeated Rapier writes or world matrix refresh
+  ---
+  duration_ms: 30.486753
+  type: 'test'
+  ...
+# Subtest: parked proxies follow local, rotating pedestal, manual ancestor matrices and selection changes independently of visibility
+ok 2 - parked proxies follow local, rotating pedestal, manual ancestor matrices and selection changes independently of visibility
+  ---
+  duration_ms: 236.553013
+  type: 'test'
+  ...
+# exact plane samples: 6760
+# Subtest: plane sampler exactly matches full projection height and gradients at seeded mover poses and triangle borders
+ok 3 - plane sampler exactly matches full projection height and gradients at seeded mover poses and triangle borders
+  ---
+  duration_ms: 3782.45184
+  type: 'test'
+  ...
+# Subtest: plane sampler falls back to the full original result outside indexed surfaces and for invalid coordinates
+ok 4 - plane sampler falls back to the full original result outside indexed surfaces and for invalid coordinates
+  ---
+  duration_ms: 9.568687
+  type: 'test'
+  ...
+# Subtest: indexed plane samples do zero route projections while unsupported fallback still projects
+ok 5 - indexed plane samples do zero route projections while unsupported fallback still projects
+  ---
+  duration_ms: 677.74724
+  type: 'test'
+  ...
+# Subtest: all live mover pose fields remain exact against the original projection sampler over fixed ticks, pause and reset
+ok 6 - all live mover pose fields remain exact against the original projection sampler over fixed ticks, pause and reset
+  ---
+  duration_ms: 3704.52184
+  type: 'test'
+  ...
+# Subtest: unsupported and disabled GPU timers do not issue GL queries
+ok 7 - unsupported and disabled GPU timers do not issue GL queries
+  ---
+  duration_ms: 3.53895
+  type: 'test'
+  ...
+# Subtest: GPU results are read only when available and pending queries stay bounded
+ok 8 - GPU results are read only when available and pending queries stay bounded
+  ---
+  duration_ms: 3.176915
+  type: 'test'
+  ...
+# Subtest: disjoint results and reset are discarded without inventing GPU timings
+ok 9 - disjoint results and reset are discarded without inventing GPU timings
+  ---
+  duration_ms: 0.773816
+  type: 'test'
+  ...
+# Subtest: profiler preserves real GPU results separately from CPU submission time
+ok 10 - profiler preserves real GPU results separately from CPU submission time
+  ---
+  duration_ms: 3.136143
+  type: 'test'
+  ...
+# Subtest: profiler reset also resets the GPU sampling window
+ok 11 - profiler reset also resets the GPU sampling window
+  ---
+  duration_ms: 0.88024
+  type: 'test'
+  ...
+# Subtest: context loss drops active and pending handles plus timings, and restoration reacquires the extension
+ok 12 - context loss drops active and pending handles plus timings, and restoration reacquires the extension
+  ---
+  duration_ms: 1.614483
+  type: 'test'
+  ...
+# Subtest: loss detected before its event prevents end, reset and dispose from touching stale handles
+ok 13 - loss detected before its event prevents end, reset and dispose from touching stale handles
+  ---
+  duration_ms: 0.769462
+  type: 'test'
+  ...
+# Subtest: models are not attached until their queued GPU preparation completes
+ok 14 - models are not attached until their queued GPU preparation completes
+  ---
+  duration_ms: 8.364485
+  type: 'test'
+  ...
+# Subtest: a world cancelled during preparation disposes the late model exactly once
+ok 15 - a world cancelled during preparation disposes the late model exactly once
+  ---
+  duration_ms: 2.065295
+  type: 'test'
+  ...
+# Subtest: failed GPU preparation reports a retryable load failure and frees its resources
+ok 16 - failed GPU preparation reports a retryable load failure and frees its resources
+  ---
+  duration_ms: 1.533087
+  type: 'test'
+  ...
+# Subtest: mobile quality is orientation-independent and caps canvas pixels, not UI size
+ok 17 - mobile quality is orientation-independent and caps canvas pixels, not UI size
+  ---
+  duration_ms: 3.163871
+  type: 'test'
+  ...
+# Subtest: sustained slow frames reduce quality, isolated spikes and inactive time do not
+ok 18 - sustained slow frames reduce quality, isolated spikes and inactive time do not
+  ---
+  duration_ms: 3.256755
+  type: 'test'
+  ...
+# Subtest: quality recovery needs stable headroom and respects hysteresis
+ok 19 - quality recovery needs stable headroom and respects hysteresis
+  ---
+  duration_ms: 1.489289
+  type: 'test'
+  ...
+# Subtest: fixed diagnostic quality never adapts and invalid time does not corrupt state
+ok 20 - fixed diagnostic quality never adapts and invalid time does not corrupt state
+  ---
+  duration_ms: 0.668681
+  type: 'test'
+  ...
+1..20
+# tests 20
+# suites 0
+# pass 20
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 11175.835885

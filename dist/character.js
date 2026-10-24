@@ -1,4 +1,4 @@
-import { GLTFLoader } from './vendor/GLTFLoader.js';
+import {createModelLoader} from './model-loader.js';
 import { clone as cloneSkeleton } from './vendor/SkeletonUtils.js';
 import { CHARACTER_CATALOG, getCharacterEntry } from './character-catalog.js';
 import { CHARACTER_SUPPORT } from './character-support.js';
@@ -7,7 +7,7 @@ import { CHARACTER_SEAT } from './character-seat-calibration.js';
 export { CHARACTER_CATALOG } from './character-catalog.js';
 
 export const BACON_HEIGHT = 3.5;
-export const BACON_ASSET_URL = new URL('./assets/bacon.glb', import.meta.url);
+export const BACON_ASSET_URL = new URL('./assets/optimized/bacon.glb', import.meta.url);
 
 
 
@@ -145,7 +145,7 @@ async function getCachedAsset(entry, url) {
   let record = parsedCache.get(key);
   if (!record) {
     record = { key, entry, refs: 0, snapshot: null, gltf: null, promise: null };
-    record.promise = new GLTFLoader().loadAsync(key).then(gltf => {
+    record.promise = createModelLoader().loadAsync(key).then(gltf => {
       parseCount++; record.gltf = gltf; return record;
     }).catch(error => { parsedCache.delete(key); throw error; });
     parsedCache.set(key, record);
@@ -171,7 +171,7 @@ export function clearCharacterCache() {
 export async function loadCharacter(THREE, { id, data, url } = {}) {
   const entry = resolveEntry(id, url);
   if (data) {
-    const gltf = await new GLTFLoader().parseAsync(data, '');
+    const gltf = await createModelLoader().parseAsync(data, '');
     return createCharacter(THREE, gltf, entry);
   }
   const record = await getCachedAsset(entry, url ?? entry.url);

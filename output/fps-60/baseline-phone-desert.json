@@ -1,0 +1,2012 @@
+{
+  "schema": "obby-fps60-v1",
+  "timestamp": "2026-10-24T16:19:06.188Z",
+  "url": "http://127.0.0.1:8095/?dev=1&perf=1",
+  "state": "complete",
+  "prepared": "desert",
+  "phase": "stable",
+  "elapsedMs": 157277.5,
+  "phasesComplete": [
+    "warmup",
+    "stable"
+  ],
+  "reportReady": true,
+  "config": {
+    "scene": "desert",
+    "motion": "drive",
+    "warmupMs": 6000,
+    "sampleMs": 20000,
+    "preloadVehicles": true,
+    "speedDemand": 0.38,
+    "canyonStart": 300,
+    "gpu": true,
+    "profile": "phone-844x390-dpr2-emulated",
+    "label": "baseline"
+  },
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Mobile Safari/537.36",
+    "platform": "Linux x86_64",
+    "hardwareConcurrency": 20,
+    "deviceMemoryGiB": 16,
+    "maxTouchPoints": 1,
+    "viewport": {
+      "width": 844,
+      "height": 390,
+      "devicePixelRatio": 2,
+      "renderPixelRatio": 2,
+      "drawingBuffer": [
+        1688,
+        780
+      ]
+    },
+    "visibilityState": "visible",
+    "focused": true,
+    "appFocused": true,
+    "webgl": {
+      "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (RPL-P), OpenGL 4.6)",
+      "vendor": "Google Inc. (Intel)",
+      "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "softwareRenderer": false,
+      "timerQueryExtensionPresent": true
+    },
+    "diagnosticGlobals": {
+      "devServer": true,
+      "development": true,
+      "multiplayerUrl": ""
+    },
+    "claimLimit": "This machine and browser only. Mobile viewport emulation is not Android hardware/FPS evidence.",
+    "gpuTiming": "Use application profiler GPU report when available. Extension presence alone is not a GPU timing measurement.",
+    "shaderCompilation": "No isolated shader compile measurement. Program counts and cold/warm frame intervals are recorded."
+  },
+  "phases": [
+    {
+      "name": "warmup",
+      "startedAt": 169208,
+      "endedAt": 175405.70000000298,
+      "frames": {
+        "samples": 108,
+        "mean": 56.483,
+        "p50": 33.3,
+        "p95": 166.7,
+        "p99": 200,
+        "max": 300.1,
+        "total": 6100.2
+      },
+      "fps": 17.704,
+      "overBudget": {
+        "above16_67ms": 61,
+        "above33_34ms": 39,
+        "thresholdToleranceMs": 0.5
+      },
+      "renderer": {
+        "calls": {
+          "samples": 108,
+          "mean": 57.074,
+          "p50": 57,
+          "p95": 57,
+          "p99": 57,
+          "max": 68,
+          "total": 6164
+        },
+        "triangles": {
+          "samples": 108,
+          "mean": 33287.167,
+          "p50": 32560,
+          "p95": 37140,
+          "p99": 51617,
+          "max": 55875,
+          "total": 3595014
+        }
+      },
+      "externalGpu": {
+        "available": true,
+        "durationMs": {
+          "samples": 27,
+          "mean": 7.176,
+          "p50": 5.975,
+          "p95": 18.939,
+          "p99": 20.626,
+          "max": 20.626,
+          "total": 193.765
+        },
+        "sampleEveryRenders": 4,
+        "maxPending": 4,
+        "disjointDropped": 0,
+        "unresolvedAtEnd": 1,
+        "productTimerActiveSkipped": 0,
+        "note": "Asynchronous WebGL TIME_ELAPSED around renderer.render, including its shadow work; no nesting with application GPU timers."
+      },
+      "applicationProfiler": {
+        "mode": "optimized",
+        "samples": 108,
+        "elapsedSeconds": 6.1,
+        "fps": 17.7,
+        "frameMs": {
+          "p50": 33.3,
+          "p95": 166.7,
+          "p99": 200,
+          "max": 300.1,
+          "resolution": 0.1,
+          "overflow": {
+            "aboveMs": 2000,
+            "samples": 0
+          }
+        },
+        "renderCpuMeanMs": 3.8,
+        "roomCount": 1,
+        "loadedPeers": 0,
+        "render": {
+          "calls": 57,
+          "triangles": 32584
+        },
+        "memory": {
+          "geometries": 273,
+          "textures": 36
+        },
+        "spatial": {
+          "sourceBatches": 27,
+          "activeBatches": 4,
+          "cells": 1180,
+          "sourceTriangles": 135923,
+          "submittedTriangles": 2696,
+          "uploads": 115,
+          "zones": {
+            "registered": 48,
+            "visible": 4,
+            "hidden": 44
+          }
+        },
+        "userAgent": "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Mobile Safari/537.36",
+        "current": {
+          "fps": 10.65,
+          "samples": 11,
+          "elapsedSeconds": 1.03,
+          "frameMs": [
+            66.6,
+            83.3,
+            83.4,
+            83.3,
+            100,
+            100,
+            100,
+            100.1,
+            116.6,
+            100,
+            100
+          ],
+          "timingsMeanMs": {
+            "physics": 83.1,
+            "logic": 3.1,
+            "ui": 1.03,
+            "network": 0.05,
+            "culling": 0.37,
+            "render": 3.05,
+            "frame": 90.72
+          }
+        },
+        "timingsMeanMs": {
+          "physics": 44.95,
+          "logic": 2.74,
+          "ui": 0.84,
+          "network": 0.05,
+          "culling": 0.45,
+          "render": 3.35,
+          "frame": 52.38
+        },
+        "physicsSteps": {
+          "last": 6,
+          "mean": 2.8
+        },
+        "pixelRatio": 2,
+        "gpu": {
+          "available": false
+        }
+      },
+      "invalid": [],
+      "start": {
+        "pose": {
+          "x": -1296.489,
+          "y": 20.102,
+          "z": -5627.172,
+          "heading": -0.384,
+          "linearSpeed": 0,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": false,
+          "driving": true,
+          "canyon": false
+        },
+        "assets": {
+          "vehicles": [
+            "ashhauler",
+            "bmwe30",
+            "bmwreward",
+            "cadillac75",
+            "citycourier",
+            "desertscout",
+            "foresthauler",
+            "koenigseggone1",
+            "lavacrawler",
+            "phoenixinterceptor",
+            "pickup",
+            "rover",
+            "snowgrip",
+            "snowrunner",
+            "van"
+          ],
+          "characters": [],
+          "geometries": 258,
+          "textures": 36,
+          "programs": 41
+        },
+        "renderQuality": null,
+        "rendererPixelRatio": 2,
+        "weather": {
+          "visible": false,
+          "fog": null
+        },
+        "gameplay": {
+          "mode": "driving",
+          "eventMode": null,
+          "selectedId": "pickup",
+          "testMode": true,
+          "pauseReasons": []
+        }
+      },
+      "end": {
+        "pose": {
+          "x": -1290.966,
+          "y": 20.098,
+          "z": -5640.948,
+          "heading": -0.384,
+          "linearSpeed": 3.135,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        "assets": {
+          "vehicles": [
+            "ashhauler",
+            "bmwe30",
+            "bmwreward",
+            "cadillac75",
+            "citycourier",
+            "desertscout",
+            "foresthauler",
+            "koenigseggone1",
+            "lavacrawler",
+            "phoenixinterceptor",
+            "pickup",
+            "rover",
+            "snowgrip",
+            "snowrunner",
+            "van"
+          ],
+          "characters": [],
+          "geometries": 273,
+          "textures": 36,
+          "programs": 42
+        },
+        "renderQuality": null,
+        "rendererPixelRatio": 2,
+        "weather": {
+          "visible": true,
+          "fog": {
+            "color": 13082988,
+            "near": 36,
+            "far": 150
+          }
+        },
+        "gameplay": {
+          "mode": "driving",
+          "eventMode": null,
+          "selectedId": "pickup",
+          "testMode": true,
+          "pauseReasons": []
+        }
+      },
+      "longTasks": [
+        {
+          "startTime": 169252.40000000224,
+          "duration": 106
+        },
+        {
+          "startTime": 169359.5,
+          "duration": 172
+        },
+        {
+          "startTime": 169532.70000000298,
+          "duration": 179
+        },
+        {
+          "startTime": 169712.5,
+          "duration": 165
+        },
+        {
+          "startTime": 169878.1000000015,
+          "duration": 196
+        },
+        {
+          "startTime": 170074.6000000015,
+          "duration": 143
+        },
+        {
+          "startTime": 170218.5,
+          "duration": 313
+        },
+        {
+          "startTime": 170537.80000000075,
+          "duration": 168
+        },
+        {
+          "startTime": 170712.30000000075,
+          "duration": 163
+        },
+        {
+          "startTime": 170881,
+          "duration": 146
+        },
+        {
+          "startTime": 171032.80000000075,
+          "duration": 130
+        },
+        {
+          "startTime": 171164.20000000298,
+          "duration": 134
+        },
+        {
+          "startTime": 171299.1000000015,
+          "duration": 133
+        },
+        {
+          "startTime": 171433.40000000224,
+          "duration": 141
+        },
+        {
+          "startTime": 171574.80000000075,
+          "duration": 138
+        },
+        {
+          "startTime": 171713.70000000298,
+          "duration": 137
+        },
+        {
+          "startTime": 171851.6000000015,
+          "duration": 120
+        },
+        {
+          "startTime": 171972.70000000298,
+          "duration": 120
+        },
+        {
+          "startTime": 172093.5,
+          "duration": 107
+        },
+        {
+          "startTime": 172200.90000000224,
+          "duration": 97
+        },
+        {
+          "startTime": 172298.70000000298,
+          "duration": 77
+        },
+        {
+          "startTime": 172376,
+          "duration": 73
+        },
+        {
+          "startTime": 172449.40000000224,
+          "duration": 68
+        },
+        {
+          "startTime": 174143.6000000015,
+          "duration": 67
+        },
+        {
+          "startTime": 174210.90000000224,
+          "duration": 68
+        },
+        {
+          "startTime": 174283.1000000015,
+          "duration": 65
+        },
+        {
+          "startTime": 174349.20000000298,
+          "duration": 70
+        },
+        {
+          "startTime": 174420.20000000298,
+          "duration": 86
+        },
+        {
+          "startTime": 174506.70000000298,
+          "duration": 87
+        },
+        {
+          "startTime": 174594.90000000224,
+          "duration": 94
+        },
+        {
+          "startTime": 174690,
+          "duration": 102
+        },
+        {
+          "startTime": 174792.20000000298,
+          "duration": 104
+        },
+        {
+          "startTime": 174897.30000000075,
+          "duration": 101
+        },
+        {
+          "startTime": 174999.20000000298,
+          "duration": 102
+        },
+        {
+          "startTime": 175102.30000000075,
+          "duration": 99
+        },
+        {
+          "startTime": 175202.1000000015,
+          "duration": 105
+        }
+      ],
+      "rafIntervalsMs": [
+        50,
+        100,
+        166.7,
+        183.3,
+        166.7,
+        200,
+        150,
+        300.1,
+        183.3,
+        166.6,
+        150.1,
+        133.3,
+        133.4,
+        149.9,
+        133.4,
+        133.3,
+        150,
+        116.7,
+        116.7,
+        116.6,
+        83.4,
+        83.3,
+        83.4,
+        66.5,
+        33.5,
+        50,
+        33.2,
+        33.4,
+        33.4,
+        33.3,
+        16.7,
+        33.3,
+        16.6,
+        16.7,
+        33.4,
+        16.6,
+        16.7,
+        33.3,
+        16.7,
+        16.7,
+        16.6,
+        16.7,
+        33.3,
+        16.7,
+        16.7,
+        16.6,
+        16.7,
+        16.6,
+        33.4,
+        16.7,
+        16.6,
+        16.7,
+        16.7,
+        16.6,
+        16.7,
+        16.7,
+        33.3,
+        16.6,
+        16.7,
+        16.7,
+        33.4,
+        16.6,
+        16.7,
+        16.6,
+        16.7,
+        33.3,
+        16.7,
+        16.7,
+        16.6,
+        16.7,
+        16.7,
+        33.3,
+        16.6,
+        16.8,
+        16.6,
+        16.7,
+        33.3,
+        16.7,
+        33.3,
+        16.7,
+        33.3,
+        16.7,
+        16.7,
+        16.6,
+        33.4,
+        16.6,
+        33.3,
+        16.7,
+        33.3,
+        16.7,
+        33.3,
+        16.7,
+        33.4,
+        16.6,
+        50,
+        66.7,
+        66.7,
+        66.6,
+        83.3,
+        83.4,
+        83.3,
+        100,
+        100,
+        100,
+        100.1,
+        116.6,
+        100,
+        100
+      ],
+      "poseSamples": [
+        {
+          "elapsedMs": 40.6,
+          "x": -1296.485,
+          "y": 20.101,
+          "z": -5627.181,
+          "heading": -0.384,
+          "linearSpeed": 0.281,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        {
+          "elapsedMs": 1007.3,
+          "x": -1296.075,
+          "y": 20.098,
+          "z": -5628.196,
+          "heading": -0.384,
+          "linearSpeed": 2.783,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        {
+          "elapsedMs": 2074.1,
+          "x": -1295.4,
+          "y": 20.098,
+          "z": -5629.864,
+          "heading": -0.384,
+          "linearSpeed": 3.106,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        {
+          "elapsedMs": 3074.1,
+          "x": -1294.482,
+          "y": 20.098,
+          "z": -5632.159,
+          "heading": -0.384,
+          "linearSpeed": 3.134,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        {
+          "elapsedMs": 4007.4,
+          "x": -1293.388,
+          "y": 20.098,
+          "z": -5634.893,
+          "heading": -0.384,
+          "linearSpeed": 3.135,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        {
+          "elapsedMs": 5057.5,
+          "x": -1292.157,
+          "y": 20.098,
+          "z": -5637.969,
+          "heading": -0.384,
+          "linearSpeed": 3.135,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        {
+          "elapsedMs": 6090.8,
+          "x": -1290.966,
+          "y": 20.098,
+          "z": -5640.948,
+          "heading": -0.384,
+          "linearSpeed": 3.135,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        }
+      ]
+    },
+    {
+      "name": "stable",
+      "startedAt": 175407,
+      "endedAt": 195645.80000000075,
+      "frames": {
+        "samples": 178,
+        "mean": 112.831,
+        "p50": 116.6,
+        "p95": 200.1,
+        "p99": 266.6,
+        "max": 266.6,
+        "total": 20084
+      },
+      "fps": 8.863,
+      "overBudget": {
+        "above16_67ms": 170,
+        "above33_34ms": 160,
+        "thresholdToleranceMs": 0.5
+      },
+      "renderer": {
+        "calls": {
+          "samples": 178,
+          "mean": 57,
+          "p50": 57,
+          "p95": 57,
+          "p99": 57,
+          "max": 57,
+          "total": 10146
+        },
+        "triangles": {
+          "samples": 178,
+          "mean": 32507.534,
+          "p50": 32538,
+          "p95": 32770,
+          "p99": 32782,
+          "max": 32794,
+          "total": 5786341
+        }
+      },
+      "externalGpu": {
+        "available": true,
+        "durationMs": {
+          "samples": 44,
+          "mean": 9.589,
+          "p50": 7.329,
+          "p95": 14.735,
+          "p99": 50.058,
+          "max": 50.058,
+          "total": 421.922
+        },
+        "sampleEveryRenders": 4,
+        "maxPending": 4,
+        "disjointDropped": 0,
+        "unresolvedAtEnd": 0,
+        "productTimerActiveSkipped": 0,
+        "note": "Asynchronous WebGL TIME_ELAPSED around renderer.render, including its shadow work; no nesting with application GPU timers."
+      },
+      "applicationProfiler": {
+        "mode": "optimized",
+        "samples": 178,
+        "elapsedSeconds": 20.08,
+        "fps": 8.86,
+        "frameMs": {
+          "p50": 116.7,
+          "p95": 200.1,
+          "p99": 266.6,
+          "max": 266.6,
+          "resolution": 0.1,
+          "overflow": {
+            "aboveMs": 2000,
+            "samples": 0
+          }
+        },
+        "renderCpuMeanMs": 4.11,
+        "roomCount": 1,
+        "loadedPeers": 0,
+        "render": {
+          "calls": 57,
+          "triangles": 32761
+        },
+        "memory": {
+          "geometries": 273,
+          "textures": 36
+        },
+        "spatial": {
+          "sourceBatches": 27,
+          "activeBatches": 5,
+          "cells": 1180,
+          "sourceTriangles": 135923,
+          "submittedTriangles": 2652,
+          "uploads": 123,
+          "zones": {
+            "registered": 48,
+            "visible": 4,
+            "hidden": 44
+          }
+        },
+        "userAgent": "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Mobile Safari/537.36",
+        "current": {
+          "fps": 4.76,
+          "samples": 5,
+          "elapsedSeconds": 1.05,
+          "frameMs": [
+            200.1,
+            183.3,
+            200,
+            266.6,
+            200.1
+          ],
+          "timingsMeanMs": {
+            "physics": 177.92,
+            "logic": 5.44,
+            "ui": 2.32,
+            "network": 0.08,
+            "culling": 0.76,
+            "render": 6.2,
+            "frame": 192.72
+          }
+        },
+        "timingsMeanMs": {
+          "physics": 97.77,
+          "logic": 3.43,
+          "ui": 1.23,
+          "network": 0.07,
+          "culling": 0.44,
+          "render": 3.67,
+          "frame": 106.62
+        },
+        "physicsSteps": {
+          "last": 6,
+          "mean": 5.36
+        },
+        "pixelRatio": 2,
+        "gpu": {
+          "available": false
+        }
+      },
+      "invalid": [],
+      "start": {
+        "pose": {
+          "x": -1290.966,
+          "y": 20.098,
+          "z": -5640.948,
+          "heading": -0.384,
+          "linearSpeed": 3.135,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        "assets": {
+          "vehicles": [
+            "ashhauler",
+            "bmwe30",
+            "bmwreward",
+            "cadillac75",
+            "citycourier",
+            "desertscout",
+            "foresthauler",
+            "koenigseggone1",
+            "lavacrawler",
+            "phoenixinterceptor",
+            "pickup",
+            "rover",
+            "snowgrip",
+            "snowrunner",
+            "van"
+          ],
+          "characters": [],
+          "geometries": 273,
+          "textures": 36,
+          "programs": 42
+        },
+        "renderQuality": null,
+        "rendererPixelRatio": 2,
+        "weather": {
+          "visible": true,
+          "fog": {
+            "color": 13082988,
+            "near": 36,
+            "far": 150
+          }
+        },
+        "gameplay": {
+          "mode": "driving",
+          "eventMode": null,
+          "selectedId": "pickup",
+          "testMode": true,
+          "pauseReasons": []
+        }
+      },
+      "end": {
+        "pose": {
+          "x": -1272.213,
+          "y": 20.401,
+          "z": -5687.684,
+          "heading": -0.384,
+          "linearSpeed": 3.094,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        "assets": {
+          "vehicles": [
+            "ashhauler",
+            "bmwe30",
+            "bmwreward",
+            "cadillac75",
+            "citycourier",
+            "desertscout",
+            "foresthauler",
+            "koenigseggone1",
+            "lavacrawler",
+            "phoenixinterceptor",
+            "pickup",
+            "rover",
+            "snowgrip",
+            "snowrunner",
+            "van"
+          ],
+          "characters": [],
+          "geometries": 273,
+          "textures": 36,
+          "programs": 42
+        },
+        "renderQuality": null,
+        "rendererPixelRatio": 2,
+        "weather": {
+          "visible": true,
+          "fog": {
+            "color": 13082988,
+            "near": 36,
+            "far": 150
+          }
+        },
+        "gameplay": {
+          "mode": "driving",
+          "eventMode": null,
+          "selectedId": "pickup",
+          "testMode": true,
+          "pauseReasons": []
+        }
+      },
+      "longTasks": [
+        {
+          "startTime": 175412.70000000298,
+          "duration": 102
+        },
+        {
+          "startTime": 175515.6000000015,
+          "duration": 102
+        },
+        {
+          "startTime": 175618.20000000298,
+          "duration": 105
+        },
+        {
+          "startTime": 175724.20000000298,
+          "duration": 102
+        },
+        {
+          "startTime": 175826.5,
+          "duration": 99
+        },
+        {
+          "startTime": 175925.80000000075,
+          "duration": 96
+        },
+        {
+          "startTime": 176022.80000000075,
+          "duration": 92
+        },
+        {
+          "startTime": 176115.40000000224,
+          "duration": 86
+        },
+        {
+          "startTime": 176201.6000000015,
+          "duration": 87
+        },
+        {
+          "startTime": 176288.70000000298,
+          "duration": 86
+        },
+        {
+          "startTime": 176375.30000000075,
+          "duration": 100
+        },
+        {
+          "startTime": 176476.20000000298,
+          "duration": 104
+        },
+        {
+          "startTime": 176580.70000000298,
+          "duration": 100
+        },
+        {
+          "startTime": 176681.40000000224,
+          "duration": 101
+        },
+        {
+          "startTime": 176782.90000000224,
+          "duration": 103
+        },
+        {
+          "startTime": 176887,
+          "duration": 100
+        },
+        {
+          "startTime": 176987.5,
+          "duration": 108
+        },
+        {
+          "startTime": 177096.30000000075,
+          "duration": 117
+        },
+        {
+          "startTime": 177213.80000000075,
+          "duration": 112
+        },
+        {
+          "startTime": 177326.30000000075,
+          "duration": 112
+        },
+        {
+          "startTime": 177439.5,
+          "duration": 117
+        },
+        {
+          "startTime": 177557.20000000298,
+          "duration": 115
+        },
+        {
+          "startTime": 177672.90000000224,
+          "duration": 114
+        },
+        {
+          "startTime": 177788.20000000298,
+          "duration": 117
+        },
+        {
+          "startTime": 177905.40000000224,
+          "duration": 114
+        },
+        {
+          "startTime": 178020.30000000075,
+          "duration": 115
+        },
+        {
+          "startTime": 178136.30000000075,
+          "duration": 119
+        },
+        {
+          "startTime": 178256.40000000224,
+          "duration": 114
+        },
+        {
+          "startTime": 178370.80000000075,
+          "duration": 115
+        },
+        {
+          "startTime": 178486.70000000298,
+          "duration": 117
+        },
+        {
+          "startTime": 178604,
+          "duration": 114
+        },
+        {
+          "startTime": 178718.70000000298,
+          "duration": 115
+        },
+        {
+          "startTime": 178834.20000000298,
+          "duration": 119
+        },
+        {
+          "startTime": 178953.70000000298,
+          "duration": 115
+        },
+        {
+          "startTime": 179068.90000000224,
+          "duration": 117
+        },
+        {
+          "startTime": 179186.90000000224,
+          "duration": 181
+        },
+        {
+          "startTime": 179368.80000000075,
+          "duration": 136
+        },
+        {
+          "startTime": 179509,
+          "duration": 138
+        },
+        {
+          "startTime": 179647.80000000075,
+          "duration": 136
+        },
+        {
+          "startTime": 179784.5,
+          "duration": 138
+        },
+        {
+          "startTime": 179923.6000000015,
+          "duration": 134
+        },
+        {
+          "startTime": 180058.70000000298,
+          "duration": 136
+        },
+        {
+          "startTime": 180195.40000000224,
+          "duration": 137
+        },
+        {
+          "startTime": 180332.80000000075,
+          "duration": 134
+        },
+        {
+          "startTime": 180467.6000000015,
+          "duration": 131
+        },
+        {
+          "startTime": 180599.40000000224,
+          "duration": 136
+        },
+        {
+          "startTime": 180735.70000000298,
+          "duration": 129
+        },
+        {
+          "startTime": 180865,
+          "duration": 117
+        },
+        {
+          "startTime": 180982.70000000298,
+          "duration": 115
+        },
+        {
+          "startTime": 181098.1000000015,
+          "duration": 114
+        },
+        {
+          "startTime": 181212.90000000224,
+          "duration": 117
+        },
+        {
+          "startTime": 181330.30000000075,
+          "duration": 114
+        },
+        {
+          "startTime": 181444.70000000298,
+          "duration": 114
+        },
+        {
+          "startTime": 181559.70000000298,
+          "duration": 115
+        },
+        {
+          "startTime": 181675.40000000224,
+          "duration": 113
+        },
+        {
+          "startTime": 181788.70000000298,
+          "duration": 116
+        },
+        {
+          "startTime": 181905.70000000298,
+          "duration": 116
+        },
+        {
+          "startTime": 182023.20000000298,
+          "duration": 116
+        },
+        {
+          "startTime": 182140.30000000075,
+          "duration": 114
+        },
+        {
+          "startTime": 182255.20000000298,
+          "duration": 116
+        },
+        {
+          "startTime": 182372.40000000224,
+          "duration": 113
+        },
+        {
+          "startTime": 182486.5,
+          "duration": 114
+        },
+        {
+          "startTime": 182601.1000000015,
+          "duration": 107
+        },
+        {
+          "startTime": 182709.30000000075,
+          "duration": 100
+        },
+        {
+          "startTime": 182810.30000000075,
+          "duration": 101
+        },
+        {
+          "startTime": 182911.90000000224,
+          "duration": 113
+        },
+        {
+          "startTime": 183025.40000000224,
+          "duration": 99
+        },
+        {
+          "startTime": 183125.30000000075,
+          "duration": 86
+        },
+        {
+          "startTime": 183212.20000000298,
+          "duration": 88
+        },
+        {
+          "startTime": 183300.40000000224,
+          "duration": 99
+        },
+        {
+          "startTime": 183402.30000000075,
+          "duration": 137
+        },
+        {
+          "startTime": 183540.30000000075,
+          "duration": 116
+        },
+        {
+          "startTime": 183659.6000000015,
+          "duration": 111
+        },
+        {
+          "startTime": 183770.80000000075,
+          "duration": 111
+        },
+        {
+          "startTime": 183883.30000000075,
+          "duration": 114
+        },
+        {
+          "startTime": 183997.80000000075,
+          "duration": 112
+        },
+        {
+          "startTime": 184110.40000000224,
+          "duration": 112
+        },
+        {
+          "startTime": 184223.1000000015,
+          "duration": 114
+        },
+        {
+          "startTime": 184338.30000000075,
+          "duration": 111
+        },
+        {
+          "startTime": 184449.5,
+          "duration": 111
+        },
+        {
+          "startTime": 184560.90000000224,
+          "duration": 106
+        },
+        {
+          "startTime": 184667.6000000015,
+          "duration": 98
+        },
+        {
+          "startTime": 184765.90000000224,
+          "duration": 69
+        },
+        {
+          "startTime": 184835.30000000075,
+          "duration": 101
+        },
+        {
+          "startTime": 184937.40000000224,
+          "duration": 84
+        },
+        {
+          "startTime": 185021.90000000224,
+          "duration": 84
+        },
+        {
+          "startTime": 185106.6000000015,
+          "duration": 84
+        },
+        {
+          "startTime": 185191.80000000075,
+          "duration": 100
+        },
+        {
+          "startTime": 185292,
+          "duration": 83
+        },
+        {
+          "startTime": 185376.1000000015,
+          "duration": 87
+        },
+        {
+          "startTime": 185463.30000000075,
+          "duration": 83
+        },
+        {
+          "startTime": 185547,
+          "duration": 84
+        },
+        {
+          "startTime": 185631.70000000298,
+          "duration": 84
+        },
+        {
+          "startTime": 185716.70000000298,
+          "duration": 105
+        },
+        {
+          "startTime": 185822.5,
+          "duration": 128
+        },
+        {
+          "startTime": 185951.6000000015,
+          "duration": 158
+        },
+        {
+          "startTime": 186110,
+          "duration": 154
+        },
+        {
+          "startTime": 186265.20000000298,
+          "duration": 159
+        },
+        {
+          "startTime": 186424.5,
+          "duration": 152
+        },
+        {
+          "startTime": 186577.5,
+          "duration": 146
+        },
+        {
+          "startTime": 186724.5,
+          "duration": 129
+        },
+        {
+          "startTime": 186853.90000000224,
+          "duration": 129
+        },
+        {
+          "startTime": 186983.6000000015,
+          "duration": 126
+        },
+        {
+          "startTime": 187110.70000000298,
+          "duration": 131
+        },
+        {
+          "startTime": 187242,
+          "duration": 114
+        },
+        {
+          "startTime": 187356.30000000075,
+          "duration": 115
+        },
+        {
+          "startTime": 187471.6000000015,
+          "duration": 111
+        },
+        {
+          "startTime": 187583.5,
+          "duration": 112
+        },
+        {
+          "startTime": 187696.1000000015,
+          "duration": 114
+        },
+        {
+          "startTime": 187810.80000000075,
+          "duration": 111
+        },
+        {
+          "startTime": 187922.90000000224,
+          "duration": 109
+        },
+        {
+          "startTime": 188032.5,
+          "duration": 113
+        },
+        {
+          "startTime": 188146.70000000298,
+          "duration": 115
+        },
+        {
+          "startTime": 188262.1000000015,
+          "duration": 110
+        },
+        {
+          "startTime": 188373.1000000015,
+          "duration": 103
+        },
+        {
+          "startTime": 188476.70000000298,
+          "duration": 100
+        },
+        {
+          "startTime": 188577.5,
+          "duration": 84
+        },
+        {
+          "startTime": 188662.1000000015,
+          "duration": 87
+        },
+        {
+          "startTime": 188750.30000000075,
+          "duration": 103
+        },
+        {
+          "startTime": 188853.5,
+          "duration": 99
+        },
+        {
+          "startTime": 188953,
+          "duration": 105
+        },
+        {
+          "startTime": 189058.30000000075,
+          "duration": 101
+        },
+        {
+          "startTime": 189159.6000000015,
+          "duration": 102
+        },
+        {
+          "startTime": 189262,
+          "duration": 84
+        },
+        {
+          "startTime": 189346.30000000075,
+          "duration": 76
+        },
+        {
+          "startTime": 189423.30000000075,
+          "duration": 70
+        },
+        {
+          "startTime": 189493.80000000075,
+          "duration": 57
+        },
+        {
+          "startTime": 189551.5,
+          "duration": 64
+        },
+        {
+          "startTime": 190125.90000000224,
+          "duration": 87
+        },
+        {
+          "startTime": 190213.6000000015,
+          "duration": 67
+        },
+        {
+          "startTime": 190284.30000000075,
+          "duration": 70
+        },
+        {
+          "startTime": 190354.80000000075,
+          "duration": 110
+        },
+        {
+          "startTime": 190466.30000000075,
+          "duration": 135
+        },
+        {
+          "startTime": 190602.5,
+          "duration": 152
+        },
+        {
+          "startTime": 190755.70000000298,
+          "duration": 142
+        },
+        {
+          "startTime": 190898.30000000075,
+          "duration": 159
+        },
+        {
+          "startTime": 191057.90000000224,
+          "duration": 165
+        },
+        {
+          "startTime": 191224,
+          "duration": 162
+        },
+        {
+          "startTime": 191386.40000000224,
+          "duration": 167
+        },
+        {
+          "startTime": 191554.70000000298,
+          "duration": 161
+        },
+        {
+          "startTime": 191716.5,
+          "duration": 159
+        },
+        {
+          "startTime": 191876.30000000075,
+          "duration": 155
+        },
+        {
+          "startTime": 192032.90000000224,
+          "duration": 163
+        },
+        {
+          "startTime": 192197.1000000015,
+          "duration": 167
+        },
+        {
+          "startTime": 192365.20000000298,
+          "duration": 166
+        },
+        {
+          "startTime": 192532.5,
+          "duration": 189
+        },
+        {
+          "startTime": 192722.70000000298,
+          "duration": 195
+        },
+        {
+          "startTime": 192919.1000000015,
+          "duration": 188
+        },
+        {
+          "startTime": 193107.90000000224,
+          "duration": 172
+        },
+        {
+          "startTime": 193280.5,
+          "duration": 249
+        },
+        {
+          "startTime": 193530.1000000015,
+          "duration": 212
+        },
+        {
+          "startTime": 193743.40000000224,
+          "duration": 260
+        },
+        {
+          "startTime": 194004.40000000224,
+          "duration": 219
+        },
+        {
+          "startTime": 194224.40000000224,
+          "duration": 211
+        },
+        {
+          "startTime": 194436.30000000075,
+          "duration": 198
+        },
+        {
+          "startTime": 194634.70000000298,
+          "duration": 191
+        },
+        {
+          "startTime": 194826.5,
+          "duration": 204
+        },
+        {
+          "startTime": 195031.40000000224,
+          "duration": 254
+        },
+        {
+          "startTime": 195287,
+          "duration": 199
+        }
+      ],
+      "rafIntervalsMs": [
+        100,
+        116.7,
+        100,
+        100,
+        100,
+        100,
+        83.4,
+        99.9,
+        83.3,
+        83.4,
+        100,
+        100,
+        100,
+        100.1,
+        116.6,
+        100,
+        100,
+        116.7,
+        116.6,
+        116.7,
+        116.7,
+        116.6,
+        116.7,
+        116.7,
+        116.7,
+        116.6,
+        116.7,
+        116.7,
+        116.6,
+        116.7,
+        116.7,
+        116.6,
+        116.8,
+        116.6,
+        116.7,
+        183.3,
+        133.3,
+        133.4,
+        150,
+        133.4,
+        133.3,
+        133.3,
+        133.3,
+        150.1,
+        116.6,
+        150,
+        116.6,
+        116.7,
+        116.7,
+        116.7,
+        116.6,
+        116.7,
+        116.7,
+        116.7,
+        116.6,
+        116.7,
+        116.7,
+        116.7,
+        116.7,
+        116.6,
+        116.7,
+        116.6,
+        100,
+        100.1,
+        100,
+        116.7,
+        99.9,
+        83.3,
+        100.1,
+        99.9,
+        133.4,
+        116.7,
+        116.6,
+        116.7,
+        100.1,
+        116.6,
+        116.6,
+        116.7,
+        100.1,
+        116.6,
+        116.7,
+        83.3,
+        83.4,
+        99.9,
+        83.4,
+        83.3,
+        83.4,
+        99.9,
+        83.4,
+        83.3,
+        83.3,
+        83.4,
+        100,
+        100,
+        133.3,
+        150,
+        150.1,
+        166.6,
+        150,
+        150,
+        133.4,
+        133.3,
+        116.7,
+        133.3,
+        116.7,
+        116.6,
+        116.7,
+        100,
+        116.6,
+        116.7,
+        100,
+        116.8,
+        116.7,
+        116.6,
+        100,
+        99.9,
+        83.4,
+        100,
+        100,
+        100,
+        100,
+        100.1,
+        99.9,
+        83.4,
+        83.3,
+        66.7,
+        66.7,
+        50,
+        50,
+        33.3,
+        33.4,
+        33.2,
+        16.8,
+        33.3,
+        33.3,
+        16.7,
+        33.3,
+        16.7,
+        33.3,
+        16.6,
+        16.7,
+        16.7,
+        16.7,
+        33.3,
+        16.6,
+        33.4,
+        33.4,
+        83.2,
+        66.7,
+        83.4,
+        100,
+        149.9,
+        150,
+        133.4,
+        166.7,
+        166.7,
+        166.7,
+        166.6,
+        150,
+        166.7,
+        150,
+        166.7,
+        166.7,
+        166.6,
+        200,
+        200.1,
+        183.3,
+        166.6,
+        250,
+        216.7,
+        266.6,
+        216.8,
+        216.6,
+        200.1,
+        183.3,
+        200,
+        266.6,
+        200.1
+      ],
+      "poseSamples": [
+        {
+          "elapsedMs": 91.8,
+          "x": -1290.732,
+          "y": 20.098,
+          "z": -5641.534,
+          "heading": -0.384,
+          "linearSpeed": 3.135,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        {
+          "elapsedMs": 1058.5,
+          "x": -1289.618,
+          "y": 20.098,
+          "z": -5644.317,
+          "heading": -0.384,
+          "linearSpeed": 3.135,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        {
+          "elapsedMs": 2025.2,
+          "x": -1288.564,
+          "y": 20.098,
+          "z": -5646.954,
+          "heading": -0.384,
+          "linearSpeed": 3.135,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        {
+          "elapsedMs": 3075.2,
+          "x": -1287.509,
+          "y": 20.098,
+          "z": -5649.59,
+          "heading": -0.384,
+          "linearSpeed": 3.135,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        {
+          "elapsedMs": 4091.9,
+          "x": -1286.572,
+          "y": 20.098,
+          "z": -5651.934,
+          "heading": -0.384,
+          "linearSpeed": 3.135,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        {
+          "elapsedMs": 5058.7,
+          "x": -1285.751,
+          "y": 20.098,
+          "z": -5653.985,
+          "heading": -0.384,
+          "linearSpeed": 3.135,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        {
+          "elapsedMs": 6025.3,
+          "x": -1284.813,
+          "y": 20.1,
+          "z": -5656.329,
+          "heading": -0.384,
+          "linearSpeed": 3.133,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        {
+          "elapsedMs": 7075.4,
+          "x": -1283.759,
+          "y": 20.103,
+          "z": -5658.966,
+          "heading": -0.384,
+          "linearSpeed": 3.132,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        {
+          "elapsedMs": 8125.4,
+          "x": -1282.645,
+          "y": 20.111,
+          "z": -5661.75,
+          "heading": -0.384,
+          "linearSpeed": 3.127,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        {
+          "elapsedMs": 9025.5,
+          "x": -1281.707,
+          "y": 20.118,
+          "z": -5664.095,
+          "heading": -0.384,
+          "linearSpeed": 3.126,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        {
+          "elapsedMs": 10042.1,
+          "x": -1280.574,
+          "y": 20.134,
+          "z": -5666.927,
+          "heading": -0.384,
+          "linearSpeed": 3.118,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        {
+          "elapsedMs": 11008.8,
+          "x": -1279.675,
+          "y": 20.15,
+          "z": -5669.174,
+          "heading": -0.384,
+          "linearSpeed": 3.118,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        {
+          "elapsedMs": 12058.8,
+          "x": -1278.738,
+          "y": 20.169,
+          "z": -5671.519,
+          "heading": -0.384,
+          "linearSpeed": 3.112,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        {
+          "elapsedMs": 13058.9,
+          "x": -1277.682,
+          "y": 20.198,
+          "z": -5674.157,
+          "heading": -0.384,
+          "linearSpeed": 3.109,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        {
+          "elapsedMs": 14008.9,
+          "x": -1276.608,
+          "y": 20.229,
+          "z": -5676.843,
+          "heading": -0.384,
+          "linearSpeed": 3.105,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        {
+          "elapsedMs": 15042.3,
+          "x": -1275.377,
+          "y": 20.274,
+          "z": -5679.92,
+          "heading": -0.384,
+          "linearSpeed": 3.1,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        {
+          "elapsedMs": 16142.3,
+          "x": -1274.557,
+          "y": 20.304,
+          "z": -5681.971,
+          "heading": -0.384,
+          "linearSpeed": 3.099,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        {
+          "elapsedMs": 17109,
+          "x": -1273.853,
+          "y": 20.333,
+          "z": -5683.71,
+          "heading": -0.384,
+          "linearSpeed": 3.095,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        {
+          "elapsedMs": 18109,
+          "x": -1273.267,
+          "y": 20.357,
+          "z": -5685.131,
+          "heading": -0.384,
+          "linearSpeed": 3.095,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        {
+          "elapsedMs": 19025.7,
+          "x": -1272.798,
+          "y": 20.377,
+          "z": -5686.269,
+          "heading": -0.384,
+          "linearSpeed": 3.095,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        },
+        {
+          "elapsedMs": 20075.8,
+          "x": -1272.213,
+          "y": 20.401,
+          "z": -5687.684,
+          "heading": -0.384,
+          "linearSpeed": 3.094,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "resourceErrors": [],
+  "failedResources": [],
+  "limitations": [
+    "RAF intervals measure presentation cadence on this browser, not GPU duration.",
+    "CPU render time measures command submission and may exclude GPU execution.",
+    "No isolated shader compilation timing. Warmup retains startup stalls; stable phase resets aggregates.",
+    "Use external browser console/network logs to include errors before harness installation.",
+    "Pose controller drives the actual vehicle; invalid scene/recovery flags must be checked before comparison.",
+    "Fleet is fully loaded when preloadVehicles=true; character displays follow normal nearby progressive loading."
+  ]
+}

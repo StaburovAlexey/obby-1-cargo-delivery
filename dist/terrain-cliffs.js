@@ -42,7 +42,9 @@ export function createTerrainCliffs(THREE,surfaces,{heightOffset=0,biomeAt,bridg
   snow:[0xc4c9c8,0x8c9396,0x727e86,0x4c5865],
   volcanic:[0x51423c,0x665047,0x474249,0x302f37],
  };
- const depths=[0,.65,3,7,13,22,34,48];
+ // Retain the soil lip and broad rock relief without seven deep visual bands.
+ // The complete exposed top-edge source below remains independent of this LOD.
+ const depths=[0,.65,13,48];
  const color=new THREE.Color();
  const noise=(x,z)=>Math.sin(x*.31+z*.17)*Math.cos(z*.23-x*.13);
  // World-space displacement makes adjacent segments meet, including corners.
@@ -65,13 +67,13 @@ export function createTerrainCliffs(THREE,surfaces,{heightOffset=0,biomeAt,bridg
   for(let step=0;step<steps;step++){
    const left=sample(step/steps),right=sample((step+1)/steps);
    // Preserve every original collision edge, including invisible perimeter
-   // walls. Store only the two float32 top endpoints, not all seven strata.
+   // walls. Store only the two float32 top endpoints, independently of strata.
    physicsEdges.push(...point(right,0),...point(left,0));
    if(!render)continue;
    for(let layer=0;layer<depths.length-1;layer++){
     const top=depths[layer],bottom=depths[layer+1],base=positions.length/3;
     const vertices=[point(right,top),point(left,top),point(left,bottom),point(right,bottom)];
-    color.setHex(palette[layer===0?0:layer<3?1:layer<5?2:3]);
+    color.setHex(palette[layer===0?0:layer===1?1:2]);
     color.multiplyScalar(1+noise((left[0]+right[0])/2,(left[2]+right[2])/2+layer*9)*.13);
     for(const v of vertices){positions.push(...v);colors.push(color.r,color.g,color.b);}
     indices.push(base,base+1,base+2,base,base+2,base+3);

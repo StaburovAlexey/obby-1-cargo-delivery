@@ -1,0 +1,3198 @@
+{
+  "schema": "obby-fps60-v1",
+  "timestamp": "2026-10-24T17:09:21.923Z",
+  "url": "http://127.0.0.1:8095/?dev=1&perf=1",
+  "state": "complete",
+  "prepared": "desert",
+  "phase": "stable",
+  "elapsedMs": 51115.5,
+  "currentMotion": {
+    "speed": 0.05,
+    "driftIntensity": 0,
+    "distanceMeters": 60.374,
+    "stalledForMs": 0,
+    "driftTimeFraction": 0
+  },
+  "phasesComplete": [
+    "warmup",
+    "stable"
+  ],
+  "reportReady": true,
+  "config": {
+    "scene": "desert",
+    "motion": "drive",
+    "warmupMs": 6000,
+    "sampleMs": 20000,
+    "preloadVehicles": true,
+    "vehicleId": null,
+    "speedDemand": 0.38,
+    "roadStart": null,
+    "hangarAnchor": null,
+    "canyonSpeedDemand": 0.55,
+    "canyonStart": 300,
+    "canyonDriftPeriodMs": 4500,
+    "canyonKickMs": 400,
+    "canyonCountersteerMs": 350,
+    "canyonKickSteering": 0.8,
+    "canyonKickHandbrake": 1,
+    "canyonYawDamping": 0.6,
+    "gpu": true,
+    "profile": "phone-844x390-dpr2-emulated",
+    "label": "baseline-clean-timer"
+  },
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Mobile Safari/537.36",
+    "platform": "Linux x86_64",
+    "hardwareConcurrency": 20,
+    "deviceMemoryGiB": 16,
+    "maxTouchPoints": 1,
+    "viewport": {
+      "width": 844,
+      "height": 390,
+      "devicePixelRatio": 2,
+      "renderPixelRatio": 2,
+      "drawingBuffer": [
+        1688,
+        780
+      ]
+    },
+    "visibilityState": "visible",
+    "focused": true,
+    "appFocused": true,
+    "webgl": {
+      "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (RPL-P), OpenGL 4.6)",
+      "vendor": "Google Inc. (Intel)",
+      "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "softwareRenderer": false,
+      "timerQueryExtensionPresent": true
+    },
+    "diagnosticGlobals": {
+      "devServer": true,
+      "development": true,
+      "multiplayerUrl": ""
+    },
+    "claimLimit": "This machine and browser only. Mobile viewport emulation is not Android hardware/FPS evidence.",
+    "gpuTiming": "Use application profiler GPU report when available. Extension presence alone is not a GPU timing measurement.",
+    "shaderCompilation": "No isolated shader compile measurement. Program counts and cold/warm frame intervals are recorded."
+  },
+  "phases": [
+    {
+      "name": "warmup",
+      "startedAt": 22333.5,
+      "endedAt": 28374.60000000149,
+      "frames": {
+        "samples": 184,
+        "mean": 32.79,
+        "p50": 33.3,
+        "p95": 83.3,
+        "p99": 100.1,
+        "max": 116.6,
+        "total": 6033.3
+      },
+      "fps": 30.497,
+      "overBudget": {
+        "above16_67ms": 111,
+        "above33_34ms": 28,
+        "thresholdToleranceMs": 0.5
+      },
+      "renderer": {
+        "calls": {
+          "samples": 184,
+          "mean": 57.054,
+          "p50": 57,
+          "p95": 57,
+          "p99": 68,
+          "max": 68,
+          "total": 10498
+        },
+        "triangles": {
+          "samples": 184,
+          "mean": 33726.033,
+          "p50": 32560,
+          "p95": 43961,
+          "p99": 53973,
+          "max": 54685,
+          "total": 6205590
+        }
+      },
+      "externalGpu": {
+        "available": true,
+        "durationMs": {
+          "samples": 46,
+          "mean": 4.936,
+          "p50": 4.996,
+          "p95": 6.839,
+          "p99": 8.605,
+          "max": 8.605,
+          "total": 227.036
+        },
+        "sampleEveryRenders": 4,
+        "maxPending": 4,
+        "disjointDropped": 0,
+        "unresolvedAtEnd": 0,
+        "productTimerActiveSkipped": 0,
+        "note": "Asynchronous WebGL TIME_ELAPSED around renderer.render, including its shadow work; no nesting with application GPU timers."
+      },
+      "applicationProfiler": {
+        "mode": "optimized",
+        "samples": 184,
+        "elapsedSeconds": 6.03,
+        "fps": 30.5,
+        "frameMs": {
+          "p50": 33.3,
+          "p95": 83.4,
+          "p99": 100.1,
+          "max": 116.6,
+          "resolution": 0.1,
+          "overflow": {
+            "aboveMs": 2000,
+            "samples": 0
+          }
+        },
+        "renderCpuMeanMs": 2.97,
+        "roomCount": 1,
+        "loadedPeers": 0,
+        "render": {
+          "calls": 57,
+          "triangles": 32698
+        },
+        "memory": {
+          "geometries": 273,
+          "textures": 32
+        },
+        "spatial": {
+          "sourceBatches": 27,
+          "activeBatches": 4,
+          "cells": 1180,
+          "sourceTriangles": 135923,
+          "submittedTriangles": 2783,
+          "uploads": 157,
+          "zones": {
+            "registered": 48,
+            "visible": 4,
+            "hidden": 44
+          }
+        },
+        "userAgent": "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Mobile Safari/537.36",
+        "current": {
+          "fps": 36.56,
+          "samples": 39,
+          "elapsedSeconds": 1.07,
+          "frameMs": [
+            83.3,
+            66.7,
+            66.7,
+            50,
+            33.3,
+            33.4,
+            33.3,
+            33.4,
+            16.6,
+            33.3,
+            16.7,
+            33.3,
+            16.7,
+            16.7,
+            16.6,
+            33.4,
+            16.7,
+            33.3,
+            16.6,
+            16.7,
+            16.7,
+            33.3,
+            16.6,
+            16.7,
+            16.7,
+            16.7,
+            33.3,
+            16.6,
+            16.7,
+            33.4,
+            16.6,
+            16.7,
+            33.3,
+            16.7,
+            16.6,
+            16.7,
+            16.7,
+            33.4,
+            16.6
+          ],
+          "timingsMeanMs": {
+            "physics": 17.27,
+            "logic": 2.11,
+            "ui": 0.63,
+            "network": 0.04,
+            "culling": 0.28,
+            "render": 2.19,
+            "frame": 22.52
+          }
+        },
+        "timingsMeanMs": {
+          "physics": 23.04,
+          "logic": 2.35,
+          "ui": 0.69,
+          "network": 0.05,
+          "culling": 0.35,
+          "render": 2.62,
+          "frame": 29.1
+        },
+        "physicsSteps": {
+          "last": 1,
+          "mean": 1.96
+        },
+        "pixelRatio": 2,
+        "gpu": {
+          "available": false
+        }
+      },
+      "motion": {
+        "distanceMeters": 17.944,
+        "movingTimeFraction": 0.972,
+        "driftTimeFraction": 0,
+        "meanLinearSpeed": 2.972,
+        "maxLinearSpeed": 3.135,
+        "maxAbsSlipAngle": 0,
+        "maxDriftIntensity": 0,
+        "peakSmokeCount": 0,
+        "maxStallMs": 166.6,
+        "thresholds": {
+          "movingSpeed": 1,
+          "minimumMovingTimeFraction": 0.5,
+          "minimumDistanceMetersPerSecond": 0.5,
+          "maxStallMs": 3000,
+          "driftSpeed": 3,
+          "driftIntensity": 0.08,
+          "minimumDriftTimeFraction": 0.05
+        }
+      },
+      "invalid": [],
+      "start": {
+        "pose": {
+          "x": -1296.489,
+          "y": 20.102,
+          "z": -5627.172,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 0,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": false,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": false,
+            "speedDemand": null,
+            "steering": 0,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 0,
+            "totalWheels": 0
+          },
+          "smokeCount": 0,
+          "skidCount": 0
+        },
+        "assets": {
+          "vehicles": [
+            "ashhauler",
+            "bmwe30",
+            "bmwreward",
+            "cadillac75",
+            "citycourier",
+            "desertscout",
+            "foresthauler",
+            "koenigseggone1",
+            "lavacrawler",
+            "phoenixinterceptor",
+            "pickup",
+            "rover",
+            "snowgrip",
+            "snowrunner",
+            "van"
+          ],
+          "characters": [],
+          "geometries": 272,
+          "textures": 32,
+          "programs": 41
+        },
+        "hangarAnchor": null,
+        "renderQuality": null,
+        "rendererPixelRatio": 2,
+        "weather": {
+          "visible": true,
+          "fog": {
+            "color": 3972605,
+            "near": 488.99657142857234,
+            "far": 1565.6142857142886
+          }
+        },
+        "gameplay": {
+          "mode": "driving",
+          "eventMode": null,
+          "selectedId": "pickup",
+          "fuel": 100,
+          "player": {
+            "x": 0,
+            "z": 60,
+            "heading": 0
+          },
+          "testMode": true,
+          "pauseReasons": []
+        }
+      },
+      "end": {
+        "pose": {
+          "x": -1289.814,
+          "y": 20.098,
+          "z": -5643.829,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.135,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.004,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0
+        },
+        "assets": {
+          "vehicles": [
+            "ashhauler",
+            "bmwe30",
+            "bmwreward",
+            "cadillac75",
+            "citycourier",
+            "desertscout",
+            "foresthauler",
+            "koenigseggone1",
+            "lavacrawler",
+            "phoenixinterceptor",
+            "pickup",
+            "rover",
+            "snowgrip",
+            "snowrunner",
+            "van"
+          ],
+          "characters": [],
+          "geometries": 273,
+          "textures": 32,
+          "programs": 42
+        },
+        "hangarAnchor": null,
+        "renderQuality": null,
+        "rendererPixelRatio": 2,
+        "weather": {
+          "visible": true,
+          "fog": {
+            "color": 13082988,
+            "near": 36,
+            "far": 150
+          }
+        },
+        "gameplay": {
+          "mode": "driving",
+          "eventMode": null,
+          "selectedId": "pickup",
+          "fuel": 81.437,
+          "player": {
+            "x": 0,
+            "z": 60,
+            "heading": 0
+          },
+          "testMode": true,
+          "pauseReasons": []
+        }
+      },
+      "longTasks": [
+        {
+          "startTime": 25712.5,
+          "duration": 53
+        },
+        {
+          "startTime": 25765.70000000298,
+          "duration": 52
+        },
+        {
+          "startTime": 25818.60000000149,
+          "duration": 51
+        },
+        {
+          "startTime": 25870,
+          "duration": 52
+        },
+        {
+          "startTime": 25922.60000000149,
+          "duration": 56
+        },
+        {
+          "startTime": 25979.70000000298,
+          "duration": 59
+        },
+        {
+          "startTime": 26039.70000000298,
+          "duration": 65
+        },
+        {
+          "startTime": 26105.60000000149,
+          "duration": 71
+        },
+        {
+          "startTime": 26176.800000000745,
+          "duration": 70
+        },
+        {
+          "startTime": 26247.5,
+          "duration": 90
+        },
+        {
+          "startTime": 26337.800000000745,
+          "duration": 101
+        },
+        {
+          "startTime": 26439.10000000149,
+          "duration": 102
+        },
+        {
+          "startTime": 26541.60000000149,
+          "duration": 87
+        },
+        {
+          "startTime": 26629.300000000745,
+          "duration": 86
+        },
+        {
+          "startTime": 26716.300000000745,
+          "duration": 102
+        },
+        {
+          "startTime": 26819.300000000745,
+          "duration": 88
+        },
+        {
+          "startTime": 26908,
+          "duration": 85
+        },
+        {
+          "startTime": 26993.800000000745,
+          "duration": 84
+        },
+        {
+          "startTime": 27078.800000000745,
+          "duration": 104
+        },
+        {
+          "startTime": 27183.10000000149,
+          "duration": 98
+        },
+        {
+          "startTime": 27281.900000002235,
+          "duration": 89
+        },
+        {
+          "startTime": 27371.900000002235,
+          "duration": 59
+        },
+        {
+          "startTime": 27431.300000000745,
+          "duration": 68
+        },
+        {
+          "startTime": 27500.20000000298,
+          "duration": 52
+        }
+      ],
+      "rafIntervalsMs": [
+        50,
+        33.3,
+        33.4,
+        33.2,
+        16.7,
+        16.7,
+        33.4,
+        33.3,
+        33.3,
+        33.3,
+        16.7,
+        16.7,
+        33.3,
+        33.4,
+        33.2,
+        33.4,
+        33.3,
+        33.4,
+        33.3,
+        33.4,
+        33.2,
+        16.7,
+        16.8,
+        33.3,
+        33.2,
+        16.8,
+        33.3,
+        16.7,
+        33.3,
+        16.6,
+        16.7,
+        16.7,
+        33.3,
+        33.4,
+        33.3,
+        16.7,
+        33.3,
+        33.3,
+        16.7,
+        33.4,
+        33.2,
+        16.8,
+        33.3,
+        33.3,
+        33.3,
+        33.4,
+        33.3,
+        16.7,
+        33.3,
+        16.6,
+        16.7,
+        16.7,
+        16.7,
+        33.3,
+        16.6,
+        33.3,
+        33.4,
+        16.7,
+        33.3,
+        16.7,
+        33.3,
+        16.7,
+        16.6,
+        33.4,
+        16.6,
+        33.4,
+        16.7,
+        33.2,
+        16.8,
+        33.3,
+        16.7,
+        33.3,
+        16.6,
+        16.8,
+        33.3,
+        33.2,
+        16.8,
+        33.3,
+        33.3,
+        16.7,
+        33.3,
+        16.7,
+        33.3,
+        16.6,
+        33.4,
+        16.7,
+        33.3,
+        16.7,
+        33.3,
+        16.7,
+        16.6,
+        33.4,
+        16.7,
+        33.3,
+        16.7,
+        33.3,
+        16.7,
+        33.3,
+        16.7,
+        33.3,
+        16.7,
+        33.3,
+        16.6,
+        16.7,
+        16.7,
+        16.6,
+        16.7,
+        16.7,
+        33.3,
+        16.7,
+        33.3,
+        16.7,
+        33.3,
+        33.4,
+        33.3,
+        33.3,
+        33.4,
+        50,
+        50,
+        33.2,
+        33.4,
+        33.4,
+        49.9,
+        33.4,
+        33.4,
+        66.6,
+        50,
+        50,
+        50,
+        50,
+        66.6,
+        66.7,
+        66.7,
+        83.3,
+        83.4,
+        100,
+        99.9,
+        83.3,
+        100.1,
+        99.9,
+        83.4,
+        83.3,
+        83.4,
+        116.6,
+        100,
+        83.3,
+        66.7,
+        66.7,
+        50,
+        33.3,
+        33.4,
+        33.3,
+        33.4,
+        16.6,
+        33.3,
+        16.7,
+        33.3,
+        16.7,
+        16.7,
+        16.6,
+        33.4,
+        16.7,
+        33.3,
+        16.6,
+        16.7,
+        16.7,
+        33.3,
+        16.6,
+        16.7,
+        16.7,
+        16.7,
+        33.3,
+        16.6,
+        16.7,
+        33.4,
+        16.6,
+        16.7,
+        33.3,
+        16.7,
+        16.6,
+        16.7,
+        16.7,
+        33.4,
+        16.6
+      ],
+      "poseSamples": [
+        {
+          "elapsedMs": 29.3,
+          "x": -1296.485,
+          "y": 20.101,
+          "z": -5627.181,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 0.283,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 5940,
+            "offset": 0,
+            "headingError": 0,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        },
+        {
+          "elapsedMs": 1029.3,
+          "x": -1295.631,
+          "y": 20.098,
+          "z": -5629.294,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.068,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 5942.238,
+            "offset": 0,
+            "headingError": 0,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        },
+        {
+          "elapsedMs": 2029.2,
+          "x": -1294.462,
+          "y": 20.098,
+          "z": -5632.208,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.134,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.001,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 5945.375,
+            "offset": -0.007,
+            "headingError": 0,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0.001,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        },
+        {
+          "elapsedMs": 3012.6,
+          "x": -1293.31,
+          "y": 20.098,
+          "z": -5635.088,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.135,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.001,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 5948.425,
+            "offset": -0.018,
+            "headingError": -0.001,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0.001,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        },
+        {
+          "elapsedMs": 4096,
+          "x": -1292.021,
+          "y": 20.098,
+          "z": -5638.311,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.135,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.002,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 5951.686,
+            "offset": -0.029,
+            "headingError": -0.001,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0.002,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        },
+        {
+          "elapsedMs": 5029.2,
+          "x": -1290.986,
+          "y": 20.098,
+          "z": -5640.899,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.135,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.003,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 5954.578,
+            "offset": -0.039,
+            "headingError": -0.002,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0.003,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        },
+        {
+          "elapsedMs": 6012.6,
+          "x": -1289.814,
+          "y": 20.098,
+          "z": -5643.829,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.135,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.004,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 5957.891,
+            "offset": -0.051,
+            "headingError": -0.002,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0.004,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "stable",
+      "startedAt": 28376,
+      "endedAt": 48491.5,
+      "frames": {
+        "samples": 355,
+        "mean": 56.385,
+        "p50": 33.4,
+        "p95": 116.7,
+        "p99": 133.3,
+        "max": 133.4,
+        "total": 20016.7
+      },
+      "fps": 17.735,
+      "overBudget": {
+        "above16_67ms": 238,
+        "above33_34ms": 169,
+        "thresholdToleranceMs": 0.5
+      },
+      "renderer": {
+        "calls": {
+          "samples": 355,
+          "mean": 56.924,
+          "p50": 57,
+          "p95": 57,
+          "p99": 57,
+          "max": 57,
+          "total": 20208
+        },
+        "triangles": {
+          "samples": 355,
+          "mean": 32517.056,
+          "p50": 32502,
+          "p95": 32749,
+          "p99": 32761,
+          "max": 32761,
+          "total": 11543555
+        }
+      },
+      "externalGpu": {
+        "available": true,
+        "durationMs": {
+          "samples": 89,
+          "mean": 5.972,
+          "p50": 5.389,
+          "p95": 9.978,
+          "p99": 12.178,
+          "max": 12.178,
+          "total": 531.525
+        },
+        "sampleEveryRenders": 4,
+        "maxPending": 4,
+        "disjointDropped": 0,
+        "unresolvedAtEnd": 0,
+        "productTimerActiveSkipped": 0,
+        "note": "Asynchronous WebGL TIME_ELAPSED around renderer.render, including its shadow work; no nesting with application GPU timers."
+      },
+      "applicationProfiler": {
+        "mode": "optimized",
+        "samples": 355,
+        "elapsedSeconds": 20.02,
+        "fps": 17.74,
+        "frameMs": {
+          "p50": 33.5,
+          "p95": 116.7,
+          "p99": 133.3,
+          "max": 133.4,
+          "resolution": 0.1,
+          "overflow": {
+            "aboveMs": 2000,
+            "samples": 0
+          }
+        },
+        "renderCpuMeanMs": 2.98,
+        "roomCount": 1,
+        "loadedPeers": 0,
+        "render": {
+          "calls": 57,
+          "triangles": 32376
+        },
+        "memory": {
+          "geometries": 273,
+          "textures": 32
+        },
+        "spatial": {
+          "sourceBatches": 27,
+          "activeBatches": 5,
+          "cells": 1180,
+          "sourceTriangles": 135923,
+          "submittedTriangles": 2470,
+          "uploads": 166,
+          "zones": {
+            "registered": 48,
+            "visible": 4,
+            "hidden": 44
+          }
+        },
+        "userAgent": "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Mobile Safari/537.36",
+        "current": {
+          "fps": 9,
+          "samples": 9,
+          "elapsedSeconds": 1,
+          "frameMs": [
+            100,
+            100,
+            116.7,
+            116.7,
+            100,
+            116.6,
+            116.6,
+            116.7,
+            116.7
+          ],
+          "timingsMeanMs": {
+            "physics": 97.46,
+            "logic": 3.2,
+            "ui": 1.26,
+            "network": 0.03,
+            "culling": 0.44,
+            "render": 3.53,
+            "frame": 105.93
+          }
+        },
+        "timingsMeanMs": {
+          "physics": 45.48,
+          "logic": 2.57,
+          "ui": 0.84,
+          "network": 0.03,
+          "culling": 0.35,
+          "render": 2.63,
+          "frame": 51.91
+        },
+        "physicsSteps": {
+          "last": 6,
+          "mean": 3.26
+        },
+        "pixelRatio": 2,
+        "gpu": {
+          "available": false
+        }
+      },
+      "motion": {
+        "distanceMeters": 60.374,
+        "movingTimeFraction": 1,
+        "driftTimeFraction": 0,
+        "meanLinearSpeed": 3.112,
+        "maxLinearSpeed": 3.135,
+        "maxAbsSlipAngle": 0,
+        "maxDriftIntensity": 0,
+        "peakSmokeCount": 0,
+        "maxStallMs": 0,
+        "thresholds": {
+          "movingSpeed": 1,
+          "minimumMovingTimeFraction": 0.5,
+          "minimumDistanceMetersPerSecond": 0.5,
+          "maxStallMs": 3000,
+          "driftSpeed": 3,
+          "driftIntensity": 0.08,
+          "minimumDriftTimeFraction": 0.05
+        }
+      },
+      "invalid": [],
+      "start": {
+        "pose": {
+          "x": -1289.814,
+          "y": 20.098,
+          "z": -5643.829,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.135,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.004,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0
+        },
+        "assets": {
+          "vehicles": [
+            "ashhauler",
+            "bmwe30",
+            "bmwreward",
+            "cadillac75",
+            "citycourier",
+            "desertscout",
+            "foresthauler",
+            "koenigseggone1",
+            "lavacrawler",
+            "phoenixinterceptor",
+            "pickup",
+            "rover",
+            "snowgrip",
+            "snowrunner",
+            "van"
+          ],
+          "characters": [],
+          "geometries": 273,
+          "textures": 32,
+          "programs": 42
+        },
+        "hangarAnchor": null,
+        "renderQuality": null,
+        "rendererPixelRatio": 2,
+        "weather": {
+          "visible": true,
+          "fog": {
+            "color": 13082988,
+            "near": 36,
+            "far": 150
+          }
+        },
+        "gameplay": {
+          "mode": "driving",
+          "eventMode": null,
+          "selectedId": "pickup",
+          "fuel": 81.437,
+          "player": {
+            "x": 0,
+            "z": 60,
+            "heading": 0
+          },
+          "testMode": true,
+          "pauseReasons": []
+        }
+      },
+      "end": {
+        "pose": {
+          "x": -1267.174,
+          "y": 20.619,
+          "z": -5699.795,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.096,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.002,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0
+        },
+        "assets": {
+          "vehicles": [
+            "ashhauler",
+            "bmwe30",
+            "bmwreward",
+            "cadillac75",
+            "citycourier",
+            "desertscout",
+            "foresthauler",
+            "koenigseggone1",
+            "lavacrawler",
+            "phoenixinterceptor",
+            "pickup",
+            "rover",
+            "snowgrip",
+            "snowrunner",
+            "van"
+          ],
+          "characters": [],
+          "geometries": 273,
+          "textures": 32,
+          "programs": 42
+        },
+        "hangarAnchor": null,
+        "renderQuality": null,
+        "rendererPixelRatio": 2,
+        "weather": {
+          "visible": true,
+          "fog": {
+            "color": 13082988,
+            "near": 36,
+            "far": 150
+          }
+        },
+        "gameplay": {
+          "mode": "driving",
+          "eventMode": null,
+          "selectedId": "pickup",
+          "fuel": 18.978,
+          "player": {
+            "x": 0,
+            "z": 60,
+            "heading": 0
+          },
+          "testMode": true,
+          "pauseReasons": []
+        }
+      },
+      "longTasks": [
+        {
+          "startTime": 30880.300000000745,
+          "duration": 51
+        },
+        {
+          "startTime": 30932.400000002235,
+          "duration": 51
+        },
+        {
+          "startTime": 30984.5,
+          "duration": 53
+        },
+        {
+          "startTime": 31037.900000002235,
+          "duration": 52
+        },
+        {
+          "startTime": 31090.60000000149,
+          "duration": 52
+        },
+        {
+          "startTime": 31143,
+          "duration": 56
+        },
+        {
+          "startTime": 31199.800000000745,
+          "duration": 73
+        },
+        {
+          "startTime": 31273.400000002235,
+          "duration": 73
+        },
+        {
+          "startTime": 31347.20000000298,
+          "duration": 85
+        },
+        {
+          "startTime": 31432.900000002235,
+          "duration": 86
+        },
+        {
+          "startTime": 31519.400000002235,
+          "duration": 73
+        },
+        {
+          "startTime": 31592.800000000745,
+          "duration": 86
+        },
+        {
+          "startTime": 31679.5,
+          "duration": 71
+        },
+        {
+          "startTime": 31751.10000000149,
+          "duration": 100
+        },
+        {
+          "startTime": 31852.10000000149,
+          "duration": 104
+        },
+        {
+          "startTime": 31956.300000000745,
+          "duration": 100
+        },
+        {
+          "startTime": 32057.60000000149,
+          "duration": 100
+        },
+        {
+          "startTime": 32158,
+          "duration": 106
+        },
+        {
+          "startTime": 32264.800000000745,
+          "duration": 104
+        },
+        {
+          "startTime": 32369.400000002235,
+          "duration": 84
+        },
+        {
+          "startTime": 32454.300000000745,
+          "duration": 88
+        },
+        {
+          "startTime": 32542.400000002235,
+          "duration": 83
+        },
+        {
+          "startTime": 32625.60000000149,
+          "duration": 98
+        },
+        {
+          "startTime": 32724.5,
+          "duration": 102
+        },
+        {
+          "startTime": 32827.20000000298,
+          "duration": 100
+        },
+        {
+          "startTime": 32928.300000000745,
+          "duration": 99
+        },
+        {
+          "startTime": 33028,
+          "duration": 85
+        },
+        {
+          "startTime": 33113.60000000149,
+          "duration": 86
+        },
+        {
+          "startTime": 33200.5,
+          "duration": 100
+        },
+        {
+          "startTime": 33301,
+          "duration": 102
+        },
+        {
+          "startTime": 33403.300000000745,
+          "duration": 88
+        },
+        {
+          "startTime": 33491.800000000745,
+          "duration": 56
+        },
+        {
+          "startTime": 33548.900000002235,
+          "duration": 68
+        },
+        {
+          "startTime": 33617.10000000149,
+          "duration": 51
+        },
+        {
+          "startTime": 35650.900000002235,
+          "duration": 54
+        },
+        {
+          "startTime": 35753.5,
+          "duration": 50
+        },
+        {
+          "startTime": 35903.900000002235,
+          "duration": 57
+        },
+        {
+          "startTime": 35961.900000002235,
+          "duration": 57
+        },
+        {
+          "startTime": 36019.800000000745,
+          "duration": 68
+        },
+        {
+          "startTime": 36088.800000000745,
+          "duration": 69
+        },
+        {
+          "startTime": 36158.5,
+          "duration": 74
+        },
+        {
+          "startTime": 36233.10000000149,
+          "duration": 71
+        },
+        {
+          "startTime": 36305.300000000745,
+          "duration": 83
+        },
+        {
+          "startTime": 36389.300000000745,
+          "duration": 86
+        },
+        {
+          "startTime": 36475.800000000745,
+          "duration": 87
+        },
+        {
+          "startTime": 36563.5,
+          "duration": 87
+        },
+        {
+          "startTime": 36651.60000000149,
+          "duration": 83
+        },
+        {
+          "startTime": 36734.900000002235,
+          "duration": 88
+        },
+        {
+          "startTime": 36823.20000000298,
+          "duration": 97
+        },
+        {
+          "startTime": 36920.70000000298,
+          "duration": 98
+        },
+        {
+          "startTime": 37019.70000000298,
+          "duration": 89
+        },
+        {
+          "startTime": 37109.5,
+          "duration": 84
+        },
+        {
+          "startTime": 37194.300000000745,
+          "duration": 96
+        },
+        {
+          "startTime": 37291.400000002235,
+          "duration": 86
+        },
+        {
+          "startTime": 37378.70000000298,
+          "duration": 84
+        },
+        {
+          "startTime": 37463.20000000298,
+          "duration": 84
+        },
+        {
+          "startTime": 37547.800000000745,
+          "duration": 103
+        },
+        {
+          "startTime": 37651.400000002235,
+          "duration": 98
+        },
+        {
+          "startTime": 37750.10000000149,
+          "duration": 97
+        },
+        {
+          "startTime": 37847.900000002235,
+          "duration": 101
+        },
+        {
+          "startTime": 37949.800000000745,
+          "duration": 100
+        },
+        {
+          "startTime": 38050.70000000298,
+          "duration": 98
+        },
+        {
+          "startTime": 38149.60000000149,
+          "duration": 100
+        },
+        {
+          "startTime": 38250.5,
+          "duration": 100
+        },
+        {
+          "startTime": 38351,
+          "duration": 98
+        },
+        {
+          "startTime": 38449.60000000149,
+          "duration": 100
+        },
+        {
+          "startTime": 38550.400000002235,
+          "duration": 100
+        },
+        {
+          "startTime": 38651,
+          "duration": 99
+        },
+        {
+          "startTime": 38751.10000000149,
+          "duration": 102
+        },
+        {
+          "startTime": 38853.400000002235,
+          "duration": 101
+        },
+        {
+          "startTime": 38955.400000002235,
+          "duration": 99
+        },
+        {
+          "startTime": 39054.900000002235,
+          "duration": 101
+        },
+        {
+          "startTime": 39156.800000000745,
+          "duration": 100
+        },
+        {
+          "startTime": 39257.70000000298,
+          "duration": 97
+        },
+        {
+          "startTime": 39355.20000000298,
+          "duration": 100
+        },
+        {
+          "startTime": 39456.20000000298,
+          "duration": 82
+        },
+        {
+          "startTime": 39539.20000000298,
+          "duration": 83
+        },
+        {
+          "startTime": 39622.900000002235,
+          "duration": 88
+        },
+        {
+          "startTime": 39711.900000002235,
+          "duration": 84
+        },
+        {
+          "startTime": 39796.5,
+          "duration": 83
+        },
+        {
+          "startTime": 39880.5,
+          "duration": 100
+        },
+        {
+          "startTime": 39981.300000000745,
+          "duration": 98
+        },
+        {
+          "startTime": 40079.60000000149,
+          "duration": 69
+        },
+        {
+          "startTime": 40149.5,
+          "duration": 101
+        },
+        {
+          "startTime": 40251.5,
+          "duration": 98
+        },
+        {
+          "startTime": 40350,
+          "duration": 98
+        },
+        {
+          "startTime": 40449,
+          "duration": 101
+        },
+        {
+          "startTime": 40550.300000000745,
+          "duration": 100
+        },
+        {
+          "startTime": 40651.10000000149,
+          "duration": 98
+        },
+        {
+          "startTime": 40749.400000002235,
+          "duration": 102
+        },
+        {
+          "startTime": 40852.5,
+          "duration": 107
+        },
+        {
+          "startTime": 40960.400000002235,
+          "duration": 98
+        },
+        {
+          "startTime": 41059.10000000149,
+          "duration": 101
+        },
+        {
+          "startTime": 41160.800000000745,
+          "duration": 100
+        },
+        {
+          "startTime": 41261.900000002235,
+          "duration": 100
+        },
+        {
+          "startTime": 41362.10000000149,
+          "duration": 102
+        },
+        {
+          "startTime": 41464.70000000298,
+          "duration": 102
+        },
+        {
+          "startTime": 41567.20000000298,
+          "duration": 83
+        },
+        {
+          "startTime": 41650.70000000298,
+          "duration": 104
+        },
+        {
+          "startTime": 41755.900000002235,
+          "duration": 128
+        },
+        {
+          "startTime": 41884.800000000745,
+          "duration": 128
+        },
+        {
+          "startTime": 42013.10000000149,
+          "duration": 133
+        },
+        {
+          "startTime": 42147.20000000298,
+          "duration": 128
+        },
+        {
+          "startTime": 42275.70000000298,
+          "duration": 130
+        },
+        {
+          "startTime": 42406.900000002235,
+          "duration": 115
+        },
+        {
+          "startTime": 42522.800000000745,
+          "duration": 112
+        },
+        {
+          "startTime": 42635.800000000745,
+          "duration": 113
+        },
+        {
+          "startTime": 42749.70000000298,
+          "duration": 110
+        },
+        {
+          "startTime": 42860.60000000149,
+          "duration": 112
+        },
+        {
+          "startTime": 42973.900000002235,
+          "duration": 113
+        },
+        {
+          "startTime": 43087.5,
+          "duration": 109
+        },
+        {
+          "startTime": 43197.800000000745,
+          "duration": 113
+        },
+        {
+          "startTime": 43311.300000000745,
+          "duration": 115
+        },
+        {
+          "startTime": 43427,
+          "duration": 108
+        },
+        {
+          "startTime": 43536,
+          "duration": 110
+        },
+        {
+          "startTime": 43647.10000000149,
+          "duration": 102
+        },
+        {
+          "startTime": 43749.60000000149,
+          "duration": 98
+        },
+        {
+          "startTime": 43848.400000002235,
+          "duration": 100
+        },
+        {
+          "startTime": 43948.70000000298,
+          "duration": 102
+        },
+        {
+          "startTime": 44051,
+          "duration": 83
+        },
+        {
+          "startTime": 44134.70000000298,
+          "duration": 100
+        },
+        {
+          "startTime": 44235.900000002235,
+          "duration": 101
+        },
+        {
+          "startTime": 44338.20000000298,
+          "duration": 125
+        },
+        {
+          "startTime": 44463.900000002235,
+          "duration": 114
+        },
+        {
+          "startTime": 44578.70000000298,
+          "duration": 112
+        },
+        {
+          "startTime": 44691.900000002235,
+          "duration": 113
+        },
+        {
+          "startTime": 44805.5,
+          "duration": 110
+        },
+        {
+          "startTime": 44916.20000000298,
+          "duration": 114
+        },
+        {
+          "startTime": 45030.900000002235,
+          "duration": 110
+        },
+        {
+          "startTime": 45142,
+          "duration": 96
+        },
+        {
+          "startTime": 45238.60000000149,
+          "duration": 114
+        },
+        {
+          "startTime": 45353.5,
+          "duration": 112
+        },
+        {
+          "startTime": 45466.5,
+          "duration": 101
+        },
+        {
+          "startTime": 45568.400000002235,
+          "duration": 102
+        },
+        {
+          "startTime": 45670.70000000298,
+          "duration": 100
+        },
+        {
+          "startTime": 45771.20000000298,
+          "duration": 102
+        },
+        {
+          "startTime": 45873.5,
+          "duration": 87
+        },
+        {
+          "startTime": 45961.400000002235,
+          "duration": 88
+        },
+        {
+          "startTime": 46050.5,
+          "duration": 101
+        },
+        {
+          "startTime": 46152.10000000149,
+          "duration": 102
+        },
+        {
+          "startTime": 46255.20000000298,
+          "duration": 103
+        },
+        {
+          "startTime": 46358.800000000745,
+          "duration": 100
+        },
+        {
+          "startTime": 46459.900000002235,
+          "duration": 102
+        },
+        {
+          "startTime": 46562.70000000298,
+          "duration": 102
+        },
+        {
+          "startTime": 46665.900000002235,
+          "duration": 100
+        },
+        {
+          "startTime": 46766.400000002235,
+          "duration": 102
+        },
+        {
+          "startTime": 46868.800000000745,
+          "duration": 80
+        },
+        {
+          "startTime": 46949.5,
+          "duration": 85
+        },
+        {
+          "startTime": 47035.10000000149,
+          "duration": 102
+        },
+        {
+          "startTime": 47138.20000000298,
+          "duration": 86
+        },
+        {
+          "startTime": 47224.70000000298,
+          "duration": 83
+        },
+        {
+          "startTime": 47308.60000000149,
+          "duration": 87
+        },
+        {
+          "startTime": 47396.400000002235,
+          "duration": 84
+        },
+        {
+          "startTime": 47481.300000000745,
+          "duration": 108
+        },
+        {
+          "startTime": 47590.70000000298,
+          "duration": 115
+        },
+        {
+          "startTime": 47706,
+          "duration": 109
+        },
+        {
+          "startTime": 47815.60000000149,
+          "duration": 112
+        },
+        {
+          "startTime": 47928.60000000149,
+          "duration": 116
+        },
+        {
+          "startTime": 48044.900000002235,
+          "duration": 111
+        },
+        {
+          "startTime": 48156.20000000298,
+          "duration": 111
+        },
+        {
+          "startTime": 48267.900000002235,
+          "duration": 116
+        }
+      ],
+      "rafIntervalsMs": [
+        33.4,
+        33.3,
+        16.7,
+        33.3,
+        16.7,
+        16.7,
+        16.6,
+        16.8,
+        16.6,
+        16.7,
+        16.6,
+        33.3,
+        16.7,
+        16.7,
+        16.7,
+        16.6,
+        33.3,
+        16.7,
+        16.7,
+        33.3,
+        16.7,
+        16.7,
+        33.2,
+        16.8,
+        33.2,
+        16.8,
+        33.2,
+        16.7,
+        33.4,
+        33.3,
+        33.3,
+        16.7,
+        33.3,
+        33.4,
+        16.7,
+        16.7,
+        33.3,
+        16.7,
+        16.6,
+        16.7,
+        33.3,
+        16.7,
+        16.6,
+        33.3,
+        16.7,
+        33.4,
+        16.6,
+        16.7,
+        33.3,
+        16.7,
+        16.7,
+        33.3,
+        16.7,
+        16.6,
+        33.3,
+        16.7,
+        33.3,
+        16.7,
+        16.7,
+        16.7,
+        33.3,
+        16.6,
+        16.7,
+        33.3,
+        16.7,
+        16.7,
+        16.6,
+        33.4,
+        16.6,
+        16.7,
+        33.4,
+        16.6,
+        16.6,
+        33.4,
+        33.4,
+        33.3,
+        16.6,
+        16.7,
+        33.3,
+        16.7,
+        16.7,
+        16.7,
+        16.6,
+        16.7,
+        33.3,
+        16.7,
+        16.6,
+        16.7,
+        33.3,
+        16.7,
+        33.3,
+        16.7,
+        33.4,
+        33.3,
+        33.3,
+        33.4,
+        33.3,
+        33.3,
+        50,
+        33.4,
+        50,
+        49.9,
+        50,
+        50.1,
+        50,
+        50,
+        49.9,
+        50,
+        66.7,
+        66.7,
+        83.3,
+        83.3,
+        83.3,
+        66.8,
+        83.2,
+        83.4,
+        100,
+        100,
+        100,
+        100,
+        116.7,
+        99.9,
+        83.4,
+        83.3,
+        83.4,
+        100,
+        100,
+        100,
+        99.9,
+        83.4,
+        100,
+        100,
+        100,
+        83.3,
+        66.7,
+        66.7,
+        50,
+        33.3,
+        33.3,
+        16.7,
+        33.4,
+        33.2,
+        16.8,
+        16.6,
+        33.4,
+        16.6,
+        16.7,
+        33.3,
+        16.7,
+        16.7,
+        33.3,
+        16.6,
+        16.7,
+        16.7,
+        33.3,
+        33.4,
+        16.6,
+        16.6,
+        33.4,
+        33.4,
+        16.6,
+        16.7,
+        16.7,
+        16.6,
+        33.4,
+        16.6,
+        16.6,
+        16.8,
+        16.6,
+        16.7,
+        33.3,
+        16.7,
+        16.6,
+        16.7,
+        16.7,
+        16.6,
+        16.7,
+        16.7,
+        33.3,
+        16.7,
+        16.6,
+        33.4,
+        33.3,
+        16.7,
+        16.6,
+        16.7,
+        16.7,
+        33.3,
+        16.7,
+        16.6,
+        16.7,
+        16.7,
+        16.6,
+        16.7,
+        33.4,
+        16.6,
+        16.6,
+        16.8,
+        16.6,
+        33.3,
+        16.7,
+        16.6,
+        16.8,
+        33.3,
+        16.6,
+        16.7,
+        33.4,
+        16.6,
+        16.7,
+        16.6,
+        16.7,
+        33.4,
+        16.6,
+        16.7,
+        33.3,
+        16.7,
+        33.3,
+        16.6,
+        33.4,
+        33.4,
+        33.3,
+        33.3,
+        33.3,
+        16.7,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        66.7,
+        66.7,
+        66.6,
+        83.3,
+        66.7,
+        83.4,
+        83.3,
+        99.9,
+        83.3,
+        83.4,
+        83.4,
+        100,
+        99.9,
+        83.4,
+        83.4,
+        99.9,
+        83.3,
+        83.4,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100.1,
+        99.9,
+        83.3,
+        83.3,
+        83.4,
+        83.4,
+        99.9,
+        100,
+        83.3,
+        83.4,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        116.7,
+        99.9,
+        83.4,
+        100,
+        133.3,
+        116.7,
+        133.3,
+        133.4,
+        133.3,
+        116.6,
+        116.7,
+        116.7,
+        100,
+        116.7,
+        116.6,
+        116.7,
+        100,
+        116.7,
+        116.6,
+        116.7,
+        100,
+        100,
+        100,
+        99.9,
+        83.5,
+        99.9,
+        100,
+        133.3,
+        100,
+        116.7,
+        116.7,
+        116.7,
+        116.7,
+        99.9,
+        100.1,
+        116.6,
+        116.6,
+        100,
+        100,
+        100.1,
+        99.9,
+        83.4,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        116.7,
+        100,
+        99.9,
+        83.4,
+        83.4,
+        99.9,
+        83.4,
+        83.2,
+        83.4,
+        100,
+        100,
+        116.7,
+        116.7,
+        100,
+        116.6,
+        116.6,
+        116.7,
+        116.7
+      ],
+      "poseSamples": [
+        {
+          "elapsedMs": 20.1,
+          "x": -1289.755,
+          "y": 20.098,
+          "z": -5643.975,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.135,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.004,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 5957.944,
+            "offset": -0.051,
+            "headingError": -0.002,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0.004,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        },
+        {
+          "elapsedMs": 1003.4,
+          "x": -1288.603,
+          "y": 20.098,
+          "z": -5646.856,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.135,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.005,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 5961.099,
+            "offset": -0.062,
+            "headingError": -0.003,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0.005,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        },
+        {
+          "elapsedMs": 2003.4,
+          "x": -1287.431,
+          "y": 20.098,
+          "z": -5649.786,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.135,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.006,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 5964.254,
+            "offset": -0.073,
+            "headingError": -0.003,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0.006,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        },
+        {
+          "elapsedMs": 3053.4,
+          "x": -1286.2,
+          "y": 20.098,
+          "z": -5652.862,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.135,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.006,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 5967.41,
+            "offset": -0.084,
+            "headingError": -0.004,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0.006,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        },
+        {
+          "elapsedMs": 4070.1,
+          "x": -1285.048,
+          "y": 20.1,
+          "z": -5655.743,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.133,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.007,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 5970.513,
+            "offset": -0.094,
+            "headingError": -0.004,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0.007,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        },
+        {
+          "elapsedMs": 5020.1,
+          "x": -1283.934,
+          "y": 20.102,
+          "z": -5658.527,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.132,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.008,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 5973.459,
+            "offset": -0.105,
+            "headingError": -0.005,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0.008,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        },
+        {
+          "elapsedMs": 6003.5,
+          "x": -1282.782,
+          "y": 20.109,
+          "z": -5661.408,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.127,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.009,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 5976.772,
+            "offset": -0.116,
+            "headingError": -0.005,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0.009,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        },
+        {
+          "elapsedMs": 7020.1,
+          "x": -1281.59,
+          "y": 20.119,
+          "z": -5664.388,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.126,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.01,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 5979.981,
+            "offset": -0.127,
+            "headingError": -0.006,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0.01,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        },
+        {
+          "elapsedMs": 8003.5,
+          "x": -1280.437,
+          "y": 20.137,
+          "z": -5667.27,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.118,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.011,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 5982.927,
+            "offset": -0.137,
+            "headingError": -0.006,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0.011,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        },
+        {
+          "elapsedMs": 9070.1,
+          "x": -1279.206,
+          "y": 20.158,
+          "z": -5670.347,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.118,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.011,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 5986.241,
+            "offset": -0.149,
+            "headingError": -0.007,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0.011,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        },
+        {
+          "elapsedMs": 10070.1,
+          "x": -1278.034,
+          "y": 20.189,
+          "z": -5673.277,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.109,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.012,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 5989.345,
+            "offset": -0.16,
+            "headingError": -0.007,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0.012,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        },
+        {
+          "elapsedMs": 11070.1,
+          "x": -1276.881,
+          "y": 20.22,
+          "z": -5676.159,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.107,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.013,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 5992.502,
+            "offset": -0.171,
+            "headingError": -0.008,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0.013,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        },
+        {
+          "elapsedMs": 12070.1,
+          "x": -1275.709,
+          "y": 20.262,
+          "z": -5679.09,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.101,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.014,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 5995.605,
+            "offset": -0.181,
+            "headingError": -0.008,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0.014,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        },
+        {
+          "elapsedMs": 13086.8,
+          "x": -1274.537,
+          "y": 20.304,
+          "z": -5682.02,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.099,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.015,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 5998.761,
+            "offset": -0.192,
+            "headingError": -0.009,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0.015,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        },
+        {
+          "elapsedMs": 14020.1,
+          "x": -1273.639,
+          "y": 20.342,
+          "z": -5684.231,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.095,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.015,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 6001.157,
+            "offset": -0.191,
+            "headingError": -0.009,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0.015,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        },
+        {
+          "elapsedMs": 15036.8,
+          "x": -1272.584,
+          "y": 20.385,
+          "z": -5686.79,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.095,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.013,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 6003.924,
+            "offset": -0.171,
+            "headingError": -0.008,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0.013,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        },
+        {
+          "elapsedMs": 16086.7,
+          "x": -1271.451,
+          "y": 20.435,
+          "z": -5689.512,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.092,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.011,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 6006.875,
+            "offset": -0.141,
+            "headingError": -0.006,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0.011,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        },
+        {
+          "elapsedMs": 17086.7,
+          "x": -1270.416,
+          "y": 20.48,
+          "z": -5691.996,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.092,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.009,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 6009.566,
+            "offset": -0.112,
+            "headingError": -0.005,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0.009,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        },
+        {
+          "elapsedMs": 18070.1,
+          "x": -1269.283,
+          "y": 20.529,
+          "z": -5694.715,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.093,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.006,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 6012.511,
+            "offset": -0.08,
+            "headingError": -0.004,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0.006,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        },
+        {
+          "elapsedMs": 19003.4,
+          "x": -1268.228,
+          "y": 20.575,
+          "z": -5697.246,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.093,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.004,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 6015.304,
+            "offset": -0.05,
+            "headingError": -0.002,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0.004,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        },
+        {
+          "elapsedMs": 20003.4,
+          "x": -1267.174,
+          "y": 20.619,
+          "z": -5699.795,
+          "heading": -0.384,
+          "angularVelocity": 0,
+          "linearSpeed": 3.096,
+          "slipAngle": 0,
+          "driftIntensity": 0,
+          "grounded": true,
+          "driving": true,
+          "canyon": false,
+          "input": {
+            "active": true,
+            "speedDemand": 0.38,
+            "steering": 0.002,
+            "frontWheelAngle": 0,
+            "brake": 0,
+            "handbrake": 0
+          },
+          "contacts": {
+            "blocked": false,
+            "impactSpeed": 0,
+            "groundedWheels": 4,
+            "totalWheels": 4
+          },
+          "smokeCount": 0,
+          "skidCount": 0,
+          "route": {
+            "progress": 6018.004,
+            "offset": -0.025,
+            "headingError": -0.001,
+            "maneuver": "follow",
+            "maneuverSequence": 0,
+            "steering": 0.002,
+            "handbrake": 0,
+            "desiredYaw": null,
+            "actualYaw": 0
+          }
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "resourceErrors": [],
+  "failedResources": [],
+  "limitations": [
+    "RAF intervals measure presentation cadence on this browser, not GPU duration.",
+    "CPU render time measures command submission and may exclude GPU execution.",
+    "No isolated shader compilation timing. Warmup retains startup stalls; stable phase resets aggregates.",
+    "Use external browser console/network logs to include errors before harness installation.",
+    "Pose controller drives the actual vehicle; invalid scene/recovery flags must be checked before comparison.",
+    "Fleet is fully loaded when preloadVehicles=true; character displays follow normal nearby progressive loading."
+  ]
+}

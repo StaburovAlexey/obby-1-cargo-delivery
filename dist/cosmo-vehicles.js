@@ -4,7 +4,7 @@ import {updateVisualSuspension} from './wheel-contact-visuals.js';
 
 
 
-import { GLTFLoader } from './vendor/GLTFLoader.js';
+import {createModelLoader} from './model-loader.js';
 import { attachVehicleBrakeLights } from './vehicle-brake-lights.js';
 
 const TAU = Math.PI * 2;
@@ -149,16 +149,16 @@ function acquirePassengerTextures(scene) {
 
 export const COSMO_VEHICLES = Object.freeze([
 
-  { id: 'pickup', model: 'pickup', url: new URL('./assets/vehicles/passenger/pickup.glb', import.meta.url).href, biome: 'city', cargoZ: 0.55 },
-  { id: 'citycourier', model: 'compact', url: new URL('./assets/vehicles/passenger/compact.glb', import.meta.url).href, biome: 'city', cargoZ: 0.95 },
-  { id: 'rover', model: 'offroad', url: new URL('./assets/vehicles/passenger/offroad.glb', import.meta.url).href, biome: 'forest', cargoZ: 0.3 },
-  { id: 'foresthauler', model: 'wagon', url: new URL('./assets/vehicles/passenger/wagon.glb', import.meta.url).href, biome: 'forest', cargoZ: 1.35 },
-  { id: 'van', model: 'minivan', url: new URL('./assets/vehicles/passenger/minivan.glb', import.meta.url).href, biome: 'desert', cargoZ: 0.3 },
-  { id: 'desertscout', model: 'hatchback', url: new URL('./assets/vehicles/passenger/hatchback.glb', import.meta.url).href, biome: 'desert', cargoZ: 0.075 },
-  { id: 'snowgrip', model: 'sedan', url: new URL('./assets/vehicles/passenger/sedan.glb', import.meta.url).href, biome: 'snow', cargoZ: 0.7 },
-  { id: 'snowrunner', model: 'suv', url: new URL('./assets/vehicles/passenger/suv.glb', import.meta.url).href, biome: 'snow', cargoZ: 0.1 },
-  { id: 'lavacrawler', model: 'coupe', url: new URL('./assets/vehicles/passenger/coupe.glb', import.meta.url).href, biome: 'lava', cargoZ: 0.15 },
-  { id: 'ashhauler', model: 'sport', url: new URL('./assets/vehicles/passenger/sport.glb', import.meta.url).href, biome: 'lava', cargoZ: 0.275 },
+  { id: 'pickup', model: 'pickup', url: new URL('./assets/optimized/vehicles/passenger/pickup.glb', import.meta.url).href, biome: 'city', cargoZ: 0.55 },
+  { id: 'citycourier', model: 'compact', url: new URL('./assets/optimized/vehicles/passenger/compact.glb', import.meta.url).href, biome: 'city', cargoZ: 0.95 },
+  { id: 'rover', model: 'offroad', url: new URL('./assets/optimized/vehicles/passenger/offroad.glb', import.meta.url).href, biome: 'forest', cargoZ: 0.3 },
+  { id: 'foresthauler', model: 'wagon', url: new URL('./assets/optimized/vehicles/passenger/wagon.glb', import.meta.url).href, biome: 'forest', cargoZ: 1.35 },
+  { id: 'van', model: 'minivan', url: new URL('./assets/optimized/vehicles/passenger/minivan.glb', import.meta.url).href, biome: 'desert', cargoZ: 0.3 },
+  { id: 'desertscout', model: 'hatchback', url: new URL('./assets/optimized/vehicles/passenger/hatchback.glb', import.meta.url).href, biome: 'desert', cargoZ: 0.075 },
+  { id: 'snowgrip', model: 'sedan', url: new URL('./assets/optimized/vehicles/passenger/sedan.glb', import.meta.url).href, biome: 'snow', cargoZ: 0.7 },
+  { id: 'snowrunner', model: 'suv', url: new URL('./assets/optimized/vehicles/passenger/suv.glb', import.meta.url).href, biome: 'snow', cargoZ: 0.1 },
+  { id: 'lavacrawler', model: 'coupe', url: new URL('./assets/optimized/vehicles/passenger/coupe.glb', import.meta.url).href, biome: 'lava', cargoZ: 0.15 },
+  { id: 'ashhauler', model: 'sport', url: new URL('./assets/optimized/vehicles/passenger/sport.glb', import.meta.url).href, biome: 'lava', cargoZ: 0.275 },
 ].map(spec => Object.freeze({
   ...spec, assetFamily: 'passenger', paint: Object.freeze((spec.paint ?? []).map(pair => Object.freeze(pair))),
 })));
@@ -257,7 +257,7 @@ function applyBodyPaint(THREE, body, spec, resources) {
 export async function loadCosmoVehicle(THREE, vehicleId) {
   const spec = vehicleSpec(vehicleId);
   const bytes = await sourceBytes(spec.url);
-  const gltf = await new GLTFLoader().parseAsync(bytes, new URL('.', spec.url).href);
+  const gltf = await createModelLoader().parseAsync(bytes, new URL('.', spec.url).href);
   return createCosmoVehicleAdapter(THREE, vehicleId, gltf);
 }
 

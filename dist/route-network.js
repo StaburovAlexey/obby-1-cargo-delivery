@@ -217,6 +217,16 @@ function pointSegment(x,z,s){const dx=s.b.x-s.a.x,dz=s.b.z-s.a.z,t=clamp(((x-s.a
 export function pointInRoad(x,z,padding=0){if(!Number.isFinite(x)||!Number.isFinite(z)||!triangleAt(x,z,roadTriangleBins))return false;if(padding>0)for(const s of segmentsNear(x,z,padding+1))if(pointSegment(x,z,s).distance<padding-1e-8)return false;return true;}
 export function queryRoadSurface(x,z,history){const p=projectRoad(x,z,history);if(!p)return{height:0,normal:{x:0,y:1,z:0},gradient:{x:0,z:0},onRoad:false};const road=triangleAt(x,z,roadTriangleBins),tri=road||triangleAt(x,z,groundTriangleBins),scale=1+p.offset*p.curvature,gradient=tri?.gradient||{x:p.gradient.x/scale,z:p.gradient.z/scale},n=Math.hypot(gradient.x,1,gradient.z);return{...p,height:tri?tri.height:p.height,gradient,normal:{x:-gradient.x/n,y:1/n,z:-gradient.z/n},onRoad:!!road};}
 export const getSurface=queryRoadSurface;
+// Movers need the physical plane, not the centerline projection/history fields.
+// Use the same ordered triangles and barycentric arithmetic as queryRoadSurface;
+// unsupported points retain its full projection and fallback behavior.
+export function sampleRoadSurfacePlane(x,z,history){
+  if(!Number.isFinite(x)||!Number.isFinite(z))return queryRoadSurface(x,z,history);
+  const road=triangleAt(x,z,roadTriangleBins),tri=road||triangleAt(x,z,groundTriangleBins);
+  if(!tri)return queryRoadSurface(x,z,history);
+  const gradient=tri.gradient,n=Math.hypot(gradient.x,1,gradient.z);
+  return{height:tri.height,gradient,normal:{x:-gradient.x/n,y:1/n,z:-gradient.z/n},onRoad:!!road};
+}
 export function surfaceHeight(x,logicalY,history){
   const z=-logicalY;
   if(!Number.isFinite(x)||!Number.isFinite(z))return 0;

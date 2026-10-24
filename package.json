@@ -77,12 +77,22 @@
     "test:online:hosting": "node --test tests/online-server-cluster.mjs tests/online-server-packaging.mjs",
     "test:controlled-skid": "node tests/controlled-skid.mjs && node tests/controlled-skid-help.mjs && node tests/localization.mjs && node tests/controlled-skid-routes.mjs",
     "test:liveries": "node --test tests/livery-*.mjs tests/vehicle-livery-materials.mjs",
-    "test:rapier": "node --test --test-concurrency=2 tests/rapier-*.mjs tests/physics-world.mjs tests/physics-drift-support.mjs tests/physics-contact-effects.mjs"
+    "test:rapier": "node --test --test-concurrency=2 tests/rapier-*.mjs tests/physics-world.mjs tests/physics-drift-support.mjs tests/physics-contact-effects.mjs",
+    "optimize:models": "node scripts/optimize-models.mjs",
+    "prepare:vehicle-bounds": "node scripts/prepare-vehicle-bounds.mjs",
+    "optimize:media": "node scripts/optimize-media.mjs",
+    "prepare:model-decoders": "node scripts/prepare-model-decoders.mjs"
   },
   "devDependencies": {
+    "@gltf-transform/core": "4.5.1",
+    "@gltf-transform/extensions": "4.5.1",
+    "@gltf-transform/functions": "4.5.1",
     "@rsbuild/core": "2.2.13",
     "acorn": "8.19.0",
-    "gltf-validator": "2.0.0-dev.3.10"
+    "gltf-validator": "2.0.0-dev.3.10",
+    "meshoptimizer": "1.3.0",
+    "sharp": "0.35.5",
+    "three": "0.186.0"
   },
   "dependencies": {
     "@dimforge/rapier3d-compat": "0.21.0",

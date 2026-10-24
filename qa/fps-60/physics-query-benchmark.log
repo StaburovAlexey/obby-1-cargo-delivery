@@ -1,0 +1,84 @@
+{
+  "recordedAt": "2026-10-24T16:00:15.601Z",
+  "runtime": "v22.23.3",
+  "platform": "linux",
+  "architecture": "x64",
+  "cpu": "13th Gen Intel(R) Core(TM) i7-13700H",
+  "logicalCpus": 20,
+  "totalMemoryBytes": 16472182784,
+  "seed": 42,
+  "patchCount": 6,
+  "outlineEdgesPerPatch": 64,
+  "baseline": "/home/gilbertfrost/storage/dev/obby-cargo-delivery/output/fps-60/baseline/dist/",
+  "current": "/home/gilbertfrost/storage/dev/obby-cargo-delivery/dist/",
+  "measurements": {
+    "route": {
+      "points": 4096,
+      "queriesPerSample": 2,
+      "passesPerRound": 2,
+      "rounds": 5,
+      "elapsedMs": {
+        "baseline": [
+          2037.1447950000002,
+          1859.1546660000004,
+          1577.231319999999,
+          1572.5831370000014,
+          1721.0204110000013
+        ],
+        "current": [
+          23.81398900000022,
+          25.22733900000094,
+          23.39530200000081,
+          24.36540099999911,
+          15.556263999998919
+        ]
+      },
+      "medianMs": {
+        "baseline": 1721.0204110000013,
+        "current": 23.81398900000022
+      },
+      "queriesPerRound": 16384,
+      "polygonDistanceChecks": {
+        "baseline": 49021,
+        "current": 297
+      },
+      "polygonChecksReductionPercent": 99.39413720650333,
+      "elapsedMedianReductionPercent": 98.6162866606467
+    },
+    "patchEdges": {
+      "points": 4096,
+      "queriesPerSample": 2,
+      "passesPerRound": 2,
+      "rounds": 5,
+      "elapsedMs": {
+        "baseline": [
+          1328.4549959999968,
+          1617.4690590000027,
+          1484.664968000001,
+          1531.4916729999968,
+          1565.9557769999992
+        ],
+        "current": [
+          260.9107260000019,
+          326.10229099999924,
+          305.0002379999969,
+          277.9701349999996,
+          282.0908969999946
+        ]
+      },
+      "medianMs": {
+        "baseline": 1531.4916729999968,
+        "current": 282.0908969999946
+      },
+      "queriesPerRound": 16384,
+      "polygonDistanceChecks": {
+        "baseline": 49152,
+        "current": 7972
+      },
+      "polygonChecksReductionPercent": 83.78092447916666,
+      "elapsedMedianReductionPercent": 81.58064441529646
+    }
+  },
+  "scope": "Isolated Node CPU query workload; not a browser frame-time or Android GPU/FPS measurement.",
+  "checksum": 262873.4395808154
+}

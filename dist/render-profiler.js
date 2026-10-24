@@ -2,7 +2,7 @@
 // frame ring keep long phone runs bounded; active stalls remain real samples.
 const STAGES=['physics','logic','ui','network','culling','render','frame'];
 const RECENT_CAPACITY=240,RECENT_MS=1000,GRAPH_BARS=120,UI_INTERVAL_MS=250;
-export function createRenderProfiler({enabled=false,document:doc,baseline=false}={}){
+export function createRenderProfiler({enabled=false,document:doc,baseline=false,onReset}={}){
  if(!enabled)return null;
  const histogram=new Uint32Array(20002),overflowIndex=20001;
  const stageTotals=new Float64Array(STAGES.length),stageCounts=new Uint32Array(STAGES.length);
@@ -12,7 +12,7 @@ export function createRenderProfiler({enabled=false,document:doc,baseline=false}
  let recentHead=0,recentCount=0,recentTotal=0;
  let samples=0,total=0,maximum=0,cpuTotal=0,previous=null,lastNow=0,shown=-Infinity,disposed=false;
  let physicsTotal=0,physicsCount=0,lastPhysicsSteps=0,pixelRatio=null;
- let lastInfo=null,roomCount=1,loadedPeers=0,spatial=null,active=false;
+ let lastInfo=null,roomCount=1,loadedPeers=0,spatial=null,active=false,lastGpu=null;
  let panel,output,details,graph,launcher,panelHidden=false;const bars=[];
  const clean=n=>Math.round(n*100)/100;
  const valid=n=>Number.isFinite(n)&&n>=0;
@@ -54,9 +54,10 @@ export function createRenderProfiler({enabled=false,document:doc,baseline=false}
     frameMs:Array.from({length:recentCount},(_,index)=>clean(recentFrames[(recentHead+index)%RECENT_CAPACITY])),
     timingsMeanMs:means(recentStageTotals,recentStageCounts)},
    timingsMeanMs:means(stageTotals,stageCounts),physicsSteps:{last:lastPhysicsSteps,mean:physicsCount?clean(physicsTotal/physicsCount):0},
-   pixelRatio,gpu:{available:false}};
+   pixelRatio,gpu:lastGpu?{...lastGpu}:{available:false}};
  }
  function reset(){
+  onReset?.();lastGpu=null;
   histogram.fill(0);stageTotals.fill(0);stageCounts.fill(0);clearCurrent();
   samples=total=maximum=cpuTotal=physicsTotal=physicsCount=lastPhysicsSteps=0;previous=null;draw(lastNow,true);
  }
@@ -68,7 +69,8 @@ export function createRenderProfiler({enabled=false,document:doc,baseline=false}
   if(disposed||panelHidden||!output||!Number.isFinite(now)||(!force&&now-shown<UI_INTERVAL_MS&&now>=shown))return;
   const r=report(),timing=r.current.timingsMeanMs;shown=now;
   output.textContent=r.mode+' · '+(active?'измерение':'пауза/загрузка')+'\nFPS '+r.current.fps+' · кадр '+(r.current.samples?clean(recentTotal/recentCount):0)+' ms\np95 '+r.frameMs.p95+' · p99 '+r.frameMs.p99+' ms\nCalls '+r.render.calls+' · Triangles '+r.render.triangles;
-  details.textContent='CPU этапы, ms (последнее окно)\nPhysics '+timing.physics+' · Logic '+timing.logic+'\nUI '+timing.ui+' · Network '+timing.network+'\nCulling '+timing.culling+' · Render '+timing.render+'\nFrame '+timing.frame+' · Steps '+r.physicsSteps.last+'\nGeometries '+r.memory.geometries+' · Textures '+r.memory.textures+'\nDPR '+(r.pixelRatio??'—')+' · GPU: недоступно\nИгроки '+roomCount+'/20 · Модели '+loadedPeers+'\nКадров '+samples;
+  const gpuText=r.gpu.available?(r.gpu.lastMs===null?'ожидание':clean(r.gpu.lastMs)+' ms'):'недоступно';
+  details.textContent='CPU этапы, ms (последнее окно)\nPhysics '+timing.physics+' · Logic '+timing.logic+'\nUI '+timing.ui+' · Network '+timing.network+'\nCulling '+timing.culling+' · Render '+timing.render+'\nFrame '+timing.frame+' · Steps '+r.physicsSteps.last+'\nGeometries '+r.memory.geometries+' · Textures '+r.memory.textures+'\nDPR '+(r.pixelRatio??'—')+' · GPU: '+gpuText+'\nИгроки '+roomCount+'/20 · Модели '+loadedPeers+'\nКадров '+samples;
   const frames=r.current.frameMs,first=Math.max(0,frames.length-GRAPH_BARS);
   for(let index=0;index<bars.length;index++){
    const ms=frames[first+index],bar=bars[index];bar.hidden=ms===undefined;
@@ -117,10 +119,11 @@ export function createRenderProfiler({enabled=false,document:doc,baseline=false}
   let savedHidden=false;try{savedHidden=doc.defaultView.localStorage.getItem('render-performance-hidden')==='1';}catch{}
   setPanelHidden(savedHidden,false);
  }
- function record({now,active:running=false,info,roomCount:players=1,loadedPeers:loaded=0,renderCpuMs=0,spatial:geometry,timings,physicsSteps,pixelRatio:ratio,dpr}={}){
+ function record({now,active:running=false,info,roomCount:players=1,loadedPeers:loaded=0,renderCpuMs=0,spatial:geometry,timings,physicsSteps,pixelRatio:ratio,dpr,gpu}={}){
   if(disposed)return;
   const wasActive=active;active=running;if(Number.isFinite(now))lastNow=now;
   lastInfo=info??lastInfo;roomCount=players;loadedPeers=loaded;spatial=geometry??null;
+  if(gpu)lastGpu=gpu;
   const nextRatio=ratio??dpr;if(Number.isFinite(nextRatio)&&nextRatio>0)pixelRatio=nextRatio;
   if(!Number.isFinite(now)||!running){previous=null;clearCurrent();}
   else{

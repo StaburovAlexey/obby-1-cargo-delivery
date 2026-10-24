@@ -1,0 +1,29 @@
+{
+  "baseline": {
+    "stableFrames": 60,
+    "hud": {
+      "reads": 720,
+      "writes": 1020
+    },
+    "worldLabel": {
+      "reads": 4860,
+      "writes": 3120,
+      "visibleProjections": 1320
+    },
+    "hiddenCategoryProjections": 22
+  },
+  "optimized": {
+    "stableFrames": 60,
+    "hud": {
+      "reads": 0,
+      "writes": 0
+    },
+    "worldLabel": {
+      "reads": 0,
+      "writes": 0,
+      "visibleProjections": 1320
+    },
+    "hiddenCategoryProjections": 0
+  },
+  "note": "Deterministic production-function DOM operations, not elapsed frame time. Visible projections are deliberately retained each frame; hidden category count is one driving update."
+}
