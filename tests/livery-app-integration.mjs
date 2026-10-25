@@ -5,11 +5,13 @@ import {createAppDom} from './fixtures/app-dom.mjs';
 import {createVehicleLiveryShop} from '../dist/vehicle-livery-shop.js';
 import {VEHICLE_CONFIG,ECONOMY_CONFIG} from '../dist/economy-config.js';
 import {getVehiclePerformance} from '../dist/vehicle-upgrades.js';
+import {VEHICLE_LIVERY_CATALOG} from '../dist/vehicle-livery-catalog.js';
 
 // The real app and shop run against actual Three.js geometry and simulated DOM.
-// Material spies isolate app lifetime/ownership semantics from image decoding.
+// Static previews must never instantiate a Three.js viewer or edit gameplay materials.
 function make(options={}) {
- const state={shop:null,controllers:[],neons:[],neonCalls:[],calls:[],defer:false,pending:[]};
+ const state={shop:null,previewFactoryCalls:[]};
+ const previewFactory=name=>()=>{state.previewFactoryCalls.push(name);throw new Error(`Static shop must not allocate ${name}`);};
  const app=createAppDom({startDriving:false,...options,
   attachVehicleVisuals(THREE,garage){
    for(const vehicle of garage.vehicles){
@@ -17,21 +19,13 @@ function make(options={}) {
     mesh.position.y=1.8;group.add(mesh);vehicle.root.add(group);
     vehicle.visual={group,body:group,mesh,metadata:{bounds:{min:[-2.325,.05,-4.32],max:[2.325,3.55,4.32]},groundClearance:.05}};
    }
+   // Mirror the shared app fixture contract: these visuals are already available.
+   garage.vehicleVisuals={request(){},ensure:id=>Promise.resolve(garage.vehicles.find(vehicle=>vehicle.id===id)?.visual),status:()=> 'loaded'};
   },
   createLiveryShop(doc,callbacks){state.shop=createVehicleLiveryShop(doc,callbacks);return state.shop;},
-  createNeonPreview(THREE,host){const preview={host,closed:0,disposed:false,show(visual,id){state.neonCalls.push({visual,id});return true;},close(){this.closed++;},dispose(){this.disposed=true;}};state.neons.push(preview);return preview;},
-  createLiveryController(){throw new Error('Preview must never create a hangar livery controller');},
-  createLiveryPreview(THREE,host){
-   const preview={host,closed:0,disposed:false,epoch:0,current:null,
-    show(visual,id,liveryId){
-     state.calls.push({id,liveryId,visual});const token=++this.epoch;
-     const apply=()=>{if(this.disposed||token!==this.epoch)return false;this.current={visual,id,liveryId};return true;};
-     return state.defer?new Promise(resolve=>state.pending.push(()=>resolve(apply()))):apply();
-    },
-    close(){this.epoch++;this.closed++;this.current=null;},
-    dispose(){this.close();this.disposed=true;},
-   };state.controllers.push(preview);return preview;
-  },
+  createNeonPreview:previewFactory('neon viewer'),
+  createLiveryController:previewFactory('hangar livery controller'),
+  createLiveryPreview:previewFactory('livery gallery'),
  });
  const width=options.width??390,height=options.height??844;
  const panel=app.ids.get('vehicle-livery-panel');
@@ -78,21 +72,25 @@ test('preview pauses gameplay and gates controls, purchases, other modals and de
  }finally{f.dispose();}
 });
 
-test('all 11 cars preview in an isolated viewer without changing hangar, ownership, progression, fuel or performance',async()=>{
+test('all 11 catalog cars use static livery images without changing hangar, ownership, progression, fuel or performance',async()=>{
  const f=make();try{
   const d=f.debug,shop=f.livery.shop;
   const before=JSON.stringify(d.gameplay.snapshot()),state=JSON.stringify({money:d.gameplay.state.money,fuels:d.gameplay.state.fuels,selectedId:d.gameplay.state.selectedId,mode:d.gameplay.state.mode});
   const performance=VEHICLE_CONFIG.map(v=>getVehiclePerformance(v.id,d.gameplay.state.upgrades[v.id]));
   const materials=d.garage.vehicles.map(v=>v.visual.mesh.material),camera=pose(f);
-  assert.equal(shop.open(),true);shop.setSection('liveries');
-  for(const v of d.garage.vehicles)for(const id of ['neon','anime','racing','biome','base']){
+  assert.equal(VEHICLE_LIVERY_CATALOG.length,11);assert.equal(shop.open(),true);shop.setSection('liveries');
+  for(const v of VEHICLE_LIVERY_CATALOG)for(const id of ['neon','anime','racing','biome','base']){
    assert.equal(shop.preview(v.id,id),true);await settle();
-   const call=f.livery.calls.at(-1);assert.equal(call.visual,v.visual);assert.equal(call.id,v.id);assert.equal(call.liveryId,id);
-   assert.deepEqual(d.garage.vehicles.map(v=>v.visual.mesh.material),materials);
-   assert.deepEqual(pose(f),camera);
+   assert.equal(shop.getSelection(v.id),id);
+   const slide=shop.getPreviewHost(v.id).children.find(node=>node.getAttribute('data-cosmetic-id')===id);
+   const image=slide.children.find(node=>node.tagName==='IMG');
+   assert.ok(image.src.endsWith(`/shop-previews/liveries/${v.id}/${id}.webp`),`${v.id}/${id} uses its static car image`);
+   assert.equal(image.getAttribute('loading'),'lazy');
+   assert.deepEqual(d.garage.vehicles.map(v=>v.visual.mesh.material),materials);assert.deepEqual(pose(f),camera);
   }
-  assert.equal(f.livery.controllers.length,1);assert.equal(f.livery.calls.length,66);
-  assert.equal(f.livery.controllers[0].host('pickup'),shop.getPreviewHost('pickup'));
+  assert.equal(shop.preview('bmwe30','base'),false,'Extra developer cars have no livery catalogue entries');
+  assert.equal(f.ids.get('vehicle-livery-panel').all().filter(node=>node.tagName==='CANVAS').length,0);
+  assert.deepEqual(f.livery.previewFactoryCalls,[]);
   assert.equal(JSON.stringify(d.gameplay.snapshot()),before);
   assert.equal(JSON.stringify({money:d.gameplay.state.money,fuels:d.gameplay.state.fuels,selectedId:d.gameplay.state.selectedId,mode:d.gameplay.state.mode}),state);
   assert.deepEqual(VEHICLE_CONFIG.map(v=>getVehiclePerformance(v.id,d.gameplay.state.upgrades[v.id])),performance);
@@ -100,55 +98,58 @@ test('all 11 cars preview in an isolated viewer without changing hangar, ownersh
  }finally{f.dispose();}
 });
 
-test('closing clears the dedicated preview without moving the gameplay camera or materials',async()=>{
+test('closing resets uncommitted static choices without moving the gameplay camera or materials',async()=>{
  const f=make();try{
   const before=pose(f),materials=f.debug.garage.vehicles.map(v=>v.visual.mesh.material),shop=f.livery.shop;shop.open();shop.setSection('liveries');
-  shop.preview('pickup','neon');shop.preview('bmwreward','anime');await settle();
-  assert.deepEqual(pose(f),before);
-  assert.equal(f.livery.controllers[0].current.id,'bmwreward');
-  shop.close();assert.deepEqual(pose(f),before);
-  assert.equal(f.livery.controllers[0].current,null);
-  assert.deepEqual(f.debug.garage.vehicles.map(v=>v.visual.mesh.material),materials);
+  shop.preview('pickup','neon');shop.preview('bmwreward','anime');await settle();assert.deepEqual(pose(f),before);
+  assert.equal(shop.getSelection('bmwreward'),'anime');shop.close();assert.deepEqual(pose(f),before);
+  for(const vehicle of VEHICLE_LIVERY_CATALOG)assert.equal(shop.getSelection(vehicle.id),'base');
+  assert.deepEqual(f.debug.garage.vehicles.map(v=>v.visual.mesh.material),materials);assert.deepEqual(f.livery.previewFactoryCalls,[]);
   f.frame();assert.equal(shop.isOpen(),false);
  }finally{f.dispose();}
 });
 
-test('returning, driving and rebuilding release preview and use only current visual references',async()=>{
+test('returning, driving and rebuilding close static previews and preserve new garage visual references',async()=>{
  const f=make();try{
-  const shop=f.livery.shop;shop.open();shop.setSection('liveries');shop.preview('pickup','neon');await settle();
-  const preview=f.livery.controllers[0],first=preview.current.visual;
-  f.debug.returnToGarage();assert.equal(shop.isOpen(),false);assert.equal(preview.current,null);
+  const shop=f.livery.shop,first=f.debug.garage.vehicles.find(v=>v.id==='pickup').visual;
+  shop.open();shop.setSection('liveries');shop.preview('pickup','neon');await settle();
+  f.debug.returnToGarage();assert.equal(shop.isOpen(),false);assert.equal(shop.getSelection('pickup'),'base');
   f.debug.gameplay.state.cooldown=0;assert.equal(f.debug.enterVehicle('pickup'),true);
   f.debug.returnToGarage();shop.open();shop.setSection('liveries');shop.preview('pickup','anime');await settle();
-  f.debug.rebuild(43);assert.equal(shop.isOpen(),false);assert.equal(preview.current,null);
-  const nextVisual=f.debug.garage.vehicles.find(v=>v.id==='pickup').visual;
-  assert.notEqual(nextVisual,first);
-  shop.open();shop.setSection('liveries');shop.preview('pickup','racing');await settle();
-  assert.equal(f.livery.controllers.at(-1).current.visual,nextVisual);
+  f.debug.rebuild(43);assert.equal(shop.isOpen(),false);assert.equal(shop.getSelection('pickup'),'base');
+  const nextVisual=f.debug.garage.vehicles.find(v=>v.id==='pickup').visual;assert.notEqual(nextVisual,first);
+  const material=nextVisual.mesh.material;
+  shop.open();shop.setSection('liveries');assert.equal(shop.preview('pickup','racing'),true);await settle();
+  assert.equal(nextVisual.mesh.material,material);assert.deepEqual(f.livery.previewFactoryCalls,[]);
+  assert.ok(shop.getPreviewHost('pickup').all().some(node=>node.tagName==='IMG'&&node.src?.endsWith('/pickup/racing.webp')));
  }finally{f.dispose();}
 });
 
-test('late preview completion is cancelled on close, rebuild and page exit',async()=>{
+test('late image failure after close, rebuild or page exit cannot revive a preview or mutate gameplay',async()=>{
  for(const exit of ['close','rebuild','pagehide']){
   const f=make();try{
-   const materials=f.debug.garage.vehicles.map(v=>v.visual.mesh.material);
-   f.livery.defer=true;f.livery.shop.open();f.livery.shop.setSection('liveries');f.livery.shop.preview('pickup','neon');
-   const preview=f.livery.controllers[0];
-   if(exit==='close')f.livery.shop.close();else if(exit==='rebuild')f.debug.rebuild(44);else f.win.dispatch('pagehide');
-   for(const finish of f.livery.pending)finish();await settle();
-   assert.equal(preview.current,null,exit);assert.ok(preview.closed>0,exit);
-   assert.equal(f.livery.shop.isOpen(),false,exit);
-   if(exit!=='rebuild')assert.deepEqual(f.debug.garage.vehicles.map(v=>v.visual.mesh.material),materials);
-   if(exit==='pagehide')assert.equal(preview.disposed,true);
+   const materials=f.debug.garage.vehicles.map(v=>v.visual.mesh.material),before=JSON.stringify(f.debug.gameplay.snapshot()),shop=f.livery.shop;
+   shop.open();shop.setSection('liveries');shop.preview('pickup','anime');
+   const image=shop.getPreviewHost('pickup').all().find(node=>node.tagName==='IMG'&&node.src?.endsWith('/anime.webp'));assert.ok(image);
+   if(exit==='close')shop.close();else if(exit==='rebuild')f.debug.rebuild(44);else f.win.dispatch('pagehide');
+   image.dispatch('error');await settle();
+   assert.equal(shop.isOpen(),false,exit);assert.equal(shop.getSelection('pickup'),'base',exit);assert.deepEqual(f.livery.previewFactoryCalls,[]);
+   if(exit!=='rebuild'){
+    assert.deepEqual(f.debug.garage.vehicles.map(v=>v.visual.mesh.material),materials);
+    assert.equal(JSON.stringify(f.debug.gameplay.snapshot()),before);
+   }
+   if(exit==='pagehide')assert.equal(f.ids.get('vehicle-livery-menu'),undefined,'Page exit removes the static dialog');
   }finally{f.dispose();}
  }
 });
 
-test('graphics loss closes shop and releases isolated preview',async()=>{
+test('graphics loss closes the static shop and leaves hangar materials intact',async()=>{
  const f=make();try{
-  f.livery.shop.open();f.livery.shop.setSection('liveries');f.livery.shop.preview('pickup','biome');await settle();const preview=f.livery.controllers[0];
+  const shop=f.livery.shop,materials=f.debug.garage.vehicles.map(v=>v.visual.mesh.material);
+  shop.open();shop.setSection('liveries');shop.preview('pickup','biome');await settle();
   f.debug.renderer.domElement.dispatch('webglcontextlost');
-  assert.equal(f.livery.shop.isOpen(),false);assert.equal(preview.current,null);
+  assert.equal(shop.isOpen(),false);assert.equal(shop.getSelection('pickup'),'base');
+  assert.deepEqual(f.debug.garage.vehicles.map(v=>v.visual.mesh.material),materials);assert.deepEqual(f.livery.previewFactoryCalls,[]);
  }finally{f.dispose();}
 });
 
@@ -180,36 +181,38 @@ test('Apply is restricted to the owned base finish and never changes ownership o
  }finally{f.dispose();}
 });
 
-test('closing and reopening cannot revive a stale deferred skin selection',async()=>{
+test('closing and reopening cannot revive an uncommitted choice when its old image fails',async()=>{
  const f=make();try{
-  const shop=f.livery.shop;f.livery.defer=true;
-  shop.open();shop.setSection('liveries');shop.preview('pickup','anime');shop.close();shop.open();shop.setSection('liveries');
-  const preview=f.livery.controllers[0],pending=[...f.livery.pending];
-  pending.at(-1)();await settle();assert.equal(preview.current.liveryId,'base');
-  for(const finish of pending.slice(0,-1))finish();await settle();
-  assert.equal(preview.current.liveryId,'base');assert.equal(shop.getSelection('pickup'),'base');
+  const shop=f.livery.shop;shop.open();shop.setSection('liveries');shop.preview('pickup','anime');
+  const image=shop.getPreviewHost('pickup').all().find(node=>node.tagName==='IMG'&&node.src?.endsWith('/anime.webp'));assert.ok(image);
+  shop.close();shop.open();shop.setSection('liveries');assert.equal(shop.getSelection('pickup'),'base');
+  image.dispatch('error');await settle();assert.equal(shop.getSelection('pickup'),'base');
+  const apply=f.ids.get('vehicle-livery-panel').all().find(node=>node.getAttribute('data-apply-vehicle')==='pickup');
+  assert.equal(apply.disabled,false,'An unrelated failed image never disables the standard selection');assert.deepEqual(f.livery.previewFactoryCalls,[]);
  }finally{f.dispose();}
 });
 
-
-test('category navigation routes seven neon colors to isolated BMW preview and cleans up without saving',async()=>{
+test('category navigation uses all eight static neon images and never creates a preview renderer or saves',async()=>{
  const f=make();try{
   const shop=f.livery.shop,before=JSON.stringify(f.debug.gameplay.state),camera=pose(f);
-  shop.open();assert.equal(shop.getSection(),'categories');assert.equal(f.livery.calls.length,0);
+  shop.open();assert.equal(shop.getSection(),'categories');assert.deepEqual(f.livery.previewFactoryCalls,[]);
   shop.setSection('neon');await settle();
-  for(const id of ['red','orange','yellow','green','cyan','blue','purple']){assert.equal(shop.previewNeon(id),true);await settle();}
-  assert.equal(f.livery.neons.length,1);assert.equal(f.livery.neonCalls.length,8);
-  assert.ok(f.livery.neonCalls.every(call=>call.visual===f.debug.garage.vehicles.find(v=>v.id==='bmwreward').visual));
+  for(const id of ['red','orange','yellow','green','cyan','blue','purple','pink']){
+   assert.equal(shop.previewNeon(id),true);await settle();assert.equal(shop.getNeonSelection(),id);
+   const image=shop.getNeonPreviewHost().all().find(node=>node.tagName==='IMG'&&node.src?.endsWith(`/shop-previews/neon/${id}.webp`));assert.ok(image,id);
+  }
   assert.equal(JSON.stringify(f.debug.gameplay.state),before);assert.deepEqual(pose(f),camera);
-  shop.setSection('categories');assert.equal(f.livery.neons[0].closed,1);
-  shop.setSection('liveries');await settle();assert.equal(f.livery.calls.length,11);
-  shop.setSection('neon');await settle();assert.ok(f.livery.controllers[0].closed>0);
-  shop.close();assert.ok(f.livery.neons[0].closed>1);
-  f.win.dispatch('pagehide',{persisted:false});assert.equal(f.livery.neons[0].disposed,true);
+  assert.equal(shop.setSection('categories'),true);assert.equal(shop.previewNeon('red'),false);
+  shop.setSection('liveries');await settle();assert.equal(shop.getSelection('pickup'),'base');
+  assert.equal(shop.previewNeon('blue'),false);shop.setSection('neon');await settle();
+  shop.close();assert.equal(shop.previewNeon('blue'),false);assert.deepEqual(f.livery.previewFactoryCalls,[]);
+  assert.equal(f.ids.get('vehicle-livery-panel').all().filter(node=>node.tagName==='CANVAS').length,0);
+  f.win.dispatch('pagehide',{persisted:false});assert.equal(f.ids.get('vehicle-livery-menu'),undefined);
  }finally{f.dispose();}
 });
 
 // Missing host wiring would leave this button inert or apply only to the preview.
+
 test('a neon bought in the real shop equips every hangar car and can be disabled',async()=>{
  const f=make();try{
   f.debug.gameplay.state.money=100000;

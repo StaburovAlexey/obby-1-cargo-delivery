@@ -1,7 +1,7 @@
 import {createFleetNeon} from './vehicle-neon.js';
 import {getVehicleNeon} from './vehicle-neon-catalog.js';
 import {DEFAULT_VEHICLE_SMOKE_ID,getVehicleSmokeStyle} from './vehicle-smoke-catalog.js';
-import { createVehicleNeonPreview } from './vehicle-neon-preview.js';
+import {DEFAULT_VEHICLE_TRACK_ID,getVehicleTrackStyle} from './vehicle-track-catalog.js';
 import {createFinishCelebration} from './finish-celebration.js';
 import {createSpatialRenderer} from './spatial-render.js';
 import {createRenderZones} from './render-zones.js';
@@ -31,7 +31,8 @@ import {createPauseState} from './pause-state.js';
 import {createOnlineSession} from './online-session.js';
 import {createAdvertising,isAdvertisingSafe} from './advertising.js';
 import {createVehicleLiveryShop} from './vehicle-livery-shop.js';
-import {createVehicleLiveryGallery} from './vehicle-livery-preview.js';
+import {createVehicleLiveryController} from './vehicle-livery-materials.js';
+import {getVehicleLivery} from './vehicle-livery-catalog.js';
 import {createHangarDriftLeaderboard} from './hangar-drift-leaderboard.js';
 import {createCanyonLeaderboard} from './canyon-leaderboard.js';
 import {createCanyonMode} from './canyon-mode.js';
@@ -253,13 +254,45 @@ let city,
   displayLoading = null, lastDisplayUpdate = -Infinity, vehicleEntryRequest = 0,
   lastTime = 0,
   graphicsLost = false;
-let liveryShop=null,liveryPreview=null,neonPreview=null,liveryPreviewGeneration=0,neonPreviewRequest=0;
-const liveryPreviewRequests=new Map();
-// Developer cosmetics are session-only and shared by every driven vehicle.
-// Keep the choice outside the rebuilt world, like the shop controller itself.
+let liveryShop=null;
+// Keep session cosmetics outside the rebuilt world, like the shop controller.
 let selectedSmokeId=DEFAULT_VEHICLE_SMOKE_ID;
+let selectedTrackId=DEFAULT_VEHICLE_TRACK_ID;
+// undefined follows the saved career; null is an explicit session-only off choice.
+let developerNeonId;
+const selectedDeveloperLiveries=new Map(),developerLiveryControllers=new Map(),developerLiveryRequests=new Map();
+let developerLiveryGeneration=0,developerLiveryRequest=0;
+const selectedFleetNeonId=()=>developerMode&&developerNeonId!==undefined?developerNeonId:gameplay?.state.selectedNeonId;
+function developerLiveryController(visual,vehicleId){
+ let entry=developerLiveryControllers.get(vehicleId);
+ if(entry?.visual===visual)return entry;
+ entry?.controller.restore();entry?.controller.dispose();
+ entry={visual,controller:createVehicleLiveryController(THREE,visual,vehicleId,{beforePrepare:()=>displayQuality.clear()}),pending:false};
+ developerLiveryControllers.set(vehicleId,entry);return entry;
+}
+function syncDeveloperLivery(visual,vehicleId){
+ if(!developerMode||!visual||!selectedDeveloperLiveries.has(vehicleId)||developerLiveryControllers.get(vehicleId)?.visual===visual)return;
+ const entry=developerLiveryController(visual,vehicleId);
+ void entry.controller.preview(selectedDeveloperLiveries.get(vehicleId)).catch(error=>console.warn('Developer livery could not load',error));
+}
+function restoreDeveloperLiveryApplication(id,entry){
+ if(!entry?.pending)return;
+ entry.pending=false;entry.controller.restore();
+ const selected=selectedDeveloperLiveries.get(id);
+ if(selected)void entry.controller.preview(selected).catch(error=>console.warn('Developer livery could not restore',error));
+}
+function cancelDeveloperLiveryApplications(){
+ developerLiveryGeneration++;developerLiveryRequests.clear();
+ for(const [id,entry]of developerLiveryControllers)restoreDeveloperLiveryApplication(id,entry);
+}
+function disposeDeveloperLiveries(){
+ developerLiveryGeneration++;developerLiveryRequests.clear();
+ for(const entry of developerLiveryControllers.values()){entry.controller.restore();entry.controller.dispose();}
+ developerLiveryControllers.clear();
+}
 const fleetNeon=createFleetNeon(THREE);
-function syncFleetNeon(){if(!gameplay||!garage)return;fleetNeon.setColor(gameplay.state.selectedNeonId);for(const vehicle of garage.vehicles){vehicle.visual?.setLocked?.(!gameplay.isOwned(vehicle.id));fleetNeon.attach(vehicle.visual);}}
+function parkedNeonSupport(vehicle){return vehicle.neonSupport??={groundPlane:{point:{x:vehicle.park.x,y:vehicle.pedestal?.topY??groundHeight(vehicle.park.x,vehicle.park.z),z:vehicle.park.z},normal:{x:0,y:1,z:0}}};}
+function syncFleetNeon(){if(!gameplay||!garage)return;fleetNeon.setColor(selectedFleetNeonId());for(const vehicle of garage.vehicles){vehicle.visual?.setLocked?.(!gameplay.isOwned(vehicle.id));fleetNeon.attach(vehicle.visual,driving&&vehicle.model===model?vehicle.model.state:parkedNeonSupport(vehicle));syncDeveloperLivery(vehicle.visual,vehicle.id);}}
 function syncPremiumNeon(){if(!gameplay)return;for(const id of services?.neon?.ownedIds||[])gameplay.grantPremiumNeon(id);liveryShop?.refresh();}
 let physicsWorld=null,overturnedSeconds=0;
 let roadPits=[];
@@ -351,7 +384,8 @@ function setWire(value) {
 function rebuild(value) {
   cancelVehicleEntry();
   displayQuality.clear();modelWarmup.dispose();modelWarmup=createModelWarmup({renderer,scene,camera,schedule:requestAnimationFrame});
-  liveryShop?.close();restoreLiveryPreviews();
+  liveryShop?.close();
+  disposeDeveloperLiveries();
   renderZones?.dispose();renderZones=null;lastEconomyFrame=-Infinity;
   spatialRenderer?.dispose();spatialRenderer=null;
   const seed = developerMode ? Math.max(1, Math.min(4294967295, Number(value) || 42)) >>> 0 : 42;
@@ -409,6 +443,7 @@ function rebuild(value) {
     onEnter:()=>{careerRouteTracker.reset();wheelParticles?.clear();updateEconomyHud();},
     onExit:()=>{careerRouteTracker.reset();updateEconomyHud();}});
   canyonMode.effects.setSmokeStyle(selectedSmokeId);
+  canyonMode.effects.setTrackStyle(selectedTrackId);
   biomeWeather.setQuality(qualityProfile);canyonMode.effects.setQuality({smokeScale:qualityProfile.weatherScale});
   physicsWorld=createPhysicsWorld({THREE,city,garage,canyon:canyonMode,roadHazards});
   for(const vehicle of garage.vehicles){
@@ -562,14 +597,20 @@ hangarLeaderboardUi=createHangarDriftLeaderboard(document,{platform:services?.pl
   inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();model?.pause();stopVehicleEffects();gameplay?.flushProgress();lastTime=0;syncMode();
  }
 });
-function restoreLiveryPreviews(){
- liveryPreviewGeneration++;neonPreviewRequest++;liveryPreviewRequests.clear();
- liveryPreview?.close();neonPreview?.close();
-}
 liveryShop=createVehicleLiveryShop(document,{
  button:document.getElementById('livery-shop-button'),language:()=>selectedLanguage,autoPreview:true,
+ canUseLiveries:()=>developerMode,
+ getSelectedLiveryId:id=>selectedDeveloperLiveries.get(id)||'base',
+ getSelectedNeonId:()=>developerMode?selectedFleetNeonId():null,
  canUseSmoke:()=>developerMode,
+ canUseTracks:()=>developerMode,
  getSelectedSmokeId:()=>selectedSmokeId,
+ getSelectedTrackId:()=>selectedTrackId,
+ onTrackApply(id){
+  if(!developerMode||!liveryShopOpen||liveryShop.getSection()!=='tracks'||!hangarLeaderboardAvailable()||!getVehicleTrackStyle(id))return false;
+  if(canyonMode?.effects.setTrackStyle(id)!==true)return false;
+  selectedTrackId=id;return true;
+ },
  onSmokeApply(id){
   if(!developerMode||!liveryShopOpen||!hangarLeaderboardAvailable()||!getVehicleSmokeStyle(id))return false;
   if(canyonMode?.effects.setSmokeStyle(id)!==true)return false;
@@ -580,49 +621,51 @@ liveryShop=createVehicleLiveryShop(document,{
   liveryShopOpen=!!open;transition=null;
   inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();model?.pause();stopVehicleEffects();lastTime=0;syncMode();
  },
- onSectionChange:()=>restoreLiveryPreviews(),
+ onSectionChange:()=>cancelDeveloperLiveryApplications(),
  getNeonOffer(id){
+  if(developerMode)return {owned:true,selected:selectedFleetNeonId()===id,disabled:false,sessionOnly:true};
   const item=getVehicleNeon(id),owned=gameplay?.state.ownedNeonIds.includes(id),product=services?.neon?.catalog.get(id);
   let currencyImage=null;try{currencyImage=product?.getPriceCurrencyImage?.('small');}catch{}
   return {owned,selected:gameplay?.state.selectedNeonId===id,label:item.currency==='coins'?'50 000':product?.priceValue||product?.price||'—',currencyImage,
    disabled:owned?false:item.currency==='coins'?gameplay?.state.money<item.price:!product||services?.neon?.status.busy};
  },
  async onNeonApply(id){
-  if(!liveryShopOpen||!hangarLeaderboardAvailable())return false;
+  if(!liveryShopOpen||!hangarLeaderboardAvailable()||!getVehicleNeon(id))return false;
+  if(developerMode){developerNeonId=id;syncFleetNeon();return true;}
   if(gameplay.state.ownedNeonIds.includes(id))return gameplay.selectNeon(id);
   let ok;
   if(getVehicleNeon(id)?.currency==='coins')ok=gameplay.buyNeon(id);
   else {ok=await services?.neon?.purchase(id);if(ok){gameplay.grantPremiumNeon(id);gameplay.selectNeon(id);}}
   syncFleetNeon();updateEconomyHud();return !!ok;
  },
- onNeonDisable(){gameplay.selectNeon(null);syncFleetNeon();},
- async onNeonPreview(colorId){
-  if(!liveryShopOpen||liveryShop.getSection()!=='neon'||!hangarLeaderboardAvailable())return false;
-  const currentGarage=garage,generation=liveryPreviewGeneration,request=++neonPreviewRequest;
-  const vehicle=currentGarage.vehicles.find(v=>v.id==='bmwreward');
-  await currentGarage.vehicleVisuals.ensure('bmwreward',{retry:true,priority:true});
-  if(disposedOnline||garage!==currentGarage||generation!==liveryPreviewGeneration||request!==neonPreviewRequest||!liveryShopOpen||liveryShop.getSection()!=='neon'||!hangarLeaderboardAvailable())return false;
-  if(!vehicle?.visual)throw new Error('BMW is not loaded');
-  if(!neonPreview)neonPreview=createVehicleNeonPreview(THREE,liveryShop.getNeonPreviewHost());
-  return neonPreview.show(vehicle.visual,colorId);
+ onNeonDisable(){if(!liveryShopOpen||!hangarLeaderboardAvailable())return false;if(developerMode)developerNeonId=null;else gameplay.selectNeon(null);syncFleetNeon();return true;},
+ onNeonPreview(colorId){
+  return liveryShopOpen&&liveryShop.getSection()==='neon'&&hangarLeaderboardAvailable()&&!!getVehicleNeon(colorId);
  },
- async onPreview(vehicleId,liveryId){
-  if(!liveryShopOpen||liveryShop.getSection()!=='liveries'||!hangarLeaderboardAvailable())return false;
-  const currentGarage=garage,generation=liveryPreviewGeneration,request=(liveryPreviewRequests.get(vehicleId)||0)+1;
-  liveryPreviewRequests.set(vehicleId,request);
-  const vehicle=currentGarage.vehicles.find(v=>v.id===vehicleId);
+ onPreview(vehicleId,liveryId){
+  return liveryShopOpen&&liveryShop.getSection()==='liveries'&&hangarLeaderboardAvailable()&&!!getVehicleLivery(vehicleId,liveryId);
+ },
+ async onApply(vehicleId,liveryId){
+  if(!getVehicleLivery(vehicleId,liveryId)||!liveryShopOpen||!hangarLeaderboardAvailable())return false;
+  // Production ownership remains unchanged until livery purchases are available.
+  if(!developerMode)return liveryId==='base';
+  const currentGarage=garage,generation=developerLiveryGeneration,request=++developerLiveryRequest;
+  restoreDeveloperLiveryApplication(vehicleId,developerLiveryControllers.get(vehicleId));
+  developerLiveryRequests.set(vehicleId,request);
   await currentGarage.vehicleVisuals.ensure(vehicleId,{retry:true,priority:true});
-  if(disposedOnline||garage!==currentGarage||generation!==liveryPreviewGeneration||request!==liveryPreviewRequests.get(vehicleId)||!liveryShopOpen||liveryShop.getSection()!=='liveries'||!hangarLeaderboardAvailable())return false;
-  if(!vehicle?.visual)throw new Error('Vehicle is not loaded');
-  if(!liveryPreview)liveryPreview=createVehicleLiveryGallery(THREE,vehicleId=>liveryShop.getPreviewHost(vehicleId));
-  return liveryPreview.show(vehicle.visual,vehicleId,liveryId);
+  const current=()=>!disposedOnline&&garage===currentGarage&&generation===developerLiveryGeneration&&developerLiveryRequests.get(vehicleId)===request&&liveryShopOpen&&liveryShop.getSection()==='liveries'&&hangarLeaderboardAvailable();
+  if(!current())return false;
+  const visual=currentGarage.vehicles.find(vehicle=>vehicle.id===vehicleId)?.visual;
+  if(!visual)return false;
+  const entry=developerLiveryController(visual,vehicleId);entry.pending=true;
+  try{
+   const result=await entry.controller.preview(liveryId);
+   if(!current()||result?.applied===false)return false;
+   if(liveryId==='base')selectedDeveloperLiveries.delete(vehicleId);else selectedDeveloperLiveries.set(vehicleId,liveryId);
+   return true;
+  }finally{if(developerLiveryRequests.get(vehicleId)===request)entry.pending=false;}
  },
- onApply(vehicleId,liveryId){
-  // Only the free original finish is owned until purchase currency is decided.
-  if(liveryId!=='base'||!liveryShopOpen||!hangarLeaderboardAvailable())return false;
-  return true;
- },
- onClose:()=>restoreLiveryPreviews(),
+ onClose:()=>cancelDeveloperLiveryApplications(),
 });
 function notify(){}
 function updateFuelHud(){
@@ -910,7 +953,7 @@ function enterVehicle(id,loadedRequest=false){
   if(roadPitAt(roadPits,spawn.x,spawn.z,Math.hypot(footprint?.halfWidth??3,footprint?.halfLength??5))||getTruckContact(spawn.x,spawn.z,spawn.heading,obstacles,undefined,footprint)||roadHazards.contact(spawn.x,spawn.z,spawn.heading,footprint)){
     returnToGarage('blocked');notify('Стартовая полоса занята. Вы возвращены в ангар.');return false;
   }
-  liveryShop?.close();restoreLiveryPreviews();
+  liveryShop?.close();
   if(gameplay.state.mode!=='driving'&&!gameplay.enter(id))return false;
   inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();lastTime=0;
 
@@ -928,7 +971,7 @@ function returnToGarage(reason='garage'){
   finishCelebration?.clear();pendingFinishReceipt=null;
   canyonMode?.leave();overturnedSeconds=fallenSeconds=0;
   teleportId++;
-  liveryShop?.close();restoreLiveryPreviews();
+  liveryShop?.close();
   settingsUi?.close();
   stopVehicleEffects();
   biomeWeather?.clear();
@@ -1337,10 +1380,12 @@ window.addEventListener('pagehide',event=>{
   for(const display of characterDisplays){scene.remove(display.group);display.dispose();}characterDisplays=[];
   if(character){scene.remove(character.group);character.dispose();character=null;}
   settingsMusic.dispose();backgroundMusic.dispose();
+  displayQuality.clear();
+  disposeDeveloperLiveries();
   for(const v of garage?.vehicles||[])v.model?.dispose?.();
   physicsWorld?.dispose();fleetNeon.dispose();garage?.dispose();
   modelWarmup.dispose();displayQuality.dispose();gpuTimer.dispose();renderProfiler?.dispose();renderZones?.dispose();renderZones=null;spatialRenderer?.dispose();
-  liveryShop?.dispose();liveryPreview?.dispose();neonPreview?.dispose();hangarLeaderboardUi?.dispose();
+  liveryShop?.dispose();hangarLeaderboardUi?.dispose();
   canyonMode?.dispose();driftLeaderboard.dispose();onlineSession?.dispose();advertising?.destroy();
 });
 window.addEventListener('pageshow',event=>{if(!event.persisted)return;viewportRects.invalidate();renderQuality.reset();previousQualityNow=null;gpuTimer.reset();appFocused=document.hasFocus?.()??true;syncBackgroundMusic();lastTime=0;onlineClock=0;inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();syncMode();});

@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as THREE from '../dist/vendor/three.module.js';
 import { createVehicleNeonPreview } from '../dist/vehicle-neon-preview.js';
+import { createFleetNeon } from '../dist/vehicle-neon.js';
 import { VEHICLE_NEON_CATALOG, getVehicleNeon, vehicleNeonName } from '../dist/vehicle-neon-catalog.js';
 import { createInputDom } from './fixtures/vehicle-input-dom.mjs';
 function fixture() {
@@ -36,7 +37,7 @@ test('Seven distinct named colors are immutable and have no prices or ownership'
   }
   assert.equal(vehicleNeonName('blue', 'en'), 'Blue'); assert.equal(vehicleNeonName('blue'), 'Синий'); assert.equal(getVehicleNeon('bad'), null);
 });
-test('Eight isolated BMW copies use one context with neon strips and soft map, without neon lights', () => {
+test('Eight isolated BMW copies use one context with only soft ground halos and no neon lights', () => {
   const f = fixture(); assert.equal(f.preview.show(f.adapter, 'red'), true);
   const renderer = f.renderers[0], pivot = renderer.scene.children[0];
   assert.equal(pivot.children.length, 8); assert.equal(f.renderers.length, 1); assert.equal(f.host.children.length, 1);
@@ -45,8 +46,9 @@ test('Eight isolated BMW copies use one context with neon strips and soft map, w
   const colors = new Set(), textures = new Set(); let pointLights = 0;
   renderer.scene.traverse(node => { if (node.isPointLight) pointLights++; }); assert.equal(pointLights, 0);
   for (const model of pivot.children) {
-    const neon = model.children[0].children[1]; assert.equal(neon.children.length, 5);
-    colors.add(neon.children[0].material.color.getHex()); textures.add(neon.children[4].material.map);
+    const neon = model.children[0].children[1]; assert.equal(neon.children.length, 1);
+    assert.equal(neon.children[0].material.transparent, true);
+    colors.add(neon.children[0].material.color.getHex()); textures.add(neon.children[0].material.map);
     assert.equal(neon.children[0].material.toneMapped, false);
   }
   assert.equal(colors.size, 8); assert.equal(textures.size, 1);
@@ -54,6 +56,25 @@ test('Eight isolated BMW copies use one context with neon strips and soft map, w
   for (const color of VEHICLE_NEON_CATALOG) assert.equal(f.preview.show(f.adapter, color.id), true);
   assert.equal(f.renderers.length, 1); assert.equal(f.preview.getSelection(), 'pink'); f.preview.dispose();
 });
+
+test('Preview and fleet share the same soft halo footprint, falloff and material settings', () => {
+  const f = fixture(), fleet = createFleetNeon(THREE);
+  fleet.setColor('red'); fleet.attach(f.adapter);
+  f.preview.show(f.adapter, 'red');
+  const live = f.adapter.body.getObjectByName('vehicle-underglow').children[0];
+  const model = f.renderers[0].scene.children[0].children[0];
+  const shown = model.children[0].children[1].children[0];
+  const factor = model.children[0].children[0].scale.x;
+  assert.deepEqual(Array.from(shown.material.map.image.data), Array.from(live.material.map.image.data));
+  assert.equal(shown.material.opacity, live.material.opacity);
+  assert.equal(shown.material.blending, live.material.blending);
+  assert.equal(shown.material.depthWrite, false);
+  assert.ok(Math.abs(shown.scale.x / factor - live.scale.x) < 1e-9);
+  assert.ok(Math.abs(shown.scale.y / factor - live.scale.y) < 1e-9);
+  assert.ok(Math.abs(shown.position.y / factor - live.position.y) < 1e-9);
+  f.preview.dispose(); fleet.dispose();
+});
+
 test('Circular swipe, fractional positions and reduced draw cadence preserve source and continuous wrap', () => {
   const f = fixture(); f.preview.show(f.adapter, 'red');
   const pivot = f.renderers[0].scene.children[0];

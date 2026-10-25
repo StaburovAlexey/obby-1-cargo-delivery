@@ -16,8 +16,14 @@ const VEHICLES = Object.freeze({
 export const VEHICLE_LIVERY_VARIANTS = VARIANTS;
 export const VEHICLE_LIVERY_IDS = Object.freeze(Object.keys(VEHICLES));
 const textureEntries = new Map();
+const liverySources = new WeakMap();
 const MAX_IDLE_TEXTURES = 4;
 let usedClock = 0;
+
+/** Preview clones share source-owned base assets, never another controller's paint. */
+export function getVehicleLiverySource(mesh) {
+  return liverySources.get(mesh) ?? { geometry: mesh.geometry, material: mesh.material };
+}
 
 export function vehicleLiveryTextureURL(vehicleId, liveryId) {
   if (!VEHICLES[vehicleId]) throw new RangeError(`Unknown livery vehicle: ${vehicleId}`);
@@ -244,8 +250,13 @@ export function createVehicleLiveryController(THREE, adapter, vehicleId = adapte
       if (request !== revision || disposed || adapter.disposed) { lease.release(); return { applied: false, stale: true, vehicleId, liveryId }; }
       try {
         if (!prepared) {
+          // Restore render-quality material substitutions at the point of use,
+          // since a texture load may span several display-quality updates.
+          options.beforePrepare?.();
           prepared = prepareMeshes(THREE, adapter, spec);
           for (const entry of prepared.entries) {
+            entry.source = { geometry: entry.originalGeometry, material: entry.originalMaterial };
+            liverySources.set(entry.mesh, entry.source);
             const source = Array.isArray(entry.originalMaterial) ? entry.originalMaterial : [entry.originalMaterial];
             entry.materials = source.map(material => makePaintMaterial(THREE, material, uniforms, spec));
           }
@@ -272,6 +283,7 @@ export function createVehicleLiveryController(THREE, adapter, vehicleId = adapte
       detach();
       disposed = true;
       if (prepared) for (const entry of prepared.entries) {
+        if (liverySources.get(entry.mesh) === entry.source) liverySources.delete(entry.mesh);
         entry.geometry.dispose();
         for (const material of entry.materials) if (material.userData.vehicleLivery) material.dispose();
       }

@@ -4,9 +4,11 @@ import {buildRoadPits,roadPitAt,roadPitRampHeight,roadPitRampBoost,roadPitReserv
 import {createFleetNeon} from '../../dist/vehicle-neon.js';
 import {getVehicleNeon} from '../../dist/vehicle-neon-catalog.js';
 import {DEFAULT_VEHICLE_SMOKE_ID,getVehicleSmokeStyle} from '../../dist/vehicle-smoke-catalog.js';
+import {DEFAULT_VEHICLE_TRACK_ID,getVehicleTrackStyle} from '../../dist/vehicle-track-catalog.js';
 import {createCanyonLeaderboard} from '../../dist/canyon-leaderboard.js';
 import {createVehicleLiveryShop} from '../../dist/vehicle-livery-shop.js';
 import {createVehicleLiveryController} from '../../dist/vehicle-livery-materials.js';
+import {getVehicleLivery} from '../../dist/vehicle-livery-catalog.js';
 import {createHangarDriftLeaderboard} from '../../dist/hangar-drift-leaderboard.js';
 import {createSpatialRenderer} from '../../dist/spatial-render.js';
 import {createRenderZones} from '../../dist/render-zones.js';
@@ -125,9 +127,9 @@ export function createAppDom({width=390,height=844,startDriving=true,realStartup
  };
  Object.defineProperty(dom.doc,'images',{get:()=>dom.doc.body.all().filter(node=>node.tagName==='IMG')});
  for(const el of ids.values())el.replaceChildren=(...children)=>{el.children=[];children.forEach(child=>el.append(child));};
- Object.assign(deps,{createFleetNeon,getVehicleNeon,createVehicleNeonPreview:createNeonPreview,createVehicleLiveryGallery:createLiveryPreview,createVehicleLiveryPreview:createLiveryPreview,createVehicleLiveryShop:createLiveryShop,createVehicleLiveryController:createLiveryController,createCanyonLeaderboard,createRenderProfiler,createSpatialRenderer,createRenderZones,createHangarDriftLeaderboard,createCanyonMode,createPauseState,createOnlineSession,createAdvertising,isAdvertisingSafe,PREMIUM_SKIN_IDS,__URBAN_DEV_SERVER__:devServer});
+ Object.assign(deps,{createFleetNeon,getVehicleNeon,getVehicleLivery,createVehicleNeonPreview:createNeonPreview,createVehicleLiveryGallery:createLiveryPreview,createVehicleLiveryPreview:createLiveryPreview,createVehicleLiveryShop:createLiveryShop,createVehicleLiveryController:createLiveryController,createCanyonLeaderboard,createRenderProfiler,createSpatialRenderer,createRenderZones,createHangarDriftLeaderboard,createCanyonMode,createPauseState,createOnlineSession,createAdvertising,isAdvertisingSafe,PREMIUM_SKIN_IDS,__URBAN_DEV_SERVER__:devServer});
  deps.PROGRESSION_CONFIG=PROGRESSION_CONFIG;
- Object.assign(deps,{DEFAULT_VEHICLE_SMOKE_ID,getVehicleSmokeStyle,createBackgroundMusic:createMusic,MUSIC_TRACKS,createSettingsMusic});
+ Object.assign(deps,{DEFAULT_VEHICLE_SMOKE_ID,getVehicleSmokeStyle,DEFAULT_VEHICLE_TRACK_ID,getVehicleTrackStyle,createBackgroundMusic:createMusic,MUSIC_TRACKS,createSettingsMusic});
  Object.assign(deps,{createRapierDrivingModel,createPhysicsWorld,buildRoadPits,roadPitAt,roadPitRampHeight,roadPitRampBoost,roadPitReservations});
  new Function(...Object.keys(deps),source)(...Object.values(deps));
  if(startDriving&&!loadFailure){const d=dom.win.__sceneDebug;d.gameplay.state.cooldown=0;d.enterVehicle('pickup');d.model.setPose({x:1.8,z:9.8});d.applyTruckPose();d.followTruck(1,true);}

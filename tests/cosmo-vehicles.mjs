@@ -126,7 +126,8 @@ for (const adapter of adapters) {
   }
   group.traverse(node => {
     if (!node.isMesh) return;
-    assert.ok(node.castShadow && node.receiveShadow);
+    assert.ok(node.castShadow);
+    assert.equal(node.receiveShadow, false);
     for (const material of (Array.isArray(node.material) ? node.material : [node.material])) {
       assert.ok(material.emissiveIntensity <= 0.65);
       if (material.name === 'Passenger Glass') {

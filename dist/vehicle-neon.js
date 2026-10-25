@@ -1,39 +1,68 @@
 import {getVehicleNeon} from './vehicle-neon-catalog.js';
+import {createVehicleNeonGlowResources, vehicleNeonFootprint, VEHICLE_NEON_GROUND_LIFT} from './vehicle-neon-glow.js';
 
-/** Shared unlit geometry/material: no extra dynamic lights or postprocessing. */
+/** Shared unlit ground halos: no extra dynamic lights or postprocessing. */
 export function createFleetNeon(THREE){
- const entries=new Map(),geometry=new THREE.BoxGeometry(1,1,1),plane=new THREE.PlaneGeometry(1,1);
- const size=32,data=new Uint8Array(size*size*4);
- for(let y=0;y<size;y++)for(let x=0;x<size;x++){
-  const i=(y*size+x)*4,r=Math.hypot((x+.5)/size*2-1,(y+.5)/size*2-1);
-  data[i]=data[i+1]=data[i+2]=255;data[i+3]=Math.round(255*Math.pow(Math.max(0,1-r),1.6));
+ const entries=new Map(),resources=createVehicleNeonGlowResources(THREE),material=resources.createMaterial();
+ const inverse=new THREE.Matrix4(),world=new THREE.Matrix4(),basis=new THREE.Matrix4(),offset=new THREE.Matrix4();
+ const position=new THREE.Vector3(),scale=new THREE.Vector3(),normal=new THREE.Vector3(),point=new THREE.Vector3();
+ const forward=new THREE.Vector3(),right=new THREE.Vector3(),back=new THREE.Vector3(),quaternion=new THREE.Quaternion();
+ let selected=null,disposed=false;
+ const visibility=(adapter,entry)=>{entry.root.visible=!!selected&&!adapter.locked&&entry.supported;};
+ function align(adapter,entry,support){
+  const group=adapter.group||adapter.body;
+  entry.supported=support?.airborne!==true;
+  visibility(adapter,entry);
+  if(!entry.root.visible)return;
+  adapter.body.updateWorldMatrix(true,false);
+  normal.set(0,0,0);point.set(0,0,0);let contacts=0;
+  for(const contact of support?.wheelContacts||[]){
+   const p=contact.point,n=contact.normal;
+   if(!contact.grounded||!p||!n||![p.x,p.y,p.z,n.x,n.y,n.z].every(Number.isFinite)||n.y<=0)continue;
+   point.add(p);normal.add(n);contacts++;
+  }
+  const plane=support?.groundPlane,p=plane?.point,n=plane?.normal;
+  if(p&&n&&[p.x,p.y,p.z,n.x,n.y,n.z].every(Number.isFinite)&&n.y>0){
+   point.copy(p);normal.copy(n);contacts=1;
+  }
+  if(contacts&&normal.lengthSq()>0){
+   point.multiplyScalar(1/contacts);normal.normalize();
+   group.matrixWorld.decompose(position,quaternion,scale);
+   position.set(entry.footprint.x,0,entry.footprint.z).applyMatrix4(group.matrixWorld);
+   // Project the rendered X/Z onto real support (ramps, bridges and pits).
+   position.y=point.y-(normal.x*(position.x-point.x)+normal.z*(position.z-point.z))/normal.y;
+   position.addScaledVector(normal,VEHICLE_NEON_GROUND_LIFT*scale.y);
+   forward.set(0,0,-1).applyQuaternion(quaternion).projectOnPlane(normal);
+   if(forward.lengthSq()<1e-8)forward.set(0,0,-1).projectOnPlane(normal);
+   forward.normalize();right.crossVectors(forward,normal).normalize();back.copy(forward).negate();
+   basis.makeBasis(right,normal,back);quaternion.setFromRotationMatrix(basis);
+   world.compose(position,quaternion,scale);
+   offset.makeTranslation(-entry.footprint.x,-entry.footprint.y,-entry.footprint.z);world.multiply(offset);
+  }else world.copy(group.matrixWorld);
+  // Keep the public body child while cancelling cosmetic body bob/pitch/roll.
+  entry.root.matrix.multiplyMatrices(inverse.copy(adapter.body.matrixWorld).invert(),world);
+  entry.root.matrixWorldNeedsUpdate=true;
  }
- const texture=new THREE.DataTexture(data,size,size,THREE.RGBAFormat);texture.needsUpdate=true;
- const material=new THREE.MeshBasicMaterial({toneMapped:false});
- const haloMaterial=new THREE.MeshBasicMaterial({map:texture,transparent:true,opacity:.65,depthWrite:false,side:THREE.DoubleSide,blending:THREE.AdditiveBlending,toneMapped:false});
- let selected=null;
  return {
   get size(){return entries.size;},
-  setColor(id){if(id===selected)return;const color=getVehicleNeon(id);selected=color?.id||null;if(color){material.color.setHex(color.color);haloMaterial.color.setHex(color.color);}for(const [adapter,entry]of entries)entry.visible=!!selected&&!adapter.locked;},
-  attach(adapter){
-   if(!adapter?.body)return;
-   if(entries.has(adapter)){entries.get(adapter).visible=!!selected&&!adapter.locked;return;}
-   if(adapter.locked)return;
-   // Bounds in the body's local frame, independent of the parked/driving pose.
-   adapter.body.updateWorldMatrix(true,true);
-   const inverse=adapter.body.matrixWorld.clone().invert(),box=new THREE.Box3().makeEmpty();
-   adapter.body.traverse(node=>{if(!node.isMesh||!node.geometry)return;node.geometry.computeBoundingBox();box.union(node.geometry.boundingBox.clone().applyMatrix4(new THREE.Matrix4().multiplyMatrices(inverse,node.matrixWorld)));});
-   if(box.isEmpty())return;
-   const extent=box.getSize(new THREE.Vector3()),center=box.getCenter(new THREE.Vector3());
-   const root=new THREE.Group();root.name='vehicle-underglow';root.visible=!!selected;
-   const x=extent.x*.39,z=extent.z*.36,y=box.min.y+Math.min(.16,extent.y*.15);
-   for(const [px,pz,sx,sz]of [[-x,0,.035,extent.z*.72],[x,0,.035,extent.z*.72],[0,-z,extent.x*.78,.035],[0,z,extent.x*.78,.035]]){
-    const strip=new THREE.Mesh(geometry,material);strip.position.set(center.x+px,y,center.z+pz);strip.scale.set(sx,.035,sz);root.add(strip);
-   }
-   const halo=new THREE.Mesh(plane,haloMaterial);halo.rotation.x=-Math.PI/2;halo.position.set(center.x,box.min.y+.025,center.z);halo.scale.set(extent.x*1.5,extent.z*1.2,1);root.add(halo);
-   adapter.body.add(root);entries.set(adapter,root);
+  setColor(id){
+   if(disposed||id===selected)return;const color=getVehicleNeon(id);selected=color?.id||null;
+   if(color)material.color.setHex(color.color);
+   for(const [adapter,entry]of entries)visibility(adapter,entry);
   },
-  clear(){for(const root of entries.values())root.removeFromParent();entries.clear();},
-  dispose(){this.clear();geometry.dispose();plane.dispose();material.dispose();haloMaterial.dispose();texture.dispose();},
+  attach(adapter,support){
+   if(disposed||!adapter?.body)return;
+   if(adapter.disposed){entries.get(adapter)?.root.removeFromParent();entries.delete(adapter);return;}
+   let entry=entries.get(adapter);
+   if(!entry){
+    if(adapter.locked)return;
+    const footprint=vehicleNeonFootprint(THREE,adapter);if(!footprint)return;
+    const root=resources.createGlow(footprint,material);root.matrixAutoUpdate=false;
+    entry={root,footprint,supported:true};adapter.body.add(root);entries.set(adapter,entry);
+   }
+   align(adapter,entry,support);
+  },
+  clear(){for(const {root}of entries.values())root.removeFromParent();entries.clear();},
+  dispose(){if(disposed)return;disposed=true;this.clear();resources.dispose();},
  };
 }

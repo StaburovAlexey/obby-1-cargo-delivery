@@ -101,7 +101,7 @@ export function createShowcaseVehicleAdapter(THREE,spec,gltf){
    }
    for(const bucket of buckets.values()){
     const g=compactGeometry(THREE,geometry,bucket.indices);geometries.add(g);
-    const material=materialList(mesh)[bucket.materialIndex],part=new THREE.Mesh(g,material);part.name=mesh.name;part.castShadow=part.receiveShadow=true;
+    const material=materialList(mesh)[bucket.materialIndex],part=new THREE.Mesh(g,material);part.name=mesh.name;part.castShadow=true;part.receiveShadow=false;
     originalMaterials.set(part,material);(bucket.wheel?wheelGroups.get(bucket.wheel):body).add(part);
    }
   }

@@ -39,6 +39,20 @@ function fixture(options = {}) {
 }
 const flush = () => new Promise(resolve => setImmediate(resolve));
 
+test('developer liveries report the applied choice instead of preview-only after apply and reopen', async () => {
+  let selected = 'base';
+  const f = fixture({ canUseLiveries: () => true, getSelectedLiveryId: () => selected,
+    onApply: (_vehicleId, id) => { selected = id; return true; } });
+  f.ui.open(); f.ui.setSection('liveries'); f.ui.preview('pickup', 'anime');
+  f.apply('pickup').dispatch('click'); await flush();
+  assert.equal(f.status('pickup').textContent, 'Выбрано');
+  assert.equal(f.apply('pickup').textContent, 'Выбрано');
+  f.ui.close(); f.ui.open(); f.ui.setSection('liveries');
+  assert.equal(f.ui.getSelection('pickup'), 'anime');
+  assert.equal(f.status('pickup').textContent, 'Выбрано');
+  f.ui.dispose();
+});
+
 test('Constructor creates all 11 minimal rows with only carousel and Select button without callback or persistence side effects', () => {
   const f = fixture();
   assert.equal(f.ui.isOpen(), false);
@@ -331,7 +345,7 @@ test('Shop opens category artwork with live translated labels and no renderer un
  const calls=[],sections=[], f=fixture({autoPreview:true,onNeonPreview:id=>{calls.push(id);return true;},onSectionChange:id=>sections.push(id)});
  f.ui.open(); assert.equal(f.ui.getSection(),'categories'); assert.equal(f.previews.length,0);
  const entries=f.doc.body.all().filter(n=>n.getAttribute('data-shop-category'));
- assert.equal(entries.length,3); assert.equal(entries[0].children[1].textContent,'Новый внешний вид!');
+ assert.equal(entries.length,4); assert.equal(entries[0].children[1].textContent,'Новый внешний вид!');
  assert.ok(entries.every(n=>n.children[0].tagName==='IMG'&&n.children[0].src.endsWith('.webp')));
  entries[1].dispatch('click');await flush();assert.equal(f.ui.getSection(),'neon');assert.deepEqual(calls,['red']);
  const host=f.ui.getNeonPreviewHost();host.dispatch('keydown',{key:'ArrowRight'});await flush();assert.equal(f.ui.getNeonSelection(),'orange');
@@ -440,4 +454,132 @@ test('neon buying captures the clicked color and ignores repeated clicks while p
  f.ui.show();f.ui.setSection('neon');await Promise.resolve();await Promise.resolve();
  const button=f.doc.getElementById('vehicle-neon-apply');assert.ok(button,'purchase button exists');
  button.dispatch('click');button.dispatch('click');assert.deepEqual(calls,['red']);finish(true);await Promise.resolve();f.ui.destroy();
+});
+
+
+// These regressions catch eager image downloads, missing static selectors and track access leaks.
+test('all cosmetic selectors use lazy static car images with translated DOM captions', async () => {
+  const f = fixture({ canUseSmoke: () => true, canUseTracks: () => true });
+  const images = node => node.all().filter(item => item.tagName === 'IMG');
+  assert.ok(images(f.get('menu')).every(image => !image.src), 'Construction does not request preview artwork');
+  f.ui.open();
+  assert.ok(images(f.rail('pickup')).every(image => !image.src), 'Opening categories does not request liveries');
+  f.ui.setSection('liveries');
+  const liveryImages = images(f.rail('pickup'));
+  assert.equal(liveryImages.length, 5);
+  assert.equal(liveryImages.filter(image => image.src).length, 3, 'Only center and neighboring slides load');
+  assert.ok(liveryImages.filter(image => image.src).every(image => image.src.includes('/shop-previews/liveries/pickup/') && image.getAttribute('loading') === 'lazy'));
+  f.ui.preview('pickup', 'anime');
+  assert.ok(liveryImages.some(image => image.src?.endsWith('/anime.webp')));
+  f.ui.setLanguage('en');
+  assert.ok(f.rail('pickup').all().some(node => node.textContent?.includes('Anime')), 'Livery caption is localized DOM text');
+  f.ui.setSection('neon'); await flush();
+  const neonImages = images(f.ui.getNeonPreviewHost());
+  assert.equal(neonImages.length, 8); assert.equal(neonImages.filter(image => image.src).length, 3);
+  assert.ok(neonImages.filter(image => image.src).every(image => image.src.includes('/shop-previews/neon/')));
+  f.ui.setSection('smoke');
+  assert.ok(images(f.ui.getSmokePreviewHost()).filter(image => image.src).every(image => image.src.includes('/shop-previews/smoke/')));
+  assert.equal(f.get('menu').all().filter(node => node.tagName === 'CANVAS').length, 0);
+  f.ui.destroy();
+});
+
+test('tracks stay Coming soon outside development despite category and apply DOM tampering', () => {
+  const applied = [], f = fixture({ onTrackApply: id => applied.push(id) });
+  f.ui.open();
+  const entry = f.doc.body.all().find(node => node.getAttribute('data-shop-category') === 'tracks');
+  assert.ok(entry); assert.equal(entry.disabled, true); assert.match(entry.getAttribute('aria-label'), /Скоро/);
+  entry.disabled = false; entry.dispatch('click'); assert.equal(f.ui.getSection(), 'categories');
+  assert.equal(f.ui.setSection('tracks'), false); assert.equal(f.ui.previewTrack('fire'), false);
+  f.doc.getElementById('vehicle-track-apply').disabled = false;
+  f.doc.getElementById('vehicle-track-apply').dispatch('click'); assert.deepEqual(applied, []);
+  f.ui.destroy();
+});
+
+test('development tracks include seven effects and standard, and only Select applies the global choice', () => {
+  let selected = 'standard'; const applied = [];
+  const f = fixture({ canUseTracks: () => true, getSelectedTrackId: () => selected,
+    onTrackApply: id => { applied.push(id); selected = id; return true; } });
+  f.ui.open(); assert.equal(f.ui.setSection('tracks'), true);
+  const host = f.ui.getTrackPreviewHost(), apply = f.doc.getElementById('vehicle-track-apply');
+  assert.equal(host.all().filter(node => node.tagName === 'IMG').length, 8);
+  assert.equal(apply.disabled, true);
+  for (const id of ['neon-purple', 'rainbow', 'fire', 'ice', 'lightning', 'neon-blue', 'neon-green', 'standard']) {
+    const before = applied.length; host.dispatch('keydown', { key: 'ArrowRight' });
+    assert.equal(f.ui.getTrackSelection(), id); host.dispatch('click'); assert.equal(applied.length, before);
+    apply.dispatch('click'); assert.equal(selected, id); assert.equal(apply.textContent, 'Выбрано');
+  }
+  f.ui.previewTrack('ice'); f.ui.close(); assert.equal(selected, 'standard');
+  f.ui.open(); f.ui.setSection('tracks'); assert.equal(f.ui.getTrackSelection(), 'standard');
+  assert.equal(f.ui.previewTrack('unknown'), false); assert.equal(f.ui.previewSmoke('hearts'), false);
+  f.ui.destroy();
+});
+
+test('track swipes wrap, preserve vertical scrolling, trap focus and cancel on back, blur and close', () => {
+  const f = fixture({ canUseTracks: () => true }); f.ui.open(); f.ui.setSection('tracks');
+  const host = f.ui.getTrackPreviewHost(), apply = f.doc.getElementById('vehicle-track-apply');
+  pointer(host, 'pointerdown', 100, 20); pointer(host, 'pointermove', 170, 20); pointer(host, 'pointerup', 170, 20);
+  assert.equal(f.ui.getTrackSelection(), 'neon-green');
+  pointer(host, 'pointerdown', 100, 20); assert.equal(pointer(host, 'pointermove', 104, 95).defaultPrevented, false); pointer(host, 'pointerup', 104, 95);
+  assert.equal(f.ui.getTrackSelection(), 'neon-green');
+  f.ui.setLanguage('en'); assert.equal(f.doc.getElementById('vehicle-track-name').textContent, 'Green neon');
+  apply.focus(); const tab = apply.dispatch('keydown', { key: 'Tab' }); assert.equal(tab.defaultPrevented, true); assert.equal(f.doc.activeElement, f.get('close'));
+  for (const interrupt of ['blur', 'back', 'close']) {
+    pointer(host, 'pointerdown', 100, 20); pointer(host, 'pointermove', 20, 21);
+    if (interrupt === 'blur') f.win.dispatch('blur');
+    else if (interrupt === 'back') f.doc.getElementById('vehicle-shop-back').dispatch('click');
+    else f.ui.close();
+    assert.equal(host.hasPointerCapture(1), false);
+    pointer(host, 'pointerup', 20, 21);
+    if (!f.ui.isOpen()) f.ui.open();
+    f.ui.setSection('tracks');
+  }
+  f.ui.destroy(); assert.equal(f.ui.previewTrack('fire'), false);
+});
+
+test('track application captures its clicked id, exposes loading and ignores stale completion after reopen', async () => {
+  let resolve, selected = 'standard'; const applied = [];
+  const f = fixture({ canUseTracks: () => true, getSelectedTrackId: () => selected,
+    onTrackApply: id => { applied.push(id); return new Promise(done => { resolve = done; }); } });
+  f.ui.open(); f.ui.setSection('tracks'); f.ui.previewTrack('fire');
+  const apply = f.doc.getElementById('vehicle-track-apply'); apply.dispatch('click'); apply.dispatch('click');
+  assert.deepEqual(applied, ['fire']); assert.equal(apply.disabled, true); assert.equal(apply.textContent, 'Загрузка');
+  f.ui.close(); f.ui.open(); f.ui.setSection('tracks'); resolve(false); await flush();
+  assert.equal(f.ui.getTrackSelection(), 'standard'); assert.equal(apply.textContent, 'Выбрано');
+  assert.doesNotMatch(f.doc.getElementById('vehicle-track-note').textContent, /Не удалось/);
+  f.ui.destroy();
+});
+
+test('developer can select every livery and neon style without preview committing a choice', async () => {
+  const liveries = new Map(); let neon = null;
+  const f = fixture({ canUseLiveries: () => true,
+    getSelectedLiveryId: vehicle => liveries.get(vehicle) || 'base',
+    onApply: (vehicle, id) => { liveries.set(vehicle, id); return true; },
+    getSelectedNeonId: () => neon,
+    getNeonOffer: id => ({ owned: true, selected: neon === id, disabled: false, sessionOnly: true }),
+    onNeonApply: id => { neon = id; return true; } });
+  f.ui.open(); f.ui.setSection('liveries');
+  for (const vehicle of VEHICLE_LIVERY_CATALOG) for (const id of ['base', 'neon', 'anime', 'racing', 'biome']) {
+    const previous = liveries.get(vehicle.id); f.ui.preview(vehicle.id, id);
+    assert.equal(liveries.get(vehicle.id), previous); assert.equal(f.apply(vehicle.id).disabled, false);
+    f.apply(vehicle.id).dispatch('click'); await flush(); assert.equal(liveries.get(vehicle.id), id);
+  }
+  f.ui.setSection('neon'); await flush();
+  for (const id of ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'purple', 'pink']) {
+    const previous = neon; f.ui.previewNeon(id); await flush(); assert.equal(neon, previous);
+    const apply = f.doc.getElementById('vehicle-neon-apply'); assert.equal(apply.disabled, false);
+    assert.equal(apply.textContent, 'Выбрать'); apply.dispatch('click'); await flush(); assert.equal(neon, id);
+  }
+  f.ui.close(); f.ui.open(); f.ui.setSection('neon'); await flush(); assert.equal(f.ui.getNeonSelection(), 'pink');
+  f.ui.destroy();
+});
+
+test('unfinished and failed static previews cannot be applied by enabling the DOM button', async () => {
+  let ready; const applied = [];
+  const f = fixture({ canUseLiveries: () => true, onPreview: () => new Promise(resolve => { ready = resolve; }),
+    onApply: (...choice) => applied.push(choice) });
+  f.ui.open(); f.ui.setSection('liveries'); f.ui.preview('pickup', 'anime');
+  const apply = f.apply('pickup'); apply.disabled = false; apply.dispatch('click');
+  assert.deepEqual(applied, [], 'Pending artwork validation must finish first');
+  ready(false); await flush(); apply.disabled = false; apply.dispatch('click');
+  assert.deepEqual(applied, [], 'Failed artwork cannot be selected'); f.ui.destroy();
 });

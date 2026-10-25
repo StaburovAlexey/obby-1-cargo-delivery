@@ -130,7 +130,8 @@ for (const spec of COSMO_VEHICLES) {
   const adapter = await loadCosmoVehicle(T, spec.id);
   adapter.group.traverse(mesh => {
     if (!mesh.isMesh) return;
-    assert(mesh.castShadow && mesh.receiveShadow, `${spec.id}: retain both cast and received shadows`);
+    assert(mesh.castShadow, `${spec.id}: retain the shadow cast on the road`);
+    assert.equal(mesh.receiveShadow, false, `${spec.id}: do not receive shadows on the vehicle`);
     for (const material of materialsOf(mesh)) {
       assert.equal(material.side, T.DoubleSide, 'Visible source material sidedness is unchanged');
       assert.equal(material.shadowSide, T.BackSide, 'Opaque shells cast their back-face depth');

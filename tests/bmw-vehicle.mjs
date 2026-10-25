@@ -150,7 +150,8 @@ assert.ok(Math.max(...rgb) - Math.min(...rgb) > 150, 'Environment has visible re
 assert.equal(new Set(rgb).size > 100, true, 'Environment has smooth light variation');
 group.traverse(mesh => {
   if (!mesh.isMesh) return;
-  assert.ok(mesh.castShadow && mesh.receiveShadow);
+  assert.ok(mesh.castShadow);
+  assert.equal(mesh.receiveShadow, false);
   for (const material of materialsOf(mesh)) {
     assert.equal(material.side, THREE.DoubleSide);
     assert.equal(material.shadowSide, THREE.BackSide);

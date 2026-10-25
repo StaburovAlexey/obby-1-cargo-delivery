@@ -1,8 +1,9 @@
 import { cloneVehicleForLiveryPreview } from './vehicle-livery-preview.js';
 import { VEHICLE_NEON_CATALOG, getVehicleNeon } from './vehicle-neon-catalog.js';
+import { createVehicleNeonGlowResources, vehicleNeonFootprint } from './vehicle-neon-glow.js';
 
-/** Isolated, preview-only neon carousel. All seven cars share their source geometry.
- * Added unlit strips and one shared 32px glow map need no bloom or neon lights.
+/** Isolated neon carousel. Cars share source geometry, and the same soft
+ * ground halos as gameplay need no bloom or neon lights.
  */
 export function createVehicleNeonPreview(THREE, host, options = {}) {
   const doc = host.ownerDocument, win = doc.defaultView || globalThis;
@@ -12,16 +13,17 @@ export function createVehicleNeonPreview(THREE, host, options = {}) {
   let renderer = null, scene = null, camera = null, pivot = null, source = null;
   let models = [], frame = null, observer = null, disposed = false;
   let width = 0, height = 0, lastFrame = 0, selectedIndex = 0, spin = -.5, lastPosition = NaN;
-  const owned = new Set(), right = new THREE.Vector3(), back = new THREE.Vector3();
+  const right = new THREE.Vector3(), back = new THREE.Vector3();
+  let glowResources = null;
   const position = () => Number.isFinite(host.carouselPosition) ? host.carouselPosition : selectedIndex;
-  const own = value => { owned.add(value); return value; };
   function resize() {
     if (!renderer) return;
     const w = Math.max(1, host.clientWidth || 320), h = Math.max(1, host.clientHeight || 250);
     if (w === width && h === height) return;
     width = w; height = h; renderer.setSize(w, h, false);
     camera.aspect = w / h;
-    const distance = Math.max(2.5, 4.8 / camera.aspect) / Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
+    // Include the wider ground halo through fractional swipes and a full turn.
+    const distance = Math.max(2.7, 5.4 / camera.aspect) / Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
     camera.position.set(distance * .65, distance * .36, distance * .67);
     camera.lookAt(0, -.08, 0); camera.updateProjectionMatrix();
     right.set(1, 0, 0).applyQuaternion(camera.quaternion);
@@ -83,47 +85,24 @@ export function createVehicleNeonPreview(THREE, host, options = {}) {
   function releaseModels() {
     for (const entry of models) pivot?.remove(entry.model);
     models = []; source = null; lastPosition = NaN;
-    for (const resource of owned) resource.dispose();
-    owned.clear();
-  }
-  function glowTexture() {
-    const size = 32, data = new Uint8Array(size * size * 4);
-    for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
-      const radius = Math.hypot((x + .5) / size * 2 - 1, (y + .5) / size * 2 - 1);
-      const i = (y * size + x) * 4;
-      data[i] = data[i + 1] = data[i + 2] = 255;
-      data[i + 3] = Math.round(255 * Math.pow(Math.max(0, 1 - radius), 1.6));
-    }
-    const texture = own(new THREE.DataTexture(data, size, size, THREE.RGBAFormat));
-    texture.needsUpdate = true; texture.minFilter = texture.magFilter = THREE.LinearFilter;
-    return texture;
+    glowResources?.dispose(); glowResources = null;
   }
   function loadModels(adapter) {
     releaseModels(); source = adapter; spin = -.5;
     const reference = cloneVehicleForLiveryPreview(adapter);
     const box = new THREE.Box3().setFromObject(reference.group, true);
     const size = box.getSize(new THREE.Vector3()), center = box.getCenter(new THREE.Vector3());
-    const factor = 4.4 / Math.max(size.length(), .001), normalizedSize = size.clone().multiplyScalar(factor);
-    const stripGeometry = own(new THREE.BoxGeometry(1, 1, 1));
-    const planeGeometry = own(new THREE.PlaneGeometry(1, 1));
-    const glow = glowTexture(), floor = -normalizedSize.y / 2;
+    const factor = 4.4 / Math.max(size.length(), .001);
+    const footprint = vehicleNeonFootprint(THREE, reference);
+    glowResources = createVehicleNeonGlowResources(THREE);
     models = VEHICLE_NEON_CATALOG.map((color, index) => {
       const clone = index ? cloneVehicleForLiveryPreview(adapter) : reference;
       clone.group.position.sub(center);
       const normalized = new THREE.Group(); normalized.scale.setScalar(factor); normalized.add(clone.group);
       const turntable = new THREE.Group(), model = new THREE.Group(); turntable.add(normalized); model.add(turntable); pivot.add(model);
-      const strips = new THREE.Group(); strips.userData.neonColorId = color.id;
-      const material = own(new THREE.MeshBasicMaterial({ color: color.color, toneMapped: false }));
-      const glowMaterial = own(new THREE.MeshBasicMaterial({ color: color.color, map: glow, transparent: true, opacity: .8, depthWrite: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending, toneMapped: false }));
-      const x = normalizedSize.x * .42, z = normalizedSize.z * .38, y = floor + Math.min(.15, normalizedSize.y * .18);
-      const addStrip = (px, pz, sx, sz) => {
-        const mesh = new THREE.Mesh(stripGeometry, material); mesh.position.set(px, y, pz); mesh.scale.set(sx, .035, sz); strips.add(mesh);
-      };
-      addStrip(-x, 0, .035, normalizedSize.z * .76); addStrip(x, 0, .035, normalizedSize.z * .76);
-      addStrip(0, -z, normalizedSize.x * .84, .035); addStrip(0, z, normalizedSize.x * .84, .035);
-      const halo = new THREE.Mesh(planeGeometry, glowMaterial); halo.rotation.x = -Math.PI / 2;
-      halo.position.y = floor - .015; halo.scale.set(normalizedSize.x * 1.6, normalizedSize.z * 1.25, 1); strips.add(halo);
-      turntable.add(strips);
+      const material = glowResources.createMaterial(color.color);
+      const halo = glowResources.createGlow(footprint, material, factor, center);
+      halo.userData.neonColorId = color.id; turntable.add(halo);
       model.userData.vehicleNeonPreview = { colorId: color.id, index };
       return { model, turntable, index };
     });

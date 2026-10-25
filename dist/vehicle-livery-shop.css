@@ -10,7 +10,6 @@
 .item-carousel{position:relative;min-width:0;touch-action:pan-y;user-select:none;-webkit-user-select:none;background:none;border:0;box-shadow:none}
 .item-carousel-viewport{height:230px;width:100%;overflow:hidden;background:none;border:0;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
 .item-carousel.is-swiping .item-carousel-viewport{cursor:grabbing}
-.vehicle-livery-preview-host canvas{display:block;width:100%;height:100%;pointer-events:none}
 .vehicle-livery-card .vehicle-livery-apply{position:static;width:72%;margin:0 auto;font-family:inherit;cursor:pointer}
 .vehicle-livery-card .vehicle-livery-apply:disabled{cursor:not-allowed;opacity:.65}
 .vehicle-livery-menu button:focus-visible,.item-carousel-viewport:focus-visible{outline:3px solid #ffe5a5;outline-offset:-3px}
@@ -25,7 +24,7 @@
 .vehicle-livery-heading-text{flex:1}
 .vehicle-shop-categories{display:grid;gap:16px;padding:16px;overflow-y:auto;min-height:0;overscroll-behavior:contain}
 .vehicle-shop-category{position:relative;display:block;width:100%;padding:0;overflow:hidden;border:0;border-radius:8% / 16%;background:none;box-shadow:none;cursor:pointer;aspect-ratio:2/1;flex:none}
-.vehicle-shop-category img{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.vehicle-shop-category img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}
 .vehicle-shop-category-title{position:absolute;left:7%;right:7%;bottom:9%;font-family:inherit;font-weight:900;font-size:clamp(19px,4.5vw,29px);line-height:1.05;color:white;text-align:center;text-shadow:0 3px 0 #06172f,2px 0 0 #06172f,-2px 0 0 #06172f,0 -2px 0 #06172f;pointer-events:none}
 .vehicle-neon-panel{padding:0 10px 22px;overflow-y:auto;min-height:0;touch-action:pan-y}
 .vehicle-neon-panel .item-carousel-viewport{height:clamp(240px,42dvh,360px)}
@@ -34,14 +33,18 @@
 @media(max-width:600px){.vehicle-shop-categories{padding:12px;gap:12px}.vehicle-shop-category-title{font-size:clamp(19px,5.4vw,28px)}}
 
 .vehicle-neon-apply,.vehicle-neon-disable{display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;width:min(100%,340px);margin:12px auto 0}.vehicle-neon-apply img{width:20px;height:20px;object-fit:contain}.vehicle-neon-disable{margin-top:8px}
-/* Smoke previews are generated images; gesture frames only move these existing nodes. */
-.vehicle-shop-category[data-shop-category="smoke"]:disabled{cursor:default;filter:saturate(.5)}
+/* Transparent car artwork is shared across all cosmetic selectors. */
+.vehicle-shop-category[data-shop-category="smoke"]:disabled,.vehicle-shop-category[data-shop-category="tracks"]:disabled{cursor:default;filter:saturate(.5)}
 .vehicle-smoke-soon{position:absolute;top:9%;right:6%;font-family:inherit;font-size:14px;font-weight:800;color:#fff6df;text-shadow:0 2px 3px #06172f;pointer-events:none}
-.vehicle-smoke-panel{padding:0 10px 22px;overflow-y:auto;min-height:0;touch-action:pan-y;overscroll-behavior:contain}
-.vehicle-smoke-panel .vehicle-smoke-preview-host{position:relative;height:clamp(230px,39dvh,330px);isolation:isolate}
-.vehicle-smoke-slide{position:absolute;left:50%;top:0;width:88%;height:100%;display:grid;grid-template:minmax(0,1fr)/minmax(0,1fr);place-items:center;transform-origin:center;pointer-events:none}
-.vehicle-smoke-image{display:block;grid-area:1/1;min-width:0;min-height:0;width:100%;height:100%;object-fit:contain;pointer-events:none;user-select:none;-webkit-user-drag:none}
-.vehicle-smoke-image-fallback{grid-area:1/1;font-family:inherit;font-size:23px;font-weight:800;text-align:center;color:#fff6df}
-.vehicle-smoke-name{font-weight:800;text-align:center;margin:0 0 5px;font-size:19px}
-.vehicle-smoke-note{font-size:13px;text-align:center;opacity:.7;margin:0}
-.vehicle-smoke-apply{display:flex;align-items:center;justify-content:center;min-height:44px;width:min(100%,340px);margin:12px auto 0}
+.vehicle-smoke-panel,.vehicle-track-panel{padding:0 10px 22px;overflow-y:auto;min-height:0;touch-action:pan-y;overscroll-behavior:contain}
+.vehicle-smoke-panel .vehicle-smoke-preview-host,.vehicle-track-panel .vehicle-track-preview-host{height:clamp(230px,39dvh,330px)}
+.vehicle-cosmetic-preview-host{position:relative;isolation:isolate;background:none}
+.vehicle-cosmetic-slide{position:absolute;left:50%;top:0;width:76%;height:100%;display:grid;grid-template-rows:minmax(0,1fr) auto;grid-template-columns:minmax(0,1fr);place-items:center;transform-origin:center;pointer-events:none;background:none}
+.vehicle-cosmetic-image{display:block;grid-area:1/1;min-width:0;min-height:0;width:100%;height:100%;object-fit:contain;pointer-events:none;user-select:none;-webkit-user-drag:none;background:none}
+.vehicle-cosmetic-image-fallback{grid-area:1/1;font-family:inherit;font-size:23px;font-weight:800;text-align:center;color:#fff6df}
+.vehicle-cosmetic-caption{grid-area:2/1;max-width:100%;font-family:inherit;font-size:14px;font-weight:800;line-height:1.2;text-align:center;color:#fff6df;margin:0 0 10px}
+.vehicle-smoke-name,.vehicle-track-name{font-weight:800;text-align:center;margin:0 0 5px;font-size:19px}
+.vehicle-smoke-note,.vehicle-track-note{font-size:13px;text-align:center;opacity:.7;margin:0}
+.vehicle-smoke-apply,.vehicle-track-apply{display:flex;align-items:center;justify-content:center;min-height:44px;width:min(100%,340px);margin:12px auto 0}
+.vehicle-smoke-slide .vehicle-cosmetic-caption,.vehicle-track-slide .vehicle-cosmetic-caption,.vehicle-neon-slide .vehicle-cosmetic-caption{display:none}
+@media(max-height:500px){.vehicle-smoke-panel .vehicle-smoke-preview-host,.vehicle-track-panel .vehicle-track-preview-host{height:clamp(90px,34dvh,160px)}.vehicle-neon-panel .vehicle-neon-preview-host{height:clamp(80px,22dvh,110px)}}

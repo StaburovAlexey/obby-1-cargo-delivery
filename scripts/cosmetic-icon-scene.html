@@ -1,0 +1,125 @@
+<!doctype html><html><head><meta charset="utf-8"><script type="importmap">{"imports":{"three":"/dist/vendor/three.module.js"}}</script></head><body><script type="module">
+import * as THREE from '/dist/vendor/three.module.js';
+import { configureModelLoading } from '/dist/model-loader.js';
+import { loadCosmoVehicle } from '/dist/cosmo-vehicles.js';
+import { loadBMWVehicle } from '/dist/bmw-vehicle.js';
+import { createVehicleLiveryController } from '/dist/vehicle-livery-materials.js';
+import { createVehicleNeonGlowResources, vehicleNeonFootprint } from '/dist/vehicle-neon-glow.js';
+import { VEHICLE_NEON_CATALOG } from '/dist/vehicle-neon-catalog.js';
+import { createDriftEffects } from '/dist/drift-effects.js';
+const WIDTH=512, HEIGHT=448;
+const renderer = new THREE.WebGLRenderer({alpha:true,antialias:true,preserveDrawingBuffer:true});
+renderer.setSize(WIDTH,HEIGHT); renderer.setPixelRatio(1);
+renderer.outputColorSpace=THREE.SRGBColorSpace;
+renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.18;
+renderer.setClearColor(0x000000,0); document.body.append(renderer.domElement);
+configureModelLoading(renderer);
+const scene=new THREE.Scene();
+scene.add(new THREE.HemisphereLight(0xf1f8ff,0x697080,2.6));
+const key=new THREE.DirectionalLight(0xffefd6,3.8); key.position.set(5,8,-6); scene.add(key);
+const rim=new THREE.DirectionalLight(0xa7dcff,2.6); rim.position.set(-6,4,6); scene.add(rim);
+const fill=new THREE.DirectionalLight(0xffffff,1.5); fill.position.set(1,3,8); scene.add(fill);
+const camera=new THREE.OrthographicCamera(-4,4,3.5,-3.5,.05,100);
+let current=null;
+function frame(halfHeight,position,target){camera.left=-halfHeight*WIDTH/HEIGHT;camera.right=-camera.left;camera.top=halfHeight;camera.bottom=-halfHeight;camera.position.set(...position);camera.lookAt(...target);camera.updateProjectionMatrix();}
+async function car(id){
+ if(current?.id===id)return current;
+ if(current){current.controller.dispose();current.adapter.dispose();current.root.removeFromParent();}
+ const adapter=id==='bmwreward'?await loadBMWVehicle(THREE):await loadCosmoVehicle(THREE,id);
+ const bounds=new THREE.Box3().setFromObject(adapter.group,true),size=bounds.getSize(new THREE.Vector3()),center=bounds.getCenter(new THREE.Vector3());
+ const root=new THREE.Group(); root.scale.setScalar(4.65/size.z);scene.add(root);
+ adapter.group.position.set(-center.x,-bounds.min.y,-center.z);root.add(adapter.group);
+ const controller=createVehicleLiveryController(THREE,adapter,id);
+ current={id,adapter,controller,root,bounds,size,center};return current;
+}
+function reset(c){c.adapter.reset();c.adapter.group.position.set(-c.center.x,-c.bounds.min.y,-c.center.z);c.root.rotation.set(0,0,0);renderer.toneMappingExposure=1.18;}
+function iconWheelMetadata(c){
+ // Runtime contacts are local to adapter.group. The icon also recentres that
+ // group and scales its root; effect geometry lives in the resulting scene
+ // coordinates, so apply both transforms before drawing trails or particles.
+ const scale=c.root.scale.x;
+ const wheelContacts=c.adapter.metadata.wheelContacts.map(wheel=>({...wheel,
+  center:new THREE.Vector3(...wheel.center).add(c.adapter.group.position).multiplyScalar(scale).toArray(),
+  radius:wheel.radius*scale,halfWidth:wheel.halfWidth*scale,
+ }));
+ return {...c.adapter.metadata,wheelContacts};
+}
+function driftSample(metadata,x,z,heading,velocityX,velocityZ){
+ const quaternion=new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),heading);
+ const position=new THREE.Vector3(x,0,z);
+ const wheelContacts=metadata.wheelContacts.filter(wheel=>!wheel.front).map(wheel=>{
+  const point=new THREE.Vector3(...wheel.center).applyQuaternion(quaternion).add(position);point.y=0;
+  return {name:wheel.name,grounded:true,point,normal:{x:0,y:1,z:0}};
+ });
+ return {state:{x,z,heading,linearSpeed:15,driftIntensity:1,velocityX,velocityZ,wheelContacts},pose:{position,quaternion}};
+}
+function wheelSmokeComposition(effects,metadata,yaw,id){
+ // A deterministic frozen plume makes the two tyre origins legible in a
+ // small card. Geometry, atlas, shader and alpha blending are the real effect.
+ const custom=id!=='standard',perWheel=custom?7:24,object=new THREE.Object3D();
+ const rotation=new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),yaw);
+ const back=new THREE.Vector3(0,0,1).applyQuaternion(rotation);
+ const alpha=effects.smoke.geometry.attributes.opacity;
+ let index=0;
+ for(const wheel of metadata.wheelContacts.filter(wheel=>!wheel.front)){
+  const origin=new THREE.Vector3(...wheel.center).applyQuaternion(rotation);origin.y=0;
+  const side=wheel.side==='left'?-1:1,outward=new THREE.Vector3(side,0,0).applyQuaternion(rotation);
+  for(let i=0;i<perWheel;i++){
+   const age=i/(perWheel-1),jitter=Math.sin(i*2.4+side)*(custom?.13:.035)*age;
+   object.position.copy(origin).addScaledVector(back,age*(custom?2.0:1.7)).addScaledVector(outward,age*age*(custom?.72:.48)+jitter);
+   object.position.y=.10+age*.30+Math.sin(i*1.9)*(custom?.07:.025)*age;
+   object.quaternion.copy(camera.quaternion);
+   object.scale.setScalar(wheel.radius*(custom?.55+age*1.4:.8+age*2.1));
+   object.updateMatrix();effects.smoke.setMatrixAt(index,object.matrix);
+   alpha.array[index++]=custom?.94*(1-age*.32):.58*(1-age*.45);
+  }
+ }
+ effects.smoke.count=index;effects.smoke.instanceMatrix.needsUpdate=true;alpha.needsUpdate=true;effects.group.visible=true;
+}
+window.renderCosmetic=async function(type,id,vehicleId='bmwreward'){
+ const c=await car(vehicleId);reset(c);await c.controller.preview(type==='livery'?id:'base');
+ let cleanup=()=>{};
+ if(type==='livery')frame(2.55,[7,4.1,-8],[0,1,0]);
+ if(type==='neon'){
+  frame(3.0,[7,4.3,-8],[0,.6,0]);renderer.toneMappingExposure=.92;
+  const resources=createVehicleNeonGlowResources(THREE),material=resources.createMaterial(VEHICLE_NEON_CATALOG.find(v=>v.id===id).color);
+  // A transparent export needs source-over alpha; additive light over alpha=0
+  // otherwise disappears when the icon is composited into the shop.
+  material.blending=THREE.NormalBlending; material.opacity=.88;
+  const glow=resources.createGlow(vehicleNeonFootprint(THREE,c.adapter),material);c.root.add(glow);
+  cleanup=()=>{glow.removeFromParent();resources.dispose();};
+ }
+ if(type==='tracks'||type==='smoke'){
+  const effects=createDriftEffects(THREE,{height:()=>0});scene.add(effects.group);
+  const metadata=iconWheelMetadata(c);
+  if(type==='tracks'){
+   // The chassis is yawed across its current travel tangent. Its two curved
+   // ribbons finish at the rendered rear tyres, making the slide readable.
+   const yaw=-.58;c.root.rotation.y=yaw;c.adapter.update({steerAngle:.34,bodyRoll:-.025});
+   frame(3.55,[0,6.8,14],[-.65,.65,2.0]);effects.setTrackStyle(id);
+   for(let i=0;i<100;i++){
+    const t=1-i/99,x=-2.9*t*t,z=6.1*t,heading=yaw-Math.atan2(5.8*t,6.1);
+    const sample=driftSample(metadata,x,z,heading,5.8*t,-6.1);
+    effects.update(.02,sample.state,{metadata,pose:sample.pose,camera});
+   }
+   // Runtime marks receive opacity on the following update. Freeze one more
+   // frame at the final pose so the visible ribbon reaches the tyre itself.
+   const finalSample=driftSample(metadata,0,0,yaw,0,-6.1);
+   effects.update(.02,finalSample.state,{metadata,pose:finalSample.pose,camera});
+   effects.smoke.visible=false;
+   // Static cards show both tyre ribbons clearly, including the unlit standard.
+   const alpha=effects.skids.geometry.attributes.opacity;for(let i=0;i<alpha.count;i++)if(alpha.array[i]>0)alpha.array[i]=Math.min(1,alpha.array[i]*1.3);alpha.needsUpdate=true;
+  }else{
+   const yaw=-.12;c.root.rotation.y=yaw;c.adapter.update({steerAngle:.16});
+   frame(2.75,[2.8,4.1,12],[0,.7,.9]);effects.setSmokeStyle(id);
+   wheelSmokeComposition(effects,metadata,yaw,id);
+   effects.skids.visible=false;
+  }
+  window.cosmeticIconDiagnostics={scale:c.root.scale.x,offset:c.adapter.group.position.toArray(),rawRearContacts:c.adapter.metadata.wheelContacts.filter(w=>!w.front).map(w=>w.center),iconRearContacts:metadata.wheelContacts.filter(w=>!w.front).map(w=>w.center)};
+  cleanup=()=>effects.dispose();
+ }
+ scene.updateMatrixWorld(true); await renderer.compileAsync(scene,camera);renderer.render(scene,camera);
+ const data=renderer.domElement.toDataURL('image/png');cleanup();return data;
+};
+window.cosmeticIconReady=true;
+</script></body></html>

@@ -126,7 +126,7 @@ export function attachVehicleBrakeLights(THREE, { scene, normalized, model, reso
       resources.geometries.add(geometry);
       const mesh = new THREE.Mesh(geometry, material);
       mesh.name = `Lamb rear ${side < 0 ? 'left' : 'right'} brake lens`;
-      mesh.castShadow = mesh.receiveShadow = true;
+      mesh.castShadow = true; mesh.receiveShadow = false;
       mesh.userData.vehicleBrakeTriangles = 12;
       mesh.userData.vehicleBrakeSupplement = true;
       normalized.add(mesh);

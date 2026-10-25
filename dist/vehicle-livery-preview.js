@@ -1,4 +1,4 @@
-import { createVehicleLiveryController } from './vehicle-livery-materials.js';
+import { createVehicleLiveryController, getVehicleLiverySource } from './vehicle-livery-materials.js';
 import { VEHICLE_LIVERY_CATALOG } from './vehicle-livery-catalog.js';
 
 /** Clone transforms only. Geometry, textures and original materials remain source-owned. */
@@ -7,6 +7,7 @@ export function cloneVehicleForLiveryPreview(adapter) {
   const group = adapter.group.clone(true), mapping = new Map();
   const pair = (source, clone) => {
     mapping.set(source, clone);
+    if(source.isMesh){const base=getVehicleLiverySource(source);clone.geometry=base.geometry;clone.material=base.material;}
     source.children.forEach((child, index) => pair(child, clone.children[index]));
   };
   pair(adapter.group, group);
@@ -141,6 +142,8 @@ export function createVehicleLiveryPreview(THREE, host, options = {}) {
   }
   function loadModels(adapter, vehicleId, variants) {
     releaseModels();
+    // A gallery slot can start in a later frame than the host's show() call.
+    options.beforeClone?.();
     spinAngle = -.5;
     source = adapter; vehicle = vehicleId;
     // Normalize once, before any carousel transform can influence body-local UVs.

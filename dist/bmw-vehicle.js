@@ -223,7 +223,7 @@ export function createBMWVehicleAdapter(THREE, vehicleId, gltf) {
     group.traverse(mesh => {
       if (!mesh.isMesh) return;
       mesh.castShadow = true;
-      mesh.receiveShadow = true;
+      mesh.receiveShadow = false;
       triangles += (mesh.geometry.index?.count ?? mesh.geometry.attributes.position.count) / 3;
       primitives += materialList(mesh).length;
     });

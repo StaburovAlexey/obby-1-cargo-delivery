@@ -356,13 +356,13 @@ export function createCosmoVehicleAdapter(THREE, vehicleId, gltf) {
     scene.traverse(node => {
       if (!node.isMesh) return;
       node.castShadow = true;
-      node.receiveShadow = true;
+      node.receiveShadow = false;
     });
 
     group.traverse(node => {
       if (!node.isMesh) return;
       node.castShadow = true;
-      node.receiveShadow = true;
+      node.receiveShadow = false;
       triangles += (node.geometry.index?.count ?? node.geometry.attributes.position.count) / 3;
       primitives += Array.isArray(node.material) ? node.material.length : 1;
     });

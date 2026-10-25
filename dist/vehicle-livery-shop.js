@@ -1,31 +1,37 @@
 import { createItemCarousel } from './item-carousel.js';
 import { VEHICLE_NEON_COLORS } from './vehicle-neon-catalog.js';
 import { DEFAULT_VEHICLE_SMOKE_ID, VEHICLE_SMOKE_STYLES, getVehicleSmokeStyle } from './vehicle-smoke-catalog.js';
+import { DEFAULT_VEHICLE_TRACK_ID, VEHICLE_TRACK_STYLES, getVehicleTrackStyle } from './vehicle-track-catalog.js';
+import { getVehicleLiveryIcon, getVehicleNeonIcon, getVehicleSmokeIcon, getVehicleCosmeticCategoryIcon } from './vehicle-cosmetic-icons.js';
 import { modalPart } from './modal-ui.js';
 import { BASE_VEHICLE_LIVERY_ID, VEHICLE_LIVERY_CATALOG, getVehicleLivery, vehicleLiveryName } from './vehicle-livery-catalog.js';
 
 const copy = Object.freeze({
-  ru: { shop: 'Магазин', newLook: 'Новый внешний вид!', neon: 'Неоновая подсветка', smoke: 'Дым из-под колёс', smokeNote: 'Один эффект для всех машин.', soon: 'Скоро', selected: 'Выбрано', smokeFailed: 'Не удалось выбрать эффект. Попробуйте ещё раз.', back: 'Назад', neonPreview: 'Предпросмотр', title: 'Расцветки', close: 'Закрыть магазин расцветок', apply: 'Выбрать', choose: 'Расцветки машины', loading: 'Загрузка', failed: 'Не удалось загрузить', base: 'Стандартная', preview: 'Только просмотр' },
-  en: { shop: 'Shop', newLook: 'New look!', neon: 'Neon lighting', smoke: 'Tire smoke', smokeNote: 'One effect for every car.', soon: 'Coming soon', selected: 'Selected', smokeFailed: 'Could not select effect. Please try again.', back: 'Back', neonPreview: 'Preview', title: 'Liveries', close: 'Close livery shop', apply: 'Select', choose: 'Car liveries', loading: 'Loading', failed: 'Could not load', base: 'Standard', preview: 'Preview only' },
+  ru: { shop: 'Магазин', newLook: 'Новый внешний вид!', neon: 'Неоновая подсветка', smoke: 'Дым из-под колёс', tracks: 'Следы от шин', trackNote: 'Один эффект для всех машин. Выбор на время сессии.', smokeNote: 'Один эффект для всех машин.', soon: 'Скоро', selected: 'Выбрано', smokeFailed: 'Не удалось выбрать эффект. Попробуйте ещё раз.', back: 'Назад', neonPreview: 'Предпросмотр', title: 'Расцветки', close: 'Закрыть магазин расцветок', apply: 'Выбрать', choose: 'Расцветки машины', loading: 'Загрузка', failed: 'Не удалось загрузить', base: 'Стандартная', preview: 'Только просмотр' },
+  en: { shop: 'Shop', newLook: 'New look!', neon: 'Neon lighting', smoke: 'Tire smoke', tracks: 'Tire tracks', trackNote: 'One effect for every car. Selected for this session.', smokeNote: 'One effect for every car.', soon: 'Coming soon', selected: 'Selected', smokeFailed: 'Could not select effect. Please try again.', back: 'Back', neonPreview: 'Preview', title: 'Liveries', close: 'Close livery shop', apply: 'Select', choose: 'Car liveries', loading: 'Loading', failed: 'Could not load', base: 'Standard', preview: 'Preview only' },
 });
 
 /**
  * Creates a preview-only shop and appends its dialog to document.body.
  * onPreview(vehicleId, liveryId) is called immediately, including for locked cars.
  * It may return a Promise; throw/reject/return false to report a failed preview.
- * The host must make requests latest-wins and release its isolated preview in onClose.
- * Only explicit onApply may change the hangar car; locked finishes cannot apply.
+ * These callbacks validate static artwork; this dialog creates no renderer.
+ * Only explicit onApply may change the hangar car. Developer access is opt-in.
  * Neon ownership and purchases are delegated to the host callbacks.
  */
 export function createVehicleLiveryShop(doc, {
   language = () => 'ru', canOpen = () => true, button = null,
   autoPreview = false, onApply = () => true,
+  canUseLiveries = () => false, getSelectedLiveryId = () => BASE_VEHICLE_LIVERY_ID, getSelectedNeonId = () => null,
+  canUseTracks = () => false, getSelectedTrackId = () => DEFAULT_VEHICLE_TRACK_ID, onTrackApply = () => false,
   canUseSmoke = () => false, getSelectedSmokeId = () => DEFAULT_VEHICLE_SMOKE_ID, onSmokeApply = () => false,
   onPreview = () => true, onNeonPreview = () => true, getNeonOffer = () => null, onNeonApply = () => false, onNeonDisable = () => false, onSectionChange = () => {}, onClose = () => {}, onOpenChange = () => {},
 } = {}) {
   let opened = false, disposed = false, closing = false, visible = true, epoch = 0, returnFocus = null;
   let background = [], languageOverride = null, section = 'categories', neonSelected = VEHICLE_NEON_COLORS[0].id, neonToken = 0, neonLoading = false, neonError = false, neonBuying = false, neonPurchaseError = false;
   let smokeSelected = DEFAULT_VEHICLE_SMOKE_ID, smokeApplying = false, smokeApplyError = false;
+  let trackSelected = DEFAULT_VEHICLE_TRACK_ID, trackApplying = false, trackApplyError = false, trackToken = 0;
+  const appliedTrackId = () => getVehicleTrackStyle(getSelectedTrackId())?.id ?? DEFAULT_VEHICLE_TRACK_ID;
   const appliedSmokeId = () => getVehicleSmokeStyle(getSelectedSmokeId())?.id ?? DEFAULT_VEHICLE_SMOKE_ID;
   const listeners = [], rows = new Map();
   const lang = () => (languageOverride ?? (typeof language === 'function' ? language() : language)) === 'en' ? 'en' : 'ru';
@@ -61,42 +67,64 @@ export function createVehicleLiveryShop(doc, {
   closeButton.textContent = '×';
   const categories = make('div', 'vehicle-shop-categories', panel, { id: 'vehicle-shop-categories' });
   const categoryButtons = {};
-  for (const id of ['liveries', 'neon', 'smoke']) {
+  for (const id of ['liveries', 'neon', 'smoke', 'tracks']) {
     const entry = make('button', 'vehicle-shop-category', categories, { type: 'button', 'data-shop-category': id });
-    const picture = make('img', '', entry, { alt: '', draggable: 'false', decoding: 'async' });
-    // Literal URLs are required by the production bundler.
-    const pictureUrl = id === 'liveries' ? new URL('./assets/shop/new-look.webp', import.meta.url).href : id === 'neon' ? new URL('./assets/shop/neon.webp', import.meta.url).href : new URL('./assets/shop/tire-smoke.webp', import.meta.url).href;
+    const picture = make('img', '', entry, { alt: '', draggable: 'false', loading: 'lazy', decoding: 'async' });
+    const pictureUrl = getVehicleCosmeticCategoryIcon(id);
     const label = make('span', 'vehicle-shop-category-title', entry);
     categoryButtons[id] = { entry, label, picture, pictureUrl };
     listen(entry, 'click', () => setSection(id));
   }
   const smokeSoon = make('span', 'vehicle-smoke-soon', categoryButtons.smoke.entry);
-  const smokePanel = make('div', 'vehicle-smoke-panel', panel, { id: 'vehicle-smoke-panel' });
-  const smokeSlides = [];
-  function renderSmoke(position) {
-    for (let index = 0; index < smokeSlides.length; index++) {
-      const item = smokeSlides[index];
-      // Nearest wrapped position allows a single image per style to loop continuously.
-      let offset = ((index - position) % smokeSlides.length + smokeSlides.length) % smokeSlides.length;
-      if (offset > smokeSlides.length / 2) offset -= smokeSlides.length;
-      item.slide.hidden = Math.abs(offset) > 1.4;
-      item.slide.style.transform = `translateX(${offset * 112 - 50}%) scale(${1 - Math.min(1, Math.abs(offset)) * .12})`;
-      item.slide.style.opacity = String(1 - Math.min(1, Math.abs(offset)) * .45);
-      if (opened && section === 'smoke' && !item.slide.hidden && !item.image.src) item.image.src = item.style.iconUrl;
+  const trackSoon = make('span', 'vehicle-smoke-soon', categoryButtons.tracks.entry);
+
+  // Every section shares static slides and the same continuous swipe controller.
+  // Loading is restricted to the visible center and neighboring slides.
+  function createImageCarousel({ parent, items, sectionId, classPrefix, hostId, imageUrl, caption, onSelect }) {
+    const slides = [];
+    function render(position) {
+      for (let index = 0; index < slides.length; index++) {
+        const item = slides[index];
+        let offset = ((index - position) % slides.length + slides.length) % slides.length;
+        if (offset > slides.length / 2) offset -= slides.length;
+        const distance = Math.abs(offset), depth = Math.min(1, distance);
+        item.slide.hidden = distance >= 1.5;
+        // Positions use the viewport width, not the slide's own width: transparent
+        // padding must not push both neighboring cars beyond the clipped viewport.
+        item.slide.style.left = `${50 + offset * 34}%`;
+        item.slide.style.transform = `translateX(-50%) scale(${1 - depth * .32})`;
+        item.slide.style.opacity = String((1 - depth * .35) * Math.max(0, Math.min(1, (1.5 - distance) * 2)));
+        item.slide.style.zIndex = String(10 - Math.round(distance * 4));
+        item.label.style.visibility = distance < .5 ? 'visible' : 'hidden';
+        if (opened && section === sectionId && !item.slide.hidden && !item.image.src) {
+          const url = imageUrl(item.style);
+          if (url) item.image.src = url;
+        }
+      }
     }
+    const carousel = createItemCarousel(doc, { parent, items, onSelect, onPositionChange: render });
+    const host = carousel.viewport;
+    host.className += ` vehicle-cosmetic-preview-host ${classPrefix}-preview-host`;
+    host.setAttribute('id', hostId);
+    for (const style of items) {
+      const slide = make('div', `vehicle-cosmetic-slide ${classPrefix}-slide`, host, { 'aria-hidden': 'true', 'data-cosmetic-id': style.id });
+      const image = make('img', `vehicle-cosmetic-image ${classPrefix}-image`, slide, { alt: '', draggable: 'false', loading: 'lazy', decoding: 'async' });
+      const fallback = make('span', `vehicle-cosmetic-image-fallback ${classPrefix}-image-fallback`, slide);
+      const label = make('span', 'vehicle-cosmetic-caption', slide);
+      fallback.hidden = true;
+      listen(image, 'error', () => { image.hidden = true; fallback.hidden = false; label.hidden = true; });
+      slides.push({ style, slide, image, fallback, label });
+    }
+    return { ...carousel, refreshImages() {
+      for (const item of slides) item.fallback.textContent = item.label.textContent = caption(item.style);
+      render(host.carouselPosition);
+    } };
   }
-  const smokeCarousel = createItemCarousel(doc, { parent: smokePanel, items: VEHICLE_SMOKE_STYLES, onSelect: (id, options) => selectSmoke(id, options), onPositionChange: renderSmoke });
+  const smokePanel = make('div', 'vehicle-smoke-panel', panel, { id: 'vehicle-smoke-panel' });
+  const smokeCarousel = createImageCarousel({ parent: smokePanel, items: VEHICLE_SMOKE_STYLES, sectionId: 'smoke',
+    classPrefix: 'vehicle-smoke', hostId: 'vehicle-smoke-preview', imageUrl: style => getVehicleSmokeIcon(style.id),
+    caption: style => style.name[lang()], onSelect: (id, options) => selectSmoke(id, options) });
   const smokeHost = smokeCarousel.viewport;
-  smokeHost.className += ' vehicle-smoke-preview-host';
-  smokeHost.setAttribute('id', 'vehicle-smoke-preview');
-  for (const style of VEHICLE_SMOKE_STYLES) {
-    const slide = make('div', 'vehicle-smoke-slide', smokeHost, { 'aria-hidden': 'true' });
-    const image = make('img', 'vehicle-smoke-image', slide, { alt: '', draggable: 'false', loading: 'lazy', decoding: 'async' });
-    const fallback = make('span', 'vehicle-smoke-image-fallback', slide);
-    fallback.hidden = true;
-    listen(image, 'error', () => { image.hidden = true; fallback.hidden = false; });
-    smokeSlides.push({ style, slide, image, fallback });
-  }
   const smokeName = make('p', 'vehicle-smoke-name', smokePanel, { id: 'vehicle-smoke-name', role: 'status', 'aria-live': 'polite' });
   const smokeNote = make('p', 'vehicle-smoke-note', smokePanel);
   const smokeApply = make('button', modalPart('button', 'vehicle-smoke-apply'), smokePanel, { id: 'vehicle-smoke-apply', type: 'button' });
@@ -107,11 +135,33 @@ export function createVehicleLiveryShop(doc, {
     catch { smokeApplyError = true; }
     finally { smokeApplying = false; refresh(); }
   });
+  const trackPanel = make('div', 'vehicle-track-panel', panel, { id: 'vehicle-track-panel' });
+  const trackCarousel = createImageCarousel({ parent: trackPanel, items: VEHICLE_TRACK_STYLES, sectionId: 'tracks',
+    classPrefix: 'vehicle-track', hostId: 'vehicle-track-preview', imageUrl: style => style.iconUrl,
+    caption: style => style.name[lang()], onSelect: (id, options) => selectTrack(id, options) });
+  const trackHost = trackCarousel.viewport;
+  const trackName = make('p', 'vehicle-track-name', trackPanel, { id: 'vehicle-track-name', role: 'status', 'aria-live': 'polite' });
+  const trackNote = make('p', 'vehicle-track-note', trackPanel, { id: 'vehicle-track-note' });
+  const trackApply = make('button', modalPart('button', 'vehicle-track-apply'), trackPanel, { id: 'vehicle-track-apply', type: 'button' });
+  listen(trackApply, 'click', () => {
+    if (disposed || !opened || section !== 'tracks' || !canOpen() || !canUseTracks() || trackApply.disabled || trackApplying || trackSelected === appliedTrackId()) return;
+    const id = trackSelected, token = ++trackToken, openEpoch = epoch;
+    trackApplying = true; trackApplyError = false; refresh();
+    const settle = success => {
+      if (disposed || !opened || section !== 'tracks' || epoch !== openEpoch || token !== trackToken) return;
+      trackApplying = false; trackApplyError = !success; refresh();
+    };
+    try {
+      const result = onTrackApply(id);
+      if (result && typeof result.then === 'function') Promise.resolve(result).then(value => settle(value !== false), () => settle(false));
+      else settle(result !== false);
+    } catch { settle(false); }
+  });
   const neonPanel = make('div', 'vehicle-neon-panel', panel, { id: 'vehicle-neon-panel' });
-  const neonCarousel = createItemCarousel(doc, { parent: neonPanel, items: VEHICLE_NEON_COLORS, onSelect: id => selectNeon(id) });
+  const neonCarousel = createImageCarousel({ parent: neonPanel, items: VEHICLE_NEON_COLORS, sectionId: 'neon',
+    classPrefix: 'vehicle-neon', hostId: 'vehicle-neon-preview', imageUrl: style => getVehicleNeonIcon(style.id),
+    caption: style => style.name[lang()], onSelect: (id, options) => selectNeon(id, options) });
   const neonHost = neonCarousel.viewport;
-  neonHost.className += ' vehicle-neon-preview-host';
-  neonHost.setAttribute('id', 'vehicle-neon-preview');
   const neonLabel = make('p', 'vehicle-neon-color', neonPanel, { id: 'vehicle-neon-color', role: 'status', 'aria-live': 'polite' });
   const neonNote = make('p', 'vehicle-neon-note', neonPanel);
   const neonApply = make('button', modalPart('button', 'vehicle-neon-apply'), neonPanel, {id:'vehicle-neon-apply',type:'button'});
@@ -127,25 +177,27 @@ export function createVehicleLiveryShop(doc, {
 
   function updateRow(row) {
     const text = words(), selected = getVehicleLivery(row.vehicle.id, row.selected);
+    const canChoose = !!canUseLiveries(), equipped = canChoose && getSelectedLiveryId(row.vehicle.id) === row.selected;
     row.root.setAttribute('aria-label', row.vehicle.name[lang()]);
     row.root.setAttribute('aria-busy', String(row.loading));
     row.root.setAttribute('data-active', String(row.active));
-    row.status.textContent = row.loading ? text.loading : row.error ? text.failed : row.selected === BASE_VEHICLE_LIVERY_ID ? text.base : text.preview;
+    row.status.textContent = row.loading ? text.loading : row.error ? text.failed : equipped ? text.selected : canChoose ? text.apply : row.selected === BASE_VEHICLE_LIVERY_ID ? text.base : text.preview;
     row.status.setAttribute('data-state', row.error ? 'error' : row.loading ? 'loading' : selected.owned ? 'owned' : 'preview');
     const caption = `${row.vehicle.name[lang()]} · ${vehicleLiveryName(row.vehicle.id, row.selected, lang())}`;
     row.previewHost.setAttribute('aria-label', caption);
     row.carousel.update(row.selected);
     row.carousel.setLabels({ title: `${text.choose} ${row.vehicle.name[lang()]}` });
-    row.apply.disabled = row.selected !== BASE_VEHICLE_LIVERY_ID || row.loading || row.error || row.applying;
-    row.apply.textContent = text.apply;
-    row.apply.setAttribute('aria-label', `${text.apply}: ${caption}`);
+    row.carousel.refreshImages();
+    row.apply.disabled = (!canChoose && row.selected !== BASE_VEHICLE_LIVERY_ID) || row.loading || row.error || row.applying;
+    row.apply.textContent = equipped ? text.selected : text.apply;
+    row.apply.setAttribute('aria-label', `${row.apply.textContent}: ${caption}`);
   }
 
   function refresh() {
     if (disposed) return;
     const text = words();
     menu.setAttribute('lang', lang());
-    title.textContent = section === 'categories' ? text.shop : section === 'neon' ? text.neon : section === 'smoke' ? text.smoke : text.title;
+    title.textContent = section === 'categories' ? text.shop : section === 'neon' ? text.neon : section === 'smoke' ? text.smoke : section === 'tracks' ? text.tracks : text.title;
     backButton.hidden = section === 'categories';
     backButton.setAttribute('aria-label', text.back);
     categoryButtons.liveries.label.textContent = text.newLook;
@@ -158,10 +210,17 @@ export function createVehicleLiveryShop(doc, {
     categoryButtons.smoke.entry.setAttribute('aria-disabled', String(!smokeAllowed));
     categoryButtons.smoke.entry.setAttribute('aria-label', smokeAllowed ? text.smoke : `${text.smoke} · ${text.soon}`);
     smokeSoon.textContent = text.soon; smokeSoon.hidden = smokeAllowed;
+    const tracksAllowed = !!canUseTracks();
+    categoryButtons.tracks.label.textContent = text.tracks;
+    categoryButtons.tracks.entry.disabled = !tracksAllowed;
+    categoryButtons.tracks.entry.setAttribute('aria-disabled', String(!tracksAllowed));
+    categoryButtons.tracks.entry.setAttribute('aria-label', tracksAllowed ? text.tracks : `${text.tracks} · ${text.soon}`);
+    trackSoon.textContent = text.soon; trackSoon.hidden = tracksAllowed;
     categories.hidden = section !== 'categories';
     scroll.hidden = section !== 'liveries';
     neonPanel.hidden = section !== 'neon';
     smokePanel.hidden = section !== 'smoke';
+    trackPanel.hidden = section !== 'tracks';
     const smokeStyle = getVehicleSmokeStyle(smokeSelected);
     smokeName.textContent = smokeStyle.name[lang()];
     smokeNote.textContent = smokeApplyError ? text.smokeFailed : text.smokeNote;
@@ -171,12 +230,21 @@ export function createVehicleLiveryShop(doc, {
     smokeApply.setAttribute('aria-label', `${smokeApply.textContent}: ${smokeStyle.name[lang()]}`);
     smokeHost.setAttribute('aria-label', `${text.smoke}: ${smokeStyle.name[lang()]}`);
     smokeCarousel.setLabels({ title: text.smoke });
-    for (const item of smokeSlides) item.fallback.textContent = item.style.name[lang()];
-    renderSmoke(smokeHost.carouselPosition);
+    smokeCarousel.refreshImages();
+    const trackStyle = getVehicleTrackStyle(trackSelected), trackIsSelected = trackSelected === appliedTrackId();
+    trackName.textContent = trackStyle.name[lang()];
+    trackNote.textContent = trackApplyError ? text.smokeFailed : text.trackNote;
+    trackApply.disabled = !tracksAllowed || trackApplying || trackIsSelected;
+    trackApply.textContent = trackApplying ? text.loading : trackIsSelected ? text.selected : text.apply;
+    trackApply.setAttribute('aria-label', `${trackApply.textContent}: ${trackStyle.name[lang()]}`);
+    trackHost.setAttribute('aria-label', `${text.tracks}: ${trackStyle.name[lang()]}`);
+    trackHost.setAttribute('aria-busy', String(trackApplying));
+    trackCarousel.setLabels({ title: text.tracks });
+    trackCarousel.refreshImages();
     const neonColor = VEHICLE_NEON_COLORS.find(item => item.id === neonSelected);
     neonLabel.textContent = neonLoading ? text.loading : neonError ? text.failed : neonColor.name[lang()];
     const offer=section === 'neon' ? getNeonOffer(neonSelected) : null;
-    neonNote.textContent = neonPurchaseError ? (lang()==='ru'?'Покупка не завершена. Попробуйте ещё раз.':'Purchase not completed. Please try again.') : offer ? (lang()==='ru'?'Один цвет для всех машин. Покупка навсегда.':'One color for every car. Permanent unlock.') : text.neonPreview;
+    neonNote.textContent = neonPurchaseError ? (lang()==='ru'?'Покупка не завершена. Попробуйте ещё раз.':'Purchase not completed. Please try again.') : offer?.sessionOnly ? (lang()==='ru'?'Один цвет для всех машин. Выбор на время сессии.':'One color for every car. Selected for this session.') : offer ? (lang()==='ru'?'Один цвет для всех машин. Покупка навсегда.':'One color for every car. Permanent unlock.') : text.neonPreview;
     neonApply.hidden=!offer;neonDisable.hidden=!offer;
     neonApply.disabled=!offer||offer.disabled||neonBuying||neonLoading||neonError||offer.selected;
     neonApply.textContent=neonBuying?text.loading:offer?.selected?(lang()==='ru'?'Выбрано':'Selected'):offer?.owned?text.apply:`${lang()==='ru'?'Купить':'Buy'} · ${offer?.label||'—'}`;
@@ -185,6 +253,7 @@ export function createVehicleLiveryShop(doc, {
     neonHost.setAttribute('aria-label', `${text.neon}: ${neonColor.name[lang()]}`);
     neonHost.setAttribute('aria-busy', String(neonLoading));
     neonCarousel.setLabels({ title: text.neon });
+    neonCarousel.refreshImages();
     closeButton.setAttribute('aria-label', text.close);
     if (button) {
       button.setAttribute('aria-label', text.shop);
@@ -229,16 +298,17 @@ export function createVehicleLiveryShop(doc, {
     const row = { vehicle, root, selected: BASE_VEHICLE_LIVERY_ID,
       applied: BASE_VEHICLE_LIVERY_ID, token: 0, loading: false, error: false, active: false,
       applying: false, applyResult: null };
-    row.carousel = createItemCarousel(doc, {
-      parent: root, items: vehicle.variants,
-      onSelect: (id, options) => select(vehicle.id, id, options),
-    });
+    row.carousel = createImageCarousel({ parent: root, items: vehicle.variants, sectionId: 'liveries',
+      classPrefix: 'vehicle-livery', hostId: `vehicle-livery-preview-${vehicle.id}`,
+      imageUrl: style => getVehicleLiveryIcon(vehicle.id, style.id),
+      caption: style => `${vehicle.name[lang()]} · ${vehicleLiveryName(vehicle.id, style.id, lang())}`,
+      onSelect: (id, options) => select(vehicle.id, id, options) });
     row.previewHost = row.carousel.viewport;
     row.previewHost.className += ' vehicle-livery-preview-host';
     row.previewHost.setAttribute('id', `vehicle-livery-preview-${vehicle.id}`);
     row.apply = make('button', modalPart('button', 'vehicle-livery-apply'), root, { type: 'button', 'data-apply-vehicle': vehicle.id });
     listen(row.apply, 'click', () => {
-      if (!opened || section !== 'liveries' || row.apply.disabled || row.applying || row.selected !== BASE_VEHICLE_LIVERY_ID || !canOpen()) return;
+      if (!opened || section !== 'liveries' || row.apply.disabled || row.loading || row.error || row.applying || (!canUseLiveries() && row.selected !== BASE_VEHICLE_LIVERY_ID) || !canOpen()) return;
       const token = row.token, openEpoch = epoch;
       row.applying = true; row.applyResult = null; updateRow(row);
       const settle = success => {
@@ -252,11 +322,11 @@ export function createVehicleLiveryShop(doc, {
     rows.set(vehicle.id, row);
   }
 
-  function selectNeon(id) {
+  function selectNeon(id, { focus = false } = {}) {
     if (disposed || !opened || section !== 'neon' || !canOpen() || !VEHICLE_NEON_COLORS.some(item => item.id === id)) return false;
     const token = ++neonToken, openEpoch = epoch;
     neonSelected = id; neonLoading = true; neonError = false; neonPurchaseError = false;
-    neonCarousel.update(id); refresh();
+    neonCarousel.update(id, { focus }); refresh();
     const settle = success => {
       if (disposed || !opened || section !== 'neon' || epoch !== openEpoch || token !== neonToken) return;
       neonLoading = false; neonError = !success; refresh();
@@ -272,22 +342,33 @@ export function createVehicleLiveryShop(doc, {
     refresh();
     return true;
   }
+  function selectTrack(id, { focus = false } = {}) {
+    if (disposed || !opened || section !== 'tracks' || !canOpen() || !canUseTracks() || !getVehicleTrackStyle(id)) return false;
+    trackSelected = id; trackApplyError = false;
+    trackCarousel.update(id, { focus }); refresh();
+    return true;
+  }
   function setSection(next) {
-    if (!opened || disposed || !canOpen() || !['categories', 'liveries', 'neon', 'smoke'].includes(next) || (next === 'smoke' && !canUseSmoke())) return false;
+    if (!opened || disposed || !canOpen() || !['categories', 'liveries', 'neon', 'smoke', 'tracks'].includes(next) || (next === 'smoke' && !canUseSmoke()) || (next === 'tracks' && !canUseTracks())) return false;
     if (section === next) return true;
-    epoch++; neonToken++;
+    epoch++; neonToken++; trackToken++; trackApplying = false;
     section = next;
     neonCarousel.resetGesture(); neonCarousel.setEnabled(next === 'neon');
     smokeCarousel.setEnabled(next === 'smoke');
+    trackCarousel.setEnabled(next === 'tracks');
     if (next === 'smoke') {
       smokeSelected = appliedSmokeId(); smokeApplyError = false;
       smokeCarousel.update(smokeSelected, { immediate: true });
+    }
+    if (next === 'tracks') {
+      trackSelected = appliedTrackId(); trackApplyError = false;
+      trackCarousel.update(trackSelected, { immediate: true });
     }
     resetRows();
     for (const row of rows.values()) row.carousel.setEnabled(next === 'liveries');
     onSectionChange(next);
     scroll.scrollTop = 0; refresh();
-    if (next === 'liveries' && autoPreview) for (const vehicle of VEHICLE_LIVERY_CATALOG) select(vehicle.id, BASE_VEHICLE_LIVERY_ID);
+    if (next === 'liveries' && autoPreview) for (const row of rows.values()) select(row.vehicle.id, row.selected);
     if (next === 'neon') selectNeon(neonSelected);
     if (next === 'categories') categoryButtons.liveries.entry.focus?.();
     else backButton.focus?.();
@@ -301,9 +382,11 @@ export function createVehicleLiveryShop(doc, {
     for (const row of rows.values()) {
       resetGesture(row);
       row.token++;
-      row.selected = row.applied = BASE_VEHICLE_LIVERY_ID;
+      const selected = canUseLiveries() ? getSelectedLiveryId(row.vehicle.id) : BASE_VEHICLE_LIVERY_ID;
+      const applied = getVehicleLivery(row.vehicle.id, selected) ? selected : BASE_VEHICLE_LIVERY_ID;
+      row.selected = row.applied = applied;
       row.loading = row.error = row.active = row.applying = false; row.applyResult = null;
-      row.carousel.update(BASE_VEHICLE_LIVERY_ID, { immediate: true });
+      row.carousel.update(applied, { immediate: true });
       row.carousel.setEnabled(opened && section === 'liveries');
       updateRow(row);
     }
@@ -316,6 +399,7 @@ export function createVehicleLiveryShop(doc, {
     menu.hidden = true;
     neonToken++; neonCarousel.resetGesture(); neonCarousel.setEnabled(false);
     smokeCarousel.setEnabled(false);
+    trackToken++; trackApplying = false; trackCarousel.setEnabled(false);
     button?.setAttribute('aria-expanded', 'false');
     doc.body.classList.remove('vehicle-livery-shop-open');
     releaseBackground();
@@ -340,10 +424,13 @@ export function createVehicleLiveryShop(doc, {
     if (opened) return true;
     for (const {picture,pictureUrl} of Object.values(categoryButtons)) if(!picture.src)picture.src=pictureUrl;
     opened = true;
-    section = 'categories'; neonSelected = VEHICLE_NEON_COLORS[0].id; neonLoading = neonError = false;
+    const appliedNeon = getSelectedNeonId();
+    section = 'categories'; neonSelected = VEHICLE_NEON_COLORS.some(item => item.id === appliedNeon) ? appliedNeon : VEHICLE_NEON_COLORS[0].id; neonLoading = neonError = false;
     neonCarousel.update(neonSelected, { immediate: true }); neonCarousel.setEnabled(false);
     smokeSelected = appliedSmokeId(); smokeApplyError = false;
     smokeCarousel.update(smokeSelected, { immediate: true }); smokeCarousel.setEnabled(false);
+    trackSelected = appliedTrackId(); trackApplyError = trackApplying = false; trackToken++;
+    trackCarousel.update(trackSelected, { immediate: true }); trackCarousel.setEnabled(false);
     epoch++;
     returnFocus = button || doc.activeElement;
     resetRows();
@@ -359,7 +446,7 @@ export function createVehicleLiveryShop(doc, {
     closeButton.focus?.();
     return true;
   }
-  const focusable = () => [closeButton, ...(section === 'categories' ? Object.values(categoryButtons).map(item => item.entry).filter(node => !node.disabled) : section === 'smoke' ? [backButton, smokeHost, ...[smokeApply].filter(node => !node.disabled)] : section === 'neon' ? [backButton, neonHost, ...[neonApply,neonDisable].filter(node=>!node.hidden&&!node.disabled)] : [backButton, ...[...rows.values()].flatMap(row => [row.previewHost, row.apply].filter(node => !node.disabled))])];
+  const focusable = () => [closeButton, ...(section === 'categories' ? Object.values(categoryButtons).map(item => item.entry).filter(node => !node.disabled) : section === 'tracks' ? [backButton, trackHost, ...[trackApply].filter(node => !node.disabled)] : section === 'smoke' ? [backButton, smokeHost, ...[smokeApply].filter(node => !node.disabled)] : section === 'neon' ? [backButton, neonHost, ...[neonApply,neonDisable].filter(node=>!node.hidden&&!node.disabled)] : [backButton, ...[...rows.values()].flatMap(row => [row.previewHost, row.apply].filter(node => !node.disabled))])];
   function onKeyDown(event) {
     if (!opened) return;
     event.stopPropagation();
@@ -386,7 +473,7 @@ export function createVehicleLiveryShop(doc, {
   listen(menu, 'keydown', onKeyDown);
   listen(doc, 'keydown', onKeyDown);
   listen(doc, 'focusin', event => { if (opened && !contains(menu, event.target)) closeButton.focus?.(); });
-  listen(doc.defaultView || doc, 'blur', () => { for (const row of rows.values()) resetGesture(row); neonCarousel.resetGesture(); smokeCarousel.resetGesture(); });
+  listen(doc.defaultView || doc, 'blur', () => { for (const row of rows.values()) resetGesture(row); neonCarousel.resetGesture(); smokeCarousel.resetGesture(); trackCarousel.resetGesture(); });
   for (const node of [menu, button].filter(Boolean)) {
     for (const type of ['keyup', 'click', 'pointerdown', 'pointermove', 'pointerup', 'pointercancel', 'touchstart', 'touchmove', 'touchend', 'touchcancel', 'wheel']) {
       listen(node, type, event => event.stopPropagation());
@@ -403,6 +490,7 @@ export function createVehicleLiveryShop(doc, {
       for (const row of rows.values()) row.carousel.destroy();
       neonCarousel.destroy();
       smokeCarousel.destroy();
+      trackCarousel.destroy();
       menu.remove();
     }
   }
@@ -416,6 +504,7 @@ export function createVehicleLiveryShop(doc, {
     },
     isOpen: () => opened, refresh, setSection, getSection: () => section,
     getNeonPreviewHost: () => neonHost, previewNeon: selectNeon, getNeonSelection: () => neonSelected,
+    getTrackPreviewHost: () => trackHost, previewTrack: selectTrack, getTrackSelection: () => trackSelected,
     getSmokePreviewHost: () => smokeHost, previewSmoke: selectSmoke, getSmokeSelection: () => smokeSelected,
     getPreviewHost: vehicleId => rows.get(vehicleId || VEHICLE_LIVERY_CATALOG[0].id)?.previewHost,
     setLanguage(next) { languageOverride = next === 'en' ? 'en' : 'ru'; refresh(); return lang(); },

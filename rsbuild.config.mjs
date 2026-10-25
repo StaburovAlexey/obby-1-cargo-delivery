@@ -32,7 +32,7 @@ export default defineConfig(({env})=>{
     copy: [
 
 
-      { from: './dist/assets', to: 'assets', globOptions: { ignore: ['**/*.glb', '**/liveries/**', '**/shop/*.webp', '**/smoke/*.webp', '**/decoders/**'] } },
+      { from: './dist/assets', to: 'assets', globOptions: { ignore: ['**/*.glb', '**/liveries/**', '**/shop/*.webp', '**/shop-previews/**', '**/tracks/**', '**/smoke/*.webp', '**/decoders/**'] } },
       { from: './dist/vendor/THREE-LICENSE.txt', to: 'licenses/THREE-LICENSE.txt' },
       { from: './dist/vendor/RAPIER-LICENSE.txt', to: 'licenses/RAPIER-LICENSE.txt' },
       { from: './dist/vendor/MESHOPT-LICENSE.txt', to: 'licenses/MESHOPT-LICENSE.txt' },

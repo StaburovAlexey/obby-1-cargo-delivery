@@ -1,6 +1,8 @@
 import {wheelContactVisual} from './wheel-contact-visuals.js';
 import {DEFAULT_VEHICLE_SMOKE_ID,getVehicleSmokeStyle} from './vehicle-smoke-catalog.js';
 import {createSmokeSpriteAtlas,SMOKE_SPRITE_INDEX} from './vehicle-smoke-sprites.js';
+import {DEFAULT_VEHICLE_TRACK_ID,getVehicleTrackStyle} from './vehicle-track-catalog.js';
+import {createVehicleTrackMaterial,configureVehicleTrackMaterial} from './vehicle-track-material.js';
 
 export const DRIFT_EFFECTS=Object.freeze({smokeCapacity:72,skidCapacity:1024,skidLife:26});
 const fallbackWheels=[{name:'rear-left',center:[-1.3025,.615,2.2215],halfWidth:.23},{name:'rear-right',center:[1.3025,.615,2.2215],halfWidth:.23}];
@@ -15,15 +17,16 @@ export function createDriftEffects(THREE,{height=()=>0}={}){
  const texture=new THREE.DataTexture(pixels,32,32);texture.needsUpdate=true;texture.magFilter=texture.minFilter=THREE.LinearFilter;
  const smokeMaterial=new THREE.ShaderMaterial({uniforms:{cloud:{value:texture},spriteIndex:{value:0},spriteColumns:{value:1},spriteMode:{value:0}},vertexShader:'attribute float opacity; varying float fade; varying vec2 cloudUv; void main(){fade=opacity;cloudUv=uv;gl_Position=projectionMatrix*modelViewMatrix*instanceMatrix*vec4(position,1.0);}',fragmentShader:'uniform sampler2D cloud; uniform float spriteIndex; uniform float spriteColumns; uniform float spriteMode; varying float fade; varying vec2 cloudUv; void main(){vec4 texel=texture2D(cloud,vec2((cloudUv.x+spriteIndex)/spriteColumns,cloudUv.y));float a=texel.a*fade;if(a<0.003)discard;gl_FragColor=vec4(mix(vec3(0.83,0.84,0.85),texel.rgb,spriteMode),a);\n#include <colorspace_fragment>\n}',transparent:true,depthWrite:false,side:THREE.DoubleSide,toneMapped:false});
  const smoke=new THREE.InstancedMesh(smokeGeometry,smokeMaterial,DRIFT_EFFECTS.smokeCapacity);smoke.name='Soft rear tire smoke';smoke.count=0;smoke.frustumCulled=false;smoke.instanceMatrix.setUsage(THREE.DynamicDrawUsage);group.add(smoke);
- const positions=new Float32Array(DRIFT_EFFECTS.skidCapacity*12),opacity=new Float32Array(DRIFT_EFFECTS.skidCapacity*4),indices=new Uint16Array(DRIFT_EFFECTS.skidCapacity*6);
- const skidGeometry=new THREE.BufferGeometry();skidGeometry.setAttribute('position',new THREE.BufferAttribute(positions,3).setUsage(THREE.DynamicDrawUsage));skidGeometry.setAttribute('opacity',new THREE.BufferAttribute(opacity,1).setUsage(THREE.DynamicDrawUsage));skidGeometry.setIndex(new THREE.BufferAttribute(indices,1).setUsage(THREE.DynamicDrawUsage));skidGeometry.setDrawRange(0,0);
+ const positions=new Float32Array(DRIFT_EFFECTS.skidCapacity*12),opacity=new Float32Array(DRIFT_EFFECTS.skidCapacity*4),uv=new Float32Array(DRIFT_EFFECTS.skidCapacity*8),indices=new Uint16Array(DRIFT_EFFECTS.skidCapacity*6);
+ const skidGeometry=new THREE.BufferGeometry();skidGeometry.setAttribute('position',new THREE.BufferAttribute(positions,3).setUsage(THREE.DynamicDrawUsage));skidGeometry.setAttribute('opacity',new THREE.BufferAttribute(opacity,1).setUsage(THREE.DynamicDrawUsage));skidGeometry.setAttribute('uv',new THREE.BufferAttribute(uv,2).setUsage(THREE.DynamicDrawUsage));skidGeometry.setIndex(new THREE.BufferAttribute(indices,1).setUsage(THREE.DynamicDrawUsage));skidGeometry.setDrawRange(0,0);
  const skidMaterial=new THREE.ShaderMaterial({vertexShader:vertex,fragmentShader:fragment.replace(' #include','\n#include'),transparent:true,depthWrite:false,side:THREE.DoubleSide,toneMapped:false,polygonOffset:true,polygonOffsetFactor:-1,polygonOffsetUnits:-1});
+ let styledSkidMaterial=null;
  // Ground decals blend before airborne particles. Neither writes depth, so
  // drawing the tracks later would paint them across the smoke above the road.
  const skids=new THREE.Mesh(skidGeometry,skidMaterial);skids.name='Surface aligned fading skid marks';skids.frustumCulled=false;skids.renderOrder=-1;group.add(skids);
  const clouds=Array.from({length:DRIFT_EFFECTS.smokeCapacity},()=>({life:0})),marks=Array.from({length:DRIFT_EFFECTS.skidCapacity},()=>({life:0,strength:0}));
  const object=new THREE.Object3D(),point=new THREE.Vector3();
- let cloudCursor=0,markCursor=0,credit=0,sequence=1234,rear=fallbackWheels,lastMetadata=null,previous=[null,null],lastRoot=null,smokeCount=0,skidCount=0,disposed=false,smokeStyleId=DEFAULT_VEHICLE_SMOKE_ID,spriteAtlas=null,smokeLimit=DRIFT_EFFECTS.smokeCapacity;
+ let cloudCursor=0,markCursor=0,credit=0,sequence=1234,rear=fallbackWheels,lastMetadata=null,previous=[null,null],lastRoot=null,smokeCount=0,skidCount=0,disposed=false,smokeStyleId=DEFAULT_VEHICLE_SMOKE_ID,trackStyleId=DEFAULT_VEHICLE_TRACK_ID,spriteAtlas=null,smokeLimit=DRIFT_EFFECTS.smokeCapacity;
  const random=()=>{sequence=(Math.imul(sequence,1664525)+1013904223)>>>0;return sequence/4294967296;};
  const surface=(x,z)=>{const h=height(x,z);return Number.isFinite(h)?h:0;};
  // The two current patches are frame-local references; clouds and decals remain fixed rings.
@@ -53,7 +56,8 @@ export function createDriftEffects(THREE,{height=()=>0}={}){
  function smokeOrigin(patch){const lift=.22*(patch.scale??1);point.set(patch.x+(patch.nx||0)*lift,patch.y+(patch.ny??1)*lift,patch.z+(patch.nz||0)*lift);}
 
  function clearSmoke(){clouds.forEach(p=>p.life=0);smokeAlpha.fill(0);smoke.count=smokeCount=credit=0;smokeGeometry.attributes.opacity.needsUpdate=true;}
- function clear(){clearSmoke();marks.forEach(p=>p.life=0);opacity.fill(0);skidCount=0;previous=[null,null];lastRoot=null;group.visible=false;skidGeometry.attributes.opacity.needsUpdate=true;skidGeometry.setDrawRange(0,0);}
+ function clearTracks(){marks.forEach(p=>p.life=0);opacity.fill(0);skidCount=markCursor=0;previous=[null,null];skidGeometry.attributes.opacity.needsUpdate=true;skidGeometry.setDrawRange(0,0);}
+ function clear(){clearSmoke();clearTracks();lastRoot=null;group.visible=false;}
  function setQuality({smokeScale}={}){
   if(disposed||!Number.isFinite(smokeScale))return;
   smokeLimit=Math.round(DRIFT_EFFECTS.smokeCapacity*Math.max(0,Math.min(1,smokeScale)));
@@ -77,12 +81,21 @@ export function createDriftEffects(THREE,{height=()=>0}={}){
   smokeMaterial.uniforms.spriteIndex.value=custom?SMOKE_SPRITE_INDEX[id]:0;smokeMaterial.uniforms.spriteColumns.value=custom?5:1;smokeMaterial.uniforms.spriteMode.value=custom?1:0;
   clearSmoke();group.visible=skidCount>0;return true;
  }
+ function setTrackStyle(id){
+  const style=getVehicleTrackStyle(id);if(disposed||!style)return false;
+  if(id===trackStyleId)return true;
+  if(id===DEFAULT_VEHICLE_TRACK_ID)skids.material=skidMaterial;
+  else{if(!styledSkidMaterial)styledSkidMaterial=createVehicleTrackMaterial(THREE);configureVehicleTrackMaterial(styledSkidMaterial,style);skids.material=styledSkidMaterial;}
+  trackStyleId=id;clearTracks();group.visible=smokeCount>0;return true;
+ }
  function addMark(a,b,width,strength,wheel){
   const dx=b.x-a.x,dy=b.y-a.y,dz=b.z-a.z,length=Math.hypot(dx,dy,dz);if(length<.035)return;if(length>5){previous[wheel]=b;return;}
   const end=ribbonEdges(b,dx,dy,dz,width),start=a.edges||ribbonEdges(a,dx,dy,dz,width);if(!end||!start)return;
   const i=markCursor;markCursor=(markCursor+1)%marks.length;if(marks[i].life<=0)skidCount++;marks[i].life=DRIFT_EFFECTS.skidLife;marks[i].strength=Math.min(.75,strength*.8);
   [...start,...end].forEach((p,n)=>{positions[i*12+n*3]=p.x;positions[i*12+n*3+1]=p.y;positions[i*12+n*3+2]=p.z;});
-  b.edges=end;previous[wheel]=b;skidGeometry.attributes.position.needsUpdate=true;
+  const distance=a.distance||0;b.distance=distance+length;
+  uv.set([0,distance,1,distance,0,b.distance,1,b.distance],i*8);
+  b.edges=end;previous[wheel]=b;skidGeometry.attributes.position.needsUpdate=true;skidGeometry.attributes.uv.needsUpdate=true;
  }
  function update(dt,state,{enabled=true,grounded=true,metadata,pose,camera}={}){
   if(disposed||!Number.isFinite(dt)||dt<=0)return;dt=Math.min(.05,dt);
@@ -125,5 +138,5 @@ export function createDriftEffects(THREE,{height=()=>0}={}){
   for(const p of clouds)if(p.life>0&&smokeCount<smokeLimit){const age=1-p.life/p.total;object.position.set(p.x,p.y,p.z);if(camera?.quaternion)object.quaternion.copy(camera.quaternion);else object.quaternion.identity();object.scale.setScalar(p.size*(1+age*(custom?.4:2.5)));object.updateMatrix();smoke.setMatrixAt(smokeCount,object.matrix);const fade=Math.min(1,Math.max(0,(age-.35)/.65));smokeAlpha[smokeCount]=custom?.95*Math.min(1,age*12)*(1-fade*fade*(3-2*fade)):.43*Math.sin(Math.PI*Math.min(1,age*1.4))*(1-age);smokeCount++;}
   updateSkidDrawRange();smoke.count=smokeCount;smoke.instanceMatrix.needsUpdate=true;smokeGeometry.attributes.opacity.needsUpdate=true;skidGeometry.attributes.opacity.needsUpdate=true;group.visible=smokeCount>0||skidCount>0;
  }
- clear();return {group,smoke,skids,update,clear,setQuality,setSmokeStyle,get smokeStyleId(){return smokeStyleId;},get smokeCount(){return smokeCount;},get skidCount(){return skidCount;},smokeCapacity:clouds.length,skidCapacity:marks.length,dispose(){if(disposed)return;disposed=true;clear();smoke.dispose();smokeGeometry.dispose();smokeMaterial.dispose();texture.dispose();spriteAtlas?.dispose();skidGeometry.dispose();skidMaterial.dispose();group.removeFromParent();}};
+ clear();return {group,smoke,skids,update,clear,setQuality,setSmokeStyle,setTrackStyle,get trackStyleId(){return trackStyleId;},get smokeStyleId(){return smokeStyleId;},get smokeCount(){return smokeCount;},get skidCount(){return skidCount;},smokeCapacity:clouds.length,skidCapacity:marks.length,dispose(){if(disposed)return;disposed=true;clear();smoke.dispose();smokeGeometry.dispose();smokeMaterial.dispose();texture.dispose();spriteAtlas?.dispose();skidGeometry.dispose();skidMaterial.dispose();styledSkidMaterial?.dispose();group.removeFromParent();}};
 }
