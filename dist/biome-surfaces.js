@@ -4,6 +4,7 @@
 
 import { BIOMES } from './road-layout.js';
 import { VEHICLE_CONFIG } from './economy-config.js';
+import { TYRE_CONFIG } from './economy-balance.js';
 
 export const SURFACE_TRANSITION_METERS = 48;
 export const SURFACE_FACTOR_KEYS = Object.freeze([
@@ -61,8 +62,25 @@ const unsupported = Object.freeze({
   1:[.28,.16,1,.75], 2:[.225,.125,1,.75],
   3:[.18,.09,1,.75], 4:[.14,.065,1,.75],
 });
+// All ordinary cars share these cached cumulative tyre profiles. Rewards keep
+// their original per-vehicle surfaces, including their drift tuning.
+export const TYRE_SURFACE_PROFILES = Object.freeze(TYRE_CONFIG.map(tyres=>Object.freeze(Object.fromEntries(
+  BIOMES.map((biome,index)=>{
+    const gap=index-tyres.tier;
+    if(gap<=0){
+      const [friction,lateral,rolling,engine,speed,coast,vibration]=supported[biome.id];
+      return [biome.id,Object.freeze({id:biome.id,...profile(friction*.5,lateral*.5,rolling,engine,speed,coast,vibration)})];
+    }
+    const [friction,lateral,engine,speed]=unsupported[gap];
+    const rolling=biome.id==='snow'?.65:biome.id==='volcanic'?2.2:2.7;
+    const coast=biome.id==='snow'?.38:biome.id==='volcanic'?.84:1.1;
+    return [biome.id,Object.freeze({id:biome.id,...profile(.5*friction,.5*lateral,rolling,engine,speed,coast,
+      biome.id==='volcanic'?1:0,.75,gap+1,.9/friction)})];
+  }),
+))));
 export const VEHICLE_SURFACE_PROFILES = Object.freeze(Object.fromEntries(
-  VEHICLE_CONFIG.map((vehicle,index)=>{
+  VEHICLE_CONFIG.map(vehicle=>{
+    if(!vehicle.rewardOnly)return [vehicle.id,TYRE_SURFACE_PROFILES[0]];
     const tier=BIOMES.findIndex(b=>b.id===vehicle.specialty);
     const entries=BIOMES.map((biome,biomeIndex)=>{
       const gap=biomeIndex-tier;
@@ -73,10 +91,10 @@ export const VEHICLE_SURFACE_PROFILES = Object.freeze(Object.fromEntries(
           rolling,engine*(gap < 0 && !vehicle.rewardDrift ? .98 : 1),speed*(gap<0?.98:1),coast,vibration)];
       }
       const [friction,lateral,engine,speed]=unsupported[gap];
-      const pair=index%2?1.12:1;
       const rolling=biome.id==='snow'?.65:biome.id==='volcanic'?2.2:2.7;
       const coast=biome.id==='snow'?.38:biome.id==='volcanic'?.84:1.1;
-      return [biome.id,profile(.5*friction*pair,.5*lateral*pair,rolling,engine,speed,coast,biome.id==='volcanic'?1:0,.75,gap+1,.9*vehicle.grip/(.5*friction*pair))];
+      return [biome.id,profile(.5*friction,.5*lateral,rolling,engine,speed,coast,
+        biome.id==='volcanic'?1:0,.75,gap+1,.9*vehicle.grip/(.5*friction))];
     });
     return [vehicle.id,Object.freeze(Object.fromEntries(entries))];
   }),
@@ -115,14 +133,19 @@ const vehicleSurfaces = Object.freeze(Object.fromEntries(
       [id, Object.freeze({ id, ...dynamics })]))),
   ]),
 ));
-export function surfaceForBiome(id, vehicleId = 'pickup') {
-  return (vehicleSurfaces[vehicleId] || vehicleSurfaces.pickup)[id] || CITY_SURFACE;
+const ordinaryVehicleIds = new Set(VEHICLE_CONFIG.filter(vehicle=>!vehicle.rewardOnly).map(vehicle=>vehicle.id));
+export function surfaceForBiome(id, vehicleId = 'pickup', tyreTier = 0) {
+  if(ordinaryVehicleIds.has(vehicleId)||!vehicleSurfaces[vehicleId]){
+    const tier=Number.isFinite(tyreTier)?Math.max(0,Math.min(TYRE_SURFACE_PROFILES.length-1,Math.floor(tyreTier))):0;
+    return TYRE_SURFACE_PROFILES[tier][id] || CITY_SURFACE;
+  }
+  return vehicleSurfaces[vehicleId][id] || CITY_SURFACE;
 }
 
 
-export function biomeSurfaceAt(logicalY, vehicleId = 'pickup') {
+export function biomeSurfaceAt(logicalY, vehicleId = 'pickup', tyreTier = 0) {
   const { from, to, blend } = biomeSurfaceBlend(logicalY);
-  const a = surfaceForBiome(from, vehicleId), b = surfaceForBiome(to, vehicleId);
+  const a = surfaceForBiome(from, vehicleId, tyreTier), b = surfaceForBiome(to, vehicleId, tyreTier);
   if (a === b || blend === 0) return a;
   if (blend === 1) return b;
   return { id: blend < .5 ? from : to,

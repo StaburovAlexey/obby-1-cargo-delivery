@@ -1,6 +1,7 @@
 import { freshCareer, sanitizeCareer } from './career-save.js';
 import { DEFAULT_CHARACTER_ID } from './character-catalog.js';
 import { PREMIUM_SKIN_IDS } from './premium-skins.js';
+import { VEHICLE_NEON_CATALOG } from './vehicle-neon-catalog.js';
 
 const copy = value => JSON.parse(JSON.stringify(value));
 const premium = new Set(PREMIUM_SKIN_IDS);
@@ -9,6 +10,11 @@ const validRecord = value => value && typeof value === 'object' && !Array.isArra
   [Object.prototype, null].includes(Object.getPrototypeOf(value)) &&
   !['__proto__', 'prototype', 'constructor'].some(key => Object.hasOwn(value, key));
 const level = (value, fallback) => typeof value === 'number' && Number.isFinite(value) ? Math.max(0, Math.min(1, value)) : fallback;
+const paidNeonState = career => {
+  const ownedNeonIds = VEHICLE_NEON_CATALOG.filter(item => item.currency === 'yandex' &&
+    Array.isArray(career?.ownedNeonIds) && career.ownedNeonIds.includes(item.id)).map(item => item.id);
+  return { ownedNeonIds, selectedNeonId: ownedNeonIds.includes(career?.selectedNeonId) ? career.selectedNeonId : null };
+};
 
 function settingsValue(value, language) {
   const data = validRecord(value) ? value : {};
@@ -16,7 +22,8 @@ function settingsValue(value, language) {
 }
 function careerValue(value, legacyIds, permanentIds = []) {
   const result = sanitizeCareer(value);
-
+  // Reset earned progression while retaining the paid-purchase cache for SDK outages.
+  if (value?.version !== result.version) Object.assign(result, paidNeonState(value));
 
   result.ownedSkinIds = [...new Set([...result.ownedSkinIds, ...legacyIds, ...permanentIds])];
   if (result.ownedSkinIds.includes(value?.characterId)) result.characterId = value.characterId;
@@ -25,10 +32,17 @@ function careerValue(value, legacyIds, permanentIds = []) {
 }
 function envelopeValue(raw, language) {
   if (raw === null || raw === undefined) return null;
-  if (!validRecord(raw) || raw.version !== 1 || !Number.isSafeInteger(raw.updatedAt) || raw.updatedAt < 0 || !validRecord(raw.career) || ![1, freshCareer().version].includes(raw.career.version))
+  if (!validRecord(raw) || raw.version !== 1 || !Number.isSafeInteger(raw.updatedAt) || raw.updatedAt < 0 || !validRecord(raw.career))
     throw new Error('Unsupported or corrupt cloud career');
-  const legacyPremiumIds = rights(raw.legacyPremiumIds);
-  return { version: 1, updatedAt: raw.updatedAt, legacyPremiumIds, settings: settingsValue(raw.settings, language), career: careerValue(raw.career, legacyPremiumIds) };
+  const resetCareer = raw.career.version !== freshCareer().version;
+  const legacyPremiumIds = rights([...rights(raw.legacyPremiumIds),
+    ...(resetCareer ? rights(raw.career.ownedSkinIds) : [])]);
+  if (resetCareer && raw.career.version === 1 && premium.has(raw.career.characterId) && !legacyPremiumIds.includes(raw.career.characterId))
+    legacyPremiumIds.push(raw.career.characterId);
+  const result = { version: 1, updatedAt: raw.updatedAt, legacyPremiumIds, settings: settingsValue(raw.settings, language), career: careerValue(raw.career, legacyPremiumIds) };
+  // Internal marker does not leak into saved envelopes or equality checks.
+  Object.defineProperty(result, 'resetCareer', { value: resetCareer });
+  return result;
 }
 const contents = envelope => JSON.stringify({ career: envelope.career, settings: envelope.settings, legacyPremiumIds: envelope.legacyPremiumIds });
 
@@ -78,7 +92,7 @@ export function createCloudCareer(options = {}) {
     const volume = read('urban-route-audio-volume'), lastVolume = read('urban-route-audio-last-volume');
     const audioVolume = volume === null || volume === '' || !Number.isFinite(Number(volume)) ? 1 : level(Number(volume), 1);
     const last = lastVolume === null || lastVolume === '' || !Number.isFinite(Number(lastVolume)) ? audioVolume || 1 : level(Number(lastVolume), 1);
-    return { career, legacyPremiumIds: rights(importedRights), settings: { audioVolume: read('urban-route-audio-muted') === '1' ? 0 : audioVolume, lastAudibleVolume: last > 0 ? last : 1, language: read('urban-route-language') || platform.language } };
+    return { paidNeon: paidNeonState(career), legacyPremiumIds: rights(importedRights), settings: { audioVolume: read('urban-route-audio-muted') === '1' ? 0 : audioVolume, lastAudibleVolume: last > 0 ? last : 1, language: read('urban-route-language') || platform.language } };
   }
   const initialize = () => {
     if (status.initialized) return Promise.resolve(snapshot());
@@ -87,13 +101,13 @@ export function createCloudCareer(options = {}) {
       try {
         const cloud = envelopeValue(await platform.loadSave(), platform.language);
         if (destroyed) throw new Error('Cloud career destroyed');
-        if (cloud) envelope = cloud;
+        if (cloud) envelope = cloud.resetCareer ? { ...cloud, updatedAt: nextTimestamp(cloud.updatedAt) } : cloud;
         else {
           const legacy = readLegacy(), importedRights = legacy.legacyPremiumIds || [];
-          envelope = { version: 1, updatedAt: Math.max(0, Math.floor(Number(now()) || 0)), legacyPremiumIds: importedRights, career: careerValue(legacy.career || freshCareer(), importedRights), settings: settingsValue(legacy.settings, platform.language) };
+          envelope = { version: 1, updatedAt: Math.max(0, Math.floor(Number(now()) || 0)), legacyPremiumIds: importedRights, career: careerValue({ ...freshCareer(), ...legacy.paidNeon }, importedRights), settings: settingsValue(legacy.settings, platform.language) };
         }
-        syncRights(); Object.assign(status, { available: true, failed: false, reason: null, initialized: true, operation: 'load', unsaved: !cloud });
-        notify(); if (!cloud) schedule(writeDelayMs); return snapshot();
+        syncRights(); Object.assign(status, { available: true, failed: false, reason: null, initialized: true, operation: 'load', unsaved: !cloud || cloud.resetCareer });
+        notify(); if (!cloud || cloud.resetCareer) schedule(writeDelayMs); return snapshot();
       } catch (error) { fail(error, 'initialize'); throw error; }
     })().finally(() => { initializing = undefined; });
     return initializing;

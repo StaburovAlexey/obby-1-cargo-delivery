@@ -4,12 +4,13 @@ import {crossesFinishLine, FINISH_CELEBRATION_SECONDS} from './finish-celebratio
 import { biomeSurfaceAt } from './biome-surfaces.js';
 import { projectRoad, pointInRoad, TRUCK_HALF_WIDTH, TRUCK_HALF_LENGTH } from './road-layout.js';
 import { GARAGE_LAYOUT, CLASSROOM_ENTRY, CLASSROOM_ENTRIES } from './garage-scene.js';
-import { ECONOMY_CONFIG, VEHICLE_CONFIG, vehicleConfig, isCanyonVehicle, BIOME_SEQUENCE, DELIVERY_CHECKPOINTS, REWARD_VEHICLE_ID, ROUTE_COMPLETION_PROOF, FINAL_DELIVERY_CHECKPOINT } from './economy-config.js';
+import { ECONOMY_CONFIG, VEHICLE_CONFIG, CAREER_VEHICLES, vehicleConfig, isCanyonVehicle, BIOME_SEQUENCE, DELIVERY_CHECKPOINTS, REWARD_VEHICLE_ID, ROUTE_COMPLETION_PROOF, FINAL_DELIVERY_CHECKPOINT } from './economy-config.js';
+import { TYRE_CONFIG } from './economy-balance.js';
 import { CHARACTER_CATALOG } from './character-catalog.js';
 import { PREMIUM_SKIN_IDS } from './premium-skins.js';
 import { freshCareer, sanitizeCareer } from './career-save.js';
 import {sanitizeDriftRecord} from './drift-record.js';
-import { PROGRESSION_CONFIG, schoolConfig, skinConfig } from './progression-config.js';
+import { PROGRESSION_CONFIG, SCHOOL_CONFIG, schoolConfig, skinConfig } from './progression-config.js';
 import { getUpgradeOffer, getVehiclePerformance } from './vehicle-upgrades.js';
 import { BRIDGES, bridgeAtProgress } from './road-bridges.js';
 import { FORK_DEFINITIONS } from './route-network-config.js';
@@ -65,12 +66,12 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
   }
   const saved=loadedCareer===undefined?freshCareer(characterId):sanitizeCareer(loadedCareer,characterId);
   const state={mode:'walking',selectedId:null,player:{...GAMEPLAY.spawn},fuels:Object.fromEntries(vehicles.map(v=>[v.id,getVehiclePerformance(vehicleConfig(v.id).id,saved.upgrades[v.id]).capacity])),cooldown:0,blockedEntry:null,walked:0,stationId:null,elapsed:0,lastEvent:'start',characterId:saved.characterId,seatedId:null,interactionCooldown:0,classroomArmed:true,occupiedSeatIds:[...new Set(occupiedSeatIds)],blockedStand:null,doorNotified:false,landingCooldown:0,jump:{height:0,velocity:0,elapsed:0,airborne:false},money:saved.money,ownedVehicleIds:saved.ownedVehicleIds,completedRuns:saved.completedRuns,purchaseCandidateId:null,run:null,testMode:false,testBiome:null,saveFailed:loadFailed};
-  Object.assign(state,{ownedNeonIds:saved.ownedNeonIds,selectedNeonId:saved.selectedNeonId,eventMode:null,developerMode:developerSession,discoveredBiomeIds:saved.discoveredBiomeIds,routeCompletion:saved.routeCompletion,driftRecord:saved.driftRecord,brains:saved.brains,ownedSkinIds:saved.ownedSkinIds,ownedSchoolIds:saved.ownedSchoolIds,upgrades:saved.upgrades,vehicleGrantClaimed:saved.vehicleGrantClaimed,retention:saved.retention,skinPurchaseCandidateId:null,schoolPurchaseCandidateId:null,seatedSchoolId:null});
+  Object.assign(state,{ownedNeonIds:saved.ownedNeonIds,selectedNeonId:saved.selectedNeonId,eventMode:null,developerMode:developerSession,discoveredBiomeIds:saved.discoveredBiomeIds,routeCompletion:saved.routeCompletion,driftRecord:saved.driftRecord,brains:saved.brains,ownedSkinIds:saved.ownedSkinIds,ownedSchoolIds:saved.ownedSchoolIds,sharedUpgrades:saved.sharedUpgrades,tyreTier:saved.tyreTier,upgrades:saved.upgrades,vehicleGrantClaimed:saved.vehicleGrantClaimed,retention:saved.retention,skinPurchaseCandidateId:null,schoolPurchaseCandidateId:null,seatedSchoolId:null});
   const fuelCapacity=id=>getVehiclePerformance(vehicleConfig(id).id,state.upgrades[id]).capacity;
   let events=[],progressDirty=false,progressSinceSave=0,rewardEarned=!!saved.routeCompletion;
   const emit=(type,extra={})=>{state.lastEvent=type;events.push({type,...extra});};
   const pose=v=>v.position || v.park;
-  const snapshot=()=>sanitizeCareer({version:ECONOMY_CONFIG.saveVersion,money:state.money,ownedVehicleIds:state.ownedVehicleIds,discoveredBiomeIds:state.discoveredBiomeIds,characterId:state.characterId,completedRuns:state.completedRuns,routeCompletion:state.routeCompletion,driftRecord:state.driftRecord,brains:state.brains,ownedSkinIds:state.ownedSkinIds,ownedSchoolIds:state.ownedSchoolIds,upgrades:state.upgrades,vehicleGrantClaimed:state.vehicleGrantClaimed,retention:state.retention,ownedNeonIds:state.ownedNeonIds,selectedNeonId:state.selectedNeonId});
+  const snapshot=()=>sanitizeCareer({version:ECONOMY_CONFIG.saveVersion,money:state.money,ownedVehicleIds:state.ownedVehicleIds,discoveredBiomeIds:state.discoveredBiomeIds,characterId:state.characterId,completedRuns:state.completedRuns,routeCompletion:state.routeCompletion,driftRecord:state.driftRecord,brains:state.brains,ownedSkinIds:state.ownedSkinIds,ownedSchoolIds:state.ownedSchoolIds,sharedUpgrades:state.sharedUpgrades,tyreTier:state.tyreTier,upgrades:state.upgrades,vehicleGrantClaimed:state.vehicleGrantClaimed,retention:state.retention,ownedNeonIds:state.ownedNeonIds,selectedNeonId:state.selectedNeonId});
   let saveWarningSent=false;
   const warnSave=()=>{state.saveFailed=true;if(!saveWarningSent){saveWarningSent=true;emit('save-warning',{reason:persistence?.status?.reason||'storage'});}};
   const persist=()=>{
@@ -83,17 +84,30 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
   };
   const developerUnlocked=new Set();
   const careerOwnsVehicle=id=>state.ownedVehicleIds.includes(id)&&(id!==REWARD_VEHICLE_ID||rewardEarned);
-  const developerVehicle=id=>developerSession&&VEHICLE_CONFIG.some(vehicle=>vehicle.id===id&&(!vehicle.devUnlock||developerUnlocked.has(id)))&&!careerOwnsVehicle(id);
+  const developerVehicle=id=>developerSession&&VEHICLE_CONFIG.some(vehicle=>vehicle.id===id&&vehicle.rewardOnly&&(!vehicle.devUnlock||developerUnlocked.has(id)))&&!careerOwnsVehicle(id);
   const isOwned=id=>developerVehicle(id)||careerOwnsVehicle(id);
   const getVehicleAvailability=id=>{
     const spec=VEHICLE_CONFIG.find(vehicle=>vehicle.id===id);
     if(!spec)return null;
     const owned=isOwned(id),rewardOnly=spec.rewardOnly===true;
-    const lockedBiome=!owned&&!rewardOnly&&!state.discoveredBiomeIds.includes(spec.specialty);
-    return {id,owned,rewardOnly,purchasable:!owned&&!rewardOnly&&!lockedBiome,
-      status:owned?'owned':rewardOnly||lockedBiome?'locked':'purchasable',price:rewardOnly?null:spec.price,
-      reason:!owned&&spec.devUnlock?'developer-unlock':!owned&&rewardOnly?'complete-full-route':lockedBiome?'discover-biome':null,
-      ...(lockedBiome?{biomeId:spec.specialty,biomeName:BIOME_SEQUENCE.find(biome=>biome.id===spec.specialty).name}:{})};
+    const index=CAREER_VEHICLES.findIndex(vehicle=>vehicle.id===id);
+    const previous=index>0?CAREER_VEHICLES[index-1]:null;
+    const previousLocked=!owned&&!!previous&&!careerOwnsVehicle(previous.id);
+    return {id,owned,rewardOnly,purchasable:!owned&&!rewardOnly&&!previousLocked,
+      status:owned?'owned':rewardOnly||previousLocked?'locked':'purchasable',price:rewardOnly?null:spec.price,
+      reason:!owned&&spec.devUnlock?'developer-unlock':!owned&&rewardOnly?'complete-full-route':previousLocked?'previous-vehicle':null,
+      ...(previousLocked?{previousVehicleId:previous.id,previousVehicleName:previous.name}:{})};
+  };
+  const getTyreOffer=tier=>{
+    const spec=TYRE_CONFIG.find(tyres=>tyres.tier===tier);
+    if(!spec)return null;
+    const selected=VEHICLE_CONFIG.find(vehicle=>vehicle.id===state.selectedId);
+    const owned=tier<=state.tyreTier;
+    const reason=owned?'owned':tier!==state.tyreTier+1?'previous-tyres':
+      !selected||selected.rewardOnly||!careerOwnsVehicle(selected.id)?'vehicle-unavailable':
+      state.mode!=='driving'||state.testMode||state.eventMode?'mode':
+      state.brains<spec.price?'brains':null;
+    return {...spec,owned,purchasable:reason===null,reason};
   };
   const deliveryBiomes=new Map(deliveries.map(delivery=>[delivery.id,
     biomeForProgress(Number.isFinite(delivery.progress)?delivery.progress:projectRoad(delivery.x,delivery.z).progress)]));
@@ -105,6 +119,14 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
   };
   const isSkinOwned=id=>state.ownedSkinIds.includes(id);
   const isSchoolOwned=id=>state.ownedSchoolIds.includes(id);
+  const getSchoolAvailability=id=>{
+    const index=SCHOOL_CONFIG.findIndex(school=>school.id===id);
+    if(index<0)return null;
+    const spec=SCHOOL_CONFIG[index],owned=isSchoolOwned(id),previous=SCHOOL_CONFIG[index-1];
+    const locked=!owned&&!!previous&&!isSchoolOwned(previous.id);
+    return {id,owned,purchasable:!owned&&!locked,reason:owned?'owned':locked?'previous-school':null,
+      ...(locked?{previousSchoolId:previous.id,previousSchoolName:previous.name}:{})};
+  };
   const canShop=()=>state.mode==='walking'&&!state.seatedId&&!state.jump.airborne;
   const schoolEntry=id=>CLASSROOM_ENTRIES.find(entry=>(entry.schoolId||entry.id)===id);
   const skinStand=id=>stands.find(stand=>CHARACTER_CATALOG[stand.index]?.id===id);
@@ -195,7 +217,7 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       unlockedVehicleId,routeCompleted:finalDelivery,breakdown,clean,hard,first,missionCompleted,mission:api.getCareerMission(),goal:api.getVehicleGoal(),saved:!developerSession&&!!persistence&&saved});
     if(unlockedVehicleId)emit('vehicle-unlocked',{id:unlockedVehicleId,reason:'full-route',runId,saved:!developerSession&&!!persistence&&saved});
   };
-  const api={state,canWalk,isOwned,isSkinOwned,isSchoolOwned,snapshot,getVehicleAvailability,getDeliveryAvailability,
+  const api={state,canWalk,isOwned,isSkinOwned,isSchoolOwned,snapshot,getVehicleAvailability,getDeliveryAvailability,getTyreOffer,getSchoolAvailability,
     recordDriftResult(input){if(developerSession)return false;const record=sanitizeDriftRecord(input);if(!state.routeCompletion||!record||(state.driftRecord&&record.score<=state.driftRecord.score))return false;state.driftRecord=record;persist();emit('drift-record',{record});return true;},
 
 
@@ -270,15 +292,15 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
     tickProgress(dt,{distance=0,active=false}={}){
 
 
-      if(state.eventMode==='canyon'||developerVehicle(state.selectedId))return 0;
+      if(state.eventMode||state.testMode||developerVehicle(state.selectedId))return 0;
       if(active!==true||typeof dt!=='number'||!Number.isFinite(dt)||dt<=0||dt>PROGRESSION_CONFIG.maxFrameSeconds)return 0;
       let rate=0;
       if(state.mode==='walking'&&state.seatedId&&state.seatedSchoolId&&isSchoolOwned(state.seatedSchoolId)){
         const desk=desks.find(d=>d.id===state.seatedId);
         if(desk)rate=schoolConfig(state.seatedSchoolId)?.rate||0;
-      }else if(state.mode==='driving'&&isOwned(state.selectedId)&&typeof distance==='number'&&Number.isFinite(distance)){
+      }else if(state.mode==='driving'&&careerOwnsVehicle(state.selectedId)&&!vehicleConfig(state.selectedId).rewardOnly&&typeof distance==='number'&&Number.isFinite(distance)){
         const movement=Math.abs(distance);
-        if(movement>=Math.max(PROGRESSION_CONFIG.movementEpsilon,PROGRESSION_CONFIG.minMovementSpeed*dt)&&movement<=PROGRESSION_CONFIG.maxMovementSpeed*dt+.002)rate=PROGRESSION_CONFIG.drivingRate;
+        if(movement>=Math.max(PROGRESSION_CONFIG.movementEpsilon,PROGRESSION_CONFIG.minMovementSpeed*dt)&&movement<=PROGRESSION_CONFIG.maxMovementSpeed*dt+.002)rate=vehicleConfig(state.selectedId).brainRate;
       }
       const earned=Math.min(PROGRESSION_CONFIG.maxBrains-state.brains,rate*dt);
       if(earned<=0)return 0;
@@ -321,6 +343,7 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       const spec=schoolConfig(id),deny=reason=>{emit('school-purchase-denied',{id,reason});return false;};
       if(!spec)return deny('unknown');
       if(isSchoolOwned(id))return deny('owned');
+      if(!getSchoolAvailability(id).purchasable)return deny('previous-school');
       if(!canShop())return deny('unavailable');
       if(!nearSchool(id))return deny('distance');
       if(state.money<spec.price)return deny('funds');
@@ -364,8 +387,21 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       if(state.brains<offer.price)return deny('funds');
 
 
+      const affected=stat==='fuel'?(vehicleConfig(id).rewardOnly?[id]:CAREER_VEHICLES.map(vehicle=>vehicle.id)):[];
+      const previousCapacities=new Map(affected.map(vehicleId=>[vehicleId,fuelCapacity(vehicleId)]));
       state.brains-=offer.price;state.upgrades[id][stat]=offer.nextLevel;
+      for(const vehicleId of affected){
+        const capacity=fuelCapacity(vehicleId),previous=previousCapacities.get(vehicleId);
+        state.fuels[vehicleId]=Math.min(capacity,Math.max(0,(state.fuels[vehicleId]??previous)+capacity-previous));
+      }
       persist();emit('upgrade-purchase',{id,stat,level:offer.nextLevel,price:offer.price,brains:state.brains,before:offer.current,after:offer.next,currentPerformance:offer.currentPerformance,nextPerformance:offer.nextPerformance});return true;
+    },
+    buyTyres(tier){
+      const offer=getTyreOffer(tier),deny=reason=>{emit('tyre-purchase-denied',{tier,reason});return false;};
+      if(!offer)return deny('unknown');
+      if(!offer.purchasable)return deny(offer.reason);
+      state.brains-=offer.price;state.tyreTier=offer.tier;
+      persist();emit('tyre-purchase',{...offer,owned:true,purchasable:false,reason:'owned',brains:state.brains});return true;
     },
     claimVehicleFunds(){
       if(state.vehicleGrantClaimed){emit('vehicle-funds-denied',{reason:'claimed'});return false;}
@@ -390,13 +426,14 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
       if(!vehicle||!spec)return deny('unknown');
       if(isOwned(id))return deny('owned');
       if(spec.rewardOnly)return deny('reward-locked');
-      if(!getVehicleAvailability(id).purchasable)return deny('discover-biome');
+      const availability=getVehicleAvailability(id);
+      if(!availability.purchasable)return deny(availability.reason);
       if(state.mode!=='walking'||state.seatedId||state.jump.airborne||state.jump.height>0)return deny('unavailable');
       if(vehicleDistance(vehicle)>=vehicleEntryRadius(vehicle))return deny('distance');
       if(state.money<spec.price)return deny('funds');
 
 
-      state.money-=spec.price;state.ownedVehicleIds.push(id);state.blockedEntry=id;
+      state.money-=spec.price;state.ownedVehicleIds.push(id);state.fuels[id]=fuelCapacity(id);state.blockedEntry=id;
       if(state.retention.goalVehicleId===id)state.retention.goalVehicleId=null;
       state.walked=0;clearPurchase();persist();emit('purchase',{id,price:spec.price,money:state.money});return true;
     },
@@ -510,7 +547,7 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
 
 
       const travelled=typeof distance==='number'&&Number.isFinite(distance)?Math.abs(distance):0;
-      state.fuels[id]=Math.max(0,state.fuels[id]-travelled*spec.consumption*biomeSurfaceAt(Number.isFinite(x)&&Number.isFinite(z)?projectRoad(x,z).progress:0,id).fuelFactor);
+      state.fuels[id]=Math.max(0,state.fuels[id]-travelled*spec.consumption*biomeSurfaceAt(Number.isFinite(x)&&Number.isFinite(z)?projectRoad(x,z).progress:0,id,state.tyreTier).fuelFactor);
 
       if(state.fuels[id]<=1e-9){api.returnToGarage('empty');return;}
       if(Number.isFinite(x)&&Number.isFinite(z)){

@@ -5,7 +5,7 @@ export function roadGroundGradient(x,z,history){
   if(!Number.isFinite(x)||!Number.isFinite(z))return {x:0,z:0};
   return queryRoadSurface(x,z,history).gradient;
 }
-export function roadGroundSurface(x,z,vehicleId='pickup',history){
+export function roadGroundSurface(x,z,vehicleId='pickup',history,tyreTier=0){
   const progress=Number.isFinite(x)&&Number.isFinite(z)?projectRoad(x,z,history)?.progress:NaN;
-  return biomeSurfaceAt(progress,vehicleId);
+  return biomeSurfaceAt(progress,vehicleId,tyreTier);
 }

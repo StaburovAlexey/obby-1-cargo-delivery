@@ -1,4 +1,5 @@
-import { BIOME_SEQUENCE, VEHICLE_CONFIG, vehicleConfig } from './economy-config.js';
+import { BIOME_SEQUENCE, VEHICLE_CONFIG } from './economy-config.js';
+import { TYRE_CONFIG } from './economy-balance.js';
 
 // Finish crossing the surface blend before recording the first real visit.
 export const BIOME_DISCOVERY_OFFSET = 24;
@@ -8,11 +9,12 @@ export function biomeForProgress(progress) {
     || (progress >= BIOME_SEQUENCE.at(-1).to ? BIOME_SEQUENCE.at(-1) : BIOME_SEQUENCE[0]);
 }
 
-export function vehicleSupportsBiome(vehicleId, biomeId) {
+export function vehicleSupportsBiome(vehicleId, biomeId, tyreTier = 0) {
   const vehicle = VEHICLE_CONFIG.find(spec => spec.id === vehicleId);
   const required = BIOME_SEQUENCE.findIndex(biome => biome.id === biomeId);
-  return !!vehicle && required >= 0 &&
-    BIOME_SEQUENCE.findIndex(biome => biome.id === vehicle.specialty) >= required;
+  const tier=vehicle?.rewardOnly?BIOME_SEQUENCE.findIndex(biome=>biome.id===vehicle.specialty):
+    Number.isFinite(tyreTier)?Math.max(0,Math.min(TYRE_CONFIG.length-1,Math.floor(tyreTier))):0;
+  return !!vehicle && required >= 0 && tier >= required;
 }
 
 export function biomeVehicle(biomeId) {
@@ -20,13 +22,14 @@ export function biomeVehicle(biomeId) {
 }
 
 export function vehicleUnlockHint(availability) {
-  if (availability?.reason === 'discover-biome')
-    return `Сначала доедьте до биома «${availability.biomeName}» на машине прошлого биома.`;
+  if (availability?.reason === 'previous-vehicle')
+    return `Сначала купите ${availability.previousVehicleName}.`;
+  if (availability?.reason === 'previous-tyres') return 'Сначала купите предыдущие шины.';
   if (availability?.reason === 'complete-full-route') return 'Пройдите весь маршрут за один рейс.';
   return '';
 }
 
 export function biomeDiscoveryMessage(event) {
-  const vehicle = vehicleConfig(event.vehicleId);
-  return `Открыт биом «${event.name}». Для доставок здесь нужна местная машина. В ангаре доступен ${vehicle.name}.`;
+  const tyres = TYRE_CONFIG.find(spec=>spec.id===event.id);
+  return `Открыт биом «${event.name}». ${tyres?.name || 'Подходящие'} шины улучшают сцепление, скорость и расход топлива. Доставка доступна на любой купленной машине.`;
 }

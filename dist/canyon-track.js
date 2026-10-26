@@ -1,14 +1,31 @@
 import {canyonApproachPoint,CANYON_APPROACH_LENGTH} from './canyon-approach.js';
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const ease=t=>t*t*(3-2*t);
-const turns=[[0,90,0,0],[90,245,0,1.2],[245,440,1.2,-1.2],[440,635,-1.2,1.3],[635,830,1.3,-1.3],[830,1035,-1.3,1.35],[1035,1240,1.35,-1.25],[1240,1440,-1.25,1.2],[1440,1650,1.2,-.9],[1650,1800,-.9,0],[1800,1850,0,0]];
+const turns=[[0,90,0,0],[90,245,0,1.2],[245,440,1.2,-1.2],[440,635,-1.2,1.3],[635,830,1.3,-1.3],[830,1035,-1.3,1.35],[1035,1240,1.35,-1.25],[1240,1440,-1.25,1.2],[1440,1650,1.2,-.9],[1650,1800,-.9,0],[1800,1850,0,0],
+ [1850,2070,0,1.15],[2070,2300,1.15,-1.2],[2300,2530,-1.2,1.25],[2530,2760,1.25,-1.25],[2760,2990,-1.25,1.2],[2990,3220,1.2,-1.15],[3220,3460,-1.15,1.05],[3460,3640,1.05,0],[3640,3700,0,0]];
 // The downhill branch begins at the exact final approach cross-section. Rotating
 // the S-bends east keeps the entire canyon away from the northbound main route.
 const join=canyonApproachPoint(CANYON_APPROACH_LENGTH);
-export const CANYON_TRACK=Object.freeze({id:'canyon-v1',length:1850,halfWidth:9,origin:Object.freeze({x:join.x,z:join.z}),heading:join.heading,startHeight:join.height,drop:115,spawn:12,finish:1838,checkpoints:Object.freeze([240,480,720,960,1200,1440,1680])});
+export const CANYON_TRACK=Object.freeze({id:'canyon-v1',length:3700,halfWidth:9,origin:Object.freeze({x:join.x,z:join.z}),heading:join.heading,startHeight:join.height,drop:180,spawn:12,finish:3688,checkpoints:Object.freeze([240,480,720,960,1200,1440,1680,1920,2160,2400,2640,2880,3120,3360,3600])});
+// Equal spacing carries alternating open/fenced shelves through the whole run.
+// Change sides every two shelves so both variants occur on both road edges.
+export const CANYON_CLIFF_SECTIONS=Object.freeze(Array.from({length:10},(_,index)=>Object.freeze({
+ start:180+index*340,end:420+index*340,side:[-1,1,1,-1][index%4],guarded:index%2===1,
+})));
+export function canyonCliffAt(distance,side,margin=0){return CANYON_CLIFF_SECTIONS.find(section=>section.side===side&&distance>=section.start-margin&&distance<=section.end+margin);}
+export function canyonGuardrailAt(distance,side){return canyonCliffAt(distance,side)?.guarded!==false;}
+export function canyonShoulderWidth(distance,side){
+ const cliff=canyonCliffAt(distance,side);if(!cliff)return 15;
+ const blend=ease(clamp(Math.min(distance-cliff.start,cliff.end-distance)/36,0,1));
+ // Fenced shelves retain enough ground outside the rail for its rear posts.
+ const edge=CANYON_TRACK.halfWidth+(cliff.guarded?1.05:.7)+.16*Math.sin(distance*.29)+.12*Math.sin(distance*.67);
+ return 15+(edge-15)*blend;
+}
 function headingAt(s){const t=turns.find(t=>s<=t[1])||turns.at(-1);return CANYON_TRACK.heading+(-Math.PI/2-CANYON_TRACK.heading)*ease(clamp(s/90,0,1))+t[2]+(t[3]-t[2])*ease(clamp((s-t[0])/(t[1]-t[0]),0,1));}
-const heightAt=s=>CANYON_TRACK.startHeight-CANYON_TRACK.drop*ease(clamp(s/CANYON_TRACK.length,0,1));
-const gradeAt=s=>{const t=clamp(s/CANYON_TRACK.length,0,1);return -CANYON_TRACK.drop*6*t*(1-t)/CANYON_TRACK.length;};
+// Preserve the original downhill road, then continue with a second smooth descent.
+const firstDescentLength=1850,firstDescentDrop=115;
+const heightAt=s=>CANYON_TRACK.startHeight-firstDescentDrop*ease(clamp(s/firstDescentLength,0,1))-(CANYON_TRACK.drop-firstDescentDrop)*ease(clamp((s-firstDescentLength)/(CANYON_TRACK.length-firstDescentLength),0,1));
+const gradeAt=s=>{const first=s<=firstDescentLength,length=first?firstDescentLength:CANYON_TRACK.length-firstDescentLength,drop=first?firstDescentDrop:CANYON_TRACK.drop-firstDescentDrop,t=clamp((first?s:s-firstDescentLength)/length,0,1);return -drop*6*t*(1-t)/length;};
 const samples=[{progress:0,x:CANYON_TRACK.origin.x,z:CANYON_TRACK.origin.z}];
 for(let s=2;s<=CANYON_TRACK.length;s+=2){const a=samples.at(-1),h=headingAt(s-1);samples.push({progress:s,x:a.x-Math.sin(h)*2,z:a.z-Math.cos(h)*2});}
 
@@ -58,7 +75,7 @@ export function canyonContact(x,z,heading,footprint={halfWidth:1.7,halfLength:4.
   // The start cross-section is open to the approach in both directions.
   if(p.progress<1e-6&&along<0)continue;
   const lateral=Math.abs(p.offset)-CANYON_TRACK.halfWidth+.12;
-  if(lateral>0&&(!hit||lateral>hit.depth))hit={normalX:-Math.sign(p.offset)*p.right.x,normalZ:-Math.sign(p.offset)*p.right.z,depth:lateral,name:'Canyon guardrail'};
+  if(lateral>0&&canyonGuardrailAt(p.progress,Math.sign(p.offset))&&(!hit||lateral>hit.depth))hit={normalX:-Math.sign(p.offset)*p.right.x,normalZ:-Math.sign(p.offset)*p.right.z,depth:lateral,name:'Canyon guardrail'};
   const endDepth=p.progress>CANYON_TRACK.length-.01?along:0;
   if(endDepth>0&&(!hit||endDepth>hit.depth)){const sign=p.progress<.01?1:-1;hit={normalX:-Math.sin(p.heading)*sign,normalZ:-Math.cos(p.heading)*sign,depth:endDepth,name:'Canyon end'};}
  }

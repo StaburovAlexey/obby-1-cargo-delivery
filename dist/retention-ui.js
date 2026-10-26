@@ -54,11 +54,11 @@ export function createRetentionUi(doc,{onSelectGoal=()=>{},onSkipMission=()=>{},
       const cash=boundedNumber(breakdown[key]),brains=boundedNumber(breakdown.brains?.[key]);
       text('receipt-'+key+'-cash',cash?'+'+careerNumber(cash):'—');
       text('receipt-'+key+'-brains',brains?'+'+careerNumber(brains):'—');
-      el('receipt-'+key).setAttribute('aria-label',`${rewardLabels[key]}: ${careerNumber(cash)} игровых денег, ${careerNumber(brains)} мозгов`);
+      el('receipt-'+key).setAttribute('aria-label',`${rewardLabels[key]}: ${careerNumber(cash)} игровых денег, ${careerNumber(brains)} XP`);
     }
     text('receipt-total-cash','+'+careerNumber(breakdown.totalCash));
     text('receipt-total-brains','+'+careerNumber(breakdown.brains?.total));
-    receipt.setAttribute('aria-label',`Груз доставлен: ${careerNumber(breakdown.totalCash)} игровых денег и ${careerNumber(breakdown.brains?.total)} мозгов`);
+    receipt.setAttribute('aria-label',`Груз доставлен: ${careerNumber(breakdown.totalCash)} игровых денег и ${careerNumber(breakdown.brains?.total)} XP`);
     const unlock=el('receipt-vehicle-unlock');if(unlock){unlock.hidden=breakdown.unlockedVehicleId!=='bmwreward';unlock.textContent='Открыта золотая BMW! Она ждёт на постаменте в ангаре.';}
     receipt.scrollTop=0;
   };
@@ -119,7 +119,7 @@ export function createRetentionUi(doc,{onSelectGoal=()=>{},onSkipMission=()=>{},
       buttons.mission.setAttribute('aria-label',`Задания: ${mission.name}. Прогресс ${count}`);
       text('career-mission-cash','+'+careerNumber(mission.cash));
       text('career-mission-brains','+'+careerNumber(mission.brains));
-      el('career-mission-reward').setAttribute('aria-label',`Награда: ${careerNumber(mission.cash)} игровых денег и ${careerNumber(mission.brains)} мозгов`);
+      el('career-mission-reward').setAttribute('aria-label',`Награда: ${careerNumber(mission.cash)} игровых денег и ${careerNumber(mission.brains)} XP`);
       const progress=el('career-mission-progress');progress.max=Math.max(1,boundedNumber(mission.target));progress.value=Math.min(progress.max,boundedNumber(mission.progress));
       progress.setAttribute('aria-label',`${mission.name}: ${count}`);
     }else buttons.mission.setAttribute('aria-label','Задания');

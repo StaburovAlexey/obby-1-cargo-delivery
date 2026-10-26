@@ -13,7 +13,7 @@ import {createClassroomBoard} from './classroom-board.js';
 const HANGAR_BOUNDS = Object.freeze({ minX: -57, maxX: 31, minZ: 26, maxZ: 96 });
 const HANGAR_DEPTH=HANGAR_BOUNDS.maxZ-HANGAR_BOUNDS.minZ;
 const HANGAR_CENTER_Z=(HANGAR_BOUNDS.minZ+HANGAR_BOUNDS.maxZ)/2;
-const PARKING_BAYS = Object.freeze(Array.from({length:10},(_,i)=>Object.freeze({
+const PARKING_BAYS = Object.freeze(Array.from({length:8},(_,i)=>Object.freeze({
   id:`parking-${String(i+1).padStart(2,'0')}`,row:'right',column:i+1,
   x:24,z:30+i*4.8,heading:Math.PI/2,halfWidth:4.5,halfLength:2.25,
 })));
@@ -66,15 +66,13 @@ export const DELIVERY_SPECS = Object.freeze(DELIVERY_CHECKPOINTS.slice(0,-1).map
 
 const VEHICLES = Object.freeze([
   { id: 'pickup', color: 0xf38c27, shape: 'pickup', bay: 0 },
-  { id: 'rover', color: 0x268ac1, shape: 'rover', bay: 2 },
-  { id: 'van', color: 0xe8e1c4, shape: 'van', bay: 4 },
   { id: 'citycourier', color: 0xd84343, shape: 'rover', bay: 1 },
-  { id: 'foresthauler', color: 0x467540, shape: 'pickup', bay: 3 },
-  { id: 'desertscout', color: 0xe2b349, shape: 'rover', bay: 5 },
-  { id: 'snowgrip', color: 0x43c5db, shape: 'rover', bay: 6 },
-  { id: 'snowrunner', color: 0xa5b8db, shape: 'van', bay: 7 },
-  { id: 'lavacrawler', color: 0x554e56, shape: 'pickup', bay: 8 },
-  { id: 'ashhauler', color: 0x914a5e, shape: 'van', bay: 9 },
+  { id: 'rover', color: 0x268ac1, shape: 'rover', bay: 2 },
+  { id: 'van', color: 0xe8e1c4, shape: 'van', bay: 3 },
+  { id: 'desertscout', color: 0xe2b349, shape: 'rover', bay: 4 },
+  { id: 'snowrunner', color: 0xa5b8db, shape: 'van', bay: 5 },
+  { id: 'lavacrawler', color: 0x554e56, shape: 'pickup', bay: 6 },
+  { id: 'ashhauler', color: 0x914a5e, shape: 'van', bay: 7 },
   { id: 'bmwreward', color: 0x274c86, shape: 'rover', rewardDisplay: true },
   ...SHOWCASE_VEHICLES.map(vehicle=>({id:vehicle.id,color:0x000000,shape:'rover',rewardDisplay:true})),
 ].map(spec=>Object.freeze({...spec,name:vehicleConfig(spec.id).name})));
@@ -145,7 +143,7 @@ export function createGarageScene(THREE, city, {document:doc=globalThis.document
   const group = new THREE.Group();
   group.name = 'Garage and roadside fuel';
   const hangar = new THREE.Group();
-  hangar.name = 'Open-door ten-bay hangar, reward pedestal and classroom';
+  hangar.name = 'Open-door eight-bay hangar, reward pedestal and classroom';
   group.add(hangar);
   const geometries = new Set(), materials = new Set(), batches = [];
   const ownGeometry = geometry => (geometries.add(geometry), geometry);

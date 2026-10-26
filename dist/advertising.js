@@ -1,5 +1,6 @@
 
 import {routePointAtProgress} from './route-network.js';
+import {ADVERTISING_INTERVAL_SECONDS} from './economy-balance.js';
 
 const EPSILON=1e-8;
 const bridgeCache=new WeakMap(),hazardCache=new WeakMap(),pitCache=new WeakMap();
@@ -132,7 +133,7 @@ export function isAdvertisingSafe({position,heading=0,speed=0,footprint,radius,b
 
 
 
-export function createAdvertising({showAd=()=>false,pause=()=>{},resume=()=>{},onCountdown=()=>{},onStatus=()=>{},intervalSeconds=240}={}){
+export function createAdvertising({showAd=()=>false,pause=()=>{},resume=()=>{},onCountdown=()=>{},onStatus=()=>{},intervalSeconds=ADVERTISING_INTERVAL_SECONDS}={}){
   if(!Number.isFinite(intervalSeconds)||intervalSeconds<=0)throw new RangeError('Advertising interval must be positive seconds');
   let phase='idle',activeSeconds=0,countdownElapsed=0,countdown=null,suspended=false,ownsPause=false,attempt=0;
   const getState=()=>({phase,activeSeconds,countdown,pending:phase==='pending',suspended,attempts:attempt});

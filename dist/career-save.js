@@ -16,11 +16,14 @@ const counter = (value, maximum) => typeof value === 'number' && Number.isFinite
   ? Math.max(0, Math.min(maximum, Math.floor(value))) : 0;
 const brainCounter = value => typeof value === 'number' && Number.isFinite(value)
   ? Math.round(Math.max(0, Math.min(PROGRESSION_CONFIG.maxBrains, value)) * PROGRESSION_CONFIG.brainPrecision) / PROGRESSION_CONFIG.brainPrecision : 0;
-const emptyUpgrades = () => Object.fromEntries(VEHICLE_CONFIG.map(vehicle => [vehicle.id,
-  Object.fromEntries(UPGRADE_STATS.map(stat => [stat.id, 0]))]));
+const emptyLevels = () => Object.fromEntries(UPGRADE_STATS.map(stat => [stat.id, 0]));
+// Ordinary entries intentionally alias one career-owned object; reward levels stay separate.
+const emptyUpgrades = shared => Object.fromEntries(VEHICLE_CONFIG.map(vehicle => [vehicle.id,
+  vehicle.rewardOnly ? emptyLevels() : shared]));
 
 export function freshCareer(characterId = DEFAULT_CHARACTER_ID) {
   const selected = characterIds.has(characterId) ? characterId : DEFAULT_CHARACTER_ID;
+  const sharedUpgrades = emptyLevels();
   return {
     version: ECONOMY_CONFIG.saveVersion,
     money: ECONOMY_CONFIG.startingMoney,
@@ -34,7 +37,9 @@ export function freshCareer(characterId = DEFAULT_CHARACTER_ID) {
     ownedNeonIds: [], selectedNeonId: null,
     ownedSkinIds: selected === DEFAULT_CHARACTER_ID ? [DEFAULT_CHARACTER_ID] : [DEFAULT_CHARACTER_ID, selected],
     ownedSchoolIds: ['school-1'],
-    upgrades: emptyUpgrades(),
+    sharedUpgrades,
+    tyreTier: 0,
+    upgrades: emptyUpgrades(sharedUpgrades),
     vehicleGrantClaimed: false,
     retention: freshRetention(),
   };
@@ -133,8 +138,8 @@ export function sanitizeCareer(value, fallbackCharacterId = DEFAULT_CHARACTER_ID
   const result = freshCareer(fallbackCharacterId);
   try {
     const data = readData(value, ['version', 'money', 'ownedVehicleIds', 'characterId', 'completedRuns',
-      'brains', 'ownedSkinIds', 'ownedSchoolIds', 'upgrades', 'vehicleGrantClaimed', 'retention', 'routeCompletion', 'discoveredBiomeIds','driftRecord','ownedNeonIds','selectedNeonId']);
-    if (!data || (data.version !== 1 && data.version !== ECONOMY_CONFIG.saveVersion)) return result;
+      'brains', 'ownedSkinIds', 'ownedSchoolIds', 'sharedUpgrades', 'tyreTier', 'upgrades', 'vehicleGrantClaimed', 'retention', 'routeCompletion', 'discoveredBiomeIds','driftRecord','ownedNeonIds','selectedNeonId']);
+    if (!data || data.version !== ECONOMY_CONFIG.saveVersion) return result;
     result.money = counter(data.money, ECONOMY_CONFIG.maxSavedMoney);
     const ownedVehicles = readIds(data.ownedVehicleIds);
     result.ownedVehicleIds = ['pickup', ...purchasableVehicleIds.filter(id => ownedVehicles.has(id))];
@@ -144,21 +149,12 @@ export function sanitizeCareer(value, fallbackCharacterId = DEFAULT_CHARACTER_ID
     result.driftRecord=sanitizeDriftRecord(data.driftRecord);
     if(result.routeCompletion)result.ownedVehicleIds.push(REWARD_VEHICLE_ID);
     const visited = readIds(data.discoveredBiomeIds);
-    const ownedTier = Math.max(0, ...VEHICLE_CONFIG.filter(vehicle => result.ownedVehicleIds.includes(vehicle.id))
-      .map(vehicle => BIOME_SEQUENCE.findIndex(biome => biome.id === vehicle.specialty)));
     for (let index = 1; index < BIOME_SEQUENCE.length; index++) {
       const biome = BIOME_SEQUENCE[index];
-      if (index > ownedTier && !visited.has(biome.id)) break;
+      if (!visited.has(biome.id)) break;
       result.discoveredBiomeIds.push(biome.id);
     }
     result.retention = sanitizeRetention(data.retention, result.ownedVehicleIds);
-    if (data.version === 1) {
-
-
-      result.characterId = selected;
-      result.ownedSkinIds = CHARACTER_CATALOG.filter(skin => skin.id === DEFAULT_CHARACTER_ID || skin.id === selected).map(skin => skin.id);
-      return result;
-    }
     const neonIds=readIds(data.ownedNeonIds);
     result.ownedNeonIds=VEHICLE_NEON_CATALOG.filter(item=>neonIds.has(item.id)).map(item=>item.id);
     result.selectedNeonId=result.ownedNeonIds.includes(data.selectedNeonId)?data.selectedNeonId:null;
@@ -169,9 +165,13 @@ export function sanitizeCareer(value, fallbackCharacterId = DEFAULT_CHARACTER_ID
     const ownedSchools = readIds(data.ownedSchoolIds);
     result.ownedSchoolIds = SCHOOL_CONFIG.filter(school => school.price === 0 || ownedSchools.has(school.id)).map(school => school.id);
     result.vehicleGrantClaimed = data.vehicleGrantClaimed === true;
+    const sharedLevels = readData(data.sharedUpgrades, UPGRADE_STATS.map(stat => stat.id));
+    if (sharedLevels) for (const stat of UPGRADE_STATS)
+      result.sharedUpgrades[stat.id] = counter(sharedLevels[stat.id], stat.maxLevel);
+    result.tyreTier = counter(data.tyreTier, BIOME_SEQUENCE.length - 1);
     const upgradeData = readData(data.upgrades, VEHICLE_CONFIG.map(vehicle => vehicle.id));
     if (upgradeData) {
-      for (const id of result.ownedVehicleIds) {
+      for (const id of result.ownedVehicleIds.filter(id => VEHICLE_CONFIG.find(vehicle => vehicle.id === id)?.rewardOnly)) {
         const levels = readData(upgradeData[id], UPGRADE_STATS.map(stat => stat.id));
         if (levels) for (const stat of UPGRADE_STATS) result.upgrades[id][stat.id] = counter(levels[stat.id], stat.maxLevel);
       }
@@ -213,8 +213,8 @@ export function createCareerStore(options = {}) {
         try { value = JSON.parse(raw); }
         catch { fail('corrupt', 'load'); return freshCareer(); }
         if (!validRecord(value)) { fail('corrupt', 'load'); return freshCareer(); }
-        if (value.version !== 1 && value.version !== ECONOMY_CONFIG.saveVersion) {
-          fail('version', 'load'); return freshCareer();
+        if (value.version !== ECONOMY_CONFIG.saveVersion) {
+          success('load'); return freshCareer();
         }
         success('load');
         return sanitizeCareer(value);

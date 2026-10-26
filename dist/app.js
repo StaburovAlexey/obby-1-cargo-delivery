@@ -1,3 +1,4 @@
+import {TYRE_CONFIG,ADVERTISING_INTERVAL_SECONDS} from './economy-balance.js';
 import {createFleetNeon} from './vehicle-neon.js';
 import {getVehicleNeon} from './vehicle-neon-catalog.js';
 import {DEFAULT_VEHICLE_SMOKE_ID,getVehicleSmokeStyle} from './vehicle-smoke-catalog.js';
@@ -271,7 +272,7 @@ function developerLiveryController(visual,vehicleId){
  developerLiveryControllers.set(vehicleId,entry);return entry;
 }
 function syncDeveloperLivery(visual,vehicleId){
- if(!developerMode||!visual||!selectedDeveloperLiveries.has(vehicleId)||developerLiveryControllers.get(vehicleId)?.visual===visual)return;
+ if(!developerMode||!visual||(!vehicleConfig(vehicleId).rewardOnly&&!gameplay.isOwned(vehicleId))||!selectedDeveloperLiveries.has(vehicleId)||developerLiveryControllers.get(vehicleId)?.visual===visual)return;
  const entry=developerLiveryController(visual,vehicleId);
  void entry.controller.preview(selectedDeveloperLiveries.get(vehicleId)).catch(error=>console.warn('Developer livery could not load',error));
 }
@@ -444,6 +445,7 @@ function rebuild(value) {
     onExit:()=>{careerRouteTracker.reset();updateEconomyHud();}});
   canyonMode.effects.setSmokeStyle(selectedSmokeId);
   canyonMode.effects.setTrackStyle(selectedTrackId);
+  canyonMode.clouds.setQuality(qualityProfile);
   biomeWeather.setQuality(qualityProfile);canyonMode.effects.setQuality({smokeScale:qualityProfile.weatherScale});
   physicsWorld=createPhysicsWorld({THREE,city,garage,canyon:canyonMode,roadHazards});
   for(const vehicle of garage.vehicles){
@@ -455,7 +457,7 @@ function rebuild(value) {
       getRampBoost:(x,z)=>roadPitRampBoost(roadPits,x,z),
       getSurfaceHazard:(x,z,margin)=>canyonMode?.active?null:roadHazards.patchAt(x,z,margin),
       onSurfaceHazard:()=>{if(driving&&gameplay.state.selectedId===vehicle.id)gameplay.applyRoadHazardPenalty(.1);},
-      groundSurface:(x,z,id)=>canyonMode?.surface(x,z,8)?canyonMode.groundSurface():roadHazards.surfaceAt(x,z,roadGroundSurface(x,z,id,vehicle.routeContext)),
+      groundSurface:(x,z,id)=>canyonMode?.surface(x,z,8)?canyonMode.groundSurface():roadHazards.surfaceAt(x,z,roadGroundSurface(x,z,id,vehicle.routeContext,gameplay.state.tyreTier)),
       onCollision:()=>{if(driving&&gameplay.state.selectedId===vehicle.id)gameplay.recordRunCollision({runId:gameplay.state.run?.id});},
     });
     vehicle.model.setEnabled(false);vehicle.position=vehicle.model.state;poseVehicle(vehicle);
@@ -646,7 +648,7 @@ liveryShop=createVehicleLiveryShop(document,{
   return liveryShopOpen&&liveryShop.getSection()==='liveries'&&hangarLeaderboardAvailable()&&!!getVehicleLivery(vehicleId,liveryId);
  },
  async onApply(vehicleId,liveryId){
-  if(!getVehicleLivery(vehicleId,liveryId)||!liveryShopOpen||!hangarLeaderboardAvailable())return false;
+  if(!getVehicleLivery(vehicleId,liveryId)||!liveryShopOpen||!hangarLeaderboardAvailable()||(!vehicleConfig(vehicleId).rewardOnly&&!gameplay.isOwned(vehicleId)))return false;
   // Production ownership remains unchanged until livery purchases are available.
   if(!developerMode)return liveryId==='base';
   const currentGarage=garage,generation=developerLiveryGeneration,request=++developerLiveryRequest;
@@ -725,16 +727,20 @@ function updateEconomyHud(){
     hudUi.attribute(button,'aria-label','Разблокировать секретную машину');
   }else if(candidate&&!vehicleConfig(candidate).rewardOnly){
     const spec=vehicleConfig(candidate),availability=gameplay.getVehicleAvailability(candidate),affordable=availability.purchasable&&state.money>=spec.price;
-    const locked=availability.reason==='discover-biome';hudUi.property(button,'disabled',!availability.purchasable);
-    hudUi.text(el('buy-label'),locked?`Откройте: ${availability.biomeName}`:`Купить ${spec.price}`);
+    const locked=availability.reason==='previous-vehicle';hudUi.property(button,'disabled',!availability.purchasable);
+    hudUi.text(el('buy-label'),locked?`Сначала: ${availability.previousVehicleName}`:`Купить ${spec.price}`);
     hudUi.data(button,'affordable',String(affordable));
-    hudUi.attribute(button,'aria-label',locked?`Сначала доедьте до биома «${availability.biomeName}» на машине прошлого биома.`:`Купить ${spec.name} за ${spec.price}. ${affordable?'Средств достаточно':'Недостаточно денег'}`);
+    hudUi.attribute(button,'aria-label',locked?`Сначала купите ${availability.previousVehicleName}.`:`Купить ${spec.name} за ${spec.price}. ${affordable?'Средств достаточно':'Недостаточно денег'}`);
   }
   for(let i=0;i<garage.vehicles.length;i++){
     const v=garage.vehicles[i],owned=gameplay.isOwned(v.id),label=el(`vehicle-price-${i+1}`);
-    // Projection owns showing unowned labels. Economy polling only hides them,
+    // Projection owns showing vehicle labels. Economy polling only hides them,
     // so out-of-view labels do not toggle twice on every walking frame.
-    if(owned||!playing||state.mode!=='walking')hudUi.hidden(label,true);
+    if(!playing||state.mode!=='walking')hudUi.hidden(label,true);
+    hudUi.hidden(el(`vehicle-cost-${i+1}`),owned);
+    hudUi.hidden(el(`vehicle-cost-icon-${i+1}`),!!v.rewardDisplay);
+    const rate=v.config.rewardOnly?0:v.config.brainRate;
+    hudUi.text(el(`vehicle-income-value-${i+1}`),String(rate));
     hudUi.text(el(`vehicle-price-value-${i+1}`),v.rewardDisplay?'Заблокировано':String(vehicleConfig(v.id).price));
     if(v.cargo.visible)v.cargo.visible=false;
   }
@@ -795,7 +801,7 @@ function updateWorldLabels(){
   }
   const walkingLabels=playing&&gameplay.state.mode==='walking';
   for(const {vehicle,element,anchor}of vehicleWorldLabels){
-    if(!walkingLabels||gameplay.isOwned(vehicle.id)){hudUi.hidden(element,true);continue;}
+    if(!walkingLabels){hudUi.hidden(element,true);continue;}
     projectWorldLabel(element,anchor.x,anchor.y-WORLD_LABEL_DROP,anchor.z,true,45);
   }
 }
@@ -813,15 +819,17 @@ function handleGameplayEvents(){
     if(event.type==='enter'&&!driving)enterVehicle(event.id);
     if(event.type==='purchase-prompt'){const v=vehicleConfig(event.id);notify(v.devUnlock?(developerMode?'Секретная машина. Подойдите к маркеру и нажмите «Разблокировать».':'Секретная машина пока заблокирована.'):`${v.name} · ${v.price}. Покупка только кнопкой.`);}
     if(event.type==='vehicle-unlocked'&&event.reason==='developer'){notify(`${vehicleConfig(event.id).name} разблокирован. Отойдите и подойдите снова, чтобы сесть.`);syncFleetNeon();}
-    if(event.type==='purchase')notify(`${vehicleConfig(event.id).name} куплен. Отойдите и подойдите снова, чтобы сесть.`);
-    if(event.type==='purchase-denied')notify(event.reason==='funds'||event.reason==='insufficient'||event.reason==='insufficient-funds'?'Недостаточно денег. Выполните доставку на пикапе.':'Подойдите к машине для покупки.');
+    if(event.type==='purchase'){notify(`${vehicleConfig(event.id).name} куплен. Отойдите и подойдите снова, чтобы сесть.`);syncFleetNeon();}
+    if(event.type==='purchase-denied')notify(event.reason==='previous-vehicle'?`Сначала купите ${gameplay.getVehicleAvailability(event.id).previousVehicleName}.`:event.reason==='funds'||event.reason==='insufficient'||event.reason==='insufficient-funds'?'Недостаточно денег. Выполните доставку на пикапе.':'Подойдите к машине для покупки.');
     if(event.type==='skin-purchase-prompt'){const skin=skinConfig(event.id);if(skin?.premium&&services?.platform?.id==='vk'&&!services.premium.status.busy)void services.premium.initialize();notify(skin?.premium?`${skin.name}. Покупка через ${services?.platform?.name||'Яндекс Игры'}.`:`${skin?.name} · ${event.price}. Покупка только кнопкой.`);}
     if(event.type==='school-purchase-prompt')notify(`${schoolConfig(event.id)?.name} · ${event.price}. Доступ покупается один раз.`);
     if(event.type==='skin-purchase')notify('Образ куплен. Нажмите «Выбрать» или подойдите снова.');
     if(event.type==='school-purchase')notify('Доступ открыт. Нажмите «Сесть» или подойдите снова.');
-    if(event.type==='skin-purchase-denied'||event.type==='school-purchase-denied')notify(event.reason==='funds'?'Недостаточно игровых денег.':'Подойдите к нужному маркеру.');
+    if(event.type==='skin-purchase-denied'||event.type==='school-purchase-denied')notify(event.reason==='previous-school'?`Сначала купите ${gameplay.getSchoolAvailability(event.id).previousSchoolName}.`:event.reason==='funds'?'Недостаточно игровых денег.':'Подойдите к нужному маркеру.');
     if(event.type==='upgrade-purchase')notify(`Улучшение куплено · уровень ${event.level}`);
-    if(event.type==='upgrade-denied')notify(event.reason==='funds'?'Недостаточно мозгов. Езжайте или учитесь.':event.reason==='maxed'?'Максимальный уровень.':'Улучшения доступны только в машине.');
+    if(event.type==='upgrade-denied')notify(event.reason==='funds'?'Недостаточно XP. Езжайте или учитесь.':event.reason==='maxed'?'Максимальный уровень.':'Улучшения доступны только в машине.');
+    if(event.type==='tyre-purchase')notify(`Шины куплены: ${TYRE_CONFIG.find(tyre=>tyre.tier===event.tier)?.name||TYRE_CONFIG[gameplay.state.tyreTier].name}.`);
+    if(event.type==='tyre-purchase-denied')notify(event.reason==='brains'?'Недостаточно XP. Езжайте или учитесь.':event.reason==='previous-tyres'?'Сначала купите предыдущие шины.':event.reason==='owned'?'Эти шины уже куплены.':'Шины доступны в купленной обычной машине.');
     if(event.type==='vehicle-funds')notify(`Добавлено ${event.amount} игровых денег. Одноразовая выдача использована.`);
     if(event.type==='vehicle-funds-denied')notify('Одноразовая выдача уже использована.');
     if(event.type==='save-warning')notify('Сохранение недоступно. Прогресс сохранится только до закрытия этой страницы.');
@@ -990,8 +998,8 @@ function checkPhysicsRecovery(dt){
   if(!driving||gameplay.state.eventMode==='finish')return false;
   const s=model.state;
   overturnedSeconds=s.upY<.2?overturnedSeconds+dt:0;
-  const reference=canyonMode?.active?(canyonMode.surface(s.x,s.z,100)?.height??s.y):groundHeight(s.x,s.z);
-  const fallen=s.y<reference-12||s.y< -250;
+  const reference=canyonMode?.active?canyonMode.height(s.x,s.z):groundHeight(s.x,s.z);
+  const fallen=s.y<reference-12||(!canyonMode?.active&&s.y< -250);
   fallenSeconds=fallen?fallenSeconds+dt:0;
   if(fallenSeconds>.65||overturnedSeconds>2.5){
     returnToGarage('bridge');
@@ -1032,7 +1040,7 @@ function setUpgradeMenu(open){
   inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();model?.pause();
   gameplay.flushProgress();lastTime=0;syncMode();
   const focusTarget=upgradeMenuOpen
-    ? UPGRADE_STATS.map(s=>document.getElementById('upgrade-'+s.id+'-buy')).find(b=>!b.disabled)||document.getElementById('upgrade-close')
+    ? [...UPGRADE_STATS.map(s=>document.getElementById('upgrade-'+s.id+'-buy')),...TYRE_CONFIG.map(tyre=>document.getElementById('tyre-'+tyre.tier+'-buy'))].find(b=>!b.disabled&&!b.closest('[hidden]'))||document.getElementById('upgrade-close')
     : document.getElementById('upgrade-button');
   focusTarget.focus?.();
   return upgradeMenuOpen;
@@ -1138,13 +1146,14 @@ window.addEventListener('keydown',e=>{
   if(e.key==='Escape'){e.preventDefault();setBiomeMenu(false);return;}
   if(e.key==='Tab'){e.preventDefault();const items=[...BIOME_DESTINATIONS.map(b=>document.getElementById('biome-go-'+b.id)),document.getElementById('biome-close')],i=items.indexOf(document.activeElement);items[(i+(e.shiftKey?-1:1)+items.length)%items.length].focus?.();}
 });
-for(const id of ['upgrade-button','upgrade-menu','upgrade-close','vehicle-funds-button','buy-skin','buy-school',...UPGRADE_STATS.map(s=>'upgrade-'+s.id+'-buy')]){
+for(const id of ['upgrade-button','upgrade-menu','upgrade-close','vehicle-funds-button','buy-skin','buy-school',...UPGRADE_STATS.map(s=>'upgrade-'+s.id+'-buy'),...TYRE_CONFIG.map(tyre=>'tyre-'+tyre.tier+'-buy')]){
   const el=document.getElementById(id);for(const type of ['pointerdown','pointerup','pointercancel','touchstart','touchmove'])el.addEventListener(type,e=>e.stopPropagation());
 }
 document.getElementById('upgrade-button').addEventListener('click',e=>{e.stopPropagation();setUpgradeMenu(!upgradeMenuOpen)});
 document.getElementById('upgrade-close').addEventListener('click',e=>{e.stopPropagation();setUpgradeMenu(false)});
 document.getElementById('upgrade-menu').addEventListener('click',e=>{if(e.target===e.currentTarget)setUpgradeMenu(false)});
 for(const stat of UPGRADE_STATS)document.getElementById('upgrade-'+stat.id+'-buy').addEventListener('click',e=>{e.stopPropagation();if(!upgradeMenuOpen||!playing||!driving||!characterReady)return;gameplay.buyUpgrade(stat.id);handleGameplayEvents();updateEconomyHud();updateFuelHud();});
+for(const tyre of TYRE_CONFIG)document.getElementById('tyre-'+tyre.tier+'-buy').addEventListener('click',e=>{e.stopPropagation();if(!upgradeMenuOpen||!playing||!driving||!characterReady)return;gameplay.buyTyres(tyre.tier);handleGameplayEvents();updateEconomyHud();updateFuelHud();});
 for(const kind of ['skin','school'])document.getElementById('buy-'+kind).addEventListener('click',e=>{
   e.stopPropagation();if(careerMenuOpen||settingsMenuOpen||hangarLeaderboardOpen||liveryShopOpen||!playing||!characterReady||gameplay.state.mode!=='walking')return;
   const id=gameplay.state[kind+'PurchaseCandidateId'];if(!id)return;
@@ -1163,7 +1172,7 @@ document.getElementById('vehicle-funds-button').addEventListener('click',e=>{
 window.addEventListener('keydown',e=>{
   if(!upgradeMenuOpen)return;
   if(e.key==='Escape'){e.preventDefault();setUpgradeMenu(false);return;}
-  if(e.key==='Tab'){e.preventDefault();const items=[...UPGRADE_STATS.map(s=>document.getElementById('upgrade-'+s.id+'-buy')).filter(b=>!b.disabled),document.getElementById('upgrade-close')],i=items.indexOf(document.activeElement);items[(i+(e.shiftKey?-1:1)+items.length)%items.length].focus?.();}
+  if(e.key==='Tab'){e.preventDefault();const items=[...UPGRADE_STATS.map(s=>document.getElementById('upgrade-'+s.id+'-buy')).filter(b=>!b.disabled),...TYRE_CONFIG.map(tyre=>document.getElementById('tyre-'+tyre.tier+'-buy')).filter(b=>!b.disabled&&!b.closest('[hidden]')),document.getElementById('upgrade-close')],i=items.indexOf(document.activeElement);items[(i+(e.shiftKey?-1:1)+items.length)%items.length].focus?.();}
 });
 const pauseProgression=()=>{canyonMode?.pause();stopVehicleEffects();appFocused=false;syncBackgroundMusic();advertising?.setSuspended(true);onlineClock=0;gameplay?.flushProgress();void services?.cloud?.flush();inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();model?.pause();lastTime=0;onlineSession?.update(0);};
 window.addEventListener('blur',pauseProgression);
@@ -1225,7 +1234,7 @@ function frame(now) {
   const speed=driving?Math.hypot(model.state.velocityX||0,model.state.velocityZ||0):lastWalkSpeed;
   const footprint=driving?vehicleFootprint(garage.vehicles.find(v=>v.model===model)?.visual?.metadata,model.state.frontWheelAngle):{radius:2.1};
   const adState=advertising?.getState();
-  const checkSafety=!canyonMode?.active&&adState&&(adState.pending||adState.phase==='countdown'||adState.activeSeconds+networkDt>=240);
+  const checkSafety=!canyonMode?.active&&adState&&(adState.pending||adState.phase==='countdown'||adState.activeSeconds+networkDt>=ADVERTISING_INTERVAL_SECONDS);
   const safe=!!checkSafety&&isAdvertisingSafe({position:actor,heading:actor.heading||0,speed,footprint,
     bridges:BRIDGES,hazards:roadHazards.hazards,roadPits,jumping:gameplay.state.jump.airborne,falling:!!model?.state.airborne,
     loading:!startup.ready||!characterReady,modal:biomeMenuOpen||upgradeMenuOpen||careerMenuOpen||settingsMenuOpen||hangarLeaderboardOpen||liveryShopOpen});
@@ -1313,7 +1322,7 @@ function frame(now) {
   if(timings)timings.ui+=performance.now()-labelsStarted;
   const weatherRoad=driving&&!canyonMode?.active?projectRoad(model.state.x,model.state.z,model.state.routeContext):null;
   biomeWeather?.update(dt,{camera,biome:weatherRoad?.biome??'city',progress:weatherRoad?.progress,x:camera.position.x,y:camera.position.y,z:camera.position.z,active:!canyonMode?.active&&playing&&driving&&startup.ready&&characterReady,paused:gameplayPaused()});
-  const weatherFog=biomeWeather?.fog;
+  const weatherFog=canyonMode?.cloudFog??biomeWeather?.fog;
   scene.fog.color.setHex(weatherFog?.color ?? 0x329dff);
   scene.background.setHex(weatherFog?.color ?? 0x329dff);
   scene.fog.near=weatherFog?.near ?? 500;
@@ -1337,6 +1346,7 @@ function applyRenderQuality(profile){
   }
   biomeWeather?.setQuality?.(profile);
   canyonMode?.effects.setQuality?.({smokeScale:profile.weatherScale});
+  canyonMode?.clouds.setQuality(profile);
 }
 function renderScene(now=performance.now(),sample=false,timings=null,frameStarted=0,physicsSteps=0){
   const started=performance.now();

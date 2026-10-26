@@ -1,4 +1,4 @@
-import {CANYON_TRACK,canyonPointAt} from './canyon-track.js';
+import {CANYON_TRACK,canyonPointAt,canyonCliffAt,canyonGuardrailAt,canyonShoulderWidth} from './canyon-track.js';
 import {CANYON_APPROACH_LENGTH,canyonApproachPoint} from './canyon-approach.js';
 import {CANYON_APPROACH_ROCKS} from './canyon-rocks.js';
 import {pointInRoad} from './road-layout.js';
@@ -11,18 +11,37 @@ export function createCanyonScene(THREE){
  const box=new THREE.BoxGeometry(1,1,1);geometries.add(box);
  function strip(name,left,right,material,lift=0){
   const positions=[],indices=[];let i=0;
-  for(let s=0;s<=CANYON_TRACK.length;s+=2){const p=canyonPointAt(s);for(const w of [left,right])positions.push(p.x+p.right.x*w,p.height+lift,p.z+p.right.z*w);if(i>0)indices.push(i-2,i-1,i,i-1,i+1,i);i+=2;}
+  for(let s=0;s<=CANYON_TRACK.length;s+=2){const p=canyonPointAt(s);for(const edge of [left,right]){const w=typeof edge==='function'?edge(s):edge;positions.push(p.x+p.right.x*w,p.height+lift,p.z+p.right.z*w);}if(i>0)indices.push(i-2,i-1,i,i-1,i+1,i);i+=2;}
   const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));geometry.setIndex(indices);geometry.computeVertexNormals();geometries.add(geometry);
   const mesh=new THREE.Mesh(geometry,material);mesh.name=name;mesh.receiveShadow=true;group.add(mesh);return mesh;
  }
- strip('Canyon asphalt',-9,9,mat(0x3e4349));strip('Canyon left shoulder',-15,-9,mat(0xc49461),-.04);strip('Canyon right shoulder',9,15,mat(0xd3a576),-.04);
+ strip('Canyon asphalt',-CANYON_TRACK.halfWidth,CANYON_TRACK.halfWidth,mat(0x3e4349));
+ strip('Canyon left shoulder',s=>-canyonShoulderWidth(s,-1),-CANYON_TRACK.halfWidth,mat(0xc49461),-.04);
+ strip('Canyon right shoulder',CANYON_TRACK.halfWidth,s=>canyonShoulderWidth(s,1),mat(0xd3a576),-.04);
  strip('Canyon left edge paint',-8.65,-8.48,mat(0xf9e9c5),.02);strip('Canyon right edge paint',8.48,8.65,mat(0xf9e9c5),.02);
+ // The exposed road is a solid sandstone shelf, with the same ragged top edge
+ // as the physical shoulder. All strata share exact boundaries, without caps.
+ for(let layer=0;layer<3;layer++){
+  const positions=[],indices=[],topDepth=.04+(44.96*layer/3),bottomDepth=.04+(44.96*(layer+1)/3);
+  for(const side of [-1,1]){
+   const first=positions.length/3;
+   for(let s=0;s<=CANYON_TRACK.length;s+=2){
+    const p=canyonPointAt(s),width=canyonShoulderWidth(s,side);
+    for(const depth of [topDepth,bottomDepth]){const offset=(width+(depth-.04)*.045)*side;positions.push(p.x+p.right.x*offset,p.height-depth,p.z+p.right.z*offset);}
+    const i=positions.length/3-2;
+    if(i>first){if(side===1)indices.push(i-2,i-1,i,i-1,i+1,i);else indices.push(i-2,i,i-1,i-1,i,i+1);}
+   }
+  }
+  const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));geometry.setIndex(indices);geometry.computeVertexNormals();geometries.add(geometry);
+  const mesh=new THREE.Mesh(geometry,mat([0xd6a06a,0xb97c4f,0x925637][layer]));mesh.name='Canyon shelf cliff stratum '+layer;mesh.receiveShadow=true;group.add(mesh);
+ }
  const object=new THREE.Object3D();
  function batch(name,geometry,material,parts){
   const mesh=new THREE.InstancedMesh(geometry,material,parts.length);mesh.name=name;
   parts.forEach((p,i)=>{object.position.set(...p.position);object.rotation.set(p.pitch||0,p.heading||0,0,'YXZ');object.scale.set(...p.scale);object.updateMatrix();mesh.setMatrixAt(i,object.matrix);if(p.color!==undefined)mesh.setColorAt(i,new THREE.Color(p.color));});mesh.instanceMatrix.needsUpdate=true;if(mesh.instanceColor)mesh.instanceColor.needsUpdate=true;mesh.castShadow=mesh.receiveShadow=true;mesh.computeBoundingSphere();group.add(mesh);instances.push(mesh);return mesh;
  }
  const posts=[],dashes=[];
+ const railNear=CANYON_TRACK.halfWidth+.14,railFar=CANYON_TRACK.halfWidth+.36,postSize=.25,postOffset=railFar+postSize/2+.04;
  // Use the same centerline/cross-sections on both sides of the approach join.
  // A run only begins once the complete steel profile clears the main road.
  const railPoints=[],approachRailStarts=new Map();
@@ -33,7 +52,8 @@ export function createCanyonScene(THREE){
   let sections=[];
   const flush=()=>{if(sections.length>1)runs.push({side,sections});sections=[];};
   for(let i=0;i<railPoints.length;i++){
-   const p=railPoints[i],near={x:p.x+p.right.x*9.14*side,z:p.z+p.right.z*9.14*side},far={x:p.x+p.right.x*9.36*side,z:p.z+p.right.z*9.36*side};
+   const p=railPoints[i],near={x:p.x+p.right.x*railNear*side,z:p.z+p.right.z*railNear*side},far={x:p.x+p.right.x*railFar*side,z:p.z+p.right.z*railFar*side};
+   if(p.approachDistance===undefined&&!canyonGuardrailAt(p.progress,side)){flush();continue;}
    if(i<Math.ceil(CANYON_APPROACH_LENGTH/2)&&(pointInRoad(near.x,near.z)||pointInRoad(far.x,far.z))){flush();continue;}
    if(p.approachDistance!==undefined&&!approachRailStarts.has(side))approachRailStarts.set(side,p.approachDistance);
    sections.push({near,far,bottom:p.height+.53,top:p.height+1.03,preserve:p.approachDistance===undefined&&p.progress===0});
@@ -54,12 +74,20 @@ export function createCanyonScene(THREE){
   geometry.userData.physicsGeometry={positions:new Float32Array(canonical.position),indices:new Uint32Array(canonical.indices)};
   const mesh=new THREE.Mesh(geometry,railMaterial);mesh.name=i===0?'Canyon steel guardrails':'Canyon steel guardrails '+i;mesh.castShadow=mesh.receiveShadow=true;group.add(mesh);
  }
- for(const side of [-1,1])for(let s=Math.ceil((approachRailStarts.get(side)??CANYON_APPROACH_LENGTH)/12)*12;s<CANYON_APPROACH_LENGTH;s+=12){
-  const p=canyonApproachPoint(s),x=p.x+p.right.x*9.25*side,z=p.z+p.right.z*9.25*side;
-  if([[-.125,-.125],[-.125,.125],[.125,-.125],[.125,.125]].some(([dx,dz])=>pointInRoad(x+dx,z+dz)))continue;
-  posts.push({position:[x,p.height+.48,z],scale:[.25,.95,.25]});
+ // Keep every support behind the steel strip, aligned to its local tangent.
+ // Its rotated corners must also clear the main road at the approach split.
+ function addPost(p,side,checkMainRoad=false){
+  const x=p.x+p.right.x*postOffset*side,z=p.z+p.right.z*postOffset*side;
+  if(checkMainRoad){
+   const c=Math.cos(p.heading),s=Math.sin(p.heading),half=postSize/2;
+   for(const dx of [-half,half])for(const dz of [-half,half])if(pointInRoad(x+c*dx+s*dz,z-s*dx+c*dz))return;
+  }
+  posts.push({position:[x,p.height+.48,z],scale:[postSize,.95,postSize],heading:p.heading});
  }
- for(let s=0;s<CANYON_TRACK.length;s+=12){const p=canyonPointAt(s);for(const side of [-1,1])posts.push({position:[p.x+p.right.x*9.25*side,p.height+.48,p.z+p.right.z*9.25*side],scale:[.25,.95,.25]});}
+ for(const side of [-1,1])for(let s=Math.ceil((approachRailStarts.get(side)??CANYON_APPROACH_LENGTH)/12)*12;s<CANYON_APPROACH_LENGTH;s+=12){
+  addPost(canyonApproachPoint(s),side,true);
+ }
+ for(let s=0;s<CANYON_TRACK.length;s+=12){const p=canyonPointAt(s);for(const side of [-1,1])if(canyonGuardrailAt(s,side))addPost(p,side);}
  for(let s=8;s<CANYON_TRACK.length;s+=14){const p=canyonPointAt(s);dashes.push({position:[p.x,p.height+.024,p.z],scale:[.14,.028,5],heading:p.heading,pitch:Math.atan(p.gradient.x*-Math.sin(p.heading)+p.gradient.z*-Math.cos(p.heading))});}
  batch('Canyon guardrail posts',box,mat(0x6d7478),posts);batch('Canyon center dashes',box,mat(0xe9b94e),dashes);
  // Layers meet without overlapping sidewalls or doubled internal caps.
@@ -71,7 +99,7 @@ export function createCanyonScene(THREE){
   // Set the first outcrops beyond the city terrain and the garage sightline.
   for(let s=57,index=0;s<=CANYON_TRACK.length;s+=19,index++){
    const p=canyonPointAt(s);
-   for(const side of [-1,1]){const wobble=Math.sin(index*3.1+side)*3.5,top=p.height+20+Math.sin(index*.7)*12,bottom=p.height-45,total=top-bottom,h=total/3;
+   for(const side of [-1,1]){if(canyonCliffAt(s,side,30))continue;const wobble=Math.sin(index*3.1+side)*3.5,top=p.height+20+Math.sin(index*.7)*12,bottom=p.height-45,total=top-bottom,h=total/3;
     parts.push({position:[p.x+p.right.x*(34+wobble)*side,bottom+h*(layer+.5),p.z+p.right.z*(34+wobble)*side],scale:[17+Math.sin(index*2.3)*3,h,17+Math.cos(index*1.3)*3],heading:index*.3,color:[0xa45f3a,0xc88650,0xe0a56c][layer]});}
   }
   batch('Canyon sandstone stratum '+layer,rock,mat(0xffffff,{flatShading:true}),parts);

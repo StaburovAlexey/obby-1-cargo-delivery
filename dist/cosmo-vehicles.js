@@ -152,10 +152,8 @@ export const COSMO_VEHICLES = Object.freeze([
   { id: 'pickup', model: 'pickup', url: new URL('./assets/optimized/vehicles/passenger/pickup.glb', import.meta.url).href, biome: 'city', cargoZ: 0.55 },
   { id: 'citycourier', model: 'compact', url: new URL('./assets/optimized/vehicles/passenger/compact.glb', import.meta.url).href, biome: 'city', cargoZ: 0.95 },
   { id: 'rover', model: 'offroad', url: new URL('./assets/optimized/vehicles/passenger/offroad.glb', import.meta.url).href, biome: 'forest', cargoZ: 0.3 },
-  { id: 'foresthauler', model: 'wagon', url: new URL('./assets/optimized/vehicles/passenger/wagon.glb', import.meta.url).href, biome: 'forest', cargoZ: 1.35 },
   { id: 'van', model: 'minivan', url: new URL('./assets/optimized/vehicles/passenger/minivan.glb', import.meta.url).href, biome: 'desert', cargoZ: 0.3 },
   { id: 'desertscout', model: 'hatchback', url: new URL('./assets/optimized/vehicles/passenger/hatchback.glb', import.meta.url).href, biome: 'desert', cargoZ: 0.075 },
-  { id: 'snowgrip', model: 'sedan', url: new URL('./assets/optimized/vehicles/passenger/sedan.glb', import.meta.url).href, biome: 'snow', cargoZ: 0.7 },
   { id: 'snowrunner', model: 'suv', url: new URL('./assets/optimized/vehicles/passenger/suv.glb', import.meta.url).href, biome: 'snow', cargoZ: 0.1 },
   { id: 'lavacrawler', model: 'coupe', url: new URL('./assets/optimized/vehicles/passenger/coupe.glb', import.meta.url).href, biome: 'lava', cargoZ: 0.15 },
   { id: 'ashhauler', model: 'sport', url: new URL('./assets/optimized/vehicles/passenger/sport.glb', import.meta.url).href, biome: 'lava', cargoZ: 0.275 },
@@ -450,12 +448,25 @@ export function createCosmoVehicleAdapter(THREE, vehicleId, gltf) {
       brakeLights: brakeLights.metadata,
     });
     group.userData.cosmoVehicle = metadata;
-    let disposed = false;
+    const originalMaterials = new Map();
+    group.traverse(mesh => { if (mesh.isMesh) originalMaterials.set(mesh, mesh.material); });
+    const black = new THREE.MeshBasicMaterial({color:0x000000,side:THREE.DoubleSide,toneMapped:false});
+    resources.materials.add(black);
+    let disposed = false, locked = false;
     const state = { steerAngle: 0, wheelSpin: 0, bodyPitch: 0, bodyRoll: 0, bodyBob: 0 };
     const adapter = {
       group, body, wheels, cargoPosition, metadata,
       get disposed() { return disposed; },
-      setBrakeLights(active) { brakeLights.set(active); return adapter; },
+      get locked() { return locked; },
+      setLocked(value) {
+        if (disposed || locked === !!value) return adapter;
+        locked = !!value;
+        if (locked) brakeLights.set(false);
+        for (const [mesh,material] of originalMaterials) mesh.material = locked ? black : material;
+        group.userData.locked = locked;
+        return adapter;
+      },
+      setBrakeLights(active) { brakeLights.set(locked ? false : active); return adapter; },
       update(pose = {}) {
         if (disposed) return adapter;
         if (!pose || typeof pose !== 'object') throw new TypeError('Cosmo update requires a pose object.');

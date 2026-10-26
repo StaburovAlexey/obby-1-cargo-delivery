@@ -2,8 +2,8 @@ import {WHEEL_SUSPENSION} from './wheel-contact-visuals.js';
 import {getRapier} from './rapier-runtime.js';
 import {vehicleConfig} from './economy-config.js';
 import {CITY_SURFACE, normalizeSurfaceDynamics} from './biome-surfaces.js';
-import {getUpgradeModifiers, steeringResponseSeconds} from './vehicle-upgrades.js';
-import {TOW_DRIVING, VEHICLE_DYNAMICS, VEHICLE_WHEELS, CONTROLLED_SKID,
+import {getUpgradeModifiers, getSpeedStabilityDemand, getRoadGripMultiplier, steeringResponseSeconds} from './vehicle-upgrades.js';
+import {TOW_DRIVING, VEHICLE_DYNAMICS, VEHICLE_WHEELS, CONTROLLED_SKID, MAX_SPEED_ASSIST_RATIO,
   evaluateVehicleForces, roadWheelTarget} from './driving-model.js';
 import {BMW_DRIFT, evaluateDriftDynamics, driftTelemetry, driftWheelTarget} from './drift-dynamics.js';
 import {vehiclePhysicsGeometry} from './vehicle-physics.js';
@@ -170,7 +170,11 @@ export function createRapierDrivingModel({
   const supportVelocity=(contact,point)=>contact.collider.parent()?.velocityAtPoint(point) ?? vec();
   const surfaceAt=(point,upgrades)=>{
     const surface=normalizeSurfaceDynamics(groundSurface(point.x,point.z,vehicleId,point));
-    surface.frictionFactor*=upgrades.grip;surface.lateralDampingFactor*=upgrades.grip;
+    const roadForward=!spec.rewardDrift&&state.gear==='D'&&!(Number.isFinite(state.speedDemand)&&state.speedDemand<-.001);
+    const supportedTire=clamp(2/surface.longitudinalGripFactor-1,0,1);
+    const stockSurfaceSpeed=Math.max(CONTROLLED_SKID.startSpeed,maxSpeed*surface.speedFactor);
+    const gripMultiplier=roadForward?getRoadGripMultiplier(upgrades,state.linearSpeed,stockSurfaceSpeed,supportedTire):upgrades.grip;
+    surface.frictionFactor*=gripMultiplier;surface.lateralDampingFactor*=gripMultiplier;
     return surface;
   };
   const castWheels=()=>{
@@ -194,17 +198,16 @@ export function createRapierDrivingModel({
   const controlState=(dt,surface,upgrades)=>{
     const effectiveMaxSpeed=maxSpeed*upgrades.speed;
     const stockSurfaceSpeed=Math.max(CONTROLLED_SKID.startSpeed,maxSpeed*surface.speedFactor);
-    const speedAssistRatio=!spec.rewardDrift && state.gear==='D' ? clamp(state.speed/stockSurfaceSpeed,1,1.10):1;
-    const load=clamp((speedAssistRatio-1)/.10,0,1),loadBlend=load*load*(3-2*load);
+    const speedAssistRatio=!spec.rewardDrift && state.gear==='D' ? clamp(state.speed/stockSurfaceSpeed,1,MAX_SPEED_ASSIST_RATIO):1;
     const requestingReverse=Number.isFinite(state.speedDemand) && state.speedDemand<-.001;
-    const rawLoad=!spec.rewardDrift && state.gear==='D' && !requestingReverse ? clamp((state.linearSpeed/stockSurfaceSpeed-1)/.10,0,1):0;
-    const onset=clamp((rawLoad-.001)/.009,0,1),speedDemand=rawLoad*onset*onset*(3-2*onset);
     const supportedTire=clamp(2/surface.longitudinalGripFactor-1,0,1);
-    const rearGripDeficit=Math.max(0,speedDemand-clamp((upgrades.grip-1)/.2,0,1))*supportedTire;
-    const handlingDeficit=Math.max(0,speedDemand-clamp((upgrades.handling-1)/.3,0,1))*supportedTire;
+    const stabilitySpeed=!spec.rewardDrift && state.gear==='D' && !requestingReverse ? state.linearSpeed:0;
+    const {loadBlend,handlingProgress,rearGripDeficit,handlingDeficit}=
+      getSpeedStabilityDemand(stabilitySpeed,stockSurfaceSpeed,upgrades,supportedTire);
+    const controlSupport=!spec.rewardDrift&&state.gear==='D'&&!requestingReverse?supportedTire:0;
     const response=(spec.rewardDrift ? .22/(spec.handling*upgrades.handling**1.35) :
-      steeringResponseSeconds(spec.handling*upgrades.handling,state.linearSpeed)) /
-      surface.handlingFactor*(1+.20*loadBlend+handlingDeficit);
+      steeringResponseSeconds(spec.handling*upgrades.handling,state.linearSpeed,controlSupport)) /
+      surface.handlingFactor*(1+.20*loadBlend*(1-handlingProgress*controlSupport)+handlingDeficit);
     const gripScale=Math.sqrt(Math.min(1,surface.frictionFactor*surface.longitudinalGripFactor));
     const reverseScale=state.gear==='R' ? Math.min(1,surface.frictionFactor):1;
     const target=spec.rewardDrift && state.gear!=='R' ? driftWheelTarget(state.steering,state.linearSpeed) :
@@ -387,7 +390,7 @@ export function createRapierDrivingModel({
       previousStep=vec(state.x,state.y,state.z);previousHeading=state.heading;
       preStepVelocity={...body.linvel()};
       let levels;try{levels=getUpgrades();}catch{}
-      const upgrades=getUpgradeModifiers(levels);
+      const upgrades=getUpgradeModifiers(levels,vehicleId);
       const surface=surfaceAt(previousStep,upgrades),controls=controlState(dt,surface,upgrades);
       const contacts=castWheels();state.wheelContacts=contacts;
       body.resetForces(false);body.resetTorques(false);

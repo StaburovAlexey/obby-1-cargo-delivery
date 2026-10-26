@@ -188,3 +188,26 @@ body.career-menu-open .buy-button{display:none!important}
 
 
 #buy-skin[data-owned="true"] .hud-art{display:none}
+
+#tyre-shop{margin-top:16px;padding-top:12px;border-top:2px solid #bdc6ff66}
+#tyre-title{margin:0 0 8px;font-size:20px}
+#tyre-current{color:#fff188}
+.tyre-cards{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.tyre-card{display:flex;flex-direction:column;gap:7px;padding:9px 7px;border:2px solid var(--hud-ink);border-radius:13px;background:#183d83;min-width:0}
+.tyre-card h4{margin:0;font-size:14px;overflow-wrap:anywhere}
+.tyre-card small{font-size:11px;line-height:1.4;color:#d3e5ff;overflow-wrap:anywhere}
+.tyre-card>span{font-size:11px;font-weight:800;color:#d3e5ff}
+.tyre-card[data-state="owned"]{border-color:#6be6a0}
+.tyre-card[data-state="next"]{border-color:#fff188}
+.tyre-card button{display:flex;align-items:center;justify-content:center;gap:3px;margin-top:auto;padding:4px;min-width:0}
+.tyre-card button .hud-art{width:25px;height:25px;flex:0 0 25px}
+.tyre-card button[data-affordable="false"]{color:#ffb7b0!important}
+#upgrade-panel button:focus-visible{outline:3px solid #fff49a;outline-offset:2px}
+@media(max-width:600px){.tyre-cards{grid-template-columns:1fr}.tyre-card{display:grid;grid-template-columns:minmax(0,1fr) 95px;text-align:left}.tyre-card h4,.tyre-card small,.tyre-card>span{grid-column:1}.tyre-card button{grid-column:2;grid-row:1/4;margin:0;font-size:14px!important}.tyre-card h4{font-size:14px}.tyre-card small{font-size:11px}}
+@media(min-width:601px) and (max-width:800px){.tyre-cards{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+.vehicle-label{flex-direction:column;gap:4px}
+.vehicle-income,.vehicle-cost{display:flex;align-items:center;justify-content:center;gap:3px}
+.vehicle-income{padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
+.vehicle-income small{font-size:12px;color:#c5efff}
+.learning-world-label[data-locked="true"] .school-content>span:last-child{color:#b7bdcf}

@@ -29,9 +29,10 @@ export function createDriftScore(){
     const angleQuality=clamp(angle/(35*Math.PI/180),.35,1.25),speedQuality=clamp(speed/22,.5,1.3);
     fraction+=newDistance*DRIFT_RULES.pointsPerMeter*angleQuality*speedQuality*state.multiplier;const points=Math.floor(fraction);state.score+=points;fraction-=points;
    }else{grace+=dt;if(grace>DRIFT_RULES.comboGrace)breakCombo();}
-   while(state.checkpoints<CANYON_TRACK.checkpoints.length&&p.progress>=CANYON_TRACK.checkpoints[state.checkpoints])state.checkpoints++;
+   const onRoad=!unsupported&&Math.abs(p.offset)<=CANYON_TRACK.halfWidth-.1;
+   if(onRoad)while(state.checkpoints<CANYON_TRACK.checkpoints.length&&p.progress>=CANYON_TRACK.checkpoints[state.checkpoints])state.checkpoints++;
    state.progress=p.progress;state.maxProgress=Math.max(state.maxProgress,p.progress);previous={x:pose.x,z:pose.z,progress:p.progress};
-   if(p.progress>=CANYON_TRACK.finish&&state.checkpoints===CANYON_TRACK.checkpoints.length&&state.elapsed>=CANYON_TRACK.finish/DRIFT_RULES.maxSpeed)state.finished=true;
+   if(onRoad&&p.progress>=CANYON_TRACK.finish&&state.checkpoints===CANYON_TRACK.checkpoints.length&&state.elapsed>=CANYON_TRACK.finish/DRIFT_RULES.maxSpeed)state.finished=true;
    return state;
   },
   disqualify(reason='interrupted'){state.rankedEligible=false;state.reason=reason;breakCombo();},

@@ -5,7 +5,8 @@
 
 import { CITY_SURFACE, normalizeSurfaceDynamics } from './biome-surfaces.js';
 import { vehicleConfig } from './economy-config.js';
-import { getUpgradeModifiers, steeringResponseSeconds } from './vehicle-upgrades.js';
+import { getUpgradeModifiers, getSpeedStabilityDemand, getRoadGripMultiplier, steeringResponseSeconds, UPGRADE_MAX_LEVEL } from './vehicle-upgrades.js';
+import { STANDARD_VEHICLE_BALANCE, UPGRADE_GAINS } from './economy-balance.js';
 import {BMW_DRIFT,evaluateDriftDynamics,driftTelemetry,driftWheelTarget} from './drift-dynamics.js';
 import {vehiclePhysicsGeometry, rearTireSlip} from './vehicle-physics.js';
 
@@ -143,9 +144,10 @@ export const VEHICLE_WHEELS = Object.freeze([
 ]);
 const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
 const finite = (v, fallback = 0) => Number.isFinite(v) ? v : fallback;
-const normalizeMaxSpeed = (speed, reward=false) => clamp(finite(Number(speed), TOW_DRIVING.maxSpeed), 1, reward?50:40);
+const MAX_STANDARD_SPEED = STANDARD_VEHICLE_BALANCE.maxSpeed * (1 + UPGRADE_GAINS.speed * UPGRADE_MAX_LEVEL);
+const normalizeMaxSpeed = (speed, reward=false) => clamp(finite(Number(speed), TOW_DRIVING.maxSpeed), 1, reward?50:MAX_STANDARD_SPEED);
 const forwardSpeed = (s) => (-Math.sin(s.heading) * s.velocityX - Math.cos(s.heading) * s.velocityZ) || 0;
-const MAX_SPEED_ASSIST_RATIO = 1.10;
+export const MAX_SPEED_ASSIST_RATIO = 1.10;
 
 // Ordinary vehicles slide on their rear contact patches under a fast cornering
 // load. This is tire compliance, not a sideways push or a requested body angle.
@@ -180,7 +182,8 @@ const ordinaryRearStiffness = (state, ground, speed, gripUpgrade, geometry, spee
   const supportedTire = clamp(2 / ground.longitudinalGripFactor - 1, 0, 1);
   const surfaceCompliance = Math.min(1, (ground.lateralDampingFactor / ground.frictionFactor) ** 2);
   const fastScale = Math.min(1, p.fastSpeedScale / Math.max(1, Math.abs(speed) / speedAssistRatio));
-  const compliance = p.rearCompliance - p.gripRecovery * (clamp(finite(gripUpgrade, 1), 1, 1.2) - 1);
+  const maximumGripUpgrade=1+UPGRADE_GAINS.grip*UPGRADE_MAX_LEVEL;
+  const compliance = p.rearCompliance - p.gripRecovery * (clamp(finite(gripUpgrade, 1), 1, maximumGripUpgrade) - 1);
   return 1 - speedBlend * loadBlend * (1 - catchBlend) * compliance * fastScale * surfaceCompliance * supportedTire;
 };
 
@@ -336,7 +339,7 @@ export function createDrivingModel({
   const readModifiers = () => {
     let levels;
     try { levels = typeof getUpgrades === 'function' ? getUpgrades() : undefined; } catch {                                     }
-    return getUpgradeModifiers(levels);
+    return getUpgradeModifiers(levels,vehicleId);
   };
   const spawn = { x, z, heading };
   const state = {
@@ -483,35 +486,28 @@ export function createDrivingModel({
     const oldVelocityX = state.velocityX, oldVelocityZ = state.velocityZ;
     const upgrades = readModifiers();
     const surface = normalizeSurfaceDynamics(groundSurface(state.x, state.z, vehicleId));
-
-
-    surface.frictionFactor *= upgrades.grip;
-    surface.lateralDampingFactor *= upgrades.grip;
+    const requestingReverse = Number.isFinite(state.speedDemand) && state.speedDemand < -.001;
+    const roadForward=!spec.rewardDrift&&state.gear==='D'&&!requestingReverse;
+    const supportedTire = clamp(2 / surface.longitudinalGripFactor - 1, 0, 1);
+    const stockSurfaceSpeed = Math.max(CONTROLLED_SKID.startSpeed, maxSpeed * surface.speedFactor);
+    const gripMultiplier=roadForward?getRoadGripMultiplier(upgrades,state.linearSpeed,stockSurfaceSpeed,supportedTire):upgrades.grip;
+    surface.frictionFactor *= gripMultiplier;
+    surface.lateralDampingFactor *= gripMultiplier;
     const effectiveMaxSpeed = maxSpeed * upgrades.speed;
     // Extra speed is relative to this car's stock terrain cap, never to bought
     // levels or pedal demand. Slow driving therefore keeps its original feel.
-    const stockSurfaceSpeed = Math.max(CONTROLLED_SKID.startSpeed, maxSpeed * surface.speedFactor);
     const speedAssistRatio = !spec.rewardDrift && state.gear === 'D' ?
       clamp(state.speed / stockSurfaceSpeed, 1, MAX_SPEED_ASSIST_RATIO) : 1;
-    const speedLoad = (speedAssistRatio - 1) / (MAX_SPEED_ASSIST_RATIO - 1);
-    const speedLoadBlend = speedLoad * speedLoad * (3 - 2 * speedLoad);
     // Total motion keeps the load present when the body turns across its path.
-    // A tiny onset gate ignores stock-governor noise, without hiding S5's load.
     // Analog gear selection happens below; bypass the new load immediately on
     // a reverse request while preserving the existing rack/gear update order.
-    const requestingReverse = Number.isFinite(state.speedDemand) && state.speedDemand < -.001;
-    const rawLoad = !spec.rewardDrift && state.gear === 'D' && !requestingReverse ?
-      clamp((state.linearSpeed / stockSurfaceSpeed - 1) / .10, 0, 1) : 0;
-    const onset = clamp((rawLoad - .001) / .009, 0, 1);
-    const speedDemand = rawLoad * onset * onset * (3 - 2 * onset);
     // Unsuitable tires already have their own traction penalty. Apply this mask
     // once to both deficits, including while crossing a blended terrain edge.
-    const supportedTire = clamp(2 / surface.longitudinalGripFactor - 1, 0, 1);
-    const gripProgress = clamp((upgrades.grip - 1) / (1.2 - 1), 0, 1);
-    const handlingProgress = clamp((upgrades.handling - 1) / (1.3 - 1), 0, 1);
-    const rearGripDeficit = Math.max(0, speedDemand - gripProgress) * supportedTire;
-    const handlingDeficit = Math.max(0, speedDemand - handlingProgress) * supportedTire;
-    const responseSeconds = (spec.rewardDrift ? .22 / (spec.handling * upgrades.handling ** 1.35) : steeringResponseSeconds(spec.handling * upgrades.handling, state.linearSpeed)) / surface.handlingFactor * (1 + .20 * speedLoadBlend + handlingDeficit);
+    const stabilitySpeed = !spec.rewardDrift && state.gear === 'D' && !requestingReverse ? state.linearSpeed : 0;
+    const {loadBlend:speedLoadBlend,handlingProgress,rearGripDeficit,handlingDeficit} =
+      getSpeedStabilityDemand(stabilitySpeed,stockSurfaceSpeed,upgrades,supportedTire);
+    const controlSupport=roadForward?supportedTire:0;
+    const responseSeconds = (spec.rewardDrift ? .22 / (spec.handling * upgrades.handling ** 1.35) : steeringResponseSeconds(spec.handling * upgrades.handling, state.linearSpeed,controlSupport)) / surface.handlingFactor * (1 + .20 * speedLoadBlend*(1-handlingProgress*controlSupport) + handlingDeficit);
 
 
 

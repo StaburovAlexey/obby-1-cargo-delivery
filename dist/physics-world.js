@@ -16,7 +16,7 @@ const CITY_SURFACES = new Map([
 ]);
 const GARAGE_PART = /^(?:Garage floor|Character rear row pedestal|Flush roadside entrance apron|Garage (?:left wall|right wall|front left wall|front right wall|rear wall|door lintel|roof)|Open door (?:left trim|right trim|threshold)|Reward pedestal (?:foundation|silver rim|top))$/;
 const CANYON_SURFACE = /^(?:Canyon (?:asphalt|left shoulder|right shoulder|approach asphalt|basin floor)|Entrance curved shoulders)$/;
-const CANYON_WALL = /^(?:Canyon steel guardrails(?: \d+)?|Canyon guardrail posts|Canyon (?:approach )?sandstone stratum \d+|Barrier post)$/;
+const CANYON_WALL = /^(?:Canyon steel guardrails(?: \d+)?|Canyon guardrail posts|Canyon (?:approach )?sandstone stratum \d+|Canyon shelf cliff stratum \d+|Barrier post)$/;
 const supportTags = new Set(['road', 'ground', 'support']);
 
 /** Build fixed colliders once from the final rendered meshes. Must follow initializeRapier(). */

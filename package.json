@@ -3,7 +3,7 @@
   "version": "1.70.2",
   "private": true,
   "type": "module",
-  "description": "Five-biome delivery driving game with ten progressive vehicles, brain-funded upgrades, five schools and saved skin purchases",
+  "description": "Five-biome delivery driving game with eight career vehicles, shared XP-funded upgrades, five schools and saved skin purchases",
   "scripts": {
     "start": "python3 -m http.server 8080 --bind 127.0.0.1 -d dist",
     "dev": "rsbuild dev --host",
