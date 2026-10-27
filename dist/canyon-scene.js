@@ -1,4 +1,4 @@
-import {CANYON_TRACK,canyonPointAt,canyonCliffAt,canyonGuardrailAt,canyonShoulderWidth} from './canyon-track.js';
+import {CANYON_TRACK,CANYON_ROCKFALL,canyonPointAt,canyonCliffAt,canyonGuardrailAt,canyonShoulderWidth,canyonRockfallHeight} from './canyon-track.js';
 import {CANYON_APPROACH_LENGTH,canyonApproachPoint} from './canyon-approach.js';
 import {CANYON_APPROACH_ROCKS} from './canyon-rocks.js';
 import {pointInRoad} from './road-layout.js';
@@ -19,6 +19,22 @@ export function createCanyonScene(THREE){
  strip('Canyon left shoulder',s=>-canyonShoulderWidth(s,-1),-CANYON_TRACK.halfWidth,mat(0xc49461),-.04);
  strip('Canyon right shoulder',CANYON_TRACK.halfWidth,s=>canyonShoulderWidth(s,1),mat(0xd3a576),-.04);
  strip('Canyon left edge paint',-8.65,-8.48,mat(0xf9e9c5),.02);strip('Canyon right edge paint',8.48,8.65,mat(0xf9e9c5),.02);
+ // A gently sloped feeder bank meets the existing shoulder exactly. The same
+ // top surface is imported by Rapier, so boulders roll down under gravity.
+ {
+  const positions=[],indices=[],section=CANYON_ROCKFALL;
+  for(let s=section.start,row=0;s<=section.end;s+=2,row++){
+   const p=canyonPointAt(s),edge=canyonShoulderWidth(s,section.side);
+   const vertex=(offset,y)=>positions.push(p.x+p.right.x*offset,y,p.z+p.right.z*offset);
+   for(const across of [0,8,20,section.slopeWidth]){const offset=(edge+across)*section.side;vertex(offset,canyonRockfallHeight(s,offset));}
+   vertex((edge+section.slopeWidth)*section.side,p.height-45);vertex(edge*section.side,p.height-45);
+   if(row)for(let column=0;column<4;column++){const a=(row-1)*6+column,b=row*6+column;indices.push(a,a+1,b,a+1,b+1,b);}
+  }
+  const last=positions.length/3-6;
+  indices.push(0,4,3,0,5,4,last,last+3,last+4,last,last+4,last+5);
+  const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));geometry.setIndex(indices);geometry.computeVertexNormals();geometries.add(geometry);
+  const mesh=new THREE.Mesh(geometry,mat(0xbd9168,{side:THREE.DoubleSide}));mesh.name='Canyon rockfall slope';mesh.receiveShadow=true;group.add(mesh);
+ }
  // The exposed road is a solid sandstone shelf, with the same ragged top edge
  // as the physical shoulder. All strata share exact boundaries, without caps.
  for(let layer=0;layer<3;layer++){
@@ -72,7 +88,7 @@ export function createCanyonScene(THREE){
   const sections=runs[i].sections,canonical=barrierStripData(sections);
   const geometry=createBarrierGeometry(THREE,simplifyBarrierSections(sections,{horizontalError:.035,verticalError:.025,maxSpan:24}));geometries.add(geometry);
   geometry.userData.physicsGeometry={positions:new Float32Array(canonical.position),indices:new Uint32Array(canonical.indices)};
-  const mesh=new THREE.Mesh(geometry,railMaterial);mesh.name=i===0?'Canyon steel guardrails':'Canyon steel guardrails '+i;mesh.castShadow=mesh.receiveShadow=true;group.add(mesh);
+  const mesh=new THREE.Mesh(geometry,railMaterial);mesh.name=i===0?'Canyon steel guardrails':'Canyon steel guardrails '+i;mesh.castShadow=false;mesh.receiveShadow=true;group.add(mesh);
  }
  // Keep every support behind the steel strip, aligned to its local tangent.
  // Its rotated corners must also clear the main road at the approach split.
@@ -89,7 +105,8 @@ export function createCanyonScene(THREE){
  }
  for(let s=0;s<CANYON_TRACK.length;s+=12){const p=canyonPointAt(s);for(const side of [-1,1])if(canyonGuardrailAt(s,side))addPost(p,side);}
  for(let s=8;s<CANYON_TRACK.length;s+=14){const p=canyonPointAt(s);dashes.push({position:[p.x,p.height+.024,p.z],scale:[.14,.028,5],heading:p.heading,pitch:Math.atan(p.gradient.x*-Math.sin(p.heading)+p.gradient.z*-Math.cos(p.heading))});}
- batch('Canyon guardrail posts',box,mat(0x6d7478),posts);batch('Canyon center dashes',box,mat(0xe9b94e),dashes);
+ batch('Canyon guardrail posts',box,mat(0x6d7478),posts).castShadow=false;
+ batch('Canyon center dashes',box,mat(0xe9b94e),dashes).castShadow=false;
  // Layers meet without overlapping sidewalls or doubled internal caps.
  for(let layer=0;layer<3;layer++){
   const rock=new THREE.CylinderGeometry(1,1,1,7,1),indices=[];

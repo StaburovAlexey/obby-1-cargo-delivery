@@ -984,6 +984,7 @@ function returnToGarage(reason='garage'){
   stopVehicleEffects();
   biomeWeather?.clear();
   physicsWorld?.resetTime();
+  physicsWorld?.resetCanyonHazards();
   roadHazards?.reset();roadHazardsScene?.update(0);
   biomeMenuOpen=false;upgradeMenuOpen=false;gameplay?.flushProgress();wheelParticles?.clear();
   inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();

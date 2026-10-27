@@ -1,8 +1,11 @@
 import {CANYON_TRACK,canyonPointAt,projectCanyon} from './canyon-track.js';
 
 const CLOUD_DEPTH=5,VEIL_LIFT=1.35,HORIZON_MARGIN=240,PROFILE_STEP=16,CORE_HALF_WIDTH=40;
+const ARRIVAL_DISTANCE=120,APPROACH_CORE=12,APPROACH_EDGE=28,LOCAL_MARGIN=180;
+const CLEAR_FOG=Object.freeze({color:0x329dff,near:500,far:1600});
 const CANYON_FOG=Object.freeze({color:0xcbdfe9,near:45,far:180});
 const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
+const smooth=value=>{const t=clamp(value,0,1);return t*t*(3-2*t);};
 
 // Bake tileable density and soft directional shading once, not per fragment.
 function createCloudTexture(THREE){
@@ -36,6 +39,22 @@ export function createCanyonClouds(THREE){
  for(let s=0;s<CANYON_TRACK.length;s+=PROFILE_STEP)profile.push(canyonPointAt(s));
  profile.push(canyonPointAt(CANYON_TRACK.length));
  const first=profile[0],last=profile.at(-1);
+ const bounds={minX:Math.min(...profile.map(p=>p.x))-LOCAL_MARGIN,maxX:Math.max(...profile.map(p=>p.x))+LOCAL_MARGIN,
+  minZ:Math.min(...profile.map(p=>p.z))-LOCAL_MARGIN,maxZ:Math.max(...profile.map(p=>p.z))+LOCAL_MARGIN};
+ const forwardX=-Math.sin(first.heading),forwardZ=-Math.cos(first.heading);
+ function arrivalWeight(car,driving,active){
+  if(!driving||!Number.isFinite(car?.x)||!Number.isFinite(car?.z))return 0;
+  const dx=car.x-first.x,dz=car.z-first.z,along=dx*forwardX+dz*forwardZ;
+  // The final 120 m of the approach are straight. This projection is exact
+  // there and avoids scanning all 300 approach segments on ordinary frames.
+  if(along<=0){
+   if(along<=-ARRIVAL_DISTANCE)return 0;
+   const lateral=Math.abs(dx*first.right.x+dz*first.right.z);
+   return smooth(1+along/ARRIVAL_DISTANCE)*(1-smooth((lateral-APPROACH_CORE)/(APPROACH_EDGE-APPROACH_CORE)));
+  }
+  // Keep local fall coverage, but never carry canyon fog to a remote teleport.
+  return active&&car.x>=bounds.minX&&car.x<=bounds.maxX&&car.z>=bounds.minZ&&car.z<=bounds.maxZ?1:0;
+ }
  const rows=[{...first,x:first.x-HORIZON_MARGIN},...profile,{...last,x:last.x+HORIZON_MARGIN}];
  const minZ=Math.min(...profile.map(p=>p.z))-HORIZON_MARGIN,maxZ=Math.max(...profile.map(p=>p.z))+HORIZON_MARGIN;
  const positions=[],indices=[];
@@ -48,12 +67,13 @@ export function createCanyonClouds(THREE){
   if(i)for(let column=0;column<4;column++){const a=(i-1)*5+column,b=i*5+column;indices.push(a,a+1,b,a+1,b+1,b);}
  }
  const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));geometry.setIndex(indices);geometry.computeBoundingSphere();
- const texture=createCloudTexture(THREE),wind={value:new THREE.Vector2()};
+ const texture=createCloudTexture(THREE),wind={value:new THREE.Vector2()},cloudOpacity={value:0};
+ const cloudBounds={value:new THREE.Vector4(first.x-HORIZON_MARGIN,minZ,last.x+HORIZON_MARGIN,maxZ)};
  function material(veil){
   return new THREE.ShaderMaterial({
    name:veil?'Canyon soft cloud veil':'Canyon opaque cloud cover',fog:true,lights:false,toneMapped:false,
    transparent:veil,depthTest:true,depthWrite:!veil,side:THREE.DoubleSide,forceSinglePass:true,
-   uniforms:{...THREE.UniformsUtils.clone(THREE.UniformsLib.fog),cloudMap:{value:texture},wind,
+   uniforms:{...THREE.UniformsUtils.clone(THREE.UniformsLib.fog),cloudMap:{value:texture},wind,cloudOpacity,cloudBounds,
     lift:{value:veil?VEIL_LIFT:0},patternScale:{value:veil?1.17:1},veilOpacity:{value:veil ? .18 : 1},
     shadowColor:{value:new THREE.Color(0xaec6d9)},lightColor:{value:new THREE.Color(0xf5f9fc)}},
    defines:veil?{CLOUD_VEIL:1}:{},
@@ -62,9 +82,11 @@ export function createCanyonClouds(THREE){
     uniform float patternScale;
     uniform vec2 wind;
     varying vec2 cloudUv;
+    varying vec2 cloudPosition;
     #include <fog_pars_vertex>
     void main(){
      cloudUv=position.xz*(patternScale/320.0)+wind;
+     cloudPosition=position.xz;
      vec4 mvPosition=modelViewMatrix*vec4(position+vec3(0.0,lift,0.0),1.0);
      gl_Position=projectionMatrix*mvPosition;
      #include <fog_vertex>
@@ -74,7 +96,10 @@ export function createCanyonClouds(THREE){
     uniform vec3 shadowColor;
     uniform vec3 lightColor;
     uniform float veilOpacity;
+    uniform float cloudOpacity;
+    uniform vec4 cloudBounds;
     varying vec2 cloudUv;
+    varying vec2 cloudPosition;
     #include <fog_pars_fragment>
     void main(){
      vec2 cloud=texture2D(cloudMap,cloudUv).rg;
@@ -84,7 +109,11 @@ export function createCanyonClouds(THREE){
      #ifdef CLOUD_VEIL
       alpha=veilOpacity*smoothstep(0.28,0.72,cloud.r);
      #endif
-     gl_FragColor=vec4(mix(shadowColor,lightColor,light),alpha);
+     // Hide the finite sheet's border while arrival fog is still transparent.
+     // At full density the opaque cover's distant border is behind canyon fog.
+     vec2 edgeDistance=min(cloudPosition-cloudBounds.xy,cloudBounds.zw-cloudPosition);
+     alpha*=smoothstep(0.0,64.0,min(edgeDistance.x,edgeDistance.y));
+     gl_FragColor=vec4(mix(shadowColor,lightColor,light),alpha*cloudOpacity);
      #include <colorspace_fragment>
      #include <fog_fragment>
     }`,
@@ -99,21 +128,35 @@ export function createCanyonClouds(THREE){
  // Include the shader-only lift in the shared conservative culling bound.
  geometry.boundingSphere.radius+=VEIL_LIFT;
  group.add(cover,veil);
- const skyColor=new THREE.Color(CANYON_FOG.color),cloudColor=new THREE.Color(0xdce9f2),fogColor=new THREE.Color();
+ const skyColor=new THREE.Color(CANYON_FOG.color),cloudColor=new THREE.Color(0xdce9f2),fogColor=new THREE.Color(),baseColor=new THREE.Color();
  const fog={...CANYON_FOG};
  let disposed=false;
+ function setOpacity(value){
+  cloudOpacity.value=value;group.visible=value>0;
+  // A fading cover must not write invisible depth over the terrain. Restore
+  // the single opaque cover as soon as entry reaches full cloud density.
+  const transparent=value<1;
+  if(coverMaterial.transparent!==transparent){coverMaterial.transparent=transparent;coverMaterial.depthWrite=!transparent;coverMaterial.needsUpdate=true;}
+ }
  return {group,get fog(){return group.visible?fog:null;},
   setQuality(profile){veil.visible=profile?.level!=='low'&&profile?.level!=='minimal';},
-  update(dt,{active=false,paused=false,camera}={}){
+  update(dt,{active=false,driving=active,car,paused=false,camera,baseFog}={}){
    if(disposed)return;
-   group.visible=active;if(!active)return;
-   Object.assign(fog,CANYON_FOG);
+   const target=arrivalWeight(car,driving,active);
+   if(target===0){setOpacity(0);return;}
+   if(!paused)setOpacity(target);
+   if(!group.visible)return;
    if(!paused){const delta=clamp(Number(dt)||0,0,.1);wind.value.x=(wind.value.x+delta*.0015)%1;wind.value.y=(wind.value.y+delta*.0009)%1;}
    // The camera can fall through the surface; local fog then hides the basin.
    // Its reference stays fixed to the road profile, never to the falling car.
-   if(camera){const road=projectCanyon(camera.position.x,camera.position.z),blend=road?clamp((road.height-CLOUD_DEPTH+1.5-camera.position.y)/2,0,1):0;
-    if(blend>0){fog.color=fogColor.copy(skyColor).lerp(cloudColor,blend).getHex();fog.near=CANYON_FOG.near+(1-CANYON_FOG.near)*blend;fog.far=CANYON_FOG.far+(24-CANYON_FOG.far)*blend;}
-   }
+   // The approach is flat, so its preview also needs no canyon-wide lookup.
+   const road=camera?(active?projectCanyon(camera.position.x,camera.position.z):first):null;
+   const immersion=road?clamp((road.height-CLOUD_DEPTH+1.5-camera.position.y)/2,0,1):0;
+   const base=baseFog??CLEAR_FOG,amount=cloudOpacity.value;
+   fogColor.copy(skyColor).lerp(cloudColor,immersion);
+   fog.color=baseColor.setHex(base.color).lerp(fogColor,amount).getHex();
+   fog.near=base.near+(CANYON_FOG.near+(1-CANYON_FOG.near)*immersion-base.near)*amount;
+   fog.far=base.far+(CANYON_FOG.far+(24-CANYON_FOG.far)*immersion-base.far)*amount;
   },
   dispose(){if(disposed)return;disposed=true;group.visible=false;group.removeFromParent();geometry.dispose();coverMaterial.dispose();veilMaterial.dispose();texture.dispose();},
  };

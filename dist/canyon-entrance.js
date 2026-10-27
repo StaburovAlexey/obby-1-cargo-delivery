@@ -37,13 +37,13 @@ export function createCanyonEntrance(THREE,{document:doc=globalThis.document,lan
  }
  const shoulderGeometry=new THREE.BufferGeometry();shoulderGeometry.setAttribute('position',new THREE.Float32BufferAttribute(shoulderPositions,3));shoulderGeometry.computeVertexNormals();geometries.add(shoulderGeometry);
  const shoulders=new THREE.Mesh(shoulderGeometry,material(0xe4b771));shoulders.name='Entrance curved shoulders';group.add(shoulders);
- for(let s=24;s<CANYON_APPROACH_LENGTH-5;s+=8){const p=canyonApproachPoint(s);if(pointInRoad(p.x,p.z))continue;const dash=box('Approach center dash',[.16,.018,4],[p.x,CANYON_APPROACH_HEIGHT+.015,p.z],0xf6d061);dash.rotation.y=p.heading;}
+ for(let s=24;s<CANYON_APPROACH_LENGTH-5;s+=8){const p=canyonApproachPoint(s);if(pointInRoad(p.x,p.z))continue;const dash=box('Approach center dash',[.16,.018,4],[p.x,CANYON_APPROACH_HEIGHT+.015,p.z],0xf6d061);dash.rotation.y=p.heading;dash.castShadow=false;}
  const gate=canyonApproachPoint(CANYON_GATE_DISTANCE),forward={x:-Math.sin(gate.heading),z:-Math.cos(gate.heading)};
  const gateGroup=new THREE.Group();gateGroup.position.set(gate.x,0,gate.z);gateGroup.rotation.y=gate.heading;group.add(gateGroup);
- for(const x of [-10,10])box('Barrier post',[.7,2.1,.7],[x,1.05,0],0xead8b5,gateGroup);
+ for(const x of [-10,10])box('Barrier post',[.7,2.1,.7],[x,1.05,0],0xead8b5,gateGroup).castShadow=false;
  const pivot=new THREE.Group();pivot.position.set(-10,1.65,0);gateGroup.add(pivot);
- box('Closed red and white barrier arm',[20,.32,.35],[10,0,0],0xf4eee0,pivot);
- for(let x=1;x<20;x+=3)box('Barrier red stripe',[1.25,.34,.38],[x,0,0],0xd84736,pivot);
+ box('Closed red and white barrier arm',[20,.32,.35],[10,0,0],0xf4eee0,pivot).castShadow=false;
+ for(let x=1;x<20;x+=3)box('Barrier red stripe',[1.25,.34,.38],[x,0,0],0xd84736,pivot).castShadow=false;
  const sign={x:gate.x+gate.right.x*12+forward.x*10,z:gate.z+gate.right.z*12+forward.z*10};
  // Short socket overlap stays inside the opaque board, including at oblique angles.
  const upright=box('Canyon sign upright',[.5,5.8,.5],[sign.x,2.9,sign.z],0x423b33);upright.rotation.y=gate.heading;

@@ -29,7 +29,7 @@ export function createFinishCelebration(THREE) {
   const draw=()=>{pieces.forEach((p,i)=>{dummy.position.set(p.x+p.vx*elapsed,p.y+p.vy*elapsed-4.9*elapsed*elapsed,p.z+p.vz*elapsed);dummy.rotation.set(elapsed*(i%5+1),i+elapsed*3,elapsed*(i%7+1));dummy.scale.setScalar(Math.max(.05,1-Math.max(0,elapsed-1.5)*1.8));dummy.updateMatrix();mesh.setMatrixAt(i,dummy.matrix);});mesh.instanceMatrix.needsUpdate=true;};
   return {group,get active(){return group.visible;},get elapsed(){return elapsed;},
     start(position){if(disposed)return;elapsed=0;group.position.set(position.x,position.y??0,position.z);group.visible=true;draw();},
-    update(dt,{paused=false,position}={}){if(disposed||!group.visible||paused)return;if(position)group.position.set(position.x,position.y??0,position.z);elapsed=Math.min(FINISH_CELEBRATION_SECONDS,elapsed+Math.max(0,Math.min(.05,Number.isFinite(dt)?dt:0)));draw();},
+    update(dt,{paused=false,position}={}){if(disposed||!group.visible||paused)return;if(position)group.position.set(position.x,position.y??0,position.z);elapsed=Math.min(FINISH_CELEBRATION_SECONDS,elapsed+Math.max(0,Math.min(.1,Number.isFinite(dt)?dt:0)));draw();},
     clear(){group.visible=false;elapsed=0;},
     dispose(){if(disposed)return;disposed=true;group.visible=false;mesh.dispose();geometry.dispose();material.dispose();group.removeFromParent();group.clear();},
   };

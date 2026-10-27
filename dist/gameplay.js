@@ -530,7 +530,7 @@ export function createGameplay({vehicles=[],stations=[],deliveries=[],desks=[],s
     },
     advanceFinish(dt) {
       if(state.eventMode!=='finish'||!Number.isFinite(dt)||dt<=0)return false;
-      state.finishRemaining=Math.max(0,state.finishRemaining-Math.min(.05,dt));
+      state.finishRemaining=Math.max(0,state.finishRemaining-Math.min(.1,dt));
       if(state.finishRemaining<=1e-8){api.returnToGarage('finish');return true;}
       return false;
     },
