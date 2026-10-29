@@ -479,10 +479,7 @@ export function createRapierDrivingModel({
           if(!touching) return;
           const normal=manifold.normal();
           if(Math.abs(normal.y)>.65) return;
-          // A falling rock can strike a stationary car. Use both incoming
-          // velocities, captured before the solver changes their momentum.
-          const rockVelocity=other.userData?.tag==='canyon-rock'?other.userData.preStepVelocity:null;
-          const speed=Math.abs(dot(rockVelocity?sub(preStepVelocity,rockVelocity):preStepVelocity,normal));
+          const speed=Math.abs(dot(preStepVelocity,normal));
           state.blocked=true;state.impactSpeed=Math.max(state.impactSpeed,speed);
           onCollision({collider:other,normal:{...normal},impactSpeed:speed,vehicleId,state});
         });

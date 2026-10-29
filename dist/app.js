@@ -442,7 +442,7 @@ function rebuild(value) {
   canyonMode=createCanyonMode(THREE,{scene,document,platform:services?.platform,leaderboard:driftLeaderboard,language:()=>selectedLanguage,
     getContext:()=>({garage,gameplay,city,finishLine,roadHazardsScene,biomeWeather,model,rig,driving,online:onlineSession}),
     onEnter:()=>{careerRouteTracker.reset();wheelParticles?.clear();updateEconomyHud();},
-    onExit:()=>{careerRouteTracker.reset();updateEconomyHud();}});
+    onExit:()=>{careerRouteTracker.reset();updateEconomyHud();},onTimeout:()=>returnToGarage('canyon-timeout')});
   canyonMode.effects.setSmokeStyle(selectedSmokeId);
   canyonMode.effects.setTrackStyle(selectedTrackId);
   canyonMode.clouds.setQuality(qualityProfile);
@@ -984,7 +984,6 @@ function returnToGarage(reason='garage'){
   stopVehicleEffects();
   biomeWeather?.clear();
   physicsWorld?.resetTime();
-  physicsWorld?.resetCanyonHazards();
   roadHazards?.reset();roadHazardsScene?.update(0);
   biomeMenuOpen=false;upgradeMenuOpen=false;gameplay?.flushProgress();wheelParticles?.clear();
   inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();
@@ -993,7 +992,7 @@ function returnToGarage(reason='garage'){
   void driftLeaderboard.load();
   gameplay.events();lastTime=0;playing=true;model=garage.vehicles[0].model;rig=garage.vehicles[0].rig;
   inputController?.setGear('D');syncMode(true);
-  notify(reason==='bridge'?'Вы в ангаре. За потерянный груз награда не начисляется.':reason==='empty'?'Топливо закончилось. Вы в ангаре — выберите машину.':'Подойдите к купленной машине, чтобы сесть.');
+  notify(reason==='canyon-timeout'?'Время вышло. Вы возвращены в ангар.':reason==='bridge'?'Вы в ангаре. За потерянный груз награда не начисляется.':reason==='empty'?'Топливо закончилось. Вы в ангаре — выберите машину.':'Подойдите к купленной машине, чтобы сесть.');
 }
 function checkPhysicsRecovery(dt){
   if(!driving||gameplay.state.eventMode==='finish')return false;

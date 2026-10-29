@@ -5,6 +5,9 @@ export function createCanyonUi(doc,{onRetry=()=>{},onExit=()=>{},onRankings=()=>
  const lang=()=>typeof language==='function'?language():language;
  const text=value=>translateGameText(value,lang()),number=value=>new Intl.NumberFormat(lang()==='en'?'en-US':'ru-RU').format(Math.floor(Number(value)||0));
  const set=(id,value)=>{const node=el(id);if(node)node.textContent=value;};
+ const checkpoint={hud:el('canyon-checkpoint-hud'),label:el('canyon-checkpoint-label'),distance:el('canyon-checkpoint-distance'),time:el('canyon-checkpoint-time')};
+ const setCheckpointText=(node,value)=>{if(node&&node.textContent!==value)node.textContent=value;};
+ const hideCheckpoint=()=>{if(checkpoint.hud&&!checkpoint.hud.hidden)checkpoint.hud.hidden=true;};
  const listen=(id,callback)=>{const node=el(id);if(!node)return;const fn=event=>{event.stopPropagation?.();callback();};node.addEventListener('click',fn);listeners.push(()=>node.removeEventListener('click',fn));};
  const resetHud=()=>{lastScore=0;lastGain=-Infinity;el('canyon-hud').hidden=true;el('canyon-hud').setAttribute('data-visible','false');el('canyon-hud').setAttribute('data-scoring','false');};
  function showResult(result,options={}){
@@ -15,6 +18,22 @@ export function createCanyonUi(doc,{onRetry=()=>{},onExit=()=>{},onRankings=()=>
  }
  listen('canyon-retry',onRetry);listen('canyon-exit',onExit);listen('canyon-rankings-button',onRankings);listen('canyon-login',onLogin);listen('canyon-back',()=>showResult(lastResult,lastOptions));
  return {
+  updateCheckpoint({active=false,index=0,total=1,remaining=0,distance=0}={}){
+   const hud=checkpoint.hud;if(!hud)return;
+   if(!active){hideCheckpoint();return;}
+   const count=Math.max(1,Math.floor(Number(total)||1));
+   const target=Math.min(count,Math.max(1,Math.floor(Number(index)||0)+1));
+   const seconds=Number.isFinite(remaining)?Math.max(0,remaining):0;
+   const metres=Number.isFinite(distance)?Math.max(0,Math.ceil(distance)):0;
+   const decimal=seconds.toFixed(1).replace('.',lang()==='en'?'.':',');
+   setCheckpointText(checkpoint.label,`${text('Точка')} ${target}/${count}`);
+   setCheckpointText(checkpoint.distance,`${metres} ${text('м')}`);
+   setCheckpointText(checkpoint.time,`${decimal} ${text('с')}`);
+   const label=text('Контрольная точка и время'),urgent=String(seconds<=5);
+   if(hud.getAttribute('aria-label')!==label)hud.setAttribute('aria-label',label);
+   if(hud.getAttribute('data-urgent')!==urgent)hud.setAttribute('data-urgent',urgent);
+   if(hud.hidden)hud.hidden=false;
+  },
   update({phase,score=0,multiplier=1}){
    const hud=el('canyon-hud');
    set('canyon-score',number(score));set('canyon-combo','×'+multiplier);
@@ -40,7 +59,7 @@ export function createCanyonUi(doc,{onRetry=()=>{},onExit=()=>{},onRankings=()=>
    el('canyon-ranking-rows').replaceChildren(...rows);set('canyon-ranking-note',text(board.status==='loading'?'Загрузка…':board.status==='ready'?(rows.length?'Ваш лучший заезд попадёт в эту таблицу.':'Пока нет результатов.'):notes[board.status]||notes.error));
   },
   setLoginBusy(value){el('canyon-login').disabled=!!value;},
-  hide(){resetHud();el('canyon-overlay').hidden=true;},
-  dispose(){listeners.splice(0).forEach(remove=>remove());resetHud();el('canyon-overlay').hidden=true;},
+  hide(){resetHud();hideCheckpoint();el('canyon-overlay').hidden=true;},
+  dispose(){listeners.splice(0).forEach(remove=>remove());resetHud();hideCheckpoint();el('canyon-overlay').hidden=true;},
  };
 }

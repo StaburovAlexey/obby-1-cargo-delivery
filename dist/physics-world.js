@@ -1,5 +1,4 @@
 import {getRapier} from './rapier-runtime.js';
-import {createCanyonRockfall} from './canyon-rockfall.js';
 
 export const PHYSICS_FIXED_STEP = 1 / 60;
 export const PHYSICS_CHUNK_SIZE = 128;
@@ -16,7 +15,7 @@ const CITY_SURFACES = new Map([
   ['Road jump ramps', 'road'],
 ]);
 const GARAGE_PART = /^(?:Garage floor|Character rear row pedestal|Flush roadside entrance apron|Garage (?:left wall|right wall|front left wall|front right wall|rear wall|door lintel|roof)|Open door (?:left trim|right trim|threshold)|Reward pedestal (?:foundation|silver rim|top))$/;
-const CANYON_SURFACE = /^(?:Canyon (?:asphalt|left shoulder|right shoulder|approach asphalt|basin floor|rockfall slope)|Entrance curved shoulders)$/;
+const CANYON_SURFACE = /^(?:Canyon (?:asphalt|left shoulder|right shoulder|approach asphalt|basin floor)|Entrance curved shoulders)$/;
 const CANYON_WALL = /^(?:Canyon steel guardrails(?: \d+)?|Canyon guardrail posts|Canyon (?:approach )?sandstone stratum \d+|Canyon shelf cliff stratum \d+|Barrier post)$/;
 const supportTags = new Set(['road', 'ground', 'support']);
 
@@ -26,7 +25,7 @@ export function createPhysicsWorld({THREE, city, garage, canyon, roadHazards} = 
   const R = getRapier();
   const world = new R.World({x: 0, y: -9.81, z: 0});
   world.timestep = PHYSICS_FIXED_STEP;
-  const stats = {chunks: 0, boxes: 0, staticTriangles: 0, staticColliders: 0, kinematicBodies: 0, dynamicBodies: 0, steps: 0, disposed: false};
+  const stats = {chunks: 0, boxes: 0, staticTriangles: 0, staticColliders: 0, kinematicBodies: 0, steps: 0, disposed: false};
   const moving = [], gateColliders = [];
   let accumulator = 0, disposed = false, frameSeconds = 0;
   const parked = new Map();
@@ -173,8 +172,6 @@ export function createPhysicsWorld({THREE, city, garage, canyon, roadHazards} = 
       else if (mesh.name === 'Closed red and white barrier arm') addMesh(mesh, 'gate');
     });
   }
-  const canyonRocks=canyon?.environment?.group?createCanyonRockfall(THREE,{world,parent:canyon.environment.group.parent}):null;
-  stats.dynamicBodies=canyonRocks?.bodyCount||0;
   const hazardPose = h => roadHazards?.poseFor?.(h.id) || h;
   const hazardPosition = h => ({x: h.x, y: (h.groundHeight || 0) + h.height / 2, z: h.z});
   const hazardRotation = h => ({x: 0, y: Math.sin((h.heading || 0) / 2), z: 0, w: Math.cos((h.heading || 0) / 2)});
@@ -261,24 +258,19 @@ export function createPhysicsWorld({THREE, city, garage, canyon, roadHazards} = 
       const state = activeModel?.state || {};
       const position = state.position || state;
       roadHazards?.update?.(PHYSICS_FIXED_STEP, {x: Number.isFinite(position.x) ? position.x : 0, z: Number.isFinite(position.z) ? position.z : 0, heading: Number.isFinite(state.heading) ? state.heading : 0}, true);
-      canyonRocks?.beforeStep(PHYSICS_FIXED_STEP,position,{active:canyon?.active===true});
       for (const {h, body} of moving) { const pose = hazardPose(h); body.setNextKinematicTranslation(hazardPosition(pose)); body.setNextKinematicRotation(hazardRotation(pose)); }
       world.step(); stats.steps++;frameSeconds+=PHYSICS_FIXED_STEP;
       activeModel?.afterStep?.(PHYSICS_FIXED_STEP);
-      canyonRocks?.afterStep(PHYSICS_FIXED_STEP,position);
       onAfterStep?.(PHYSICS_FIXED_STEP);
       accumulator = Math.max(0, accumulator - PHYSICS_FIXED_STEP); iterations++;
     }
-    const alpha=Math.min(1-Number.EPSILON,accumulator/PHYSICS_FIXED_STEP);
-    canyonRocks?.render(alpha);
-    return activeModel?.getRenderState?.(alpha);
+    return activeModel?.getRenderState?.(Math.min(1 - Number.EPSILON, accumulator / PHYSICS_FIXED_STEP));
   }
   return {
     world, stats, step, updateGate, syncParkedVehicles,
     get alpha() { return Math.min(1 - Number.EPSILON, accumulator / PHYSICS_FIXED_STEP); },
     get frameSeconds(){return frameSeconds;},
     resetTime() { accumulator = 0;frameSeconds=0; },
-    resetCanyonHazards() { if(!disposed)canyonRocks?.reset(); },
-    dispose() { if (disposed) return; disposed = true; accumulator = 0; canyonRocks?.dispose(); world.free(); stats.dynamicBodies=0;stats.disposed = true; },
+    dispose() { if (disposed) return; disposed = true; accumulator = 0; world.free(); stats.disposed = true; },
   };
 }

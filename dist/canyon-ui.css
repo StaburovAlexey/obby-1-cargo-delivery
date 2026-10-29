@@ -4,6 +4,13 @@
 #canyon-score{font-size:38px;font-weight:900;font-variant-numeric:tabular-nums}
 #canyon-combo{color:#80eddf;font-size:25px;font-weight:900}
 #canyon-hud[data-scoring=true] #canyon-score-pop{animation:canyon-score-bounce .48s ease-in-out infinite}
+#canyon-checkpoint-hud{position:fixed;left:50%;top:max(130px,calc(env(safe-area-inset-top,0px) + 124px));transform:translateX(-50%);z-index:7;display:flex;align-items:baseline;justify-content:center;gap:16px;max-width:calc(100vw - 24px);color:#fff4cf;font-size:18px;font-weight:900;font-variant-numeric:tabular-nums;text-shadow:0 2px 3px #142433,0 0 9px #142433a6;white-space:nowrap;pointer-events:none}
+#canyon-checkpoint-distance{font-size:16px;color:#dce7ea}
+#canyon-checkpoint-time{min-width:4.5ch;text-align:right;font-size:28px;color:#80eddf}
+#canyon-checkpoint-hud[data-urgent=true] #canyon-checkpoint-time{color:#ff927b}
+#canyon-checkpoint-hud:not([hidden]) + #canyon-hud{top:max(176px,calc(env(safe-area-inset-top,0px) + 170px))}
+@media(max-width:600px){#canyon-checkpoint-hud{gap:10px;font-size:15px}#canyon-checkpoint-distance{font-size:14px}#canyon-checkpoint-time{font-size:24px}}
+@media(max-height:500px){#canyon-checkpoint-hud{top:max(43px,calc(env(safe-area-inset-top,0px) + 36px));gap:12px;font-size:15px}#canyon-checkpoint-distance{font-size:14px}#canyon-checkpoint-time{font-size:24px}#canyon-checkpoint-hud:not([hidden]) + #canyon-hud{top:max(77px,calc(env(safe-area-inset-top,0px) + 70px))}}
 @keyframes canyon-score-bounce{0%,100%{transform:translateY(0) scale(1)}40%{transform:translateY(-4px) scale(1.07)}70%{transform:translateY(1px) scale(.99)}}
 @media(prefers-reduced-motion:reduce){#canyon-hud{transition:none}#canyon-hud[data-scoring=true] #canyon-score-pop{animation:none}}
 #canyon-overlay{position:fixed;inset:0;z-index:25;display:grid;place-items:center;padding:16px;background:#07131baa;box-sizing:border-box;pointer-events:auto}
@@ -11,7 +18,7 @@
 #canyon-title{margin:0 0 12px;font-size:25px}#canyon-result-score{margin:8px 0;font-size:54px;font-weight:900;color:#ffe09a;font-variant-numeric:tabular-nums}#canyon-result-note,#canyon-ranking-note{min-height:32px;font-size:14px;line-height:1.4;color:#dce7ea}
 .canyon-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:16px}.canyon-actions button,#canyon-login,#canyon-back{min-height:42px;padding:10px 14px;border:2px solid #0c1c29;border-radius:12px;background:#e9ae39;color:#152433;font:800 14px inherit;cursor:pointer}.canyon-actions button:disabled{opacity:.55}#canyon-exit,#canyon-back{background:#d2e1e5}#canyon-login{display:block;margin:12px auto;background:#f8ce5b}
 #canyon-rankings table{width:100%;border-collapse:collapse;font-size:14px;text-align:left}#canyon-rankings th,#canyon-rankings td{padding:9px 7px;border-bottom:1px solid #d2e1e533}#canyon-rankings td:nth-child(2){max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#canyon-rankings th:last-child,#canyon-rankings td:last-child{text-align:right;font-variant-numeric:tabular-nums}#canyon-rankings [data-self=true]{background:#f8ce5b22}
-#canyon-hud[hidden],#canyon-overlay[hidden],#canyon-rankings[hidden],#canyon-login[hidden],#canyon-back[hidden],#canyon-result-score[hidden],#canyon-rankings-button[hidden]{display:none}
+#canyon-hud[hidden],#canyon-checkpoint-hud[hidden],#canyon-overlay[hidden],#canyon-rankings[hidden],#canyon-login[hidden],#canyon-back[hidden],#canyon-result-score[hidden],#canyon-rankings-button[hidden]{display:none}
 @media(max-height:500px){#canyon-hud{top:43px}#canyon-score{font-size:25px}#canyon-panel{padding:16px;max-height:calc(100dvh - 20px)}#canyon-overlay{padding:10px}#canyon-result-score{font-size:36px}}
 
 /* Results are a roadside HUD card: they never obscure or capture driving controls. */
@@ -21,3 +28,5 @@
 .canyon-actions{gap:5px;margin-top:8px}.canyon-actions button{min-height:32px;padding:5px 8px;font-size:11px}
 @media(max-width:600px){#canyon-overlay{top:120px;width:min(300px,calc(100vw - 24px))}#canyon-panel{max-height:34dvh}}
 @media(max-height:500px){#canyon-overlay{top:45px;width:280px}#canyon-panel{max-height:42dvh}}
+#canyon-checkpoint-hud:not([hidden]) ~ #canyon-overlay{top:max(176px,calc(env(safe-area-inset-top,0px) + 170px))}
+@media(max-height:500px){#canyon-checkpoint-hud:not([hidden]) ~ #canyon-overlay{top:max(84px,calc(env(safe-area-inset-top,0px) + 77px))}}

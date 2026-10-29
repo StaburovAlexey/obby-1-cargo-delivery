@@ -7,12 +7,11 @@ const turns=[[0,90,0,0],[90,245,0,1.2],[245,440,1.2,-1.2],[440,635,-1.2,1.3],[63
 // the S-bends east keeps the entire canyon away from the northbound main route.
 const join=canyonApproachPoint(CANYON_APPROACH_LENGTH);
 export const CANYON_TRACK=Object.freeze({id:'canyon-v1',length:3700,halfWidth:9,origin:Object.freeze({x:join.x,z:join.z}),heading:join.heading,startHeight:join.height,drop:180,spawn:12,finish:3688,checkpoints:Object.freeze([240,480,720,960,1200,1440,1680,1920,2160,2400,2640,2880,3120,3360,3600])});
-export const CANYON_ROCKFALL=Object.freeze({start:1790,end:1870,side:1,slopeWidth:32,slopeRise:9});
 // Equal spacing carries alternating open/fenced shelves through the whole run.
 // Change sides every two shelves so both variants occur on both road edges.
-export const CANYON_CLIFF_SECTIONS=Object.freeze([...Array.from({length:10},(_,index)=>Object.freeze({
+export const CANYON_CLIFF_SECTIONS=Object.freeze(Array.from({length:10},(_,index)=>Object.freeze({
  start:180+index*340,end:420+index*340,side:[-1,1,1,-1][index%4],guarded:index%2===1,
-})),...[-1,1].map(side=>Object.freeze({start:CANYON_ROCKFALL.start,end:CANYON_ROCKFALL.end,side,guarded:false,rockfall:true}))]);
+})));
 export function canyonCliffAt(distance,side,margin=0){return CANYON_CLIFF_SECTIONS.find(section=>section.side===side&&distance>=section.start-margin&&distance<=section.end+margin);}
 export function canyonGuardrailAt(distance,side){return canyonCliffAt(distance,side)?.guarded!==false;}
 export function canyonShoulderWidth(distance,side){
@@ -21,12 +20,6 @@ export function canyonShoulderWidth(distance,side){
  // Fenced shelves retain enough ground outside the rail for its rear posts.
  const edge=CANYON_TRACK.halfWidth+(cliff.guarded?1.05:.7)+.16*Math.sin(distance*.29)+.12*Math.sin(distance*.67);
  return 15+(edge-15)*blend;
-}
-export function canyonRockfallHeight(distance,offset){
- const section=CANYON_ROCKFALL,p=canyonPointAt(distance);
- const across=clamp((offset*section.side-canyonShoulderWidth(distance,section.side))/section.slopeWidth,0,1);
- const ends=ease(clamp(Math.min(distance-section.start,section.end-distance)/12,0,1));
- return p.height-.04+section.slopeRise*across*ends;
 }
 function headingAt(s){const t=turns.find(t=>s<=t[1])||turns.at(-1);return CANYON_TRACK.heading+(-Math.PI/2-CANYON_TRACK.heading)*ease(clamp(s/90,0,1))+t[2]+(t[3]-t[2])*ease(clamp((s-t[0])/(t[1]-t[0]),0,1));}
 // Preserve the original downhill road, then continue with a second smooth descent.
