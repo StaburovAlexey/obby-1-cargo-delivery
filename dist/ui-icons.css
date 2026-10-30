@@ -1,0 +1,233 @@
+/* Approved cartoon artwork; existing button sizes and input targets are retained. */
+.hud-audio .audio-cross { display: none; }
+#audio-toggle.muted .audio-cross { display: block; }
+#audio-toggle.muted .audio-waves { display: none; }
+
+/* Use the complete button area for the artwork, without circular backplates. */
+.top-actions .hud-menu-button > .hud-circle {
+  position: relative;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+.top-actions :is(#mode-toggle, #garage-button, #music-button, #upgrade-button, #career-goal-button, #career-mission-button, #hangar-drift-button, #livery-shop-button, #settings-button) > .hud-circle > .hud-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0;
+}
+#audio-toggle {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+.jump-button, .jump-button:active {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+.jump-button .hud-art { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* Keep the live play/pause text and ARIA state managed by settings-music.js. */
+#settings-music-toggle-icon {
+  display: inline-block;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  font-size: 0;
+  background: url('./assets/ui-icons/play.webp') center / contain no-repeat;
+  pointer-events: none;
+}
+#settings-music-toggle[aria-pressed="true"] #settings-music-toggle-icon {
+  background-image: url('./assets/ui-icons/pause.webp');
+}
+
+/* Shared close artwork; the shop's Back button retains its arrow. */
+:is(#music-panel, #settings-panel, #upgrade-panel, #career-panel, #delivery-receipt, #biome-panel, #hangar-drift-panel, #vehicle-livery-panel).game-modal-panel .game-modal-close:not(.vehicle-shop-back) {
+  font-size: 0;
+  background-image: url('./assets/ui-icons/close.webp') !important;
+  background-position: center !important;
+  background-size: 30px 30px !important;
+  background-repeat: no-repeat !important;
+}
+.settings-example-close {
+  font-size: 0;
+  background: #bd3b4f url('./assets/ui-icons/close.webp') center / 27px 27px no-repeat;
+}
+
+/* Text stays in the DOM for localization and live prices. The bevel scales with it. */
+body :is(#upgrade-panel, #career-panel, #delivery-receipt, #biome-panel, #settings-panel, #vehicle-livery-panel).game-modal-panel button:not(.game-modal-close):not(.vehicle-livery-option):not(.vehicle-shop-category):not(#settings-music-previous):not(#settings-music-next),
+body :is(#buy-vehicle, #buy-skin, #buy-school, #vehicle-funds-button, #canyon-panel button) {
+  border: 3px solid #0b1934;
+  border-radius: 14px;
+  background:
+    linear-gradient(140deg, #ffffff80 0 3%, transparent 4% 94%, #ffffff20 95%),
+    linear-gradient(var(--button-top, #54f52b), var(--button-face, #19c909) 35% 80%, var(--button-bottom, #078718));
+  box-shadow: inset 0 3px 0 #ffffff65, inset 0 -6px 0 #0003, inset 4px 0 0 #ffffff1a, 0 3px 0 #09152b;
+  color: var(--button-text, #fff);
+  font-family: inherit;
+  font-weight: 900;
+  font-size: 16px;
+  line-height: 1.2;
+  text-shadow: var(--button-shadow, 0 2px 0 #10203dcc, 1px 0 #10203d99, -1px 0 #10203d99);
+  min-height: 48px;
+  padding: 9px 12px 13px;
+  overflow-wrap: anywhere;
+  opacity: 1;
+  cursor: pointer;
+  transition: filter .12s, box-shadow .12s;
+}
+/* Purchase and upgrade colors are independent of the translated caption. */
+body :is(.buy-button, #vehicle-funds-button, #vehicle-neon-apply[data-purchase="true"]) {
+  --button-top: #fff34b;
+  --button-face: #ffcf08;
+  --button-bottom: #e69b00;
+  --button-text: #10203d;
+  --button-shadow: 0 1px 0 #ffffff60;
+}
+body :is(#upgrade-panel button, .settings-jump-nav button, #settings-music-toggle, #career-mission-skip, #vehicle-neon-disable, #biome-panel button) {
+  --button-top: #33e3ff;
+  --button-face: #00a9ee;
+  --button-bottom: #0765c7;
+}
+body :is(#upgrade-panel, #career-panel, #delivery-receipt, #biome-panel, #settings-panel, #vehicle-livery-panel).game-modal-panel button:not(.game-modal-close):not(.vehicle-livery-option):not(.vehicle-shop-category):is(:disabled, [data-selected="true"]),
+body :is(#buy-vehicle, #buy-skin, #buy-school, #vehicle-funds-button, #canyon-panel button):disabled {
+  --button-top: #9ab7d5;
+  --button-face: #6488b2;
+  --button-bottom: #435d80;
+  --button-text: #e3eaf3;
+  opacity: 1;
+  cursor: default;
+}
+body #vehicle-livery-panel :is(.vehicle-livery-apply, #vehicle-smoke-apply, #vehicle-track-apply, #vehicle-neon-apply):not([data-purchase="true"])::before {
+  content: '';
+  display: inline-block;
+  width: 15px;
+  height: 9px;
+  border-left: 4px solid currentColor;
+  border-bottom: 4px solid currentColor;
+  transform: translateY(-3px) rotate(-45deg);
+  margin-right: 12px;
+  filter: drop-shadow(0 2px 0 #10203d);
+}
+body :is(.game-modal-panel button:not(.game-modal-close):not(.vehicle-shop-category), .buy-button):enabled:hover {
+  filter: brightness(1.08);
+}
+body :is(.game-modal-panel button:not(.game-modal-close):not(.vehicle-shop-category), .buy-button):enabled:active {
+  box-shadow: inset 0 2px 0 #ffffff50, inset 0 -2px 0 #0003, 0 1px 0 #09152b;
+}
+@media (max-width: 600px) {
+  body #upgrade-panel.game-modal-panel .upgrade-card button { font-size: 13px; padding: 7px 3px 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body .game-modal-panel button { transition: none; }
+}
+
+/* A single viewport-based size keeps both navigation columns aligned. */
+:root { --hud-navigation-size: 82px; }
+@media (max-width: 760px) { :root { --hud-navigation-size: 65px; } }
+@media (max-width: 600px) { :root { --hud-navigation-size: 44px; } }
+@media (max-height: 500px) and (min-width: 601px) { :root { --hud-navigation-size: 48px; } }
+@media (max-height: 420px) and (min-width: 501px) {
+  :root { --hud-navigation-size: clamp(24px, calc((100dvh - 145px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px))/5), 44px); }
+}
+
+/* Keep the navigation order stable in walking and driving modes. */
+body .topbar .top-actions {
+  --top-icon-size: var(--hud-navigation-size);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: var(--top-icon-size);
+  gap: 6px;
+}
+body .topbar .top-actions .hud-menu-button {
+  width: var(--top-icon-size);
+  height: var(--top-icon-size);
+  min-height: var(--top-icon-size);
+  flex: none;
+  gap: 0;
+}
+body .topbar .top-actions #settings-button { order: 0; }
+body .topbar .top-actions #hangar-drift-button { order: 1; }
+body .topbar .top-actions #career-mission-button { order: 2; }
+body .topbar .top-actions #livery-shop-button { order: 3; }
+body .topbar .top-actions #upgrade-button { order: 4; }
+body .topbar .top-actions #mode-toggle,
+body .topbar .top-actions #career-goal-button { order: -1; }
+
+/* Both right-side controls share their size, right edge and vertical spacing. */
+body #audio-toggle,
+body .top-actions.hud-right-actions {
+  --top-icon-size: var(--hud-navigation-size);
+  right: max(14px, env(safe-area-inset-right));
+  width: var(--hud-navigation-size);
+}
+body #audio-toggle {
+  top: calc(env(safe-area-inset-top) + var(--hud-navigation-size)*2 + 30px);
+  height: var(--hud-navigation-size);
+}
+body .top-actions.hud-right-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  position: fixed;
+  z-index: 25;
+  top: calc(env(safe-area-inset-top) + var(--hud-navigation-size)*3 + 36px);
+}
+body .top-actions.hud-right-actions :is(#garage-button, #music-button) {
+  width: var(--hud-navigation-size);
+  height: var(--hud-navigation-size);
+  min-height: var(--hud-navigation-size);
+  gap: 0;
+}
+body .top-actions.hud-right-actions .hud-circle { width: 100%; height: 100%; }
+
+/* Affordable purchases: a stationary badge with a soft elastic artwork pulse. */
+.top-actions .has-affordable-purchase > .hud-circle { overflow: visible; }
+.top-actions .has-affordable-purchase > .hud-circle::after {
+  content: '';
+  position: absolute;
+  right: 2%;
+  bottom: 2%;
+  width: clamp(9px, 22%, 17px);
+  aspect-ratio: 1;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #f12f40;
+  box-shadow: 0 1px 3px #10203d99;
+  pointer-events: none;
+}
+.top-actions .has-affordable-purchase > .hud-circle > .hud-art {
+  transform-origin: center;
+  animation: affordable-purchase-pulse 1.8s ease-in-out infinite;
+}
+@keyframes affordable-purchase-pulse {
+  0%, 100% { transform: scale(1); }
+  30% { transform: scale(1.08, .94); }
+  55% { transform: scale(.95, 1.08); }
+  75% { transform: scale(1.03, .98); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .top-actions .has-affordable-purchase > .hud-circle > .hud-art { animation: none; }
+}
+
+body .top-actions.hud-right-actions { gap: 6px; }
+#music-panel { width: min(420px, 100%); }
+#music-panel .settings-music { border: 0; padding: 12px 0 0; }
+#music-panel #settings-music-track { margin: 0; padding: 0; border: 0; background: none; min-height: 0; text-align: center; font-size: 21px; font-weight: 900; white-space: normal; overflow-wrap: anywhere; }
+#music-panel #settings-music-artist { text-align: center; white-space: normal; overflow-wrap: anywhere; }
+#music-panel .settings-music-controls { align-items: center; }
+#music-panel .settings-music-controls button { display: flex; align-items: center; justify-content: center; gap: 8px; height: 56px; min-width: 0; }
+#music-panel #settings-music-status, #music-panel #settings-music-note { text-align: center; font-size: 13px; }
+
+#music-menu { z-index: 110; }

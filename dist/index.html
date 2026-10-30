@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="./settings-menu.css" />
     <link rel="stylesheet" href="./online-ui.css" />
     <link rel="stylesheet" href="./modal-ui.css" />
+    <link rel="stylesheet" href="./ui-icons.css" />
     <script type="importmap">
       { "imports": { "three": "./vendor/three.module.js" } }
     </script>
@@ -31,74 +32,48 @@
 
     <svg class="hud-symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
       <defs>
-        <symbol id="hud-overview" viewBox="0 0 64 64">
-          <path d="M10 21h11l5-8h13l5 8h10a5 5 0 0 1 5 5v24a5 5 0 0 1-5 5H10a5 5 0 0 1-5-5V26a5 5 0 0 1 5-5Z" fill="#fffdf3" stroke="#14213d" stroke-width="3.5" stroke-linejoin="round"/>
-          <circle cx="32" cy="37" r="12" fill="#1266c3" stroke="#14213d" stroke-width="3"/>
-          <path d="M25 35a8 8 0 0 1 8-6" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
-          <path d="M11 27h8" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
-        </symbol>
-        <symbol id="hud-garage" viewBox="0 0 64 64">
-          <path d="m5 26 27-17 27 17v29H5Z" fill="#fffdf3" stroke="#14213d" stroke-width="3.5" stroke-linejoin="round"/>
-          <path d="M15 31h34v24H15Z" fill="#d55d0c" stroke="#14213d" stroke-width="3" stroke-linejoin="round"/>
-          <path d="M19 37h26M19 44h26M23 17l9-6 15 9" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
-        </symbol>
-        <symbol id="hud-jump" viewBox="0 0 64 64">
-          <path d="M31.9 7c1.6 0 3 1 4 2.5l22 29c2 2.5.4 6-3 6H42v13c0 2.2-1.8 4-4 4H26c-2.2 0-4-1.8-4-4v-13H9c-3.4 0-5-3.5-3-6l22-29c1-1.5 2.3-2.5 3.9-2.5Z" fill="#fff" stroke="#155d28" stroke-opacity=".8" stroke-width="2" stroke-linejoin="round"/>
-        </symbol>
-        <symbol id="hud-stand" viewBox="0 0 64 64">
-          <circle cx="34" cy="11" r="7" fill="#fffdf3" stroke="#14213d" stroke-width="3"/>
-          <path d="m22 25 11-5 9 7 9 1M32 23l-2 17-7 17m8-17 12 16M12 32v14h12" fill="none" stroke="#14213d" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="m22 25 11-5 9 7 9 1M32 23l-2 17-7 17m8-17 12 16M12 32v14h12" fill="none" stroke="#fffdf3" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-        </symbol>
-        <symbol id="hud-money" viewBox="0 0 64 64">
-          <circle cx="32" cy="32" r="27" fill="#ffce38" stroke="#14213d" stroke-width="4"/>
-          <circle cx="32" cy="32" r="21" fill="#35c952" stroke="#14213d" stroke-width="3"/>
-          <path d="M42 22c-5-6-21-4-21 4 0 9 22 4 22 14 0 9-17 11-24 3M32 14v37" fill="none" stroke="#14213d" stroke-width="7" stroke-linecap="round"/>
-          <path d="M42 22c-5-6-21-4-21 4 0 9 22 4 22 14 0 9-17 11-24 3M32 14v37" fill="none" stroke="#fff8cf" stroke-width="4" stroke-linecap="round"/>
-          <path d="M14 22a22 22 0 0 1 9-10" fill="none" stroke="#fff6ae" stroke-width="3" stroke-linecap="round"/>
-        </symbol>
-        <symbol id="hud-fuel" viewBox="0 0 64 64">
-          <path d="M22 8h22v9l10 11v29H10V22Z" fill="#e74830" stroke="#14213d" stroke-width="4" stroke-linejoin="round"/>
-          <path d="M29 9v8h10V9M17 28v20" fill="none" stroke="#ffc6a9" stroke-width="4" stroke-linecap="round"/>
-          <path d="m24 28 16 20m0-20L24 48" stroke="#9d251e" stroke-width="4" stroke-linecap="round"/>
-          <path d="m10 22-5-6 10-8 7 7" fill="#ffb397" stroke="#14213d" stroke-width="4" stroke-linejoin="round"/>
-        </symbol>
-        <symbol id="hud-refresh" viewBox="0 0 64 64">
-          <path d="M49 18A22 22 0 1 0 53 40" fill="none" stroke="#14213d" stroke-width="12" stroke-linecap="round"/>
-          <path d="M49 18A22 22 0 1 0 53 40" fill="none" stroke="#fffdf3" stroke-width="7" stroke-linecap="round"/>
-          <path d="m51 7 2 20-20-3Z" fill="#fffdf3" stroke="#14213d" stroke-width="3" stroke-linejoin="round"/>
-        </symbol>
-        <symbol id="hud-biome" viewBox="0 0 64 64">
-          <path d="M6 15 23 8l18 7 17-7v42l-17 7-18-7-17 7Z" fill="#72dc47" stroke="#14213d" stroke-width="4" stroke-linejoin="round"/>
-          <path d="m23 8 18 7v42l-18-7Z" fill="#ffcf4d" stroke="#14213d" stroke-width="3"/>
-          <path d="m15 33 12-7 12 12 12-12" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-        </symbol>
-        <symbol id="hud-grid" viewBox="0 0 64 64">
-          <rect x="9" y="9" width="46" height="46" rx="5" fill="#fffdf3" stroke="#14213d" stroke-width="4"/>
-          <path d="M25 10v44M40 10v44M10 25h44M10 40h44" stroke="#1266c3" stroke-width="4"/>
-        </symbol>
+        <symbol id="hud-overview" viewBox="0 0 64 64"><image href="./assets/ui-icons/overview.webp" width="64" height="64" /></symbol>
+        <symbol id="hud-garage" viewBox="0 0 64 64"><image href="./assets/ui-icons/garage.webp" width="64" height="64" /></symbol>
+        <symbol id="hud-jump" viewBox="0 0 64 64"><image href="./assets/ui-icons/jump.webp" width="64" height="64" /></symbol>
+        <symbol id="hud-stand" viewBox="0 0 64 64"><image href="./assets/ui-icons/stand.webp" width="64" height="64" /></symbol>
+        <symbol id="hud-money" viewBox="0 0 64 64"><image href="./assets/ui-icons/money.webp" width="64" height="64" /></symbol>
+        <symbol id="hud-fuel" viewBox="0 0 64 64"><image href="./assets/ui-icons/fuel.webp" width="64" height="64" /></symbol>
+        <symbol id="hud-refresh" viewBox="0 0 64 64"><image href="./assets/ui-icons/refresh.webp" width="64" height="64" /></symbol>
+        <symbol id="hud-biome" viewBox="0 0 64 64"><image href="./assets/ui-icons/biome.webp" width="64" height="64" /></symbol>
+        <symbol id="hud-grid" viewBox="0 0 64 64"><image href="./assets/ui-icons/grid.webp" width="64" height="64" /></symbol>
 
-        <symbol id="hud-xp" viewBox="0 0 64 64">
-          <path d="M17 5h30l12 12v30L47 59H17L5 47V17Z" fill="#239eff" stroke="#14213d" stroke-width="4" stroke-linejoin="round"/>
-          <path d="M18 11h26M11 20v22" fill="none" stroke="#a6eeff" stroke-width="3" stroke-linecap="round"/>
-          <path d="m15 23 13 19m0-19L15 42m23 0V23h7a7 7 0 0 1 0 14h-7" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-        </symbol>
-        <symbol id="hud-missions" viewBox="0 0 64 64"><rect x="13" y="10" width="40" height="49" rx="7" fill="#fff1b5" stroke="#14213d" stroke-width="4"/><rect x="23" y="5" width="20" height="12" rx="4" fill="#8ce5ff" stroke="#14213d" stroke-width="4"/><path d="m21 31 4 4 7-9m-11 20 4 4 7-9" fill="none" stroke="#27ad6a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M38 31h7m-7 15h7" stroke="#3c5c83" stroke-width="4" stroke-linecap="round"/></symbol>
-        <symbol id="hud-upgrade" viewBox="0 0 64 64"><path d="m10 48 25-25c-4-10 3-19 14-17l-8 9 8 8 9-8c2 11-7 18-17 14L17 55c-8 7-14 0-7-7Z" fill="#68e2ff" stroke="#14213d" stroke-width="4" stroke-linejoin="round"/><path d="m14 48 18-18" stroke="#fff" stroke-width="4" stroke-linecap="round"/></symbol>
-        <symbol id="hud-speed" viewBox="0 0 64 64"><path d="M34 5 12 35h17l-5 24 29-35H36l8-19Z" fill="#ffcf36" stroke="#14213d" stroke-width="4" stroke-linejoin="round"/><path d="m32 14-10 16h8" fill="none" stroke="#fff8d5" stroke-width="4" stroke-linecap="round"/></symbol>
-        <symbol id="hud-handling" viewBox="0 0 64 64"><circle cx="32" cy="32" r="25" fill="#2498f5" stroke="#14213d" stroke-width="4"/><circle cx="32" cy="32" r="15" fill="#fff" stroke="#14213d" stroke-width="4"/><path d="m10 28 22 6 22-6M32 35v20" fill="none" stroke="#14213d" stroke-width="7"/><path d="M14 20c4-7 10-10 17-10" fill="none" stroke="#b4edff" stroke-width="4" stroke-linecap="round"/></symbol>
-        <symbol id="hud-grip" viewBox="0 0 64 64"><rect x="17" y="5" width="30" height="54" rx="12" fill="#2dc65f" stroke="#14213d" stroke-width="4"/><path d="m19 16 13 7 13-7M19 29l13 7 13-7M19 42l13 7 13-7M32 7v50" fill="none" stroke="#123d2f" stroke-width="4"/><path d="M23 11v8" stroke="#ceffde" stroke-width="4" stroke-linecap="round"/></symbol>
+        <symbol id="hud-xp" viewBox="0 0 64 64"><image href="./assets/ui-icons/xp.webp" width="64" height="64" /></symbol>
+        <symbol id="hud-missions" viewBox="0 0 64 64"><image href="./assets/ui-icons/missions.webp" width="64" height="64" /></symbol>
+        <symbol id="hud-upgrade" viewBox="0 0 64 64"><image href="./assets/ui-icons/upgrade.webp" width="64" height="64" /></symbol>
+        <symbol id="hud-speed" viewBox="0 0 64 64"><image href="./assets/ui-icons/speed.webp" width="64" height="64" /></symbol>
+        <symbol id="hud-handling" viewBox="0 0 64 64"><image href="./assets/ui-icons/handling.webp" width="64" height="64" /></symbol>
+        <symbol id="hud-grip" viewBox="0 0 64 64"><image href="./assets/ui-icons/grip.webp" width="64" height="64" /></symbol>
 
-        <symbol id="hud-school" viewBox="0 0 64 64"><path d="M5 13c10-5 19-4 27 1 8-5 17-6 27-1v40c-10-4-19-3-27 2-8-5-17-6-27-2Z" fill="#fff4ce" stroke="#14213d" stroke-width="4" stroke-linejoin="round"/><path d="M32 15v38M10 44l15 1M39 45l15-1" fill="none" stroke="#448fdd" stroke-width="3"/><use href="#hud-xp" x="17" y="19" width="30" height="30" /></symbol>
-        <symbol id="hud-lock" viewBox="0 0 64 64"><path d="M19 30V19a13 13 0 0 1 26 0v11" fill="none" stroke="#14213d" stroke-width="13"/><path d="M19 30V19a13 13 0 0 1 26 0v11" fill="none" stroke="#e1edf6" stroke-width="6"/><rect x="11" y="27" width="42" height="31" rx="7" fill="#ffc637" stroke="#14213d" stroke-width="4"/><path d="M32 38v11" stroke="#14213d" stroke-width="6" stroke-linecap="round"/></symbol>
-        <symbol id="hud-settings" viewBox="0 0 64 64"><path d="m27 6-2 8-7 4-8-2-5 9 6 6v8l-6 6 5 9 8-2 7 4 2 8h10l2-8 7-4 8 2 5-9-6-6v-8l6-6-5-9-8 2-7-4-2-8Z" transform="translate(0 -3)" fill="#f2f5ff" stroke="#14213d" stroke-width="3.5" stroke-linejoin="round"/><circle cx="32" cy="32" r="10" fill="#6683b3" stroke="#14213d" stroke-width="3.5"/><path d="M27 27a7 7 0 0 1 8-1" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/></symbol>
+        <symbol id="hud-school" viewBox="0 0 64 64"><image href="./assets/ui-icons/school.webp" width="64" height="64" /></symbol>
+        <symbol id="hud-lock" viewBox="0 0 64 64"><image href="./assets/ui-icons/lock.webp" width="64" height="64" /></symbol>
+        <symbol id="hud-music" viewBox="0 0 64 64"><image href="./assets/ui-icons/music.svg" width="64" height="64" /></symbol>
+        <symbol id="hud-settings" viewBox="0 0 64 64"><image href="./assets/ui-icons/settings.webp" width="64" height="64" /></symbol>
+        <symbol id="hud-savings" viewBox="0 0 64 64"><image href="./assets/ui-icons/savings.webp" width="64" height="64" /></symbol>
+        <symbol id="hud-trophy" viewBox="0 0 64 64"><image href="./assets/ui-icons/trophy.webp" width="64" height="64" /></symbol>
+        <symbol id="hud-shop" viewBox="0 0 64 64"><image href="./assets/ui-icons/shop.webp" width="64" height="64" /></symbol>
+        <symbol id="hud-sound" viewBox="0 0 64 64"><image href="./assets/ui-icons/sound.webp" width="64" height="64" /></symbol>
+        <symbol id="hud-muted" viewBox="0 0 64 64"><image href="./assets/ui-icons/muted.webp" width="64" height="64" /></symbol>
+        <symbol id="hud-previous" viewBox="0 0 64 64"><image href="./assets/ui-icons/previous.webp" width="64" height="64" /></symbol>
+        <symbol id="hud-next" viewBox="0 0 64 64"><image href="./assets/ui-icons/next.webp" width="64" height="64" /></symbol>
       </defs>
     </svg>
     <main
       id="viewport"
       aria-label="Интерактивная трёхмерная сцена городского района"
     ></main>
-    <button id="audio-toggle" hidden type="button" aria-label="Выключить звук" aria-pressed="false" title="Выключить звук"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 12h6l8-7v22l-8-7H4z" fill="#fff"/><path class="audio-waves" d="M22 10q6 6 0 12M26 6q10 10 0 20" fill="none" stroke="#fff" stroke-width="2.5"/><path class="audio-cross" d="m22 11 7 10m0-10-7 10" fill="none" stroke="#fff" stroke-width="3"/></svg></button>
+    <button id="audio-toggle" hidden type="button" aria-label="Выключить звук" aria-pressed="false" title="Выключить звук"><svg class="hud-audio" viewBox="0 0 64 64" aria-hidden="true"><g class="audio-waves"><use href="#hud-sound" /></g><g class="audio-cross"><use href="#hud-muted" /></g></svg></button>
+    <div class="top-actions hud-right-actions">
+      <button id="garage-button" class="mode-button hud-menu-button" type="button" aria-label="Ангар" title="Ангар">
+          <span class="hud-circle"><svg class="hud-art" aria-hidden="true" focusable="false"><use href="#hud-garage" /></svg></span>
+
+        </button>
+      <button id="music-button" class="hud-menu-button" type="button" aria-label="Музыка" title="Музыка" aria-haspopup="dialog" aria-expanded="false" aria-controls="music-panel"><span class="hud-circle"><svg class="hud-art" viewBox="0 0 64 64" aria-hidden="true"><use href="#hud-music" /></svg></span></button>
+    </div>
     <header class="topbar">
       <div class="brand">
         <span class="eyebrow">ПЯТЬ БИОМОВ · ОДИН ГОРОД</span>
@@ -109,15 +84,12 @@
           <span class="hud-circle"><svg class="hud-art" aria-hidden="true" focusable="false"><use href="#hud-overview" /></svg></span>
           <span id="mode-label" class="button-label">Обзор</span>
         </button>
-        <button id="garage-button" class="mode-button hud-menu-button" type="button" aria-label="Ангар" title="Ангар">
-          <span class="hud-circle"><svg class="hud-art" aria-hidden="true" focusable="false"><use href="#hud-garage" /></svg></span>
 
-        </button>
         <button id="upgrade-button" class="hud-menu-button" type="button" aria-label="Улучшения машины" title="Улучшения машины" aria-expanded="false" aria-controls="upgrade-panel" hidden><span class="hud-circle"><svg class="hud-art" viewBox="0 0 64 64" width="64" height="64" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><use href="#hud-upgrade" x="0" y="0" width="64" height="64" /></svg></span></button>
-        <button id="career-goal-button" disabled class="hud-menu-button career-action" type="button" aria-label="Накопления на машину" title="Накопления на машину" aria-haspopup="dialog" aria-expanded="false" aria-controls="career-goal-section" hidden><span class="hud-circle"><svg class="hud-art" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#hud-money" /></svg></span></button>
+        <button id="career-goal-button" disabled class="hud-menu-button career-action" type="button" aria-label="Накопления на машину" title="Накопления на машину" aria-haspopup="dialog" aria-expanded="false" aria-controls="career-goal-section" hidden><span class="hud-circle"><svg class="hud-art" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#hud-savings" /></svg></span></button>
         <button id="career-mission-button" class="hud-menu-button career-action" type="button" aria-label="Задания" title="Задания" aria-haspopup="dialog" aria-expanded="false" aria-controls="career-mission-section" hidden><span class="hud-circle"><svg class="hud-art" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#hud-missions" /></svg></span></button>
-        <button id="hangar-drift-button" class="hud-menu-button" type="button" aria-label="Рейтинг дрифта" title="Рейтинг дрифта" aria-haspopup="dialog" aria-expanded="false" aria-controls="hangar-drift-panel" data-i18n-skip hidden><span class="hud-circle"><svg class="hud-art" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M20 10h24v14c0 11-5 17-12 17s-12-6-12-17V10Zm0 5H10v7c0 9 5 13 13 13m21-20h10v7c0 9-5 13-13 13M32 41v11M21 56h22" fill="#ffd36c" stroke="#593920" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
-        <button id="livery-shop-button" class="hud-menu-button" type="button" aria-label="Магазин раскрасок" title="Магазин раскрасок" aria-haspopup="dialog" aria-expanded="false" data-i18n-skip hidden><span class="hud-circle"><svg class="hud-art" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M12 25h40v30H12z" fill="#53d9e7" stroke="#14213d" stroke-width="4"/><path d="M10 11h44l4 15c-2 9-10 9-13 2-3 7-11 7-14 0-3 7-11 7-14 0-3 7-11 7-13-2z" fill="#ff75bc" stroke="#14213d" stroke-width="4" stroke-linejoin="round"/><path d="M25 38h14v17H25z" fill="#fff" stroke="#14213d" stroke-width="3"/><path d="m16 11-3 16m19-16v16m16-16 3 16" stroke="#fff" stroke-width="5"/></svg></span></button>
+        <button id="hangar-drift-button" class="hud-menu-button" type="button" aria-label="Рейтинг дрифта" title="Рейтинг дрифта" aria-haspopup="dialog" aria-expanded="false" aria-controls="hangar-drift-panel" data-i18n-skip hidden><span class="hud-circle"><svg class="hud-art" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#hud-trophy" /></svg></span></button>
+        <button id="livery-shop-button" class="hud-menu-button" type="button" aria-label="Магазин раскрасок" title="Магазин раскрасок" aria-haspopup="dialog" aria-expanded="false" data-i18n-skip hidden><span class="hud-circle"><svg class="hud-art" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#hud-shop" /></svg></span></button>
         <button id="settings-button" class="hud-menu-button" type="button" aria-label="Настройки" title="Настройки" aria-haspopup="dialog" aria-expanded="false" aria-controls="settings-panel"><span class="hud-circle"><svg class="hud-art" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true" focusable="false"><use href="#hud-settings" /></svg></span></button>
       </div>
     <div id="wallet-hud" aria-label="Заработанные деньги"><svg class="hud-art" aria-hidden="true" focusable="false"><use href="#hud-money" /></svg><strong id="wallet-value">0</strong></div>
@@ -127,7 +99,6 @@
     <div id="settings-menu" class="game-modal" hidden>
       <section id="settings-panel" class="game-modal-panel" role="dialog" aria-modal="true" aria-labelledby="settings-title" tabindex="-1">
         <div class="settings-heading game-modal-heading"><h2 id="settings-title">Настройки</h2><button id="settings-close" class="game-modal-close" type="button" aria-label="Закрыть настройки">×</button></div>
-        <nav class="settings-jump-nav" aria-label="Разделы настроек"><button id="settings-jump-play" type="button" aria-controls="settings-how-to-play">Как играть</button><button id="settings-jump-icons" type="button" aria-controls="settings-icon-guide">Значки</button><button id="settings-jump-credits" type="button" aria-controls="settings-credits">Авторы и лицензии</button></nav>
         <div id="settings-scroll" class="settings-scroll" tabindex="0" role="region" aria-label="Содержимое настроек и справки">
           <section class="settings-controls" aria-label="Настройки игры">
             <div class="settings-volume-heading"><label id="settings-volume-label" for="settings-volume">Громкость</label><output id="settings-volume-value" for="settings-volume">100%</output></div>
@@ -135,37 +106,6 @@
             <p id="settings-volume-note" class="settings-note">Все звуки игры. 0% — без звука.</p>
             <div class="settings-language-row"><label for="settings-language">Язык</label><select id="settings-language" translate="no"><option value="ru" lang="ru">Русский</option><option value="en" lang="en">English</option></select></div>
           </section>
-          <section id="settings-music" class="settings-music" aria-labelledby="settings-music-title" data-i18n-skip>
-            <h3 id="settings-music-title">Музыка</h3>
-            <label id="settings-music-track-label" for="settings-music-track">Трек</label>
-            <select id="settings-music-track" aria-describedby="settings-music-artist"></select>
-            <p id="settings-music-artist" class="settings-note" translate="no"></p>
-            <div class="settings-music-controls">
-              <button id="settings-music-previous" type="button" aria-label="Предыдущий трек"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5v14M19 5 8 12l11 7z"/></svg></button>
-              <button id="settings-music-toggle" type="button" aria-label="Слушать" aria-pressed="false"><span id="settings-music-toggle-icon" aria-hidden="true">▶</span><span id="settings-music-toggle-label">Слушать</span></button>
-              <button id="settings-music-next" type="button" aria-label="Следующий трек"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5v14M5 5l11 7-11 7z"/></svg></button>
-            </div>
-            <p id="settings-music-status" class="settings-note" role="status" aria-live="polite">Нажмите «Слушать», чтобы включить музыку.</p>
-            <p id="settings-music-note" class="settings-note">Музыка продолжает играть после закрытия настроек.</p>
-          </section>
-          <section id="settings-how-to-play" class="settings-help" aria-labelledby="settings-how-title">
-            <h3 id="settings-how-title">Как играть</h3>
-            <p class="settings-help-intro">Один рейс — один груз. Выбирайте, где забрать награду, и возвращайтесь за следующей доставкой.</p>
-            <ol class="settings-play-steps"><li><h4>Сядьте в машину</h4><p>Подойдите к купленной машине в ангаре. Первая машина бесплатна. Вы автоматически появитесь на старте с полным баком и одним грузом.</p></li>
-<li><h4>Доставить сейчас или ехать дальше</h4><p>По ходу пути слева находятся точки выгрузки с суммой награды. Въезд в такую точку сдаёт груз, выдаёт награду и возвращает в ангар. Хотите более дорогую доставку? Проезжайте мимо и везите тот же груз дальше.</p></li>
-<li><h4>Заправляйтесь справа</h4><p>Справа находятся заправки: въедьте в зону, и бак бесплатно заполнится. Груз останется с вами. Топливо тратится при движении, в том числе назад; на месте расхода нет. Не ждите нулевого остатка.</p></li>
-<li><h4>Берегите груз</h4><p>Пустой бак, падение с моста или кнопка «Ангар» заканчивают рейс без награды за груз. Столкновение само по себе не отнимает груз, но лишает бонуса «Без аварий». На узких мостах держите колёса на полотне, перед препятствиями отпускайте газ. Не съезжайте с дороги: выезд за маршрут может лишить груз оплаты.</p></li>
-<li><h4>Зарабатывайте и улучшайте</h4><p>Деньги за доставки нужны для машин, персонажей и платных классов. XP начисляются за движение машины, обучение и бонусы доставки. За XP улучшайте все обычные машины: скорость, устойчивость, сцепление и бак, до 10 уровней каждого параметра. Уровни общие и сохраняются при покупке следующей машины.</p></li>
-<li><h4>Открывайте биомы</h4><p>Обычные машины покупаются по порядку в ангаре. За движение выбранной машины начисляется от 1 до 8 XP/сек: каждая следующая машина даёт на 1 XP/сек больше. У всех одинаковые начальные скорость 100 км/ч и запас хода 300 м. Купленные улучшения общие: скорость до 150 км/ч, дальность до 4700 м. Для дорогих биомов покупайте шины: лесные, пустынные, зимние и вулканические. Их свойства складываются. Груз можно сдать на любой обычной машине в любом биоме.</p></li>
-<li><h4>Учитесь и выполняйте задания</h4><p>В ангаре слева пять входов в класс. Первый бесплатен, остальные классы покупаются строго по очереди за монеты. Подойдите к доступному входу, чтобы сесть за свободную парту и получать XP; кнопка «Встать» или движение заканчивают обучение. Задания открываются значком планшета в ангаре. Их награды начисляются после успешной доставки.</p></li>
-<li><h4>Откройте золотую BMW</h4><p>Пройдите весь путь из ангара через пять биомов за один рейс и доставьте груз в последней точке после финиша. Не сдавайте его раньше. Золотая BMW откроется на подиуме в ангаре. Тестовые переходы награду не открывают.</p></li>
-</ol>
-            <p class="settings-help-note">Прогресс и настройки сохраняются в облаке Яндекс Игр. Без соединения изменения останутся до закрытия страницы. Сам рейс и положение машины не сохраняются. Настройки, потеря фокуса и фоновая вкладка ставят игру и заработок на паузу.</p>
-          </section>
-          <section id="settings-icon-guide" class="settings-help" aria-labelledby="settings-icons-title">
-            <h3 id="settings-icons-title">Значки и управление</h3>
-            <p class="settings-note">Ниже показаны настоящие значки и элементы интерфейса. Это примеры, нажимать на них не нужно. Некоторые кнопки появляются только в ангаре или в машине.</p>
-            <h4>Движение и камера</h4><ul class="settings-icon-list"><li><span class="settings-icon-example" aria-hidden="true"><span class="settings-stick"><span class="settings-stick-thumb"></span></span></span><div><h5>Джойстик</h5><p>Пешком тяните круг слева. Чем дальше тянете, тем быстрее бежите. На клавиатуре: WASD или стрелки, Shift для бега.</p></div></li><li><span class="settings-icon-example" aria-hidden="true"><img class="settings-help-art" src="./assets/hud-steering.svg" alt="" draggable="false" /></span><div><h5>Руль</h5><p>В машине вращайте руль пальцем или мышью. Клавиатура: A / D или ← / →. Руль сам не даёт газ.</p></div></li><li><span class="settings-icon-example" aria-hidden="true"><span class="gas-pedal settings-example-pedal"><span class="gas-pedal-grip"></span><span class="gas-pedal-label">ГАЗ</span></span></span><div><h5>Газ</h5><p>Удерживайте синюю педаль, чтобы ехать вперёд; отпустите для наката. Клавиатура: W / ↑ / Space.</p></div></li><li><span class="settings-icon-example" aria-hidden="true"><span class="gas-pedal reverse-pedal settings-example-pedal"><span class="gas-pedal-label">R</span></span></span><div><h5>Задний ход</h5><p>Удерживайте педаль R для заднего хода. На BMW педаль R или S / ↓ на ходу включает ручник; газ можно держать одновременно. Чтобы поехать назад, остановитесь, отпустите и нажмите снова. Shift также включает ручник.</p></div></li><li><span class="settings-icon-example" aria-hidden="true"><svg class="settings-help-art" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#hud-jump" /></svg></span><div><h5>Прыжок</h5><p>Стрелка вверх подбрасывает персонажа пешком. Клавиша Space. В машине Space отвечает за газ, а не за прыжок.</p></div></li><li><span class="settings-icon-example" aria-hidden="true"><svg class="settings-help-art" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#hud-stand" /></svg></span><div><h5>Встать</h5><p>Появляется во время обучения. Нажмите, чтобы выйти из-за парты; движение тоже прекращает обучение.</p></div></li></ul><p class="settings-help-note">Занос: на скорости поворачивайте плавно. Если заднюю часть машины сносит, уменьшите газ и мягко поверните руль в сторону заноса; по мере выравнивания возвращайте руль к центру. Перед мостом заранее сбросьте скорость. Камера: проведите пальцем или перетащите мышью по свободной части 3D-сцены. Не начинайте жест на руле, педалях или джойстике. За рулём камера плавно возвращается после движения машины.</p><h4>Ресурсы и покупки</h4><ul class="settings-icon-list"><li><span class="settings-icon-example" aria-hidden="true"><svg class="settings-help-art" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#hud-money" /></svg></span><div><h5>Деньги и цена</h5><p>Монета вверху показывает ваш баланс. Над машиной или персонажем она обозначает цену; у выгрузки — награду за груз. В ангаре подойдите к товару и нажмите «Купить». Обычные покупки используют игровые деньги. Последние шесть персонажей покупаются за портальную валюту Яндекс Игр; цена указана рядом с её значком.</p></div></li><li><span class="settings-icon-example" aria-hidden="true"><svg class="settings-help-art" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#hud-xp" /></svg></span><div><h5>XP</h5><p>Синий жетон XP вверху — запас валюты для улучшений. Такой же значок на кнопке улучшения обозначает его цену в XP.</p></div></li><li><span class="settings-icon-example" aria-hidden="true"><svg class="settings-help-art" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#hud-fuel" /></svg></span><div><h5>Топливо</h5><p>Канистра внизу рядом с полосой и числами: остаток / ёмкость бака. Если топлива мало, заезжайте на заправку справа.</p></div></li><li><span class="settings-icon-example" aria-hidden="true"><span class="drive-speed settings-example-speed"><strong>25</strong><small>км/ч</small></span></span><div><h5>Скорость на экране</h5><p>Число внизу показывает текущую скорость в км/ч. Это индикатор, не кнопка.</p></div></li><li><span class="settings-icon-example" aria-hidden="true"><svg class="settings-help-art" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#hud-school" /></svg></span><div><h5>Обучение</h5><p>Книга с XP обозначает вход в класс. Число рядом с XP и «/сек» — скорость обучения. Более дорогие классы дают XP быстрее.</p></div></li><li><span class="settings-icon-example" aria-hidden="true"><svg class="settings-help-art" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#hud-lock" /></svg></span><div><h5>Закрытый класс</h5><p>Замок у входа означает, что доступ ещё не куплен. Подойдите и нажмите «Купить» за указанную сумму. Первый класс бесплатен; доступ к остальным покупается один раз.</p></div></li></ul><h4>Меню и действия</h4><ul class="settings-icon-list"><li><span class="settings-icon-example" aria-hidden="true"><svg class="settings-help-art" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#hud-garage" /></svg></span><div><h5>Ангар</h5><p>Домик возвращает вас в ангар. Если нажать во время рейса, груз пропадёт без награды.</p></div></li><li><span class="settings-icon-example" aria-hidden="true"><svg class="settings-help-art" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#hud-missions" /></svg></span><div><h5>Задания</h5><p>Планшет в ангаре открывает условие, прогресс и награду текущего задания. «Сменить» бесплатно пропускает его без награды.</p></div></li><li><span class="settings-icon-example" aria-hidden="true"><svg class="settings-help-art" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#hud-upgrade" /></svg></span><div><h5>Улучшения машины</h5><p>Гаечный ключ доступен в машине. Открывает четыре общих улучшения обычных машин и магазин шин за XP. Улучшения наградных машин покупаются отдельно.</p></div></li><li><span class="settings-icon-example" aria-hidden="true"><svg class="settings-help-art" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#hud-settings" /></svg></span><div><h5>Настройки</h5><p>Шестерёнка открывает это окно: громкость, язык, музыку, правила, значки и авторов. Закройте окно крестиком или клавишей Escape, чтобы продолжить.</p></div></li><li><span class="settings-icon-example" aria-hidden="true"><span class="settings-example-sound-states"><span class="settings-example-audio"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 12h6l8-7v22l-8-7H4z" fill="#fff"/><path class="audio-waves" d="M22 10q6 6 0 12M26 6q10 10 0 20" fill="none" stroke="#fff" stroke-width="2.5"/><path class="audio-cross" d="m22 11 7 10m0-10-7 10" fill="none" stroke="#fff" stroke-width="3"/></svg></span><span class="settings-example-audio muted"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 12h6l8-7v22l-8-7H4z" fill="#fff"/><path class="audio-waves" d="M22 10q6 6 0 12M26 6q10 10 0 20" fill="none" stroke="#fff" stroke-width="2.5"/><path class="audio-cross" d="m22 11 7 10m0-10-7 10" fill="none" stroke="#fff" stroke-width="3"/></svg></span></span></span><div><h5>Звук</h5><p>Динамик включает или выключает звук. Перечёркнутый динамик означает тишину. Точная громкость меняется ползунком в настройках.</p></div></li><li><span class="settings-icon-example" aria-hidden="true"><span class="settings-example-close">×</span></span><div><h5>Закрыть окно</h5><p>Крестик закрывает текущее окно. В настройках также работает Escape или нажатие на затемнение вокруг панели.</p></div></li><li><span class="settings-icon-example" aria-hidden="true"><svg class="settings-help-art" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#hud-money" /></svg></span><div><h5>Деньги на все машины · тест</h5><p>Необязательная оранжевая кнопка в ангаре один раз добавляет недостающие деньги на обычные машины. BMW всё равно нужно открыть полным рейсом. После использования кнопка исчезает.</p></div></li></ul><h4>Четыре улучшения</h4><ul class="settings-icon-list"><li><span class="settings-icon-example" aria-hidden="true"><svg class="settings-help-art" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#hud-speed" /></svg></span><div><h5>Молния · скорость</h5><p>Повышает максимальную скорость и разгон. Обычные машины: от 100 до 150 км/ч за 10 уровней.</p></div></li><li><span class="settings-icon-example" aria-hidden="true"><svg class="settings-help-art" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#hud-handling" /></svg></span><div><h5>Синий руль · устойчивость</h5><p>Ускоряет отклик руля и помогает удерживать и выравнивать машину в заносе.</p></div></li><li><span class="settings-icon-example" aria-hidden="true"><svg class="settings-help-art" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#hud-grip" /></svg></span><div><h5>Шина · сцепление</h5><p>Повышает устойчивость к срыву в занос, улучшает восстановление сцепления и торможение.</p></div></li><li><span class="settings-icon-example" aria-hidden="true"><svg class="settings-help-art" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#hud-fuel" /></svg></span><div><h5>Канистра · бак</h5><p>Увеличивает ёмкость и дальность на одном баке. Обычные машины: от 300 до 4700 м за 10 уровней. С подходящими шинами и заправками по пути начального бака хватает до второй точки доставки; каждый уровень добавляет ещё одну или две доступные точки. Для финиша нужен 10-й уровень бака. На последнем перегоне его запас рассчитан на одну потерю 10% полного бака. При покупке добавляется новый объём бака; потраченное топливо не возвращается. Для полной заправки заезжайте на заправку.</p></div></li></ul></section>
           <section id="settings-credits" class="settings-credits" aria-labelledby="settings-credits-title">
             <h3 id="settings-credits-title">Авторы и лицензии</h3>
             <h4>Звуки</h4>
@@ -185,12 +125,29 @@
       </section>
     </div>
 
+    <div id="music-menu" class="game-modal" hidden>
+      <section id="music-panel" class="game-modal-panel" role="dialog" aria-modal="true" aria-labelledby="settings-music-title" data-i18n-skip>
+        <div class="game-modal-heading"><h2 id="settings-music-title">Музыка</h2><button id="music-close" class="game-modal-close" type="button" aria-label="Закрыть плеер">×</button></div>
+          <section id="settings-music" class="settings-music" aria-labelledby="settings-music-title" data-i18n-skip>
+            <p id="settings-music-track" translate="no" aria-live="polite"></p>
+            <p id="settings-music-artist" class="settings-note" translate="no"></p>
+            <div class="settings-music-controls">
+              <button id="settings-music-previous" type="button" aria-label="Предыдущий трек"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#hud-previous" /></svg></button>
+              <button id="settings-music-toggle" type="button" aria-label="Слушать" aria-pressed="false"><span id="settings-music-toggle-icon" aria-hidden="true">▶</span><span id="settings-music-toggle-label">Слушать</span></button>
+              <button id="settings-music-next" type="button" aria-label="Следующий трек"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#hud-next" /></svg></button>
+            </div>
+            <p id="settings-music-status" class="settings-note" role="status" aria-live="polite">Нажмите «Слушать», чтобы включить музыку.</p>
+            <p id="settings-music-note" class="settings-note">Музыка продолжает играть после закрытия настроек.</p>
+          </section>
+      </section>
+    </div>
+
     <button id="vehicle-funds-button" class="progression-action" type="button" hidden><svg class="hud-art" aria-hidden="true"><use href="#hud-money" /></svg><span>Деньги на все машины<small>Тест · один раз</small></span></button>
     <div id="upgrade-menu" class="game-modal" hidden><section id="upgrade-panel" class="game-modal-panel" role="dialog" aria-modal="true" aria-labelledby="upgrade-title">
-      <div class="game-modal-heading"><h2 id="upgrade-title">Улучшения машины</h2><button id="upgrade-close" class="game-modal-close" type="button" aria-label="Закрыть">×</button></div><p id="upgrade-car-name"></p><p id="upgrade-description">Общие улучшения всех обычных машин за XP. Новые машины сохраняют купленные уровни.</p>
+      <div class="game-modal-heading"><h2 id="upgrade-title">Улучшения машины</h2><button id="upgrade-close" class="game-modal-close" type="button" aria-label="Закрыть">×</button></div><p id="upgrade-car-name"></p>
       <div class="upgrade-cards">
-<article class="upgrade-card"><svg class="hud-art" aria-hidden="true"><use href="#hud-speed" /></svg><h3>Скорость</h3><span id="upgrade-speed-level">0 / 10</span><strong id="upgrade-speed-value"></strong><small id="upgrade-speed-description"></small><button id="upgrade-speed-buy" type="button"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><span id="upgrade-speed-price"></span></button></article><article class="upgrade-card"><svg class="hud-art" aria-hidden="true"><use href="#hud-handling" /></svg><h3>Устойчивость</h3><span id="upgrade-handling-level">0 / 10</span><strong id="upgrade-handling-value"></strong><small id="upgrade-handling-description"></small><button id="upgrade-handling-buy" type="button"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><span id="upgrade-handling-price"></span></button></article><article class="upgrade-card"><svg class="hud-art" aria-hidden="true"><use href="#hud-grip" /></svg><h3>Сцепление</h3><span id="upgrade-grip-level">0 / 10</span><strong id="upgrade-grip-value"></strong><small id="upgrade-grip-description"></small><button id="upgrade-grip-buy" type="button"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><span id="upgrade-grip-price"></span></button></article><article class="upgrade-card"><svg class="hud-art" aria-hidden="true"><use href="#hud-fuel" /></svg><h3>Бак</h3><span id="upgrade-fuel-level">0 / 10</span><strong id="upgrade-fuel-value"></strong><small id="upgrade-fuel-description"></small><button id="upgrade-fuel-buy" type="button"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><span id="upgrade-fuel-price"></span></button></article></div>
-      <section id="tyre-shop" aria-labelledby="tyre-title"><h3 id="tyre-title">Шины</h3><p id="tyre-current" role="status" aria-live="polite"></p><p id="tyre-current-biomes"></p><p>Шины покупаются по порядку за XP и действуют на все обычные машины. Каждый комплект сохраняет свойства предыдущих.</p><div class="tyre-cards">
+<article class="upgrade-card"><svg class="hud-art" aria-hidden="true"><use href="#hud-speed" /></svg><h3>Скорость</h3><span id="upgrade-speed-level">0 / 10</span><strong id="upgrade-speed-value"></strong><button id="upgrade-speed-buy" type="button"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><span id="upgrade-speed-price"></span></button></article><article class="upgrade-card"><svg class="hud-art" aria-hidden="true"><use href="#hud-handling" /></svg><h3>Устойчивость</h3><span id="upgrade-handling-level">0 / 10</span><strong id="upgrade-handling-value"></strong><button id="upgrade-handling-buy" type="button"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><span id="upgrade-handling-price"></span></button></article><article class="upgrade-card"><svg class="hud-art" aria-hidden="true"><use href="#hud-grip" /></svg><h3>Сцепление</h3><span id="upgrade-grip-level">0 / 10</span><strong id="upgrade-grip-value"></strong><button id="upgrade-grip-buy" type="button"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><span id="upgrade-grip-price"></span></button></article><article class="upgrade-card"><svg class="hud-art" aria-hidden="true"><use href="#hud-fuel" /></svg><h3>Бак</h3><span id="upgrade-fuel-level">0 / 10</span><strong id="upgrade-fuel-value"></strong><button id="upgrade-fuel-buy" type="button"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><span id="upgrade-fuel-price"></span></button></article></div>
+      <section id="tyre-shop" aria-labelledby="tyre-title"><h3 id="tyre-title">Шины</h3><p id="tyre-current" role="status" aria-live="polite"></p><p id="tyre-current-biomes"></p><div class="tyre-cards">
         <article id="tyre-0-card" class="tyre-card"><h4>Городские</h4><small id="tyre-0-biomes"></small><span id="tyre-0-status"></span><button id="tyre-0-buy" type="button"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><span id="tyre-0-price"></span></button></article>
         <article id="tyre-1-card" class="tyre-card"><h4>Лесные</h4><small id="tyre-1-biomes"></small><span id="tyre-1-status"></span><button id="tyre-1-buy" type="button"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><span id="tyre-1-price"></span></button></article>
         <article id="tyre-2-card" class="tyre-card"><h4>Пустынные</h4><small id="tyre-2-biomes"></small><span id="tyre-2-status"></span><button id="tyre-2-buy" type="button"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><span id="tyre-2-price"></span></button></article>

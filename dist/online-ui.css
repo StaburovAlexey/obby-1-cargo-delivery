@@ -4,3 +4,4 @@
 .portal-currency-icon{display:inline-block;width:1.15em;height:1.15em;vertical-align:middle;margin-left:.2em;object-fit:contain}
 [data-premium="true"]>.hud-art{display:none}
 body.is-loading #online-status{display:none}
+body:not(.developer-mode) :is(#online-status,#save-notice){display:none!important}

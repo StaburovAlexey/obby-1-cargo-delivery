@@ -14,7 +14,7 @@ body.developer-mode.is-driving{--driving-action-count:4}
 body.is-driving .topbar,body.is-driving .top-actions,body.is-driving #wallet-hud,body.is-driving #brain-hud{--top-actions-width:var(--top-icon-size)}
 body.is-driving .top-actions{display:flex;flex-direction:column;align-items:center;gap:6px;width:var(--top-icon-size)}
 body.is-driving .top-actions .hud-menu-button{width:var(--top-icon-size);height:var(--top-icon-size);min-height:var(--top-icon-size);gap:0;flex:none}
-body.is-driving .top-actions #settings-button{order:-1}
+.top-actions #settings-button{order:-1}
 body.is-driving .top-actions .button-label{display:none}
 @media(max-width:600px){body.is-driving .topbar,body.is-driving .top-actions,body.is-driving #wallet-hud,body.is-driving #brain-hud{--top-icon-size:44px}}
 @media(max-height:420px) and (min-width:501px){

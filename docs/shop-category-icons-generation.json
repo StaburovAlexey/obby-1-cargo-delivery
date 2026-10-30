@@ -1,0 +1,10 @@
+{
+  "tool": "built-in image_gen",
+  "atlasLayout": "2x2: liveries, neon, smoke, tracks",
+  "assets": "dist/assets/shop-previews/categories/{liveries,neon,smoke,tracks}.webp",
+  "canvas": {"width": 512, "height": 448, "transparent": true},
+  "normalizedArtworkWidth": 384,
+  "generationBrief": "Brawl Stars inspired cartoon mobile game category icons. Four matching sporty coupes with the same camera angle and body size, nose toward upper right and tail toward lower left. Cyan/pink paint livery, golden car with cyan/purple underglow, golden car with white/pink rear-tire smoke, golden drifting car with compact curved tire tracks attached to its rear wheels and tangent to its heading. Bold dark outlines, cel shading, equal visual weight, no lettering or logos, transparent background.",
+  "finalEditPrompt": "Edit this icon atlas into a clean production 2x2 texture atlas on a square transparent canvas. KEEP the exact FOUR car designs, the identical car body size between all four, their orientation with nose upper-right, the category cues, and especially the correctly curved tracks attached to REAR wheels. Remove ALL broad background colored light haze/gradients and colored ambient halos outside the actual objects. The background and gutters MUST be completely transparent. Keep only the small cyan/purple neon directly UNDER the top-right car, pink paint drops near top-left car, the solid smoke puffs at bottom-left and the tire marks at bottom-right. No broad glows. Shrink each complete icon uniformly within its own equal square cell to leave at least 12 percent genuinely transparent padding on EVERY side, including around smoke and tracks. All four objects must have the same overall visible bounding-box width, about 74 percent of their cell width, and same visual weight. Equal 2 columns x 2 rows. No text, no lines, no backgrounds, no frames. Absolutely no object or glow may touch the edge of a cell or spill into another cell. Preserve the approved artwork and produce crisp clean alpha edges.",
+  "masterImage": "exec-73af48b6-d918-4e5f-a5d4-cf98951cec60.png"
+}

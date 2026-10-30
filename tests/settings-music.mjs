@@ -18,15 +18,15 @@ function fixture() {
 
 test('settings player lists tracks and routes controls without starting audio at construction',()=>{
  const f=fixture();
- assert.equal(f.el('track').children.length,2);
- assert.equal(f.el('track').children[1].textContent,'2. Track B');
+ assert.equal(f.el('track').textContent,'Track A');
+ assert.equal(f.el('track').children.length,0);
  assert.equal(f.el('artist').textContent,'Artist A · 1 / 2');
  assert.deepEqual(f.calls,[]);
  f.el('toggle').dispatch('click');f.el('previous').dispatch('click');f.el('next').dispatch('click');
  f.el('track').value='1';f.el('track').dispatch('change');
- assert.deepEqual(f.calls,['play','previous','next',['select',1]]);
+ assert.deepEqual(f.calls,['play','previous','next']);
  f.update({requested:true,playing:true,index:1,track:{id:'b',title:'Track B',artist:'Artist B'}});
- assert.equal(f.el('track').value,'1');assert.equal(f.el('toggle-label').textContent,'Пауза');
+ assert.equal(f.el('track').textContent,'Track B');assert.equal(f.el('toggle-label').textContent,'Пауза');
  assert.equal(f.el('toggle').getAttribute('aria-pressed'),'true');
  f.el('toggle').dispatch('click');assert.equal(f.calls.at(-1),'pause');
  f.ui.dispose();assert(!f.hasSubscriber());

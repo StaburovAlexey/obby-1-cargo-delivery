@@ -172,20 +172,10 @@ function fixture(options = {}) {
 
 {
   const f = fixture(), scroll = f.ids.get('settings-scroll');
-  scroll.getBoundingClientRect = () => ({top: 80});
-  for (const [name, targetId] of [['play', 'settings-how-to-play'], ['icons', 'settings-icon-guide'], ['credits', 'settings-credits']]) {
-    const target = f.ids.get(targetId), jump = f.ids.get(`settings-jump-${name}`);
-    target.getBoundingClientRect = () => ({top: 210});
-    f.menu.open(); scroll.scrollTop = 40;
-    jump.dispatch('click');
-    assert.equal(scroll.scrollTop, 170);
-    assert.equal(f.doc.activeElement, scroll);
-    assert(f.menu.isOpen());
-    assert.equal(scroll.dispatch('keydown', {key: 'ArrowDown'}).defaultPrevented, false);
-    scroll.dispatch('keydown', {key: 'Escape'});
-    assert(!f.menu.isOpen()); assert.equal(f.doc.activeElement, f.button);
-    const previous = scroll.scrollTop; jump.dispatch('click'); assert.equal(scroll.scrollTop, previous);
-  }
+  for(const id of ['settings-how-to-play','settings-icon-guide','settings-jump-play','settings-jump-icons','settings-jump-credits'])assert.equal(f.ids.has(id),false);
+  f.menu.open();scroll.scrollTop=170;
+  assert.equal(scroll.dispatch('keydown',{key:'ArrowDown'}).defaultPrevented,false);
+  scroll.dispatch('keydown',{key:'Escape'});assert.equal(f.menu.isOpen(),false);
   f.menu.open(); assert.equal(scroll.scrollTop, 0, 'Reopening starts at volume and language');
   f.menu.dispose();
 }

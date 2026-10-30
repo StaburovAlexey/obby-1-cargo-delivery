@@ -1,3 +1,6 @@
+import {createMusicMenu} from '../../dist/music-menu.js';
+import {updatePurchaseNotifications} from '../../dist/purchase-notifications.js';
+import {TYRE_CONFIG} from '../../dist/economy-balance.js';
 import {createUiCache} from '../../dist/ui-cache.js';
 import {createProgressiveAssets} from '../../dist/progressive-assets.js';
 import {buildRoadPits,roadPitAt,roadPitRampHeight,roadPitRampBoost,roadPitReservations} from '../../dist/road-pits.js';
@@ -129,7 +132,7 @@ export function createAppDom({width=390,height=844,startDriving=true,realStartup
  for(const el of ids.values())el.replaceChildren=(...children)=>{el.children=[];children.forEach(child=>el.append(child));};
  Object.assign(deps,{createFleetNeon,getVehicleNeon,getVehicleLivery,createVehicleNeonPreview:createNeonPreview,createVehicleLiveryGallery:createLiveryPreview,createVehicleLiveryPreview:createLiveryPreview,createVehicleLiveryShop:createLiveryShop,createVehicleLiveryController:createLiveryController,createCanyonLeaderboard,createRenderProfiler,createSpatialRenderer,createRenderZones,createHangarDriftLeaderboard,createCanyonMode,createPauseState,createOnlineSession,createAdvertising,isAdvertisingSafe,PREMIUM_SKIN_IDS,__URBAN_DEV_SERVER__:devServer});
  deps.PROGRESSION_CONFIG=PROGRESSION_CONFIG;
- Object.assign(deps,{DEFAULT_VEHICLE_SMOKE_ID,getVehicleSmokeStyle,DEFAULT_VEHICLE_TRACK_ID,getVehicleTrackStyle,createBackgroundMusic:createMusic,MUSIC_TRACKS,createSettingsMusic});
+ Object.assign(deps,{createMusicMenu,updatePurchaseNotifications,TYRE_CONFIG,DEFAULT_VEHICLE_SMOKE_ID,getVehicleSmokeStyle,DEFAULT_VEHICLE_TRACK_ID,getVehicleTrackStyle,createBackgroundMusic:createMusic,MUSIC_TRACKS,createSettingsMusic});
  Object.assign(deps,{createRapierDrivingModel,createPhysicsWorld,buildRoadPits,roadPitAt,roadPitRampHeight,roadPitRampBoost,roadPitReservations});
  new Function(...Object.keys(deps),source)(...Object.values(deps));
  if(startDriving&&!loadFailure){const d=dom.win.__sceneDebug;d.gameplay.state.cooldown=0;d.enterVehicle('pickup');d.model.setPose({x:1.8,z:9.8});d.applyTruckPose();d.followTruck(1,true);}

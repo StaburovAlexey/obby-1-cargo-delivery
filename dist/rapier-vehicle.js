@@ -10,6 +10,9 @@ import {vehiclePhysicsGeometry} from './vehicle-physics.js';
 
 const MASS = VEHICLE_DYNAMICS.mass;
 const GRAVITY = VEHICLE_DYNAMICS.gravity;
+// Contact damping leaves a small downhill crawl while braking on a slope.
+// Release the direction-change brake near standstill so the engine can take over.
+const DIRECTION_CHANGE_STOP_SPEED = .35;
 const clamp = (v,a,b) => Math.max(a,Math.min(b,v));
 const finite = (v,fallback=0) => Number.isFinite(v) ? v : fallback;
 const vec = (x=0,y=0,z=0) => ({x,y,z});
@@ -103,7 +106,7 @@ export function createRapierDrivingModel({
     .setRotation(headingQuaternion(heading)).setCanSleep(false).setCcdEnabled(true)
     .setLinearDamping(0).setAngularDamping(0));
   body.userData={tag:'vehicle',vehicleId};
-  let collider, disposed=false, enabled=true, gearBraking=false;
+  let collider, disposed=false, enabled=true, gearBraking=false, directionChangePending=false;
   // Rapier clears these public sets when World.free() releases its WASM data.
   // Late UI callbacks can outlive a scene, including during development HMR.
   const isLive=()=>!disposed && !!world.bodies && !!world.colliders;
@@ -217,13 +220,17 @@ export function createRapierDrivingModel({
     const analog=Number.isFinite(state.speedDemand),demand=analog ? state.speedDemand:0;
     if(analog && Math.abs(demand)>.001) {
       const gear=demand<0?'R':'D';
-      if(state.gear!==gear) gearBraking=false;
+      if(state.gear!==gear) {gearBraking=false;directionChangePending=true;}
       state.gear=gear;
     }
     const direction=state.gear==='R'?-1:1;
+    // A spin can reverse signed velocity without a transmission change.
+    // Brake only for a requested D/R change; held gas must recover from a slide.
     if(!state.active) gearBraking=false;
-    else if(state.speed*direction<-.08) gearBraking=true;
-    if(gearBraking && Math.abs(state.speed)<.08 && state.linearSpeed<.10) gearBraking=false;
+    else if(directionChangePending) gearBraking=state.speed*direction<-.08;
+    directionChangePending=false;
+    if(state.speed*direction>=0) gearBraking=false;
+    if(gearBraking && Math.abs(state.speed)<DIRECTION_CHANGE_STOP_SPEED && state.linearSpeed<DIRECTION_CHANGE_STOP_SPEED) gearBraking=false;
     const speedFraction=analog ? Math.abs(demand):1;
     const targetSpeed=effectiveMaxSpeed*surface.speedFactor*speedFraction;
     const excess=state.speed*direction-targetSpeed;
@@ -309,7 +316,17 @@ export function createRapierDrivingModel({
       const a=axle.map(t=>lever(t,t.forward)),b=axle.map(t=>lever(t,t.right));
       if(Math.abs(a[0]-a[1])<.05) {axle.forEach((t,i)=>t.apply(longitudinal[i],lateral[i]));continue;}
       const totalLongitudinal=longitudinal[0]+longitudinal[1],totalLateral=lateral[0]+lateral[1];
-      const yaw=a[0]*longitudinal[0]+a[1]*longitudinal[1]+b[0]*lateral[0]+b[1]*lateral[1];
+      // These tire forces were evaluated at the reference BMW wheel positions.
+      // Preserve their reference yaw budget on calibrated bodies with different
+      // wheelbase/track; apply the resulting impulses at the real tire contacts.
+      const referenceLever=(t,direction)=>{
+        const wheel=BMW_DRIFT.wheels.find(w=>w.name===t.contact.name);
+        return dot(cross(rotate(vec(wheel.x,0,wheel.z),body.rotation()),direction),axis);
+      };
+      const reference=spec.rewardDrift.referenceGeometry;
+      const yaw=reference ? axle.reduce((sum,t,i)=>sum+
+        referenceLever(t,t.forward)*longitudinal[i]+referenceLever(t,t.right)*lateral[i],0) :
+        a[0]*longitudinal[0]+a[1]*longitudinal[1]+b[0]*lateral[0]+b[1]*lateral[1];
       const distributedLateral=axle.map(t=>totalLateral*t.contact.normalLoad/load);
       const firstLongitudinal=(yaw-b[0]*distributedLateral[0]-b[1]*distributedLateral[1]-a[1]*totalLongitudinal)/(a[0]-a[1]);
       axle[0].apply(firstLongitudinal,distributedLateral[0]);
@@ -355,7 +372,7 @@ export function createRapierDrivingModel({
     setGear(gear) {
       if(!isLive()) return;
       if(gear!=='D' && gear!=='R') throw new Error('Gear must be D or R');
-      if(state.gear!==gear) gearBraking=false;
+      if(state.gear!==gear) {gearBraking=false;directionChangePending=true;}
       state.gear=gear;
     },
     setPose,
@@ -370,13 +387,13 @@ export function createRapierDrivingModel({
       state.active=false;state.speedDemand=Number.isFinite(state.speedDemand)?0:null;
       state.steering=state.frontWheelAngle=state.brake=state.handbrake=state.braking=0;
       state.travel=state.pathDistance=state.movingSeconds=state.impactSpeed=0;
-      state.blocked=false;gearBraking=false;hazardSpin=null;stopMotion();resetRender();
+      state.blocked=false;gearBraking=false;directionChangePending=false;hazardSpin=null;stopMotion();resetRender();
     },
     reset() {
       if(!isLive()) return;
       Object.assign(state,{gear:'D',steering:0,frontWheelAngle:0,wheelSpin:0,
         active:false,speedDemand:null,brake:0,handbrake:0,braking:0});
-      gearBraking=false;setPose(spawn);
+      gearBraking=false;directionChangePending=false;setPose(spawn);
     },
     beginFrame() {
       if(!isLive()) return;

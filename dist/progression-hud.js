@@ -44,7 +44,7 @@ export function updateProgressionHud(doc,{gameplay,playing,driving,upgradeMenuOp
   ui.text(el('brain-value'),brains);
   ui.style(el('brain-hud'),'--brain-digits',String(brains.length));
   ui.attribute(el('brain-hud'),'aria-label',`XP: ${brains}`);
-  ui.hidden(el('upgrade-button'),controlsHidden||!playing||!driving);
+  ui.hidden(el('upgrade-button'),controlsHidden||!playing);
   ui.attribute(el('upgrade-button'),'aria-expanded',String(upgradeMenuOpen));
   ui.hidden(el('upgrade-menu'),!upgradeMenuOpen);
   ui.class(doc.body,'upgrade-menu-open',upgradeMenuOpen);
@@ -63,10 +63,10 @@ export function updateProgressionHud(doc,{gameplay,playing,driving,upgradeMenuOp
   ui.hidden(el('study-status'),!playing||!s.seatedId||!school);
   if(school)ui.text(el('study-status'),`${school.name} · +${brainRateDisplay(school.rate)} XP/сек`);
   for(const [i,skin]of SKIN_CONFIG.entries()){if(gameplay.isSkinOwned(skin.id))ui.hidden(el(`skin-label-${i+1}`),true);}
-  if(!upgradeMenuOpen||!s.selectedId)return;
-  const selected=vehicleConfig(s.selectedId),ordinary=!selected.rewardOnly;
-  ui.text(el('upgrade-car-name'),selected.name);
-  ui.text(el('upgrade-description'),ordinary?'Общие улучшения всех обычных машин за XP. Новые машины сохраняют купленные уровни.':'Покупка за XP. Улучшается только эта машина.');
+  const upgradeId=gameplay.getUpgradeVehicleId?.()??(driving?s.selectedId:'pickup');
+  if(!upgradeMenuOpen||!upgradeId)return;
+  const selected=vehicleConfig(upgradeId),ordinary=!selected.rewardOnly;
+  ui.text(el('upgrade-car-name'),!driving&&ordinary?'Все обычные машины':selected.name);
   ui.hidden(el('tyre-shop'),!ordinary);
   if(ordinary){
     const current=TYRE_CONFIG[s.tyreTier]||TYRE_CONFIG[0];
@@ -86,11 +86,10 @@ export function updateProgressionHud(doc,{gameplay,playing,driving,upgradeMenuOp
     }
   }
   for(const stat of UPGRADE_STATS){
-    const offer=getUpgradeOffer(s.selectedId,stat.id,s.upgrades[s.selectedId]),prefix='upgrade-'+stat.id;
+    const offer=getUpgradeOffer(upgradeId,stat.id,s.upgrades[upgradeId]),prefix='upgrade-'+stat.id;
     const presentation=upgradeValuePresentation(stat.id,offer);
     ui.text(el(prefix+'-level'),`${offer.level} / ${offer.maxLevel}`);
     ui.text(el(prefix+'-value'),presentation.value);
-    ui.text(el(prefix+'-description'),presentation.detail);
     ui.text(el(prefix+'-price'),offer.maxed?'МАКС':String(offer.price));
     const button=el(prefix+'-buy');ui.property(button,'disabled',offer.maxed||s.brains<offer.price);
     ui.attribute(button,'aria-label',offer.maxed?`${stat.name}: максимальный уровень`:`${stat.name}: уровень ${offer.nextLevel}, ${offer.price} XP. ${presentation.value}. ${presentation.detail}`);

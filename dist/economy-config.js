@@ -32,7 +32,7 @@ export const VEHICLE_CONFIG = Object.freeze([
     rewardDrift:Object.freeze({rearLateralGrip:.85,rearLateralDamping:.7,steeringSpeedRatio:.65})},
   ...SHOWCASE_VEHICLES.map(vehicle=>({id:vehicle.id,name:vehicle.name,price:0,rewardOnly:true,devUnlock:true,unlock:'developer',
     capacity:1800,range:6000,maxSpeed:42,acceleration:4.8,specialty:'volcanic',
-    rewardDrift:Object.freeze({rearLateralGrip:.85,rearLateralDamping:.7,steeringSpeedRatio:.65})})),
+    rewardDrift:Object.freeze({rearLateralGrip:.85,rearLateralDamping:.7,steeringSpeedRatio:.65,referenceGeometry:['cadillac75','koenigseggone1'].includes(vehicle.id)})})),
 ].map((v,index)=>{
   const values=v.rewardOnly?{...v,handling:.5*1.12**10,grip:.5*1.12**10}: {...v,...STANDARD_VEHICLE_BALANCE};
   // Reward upgrade prices keep their original position after removing two career cars.

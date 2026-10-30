@@ -7,6 +7,7 @@ import '../dist/vehicle-livery-shop.css';
 import '../dist/online-ui.css';
 import '../dist/canyon-ui.css';
 import '../dist/modal-ui.css';
+import '../dist/ui-icons.css';
 
 
 import('@game-bootstrap').catch(error => {

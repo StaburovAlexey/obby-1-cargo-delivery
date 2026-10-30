@@ -1,9 +1,42 @@
+import {PREMIUM_LIVERY_PRODUCTS} from '../dist/vehicle-livery-catalog.js';
+import {createGameplay} from '../dist/gameplay.js';
+import {freshCareer} from '../dist/career-save.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { createInputDom } from './fixtures/vehicle-input-dom.mjs';
 import { createVehicleLiveryShop } from '../dist/vehicle-livery-shop.js';
 import { VEHICLE_LIVERY_CATALOG } from '../dist/vehicle-livery-catalog.js';
+
+test('shop artwork keeps the central image largest and in front throughout a circular swipe and wrap',()=>{
+  const f=fixture({canUseSmoke:()=>true,canUseTracks:()=>true,canUseLiveries:()=>true});
+  try{
+    f.ui.open();
+    for(const [section,getHost] of [
+      ['liveries',()=>f.ui.getPreviewHost('pickup')],
+      ['neon',()=>f.ui.getNeonPreviewHost()],
+      ['smoke',()=>f.ui.getSmokePreviewHost()],
+      ['tracks',()=>f.ui.getTrackPreviewHost()],
+    ]){
+      f.ui.setSection(section);const host=getHost();host.clientWidth=320;
+      pointer(host,'pointerdown',200,20);
+      for(let phase=-.95;phase<=.95;phase+=.05){
+        pointer(host,'pointermove',200-phase*208,20);
+        const slides=host.children.filter(slide=>!slide.hidden&&Number(slide.style.opacity)>.02).map(slide=>{
+          const center=parseFloat(slide.style.left)/100;
+          const scale=Number(slide.style.transform.match(/scale\(([^)]+)\)/)[1]);
+          return {center,scale,layer:Number(slide.style.zIndex)};
+        }).sort((a,b)=>Math.abs(a.center-.5)-Math.abs(b.center-.5));
+        assert.ok(slides.length>=2,`${section}: neighboring artwork stays visible`);
+        for(const side of slides.slice(1)){
+          assert.ok(slides[0].scale>=side.scale,`${section}: center must remain largest at ${phase}`);
+          assert.ok(slides[0].layer>=side.layer,`${section}: center must render in front at ${phase}`);
+        }
+      }
+      pointer(host,'pointercancel',200,20);
+    }
+  }finally{f.ui.dispose();}
+});
 
 function fixture(options = {}) {
   const { doc, win, root } = createInputDom(), Element = root.constructor;
@@ -582,4 +615,59 @@ test('unfinished and failed static previews cannot be applied by enabling the DO
   assert.deepEqual(applied, [], 'Pending artwork validation must finish first');
   ready(false); await flush(); apply.disabled = false; apply.dispatch('click');
   assert.deepEqual(applied, [], 'Failed artwork cannot be selected'); f.ui.destroy();
+});
+
+test('coin cosmetics show 20000 with a currency icon, charge once and become selectable',async()=>{
+ const g=createGameplay({career:{...freshCareer(),money:60000}});
+ const f=fixture({canUseLiveries:()=>true,canUseSmoke:()=>true,canUseTracks:()=>true,
+  getCosmeticOffer:(type,id,vehicle)=>g.getCosmeticOffer(type,id,vehicle),
+  getSelectedLiveryId:id=>g.state.cosmetics.liveries[id]||'base',
+  getSelectedSmokeId:()=>g.state.cosmetics.smoke,getSelectedTrackId:()=>g.state.cosmetics.tracks,
+  onApply:(vehicle,id)=>g.buyCosmetic('livery',id,vehicle),
+  onSmokeApply:id=>g.buyCosmetic('smoke',id),onTrackApply:id=>g.buyCosmetic('tracks',id)});
+ try{
+  f.ui.open();
+  const cases=[['liveries',()=>f.ui.preview('pickup','anime'),()=>f.apply('pickup')],
+   ['smoke',()=>f.ui.previewSmoke('coins'),()=>f.doc.getElementById('vehicle-smoke-apply')],
+   ['tracks',()=>f.ui.previewTrack('neon-green'),()=>f.doc.getElementById('vehicle-track-apply')]];
+  for(const [i,[section,select,getButton]]of cases.entries()){
+   assert.equal(f.ui.setSection(section),true);select();await flush();
+   const button=getButton();assert.equal(button.disabled,false);
+   assert.match(button.textContent.replace(/[^0-9]/g,''),/20000/);
+   assert.ok(button.children.some(node=>node.tagName==='IMG'&&node.src.includes('money.')));
+   button.dispatch('click');await flush();
+   assert.equal(g.state.money,60000-(i+1)*20000);
+   assert.equal(button.textContent,'Выбрано');
+  }
+ }finally{f.ui.dispose();}
+});
+
+test('a paid livery shows its platform price without the game coin icon and blocks unavailable products',async()=>{
+ const paid=PREMIUM_LIVERY_PRODUCTS.find(p=>p.vehicleId==='pickup');let unavailable=false;
+ const f=fixture({canUseLiveries:()=>true,getCosmeticOffer:()=>({owned:false,premium:true,coins:false,price:39,label:'39 ₽',disabled:unavailable})});
+ try{
+  f.ui.open();f.ui.setSection('liveries');f.ui.preview('pickup',paid.liveryId);await flush();
+  const button=f.apply('pickup');assert.match(button.textContent,/39 ₽/);
+  assert.ok(!button.children.some(node=>node.tagName==='IMG'&&node.src?.includes('money.')));
+  assert.equal(button.disabled,false);unavailable=true;f.ui.refresh();assert.equal(button.disabled,true);
+ }finally{f.ui.dispose();}
+});
+
+test('XP smoke and tracks show 2000 with the XP icon rather than coins',async()=>{
+ const g=createGameplay({career:{...freshCareer(),brains:4000,money:0}});
+ const f=fixture({canUseSmoke:()=>true,canUseTracks:()=>true,
+  getCosmeticOffer:(type,id)=>g.getCosmeticOffer(type,id),getSelectedSmokeId:()=>g.state.cosmetics.smoke,getSelectedTrackId:()=>g.state.cosmetics.tracks,
+  onSmokeApply:id=>g.buyCosmetic('smoke',id),onTrackApply:id=>g.buyCosmetic('tracks',id)});
+ try{
+  f.ui.open();
+  for(const [section,id]of [['smoke','hearts'],['tracks','fire']]){
+   f.ui.setSection(section);if(section==='smoke')f.ui.previewSmoke(id);else f.ui.previewTrack(id);await flush();
+   const button=f.doc.getElementById(section==='smoke'?'vehicle-smoke-apply':'vehicle-track-apply');
+   assert.equal(button.disabled,false);assert.equal(button.textContent.replace(/[^0-9]/g,''),'2000');
+   assert.ok(button.children.some(node=>node.tagName==='IMG'&&node.src.includes('xp.')));
+   assert.ok(!button.children.some(node=>node.tagName==='IMG'&&node.src.includes('money.')));
+   button.dispatch('click');await flush();assert.equal(button.textContent,'Выбрано');
+  }
+  assert.equal(g.state.brains,0);assert.equal(g.state.money,0);
+ }finally{f.ui.dispose();}
 });

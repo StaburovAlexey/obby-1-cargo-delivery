@@ -9,7 +9,7 @@ export const VEHICLE_NEON_CATALOG = Object.freeze([
   ['blue', 0x3575ff, 'Синий', 'Blue'],
   ['purple', 0xc23cff, 'Фиолетовый', 'Purple'],
   ['pink', 0xff42ba, 'Розовый', 'Pink'],
-].map(([id, color, ru, en]) => Object.freeze({ id, color, currency: paid.has(id) ? 'yandex' : 'coins', price: paid.has(id) ? 39 : 50000, productId: paid.has(id) ? `neon_${id}` : null, name: Object.freeze({ ru, en }) })));
+].map(([id, color, ru, en]) => Object.freeze({ id, color, currency: paid.has(id) ? 'yandex' : 'coins', price: paid.has(id) ? 39 : 20000, productId: paid.has(id) ? `neon_${id}` : null, name: Object.freeze({ ru, en }) })));
 export const VEHICLE_NEON_COLORS = VEHICLE_NEON_CATALOG;
 export function getVehicleNeon(id) { return VEHICLE_NEON_CATALOG.find(item => item.id === id) || null; }
 export function vehicleNeonName(id, language = 'ru') { return getVehicleNeon(id)?.name[language === 'en' ? 'en' : 'ru'] || ''; }

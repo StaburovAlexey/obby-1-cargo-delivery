@@ -9,8 +9,8 @@ const INK='#203a39',SURFACE='#285956',MAP='#204b49',GOLD='#efbc55',BLUE='#168cc7
 const mainPaths=NETWORK_EDGES.map(edge=>edge.samples);
 const canyonPaths=[CANYON_APPROACH_SAMPLES,Array.from({length:Math.ceil(CANYON_TRACK.length/8)+1},(_,i)=>canyonPointAt(Math.min(CANYON_TRACK.length,i*8)))];
 const words={
- ru:{title:'Игроки нашей комнаты',main:'Основная трасса',canyon:'Дрифт-каньон · крупный план',school:'Класс',you:'Вы',player:'Игрок',peers:'Другие игроки',ranking:'ДРИФТ · ЯНДЕКС',score:'Очки',offline:'Нет подключения к комнате',connect:'Подключитесь, чтобы увидеть игроков.',empty:'Пока нет завершённых заездов',best:'Лучшие заезды в Яндекс Играх',loading:'Загрузка рейтинга…',unavailable:'Рейтинг доступен в Яндекс Играх',error:'Не удалось обновить рейтинг',changed:'Аккаунт изменился. Перезагрузите игру.'},
- en:{title:'Players in this room',main:'Main route',canyon:'Drift canyon · close view',school:'Classroom',you:'You',player:'Player',peers:'Other players',ranking:'DRIFT · YANDEX',score:'Score',offline:'No room connection',connect:'Connect to see players.',empty:'No completed runs yet',best:'Best runs on Yandex Games',loading:'Loading leaderboard…',unavailable:'Rankings are available on Yandex Games',error:'Could not refresh the leaderboard',changed:'Account changed. Reload the game.'},
+ ru:{title:'Игроки нашей комнаты',main:'Основная трасса',canyon:'Дрифт-каньон',school:'Класс',you:'Вы',player:'Игрок',peers:'Другие игроки',ranking:'ДРИФТ',score:'Очки',offline:'Нет подключения к комнате',connect:'Подключитесь, чтобы увидеть игроков.',empty:'Пока нет завершённых заездов',best:'Лучшие заезды',loading:'Загрузка рейтинга…',unavailable:'Рейтинг недоступен',error:'Не удалось обновить рейтинг',changed:'Аккаунт изменился. Перезагрузите игру.'},
+ en:{title:'Players in this room',main:'Main route',canyon:'Drift canyon',school:'Classroom',you:'You',player:'Player',peers:'Other players',ranking:'DRIFT',score:'Score',offline:'No room connection',connect:'Connect to see players.',empty:'No completed runs yet',best:'Best runs',loading:'Loading leaderboard…',unavailable:'Rankings unavailable',error:'Could not refresh the leaderboard',changed:'Account changed. Reload the game.'},
 };
 
 export function createBoardProjection(points,rect,padding=16){
@@ -35,13 +35,12 @@ export function createClassroomBoard(THREE,{document:doc=globalThis.document,par
  const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;
  texture.generateMipmaps=true;texture.minFilter=THREE.LinearMipmapLinearFilter;texture.anisotropy=4;
  const geometry=new THREE.PlaneGeometry(26.8,8.375),material=new THREE.MeshStandardMaterial({map:texture,roughness:.86,metalness:0});
- const mesh=new THREE.Mesh(geometry,material);mesh.name='Classroom room map and Yandex drift leaderboard';
+ const mesh=new THREE.Mesh(geometry,material);mesh.name='Classroom room map and drift leaderboard';
  mesh.position.set(position.x,position.y,position.z);mesh.receiveShadow=true;parent?.add(mesh);
  const school={x:-41,z:47};
  const garageCorners=[{x:garageBounds.minX,z:garageBounds.minZ},{x:garageBounds.maxX,z:garageBounds.minZ},
   {x:garageBounds.maxX,z:garageBounds.maxZ},{x:garageBounds.minX,z:garageBounds.maxZ}];
- const maps=[{paths:mainPaths,rect:{x:36,y:144,width:1232,height:154}},
-  {paths:canyonPaths,rect:{x:36,y:362,width:1232,height:210}}];
+ const maps=[{paths:[...mainPaths,...canyonPaths],rect:{x:36,y:144,width:1232,height:428}}];
  for(const map of maps)map.project=createBoardProjection([...map.paths.flat(),...garageCorners],map.rect,20);
  const motion=createRemoteMotion({delayMs:200});
  let disposed=false,near=false,lastRoom=null,lastSnapshot=null,lastPaint=-Infinity,lastNow=-Infinity,paintKey='',baseLanguage='';
@@ -70,7 +69,7 @@ export function createClassroomBoard(THREE,{document:doc=globalThis.document,par
   }
   text(base,w.title,46,55,40);text(base,w.ranking,1360,55,34,INK);
   base.fillStyle=GOLD;base.fillRect(1305,26,6,580);
-  text(base,w.main,40,117,29);text(base,w.canyon,40,331,29);
+  text(base,w.main,40,117,29);text(base,w.canyon,850,117,29,'#ffb65b');
   text(base,w.player,1415,116,24,MUTED);text(base,w.score,2005,116,24,MUTED,'right');
   for(const map of maps){
    const r=map.rect;base.fillStyle=MAP;base.fillRect(r.x,r.y,r.width,r.height);
@@ -80,8 +79,8 @@ export function createClassroomBoard(THREE,{document:doc=globalThis.document,par
    base.lineCap='round';base.lineJoin='round';
    for(const path of map.paths){
     base.beginPath();path.forEach((p,i)=>{const q=map.project(p);if(i)base.lineTo(q.x,q.y);else base.moveTo(q.x,q.y);});
-    base.lineWidth=map===maps[0]?11:14;base.strokeStyle=INK;base.stroke();
-    base.lineWidth=map===maps[0]?5:7;base.strokeStyle=map===maps[0]?CHALK:'#ffb65b';base.stroke();
+    base.lineWidth=11;base.strokeStyle=INK;base.stroke();
+    base.lineWidth=5;base.strokeStyle=canyonPaths.includes(path)?'#ffb65b':CHALK;base.stroke();
    }
    const p=map.project(school);base.fillStyle=CHALK;base.fillRect(p.x-5,p.y-5,10,10);
    text(base,w.school,Math.max(r.x+10,Math.min(r.x+r.width-100,p.x+16)),Math.min(r.y+r.height-16,p.y+20),22,MUTED);

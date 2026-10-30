@@ -103,17 +103,6 @@ export function createSettingsMenu(doc, {
   };
 
 
-  for (const [name, targetId] of [['play', 'settings-how-to-play'], ['icons', 'settings-icon-guide'], ['credits', 'settings-credits']]) {
-    const jump = el(`settings-jump-${name}`), target = el(targetId);
-    if (!jump || !target || !scroll) continue;
-    listen(jump, 'click', () => {
-      if (!opened || disposed) return;
-      const bounds = target.getBoundingClientRect?.(), viewport = scroll.getBoundingClientRect?.();
-      const top = bounds && viewport ? scroll.scrollTop + bounds.top - viewport.top : target.offsetTop || 0;
-      scroll.scrollTop = Math.max(0, top);
-      scroll.focus?.({preventScroll: true});
-    });
-  }
   listen(button, 'click', event => { event.stopPropagation(); if (opened) close(); else open(); });
   listen(closeButton, 'click', () => close());
   listen(menu, 'click', event => { if (opened && event.target === menu) close(); });

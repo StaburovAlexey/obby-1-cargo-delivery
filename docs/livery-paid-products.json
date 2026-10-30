@@ -1,0 +1,74 @@
+[
+  {
+    "id": "livery_pickup_biome",
+    "vehicleId": "pickup",
+    "liveryId": "biome",
+    "price": 39,
+    "currency": "RUB",
+    "consumable": false
+  },
+  {
+    "id": "livery_citycourier_racing",
+    "vehicleId": "citycourier",
+    "liveryId": "racing",
+    "price": 39,
+    "currency": "RUB",
+    "consumable": false
+  },
+  {
+    "id": "livery_rover_neon",
+    "vehicleId": "rover",
+    "liveryId": "neon",
+    "price": 39,
+    "currency": "RUB",
+    "consumable": false
+  },
+  {
+    "id": "livery_van_racing",
+    "vehicleId": "van",
+    "liveryId": "racing",
+    "price": 39,
+    "currency": "RUB",
+    "consumable": false
+  },
+  {
+    "id": "livery_desertscout_neon",
+    "vehicleId": "desertscout",
+    "liveryId": "neon",
+    "price": 39,
+    "currency": "RUB",
+    "consumable": false
+  },
+  {
+    "id": "livery_snowrunner_biome",
+    "vehicleId": "snowrunner",
+    "liveryId": "biome",
+    "price": 39,
+    "currency": "RUB",
+    "consumable": false
+  },
+  {
+    "id": "livery_lavacrawler_racing",
+    "vehicleId": "lavacrawler",
+    "liveryId": "racing",
+    "price": 39,
+    "currency": "RUB",
+    "consumable": false
+  },
+  {
+    "id": "livery_ashhauler_anime",
+    "vehicleId": "ashhauler",
+    "liveryId": "anime",
+    "price": 39,
+    "currency": "RUB",
+    "consumable": false
+  },
+  {
+    "id": "livery_bmwreward_racing",
+    "vehicleId": "bmwreward",
+    "liveryId": "racing",
+    "price": 39,
+    "currency": "RUB",
+    "consumable": false
+  }
+]

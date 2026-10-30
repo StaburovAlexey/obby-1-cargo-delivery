@@ -14,8 +14,9 @@ test('settings music shares master volume and follows lifecycle without pausing 
  try{
   assert.equal(f.debug.backgroundMusic,music,'app creates the shared background music controller');
   const el=id=>f.ids.get(id),state=()=>music.getState();
-  el('settings-button').dispatch('click');el('settings-music-toggle').dispatch('click');
+  el('music-button').dispatch('click');el('settings-music-toggle').dispatch('click');
   assert(state().playing,'music can start with Settings open');
+  el('music-close').dispatch('click');el('settings-button').dispatch('click');
   el('settings-volume').value='24';el('settings-volume').dispatch('input');assert.equal(state().volume,.24);
   el('settings-close').dispatch('click');assert(state().playing,'closing Settings keeps music playing');
   el('audio-toggle').dispatch('click');assert.equal(state().volume,0);
@@ -30,6 +31,7 @@ test('settings music shares master volume and follows lifecycle without pausing 
   f.win.dispatch('pagehide',{persisted:true});assert(!state().playing);assert(!disposed);
   f.win.dispatch('pageshow',{persisted:true});assert(state().playing);
   el('settings-button').dispatch('click');el('settings-language').value='en';el('settings-language').dispatch('change');assert.equal(el('settings-music-title').textContent,'Music');
+  el('settings-close').dispatch('click');el('music-button').dispatch('click');
   el('settings-music-toggle').dispatch('click');assert(!state().requested);
   f.win.dispatch('blur');f.win.dispatch('focus');assert(!state().playing,'manual pause survives interruption');
   el('settings-music-next').dispatch('click');assert.equal(state().index,1);

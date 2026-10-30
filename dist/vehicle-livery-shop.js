@@ -7,8 +7,8 @@ import { modalPart } from './modal-ui.js';
 import { BASE_VEHICLE_LIVERY_ID, VEHICLE_LIVERY_CATALOG, getVehicleLivery, vehicleLiveryName } from './vehicle-livery-catalog.js';
 
 const copy = Object.freeze({
-  ru: { shop: 'Магазин', newLook: 'Новый внешний вид!', neon: 'Неоновая подсветка', smoke: 'Дым из-под колёс', tracks: 'Следы от шин', trackNote: 'Один эффект для всех машин. Выбор на время сессии.', smokeNote: 'Один эффект для всех машин.', soon: 'Скоро', selected: 'Выбрано', smokeFailed: 'Не удалось выбрать эффект. Попробуйте ещё раз.', back: 'Назад', neonPreview: 'Предпросмотр', title: 'Расцветки', close: 'Закрыть магазин расцветок', apply: 'Выбрать', choose: 'Расцветки машины', loading: 'Загрузка', failed: 'Не удалось загрузить', base: 'Стандартная', preview: 'Только просмотр' },
-  en: { shop: 'Shop', newLook: 'New look!', neon: 'Neon lighting', smoke: 'Tire smoke', tracks: 'Tire tracks', trackNote: 'One effect for every car. Selected for this session.', smokeNote: 'One effect for every car.', soon: 'Coming soon', selected: 'Selected', smokeFailed: 'Could not select effect. Please try again.', back: 'Back', neonPreview: 'Preview', title: 'Liveries', close: 'Close livery shop', apply: 'Select', choose: 'Car liveries', loading: 'Loading', failed: 'Could not load', base: 'Standard', preview: 'Preview only' },
+  ru: { shop: 'Магазин', newLook: 'Новый внешний вид!', neon: 'Неоновая подсветка', smoke: 'Дым из-под колёс', tracks: 'Следы от шин', trackNote: 'Один эффект для всех машин.', smokeNote: 'Один эффект для всех машин.', soon: 'Скоро', selected: 'Выбрано', smokeFailed: 'Не удалось выбрать эффект. Попробуйте ещё раз.', back: 'Назад', neonPreview: 'Предпросмотр', title: 'Расцветки', close: 'Закрыть магазин расцветок', apply: 'Выбрать', choose: 'Расцветки машины', loading: 'Загрузка', failed: 'Не удалось загрузить', base: 'Стандартная', preview: 'Только просмотр' },
+  en: { shop: 'Shop', newLook: 'New look!', neon: 'Neon lighting', smoke: 'Tire smoke', tracks: 'Tire tracks', trackNote: 'One effect for every car.', smokeNote: 'One effect for every car.', soon: 'Coming soon', selected: 'Selected', smokeFailed: 'Could not select effect. Please try again.', back: 'Back', neonPreview: 'Preview', title: 'Liveries', close: 'Close livery shop', apply: 'Select', choose: 'Car liveries', loading: 'Loading', failed: 'Could not load', base: 'Standard', preview: 'Preview only' },
 });
 
 /**
@@ -23,6 +23,7 @@ export function createVehicleLiveryShop(doc, {
   language = () => 'ru', canOpen = () => true, button = null,
   autoPreview = false, onApply = () => true,
   canUseLiveries = () => false, getSelectedLiveryId = () => BASE_VEHICLE_LIVERY_ID, getSelectedNeonId = () => null,
+  getCosmeticOffer = () => null,
   canUseTracks = () => false, getSelectedTrackId = () => DEFAULT_VEHICLE_TRACK_ID, onTrackApply = () => false,
   canUseSmoke = () => false, getSelectedSmokeId = () => DEFAULT_VEHICLE_SMOKE_ID, onSmokeApply = () => false,
   onPreview = () => true, onNeonPreview = () => true, getNeonOffer = () => null, onNeonApply = () => false, onNeonDisable = () => false, onSectionChange = () => {}, onClose = () => {}, onOpenChange = () => {},
@@ -47,6 +48,17 @@ export function createVehicleLiveryShop(doc, {
     if (parent) parent.append(node);
     return node;
   };
+  function coinIcon(node,xp=false){
+    const icon=doc.createElement('img');icon.src=xp?new URL('./assets/ui-icons/xp.webp',import.meta.url).href:new URL('./assets/ui-icons/money.webp',import.meta.url).href;
+    icon.alt=xp?'XP':lang()==='ru'?'Игровая валюта':'Coins';icon.width=24;icon.height=24;node.append(icon);
+  }
+  function purchaseLabel(node,fallback,offer){
+    const purchase=offer&&!offer.owned;
+    node.textContent=purchase?`${lang()==='ru'?'Купить':'Buy'} · ${offer.label||(offer.premium?'39 ₽':offer.price.toLocaleString(lang()==='en'?'en-US':'ru-RU'))}`:fallback;
+    node.setAttribute('data-purchase',String(!!purchase));
+    if(purchase&&!offer.premium)coinIcon(node,offer.xp);
+    else if(purchase&&offer.currencyImage){const icon=doc.createElement('img');icon.src=offer.currencyImage;icon.alt='';icon.width=24;icon.height=24;node.append(icon);}
+  }
   const contains = (parent, child) => {
     if (parent.contains) return parent.contains(child);
     for (let node = child; node; node = node.parentNode || node.parent) if (node === parent) return true;
@@ -87,14 +99,18 @@ export function createVehicleLiveryShop(doc, {
         const item = slides[index];
         let offset = ((index - position) % slides.length + slides.length) % slides.length;
         if (offset > slides.length / 2) offset -= slides.length;
-        const distance = Math.abs(offset), depth = Math.min(1, distance);
-        item.slide.hidden = distance >= 1.5;
-        // Positions use the viewport width, not the slide's own width: transparent
-        // padding must not push both neighboring cars beyond the clipped viewport.
-        item.slide.style.left = `${50 + offset * 34}%`;
-        item.slide.style.transform = `translateX(-50%) scale(${1 - depth * .32})`;
-        item.slide.style.opacity = String((1 - depth * .35) * Math.max(0, Math.min(1, (1.5 - distance) * 2)));
-        item.slide.style.zIndex = String(10 - Math.round(distance * 4));
+        const distance = Math.abs(offset), angle = offset * Math.PI / 3;
+        const front = Math.max(0, Math.cos(angle)), depth = 1 - front;
+        const scale = .32 + .68 * front ** 3;
+        const fade = Math.max(0, Math.min(1, (1.15 - distance) / .15));
+        item.slide.hidden = distance >= 1.15;
+        // Project the front arc of a ring. Side items rise and recede before
+        // fading around the edge, leaving room for the incoming center item.
+        item.slide.style.left = `${50 + Math.sin(angle) * 37.8}%`;
+        item.slide.style.top = `${-depth * 16}%`;
+        item.slide.style.transform = `translateX(-50%) scale(${scale}) rotateY(${-offset * 21}deg)`;
+        item.slide.style.opacity = String((1 - depth * .5) * fade);
+        item.slide.style.zIndex = String(10 - Math.round(depth * 6));
         item.label.style.visibility = distance < .5 ? 'visible' : 'hidden';
         if (opened && section === sectionId && !item.slide.hidden && !item.image.src) {
           const url = imageUrl(item.style);
@@ -188,8 +204,10 @@ export function createVehicleLiveryShop(doc, {
     row.carousel.update(row.selected);
     row.carousel.setLabels({ title: `${text.choose} ${row.vehicle.name[lang()]}` });
     row.carousel.refreshImages();
-    row.apply.disabled = (!canChoose && row.selected !== BASE_VEHICLE_LIVERY_ID) || row.loading || row.error || row.applying;
-    row.apply.textContent = equipped ? text.selected : text.apply;
+    const offer=getCosmeticOffer('livery',row.selected,row.vehicle.id);
+    row.apply.disabled = !!offer?.disabled || (!canChoose && row.selected !== BASE_VEHICLE_LIVERY_ID) || row.loading || row.error || row.applying;
+    row.apply.setAttribute('data-selected', String(equipped));
+    purchaseLabel(row.apply,equipped ? text.selected : text.apply,offer);
     row.apply.setAttribute('aria-label', `${row.apply.textContent}: ${caption}`);
   }
 
@@ -225,8 +243,10 @@ export function createVehicleLiveryShop(doc, {
     smokeName.textContent = smokeStyle.name[lang()];
     smokeNote.textContent = smokeApplyError ? text.smokeFailed : text.smokeNote;
     const smokeIsSelected = smokeSelected === appliedSmokeId();
-    smokeApply.disabled = !smokeAllowed || smokeApplying || smokeIsSelected;
-    smokeApply.textContent = smokeIsSelected ? text.selected : text.apply;
+    const smokeOffer=getCosmeticOffer('smoke',smokeSelected);
+    smokeApply.disabled = !!smokeOffer?.disabled || !smokeAllowed || smokeApplying || smokeIsSelected;
+    smokeApply.setAttribute('data-selected', String(smokeIsSelected));
+    purchaseLabel(smokeApply,smokeIsSelected ? text.selected : text.apply,smokeOffer);
     smokeApply.setAttribute('aria-label', `${smokeApply.textContent}: ${smokeStyle.name[lang()]}`);
     smokeHost.setAttribute('aria-label', `${text.smoke}: ${smokeStyle.name[lang()]}`);
     smokeCarousel.setLabels({ title: text.smoke });
@@ -234,8 +254,10 @@ export function createVehicleLiveryShop(doc, {
     const trackStyle = getVehicleTrackStyle(trackSelected), trackIsSelected = trackSelected === appliedTrackId();
     trackName.textContent = trackStyle.name[lang()];
     trackNote.textContent = trackApplyError ? text.smokeFailed : text.trackNote;
-    trackApply.disabled = !tracksAllowed || trackApplying || trackIsSelected;
-    trackApply.textContent = trackApplying ? text.loading : trackIsSelected ? text.selected : text.apply;
+    const trackOffer=getCosmeticOffer('tracks',trackSelected);
+    trackApply.disabled = !!trackOffer?.disabled || !tracksAllowed || trackApplying || trackIsSelected;
+    trackApply.setAttribute('data-selected', String(trackIsSelected));
+    purchaseLabel(trackApply,trackApplying ? text.loading : trackIsSelected ? text.selected : text.apply,trackApplying?null:trackOffer);
     trackApply.setAttribute('aria-label', `${trackApply.textContent}: ${trackStyle.name[lang()]}`);
     trackHost.setAttribute('aria-label', `${text.tracks}: ${trackStyle.name[lang()]}`);
     trackHost.setAttribute('aria-busy', String(trackApplying));
@@ -247,7 +269,10 @@ export function createVehicleLiveryShop(doc, {
     neonNote.textContent = neonPurchaseError ? (lang()==='ru'?'Покупка не завершена. Попробуйте ещё раз.':'Purchase not completed. Please try again.') : offer?.sessionOnly ? (lang()==='ru'?'Один цвет для всех машин. Выбор на время сессии.':'One color for every car. Selected for this session.') : offer ? (lang()==='ru'?'Один цвет для всех машин. Покупка навсегда.':'One color for every car. Permanent unlock.') : text.neonPreview;
     neonApply.hidden=!offer;neonDisable.hidden=!offer;
     neonApply.disabled=!offer||offer.disabled||neonBuying||neonLoading||neonError||offer.selected;
+    neonApply.setAttribute('data-selected', String(!!offer?.selected));
+    neonApply.setAttribute('data-purchase', String(!!offer && !offer.owned));
     neonApply.textContent=neonBuying?text.loading:offer?.selected?(lang()==='ru'?'Выбрано':'Selected'):offer?.owned?text.apply:`${lang()==='ru'?'Купить':'Buy'} · ${offer?.label||'—'}`;
+    if(offer?.coins&&!offer.owned&&!neonBuying)coinIcon(neonApply);
     if(offer?.currencyImage&&!offer.owned&&!neonBuying){const icon=doc.createElement('img');icon.src=offer.currencyImage;icon.alt='';icon.width=20;icon.height=20;neonApply.append(icon);}
     neonDisable.textContent=lang()==='ru'?'Без подсветки':'No underglow';neonDisable.disabled=neonBuying;
     neonHost.setAttribute('aria-label', `${text.neon}: ${neonColor.name[lang()]}`);

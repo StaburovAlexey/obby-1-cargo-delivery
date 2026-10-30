@@ -1,3 +1,4 @@
+import {sanitizeCosmetics} from './shop-cosmetics.js';
 import { freshCareer, sanitizeCareer } from './career-save.js';
 import { DEFAULT_CHARACTER_ID } from './character-catalog.js';
 import { PREMIUM_SKIN_IDS } from './premium-skins.js';
@@ -13,7 +14,9 @@ const level = (value, fallback) => typeof value === 'number' && Number.isFinite(
 const paidNeonState = career => {
   const ownedNeonIds = VEHICLE_NEON_CATALOG.filter(item => item.currency === 'yandex' &&
     Array.isArray(career?.ownedNeonIds) && career.ownedNeonIds.includes(item.id)).map(item => item.id);
-  return { ownedNeonIds, selectedNeonId: ownedNeonIds.includes(career?.selectedNeonId) ? career.selectedNeonId : null };
+  const cosmetics=sanitizeCosmetics(career?.cosmetics);
+  return { ownedNeonIds, selectedNeonId: ownedNeonIds.includes(career?.selectedNeonId) ? career.selectedNeonId : null,
+    cosmetics:sanitizeCosmetics({premiumOwned:cosmetics.premiumOwned,liveries:cosmetics.liveries,smoke:cosmetics.smoke,tracks:cosmetics.tracks}) };
 };
 
 function settingsValue(value, language) {

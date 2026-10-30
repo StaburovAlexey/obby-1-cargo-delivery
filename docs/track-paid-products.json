@@ -1,0 +1,16 @@
+[
+  {
+    "id": "tracks_rainbow",
+    "name": "Радуга",
+    "price": 39,
+    "currency": "RUB",
+    "consumable": false
+  },
+  {
+    "id": "tracks_lightning",
+    "name": "Молния",
+    "price": 39,
+    "currency": "RUB",
+    "consumable": false
+  }
+]

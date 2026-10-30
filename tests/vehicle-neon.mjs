@@ -7,15 +7,15 @@ const vehicles=[{id:'pickup',park:{x:40,z:40}}];
 test('a coin neon purchase charges once, equips fleet-wide and survives sanitized reload',()=>{
  const color=VEHICLE_NEON_CATALOG.find(x=>x.currency==='coins');assert.ok(color,'coin colors exist');
  let saved;const game=createGameplay({vehicles,career:{...freshCareer(),money:100000},persistence:{save(v){saved=v;return true;}}});
- assert.equal(game.buyNeon(color.id),true);assert.equal(game.state.money,50000);assert.equal(game.state.selectedNeonId,color.id);
- assert.equal(game.buyNeon(color.id),true);assert.equal(game.state.money,50000);
+ assert.equal(game.buyNeon(color.id),true);assert.equal(game.state.money,80000);assert.equal(game.state.selectedNeonId,color.id);
+ assert.equal(game.buyNeon(color.id),true);assert.equal(game.state.money,80000);
  const next=createGameplay({vehicles,career:sanitizeCareer(saved)});assert.equal(next.state.selectedNeonId,color.id);assert.ok(next.state.ownedNeonIds.includes(color.id));
  assert.equal(next.selectNeon(null),true);assert.equal(next.state.selectedNeonId,null);
 });
 test('insufficient funds, unknown and premium colors cannot spend coins or equip unowned neon',()=>{
- const game=createGameplay({vehicles,career:{...freshCareer(),money:49999}});
+ const game=createGameplay({vehicles,career:{...freshCareer(),money:19999}});
  for(const item of VEHICLE_NEON_CATALOG){assert.equal(game.buyNeon(item.id),false);assert.equal(game.selectNeon(item.id),false);}
- assert.equal(game.buyNeon('bad'),false);assert.equal(game.state.money,49999);
+ assert.equal(game.buyNeon('bad'),false);assert.equal(game.state.money,19999);
  const paid=VEHICLE_NEON_CATALOG.find(x=>x.currency==='yandex');assert.ok(paid);assert.equal(game.grantPremiumNeon(paid.id),true);assert.equal(game.selectNeon(paid.id),true);
  assert.equal(sanitizeCareer({...freshCareer(),selectedNeonId:'blue'}).selectedNeonId,null);
 });

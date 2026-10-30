@@ -147,8 +147,8 @@ test('Purchase prompts hide while airborne, seated, driving, absent, or outside 
   s.schoolPurchaseCandidateId=null;s.skinPurchaseCandidateId=null;renderHud(f);assert.equal(get(f,'buy-school').hidden,true);assert.equal(get(f,'buy-skin').hidden,true);
 }));
 
-test('Upgrade dialog opens only in a car and presents the actual per-vehicle offers',()=>withApp(f=>{
-  assert.equal(f.debug.setUpgradeMenu(true),false);assert.equal(get(f,'upgrade-button').hidden,true);
+test('Upgrade dialog opens on foot and in a car and presents the actual upgrade offers',()=>withApp(f=>{
+  assert.equal(get(f,'upgrade-button').hidden,false);assert.equal(f.debug.setUpgradeMenu(true),true);f.debug.setUpgradeMenu(false);
   f.debug.gameplay.state.cooldown=0;assert.ok(f.debug.enterVehicle('pickup'));
   assert.equal(get(f,'upgrade-button').hidden,false);get(f,'upgrade-button').dispatch('click');
   assert.equal(f.debug.upgradeMenuOpen,true);assert.equal(get(f,'upgrade-menu').hidden,false);
@@ -158,7 +158,7 @@ test('Upgrade dialog opens only in a car and presents the actual per-vehicle off
     const offer=getUpgradeOffer('pickup',stat.id,f.debug.gameplay.state.upgrades.pickup),prefix='upgrade-'+stat.id;
     assert.equal(get(f,prefix+'-level').textContent,'0 / 3');assert.equal(get(f,prefix+'-price').textContent,String(offer.price));
     assert.equal(get(f,prefix+'-buy').disabled,false);assert.match(get(f,prefix+'-buy').getAttribute('aria-label'),/уровень 1, 20 мозгов/);
-    assert.match(get(f,prefix+'-value').textContent,/ → /);assert.ok(get(f,prefix+'-description').textContent.length>10);
+    assert.match(get(f,prefix+'-value').textContent,/ → /);
   }
 },{career:{...freshCareer(),brains:200}}));
 
@@ -189,7 +189,7 @@ test('Upgrade keyboard focus, dismissal, menu exclusion and touch-event containm
   f.debug.setUpgradeMenu(true);get(f,'upgrade-menu').dispatch('click');assert.equal(f.debug.upgradeMenuOpen,false);
   f.debug.setUpgradeMenu(true);f.debug.setBiomeMenu(true);assert.equal(f.debug.upgradeMenuOpen,false);
   f.debug.setUpgradeMenu(true);assert.equal(f.debug.biomeMenuOpen,false);
-  f.debug.setDriving(false);assert.equal(get(f,'upgrade-menu').hidden,true);assert.equal(get(f,'upgrade-button').hidden,true);
+  f.debug.setDriving(false);assert.equal(get(f,'upgrade-menu').hidden,true);assert.equal(get(f,'upgrade-button').hidden,false);
 },{startDriving:true,career:{...freshCareer(),brains:200}}));
 
 test('Real app school labels retain exact world-anchor projection and depth order in frontal and oblique views',()=>withApp(f=>{

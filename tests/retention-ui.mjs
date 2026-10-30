@@ -75,7 +75,8 @@ test('Driving, outdoors, overview, other modals and background close missions wi
   const f=fixture();f.update();
   for(const extra of [{playing:false},{driving:true},{inGarage:false},{menuOpen:true}]){
     f.open('mission');f.update(extra);assert.equal(f.ui.isOpen(),false);
-    for(const id of ['career-panel','career-menu','career-goal-button','career-mission-button'])assert.equal(f.get(id).hidden,true,id);
+    for(const id of ['career-panel','career-menu','career-goal-button'])assert.equal(f.get(id).hidden,true,id);
+    assert.equal(f.get('career-mission-button').hidden,!extra.menuOpen,'Modal opening preserves the mission launcher');
     f.open('mission');assert.equal(f.ui.isOpen(),false);f.update({playing:true,driving:false,inGarage:true,menuOpen:false});assert.equal(f.ui.isOpen(),false);
   }
   f.open('mission');f.gameplay.state.mode='driving';f.update();assert.equal(f.ui.isOpen(),false);f.gameplay.state.mode='walking';f.update();assert.equal(f.ui.isOpen(),false);

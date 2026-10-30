@@ -1,8 +1,8 @@
 import { VEHICLE_CONFIG } from './economy-config.js';
 import { translateGameText } from './localization.js';
 
-// The shop is a preview-only catalogue. Only the original finish is owned.
-// Prices and currencies intentionally do not exist until a purchase design is approved.
+// Selected once at authoring time; never reroll paid products per player or reload.
+export const PAID_LIVERY_BY_VEHICLE=Object.freeze({"pickup": "biome", "citycourier": "racing", "rover": "neon", "van": "racing", "desertscout": "neon", "snowrunner": "biome", "lavacrawler": "racing", "ashhauler": "anime", "bmwreward": "racing"});
 export const BASE_VEHICLE_LIVERY_ID = 'base';
 export const VEHICLE_LIVERY_VARIANTS = Object.freeze([
   { id: 'base', code: '0', name: { ru: 'Базовая', en: 'Base' }, owned: true, equipped: true },
@@ -31,3 +31,9 @@ export function vehicleLiveryName(vehicleId, liveryId, language = 'ru') {
   if (liveryId === 'biome' && vehicleId === 'bmwreward') return language === 'en' ? 'Premium' : 'Премиальная';
   return variant.name[language === 'en' ? 'en' : 'ru'];
 }
+
+export const PREMIUM_LIVERY_PRODUCTS=Object.freeze(VEHICLE_LIVERY_CATALOG.map(vehicle=>{
+ const id=PAID_LIVERY_BY_VEHICLE[vehicle.id];
+ return Object.freeze({key:`livery:${vehicle.id}:${id}`,vehicleId:vehicle.id,liveryId:id,productId:`livery_${vehicle.id}_${id}`,price:39,currency:'RUB',name:`${vehicle.name} · ${vehicleLiveryName(vehicle.id,id)}`});
+}));
+export const premiumLiveryProductId=key=>PREMIUM_LIVERY_PRODUCTS.find(item=>item.key===key)?.productId;

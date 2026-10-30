@@ -76,10 +76,10 @@ export function createRetentionUi(doc,{onSelectGoal=()=>{},onSkipMission=()=>{},
   const update=view=>{
     if(disposed)return;
     lastView=view;
-    const {gameplay}=view,visible=eligible(view);
+    const {gameplay}=view,visible=eligible(view),launcherVisible=eligible({...view,menuOpen:false});
     buttons.goal.hidden=true;buttons.goal.disabled=true;
-    buttons.mission.hidden=!visible;
-    doc.body.classList.toggle('career-actions-visible',visible);
+    buttons.mission.hidden=!launcherVisible;
+    doc.body.classList.toggle('career-actions-visible',launcherVisible);
     if(!visible){
       if(openKind==='receipt'&&activeReceipt)pendingReceipts.unshift(activeReceipt);
       close({restoreFocus:false,showPending:false});return;
