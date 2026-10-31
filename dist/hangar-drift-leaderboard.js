@@ -1,14 +1,23 @@
 import {createCanyonLeaderboard} from './canyon-leaderboard.js';
+import {vehicleConfig} from './economy-config.js';
 
 const copy = {
  ru: {title:'Рейтинг дрифта',close:'Закрыть рейтинг',rank:'Место',player:'Игрок',score:'Очки',loading:'Загрузка рейтинга…',ready:'Лучшие заезды в Яндекс Играх.',empty:'Пока нет результатов.',unavailable:'Рейтинг доступен только в Яндекс Играх.',development:'В тестовой версии онлайн-рейтинг недоступен.',error:'Не удалось загрузить рейтинг. Попробуйте позже.',missing:'Таблица лидеров временно недоступна.',changed:'Аккаунт изменился. Перезагрузите игру.',auth:'Войдите в Яндекс Игры, чтобы увидеть свой результат.',self:'Ваш результат'},
  en: {title:'Drift leaderboard',close:'Close leaderboard',rank:'Rank',player:'Player',score:'Score',loading:'Loading leaderboard…',ready:'Best runs on Yandex Games.',empty:'No results yet.',unavailable:'The leaderboard is available only on Yandex Games.',development:'The online leaderboard is unavailable in this test version.',error:'Could not load the leaderboard. Please try again later.',missing:'The leaderboard is temporarily unavailable.',changed:'Your account changed. Reload the game.',auth:'Sign in to Yandex Games to see your result.',self:'Your result'},
 };
 
-export function createHangarDriftLeaderboard(doc,{platform,leaderboard,language=()=> 'ru',canOpen=()=>true,onOpenChange=()=>{}}={}) {
+export function createHangarDriftLeaderboard(doc,{platform,leaderboard,language=()=> 'ru',getCareer=()=>null,canOpen=()=>true,onOpenChange=()=>{}}={}) {
  const el=id=>doc.getElementById(`hangar-drift-${id}`);
  const button=el('button'),menu=el('menu'),panel=el('panel'),closeButton=el('close');
- let opened=false,disposed=false,board=null,epoch=0,returnFocus=null,background=[];
+ let opened=false,disposed=false,board=null,epoch=0,returnFocus=null,background=[],finishResult=null;
+ let observedBest=getCareer()?.driftRecord?.score??null,newRecord=false;
+ function updateRecordNotification(){
+  const career=getCareer();if(!career)return;
+  const best=career.driftRecord?.score??0;
+  if(observedBest!==null&&best>observedBest)newRecord=true;
+  observedBest=Math.max(observedBest??best,best);
+  button.classList.toggle('has-new-record',newRecord);
+ }
  const adapter=leaderboard??createCanyonLeaderboard({platform});
  const listeners=[];
  const listen=(node,type,fn)=>{node.addEventListener(type,fn);listeners.push(()=>node.removeEventListener(type,fn));};
@@ -19,6 +28,11 @@ export function createHangarDriftLeaderboard(doc,{platform,leaderboard,language=
   button.setAttribute('aria-label',words.title);button.setAttribute('title',words.title);
   for(const id of ['title','rank','player','score'])el(id).textContent=words[id];
   closeButton.setAttribute('aria-label',words.close);
+  const career=getCareer(),best=career?.driftRecord?.score??0,en=lang()==='en';
+  const setOptional=(id,value)=>{const node=el(id);if(node){node.textContent=value;node.hidden=!value;}};
+  setOptional('local-best',`${en?'Best completed canyon run':'Лучший завершённый заезд в каньоне'}: ${number(best)}`);
+  setOptional('result',finishResult?`${finishResult.development?(en?'Practice run':'Тренировочный заезд'):(en?'Canyon complete':'Каньон пройден')}: ${number(finishResult.result.score)}`:'');
+  setOptional('unlocks',finishResult?.newlyUnlockedVehicleIds?.length?`${en?'Vehicles unlocked':'Открыты машины'}: ${finishResult.newlyUnlockedVehicleIds.map(id=>vehicleConfig(id).name).join(', ')}`:'');
   const status=board?.status||'loading',entries=status==='ready'?(board.entries||[]):[];
   el('note').textContent=status==='loading'?words.loading:status==='ready'?(entries.length?words.ready:words.empty):platform?.development?words.development:status==='unavailable'?words.unavailable:status==='missing-board'?words.missing:status==='account-changed'?words.changed:status==='auth-required'?words.auth:words.error;
   const rows=entries.map(entry=>{
@@ -38,8 +52,11 @@ export function createHangarDriftLeaderboard(doc,{platform,leaderboard,language=
   onOpenChange(false);
   if(restoreFocus&&!button.hidden)(returnFocus||button).focus?.();
  }
- async function open(){
+ async function open(summary=null){
   if(disposed||opened||!canOpen())return false;
+  updateRecordNotification();
+  if(summary===null){newRecord=false;button.classList.remove('has-new-record');}
+  finishResult=summary;
   opened=true;const token=++epoch;returnFocus=doc.activeElement;board=adapter.state.status==='ready'?adapter.state:{status:'loading'};
   menu.hidden=false;button.setAttribute('aria-expanded','true');onOpenChange(true);
   for(const node of Array.from(doc.body.children||[])){if(node===menu||contains(node,menu))continue;background.push([node,node.inert]);node.inert=true;}
@@ -59,5 +76,5 @@ export function createHangarDriftLeaderboard(doc,{platform,leaderboard,language=
  for(const node of [button,menu])for(const type of ['pointerdown','pointerup','pointermove','touchstart','touchmove','touchend','wheel','keyup','click'])listen(node,type,event=>event.stopPropagation());
  const unsubscribe=adapter.subscribe?.(state=>{if(opened){board=state;refresh();}});
  refresh();menu.hidden=true;
- return {open,close,refresh,isOpen:()=>opened,dispose(){if(disposed)return;close({restoreFocus:false});disposed=true;unsubscribe?.();if(!leaderboard)adapter.dispose();listeners.splice(0).forEach(remove=>remove());}};
+ return {open,updateRecordNotification,showResult:summary=>open(summary),close,refresh,isOpen:()=>opened,dispose(){if(disposed)return;close({restoreFocus:false});disposed=true;unsubscribe?.();if(!leaderboard)adapter.dispose();listeners.splice(0).forEach(remove=>remove());}};
 }

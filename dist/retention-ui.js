@@ -1,15 +1,16 @@
+import {createMissionList} from './mission-list-ui.js';
 import { VEHICLE_CONFIG } from './economy-config.js';
 import { vehicleUnlockHint } from './biome-progression.js';
 
 const boundedNumber=value=>Math.max(0,Number.isFinite(Number(value))?Number(value):0);
 export const careerNumber=value=>String(Math.floor(boundedNumber(value))).replace(/\B(?=(\d{3})+(?!\d))/g,'\u202f');
-const rewardParts=['base','clean','hard','first','mission'];
-const rewardLabels={base:'Доставка',clean:'Без аварий',hard:'Сложный рейс',first:'Первый визит',mission:'Задание'};
+const rewardParts=['base','clean','hard','first'];
+const rewardLabels={base:'Доставка',clean:'Без аварий',hard:'Сложный рейс',first:'Первый визит'};
 
 
 
 
-export function createRetentionUi(doc,{onSelectGoal=()=>{},onSkipMission=()=>{},onOpenChange=()=>{}}={}){
+export function createRetentionUi(doc,{onSelectGoal=()=>{},onClaimMission=()=>{},onOpenChange=()=>{},translate=value=>value}={}){
   const el=id=>doc.getElementById(id),menu=el('career-menu'),root=el('career-panel'),select=el('career-goal-select'),receipt=el('delivery-receipt'),receiptMenu=el('delivery-receipt-menu');
   const buttons={goal:el('career-goal-button'),mission:el('career-mission-button')};
   let openKind=null,lastView=null,disposed=false,returnFocus=null,activeReceipt=null;
@@ -20,6 +21,12 @@ export function createRetentionUi(doc,{onSelectGoal=()=>{},onSkipMission=()=>{},
   const text=(id,value)=>{const node=el(id);if(node.textContent!==value)node.textContent=value;};
   const contains=(parent,node)=>{if(parent.contains)return parent.contains(node);for(let current=node;current;current=current.parentNode||current.parent)if(current===parent)return true;return false;};
   const eligible=view=>!!(view?.playing&&!view.driving&&view.inGarage&&!view.menuOpen&&!doc.hidden&&view.gameplay?.state?.mode==='walking');
+  const missionList=createMissionList(doc,{translate,onClaim:id=>{
+    if(openKind!=='mission'||!eligible(lastView))return;
+    onClaimMission(id);
+    if(lastView)update(lastView);
+    missionList.focusNext(el('career-close'));
+  }});
   const activeMenu=()=>openKind==='receipt'?receiptMenu:menu;
   const closeButton=()=>el(openKind==='receipt'?'delivery-receipt-close':'career-close');
   const renderOpen=()=>{
@@ -31,7 +38,7 @@ export function createRetentionUi(doc,{onSelectGoal=()=>{},onSkipMission=()=>{},
     }
     doc.body.classList.toggle('career-menu-open',!!openKind);
     doc.body.classList.toggle('delivery-receipt-open',openKind==='receipt');
-    if(openKind==='mission')text('career-title','Задания');
+    if(openKind==='mission')text('career-title',translate('Задания'));
   };
   const releaseBackground=()=>{for(const [node,inert]of background)node.inert=inert;background=[];};
   const setModal=(kind,{restoreFocus=true}={})=>{
@@ -79,6 +86,11 @@ export function createRetentionUi(doc,{onSelectGoal=()=>{},onSkipMission=()=>{},
     const {gameplay}=view,visible=eligible(view),launcherVisible=eligible({...view,menuOpen:false});
     buttons.goal.hidden=true;buttons.goal.disabled=true;
     buttons.mission.hidden=!launcherVisible;
+    const missions=gameplay.getCareerMissions?.()||[];
+    const ready=missions.filter(mission=>mission.status==='ready').length;
+    buttons.mission.classList.toggle('has-claimable-missions',ready>0);
+    buttons.mission.setAttribute('aria-label',translate('Задания')+(ready?': '+translate('Доступные награды')+' '+ready:''));
+    text('career-mission-summary',translate('Доступные награды')+': '+ready+' · '+translate('Получено')+': '+missions.filter(mission=>mission.status==='claimed').length+' / '+missions.length);
     doc.body.classList.toggle('career-actions-visible',launcherVisible);
     if(!visible){
       if(openKind==='receipt'&&activeReceipt)pendingReceipts.unshift(activeReceipt);
@@ -109,20 +121,8 @@ export function createRetentionUi(doc,{onSelectGoal=()=>{},onSkipMission=()=>{},
       progress.setAttribute('aria-label',`Накопления на ${goal.name}: ${careerNumber(goal.money)} из ${careerNumber(goal.price)}`);
       el('career-goal-content').dataset.ready=String(!locked&&goal.remaining<=0);
     }
-    const mission=gameplay.getCareerMission?.()||null;
-    el('career-mission-details').hidden=!mission;el('career-mission-empty').hidden=!!mission;
-    if(mission){
-      text('career-mission-name',mission.name);
-      text('career-mission-description',mission.description);
-      const count=careerNumber(Math.min(mission.target,mission.progress))+' / '+careerNumber(mission.target);
-      text('career-mission-count',count);
-      buttons.mission.setAttribute('aria-label',`Задания: ${mission.name}. Прогресс ${count}`);
-      text('career-mission-cash','+'+careerNumber(mission.cash));
-      text('career-mission-brains','+'+careerNumber(mission.brains));
-      el('career-mission-reward').setAttribute('aria-label',`Награда: ${careerNumber(mission.cash)} игровых денег и ${careerNumber(mission.brains)} XP`);
-      const progress=el('career-mission-progress');progress.max=Math.max(1,boundedNumber(mission.target));progress.value=Math.min(progress.max,boundedNumber(mission.progress));
-      progress.setAttribute('aria-label',`${mission.name}: ${count}`);
-    }else buttons.mission.setAttribute('aria-label','Задания');
+    el('career-mission-empty').hidden=missions.length>0;
+    if(openKind==='mission')missionList.update(missions,{claimEnabled:!gameplay.state.developerMode});
   };
   const open=kind=>{
     if(disposed||kind!=='mission'||!eligible(lastView)||openKind==='receipt')return;
@@ -130,6 +130,8 @@ export function createRetentionUi(doc,{onSelectGoal=()=>{},onSkipMission=()=>{},
     update(lastView);
     if(openKind==='receipt')return;
     setModal(kind);
+    el('career-mission-section').scrollTop=0;
+    update(lastView);
   };
   const showDelivery=breakdown=>{
     if(disposed||!breakdown||!Number.isFinite(Number(breakdown.totalCash)))return;
@@ -142,7 +144,7 @@ export function createRetentionUi(doc,{onSelectGoal=()=>{},onSkipMission=()=>{},
     event.stopPropagation();
     if(event.key==='Escape'){event.preventDefault();close();return;}
     if(event.key==='Tab'){
-      const controls=[closeButton(),...(openKind==='mission'&&!el('career-mission-details').hidden?[el('career-mission-skip')]:[])];
+      const controls=[closeButton(),...(openKind==='mission'?[el('career-mission-section'),...missionList.claimButtons()]:[])];
       const index=controls.indexOf(doc.activeElement),last=controls.length-1;
       if(index<0||(!event.shiftKey&&index===last)||(event.shiftKey&&index===0)){
         event.preventDefault();controls[event.shiftKey?last:0].focus?.();
@@ -160,7 +162,6 @@ export function createRetentionUi(doc,{onSelectGoal=()=>{},onSkipMission=()=>{},
     onSelectGoal(select.value);
     if(lastView)update(lastView);
   });
-  listen(el('career-mission-skip'),'click',()=>{if(openKind!=='mission'||!eligible(lastView)||el('career-mission-details').hidden)return;onSkipMission();if(lastView)update(lastView);});
   for(const node of [menu,receiptMenu,receipt,doc])listen(node,'keydown',onKeyDown);
   listen(doc,'focusin',event=>{if(openKind&&!contains(activeMenu(),event.target))closeButton().focus?.();});
   listen(doc,'visibilitychange',()=>{if(lastView)update(lastView);});
@@ -169,5 +170,5 @@ export function createRetentionUi(doc,{onSelectGoal=()=>{},onSkipMission=()=>{},
     if(node===buttons.goal||node===buttons.mission)listen(node,'keydown',event=>event.stopPropagation());
   }
   renderOpen();for(const button of Object.values(buttons))button.hidden=true;
-  return {update,showDelivery,isOpen:()=>!!openKind,close,dispose(){if(disposed)return;disposed=true;pendingReceipts.length=0;activeReceipt=null;close({restoreFocus:false,showPending:false});for(const [node,type,callback]of listeners)node.removeEventListener(type,callback);menu.hidden=root.hidden=receiptMenu.hidden=receipt.hidden=true;for(const button of Object.values(buttons))button.hidden=true;doc.body.classList.remove('career-actions-visible','career-menu-open','delivery-receipt-open');}};
+  return {update,showDelivery,isOpen:()=>!!openKind,close,dispose(){if(disposed)return;disposed=true;missionList.dispose();buttons.mission.classList.remove('has-claimable-missions');pendingReceipts.length=0;activeReceipt=null;close({restoreFocus:false,showPending:false});for(const [node,type,callback]of listeners)node.removeEventListener(type,callback);menu.hidden=root.hidden=receiptMenu.hidden=receipt.hidden=true;for(const button of Object.values(buttons))button.hidden=true;doc.body.classList.remove('career-actions-visible','career-menu-open','delivery-receipt-open');}};
 }

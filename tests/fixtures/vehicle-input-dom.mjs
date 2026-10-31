@@ -10,11 +10,14 @@ class Target {
 class Element extends Target {
  constructor(classes=[],dataset={}){super();this.children=[];this.dataset=dataset;this.attributes={};this.hidden=false;this.clientWidth=100;this.bounds={left:10,top:20,width:100,height:100};this.captures=new Set();this.captureReleases=[];this.computedTransform=undefined;const styles=new Map(),set=new Set(classes);this.style={setProperty:(key,value)=>styles.set(key,value),getPropertyValue:key=>styles.get(key)||''};this.classList={add:(...values)=>values.forEach(v=>set.add(v)),remove:(...values)=>values.forEach(v=>set.delete(v)),contains:value=>set.has(value),toggle:(value,force)=>{const wanted=force??!set.has(value);if(wanted)set.add(value);else set.delete(value);return wanted;}};}
  append(element){this.children.push(element);element.parent=this;element.ownerDocument=this.ownerDocument;return element;}
+ appendChild(element){return this.append(element);}
+ remove(){if(!this.parent)return;const index=this.parent.children.indexOf(this);if(index!==-1)this.parent.children.splice(index,1);this.parent=null;}
  all(){return this.children.flatMap(child=>[child,...child.all()]);}
  querySelector(selector){return this.querySelectorAll(selector)[0]||null;}
  querySelectorAll(selector){return this.all().filter(element=>selector.startsWith('.')?element.classList.contains(selector.slice(1)):selector==='[data-gear]'?'gear'in element.dataset:false);}
  setAttribute(key,value){this.attributes[key]=String(value);}
  getAttribute(key){return this.attributes[key]??null;}
+ closest(selector){for(let node=this;node?.attributes;node=node.parent){if(selector==='[hidden]'?node.hidden:selector.split(',').some(part=>part.trim().toUpperCase()===node.tagName))return node;}return null;}
  getBoundingClientRect(){return this.bounds;}
  setPointerCapture(id){this.captures.add(id);}
  hasPointerCapture(id){return this.captures.has(id);}

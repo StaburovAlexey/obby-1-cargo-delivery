@@ -1,3 +1,5 @@
+import {createStudyRewardUi} from './study-reward-ui.js';
+import {createNitroUi,createNitroScreenEffect} from './nitro-ui.js';
 import {createMusicMenu} from './music-menu.js';
 import {updatePurchaseNotifications} from './purchase-notifications.js';
 import {TYRE_CONFIG,ADVERTISING_INTERVAL_SECONDS} from './economy-balance.js';
@@ -39,6 +41,7 @@ import {getVehicleLivery} from './vehicle-livery-catalog.js';
 import {createHangarDriftLeaderboard} from './hangar-drift-leaderboard.js';
 import {createCanyonLeaderboard} from './canyon-leaderboard.js';
 import {createCanyonMode} from './canyon-mode.js';
+import {driftUnlockScore} from './drift-unlocks.js';
 import {PREMIUM_SKIN_IDS} from './premium-skins.js';
 import {SHADOW_LAYOUT,followShadowLight} from './scene-lighting.js';
 import {createBiomeWeather} from './biome-weather.js';
@@ -115,6 +118,7 @@ const driftLeaderboard=createCanyonLeaderboard({platform:services?.platform});
 void driftLeaderboard.load();
 const pauseState=services?.pause??createPauseState();
 const vehicleAudio=createVehicleAudio();
+const nitroScreenEffect=createNitroScreenEffect(document);
 let audioVolume=services?.settings?.audioVolume??1,lastAudibleVolume=services?.settings?.lastAudibleVolume??1,selectedLanguage=services?.settings?.language??'ru',settingsUi=null,musicUi=null;
 vehicleAudio.setVolume?.(audioVolume);vehicleAudio.setMuted(audioVolume===0);
 const backgroundMusic=createBackgroundMusic({tracks:MUSIC_TRACKS,volume:audioVolume});
@@ -127,7 +131,7 @@ function setAudioVolume(value){
  settingsUi?.setVolume(audioVolume);syncAudioButton();
 }
 function syncAudioButton(){const button=document.getElementById('audio-toggle');button.setAttribute('aria-pressed',String(vehicleAudio.muted));button.setAttribute('aria-label',vehicleAudio.muted?'Включить звук':'Выключить звук');button.title=vehicleAudio.muted?'Включить звук':'Выключить звук';button.classList.toggle('muted',vehicleAudio.muted);localization?.refresh();}
-function stopVehicleEffects(){vehicleAudio.stop();for(const v of garage?.vehicles||[])v.visual?.setBrakeLights?.(0);}
+function stopVehicleEffects(){vehicleAudio.stop();nitroScreenEffect.setActive(false);cameraState.resetNitro();for(const v of garage?.vehicles||[])v.visual?.setBrakeLights?.(0);}
 window.addEventListener('pointerdown',()=>{if(!vehicleAudio.muted)vehicleAudio.unlock();},{capture:true});
 window.addEventListener('keydown',()=>{if(!vehicleAudio.muted)vehicleAudio.unlock();},{capture:true});
 document.getElementById('audio-toggle').addEventListener('pointerdown',e=>e.stopPropagation());
@@ -250,7 +254,7 @@ let city,
   obstacles = [],
   driving = false,
   playing = true,
-  finishLine, finishCelebration, pendingFinishReceipt=null, garage, gameplay, character, walkInput, jumpInput, lookInput, wheelParticles, roadHazards, roadHazardsScene, biomeWeather,
+  finishLine, finishCelebration, pendingFinishReceipt=null, pendingCanyonReceipt=null, garage, gameplay, character, walkInput, jumpInput, lookInput, wheelParticles, roadHazards, roadHazardsScene, biomeWeather,
   biomeMenuOpen=false, upgradeMenuOpen=false, careerMenuOpen=false, settingsMenuOpen=false, hangarLeaderboardOpen=false, liveryShopOpen=false, appFocused=true,
   characterReady = false,
   characterRequest = 0, displayGeneration = 0, characterDisplays = [],
@@ -272,7 +276,7 @@ function developerLiveryController(visual,vehicleId){
  developerLiveryControllers.set(vehicleId,entry);return entry;
 }
 function syncDeveloperLivery(visual,vehicleId){
- if(!visual||(!vehicleConfig(vehicleId).rewardOnly&&!gameplay.isOwned(vehicleId))||!selectedDeveloperLiveries.has(vehicleId)||developerLiveryControllers.get(vehicleId)?.visual===visual)return;
+ if(!visual||visual.locked||(!vehicleConfig(vehicleId).rewardOnly&&!gameplay.isOwned(vehicleId))||!selectedDeveloperLiveries.has(vehicleId)||developerLiveryControllers.get(vehicleId)?.visual===visual)return;
  const entry=developerLiveryController(visual,vehicleId);
  void entry.controller.preview(selectedDeveloperLiveries.get(vehicleId)).catch(error=>console.warn('Developer livery could not load',error));
 }
@@ -293,14 +297,16 @@ function disposeDeveloperLiveries(){
 }
 const fleetNeon=createFleetNeon(THREE);
 function parkedNeonSupport(vehicle){return vehicle.neonSupport??={groundPlane:{point:{x:vehicle.park.x,y:vehicle.pedestal?.topY??groundHeight(vehicle.park.x,vehicle.park.z),z:vehicle.park.z},normal:{x:0,y:1,z:0}}};}
-function syncFleetNeon(){if(!gameplay||!garage)return;fleetNeon.setColor(selectedFleetNeonId());for(const vehicle of garage.vehicles){vehicle.visual?.setLocked?.(!gameplay.isOwned(vehicle.id));fleetNeon.attach(vehicle.visual,driving&&vehicle.model===model?vehicle.model.state:parkedNeonSupport(vehicle));syncDeveloperLivery(vehicle.visual,vehicle.id);}}
+function vehicleVisualLocked(id){return id==='bmwreward'?!gameplay?.state.ownedVehicleIds.includes(id):!gameplay?.isOwned(id);}
+function syncFleetNeon(){if(!gameplay||!garage)return;fleetNeon.setColor(selectedFleetNeonId());for(const vehicle of garage.vehicles){vehicle.visual?.setLocked?.(vehicleVisualLocked(vehicle.id));fleetNeon.attach(vehicle.visual,driving&&vehicle.model===model?vehicle.model.state:parkedNeonSupport(vehicle));syncDeveloperLivery(vehicle.visual,vehicle.id);}}
 function syncPremiumNeon(){if(!gameplay)return;for(const id of services?.neon?.ownedIds||[])gameplay.grantPremiumNeon(id);liveryShop?.refresh();}
 let physicsWorld=null,overturnedSeconds=0;
 let roadPits=[];
 let fallenSeconds=0;
+let studyRewardUi=null;
 let hangarLeaderboardUi=null,canyonMode=null,onlineSession=null,advertising=null,spatialRenderer=null,renderZones=null,teleportId=0,onlineClock=0,lastWalkSpeed=0,disposedOnline=false,lastEconomyFrame=-Infinity;
 const gameplayPaused=()=>pauseState.paused||!appFocused||document.hidden||graphicsLost||!playing||biomeMenuOpen||upgradeMenuOpen||careerMenuOpen||settingsMenuOpen||hangarLeaderboardOpen||liveryShopOpen;
-pauseState.subscribe(paused=>{syncBackgroundMusic();if(paused){physicsWorld?.resetTime();canyonMode?.pause();stopVehicleEffects();inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();}lastTime=0;onlineClock=0;advertising?.setSuspended(gameplay.state.eventMode==='finish'||!!canyonMode?.active||document.hidden||!appFocused||graphicsLost||pauseState.reasons.has('platform')||(pauseState.reasons.has('payment')||pauseState.reasons.has('neon-payment')));onlineSession?.update(0);});
+pauseState.subscribe(paused=>{syncBackgroundMusic();if(paused){physicsWorld?.resetTime();canyonMode?.pause();stopVehicleEffects();inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();}lastTime=0;onlineClock=0;advertising?.setSuspended(gameplay.state.eventMode==='finish'||!!canyonMode?.active||document.hidden||!appFocused||graphicsLost||pauseState.reasons.has('platform')||pauseState.reasons.has('study-reward')||(pauseState.reasons.has('payment')||pauseState.reasons.has('neon-payment')));onlineSession?.update(0);});
 const startup=createStartupGate({
   onReady(){
     lastTime=0;inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();
@@ -408,7 +414,7 @@ function rebuild(value) {
   for(const d of characterDisplays){scene.remove(d.group);d.dispose();}characterDisplays=[];
   if (city) {
     scene.remove(garage?.group);
-    finishLine?.dispose();finishCelebration?.dispose();pendingFinishReceipt=null;
+    finishLine?.dispose();finishCelebration?.dispose();pendingFinishReceipt=null;pendingCanyonReceipt=null;
     fleetNeon.clear();garage?.dispose();
     scene.remove(city.group);
     city.dispose();
@@ -433,7 +439,7 @@ function rebuild(value) {
   scene.add(roadHazardsScene.group);
   garage = createGarageScene(THREE, city, {document});
   attachCosmoGarage(THREE,garage,{autoLoad:false,concurrency:1,prepare:(adapter,id)=>{
-    adapter.setLocked?.(!gameplay?.isOwned(id));return modelWarmup.prepare(adapter.group);
+    adapter.setLocked?.(vehicleVisualLocked(id));return modelWarmup.prepare(adapter.group);
   }});
   scene.add(garage.group);
   gameplay = createGameplay({vehicles:garage.vehicles,stations:garage.stations,deliveries:garage.deliveries,desks:garage.desks,stands:garage.stands,solids:garage.walkingSolids||garage.classroomSolids,career:previousCareer??services?.initialCareer??(developerMode?careerStore.load():undefined),persistence:developerMode?undefined:careerStore,developerMode,hardBranches:HARD_BRANCHES,walkable:(x,z,radius)=>!roadPitAt(roadPits,x,z,radius)});
@@ -451,6 +457,7 @@ function rebuild(value) {
   canyonMode=createCanyonMode(THREE,{scene,document,platform:services?.platform,leaderboard:driftLeaderboard,language:()=>selectedLanguage,
     getContext:()=>({garage,gameplay,city,finishLine,roadHazardsScene,biomeWeather,model,rig,driving,online:onlineSession}),
     onEnter:()=>{careerRouteTracker.reset();wheelParticles?.clear();updateEconomyHud();},
+    onComplete:summary=>{pendingCanyonReceipt=summary;updateEconomyHud();},
     onExit:()=>{careerRouteTracker.reset();updateEconomyHud();},onTimeout:()=>returnToGarage('canyon-timeout')});
   canyonMode.effects.setSmokeStyle(selectedSmokeId);
   canyonMode.effects.setTrackStyle(selectedTrackId);
@@ -461,6 +468,8 @@ function rebuild(value) {
     const parkPose=fitTruckToGround(THREE,vehicle.park.x,vehicle.park.z,vehicle.park.heading,null,vehicle.visual?.metadata);
     vehicle.model=createRapierDrivingModel({
       world:physicsWorld.world,...vehicle.park,y:parkPose.position.y,maxSpeed:vehicleConfig(vehicle.id).maxSpeed,
+      getNitro:()=>{const n=gameplay.getDrivingNitro(vehicle.id);if(n&&!(gameplay.state.fuels[vehicle.id]>0)){n.cancel();return null;}return n;},
+      isNitroRoad:(x,z)=>!!canyonMode?.surface(x,z,0)||Math.abs(projectRoad(x,z,vehicle.routeContext).offset)<=15,
       vehicleId:vehicle.id,getUpgrades:()=>gameplay.state.upgrades[vehicle.id],
       getVehicleMetadata:()=>vehicle.visual?.metadata,
       getRampBoost:(x,z)=>roadPitRampBoost(roadPits,x,z),
@@ -572,9 +581,13 @@ function followTruck(dt,snap=false,distance=0){
     (previousTruckTarget.distanceToSquared(rig.root.position)>1e-12||Math.abs(Math.atan2(Math.sin(turn),Math.cos(turn)))>1e-9);
   previousTruckTarget.copy(rig.root.position);previousTruckHeading=rendered.heading;followedModel=model;
   if(snap)cameraState.reset({mode:'driving',heading:rendered.heading});
-  cameraState.update({dt,heading:rendered.heading,distance,moving,drifting:rendered.driftIntensity>.15,velocityX:rendered.velocityX,velocityZ:rendered.velocityZ});
+  const nitroRemaining=gameplay.getDrivingNitro(gameplay.state.selectedId)?.state.remaining??0;
+  const nitroActive=!snap&&playing&&driving&&startup.ready&&characterReady&&!gameplayPaused()&&!canyonMode?.controlsLocked&&!model.state.airborne&&
+    (gameplay.state.fuels[gameplay.state.selectedId]??0)>0&&!!model.state.nitroThrust&&
+    nitroRemaining>0;
+  cameraState.update({dt,heading:rendered.heading,distance,moving,drifting:rendered.driftIntensity>.15,velocityX:rendered.velocityX,velocityZ:rendered.velocityZ,nitroActive,nitroRemaining});
   const offset=computeFollowOffset(cameraState.state);
-  const scale=drivingCameraScale(camera.aspect);
+  const scale=drivingCameraScale(camera.aspect)*cameraState.state.nitroScale;
   desiredTarget.copy(rig.root.position);desiredTarget.y+=1.7;
   desiredCamera.set(offset.x*scale,offset.y*scale,offset.z*scale).add(desiredTarget);
 
@@ -586,7 +599,7 @@ function followTruck(dt,snap=false,distance=0){
   controls.target.copy(smoothedCameraTarget);renderedCameraScale=scale;
 }
 
-const retentionUi=createRetentionUi(document,{onOpenChange:open=>{if(open)canyonMode?.pause();careerMenuOpen=!!open;inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();model?.pause();gameplay?.flushProgress();lastTime=0;syncMode();},onSelectGoal:id=>{gameplay?.setVehicleGoal(id);updateEconomyHud();},onSkipMission:()=>{gameplay?.skipMission();updateEconomyHud();}});
+const retentionUi=createRetentionUi(document,{onOpenChange:open=>{if(open)canyonMode?.pause();careerMenuOpen=!!open;inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();model?.pause();gameplay?.flushProgress();lastTime=0;syncMode();},onSelectGoal:id=>{gameplay?.setVehicleGoal(id);updateEconomyHud();},onClaimMission:id=>{gameplay?.claimCareerMission(id);updateEconomyHud();},translate:value=>localization.translate(value)});
 
 // Settings and the music window share the existing preferences pause gate.
 function onPreferencesOpenChange(open){
@@ -608,7 +621,7 @@ const settingsMusic=createSettingsMusic(document,{music:backgroundMusic,tracks:M
 function hangarLeaderboardAvailable(){
  return startup.ready&&characterReady&&playing&&!graphicsLost&&!canyonMode?.active&&gameplay?.state.mode==='walking'&&gameplay.state.eventMode!=='finish'&&isInGarage(gameplay.state.player.x,gameplay.state.player.z);
 }
-hangarLeaderboardUi=createHangarDriftLeaderboard(document,{platform:services?.platform,leaderboard:driftLeaderboard,language:()=>selectedLanguage,
+hangarLeaderboardUi=createHangarDriftLeaderboard(document,{platform:services?.platform,leaderboard:driftLeaderboard,language:()=>selectedLanguage,getCareer:()=>gameplay?.state,
  canOpen:()=>hangarLeaderboardAvailable()&&!liveryShopOpen&&!settingsMenuOpen&&!careerMenuOpen&&!biomeMenuOpen&&!upgradeMenuOpen&&!pauseState.paused,
  onOpenChange:open=>{
   hangarLeaderboardOpen=!!open;transition=null;
@@ -680,6 +693,7 @@ liveryShop=createVehicleLiveryShop(document,{
   await currentGarage.vehicleVisuals.ensure(vehicleId);
   if(garage!==currentGarage||gameplay!==currentGameplay||generation!==developerLiveryGeneration||!liveryShopOpen)return false;
   const visual=garage.vehicles.find(v=>v.id===vehicleId)?.visual;if(!visual)return false;
+  if(vehicleId==='bmwreward'&&visual.locked)return false;
   const entry=developerLiveryController(visual,vehicleId);entry.pending=true;
   try{
    const loaded=await entry.controller.preview(liveryId);
@@ -701,6 +715,7 @@ liveryShop=createVehicleLiveryShop(document,{
 });
 function notify(){}
 function updateFuelHud(){
+  nitroUi.update();
   const id=gameplay?.state.selectedId;
   const capacity=getVehiclePerformance(vehicleConfig(id).id,gameplay?.state.upgrades[id]).capacity;
   const value=Math.max(0,Math.min(capacity,id ? gameplay.state.fuels[id] : capacity));
@@ -727,10 +742,17 @@ function updateFuelHud(){
 }
 
 const hudUi=createUiCache(document);
+const nitroUi=createNitroUi(document,{getGameplay:()=>gameplay,getModel:()=>model,language:()=>selectedLanguage,
+ canUse:()=>playing&&driving&&startup.ready&&characterReady&&!gameplayPaused()&&!canyonMode?.controlsLocked,
+ onPurchase:()=>{handleGameplayEvents();updateEconomyHud();}});
+window.addEventListener('pagehide',event=>{if(!event.persisted){nitroUi.dispose();nitroScreenEffect.dispose();}});
 function updateEconomyHud(){
   if(!gameplay||!garage)return;
   const state=gameplay.state,el=id=>hudUi.get(id),hangarAvailable=hangarLeaderboardAvailable();
-  updatePurchaseNotifications(document,{gameplay});
+  const garageAnchor=state.mode==='driving'?model.state:state.player;
+  hudUi.hidden(el('garage-button'),!playing||isInGarage(garageAnchor.x,garageAnchor.z));
+  updatePurchaseNotifications(document,{gameplay});nitroUi.updateCard();
+  hangarLeaderboardUi?.updateRecordNotification();
   const rankingsButton=el('hangar-drift-button');
   hudUi.hidden(rankingsButton,!hangarAvailable);
   if(hangarLeaderboardOpen&&!hangarAvailable)hangarLeaderboardUi?.close({restoreFocus:false});
@@ -768,11 +790,11 @@ function updateEconomyHud(){
     // Projection owns showing vehicle labels. Economy polling only hides them,
     // so out-of-view labels do not toggle twice on every walking frame.
     if(!playing||state.mode!=='walking')hudUi.hidden(label,true);
-    hudUi.hidden(el(`vehicle-cost-${i+1}`),owned);
-    hudUi.hidden(el(`vehicle-cost-icon-${i+1}`),!!v.rewardDisplay);
-    const rate=v.config.rewardOnly?0:v.config.brainRate;
+    const driftTarget=driftUnlockScore(v.id);
+    hudUi.hidden(el(`vehicle-cost-${i+1}`),owned&&!driftTarget);
+    const rate=v.config.brainRate;
     hudUi.text(el(`vehicle-income-value-${i+1}`),String(rate));
-    hudUi.text(el(`vehicle-price-value-${i+1}`),v.rewardDisplay?'Заблокировано':String(vehicleConfig(v.id).price));
+    hudUi.text(el(`vehicle-price-value-${i+1}`),driftTarget?`${new Intl.NumberFormat(selectedLanguage==='en'?'en-US':'ru-RU').format(driftTarget)} ${selectedLanguage==='en'?'drift pts':'очков дрифта'}${owned?' ✓':''}`:v.rewardDisplay?'Заблокировано':String(vehicleConfig(v.id).price));
     if(v.cargo.visible)v.cargo.visible=false;
   }
 }
@@ -845,7 +867,7 @@ function handleGameplayEvents(){
       finishCelebration.start({x:event.x,y:(event.kind==='canyon'?rig.root.position.y:groundHeight(event.x,event.z))+1,z:event.z});
     }
     if(event.type==='delivery'){delivered=event;retentionUi.showDelivery({...event.breakdown,unlockedVehicleId:event.unlockedVehicleId});}
-    if(event.type==='garage'){const receipt=pendingFinishReceipt;returnToGarage(event.reason);if(event.reason==='finish'&&receipt)retentionUi.showDelivery({...receipt.breakdown,unlockedVehicleId:receipt.unlockedVehicleId});if(delivered)notify(`Груз доставлен! +${delivered.reward} · Всего ${gameplay.state.money}`);}
+    if(event.type==='garage'){const receipt=pendingFinishReceipt,canyonReceipt=pendingCanyonReceipt;returnToGarage(event.reason);if(event.reason==='finish'&&canyonReceipt)void hangarLeaderboardUi.showResult(canyonReceipt);else if(event.reason==='finish'&&receipt)retentionUi.showDelivery({...receipt.breakdown,unlockedVehicleId:receipt.unlockedVehicleId});if(delivered)notify(`Груз доставлен! +${delivered.reward} · Всего ${gameplay.state.money}`);}
     if(event.type==='refuel'){const id=gameplay.state.selectedId,capacity=getVehiclePerformance(id,gameplay.state.upgrades[id]).capacity;notify(gameplay.state.testMode?`Бак заправлен · ${capacity}/${capacity}. Тестовая поездка.`:`Бак заправлен · ${capacity}/${capacity}. Груз сохранён.`);}
     if(event.type==='enter'&&!driving)enterVehicle(event.id);
     if(event.type==='purchase-prompt'){const v=vehicleConfig(event.id);notify(v.devUnlock?(developerMode?'Секретная машина. Подойдите к маркеру и нажмите «Разблокировать».':'Секретная машина пока заблокирована.'):`${v.name} · ${v.price}. Покупка только кнопкой.`);}
@@ -1008,7 +1030,7 @@ function enterVehicle(id,loadedRequest=false){
 function returnToGarage(reason='garage'){
   if(gameplay?.state.eventMode==='finish'&&reason!=='finish')return false;
   cancelVehicleEntry();
-  finishCelebration?.clear();pendingFinishReceipt=null;
+  finishCelebration?.clear();pendingFinishReceipt=null;pendingCanyonReceipt=null;
   canyonMode?.leave();overturnedSeconds=fallenSeconds=0;
   teleportId++;
   liveryShop?.close();
@@ -1072,7 +1094,7 @@ function setUpgradeMenu(open){
   inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();model?.pause();
   gameplay.flushProgress();lastTime=0;syncMode();
   const focusTarget=upgradeMenuOpen
-    ? [...UPGRADE_STATS.map(s=>document.getElementById('upgrade-'+s.id+'-buy')),...TYRE_CONFIG.map(tyre=>document.getElementById('tyre-'+tyre.tier+'-buy'))].find(b=>!b.disabled&&!b.closest('[hidden]'))||document.getElementById('upgrade-close')
+    ? [document.getElementById('nitro-upgrade-buy'),...UPGRADE_STATS.map(s=>document.getElementById('upgrade-'+s.id+'-buy')),...TYRE_CONFIG.map(tyre=>document.getElementById('tyre-'+tyre.tier+'-buy'))].find(b=>!b.disabled&&!b.closest('[hidden]'))||document.getElementById('upgrade-close')
     : document.getElementById('upgrade-button');
   focusTarget.focus?.();
   return upgradeMenuOpen;
@@ -1178,7 +1200,7 @@ window.addEventListener('keydown',e=>{
   if(e.key==='Escape'){e.preventDefault();setBiomeMenu(false);return;}
   if(e.key==='Tab'){e.preventDefault();const items=[...BIOME_DESTINATIONS.map(b=>document.getElementById('biome-go-'+b.id)),document.getElementById('biome-close')],i=items.indexOf(document.activeElement);items[(i+(e.shiftKey?-1:1)+items.length)%items.length].focus?.();}
 });
-for(const id of ['upgrade-button','upgrade-menu','upgrade-close','vehicle-funds-button','buy-skin','buy-school',...UPGRADE_STATS.map(s=>'upgrade-'+s.id+'-buy'),...TYRE_CONFIG.map(tyre=>'tyre-'+tyre.tier+'-buy')]){
+for(const id of ['upgrade-button','upgrade-menu','upgrade-close','vehicle-funds-button','buy-skin','buy-school','nitro-upgrade-buy',...UPGRADE_STATS.map(s=>'upgrade-'+s.id+'-buy'),...TYRE_CONFIG.map(tyre=>'tyre-'+tyre.tier+'-buy')]){
   const el=document.getElementById(id);for(const type of ['pointerdown','pointerup','pointercancel','touchstart','touchmove'])el.addEventListener(type,e=>e.stopPropagation());
 }
 document.getElementById('upgrade-button').addEventListener('click',e=>{e.stopPropagation();setUpgradeMenu(!upgradeMenuOpen)});
@@ -1204,7 +1226,7 @@ document.getElementById('vehicle-funds-button').addEventListener('click',e=>{
 window.addEventListener('keydown',e=>{
   if(!upgradeMenuOpen)return;
   if(e.key==='Escape'){e.preventDefault();setUpgradeMenu(false);return;}
-  if(e.key==='Tab'){e.preventDefault();const items=[...UPGRADE_STATS.map(s=>document.getElementById('upgrade-'+s.id+'-buy')).filter(b=>!b.disabled),...TYRE_CONFIG.map(tyre=>document.getElementById('tyre-'+tyre.tier+'-buy')).filter(b=>!b.disabled&&!b.closest('[hidden]')),document.getElementById('upgrade-close')],i=items.indexOf(document.activeElement);items[(i+(e.shiftKey?-1:1)+items.length)%items.length].focus?.();}
+  if(e.key==='Tab'){e.preventDefault();const items=[document.getElementById('nitro-upgrade-buy'),...UPGRADE_STATS.map(s=>document.getElementById('upgrade-'+s.id+'-buy')).filter(b=>!b.disabled&&!b.closest('[hidden]')),...TYRE_CONFIG.map(tyre=>document.getElementById('tyre-'+tyre.tier+'-buy')).filter(b=>!b.disabled&&!b.closest('[hidden]')),document.getElementById('upgrade-close')].filter(b=>!b.disabled&&!b.closest('[hidden]')),i=items.indexOf(document.activeElement);items[(i+(e.shiftKey?-1:1)+items.length)%items.length].focus?.();}
 });
 const pauseProgression=()=>{canyonMode?.pause();stopVehicleEffects();appFocused=false;syncBackgroundMusic();advertising?.setSuspended(true);onlineClock=0;gameplay?.flushProgress();void services?.cloud?.flush();inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();model?.pause();lastTime=0;onlineSession?.update(0);};
 window.addEventListener('blur',pauseProgression);
@@ -1262,6 +1284,7 @@ function frame(now) {
   const physicsStepsBefore=physicsWorld?.stats.steps??0;
   const networkDt=onlineClock?Math.max(0,(now-onlineClock)/1000):0;onlineClock=now;
   const baseActive=startup.ready&&characterReady&&!gameplayPaused();
+  studyRewardUi?.update(networkDt,baseActive);
   const actor=driving?model.state:gameplay.state.player;
   const speed=driving?Math.hypot(model.state.velocityX||0,model.state.velocityZ||0):lastWalkSpeed;
   const footprint=driving?vehicleFootprint(garage.vehicles.find(v=>v.model===model)?.visual?.metadata,model.state.frontWheelAngle):{radius:2.1};
@@ -1270,7 +1293,7 @@ function frame(now) {
   const safe=!!checkSafety&&isAdvertisingSafe({position:actor,heading:actor.heading||0,speed,footprint,
     bridges:BRIDGES,hazards:roadHazards.hazards,roadPits,jumping:gameplay.state.jump.airborne,falling:!!model?.state.airborne,
     loading:!startup.ready||!characterReady,modal:biomeMenuOpen||upgradeMenuOpen||careerMenuOpen||settingsMenuOpen||hangarLeaderboardOpen||liveryShopOpen});
-  advertising?.setSuspended(gameplay.state.eventMode==='finish'||!!canyonMode?.active||document.hidden||!appFocused||graphicsLost||pauseState.reasons.has('platform')||(pauseState.reasons.has('payment')||pauseState.reasons.has('neon-payment')));
+  advertising?.setSuspended(gameplay.state.eventMode==='finish'||!!canyonMode?.active||document.hidden||!appFocused||graphicsLost||pauseState.reasons.has('platform')||pauseState.reasons.has('study-reward')||(pauseState.reasons.has('payment')||pauseState.reasons.has('neon-payment')));
   advertising?.update(networkDt,{active:baseActive,safe,visible:!document.hidden&&appFocused});
   onlineSession?.update(networkDt);
   if(services?.platform){if(startup.ready&&characterReady&&!gameplayPaused()&&!canyonMode?.controlsLocked)services.platform.gameplayStart();else services.platform.gameplayStop();}
@@ -1306,6 +1329,7 @@ function frame(now) {
         finishCelebration.update(dt,{position:{x:model.state.x,y:rig.root.position.y+1,z:model.state.z}});
         gameplay.advanceFinish(dt);handleGameplayEvents();
       }else if(canyonMode?.active){
+        if(!canyonMode.controlsLocked)gameplay.tickProgress(model.state.movingSeconds||0,{distance:model.state.pathDistance||0,active:rewardFrameValid});
         canyonMode.step(rawDelta,{simulatedSeconds:physicsWorld.frameSeconds});handleGameplayEvents();if(driving)followTruck(dt,false,model.state.pathDistance||0);
       }else{
         const actualDistance=model.state.pathDistance||0;
@@ -1345,7 +1369,10 @@ function frame(now) {
   if (!playing&&!settingsMenuOpen&&!hangarLeaderboardOpen&&!liveryShopOpen) controls.update();
   const effectsActive=playing&&driving&&startup.ready&&characterReady&&!gameplayPaused()&&!canyonMode?.controlsLocked&&!model?.state.airborne&&(gameplay.state.fuels[gameplay.state.selectedId]??0)>0;
   const motion=model.state,lateral=Math.cos(motion.heading)*motion.velocityX-Math.sin(motion.heading)*motion.velocityZ;
-  vehicleAudio.update(dt,{active:effectsActive,speed:motion.linearSpeed,slip:Math.abs(lateral),throttle:motion.active?1:0,braking:motion.braking||0,impact:Math.max(0,Math.min(1,((motion.impactSpeed||0)-1)/12))});
+  const nitroRemaining=gameplay.getDrivingNitro(gameplay.state.selectedId)?.state.remaining??0;
+  const nitroActive=effectsActive&&!!motion.nitroThrust&&nitroRemaining>0;
+  nitroScreenEffect.setActive(nitroActive);
+  vehicleAudio.update(dt,{active:effectsActive,nitroActive,nitroRemaining,speed:motion.linearSpeed,slip:Math.abs(lateral),throttle:(motion.active||motion.nitroThrust)?1:0,braking:motion.braking||0,impact:Math.max(0,Math.min(1,((motion.impactSpeed||0)-1)/12))});
   syncFleetNeon();
   for(const v of garage.vehicles)v.visual?.setBrakeLights?.(effectsActive&&v.model===model?motion.braking||0:0);
   canyonMode?.updateEffects(dt,{paused:gameplayPaused(),grounded:model.state.grounded!==false,camera});
@@ -1404,6 +1431,9 @@ function renderScene(now=performance.now(),sample=false,timings=null,frameStarte
     info:renderer.info,roomCount:onlineSession?.client.roomSnapshot?.players.length??1,loadedPeers:onlineSession?.remotes.loaded??0,
     renderCpuMs:finished-started,spatial:{...spatialRenderer?.stats,zones:renderZones?.stats},timings,physicsSteps,pixelRatio:renderer.getPixelRatio(),gpu:gpuTimer.report()});
 }
+studyRewardUi=createStudyRewardUi({document,development:developerMode,getGameplay:()=>gameplay,platform:services?.platform,
+ language:()=>selectedLanguage,canAct:()=>startup.ready&&characterReady&&!gameplayPaused(),
+ pause:value=>pauseState.set('study-reward',value),notify});
 advertising=services?createAdvertising({showAd:callbacks=>services.platform.showAd(callbacks),
   pause:()=>{pauseState.set('advertising',true);gameplay.flushProgress();void services.cloud.flush();},
   resume:()=>pauseState.set('advertising',false),onCountdown:value=>{
@@ -1428,7 +1458,7 @@ window.addEventListener('pagehide',event=>{
   physicsWorld?.dispose();fleetNeon.dispose();garage?.dispose();
   modelWarmup.dispose();displayQuality.dispose();gpuTimer.dispose();renderProfiler?.dispose();renderZones?.dispose();renderZones=null;spatialRenderer?.dispose();
   liveryShop?.dispose();hangarLeaderboardUi?.dispose();
-  canyonMode?.dispose();driftLeaderboard.dispose();onlineSession?.dispose();advertising?.destroy();
+  canyonMode?.dispose();driftLeaderboard.dispose();onlineSession?.dispose();advertising?.destroy();studyRewardUi?.dispose();
 });
 window.addEventListener('pageshow',event=>{if(!event.persisted)return;viewportRects.invalidate();renderQuality.reset();previousQualityNow=null;gpuTimer.reset();appFocused=document.hasFocus?.()??true;syncBackgroundMusic();lastTime=0;onlineClock=0;inputController?.reset();walkInput?.reset();jumpInput?.reset();lookInput?.reset();syncMode();});
 requestAnimationFrame(frame);

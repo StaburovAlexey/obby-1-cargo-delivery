@@ -15,10 +15,10 @@ function harness(options={}){
 const active={active:true,safe:true};
 const finishCountdown=c=>{for(let i=0;i<2;i++)c.update(1,{active:false,safe:true});};
 
-test('advertising starts after 240 active seconds and pauses for the full two second warning',()=>{
+test('advertising starts after 120 active seconds and pauses for the full two second warning',()=>{
   const {controller:c,events,shows}=harness();
   assert.ok(c,'createAdvertising returns a controller');
-  c.update(239,active);
+  c.update(119,active);
   assert.equal(shows.length,0);
   assert.equal(events.includes('pause'),false);
   c.update(1,active);
@@ -44,21 +44,21 @@ test('menus, loading, hidden time, SDK pause and ads never accumulate active tim
   for(const reason of ['menu','loading','SDK pause'])c.update(10000,{active:false,safe:true,reason});
   c.update(10000,{active:true,safe:true,visible:false});
   assert.equal(c.getState().activeSeconds,100);
-  c.update(139,active);
+  c.update(19,active);
   assert.equal(c.getState().phase,'idle');
   c.update(1,active);finishCountdown(c);
   c.update(10000,active);
   assert.equal(shows.length,1);
   shows[0].onClose(true);
   assert.equal(c.getState().activeSeconds,0);
-  c.update(239,active);
+  c.update(119,active);
   assert.equal(shows.length,1);
 });
 
 test('one pending attempt waits indefinitely for an active safe moment',()=>{
   const {controller:c,shows,events}=harness();
-  c.update(240,{active:true,safe:false});
-  for(let i=0;i<20;i++)c.update(240,{active:true,safe:false});
+  c.update(120,{active:true,safe:false});
+  for(let i=0;i<20;i++)c.update(120,{active:true,safe:false});
   assert.equal(c.getState().phase,'pending');
   assert.equal(shows.length,0);
   assert.equal(events.includes('pause'),false);
@@ -70,11 +70,11 @@ test('one pending attempt waits indefinitely for an active safe moment',()=>{
 
 test('direct suspension cancels a partial warning and restarts both seconds on return',()=>{
   const {controller:c,shows,events}=harness();
-  c.update(240,active);c.update(1.8,{active:false,safe:true});
+  c.update(120,active);c.update(1.8,{active:false,safe:true});
   c.setSuspended(true);
   assert.equal(c.getState().phase,'pending');
   assert.equal(c.getState().countdown,null);
-  assert.equal(c.getState().activeSeconds,240);
+  assert.equal(c.getState().activeSeconds,120);
   assert.equal(events.filter(e=>e==='resume').length,1);
   c.update(1000,active);
   assert.equal(shows.length,0);
@@ -96,7 +96,7 @@ test('direct suspension cancels a partial warning and restarts both seconds on r
 test('visibility and unsafe context are rechecked before dispatching the SDK',()=>{
   for(const context of [{active:false,safe:true,visible:false},{active:false,safe:false}]){
     const {controller:c,shows,events}=harness();
-    c.update(240,active);c.update(3,context);
+    c.update(120,active);c.update(3,context);
     assert.equal(shows.length,0);
     assert.equal(c.getState().phase,'pending');
     assert.equal(events.filter(e=>e==='resume').length,1);
@@ -107,13 +107,13 @@ test('callback duplication and a late promise settle release the pause exactly o
   let resolve;
   const result=new Promise(done=>{resolve=done;});
   const {controller:c,shows,events}=harness({result});
-  c.update(240,active);finishCountdown(c);
+  c.update(120,active);finishCountdown(c);
   shows[0].onOpen();shows[0].onClose(true);shows[0].onError(new Error('late'));shows[0].onClose(false);
   resolve({shown:true});await Promise.resolve();
   assert.equal(events.filter(e=>e==='resume').length,1);
   assert.equal(c.getState().phase,'idle');
   assert.equal(c.getState().activeSeconds,0);
-  c.update(240,active);finishCountdown(c);
+  c.update(120,active);finishCountdown(c);
   assert.equal(shows.length,2);
   shows[0].onClose(true);
   assert.equal(c.getState().phase,'showing','stale callback cannot close the new attempt');
@@ -124,11 +124,11 @@ test('callback duplication and a late promise settle release the pause exactly o
 test('a refused or offline attempt resets the entire active interval',async()=>{
   for(const result of [false,Promise.resolve({shown:false,reason:'offline'})]){
     const {controller:c,events}=harness({result});
-    c.update(240,active);finishCountdown(c);await Promise.resolve();
+    c.update(120,active);finishCountdown(c);await Promise.resolve();
     assert.equal(c.getState().phase,'idle');
     assert.equal(c.getState().activeSeconds,0);
     assert.equal(events.filter(e=>e==='resume').length,1);
-    c.update(239,active);
+    c.update(119,active);
     assert.equal(c.getState().phase,'idle');
   }
 });
@@ -136,7 +136,7 @@ test('a refused or offline attempt resets the entire active interval',async()=>{
 test('synchronous SDK failure and promise rejection cannot leave gameplay paused',async()=>{
   for(const showAd of [()=>{throw new Error('offline');},()=>Promise.reject(new Error('denied'))]){
     const {controller:c,events}=harness({showAd});
-    c.update(240,active);finishCountdown(c);await Promise.resolve();
+    c.update(120,active);finishCountdown(c);await Promise.resolve();
     assert.equal(c.getState().phase,'idle');
     assert.equal(events.filter(e=>e==='resume').length,1);
   }
@@ -144,7 +144,7 @@ test('synchronous SDK failure and promise rejection cannot leave gameplay paused
 
 test('destroy cancels owned work and ignores subsequent SDK completion',()=>{
   const {controller:c,events,shows}=harness();
-  c.update(240,active);finishCountdown(c);
+  c.update(120,active);finishCountdown(c);
   c.destroy();c.destroy();shows[0].onClose();c.update(10000,active);
   assert.equal(c.getState().phase,'destroyed');
   assert.equal(events.filter(e=>e==='resume').length,1);
@@ -165,7 +165,7 @@ test('invalid time deltas cannot bypass the active interval or warning',()=>{
 
 test('fractional frames never repeat earlier countdown numbers',()=>{
   const {controller:c,events,shows}=harness();
-  c.update(240,active);c.update(1.4,{active:false,safe:true});
+  c.update(120,active);c.update(1.4,{active:false,safe:true});
   c.update(.3,{active:false,safe:true});
   assert.deepEqual(events.filter(e=>typeof e==='number'),[2,1]);
   assert.equal(shows.length,0);
@@ -175,7 +175,7 @@ test('fractional frames never repeat earlier countdown numbers',()=>{
 
 test('an SDK offline callback finishes and resets an unavailable attempt',()=>{
   const {controller:c,events,shows}=harness();
-  c.update(240,active);finishCountdown(c);
+  c.update(120,active);finishCountdown(c);
   assert.equal(typeof shows[0].onOffline,'function');
   shows[0].onOffline();shows[0].onError(new Error('duplicate offline'));
   assert.equal(c.getState().phase,'idle');

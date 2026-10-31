@@ -230,6 +230,7 @@ export function createVehicleLiveryController(THREE, adapter, vehicleId = adapte
     uniforms.map.value = null;
     activeId = 'base';
     adapter.group.userData.vehicleLivery = { vehicleId, liveryId: 'base' };
+    if(vehicleId==='bmwreward'&&adapter.locked)adapter.setLocked(true);
   };
   return {
     get vehicleId() { return vehicleId; },
@@ -242,12 +243,13 @@ export function createVehicleLiveryController(THREE, adapter, vehicleId = adapte
     }) : null; },
     async preview(liveryId) {
       if (disposed || adapter.disposed) throw new Error('Vehicle livery controller is disposed.');
+      if(vehicleId==='bmwreward'&&adapter.locked)return {applied:false,locked:true,vehicleId,liveryId};
       const url = vehicleLiveryTextureURL(vehicleId, liveryId);
       const request = ++revision;
       if (liveryId === 'base') { detach(); return { applied: true, vehicleId, liveryId }; }
       if (activeId === liveryId) return { applied: true, vehicleId, liveryId };
       const lease = await acquireTexture(THREE, url, options.textureLoader);
-      if (request !== revision || disposed || adapter.disposed) { lease.release(); return { applied: false, stale: true, vehicleId, liveryId }; }
+      if (request !== revision || disposed || adapter.disposed || (vehicleId==='bmwreward'&&adapter.locked)) { lease.release(); return { applied: false, stale: true, vehicleId, liveryId }; }
       try {
         if (!prepared) {
           // Restore render-quality material substitutions at the point of use,

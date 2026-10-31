@@ -1,0 +1,19 @@
+{
+  "tool": "built-in image_gen",
+  "transparent_background": true,
+  "assets": [
+    {
+      "path": "dist/assets/ui-icons/nitro-purchase.webp",
+      "prompt": "Use case: stylized-concept. Create ONE production game UI icon for a mobile driving game, square composition, real transparent background. Subject: ONE cyan-blue nitrous oxide booster bottle, short metal valve cap, white lightning bolt emblem on the bottle, tilted slightly, isolated silhouette. This is the buy/unlock nitro icon and also the small driving boost button. Match the reference icon style described precisely: chunky toy-like 3D cartoon object, thick near-black navy outer outline, angular faceted glossy surfaces, bright cyan and electric blue gradients, sharp white specular highlights top-left, dark blue bevels/shadows bottom-right. Existing icons are a cyan wrench, red fuel can, blue XP token. Same clean bold readable geometry, not realistic and not flat line-art. Center single compact object with about 8 percent clear padding on all sides, fill most of canvas. No UI button frame, no background shape, no checkerboard drawn in image, no ground or drop shadow outside silhouette, no labels, no text, no letters, no watermark. Legible at 48px. Render 512x512 or nearest square output."
+    },
+    {
+      "path": "dist/assets/ui-icons/nitro-charges.webp",
+      "prompt": "Use case: stylized-concept. Create ONE production game UI icon for a mobile driving game, square composition, real transparent background. Subject: THREE overlapping small cyan-blue nitrous oxide bottles forming a compact stack, front bottle large with white lightning emblem, two slightly behind on either side. This clearly represents capacity / number of boost uses. No numbers. Match the reference icon style described precisely: chunky toy-like 3D cartoon object, thick near-black navy outer outline, angular faceted glossy surfaces, bright cyan and electric blue gradients, sharp white specular highlights top-left, dark blue bevels/shadows bottom-right. Existing icons are a cyan wrench, red fuel can, blue XP token. Same clean bold readable geometry, not realistic and not flat line-art. Center single compact object with about 8 percent clear padding on all sides, fill most of canvas. No UI button frame, no background shape, no checkerboard drawn in image, no ground or drop shadow outside silhouette, no labels, no text, no letters, no watermark. Legible at 48px. Render 512x512 or nearest square output."
+    },
+    {
+      "path": "dist/assets/ui-icons/nitro-recharge.webp",
+      "prompt": "Use case: stylized-concept. Create ONE production game UI icon for a mobile driving game, square composition, real transparent background. Subject: ONE compact cyan-blue nitrous oxide bottle with white lightning bolt emblem, surrounded by TWO thick curved bright lime-green arrows forming a circular recharge loop. This represents faster refill / fewer drift points needed per charge. Match the reference icon style described precisely: chunky toy-like 3D cartoon object, thick near-black navy outer outline, angular faceted glossy surfaces, bright cyan and electric blue gradients, sharp white specular highlights top-left, dark blue bevels/shadows bottom-right. Existing icons are a cyan wrench, red fuel can, blue XP token. Same clean bold readable geometry, not realistic and not flat line-art. Center single compact object with about 8 percent clear padding on all sides, fill most of canvas. No UI button frame, no background shape, no checkerboard drawn in image, no ground or drop shadow outside silhouette, no labels, no text, no letters, no watermark. Legible at 48px. Render 512x512 or nearest square output."
+    }
+  ],
+  "packaging": "256x256 WebP, quality 90, original alpha retained"
+}

@@ -85,6 +85,9 @@ body :is(#buy-vehicle, #buy-skin, #buy-school, #vehicle-funds-button, #canyon-pa
   cursor: pointer;
   transition: filter .12s, box-shadow .12s;
 }
+/* Fixed positioning must not shrink the vehicle action to half the viewport. */
+body #buy-vehicle { width: max-content; max-width: calc(100vw - 32px); }
+body #buy-vehicle[data-affordable="true"] { white-space: nowrap; overflow-wrap: normal; }
 /* Purchase and upgrade colors are independent of the translated caption. */
 body :is(.buy-button, #vehicle-funds-button, #vehicle-neon-apply[data-purchase="true"]) {
   --button-top: #fff34b;
@@ -93,7 +96,7 @@ body :is(.buy-button, #vehicle-funds-button, #vehicle-neon-apply[data-purchase="
   --button-text: #10203d;
   --button-shadow: 0 1px 0 #ffffff60;
 }
-body :is(#upgrade-panel button, .settings-jump-nav button, #settings-music-toggle, #career-mission-skip, #vehicle-neon-disable, #biome-panel button) {
+body :is(#upgrade-panel button, .settings-jump-nav button, #settings-music-toggle, .mission-claim, #vehicle-neon-disable, #biome-panel button) {
   --button-top: #33e3ff;
   --button-face: #00a9ee;
   --button-bottom: #0765c7;
@@ -156,6 +159,7 @@ body .topbar .top-actions .hud-menu-button {
   flex: none;
   gap: 0;
 }
+body .topbar .top-actions #garage-button { order: -2; }
 body .topbar .top-actions #settings-button { order: 0; }
 body .topbar .top-actions #hangar-drift-button { order: 1; }
 body .topbar .top-actions #career-mission-button { order: 2; }
@@ -164,7 +168,7 @@ body .topbar .top-actions #upgrade-button { order: 4; }
 body .topbar .top-actions #mode-toggle,
 body .topbar .top-actions #career-goal-button { order: -1; }
 
-/* Both right-side controls share their size, right edge and vertical spacing. */
+/* Sound and music share their size, right edge and vertical spacing. */
 body #audio-toggle,
 body .top-actions.hud-right-actions {
   --top-icon-size: var(--hud-navigation-size);
@@ -184,7 +188,7 @@ body .top-actions.hud-right-actions {
   z-index: 25;
   top: calc(env(safe-area-inset-top) + var(--hud-navigation-size)*3 + 36px);
 }
-body .top-actions.hud-right-actions :is(#garage-button, #music-button) {
+body .top-actions.hud-right-actions #music-button {
   width: var(--hud-navigation-size);
   height: var(--hud-navigation-size);
   min-height: var(--hud-navigation-size);
@@ -193,8 +197,8 @@ body .top-actions.hud-right-actions :is(#garage-button, #music-button) {
 body .top-actions.hud-right-actions .hud-circle { width: 100%; height: 100%; }
 
 /* Affordable purchases: a stationary badge with a soft elastic artwork pulse. */
-.top-actions .has-affordable-purchase > .hud-circle { overflow: visible; }
-.top-actions .has-affordable-purchase > .hud-circle::after {
+.top-actions :is(.has-affordable-purchase, .has-new-record, .has-claimable-missions) > .hud-circle { overflow: visible; }
+.top-actions :is(.has-affordable-purchase, .has-new-record, .has-claimable-missions) > .hud-circle::after {
   content: '';
   position: absolute;
   right: 2%;
@@ -207,7 +211,7 @@ body .top-actions.hud-right-actions .hud-circle { width: 100%; height: 100%; }
   box-shadow: 0 1px 3px #10203d99;
   pointer-events: none;
 }
-.top-actions .has-affordable-purchase > .hud-circle > .hud-art {
+.top-actions :is(.has-affordable-purchase, .has-new-record, .has-claimable-missions) > .hud-circle > .hud-art {
   transform-origin: center;
   animation: affordable-purchase-pulse 1.8s ease-in-out infinite;
 }
@@ -218,7 +222,7 @@ body .top-actions.hud-right-actions .hud-circle { width: 100%; height: 100%; }
   75% { transform: scale(1.03, .98); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .top-actions .has-affordable-purchase > .hud-circle > .hud-art { animation: none; }
+  .top-actions :is(.has-affordable-purchase, .has-new-record, .has-claimable-missions) > .hud-circle > .hud-art { animation: none; }
 }
 
 body .top-actions.hud-right-actions { gap: 6px; }
@@ -231,3 +235,24 @@ body .top-actions.hud-right-actions { gap: 6px; }
 #music-panel #settings-music-status, #music-panel #settings-music-note { text-align: center; font-size: 13px; }
 
 #music-menu { z-index: 110; }
+
+/* Nitro unlock stays announced until the first purchase, including without enough currency. */
+.top-actions #upgrade-button { position: relative; overflow: visible; }
+#upgrade-button .nitro-new-badge {
+  position: absolute;
+  left: calc(100% + 5px);
+  top: 50%;
+  transform: translateY(-50%) rotate(-8deg);
+  color: #fff36b;
+  font-size: clamp(15px, 2.7vw, 22px);
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1.15;
+  white-space: nowrap;
+  text-shadow: 1px 2px 0 #142544, -1px -1px 0 #142544, 1px -1px 0 #142544, -1px 1px 0 #142544;
+  pointer-events: none;
+}
+
+body .topbar .top-actions #garage-button{position:relative;overflow:visible}
+#garage-button .garage-return-label{position:absolute;bottom:2px;left:0;width:100%;text-align:center;font-size:clamp(8px,calc(var(--hud-navigation-size)*.16),13px);font-weight:900;font-style:italic;line-height:1.05;color:#fff3a5;text-shadow:1px 2px #142544,-1px -1px #142544,1px -1px #142544,-1px 1px #142544;pointer-events:none}
+#garage-button .garage-return-label>span{display:block;white-space:nowrap}

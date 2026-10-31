@@ -14,7 +14,7 @@ try{
   assert.fail(message);
  };
  const settle=()=>advanceUntil(()=>d.model.state.grounded&&d.model.state.wheelContacts.some(w=>w.grounded)&&Math.abs(d.model.state.velocityY)<.15,'vehicle must settle on physical wheel support');
- settle();assert(updates.at(-1).active);assert.equal(lamps.size,11);
+ settle();assert(updates.at(-1).active);assert.equal(lamps.size,d.garage.vehicles.length);
  const heading=d.model.state.heading;
  d.model.body.setLinvel({x:-Math.sin(heading)*10,y:d.model.body.linvel().y,z:-Math.cos(heading)*10},true);
  d.model.setGear('R');d.model.setInput({active:true,steering:0});f.frame();assert(updates.at(-1).braking>0);assert(lamps.get('pickup')>0);assert([...lamps].filter(([,b])=>b>0).length===1);

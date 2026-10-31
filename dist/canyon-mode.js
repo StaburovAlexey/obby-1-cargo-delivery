@@ -13,13 +13,16 @@ import {groundHeight} from './city-driving.js';
 import {createCanyonCheckpointRun} from './canyon-checkpoints.js';
 import {createCanyonCheckpointGates} from './canyon-checkpoint-gates.js';
 
-export function createCanyonMode(THREE,{scene,document:doc,platform,leaderboard:sharedLeaderboard,language,getContext,onEnter=()=>{},onExit=()=>{},onControlsChanged=()=>{},onTimeout=()=>getContext().gameplay.returnToGarage('canyon-timeout')}){
+let canyonAttemptSequence=0;
+
+export function createCanyonMode(THREE,{scene,document:doc,platform,leaderboard:sharedLeaderboard,language,getContext,onEnter=()=>{},onExit=()=>{},onComplete=()=>{},onControlsChanged=()=>{},onTimeout=()=>getContext().gameplay.returnToGarage('canyon-timeout')}){
  const entrance=createCanyonEntrance(THREE,{document:doc,language});scene.add(entrance.group);
  const environment=createCanyonScene(THREE);scene.add(environment.group);
  const clouds=createCanyonClouds(THREE);scene.add(clouds.group);
  const checkpointRun=createCanyonCheckpointRun(),checkpointGates=createCanyonCheckpointGates(THREE);scene.add(checkpointGates.group);
  const effects=createDriftEffects(THREE,{height:(x,z)=>canyonSurface(x,z,12)?canyonHeight(x,z):groundHeight(x,z)});scene.add(effects.group);
  const leaderboard=sharedLeaderboard??createCanyonLeaderboard({platform});
+ let attemptId=null;
  let active=false,phase='idle',disposed=false,epoch=0,vehicle=null,scorer=null,result=null,resultEligible=false,rankings=false,accessProof=Symbol('initial'),accessDevelopment=null,accessVehicle=null,accessUnlocked=null;
  const account=()=>platform?.accountGeneration??0;
  const current=(token,owner)=>!disposed&&active&&token===epoch&&owner===account()&&!platform?.status?.reloadRequired;
@@ -36,7 +39,7 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,leaderboard:
   }
  }
  function prepare(){
-  epoch++;result=null;resultEligible=false;rankings=false;scorer=createDriftScore();
+  epoch++;attemptId=`canyon-${++canyonAttemptSequence}`;result=null;resultEligible=false;rankings=false;scorer=createDriftScore();
   checkpointRun.start(drivingModel().state);
   phase='running';start();ui.update({phase});syncCheckpoints();
  }
@@ -112,7 +115,14 @@ export function createCanyonMode(THREE,{scene,document:doc,platform,leaderboard:
    onControlsChanged();
    const valid=()=>celebrating?!disposed&&token===epoch&&owner===account()&&!platform?.status?.reloadRequired:current(token,owner);
    if(!valid())return null;
-   if(local&&!development)g.recordDriftResult(local);
+   if(local){
+    const ownedBefore=new Set(g.state.ownedVehicleIds);
+    if(!development){
+     if(resultEligible&&g.recordCanyonFinish)g.recordCanyonFinish(local,attemptId);
+     else g.recordDriftResult(local);
+    }
+    onComplete({result:local,development,newlyUnlockedVehicleIds:g.state.ownedVehicleIds.filter(id=>!ownedBefore.has(id))});
+   }
    let status=local?(development?'development':'practice'):'cancelled';
    if(resultEligible){const submission=await leaderboard.submit(local,{isCurrent:valid});if(!valid())return null;status=submission.status;}
    if(!celebrating&&valid()){ui.showResult(local,{status});onControlsChanged();}return local;

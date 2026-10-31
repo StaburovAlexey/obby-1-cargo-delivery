@@ -2,6 +2,7 @@ import {sanitizeDriftRecord} from './drift-record.js';
 import {CANYON_TRACK,projectCanyon} from './canyon-track.js';
 export const DRIFT_RULES=Object.freeze({minSpeed:9,minAngle:12*Math.PI/180,maxAngle:60*Math.PI/180,maxSpeed:55,comboGrace:1.2,pointsPerMeter:10});
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
+export const baseDriftPoints=(distance,angle,speed)=>distance*DRIFT_RULES.pointsPerMeter*clamp(angle/(35*Math.PI/180),.35,1.25)*clamp(speed/22,.5,1.3);
 export function createDriftScore(){
  const state={started:false,valid:true,finished:false,rankedEligible:true,reason:null,score:0,multiplier:1,maxCombo:1,comboDistance:0,elapsed:0,progress:0,maxProgress:0,checkpoints:0,driftDistance:0};
  let previous=null,grace=0,fraction=0;
@@ -26,8 +27,7 @@ export function createDriftScore(){
    if(bad)breakCombo();
    else if(drifting){
     grace=0;state.comboDistance+=newDistance;state.multiplier=Math.min(5,1+Math.floor(state.comboDistance/80));state.maxCombo=Math.max(state.maxCombo,state.multiplier);state.driftDistance+=newDistance;
-    const angleQuality=clamp(angle/(35*Math.PI/180),.35,1.25),speedQuality=clamp(speed/22,.5,1.3);
-    fraction+=newDistance*DRIFT_RULES.pointsPerMeter*angleQuality*speedQuality*state.multiplier;const points=Math.floor(fraction);state.score+=points;fraction-=points;
+    fraction+=baseDriftPoints(newDistance,angle,speed)*state.multiplier;const points=Math.floor(fraction);state.score+=points;fraction-=points;
    }else{grace+=dt;if(grace>DRIFT_RULES.comboGrace)breakCombo();}
    const onRoad=!unsupported&&Math.abs(p.offset)<=CANYON_TRACK.halfWidth-.1;
    if(onRoad)while(state.checkpoints<CANYON_TRACK.checkpoints.length&&p.progress>=CANYON_TRACK.checkpoints[state.checkpoints])state.checkpoints++;

@@ -18,6 +18,12 @@ export const ECONOMY_CONFIG = Object.freeze({
 
 export const REWARD_VEHICLE_ID = 'bmwreward';
 export const ROUTE_COMPLETION_PROOF = 'continuous-route-v1';
+export const DRIFT_VEHICLE_UNLOCKS = Object.freeze([
+  {vehicleId:'bmwe30',score:10000},
+  {vehicleId:'cadillac75',score:25000},
+  {vehicleId:'koenigseggone1',score:35000},
+  {vehicleId:'phoenixinterceptor',score:45000},
+].map(Object.freeze));
 export const VEHICLE_CONFIG = Object.freeze([
   {id:'pickup',name:'Пикап',price:0,specialty:'city'},
   {id:'citycourier',name:'Городской курьер',price:1300,specialty:'city'},
@@ -30,14 +36,14 @@ export const VEHICLE_CONFIG = Object.freeze([
 
   {id:REWARD_VEHICLE_ID,name:'BMW — награда',price:0,rewardOnly:true,unlock:'full-route',capacity:1800,range:6000,maxSpeed:42,acceleration:4.8,specialty:'volcanic',
     rewardDrift:Object.freeze({rearLateralGrip:.85,rearLateralDamping:.7,steeringSpeedRatio:.65})},
-  ...SHOWCASE_VEHICLES.map(vehicle=>({id:vehicle.id,name:vehicle.name,price:0,rewardOnly:true,devUnlock:true,unlock:'developer',
+  ...SHOWCASE_VEHICLES.map(vehicle=>({id:vehicle.id,name:vehicle.name,price:0,rewardOnly:true,devUnlock:true,unlock:'drift-score',
     capacity:1800,range:6000,maxSpeed:42,acceleration:4.8,specialty:'volcanic',
     rewardDrift:Object.freeze({rearLateralGrip:.85,rearLateralDamping:.7,steeringSpeedRatio:.65,referenceGeometry:['cadillac75','koenigseggone1'].includes(vehicle.id)})})),
 ].map((v,index)=>{
   const values=v.rewardOnly?{...v,handling:.5*1.12**10,grip:.5*1.12**10}: {...v,...STANDARD_VEHICLE_BALANCE};
   // Reward upgrade prices keep their original position after removing two career cars.
   return Object.freeze({...values,progressionOrder:index+(v.rewardOnly?3:1),pairRole:index%2?'advanced':'standard',
-    brainRate:v.rewardOnly?3:index+1,consumption:values.capacity/values.range});
+    brainRate:v.rewardDrift?16:v.rewardOnly?3:index+1,consumption:values.capacity/values.range});
 }));
 export const CAREER_VEHICLES = Object.freeze(VEHICLE_CONFIG.filter(vehicle=>!vehicle.rewardOnly));
 export const vehicleConfig = id => VEHICLE_CONFIG.find(v=>v.id===id) || VEHICLE_CONFIG[0];

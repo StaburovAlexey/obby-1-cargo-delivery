@@ -5,11 +5,28 @@ export function createCanyonUi(doc,{onRetry=()=>{},onExit=()=>{},onRankings=()=>
  const lang=()=>typeof language==='function'?language():language;
  const text=value=>translateGameText(value,lang()),number=value=>new Intl.NumberFormat(lang()==='en'?'en-US':'ru-RU').format(Math.floor(Number(value)||0));
  const set=(id,value)=>{const node=el(id);if(node)node.textContent=value;};
+ const combo=el('canyon-combo'),comboCaption=el('canyon-combo-caption')??doc.createElement('span');
+ let lastMultiplier=null,comboGain=-Infinity;
+ if(!comboCaption.id){comboCaption.id='canyon-combo-caption';comboCaption.setAttribute('aria-hidden','true');el('canyon-hud').append(comboCaption);}
+ comboCaption.hidden=true;
+ const clearComboFeedback=()=>{comboGain=-Infinity;comboCaption.hidden=true;combo?.setAttribute('data-celebrating','false');};
+ const resetCombo=()=>{lastMultiplier=null;clearComboFeedback();combo?.setAttribute('data-boosted','false');};
+ function updateCombo(multiplier,time){
+  const value=Math.max(1,Math.floor(Number(multiplier)||1));
+  combo?.setAttribute('data-boosted',String(value>1));
+  if(value<=1)clearComboFeedback();
+  else if(lastMultiplier!==null&&value>lastMultiplier&&value<=5){
+   comboGain=time;comboCaption.textContent=text(`Очки ×${value}!`);comboCaption.hidden=false;
+   // Only a new multiplier restarts this short animation; score ticks leave it alone.
+   combo?.setAttribute('data-celebrating','false');void combo?.offsetWidth;combo?.setAttribute('data-celebrating','true');
+  }else if(time-comboGain>=800)clearComboFeedback();
+  lastMultiplier=value;
+ }
  const checkpoint={hud:el('canyon-checkpoint-hud'),label:el('canyon-checkpoint-label'),distance:el('canyon-checkpoint-distance'),time:el('canyon-checkpoint-time')};
  const setCheckpointText=(node,value)=>{if(node&&node.textContent!==value)node.textContent=value;};
  const hideCheckpoint=()=>{if(checkpoint.hud&&!checkpoint.hud.hidden)checkpoint.hud.hidden=true;};
  const listen=(id,callback)=>{const node=el(id);if(!node)return;const fn=event=>{event.stopPropagation?.();callback();};node.addEventListener('click',fn);listeners.push(()=>node.removeEventListener('click',fn));};
- const resetHud=()=>{lastScore=0;lastGain=-Infinity;el('canyon-hud').hidden=true;el('canyon-hud').setAttribute('data-visible','false');el('canyon-hud').setAttribute('data-scoring','false');};
+ const resetHud=()=>{lastScore=0;lastGain=-Infinity;resetCombo();el('canyon-hud').hidden=true;el('canyon-hud').setAttribute('data-visible','false');el('canyon-hud').setAttribute('data-scoring','false');};
  function showResult(result,options={}){
   resetHud();
   lastResult=result;lastOptions=options;el('canyon-overlay').hidden=false;el('canyon-hud').hidden=true;el('canyon-rankings').hidden=true;el('canyon-back').hidden=true;
@@ -41,6 +58,7 @@ export function createCanyonUi(doc,{onRetry=()=>{},onExit=()=>{},onRankings=()=>
    el('canyon-overlay').hidden=true;
    const time=now(),value=Math.max(0,Math.floor(Number(score)||0));
    if(value<lastScore)resetHud();
+   updateCombo(multiplier,time);
    if(value>lastScore)lastGain=time;
    lastScore=value;
    const sinceGain=time-lastGain;
@@ -50,7 +68,7 @@ export function createCanyonUi(doc,{onRetry=()=>{},onExit=()=>{},onRankings=()=>
    hud.setAttribute('data-visible',String(sinceGain<650));
    hud.setAttribute('data-scoring',String(sinceGain<160));
   },
-  suspend(){lastGain=-Infinity;el('canyon-hud').hidden=true;el('canyon-hud').setAttribute('data-scoring','false');el('canyon-hud').setAttribute('data-visible','false');},
+  suspend(){lastGain=-Infinity;resetCombo();el('canyon-hud').hidden=true;el('canyon-hud').setAttribute('data-scoring','false');el('canyon-hud').setAttribute('data-visible','false');},
   showResult,
   showRankings(board){
    el('canyon-overlay').hidden=false;el('canyon-rankings').hidden=false;el('canyon-back').hidden=false;el('canyon-result-score').hidden=true;set('canyon-title',text('Таблица Яндекса'));set('canyon-result-note','');

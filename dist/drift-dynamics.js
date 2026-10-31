@@ -19,16 +19,26 @@ export function driftTelemetry(state){
   return {slipAngle,driftIntensity:forward>2?smooth(.07,.5,Math.abs(slipAngle))*smooth(3,10,speed):0};
 }
 
+// Recovery is a tire-grip reserve for a controlled slide, eased in and out of
+// the two-second charge. Near a spin it cannot snap momentum onto the car's nose.
+export function nitroRecoveryFactor(state,remaining=0){
+  if(!Number.isFinite(remaining)||remaining<=0||remaining>2)return 0;
+  const angle=Math.abs(driftTelemetry(state).slipAngle)*180/Math.PI;
+  return smooth(0,.25,2-remaining)*smooth(0,.35,remaining)*
+    smooth(8,20,angle)*(1-smooth(65,85,angle));
+}
+
 // All yaw and lateral motion come from the four tire contact forces. There is
 // no requested slip angle, velocity rotation, steering-to-yaw servo or sideways
 // acceleration assist. Tire resistance always opposes contact-patch motion.
-export function evaluateDriftDynamics(state,{maxSpeed,engineAcceleration,surface,gradient,braking=0,dt,mass=1600}){
+export function evaluateDriftDynamics(state,{maxSpeed,engineAcceleration,surface,gradient,braking=0,dt,mass=1600,nitroRecovery=0}){
   const c=Math.cos(state.heading),s=Math.sin(state.heading);
   const forward=-s*state.velocityX-c*state.velocityZ;
   const handbrake=clamp(state.handbrake||0,0,1);
   const gx=Number.isFinite(gradient?.x)?gradient.x:0,gz=Number.isFinite(gradient?.z)?gradient.z:0,den=1+gx*gx+gz*gz;
   const load=mass*9.81/4/Math.sqrt(den),grip=load*1.25*clamp(surface.frictionFactor,.025,3);
   const drive=state.active&&!braking?clamp((maxSpeed-forward)*2,0,engineAcceleration):0;
+  const recovery=Number.isFinite(nitroRecovery)?clamp(nitroRecovery,0,1):0;
   let forceX=-mass*9.81*gx/den,forceZ=-mass*9.81*gz/den,torque=0;
   const tires=[];
   for(const wheel of BMW_DRIFT.wheels){
@@ -37,7 +47,7 @@ export function evaluateDriftDynamics(state,{maxSpeed,engineAcceleration,surface
     const angle=state.heading+(wheel.front?state.frontWheelAngle:0),fx=-Math.sin(angle),fz=-Math.cos(angle),rightX=Math.cos(angle),rightZ=-Math.sin(angle);
     const longitudinal=vx*fx+vz*fz,lateral=vx*rightX+vz*rightZ;
     const rearBrake=wheel.front?0:handbrake;
-    const tireGrip=grip*(wheel.front?.925:1.075);
+    const tireGrip=grip*(wheel.front?.925:1.075)*(1+recovery*(wheel.front?.20:.35));
     let longitudinalForce=(wheel.front?0:mass*drive/2)*(1-rearBrake)-mass*(state.active?.045:.16)*longitudinal/4-load*.018*Math.tanh(longitudinal/.18);
     longitudinalForce-=Math.tanh(longitudinal/.4)*tireGrip*Math.max(braking,rearBrake);
     // Slip-angle saturation keeps grip finite at speed; the low-speed divisor

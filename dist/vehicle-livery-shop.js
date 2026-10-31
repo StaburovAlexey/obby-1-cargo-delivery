@@ -471,7 +471,7 @@ export function createVehicleLiveryShop(doc, {
     closeButton.focus?.();
     return true;
   }
-  const focusable = () => [closeButton, ...(section === 'categories' ? Object.values(categoryButtons).map(item => item.entry).filter(node => !node.disabled) : section === 'tracks' ? [backButton, trackHost, ...[trackApply].filter(node => !node.disabled)] : section === 'smoke' ? [backButton, smokeHost, ...[smokeApply].filter(node => !node.disabled)] : section === 'neon' ? [backButton, neonHost, ...[neonApply,neonDisable].filter(node=>!node.hidden&&!node.disabled)] : [backButton, ...[...rows.values()].flatMap(row => [row.previewHost, row.apply].filter(node => !node.disabled))])];
+  const focusable = () => [closeButton, ...(section === 'categories' ? Object.values(categoryButtons).map(item => item.entry).filter(node => !node.disabled&&!node.hidden) : section === 'tracks' ? [backButton, trackHost, ...[trackApply].filter(node => !node.disabled)] : section === 'smoke' ? [backButton, smokeHost, ...[smokeApply].filter(node => !node.disabled)] : section === 'neon' ? [backButton, neonHost, ...[neonApply,neonDisable].filter(node=>!node.hidden&&!node.disabled)] : [backButton, ...[...rows.values()].flatMap(row => [row.previewHost, row.apply].filter(node => !node.disabled))])];
   function onKeyDown(event) {
     if (!opened) return;
     event.stopPropagation();

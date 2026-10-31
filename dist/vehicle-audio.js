@@ -4,6 +4,7 @@ export const VEHICLE_AUDIO_ASSETS = Object.freeze({
   engine: './assets/audio/engine.ogg',
   tire: './assets/audio/tire.ogg',
   impact: './assets/audio/impact.ogg',
+  nitro: './assets/audio/nitro.mp3',
 });
 
 const clamp = (value, low = 0, high = 1) => Math.max(low, Math.min(high, value));
@@ -31,10 +32,11 @@ export function createVehicleAudio({
 } = {}) {
   let context = null, master = null, disposed = false, muted = Boolean(initiallyMuted), volume = 1;
   let loadPromise = null, resumePromise = null, closePromise = null;
-  let engine = null, tire = null, impactVoice = null;
+  let engine = null, tire = null, impactVoice = null, nitroVoice = null;
   let engineGain = 0, tireGain = 0, engineRate = .76, tireRate = .9;
   let impactHeld = false, lastImpactAt = -Infinity;
-  const buffers = { engine: null, tire: null, impact: null };
+  let nitroPlayed = false, lastNitroRemaining = 0;
+  const buffers = { engine: null, tire: null, impact: null, nitro: null };
   const pending = new Set();
   const timeoutMs = clamp(finite(loadTimeoutMs) || 8000, 10, 30000);
 
@@ -82,8 +84,9 @@ export function createVehicleAudio({
   function silence() {
 
     parameter(master?.gain, 0, true);
-    release(engine); release(tire); release(impactVoice);
-    engine = tire = impactVoice = null;
+    release(engine); release(tire); release(impactVoice); release(nitroVoice);
+    engine = tire = impactVoice = nitroVoice = null;
+    nitroPlayed = false; lastNitroRemaining = 0;
     engineGain = tireGain = 0;
     engineRate = .76; tireRate = .9;
   }
@@ -197,6 +200,40 @@ export function createVehicleAudio({
     }
   }
 
+  function updateNitro(active, remaining) {
+    if (!active || remaining > lastNitroRemaining + .05) {
+      release(nitroVoice); nitroVoice = null; nitroPlayed = false;
+    }
+    lastNitroRemaining = active ? remaining : 0;
+    if (!active || nitroPlayed || !buffers.nitro) return;
+    nitroPlayed = true;
+    const offset = Math.max(0, 2 - remaining);
+    const duration = Math.min(remaining, Math.max(0, buffers.nitro.duration - offset));
+    if (!(duration > 0)) return;
+    let source, gain;
+    try {
+      source = context.createBufferSource(); gain = context.createGain();
+      source.buffer = buffers.nitro;
+      const time = context.currentTime, attack = Math.min(.02, duration / 3), releaseTime = Math.min(.08, duration / 3);
+      gain.gain.setValueAtTime(0, time);
+      gain.gain.linearRampToValueAtTime(.22, time + attack);
+      gain.gain.setValueAtTime(.22, time + duration - releaseTime);
+      gain.gain.linearRampToValueAtTime(0, time + duration);
+      source.connect(gain); gain.connect(master);
+      const voice = { source, gain };
+      source.onended = () => {
+        if (nitroVoice === voice) nitroVoice = null;
+        release(voice, false);
+      };
+      source.start(0, offset, duration);
+      source.stop(time + duration);
+      nitroVoice = voice;
+    } catch {
+      if (source && gain) release({ source, gain });
+      else { try { source?.disconnect(); gain?.disconnect(); } catch {} }
+    }
+  }
+
   function update(dt, state = {}) {
     if (disposed) return;
     const impact = clamp(finite(state.impact)), impactEdge = impact > .04 && !impactHeld;
@@ -206,6 +243,9 @@ export function createVehicleAudio({
       return;
     }
     const speed = Math.abs(finite(state.speed)), slip = Math.abs(finite(state.slip));
+    const nitroRemaining = clamp(finite(state.nitroRemaining), 0, 2);
+    const nitroActive = Boolean(state.nitroActive) && nitroRemaining > 0;
+    const vehicleGain = nitroActive && buffers.nitro ? .85 : 1;
     const throttle = clamp(Math.abs(finite(state.throttle))), braking = clamp(finite(state.braking));
     const speedLoad = clamp(speed / 34), slipLoad = smooth(.55, 4.5, slip);
     const brakeLoad = smooth(.3, .9, braking) * smooth(7, 18, speed);
@@ -219,14 +259,15 @@ export function createVehicleAudio({
 
 
     parameter(master.gain, .6*volume, true);
-    if (!engine) engine = loop('engine', engineGain, engineRate);
-    if (engine) { parameter(engine.gain.gain, engineGain); parameter(engine.source.playbackRate, engineRate); }
-    if (!tire && tireTarget > .003) tire = loop('tire', tireGain, tireRate);
+    if (!engine) engine = loop('engine', engineGain * vehicleGain, engineRate);
+    if (engine) { parameter(engine.gain.gain, engineGain * vehicleGain, nitroActive); parameter(engine.source.playbackRate, engineRate); }
+    if (!tire && tireTarget > .003) tire = loop('tire', tireGain * vehicleGain, tireRate);
     if (tire) {
-      parameter(tire.gain.gain, tireGain); parameter(tire.source.playbackRate, tireRate);
+      parameter(tire.gain.gain, tireGain * vehicleGain, nitroActive); parameter(tire.source.playbackRate, tireRate);
       if (tireTarget < .002 && tireGain < .002) { release(tire); tire = null; }
     }
     if (impactEdge) playImpact(impact, finite(now()));
+    updateNitro(nitroActive, nitroRemaining);
   }
 
   function stop() {

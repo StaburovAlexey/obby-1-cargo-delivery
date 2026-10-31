@@ -69,7 +69,7 @@ test('malformed discovery lists are bounded and never invoke array getters',()=>
 test('a discovered biome accepts a loaded old-car delivery once',()=>{
  const game=make({career:{...cityCareer(),discoveredBiomeIds:['city','forest']}});game.enter('citycourier');game.events();const run=game.state.run;
  game.drive(0,delivery.x,delivery.z);game.drive(0,delivery.x,delivery.z);
- assert.equal(game.state.money,3775);assert.equal(game.state.completedRuns,1);assert.equal(game.state.run,null);assert.equal(run.loaded,false);assert.equal(game.getCareerMission().progress,1);
+ assert.equal(game.state.money,3775);assert.equal(game.state.completedRuns,1);assert.equal(game.state.run,null);assert.equal(run.loaded,false);assert.equal(game.getCareerMissions().find(m=>m.id==='first-delivery').status,'ready');
  const events=game.events();assert.equal(events.filter(e=>e.type==='delivery').length,1);assert.equal(events.filter(e=>e.type==='delivery-denied').length,0);
 });
 

@@ -1,6 +1,8 @@
+import {createStudyRewardUi} from '../../dist/study-reward-ui.js';
+import {createNitroUi,createNitroScreenEffect} from '../../dist/nitro-ui.js';
 import {createMusicMenu} from '../../dist/music-menu.js';
 import {updatePurchaseNotifications} from '../../dist/purchase-notifications.js';
-import {TYRE_CONFIG} from '../../dist/economy-balance.js';
+import {TYRE_CONFIG,ADVERTISING_INTERVAL_SECONDS} from '../../dist/economy-balance.js';
 import {createUiCache} from '../../dist/ui-cache.js';
 import {createProgressiveAssets} from '../../dist/progressive-assets.js';
 import {buildRoadPits,roadPitAt,roadPitRampHeight,roadPitRampBoost,roadPitReservations} from '../../dist/road-pits.js';
@@ -22,6 +24,7 @@ import {createDisplayQuality} from '../../dist/display-quality.js';
 import {createModelWarmup} from '../../dist/model-warmup.js';
 import {createFinishCelebration} from '../../dist/finish-celebration.js';
 import {createStartupGate} from '../../dist/startup-gate.js';
+import {driftUnlockScore} from '../../dist/drift-unlocks.js';
 import {createCanyonMode} from '../../dist/canyon-mode.js';
 import {createPauseState} from '../../dist/pause-state.js';
 import {createOnlineSession} from '../../dist/online-session.js';
@@ -88,6 +91,8 @@ export function createAppDom({width=390,height=844,startDriving=true,realStartup
  const html=fs.readFileSync(new URL('../../dist/index.html',import.meta.url),'utf8');
  for(const [,id]of html.matchAll(/\bid="([^"]+)"/g)){if(ids.has(id))continue;const el=new Element();el.ownerDocument=dom.doc;el.id=id;ids.set(id,el);dom.doc.body.append(el);}
  const nest=(id,parent)=>{const child=ids.get(id),target=ids.get(parent);if(!child||!target)return;dom.doc.body.children=dom.doc.body.children.filter(n=>n!==child);target.append(child);};
+ nest('career-panel','career-menu');nest('career-close','career-panel');nest('career-title','career-panel');nest('career-mission-summary','career-panel');
+ nest('career-mission-section','career-panel');nest('career-mission-list','career-mission-section');
  nest('hangar-drift-panel','hangar-drift-menu');
  for(const id of ['title','close','note','table','rows','self','rank','player','score'])nest(`hangar-drift-${id}`,'hangar-drift-panel');
  nest('settings-panel','settings-menu');nest('settings-close','settings-panel');nest('settings-scroll','settings-panel');
@@ -128,11 +133,12 @@ export function createAppDom({width=390,height=844,startDriving=true,realStartup
   if(tag==='img'&&decodeImage)el.decode=()=>decodeImage(el);
   return el;
  };
+ dom.doc.createElementNS=(namespace,tag)=>dom.doc.createElement(tag);
  Object.defineProperty(dom.doc,'images',{get:()=>dom.doc.body.all().filter(node=>node.tagName==='IMG')});
  for(const el of ids.values())el.replaceChildren=(...children)=>{el.children=[];children.forEach(child=>el.append(child));};
  Object.assign(deps,{createFleetNeon,getVehicleNeon,getVehicleLivery,createVehicleNeonPreview:createNeonPreview,createVehicleLiveryGallery:createLiveryPreview,createVehicleLiveryPreview:createLiveryPreview,createVehicleLiveryShop:createLiveryShop,createVehicleLiveryController:createLiveryController,createCanyonLeaderboard,createRenderProfiler,createSpatialRenderer,createRenderZones,createHangarDriftLeaderboard,createCanyonMode,createPauseState,createOnlineSession,createAdvertising,isAdvertisingSafe,PREMIUM_SKIN_IDS,__URBAN_DEV_SERVER__:devServer});
- deps.PROGRESSION_CONFIG=PROGRESSION_CONFIG;
- Object.assign(deps,{createMusicMenu,updatePurchaseNotifications,TYRE_CONFIG,DEFAULT_VEHICLE_SMOKE_ID,getVehicleSmokeStyle,DEFAULT_VEHICLE_TRACK_ID,getVehicleTrackStyle,createBackgroundMusic:createMusic,MUSIC_TRACKS,createSettingsMusic});
+ deps.driftUnlockScore=driftUnlockScore;deps.PROGRESSION_CONFIG=PROGRESSION_CONFIG;deps.ECONOMY_CONFIG=ECONOMY_CONFIG;
+ Object.assign(deps,{createStudyRewardUi,createNitroUi,createNitroScreenEffect,createMusicMenu,updatePurchaseNotifications,TYRE_CONFIG,ADVERTISING_INTERVAL_SECONDS,DEFAULT_VEHICLE_SMOKE_ID,getVehicleSmokeStyle,DEFAULT_VEHICLE_TRACK_ID,getVehicleTrackStyle,createBackgroundMusic:createMusic,MUSIC_TRACKS,createSettingsMusic});
  Object.assign(deps,{createRapierDrivingModel,createPhysicsWorld,buildRoadPits,roadPitAt,roadPitRampHeight,roadPitRampBoost,roadPitReservations});
  new Function(...Object.keys(deps),source)(...Object.values(deps));
  if(startDriving&&!loadFailure){const d=dom.win.__sceneDebug;d.gameplay.state.cooldown=0;d.enterVehicle('pickup');d.model.setPose({x:1.8,z:9.8});d.applyTruckPose();d.followTruck(1,true);}

@@ -49,10 +49,17 @@ function envelopeValue(raw, language) {
 }
 const contents = envelope => JSON.stringify({ career: envelope.career, settings: envelope.settings, legacyPremiumIds: envelope.legacyPremiumIds });
 
-
-
-
-
+// Only reconcile careers read through this controller's account-bound platform.
+// Other profile fields still follow the newest envelope, while a best finish is permanent.
+function mergeDriftProgress(primary,other){
+  if(!other)return primary;
+  let result=primary;
+  if(other.driftRecord&&(!primary.driftRecord||other.driftRecord.score>primary.driftRecord.score))
+    result={...result,driftRecord:other.driftRecord};
+  if(result.driftRecord&&!result.routeCompletion&&other.routeCompletion)
+    result={...result,routeCompletion:other.routeCompletion,completedRuns:Math.max(1,result.completedRuns)};
+  return result;
+}
 export function createCloudCareer(options = {}) {
   const { platform, onStatus, onReplace } = options;
   if (!platform?.loadSave || !platform?.saveSave) throw new Error('Cloud platform required');
@@ -134,13 +141,15 @@ export function createCloudCareer(options = {}) {
           const permanentIds = platform.id==='vk'?[]:rights([...envelope.career.ownedSkinIds, ...(cloud?.career.ownedSkinIds || [])]);
           if (cloud && cloud.updatedAt >= envelope.updatedAt) {
             const changed = contents(cloud) !== contents(envelope);
-            envelope = { ...cloud, legacyPremiumIds: union, career: careerValue(cloud.career, union, permanentIds) }; revision++; syncRights();
+            envelope = { ...cloud, legacyPremiumIds: union, career: careerValue(mergeDriftProgress(cloud.career,envelope.career), union, permanentIds) }; revision++; syncRights();
             status.unsaved = contents(envelope) !== contents(cloud);
             if (status.unsaved) envelope.updatedAt = nextTimestamp(cloud.updatedAt);
             if (changed) pendingReplacement = true;
           } else {
-            const merged = { ...envelope, legacyPremiumIds: union, career: careerValue(envelope.career, union, permanentIds) };
+            const mergedDrift=mergeDriftProgress(envelope.career,cloud?.career);
+            const merged = { ...envelope, legacyPremiumIds: union, career: careerValue(mergedDrift, union, permanentIds) };
             if (contents(merged) !== contents(envelope)) {
+              if(mergedDrift!==envelope.career)pendingReplacement=true;
               envelope = { ...merged, updatedAt: nextTimestamp(envelope.updatedAt) }; revision++; syncRights();
             }
           }

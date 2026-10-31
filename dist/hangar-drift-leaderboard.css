@@ -9,6 +9,10 @@
 #hangar-drift-close:focus-visible{outline:3px solid #fff;outline-offset:3px}
 #hangar-drift-note,#hangar-drift-self{margin:0;padding:14px 18px;line-height:1.5;font-size:16px}
 .hangar-drift-scroll{overflow:auto;min-height:0;overscroll-behavior:contain}
+#hangar-drift-local-best,#hangar-drift-result,#hangar-drift-unlocks{margin:0;padding:8px 18px;line-height:1.4;overflow-wrap:anywhere}
+#hangar-drift-local-best{font-weight:800;color:#ffe9a3}
+#hangar-drift-result{font-size:22px;font-weight:900;color:#ffe9a3}#hangar-drift-unlocks{color:#80eddf;font-weight:800}
+#hangar-drift-panel [hidden]{display:none!important}
 #hangar-drift-table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:16px}
 #hangar-drift-table th,#hangar-drift-table td{text-align:left;padding:10px 14px;border-bottom:1px solid #a4c8ff26;overflow-wrap:anywhere}
 #hangar-drift-table th:first-child{width:20%}#hangar-drift-table th:last-child{width:30%}#hangar-drift-table tr[data-self=true]{background:#f7c96326;color:#ffe9a3}

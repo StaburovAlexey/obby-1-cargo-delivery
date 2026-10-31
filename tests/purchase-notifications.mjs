@@ -52,3 +52,13 @@ test('developer purchases spend coins and retain ownership just like production'
  assert.equal(g.buyNeon(item.id),true);
  assert.equal(g.state.money,980000,'selecting an owned color never charges twice');
 });
+
+test('initial nitro purchase notifies the upgrade icon, not the cosmetic shop',()=>{
+ const g=createGameplay({developerMode:true,career:{...freshCareer(),money:20000,brains:2000}});
+ for(const stat of ['speed','handling','grip','fuel'])g.state.upgrades.pickup[stat]=10;
+ g.state.tyreTier=4;
+ g.state.ownedNeonIds=VEHICLE_NEON_CATALOG.filter(n=>n.currency==='coins').map(n=>n.id);
+ g.state.cosmetics.owned=SHOP_COSMETICS.filter(item=>!item.free).map(item=>item.key);
+ assert.deepEqual(getAffordablePurchases(g),{upgrade:true,shop:false});
+ assert.equal(g.buyNitro(1),true);assert.deepEqual(getAffordablePurchases(g),{upgrade:false,shop:false});
+});

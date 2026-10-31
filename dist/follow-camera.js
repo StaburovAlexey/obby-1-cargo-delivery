@@ -30,8 +30,10 @@ export function computeFollowOffset({ yaw, pitch, radius }, out = {}) {
 export function createFollowCameraState({ mode = 'walking', heading = 0 } = {}) {
   const state = {
     mode: cameraMode(mode), yaw: 0, pitch: 0, radius: 0,
-    looking: false, distanceSinceLook: 0, returning: false,
+    looking: false, distanceSinceLook: 0, returning: false, nitroScale: 1,
   };
+  let nitroStartScale=1,previousNitroRemaining=0;
+  function resetNitro(){state.nitroScale=1;nitroStartScale=1;previousNitroRemaining=0;}
   function reset({ mode = state.mode, heading = 0 } = {}) {
     state.mode = cameraMode(mode);
     state.yaw = wrapAngle(heading);
@@ -39,6 +41,7 @@ export function createFollowCameraState({ mode = 'walking', heading = 0 } = {}) 
     state.radius = FOLLOW_CAMERA[state.mode].radius;
     state.looking = false;
     state.distanceSinceLook = 0;
+    resetNitro();
 
 
     state.returning = state.mode === 'driving';
@@ -48,6 +51,7 @@ export function createFollowCameraState({ mode = 'walking', heading = 0 } = {}) 
   return {
     state,
     reset,
+    resetNitro,
     setMode(mode, { heading = state.yaw, reset: resetView = false } = {}) {
       mode = cameraMode(mode);
       if (resetView) return reset({ mode, heading });
@@ -57,6 +61,7 @@ export function createFollowCameraState({ mode = 'walking', heading = 0 } = {}) 
         state.looking = false;
         state.distanceSinceLook = 0;
         state.returning = false;
+        resetNitro();
       }
       return state;
     },
@@ -97,8 +102,20 @@ export function createFollowCameraState({ mode = 'walking', heading = 0 } = {}) 
 
 
 
-    update({ dt = 0, heading = state.yaw, distance = 0, moving = false, teleported = false,drifting=false,velocityX=0,velocityZ=0 } = {}) {
+    update({ dt = 0, heading = state.yaw, distance = 0, moving = false, teleported = false,drifting=false,velocityX=0,velocityZ=0,nitroActive=false,nitroRemaining=2 } = {}) {
       if (teleported) return reset({ heading, mode: state.mode });
+      // A transient multiplier leaves the chosen orbit radius untouched, even
+      // during manual look or when the vehicle stops moving after a charge.
+      const boosted=state.mode==='driving'&&nitroActive&&Number.isFinite(nitroRemaining);
+      const remaining=Math.max(0,Math.min(2,finite(nitroRemaining)));
+      if(boosted){
+        if(remaining>previousNitroRemaining+1e-9)nitroStartScale=state.nitroScale;
+        state.nitroScale=nitroStartScale+(1.15-nitroStartScale)*(2-remaining)/2;
+      }else{
+        state.nitroScale+=(1-state.nitroScale)*-Math.expm1(-3*Math.max(0,finite(dt))/.35);
+        if(Math.abs(state.nitroScale-1)<1e-8)state.nitroScale=1;
+      }
+      previousNitroRemaining=boosted?remaining:0;
       if (state.mode !== 'driving' || state.looking) return state;
       const travelled = Math.abs(finite(distance));
       if (travelled <= 1e-9 && !moving) return state;

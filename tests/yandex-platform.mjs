@@ -86,3 +86,19 @@ test('a user payment dialog outlives network timeouts and returns its eventual c
   const platform = await initializeYandexPlatform({ sdk: fixture.sdk, timeoutMs: 5 });
   assert.deepEqual(await platform.purchase('skin_jandel'), { productID: 'skin_jandel' });
 });
+
+test('rewarded ads require SDK reward confirmation, not just closing the video',async()=>{
+ for(const reward of [false,true]){
+  const fixture=sdkFixture();fixture.sdk.adv.showRewardedVideo=({callbacks})=>{
+   if(reward){callbacks.onRewarded();callbacks.onRewarded();}callbacks.onClose(true);callbacks.onRewarded();
+  };
+  const platform=await initializeYandexPlatform({sdk:fixture.sdk});
+  assert.deepEqual(await platform.showRewardedAd(),{rewarded:reward});platform.destroy();
+ }
+});
+test('rewarded errors and unavailable video reject without granting a reward',async()=>{
+ const fixture=sdkFixture();const platform=await initializeYandexPlatform({sdk:fixture.sdk});
+ await assert.rejects(platform.showRewardedAd(),/unavailable/);
+ fixture.sdk.adv.showRewardedVideo=({callbacks})=>callbacks.onError(new Error('offline'));
+ await assert.rejects(platform.showRewardedAd(),/offline/);platform.destroy();
+});

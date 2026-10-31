@@ -267,12 +267,23 @@ export function createBMWVehicleAdapter(THREE, vehicleId, gltf) {
       brakeLights: brakeLights.metadata,
     });
     group.userData.bmwVehicle = metadata;
-    let disposed = false;
+    const originalMaterials=new Map();group.traverse(node=>{if(node.isMesh)originalMaterials.set(node,node.material);});
+    let disposed = false,locked=false,black=null;
     const state = { steerAngle: 0, wheelSpin: 0, bodyPitch: 0, bodyRoll: 0, bodyBob: 0 };
     const adapter = {
       group, body, wheels, cargoPosition, metadata,
       get disposed() { return disposed; },
-      setBrakeLights(active) { brakeLights.set(active); return adapter; },
+      get locked(){return locked;},
+      setLocked(value){
+        if(disposed)return adapter;
+        const next=!!value;
+        if(next&&!black){black=new THREE.MeshBasicMaterial({color:0x000000,side:THREE.DoubleSide,toneMapped:false});resources.materials.add(black);}
+        if(next&&!locked)for(const mesh of originalMaterials.keys())originalMaterials.set(mesh,mesh.material);
+        if(next)brakeLights.set(false);
+        if(next||locked!==next)for(const [mesh,material]of originalMaterials)mesh.material=next?black:material;
+        locked=next;group.userData.locked=locked;return adapter;
+      },
+      setBrakeLights(active) { brakeLights.set(locked?false:active); return adapter; },
       update(pose = {}) {
         if (disposed) return adapter;
         if (!pose || typeof pose !== 'object') throw new TypeError('BMW update requires a pose object.');

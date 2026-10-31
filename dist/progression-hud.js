@@ -66,6 +66,7 @@ export function updateProgressionHud(doc,{gameplay,playing,driving,upgradeMenuOp
   const upgradeId=gameplay.getUpgradeVehicleId?.()??(driving?s.selectedId:'pickup');
   if(!upgradeMenuOpen||!upgradeId)return;
   const selected=vehicleConfig(upgradeId),ordinary=!selected.rewardOnly;
+  ui.hidden(el('upgrade-standard-cards'),!!selected.rewardDrift);
   ui.text(el('upgrade-car-name'),!driving&&ordinary?'Все обычные машины':selected.name);
   ui.hidden(el('tyre-shop'),!ordinary);
   if(ordinary){
@@ -87,6 +88,7 @@ export function updateProgressionHud(doc,{gameplay,playing,driving,upgradeMenuOp
   }
   for(const stat of UPGRADE_STATS){
     const offer=getUpgradeOffer(upgradeId,stat.id,s.upgrades[upgradeId]),prefix='upgrade-'+stat.id;
+    if(!offer){ui.property(el(prefix+'-buy'),'disabled',true);continue;}
     const presentation=upgradeValuePresentation(stat.id,offer);
     ui.text(el(prefix+'-level'),`${offer.level} / ${offer.maxLevel}`);
     ui.text(el(prefix+'-value'),presentation.value);

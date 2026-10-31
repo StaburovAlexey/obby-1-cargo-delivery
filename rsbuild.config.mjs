@@ -28,7 +28,7 @@ export default defineConfig(({env})=>{
   output: {
 
     distPath: { root: vk?'build-vk':'build' },
-    assetPrefix: './',
+    assetPrefix: 'auto',
     copy: [
 
 

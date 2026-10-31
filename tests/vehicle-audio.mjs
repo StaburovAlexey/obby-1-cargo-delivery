@@ -6,6 +6,7 @@ class Param {
   cancelScheduledValues(time) { this.writes.push(['cancel', time]); }
   setValueAtTime(value, time) { assert.ok(Number.isFinite(value)); this.value = value; this.writes.push(['immediate', value, time]); }
   setTargetAtTime(value, time, constant) { assert.ok(Number.isFinite(value)); assert.ok(constant > 0); this.value = value; this.writes.push(['smooth', value, time]); }
+  linearRampToValueAtTime(value, time) { assert.ok(Number.isFinite(value)); this.value = value; this.writes.push(['ramp', value, time]); }
 }
 class Node {
   constructor(context) { this.context = context; this.connections = []; this.disconnected = false; }
@@ -15,7 +16,7 @@ class Node {
 class Gain extends Node { constructor(context) { super(context); this.gain = new Param(); } }
 class Source extends Node {
   constructor(context) { super(context); this.playbackRate = new Param(); this.loop = false; this.started = false; this.stopped = false; this.stopCalls = []; this.onended = null; }
-  start() { if (this.context.options.startThrows) throw Error('device start failed'); assert.equal(this.started, false); this.started = true; }
+  start(...args) { if (this.context.options.startThrows) throw Error('device start failed'); assert.equal(this.started, false); this.started = true; this.startArgs = args; }
   stop(time) { this.stopCalls.push(time); if (time === undefined || time <= this.context.currentTime) this.stopped = true; }
   end() { this.stopped = true; this.onended?.(); }
 }
@@ -32,7 +33,8 @@ class Context {
   decodeAudioData(data, resolve, reject) {
     this.decodeCalls++;
     if (this.options.decode) return this.options.decode(data, resolve, reject);
-    return Promise.resolve({ kind: ['engine', 'tire', 'impact'][new Uint8Array(data)[0]], duration: .7 });
+    const kind = Object.keys(VEHICLE_AUDIO_ASSETS)[new Uint8Array(data)[0]];
+    return Promise.resolve({ kind, duration: kind === 'nitro' ? 2.76 : .7 });
   }
 }
 class Timers {
@@ -86,7 +88,7 @@ process.on('unhandledRejection', onUnhandled);
   assert.equal(h.contexts.length, 1); assert.equal(h.context.resumeCalls, 1, 'resume called before awaiting gesture');
   assert.equal(live(h.context).length, 0, 'unlock alone does not start audio');
   assert.equal(await first, true); assert.equal(await h.audio.unlock(), true);
-  assert.equal(h.requests.length, 3); assert.equal(h.context.decodeCalls, 3); assert.equal(h.timers.callbacks.size, 0);
+  assert.equal(h.requests.length, Object.keys(VEHICLE_AUDIO_ASSETS).length); assert.equal(h.context.decodeCalls, Object.keys(VEHICLE_AUDIO_ASSETS).length); assert.equal(h.timers.callbacks.size, 0);
   assert.deepEqual(h.requests.map(r => r.url), Object.values(VEHICLE_AUDIO_ASSETS));
   update(h, { ...active, speed: 0, throttle: 0 }, 120);
   assert.equal(live(h.context, 'engine').length, 1); assert.equal(live(h.context, 'tire').length, 0);
@@ -189,7 +191,7 @@ for (const fetch of [() => { throw Error('fetch unavailable'); }, async () => { 
   const h = harness({ fetch });
   assert.equal(await h.audio.unlock(), false); update(h, { ...active, slip: 8, impact: 1 });
   assert.equal(live(h.context).length, 0);
-  await h.audio.unlock(); assert.equal(h.requests.length, 3, 'failed loads do not cause a request storm');
+  await h.audio.unlock(); assert.equal(h.requests.length, Object.keys(VEHICLE_AUDIO_ASSETS).length, 'failed loads do not cause a request storm');
   await h.audio.dispose(); assert.equal(h.timers.callbacks.size, 0);
 }
 {
@@ -197,7 +199,7 @@ for (const fetch of [() => { throw Error('fetch unavailable'); }, async () => { 
   assert.equal(await h.audio.unlock(), false); update(h); assert.equal(live(h.context).length, 0); await h.audio.dispose();
 }
 {
-  const h = harness({ context: { decode: (data, resolve) => { resolve({ kind: ['engine', 'tire', 'impact'][new Uint8Array(data)[0]], duration: .4 }); } } });
+  const h = harness({ context: { decode: (data, resolve) => { resolve({ kind: Object.keys(VEHICLE_AUDIO_ASSETS)[new Uint8Array(data)[0]], duration: .4 }); } } });
   assert.equal(await h.audio.unlock(), true, 'legacy decode callbacks are supported'); update(h); assert.equal(live(h.context).length, 1); await h.audio.dispose();
 }
 {
@@ -229,7 +231,7 @@ for (const fetch of [() => { throw Error('fetch unavailable'); }, async () => { 
 {
   const decode = deferred();
   const h = harness({ context: { decode: () => decode.promise } }), unlock = h.audio.unlock();
-  await pump(); assert.equal(h.context.decodeCalls, 3); h.timers.expire(); assert.equal(await unlock, false);
+  await pump(); assert.equal(h.context.decodeCalls, Object.keys(VEHICLE_AUDIO_ASSETS).length); h.timers.expire(); assert.equal(await unlock, false);
   decode.resolve({ kind: 'engine', duration: 1 }); await pump(); update(h);
   assert.equal(live(h.context).length, 0); await h.audio.dispose();
 }
@@ -264,7 +266,7 @@ for (const fetch of [() => { throw Error('fetch unavailable'); }, async () => { 
 }
 {
   const h = harness({ context: { startThrows: true } });
-  await h.audio.unlock(); update(h, { ...active, slip: 8, impact: 1 });
+  await h.audio.unlock(); update(h, { ...active, slip: 8, impact: 1, nitroActive: true, nitroRemaining: 2 });
   assert.ok(h.context.sources.every(s => s.disconnected)); await h.audio.dispose();
 }
 {
@@ -285,7 +287,48 @@ for (const fetch of [() => { throw Error('fetch unavailable'); }, async () => { 
  h.audio.setVolume(5);assert.equal(h.audio.volume,1);h.audio.setVolume(-2);assert.equal(h.audio.volume,0);await h.audio.dispose();
 }
 
+{
+ const h=harness();await h.audio.unlock();
+ update(h,{...active,nitroRemaining:2});assert.equal(live(h.context,'nitro').length,0,'remaining charge alone is not an audible activation');
+ const boost={...active,speed:34,slip:8,throttle:1,impact:1,nitroActive:true,nitroRemaining:2};
+ update(h,boost);
+ assert.equal(live(h.context,'nitro').length,1,'successful nitro starts its own single voice');
+ const first=live(h.context,'nitro')[0];assert.equal(first.loop,false);assert.deepEqual(first.startArgs,[0,0,2]);
+ assert.equal(live(h.context,'engine')[0].connections[0].gain.writes.at(-1)[0],'immediate','duck existing engine before nitro attack to preserve transient mixer headroom');
+ assert.ok(first.connections[0].gain.writes.some(write=>write[0]==='ramp'&&write[1]===0),'scheduled short release fades before charge end');
+ for(let i=1;i<120;i++)update(h,{...boost,impact:0,nitroRemaining:2-i/60});
+ assert.equal(h.context.sources.filter(source=>source.buffer.kind==='nitro').length,1,'frames reuse one nitro voice');
+ const maxGain=h.context.sources.reduce((sum,source)=>sum+Math.max(...source.connections[0].gain.writes.filter(write=>['immediate','ramp','smooth'].includes(write[0])).map(write=>write[1])),0);
+ assert.ok(maxGain*h.context.gains[0].gain.value<1,'engine, tire, collision and nitro leave mixer headroom');
+ update(h,{...active,nitroRemaining:0});assert.equal(live(h.context,'nitro').length,0,'end or cancellation stops nitro');
+ update(h,{...active,nitroActive:true,nitroRemaining:2});assert.equal(live(h.context,'nitro').length,1,'next charge has a fresh voice');
+ await h.audio.dispose();assert.equal(live(h.context).length,0);
+}
+{
+ const h=harness();await h.audio.unlock();
+ update(h,{...active,nitroActive:true,nitroRemaining:1.5});
+ assert.deepEqual(live(h.context,'nitro')[0].startArgs,[0,.5,1.5]);
+ h.audio.stop();assert.equal(live(h.context,'nitro').length,0);
+ update(h,{...active,nitroActive:true,nitroRemaining:1.5});
+ assert.deepEqual(live(h.context,'nitro')[0].startArgs,[0,.5,1.5],'pause resumes corresponding sample position');
+ h.audio.setMuted(true);assert.equal(live(h.context).length,0);h.audio.setMuted(false);
+ update(h,{...active,nitroActive:true,nitroRemaining:1});
+ assert.deepEqual(live(h.context,'nitro')[0].startArgs,[0,1,1],'unmute does not repeat launch transient');
+ h.audio.setVolume(.25);assert.equal(h.context.gains[0].gain.value,.15);
+ h.audio.setVolume(0);assert.equal(live(h.context).length,0);h.audio.setVolume(1);
+ update(h,{...active,nitroActive:true,nitroRemaining:.5});
+ const voice=live(h.context,'nitro')[0];assert.deepEqual(voice.startArgs,[0,1.5,.5]);
+ voice.end();update(h,{...active,nitroActive:true,nitroRemaining:.4});assert.equal(live(h.context,'nitro').length,0,'finished one-shot cannot loop while activation is still true');
+ await h.audio.dispose();
+}
+for(const failure of ['fetch','decode']){
+ const h=harness(failure==='fetch'?{fetch:async url=>({ok:!url.includes('nitro'),arrayBuffer:async()=>Uint8Array.of(Object.values(VEHICLE_AUDIO_ASSETS).indexOf(url)).buffer})}:{context:{decode:data=>{const kind=Object.keys(VEHICLE_AUDIO_ASSETS)[new Uint8Array(data)[0]];return kind==='nitro'?Promise.reject(Error('bad nitro codec')):Promise.resolve({kind,duration:.7});}}});
+ assert.equal(await h.audio.unlock(),true);
+ update(h,{...active,nitroActive:true,nitroRemaining:2});assert.equal(live(h.context,'engine').length,1);assert.equal(live(h.context,'nitro').length,0,`${failure} failure leaves other vehicle effects available`);
+ await h.audio.dispose();
+}
+
 await new Promise(resolve => setImmediate(resolve));
 process.removeListener('unhandledRejection', onUnhandled);
 assert.deepEqual(unhandled, [], 'audio failures must not cause unhandled promise rejections');
-console.log('Vehicle audio: gesture unlock, smooth load/slip, lifecycle silence, mute, collision bounds and async cleanup passed.');
+console.log('Vehicle audio: gesture unlock, smooth load/slip, lifecycle silence, mute, collision bounds, nitro playback/resume and async cleanup passed.');

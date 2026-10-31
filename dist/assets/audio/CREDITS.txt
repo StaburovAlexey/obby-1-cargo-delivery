@@ -14,3 +14,9 @@ Impact Sounds / impactMetal_heavy_001.ogg — Kenney
 Source: https://kenney.nl/assets/impact-sounds
 License: CC0 1.0 https://creativecommons.org/publicdomain/zero/1.0/
 File unchanged; runtime gain varies with collision strength.
+
+Nitro Activation — strexet
+Source: https://freesound.org/people/strexet/sounds/404333/
+Audio: https://cdn.freesound.org/previews/404/404333_7167147-hq.mp3
+License: CC0 1.0 https://creativecommons.org/publicdomain/zero/1.0/
+Changes: high-quality MP3 preview stored unchanged; runtime plays up to the two-second charge with short gain fades and seeks to the matching position when resuming.

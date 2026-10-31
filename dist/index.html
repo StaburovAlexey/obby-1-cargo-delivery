@@ -42,6 +42,7 @@
         <symbol id="hud-biome" viewBox="0 0 64 64"><image href="./assets/ui-icons/biome.webp" width="64" height="64" /></symbol>
         <symbol id="hud-grid" viewBox="0 0 64 64"><image href="./assets/ui-icons/grid.webp" width="64" height="64" /></symbol>
 
+        <symbol id="hud-rewarded-video" viewBox="0 0 64 64"><image href="./assets/ui-icons/rewarded-video.svg" width="64" height="64" /></symbol>
         <symbol id="hud-xp" viewBox="0 0 64 64"><image href="./assets/ui-icons/xp.webp" width="64" height="64" /></symbol>
         <symbol id="hud-missions" viewBox="0 0 64 64"><image href="./assets/ui-icons/missions.webp" width="64" height="64" /></symbol>
         <symbol id="hud-upgrade" viewBox="0 0 64 64"><image href="./assets/ui-icons/upgrade.webp" width="64" height="64" /></symbol>
@@ -68,10 +69,6 @@
     ></main>
     <button id="audio-toggle" hidden type="button" aria-label="Выключить звук" aria-pressed="false" title="Выключить звук"><svg class="hud-audio" viewBox="0 0 64 64" aria-hidden="true"><g class="audio-waves"><use href="#hud-sound" /></g><g class="audio-cross"><use href="#hud-muted" /></g></svg></button>
     <div class="top-actions hud-right-actions">
-      <button id="garage-button" class="mode-button hud-menu-button" type="button" aria-label="Ангар" title="Ангар">
-          <span class="hud-circle"><svg class="hud-art" aria-hidden="true" focusable="false"><use href="#hud-garage" /></svg></span>
-
-        </button>
       <button id="music-button" class="hud-menu-button" type="button" aria-label="Музыка" title="Музыка" aria-haspopup="dialog" aria-expanded="false" aria-controls="music-panel"><span class="hud-circle"><svg class="hud-art" viewBox="0 0 64 64" aria-hidden="true"><use href="#hud-music" /></svg></span></button>
     </div>
     <header class="topbar">
@@ -80,6 +77,7 @@
         <h1>URBAN ROUTE<span>3D</span></h1>
       </div>
       <div class="top-actions">
+        <button id="garage-button" class="mode-button hud-menu-button" type="button" aria-label="Ангар" title="Ангар" hidden><span class="hud-circle"><svg class="hud-art" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#hud-garage" /></svg></span><span class="garage-return-label"><span>Вернуться</span><span>в ангар</span></span></button>
         <button id="mode-toggle" hidden class="mode-button hud-menu-button" type="button" aria-pressed="true">
           <span class="hud-circle"><svg class="hud-art" aria-hidden="true" focusable="false"><use href="#hud-overview" /></svg></span>
           <span id="mode-label" class="button-label">Обзор</span>
@@ -145,7 +143,7 @@
     <button id="vehicle-funds-button" class="progression-action" type="button" hidden><svg class="hud-art" aria-hidden="true"><use href="#hud-money" /></svg><span>Деньги на все машины<small>Тест · один раз</small></span></button>
     <div id="upgrade-menu" class="game-modal" hidden><section id="upgrade-panel" class="game-modal-panel" role="dialog" aria-modal="true" aria-labelledby="upgrade-title">
       <div class="game-modal-heading"><h2 id="upgrade-title">Улучшения машины</h2><button id="upgrade-close" class="game-modal-close" type="button" aria-label="Закрыть">×</button></div><p id="upgrade-car-name"></p>
-      <div class="upgrade-cards">
+      <div id="upgrade-standard-cards" class="upgrade-cards">
 <article class="upgrade-card"><svg class="hud-art" aria-hidden="true"><use href="#hud-speed" /></svg><h3>Скорость</h3><span id="upgrade-speed-level">0 / 10</span><strong id="upgrade-speed-value"></strong><button id="upgrade-speed-buy" type="button"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><span id="upgrade-speed-price"></span></button></article><article class="upgrade-card"><svg class="hud-art" aria-hidden="true"><use href="#hud-handling" /></svg><h3>Устойчивость</h3><span id="upgrade-handling-level">0 / 10</span><strong id="upgrade-handling-value"></strong><button id="upgrade-handling-buy" type="button"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><span id="upgrade-handling-price"></span></button></article><article class="upgrade-card"><svg class="hud-art" aria-hidden="true"><use href="#hud-grip" /></svg><h3>Сцепление</h3><span id="upgrade-grip-level">0 / 10</span><strong id="upgrade-grip-value"></strong><button id="upgrade-grip-buy" type="button"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><span id="upgrade-grip-price"></span></button></article><article class="upgrade-card"><svg class="hud-art" aria-hidden="true"><use href="#hud-fuel" /></svg><h3>Бак</h3><span id="upgrade-fuel-level">0 / 10</span><strong id="upgrade-fuel-value"></strong><button id="upgrade-fuel-buy" type="button"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><span id="upgrade-fuel-price"></span></button></article></div>
       <section id="tyre-shop" aria-labelledby="tyre-title"><h3 id="tyre-title">Шины</h3><p id="tyre-current" role="status" aria-live="polite"></p><p id="tyre-current-biomes"></p><div class="tyre-cards">
         <article id="tyre-0-card" class="tyre-card"><h4>Городские</h4><small id="tyre-0-biomes"></small><span id="tyre-0-status"></span><button id="tyre-0-buy" type="button"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><span id="tyre-0-price"></span></button></article>
@@ -157,7 +155,7 @@
     </section></div>
     <div id="career-menu" class="game-modal" hidden>
     <section id="career-panel" class="game-modal-panel" role="dialog" aria-modal="true" aria-labelledby="career-title" tabindex="-1" hidden>
-      <div class="career-panel-heading game-modal-heading"><h2 id="career-title">Накопления на машину</h2><button id="career-close" class="game-modal-close" type="button" aria-label="Закрыть окно">×</button></div>
+      <div class="career-panel-heading game-modal-heading"><div><h2 id="career-title">Задания</h2><p id="career-mission-summary" class="mission-summary" aria-live="polite"></p></div><button id="career-close" class="game-modal-close" type="button" aria-label="Закрыть окно">×</button></div>
       <section id="career-goal-section" aria-label="Накопления на машину" hidden>
       <div id="career-goal-content">
         <label for="career-goal-select" class="career-heading"><svg class="hud-art" aria-hidden="true" focusable="false"><use href="#hud-garage" /></svg><span>Коплю на машину</span></label>
@@ -178,14 +176,9 @@
       </div>
       <p id="career-goal-complete" hidden>Все машины собраны</p>
       </section>
-      <section id="career-mission-section" aria-label="Задание" hidden>
-      <p id="career-mission-empty" hidden>Заданий пока нет</p>
-      <section id="career-mission-details" aria-labelledby="career-mission-name" hidden>
-        <div class="career-mission-heading"><h3 id="career-mission-name"></h3><button id="career-mission-skip" type="button" aria-label="Сменить задание бесплатно">Сменить</button></div><p id="career-mission-description"></p>
-        <strong id="career-mission-count"></strong>
-        <progress id="career-mission-progress" max="1" value="0"></progress>
-        <div id="career-mission-reward" class="career-reward"><svg class="hud-art" aria-hidden="true" focusable="false"><use href="#hud-money" /></svg><strong id="career-mission-cash"></strong><svg class="hud-art" aria-hidden="true" focusable="false"><use href="#hud-xp" /></svg><strong id="career-mission-brains"></strong></div>
-      </section>
+      <section id="career-mission-section" aria-label="Задания" tabindex="0" hidden>
+        <p id="career-mission-empty" hidden>Заданий пока нет</p>
+        <div id="career-mission-list" role="list" aria-label="Задания" data-i18n-skip></div>
       </section>
     </section>
     </div>
@@ -200,12 +193,13 @@
               <tr id="receipt-clean"><th scope="row">Без аварий</th><td id="receipt-clean-cash"></td><td id="receipt-clean-brains"></td></tr>
               <tr id="receipt-hard"><th scope="row">Сложный рейс</th><td id="receipt-hard-cash"></td><td id="receipt-hard-brains"></td></tr>
               <tr id="receipt-first"><th scope="row">Первый визит</th><td id="receipt-first-cash"></td><td id="receipt-first-brains"></td></tr>
-              <tr id="receipt-mission"><th scope="row">Задание</th><td id="receipt-mission-cash"></td><td id="receipt-mission-brains"></td></tr>
           </tbody>
           <tfoot><tr><th scope="row">Всего</th><td id="receipt-total-cash"></td><td id="receipt-total-brains"></td></tr></tfoot>
         </table>
       </section>
     </div>
+    <button id="study-reward" class="mode-button" type="button" hidden><svg class="hud-art" aria-hidden="true" focusable="false"><use href="#hud-rewarded-video" /></svg><span id="study-reward-label"></span></button>
+    <div id="study-xp-effects" aria-hidden="true"></div>
     <div id="study-status" role="status" hidden></div>
     <button id="buy-skin" class="buy-button" type="button" hidden><svg class="hud-art" aria-hidden="true"><use href="#hud-money" /></svg><span id="buy-skin-label">Купить</span></button>
     <button id="buy-school" class="buy-button" type="button" hidden><svg class="hud-art" aria-hidden="true"><use href="#hud-money" /></svg><span id="buy-school-label">Купить</span></button>
@@ -278,11 +272,11 @@
       <div id="vehicle-price-6" class="world-price vehicle-price vehicle-label" hidden><span class="vehicle-income"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><strong id="vehicle-income-value-6">0</strong><small>XP/сек</small></span><span id="vehicle-cost-6" class="vehicle-cost"><svg id="vehicle-cost-icon-6" class="hud-art" aria-hidden="true"><use href="#hud-money" /></svg><strong id="vehicle-price-value-6">0</strong></span></div>
       <div id="vehicle-price-7" class="world-price vehicle-price vehicle-label" hidden><span class="vehicle-income"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><strong id="vehicle-income-value-7">0</strong><small>XP/сек</small></span><span id="vehicle-cost-7" class="vehicle-cost"><svg id="vehicle-cost-icon-7" class="hud-art" aria-hidden="true"><use href="#hud-money" /></svg><strong id="vehicle-price-value-7">0</strong></span></div>
       <div id="vehicle-price-8" class="world-price vehicle-price vehicle-label" hidden><span class="vehicle-income"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><strong id="vehicle-income-value-8">0</strong><small>XP/сек</small></span><span id="vehicle-cost-8" class="vehicle-cost"><svg id="vehicle-cost-icon-8" class="hud-art" aria-hidden="true"><use href="#hud-money" /></svg><strong id="vehicle-price-value-8">0</strong></span></div>
-      <div id="vehicle-price-9" class="world-price vehicle-price vehicle-label" hidden><span class="vehicle-income"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><strong id="vehicle-income-value-9">0</strong><small>XP/сек</small></span><span id="vehicle-cost-9" class="vehicle-cost"><svg id="vehicle-cost-icon-9" class="hud-art" aria-hidden="true"><use href="#hud-money" /></svg><strong id="vehicle-price-value-9">0</strong></span></div>
-      <div id="vehicle-price-10" class="world-price vehicle-price vehicle-label" hidden><span class="vehicle-income"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><strong id="vehicle-income-value-10">0</strong><small>XP/сек</small></span><span id="vehicle-cost-10" class="vehicle-cost"><svg id="vehicle-cost-icon-10" class="hud-art" aria-hidden="true"><use href="#hud-money" /></svg><strong id="vehicle-price-value-10">0</strong></span></div>
-      <div id="vehicle-price-11" class="world-price vehicle-price vehicle-label" hidden><span class="vehicle-income"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><strong id="vehicle-income-value-11">0</strong><small>XP/сек</small></span><span id="vehicle-cost-11" class="vehicle-cost"><svg id="vehicle-cost-icon-11" class="hud-art" aria-hidden="true"><use href="#hud-money" /></svg><strong id="vehicle-price-value-11">0</strong></span></div>
-      <div id="vehicle-price-12" class="world-price vehicle-price vehicle-label" hidden><span class="vehicle-income"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><strong id="vehicle-income-value-12">0</strong><small>XP/сек</small></span><span id="vehicle-cost-12" class="vehicle-cost"><svg id="vehicle-cost-icon-12" class="hud-art" aria-hidden="true"><use href="#hud-money" /></svg><strong id="vehicle-price-value-12">0</strong></span></div>
-      <div id="vehicle-price-13" class="world-price vehicle-price vehicle-label" hidden><span class="vehicle-income"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><strong id="vehicle-income-value-13">0</strong><small>XP/сек</small></span><span id="vehicle-cost-13" class="vehicle-cost"><svg id="vehicle-cost-icon-13" class="hud-art" aria-hidden="true"><use href="#hud-money" /></svg><strong id="vehicle-price-value-13">0</strong></span></div>
+      <div id="vehicle-price-9" class="world-price vehicle-price vehicle-label" hidden><span class="vehicle-income"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><strong id="vehicle-income-value-9">0</strong><small>XP/сек</small></span><span id="vehicle-cost-9" class="vehicle-cost"><strong id="vehicle-price-value-9">0</strong></span></div>
+      <div id="vehicle-price-10" class="world-price vehicle-price vehicle-label" hidden><span class="vehicle-income"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><strong id="vehicle-income-value-10">0</strong><small>XP/сек</small></span><span id="vehicle-cost-10" class="vehicle-cost"><strong id="vehicle-price-value-10">0</strong></span></div>
+      <div id="vehicle-price-11" class="world-price vehicle-price vehicle-label" hidden><span class="vehicle-income"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><strong id="vehicle-income-value-11">0</strong><small>XP/сек</small></span><span id="vehicle-cost-11" class="vehicle-cost"><strong id="vehicle-price-value-11">0</strong></span></div>
+      <div id="vehicle-price-12" class="world-price vehicle-price vehicle-label" hidden><span class="vehicle-income"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><strong id="vehicle-income-value-12">0</strong><small>XP/сек</small></span><span id="vehicle-cost-12" class="vehicle-cost"><strong id="vehicle-price-value-12">0</strong></span></div>
+      <div id="vehicle-price-13" class="world-price vehicle-price vehicle-label" hidden><span class="vehicle-income"><svg class="hud-art" aria-hidden="true"><use href="#hud-xp" /></svg><strong id="vehicle-income-value-13">0</strong><small>XP/сек</small></span><span id="vehicle-cost-13" class="vehicle-cost"><strong id="vehicle-price-value-13">0</strong></span></div>
     </div>
     <button id="buy-vehicle" class="buy-button" type="button" hidden><svg class="hud-art" aria-hidden="true" focusable="false"><use href="#hud-money" /></svg><span id="buy-label">Купить</span></button>
     <section class="seed-card" aria-label="Генерация района">
@@ -376,7 +370,7 @@
         </div>
       </div>
     </section>
-    <div id="hangar-drift-menu" class="game-modal" data-i18n-skip hidden><section id="hangar-drift-panel" class="game-modal-panel" role="dialog" aria-modal="true" aria-labelledby="hangar-drift-title" aria-describedby="hangar-drift-note" tabindex="-1"><div class="hangar-drift-heading game-modal-heading"><h2 id="hangar-drift-title">Рейтинг дрифта</h2><button id="hangar-drift-close" class="game-modal-close" type="button" aria-label="Закрыть">×</button></div><p id="hangar-drift-note" role="status" aria-live="polite"></p><div class="hangar-drift-scroll"><table id="hangar-drift-table" hidden><thead><tr><th id="hangar-drift-rank" scope="col">Место</th><th id="hangar-drift-player" scope="col">Игрок</th><th id="hangar-drift-score" scope="col">Очки</th></tr></thead><tbody id="hangar-drift-rows"></tbody></table></div><p id="hangar-drift-self" hidden></p></section></div>
+    <div id="hangar-drift-menu" class="game-modal" data-i18n-skip hidden><section id="hangar-drift-panel" class="game-modal-panel" role="dialog" aria-modal="true" aria-labelledby="hangar-drift-title" aria-describedby="hangar-drift-note" tabindex="-1"><div class="hangar-drift-heading game-modal-heading"><h2 id="hangar-drift-title">Рейтинг дрифта</h2><button id="hangar-drift-close" class="game-modal-close" type="button" aria-label="Закрыть">×</button></div><p id="hangar-drift-result" hidden></p><p id="hangar-drift-unlocks" role="status" hidden></p><p id="hangar-drift-local-best"></p><p id="hangar-drift-note" role="status" aria-live="polite"></p><div class="hangar-drift-scroll"><table id="hangar-drift-table" hidden><thead><tr><th id="hangar-drift-rank" scope="col">Место</th><th id="hangar-drift-player" scope="col">Игрок</th><th id="hangar-drift-score" scope="col">Очки</th></tr></thead><tbody id="hangar-drift-rows"></tbody></table></div><p id="hangar-drift-self" hidden></p></section></div>
     <section id="canyon-checkpoint-hud" aria-label="Контрольная точка и время" data-i18n-skip hidden><strong id="canyon-checkpoint-label">Точка 1/9</strong><span id="canyon-checkpoint-distance">0 м</span><strong id="canyon-checkpoint-time" role="timer" aria-live="off">0,0 с</strong></section>
     <section id="canyon-hud" aria-label="Очки дрифта" hidden><div id="canyon-score-pop"><strong id="canyon-score">0</strong><span id="canyon-combo">×1</span></div></section>
     <div id="canyon-overlay" hidden><section id="canyon-panel" role="region" aria-labelledby="canyon-title"><h2 id="canyon-title">Каньон пройден</h2><p id="canyon-result-score">0</p><p id="canyon-result-note" role="status"></p><section id="canyon-rankings" hidden><table><thead><tr><th>Место</th><th>Игрок</th><th>Очки</th></tr></thead><tbody id="canyon-ranking-rows"></tbody></table><p id="canyon-ranking-note" role="status"></p></section><button id="canyon-login" type="button" hidden>Войти в Яндекс</button><div class="canyon-actions"><button id="canyon-retry" type="button">Новая попытка с начала дороги</button><button id="canyon-rankings-button" type="button">Таблица Яндекса</button><button id="canyon-back" type="button" hidden>К результату</button><button id="canyon-exit" type="button">Продолжить движение</button></div></section></div>

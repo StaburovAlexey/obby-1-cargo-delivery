@@ -177,7 +177,7 @@ export function createGarageScene(THREE, city, {document:doc=globalThis.document
   const rewardPedestal={...REWARD_PEDESTAL,baseY:floorY,topY:floorY+REWARD_PEDESTAL.height,
     pose:Object.freeze({x:REWARD_PEDESTAL.x,y:floorY+REWARD_PEDESTAL.height+REWARD_PEDESTAL.tiltClearance,z:REWARD_PEDESTAL.z})};
   const rewardPedestals=[rewardPedestal,...SHOWCASE_VEHICLES.map((vehicle,index)=>{
-    const x=REWARD_PEDESTAL.x-(SHOWCASE_VEHICLES.length-index)*10.2,z=REWARD_PEDESTAL.z;
+    const x=REWARD_PEDESTAL.x-(index+1)*10.2,z=REWARD_PEDESTAL.z;
     return {...rewardPedestal,id:`pedestal-${vehicle.id}`,vehicleId:vehicle.id,x,z,
       approach:{x,z:z-6.8},pose:{x,y:rewardPedestal.pose.y,z}};
   })];

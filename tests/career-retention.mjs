@@ -58,7 +58,7 @@ check('nested fields whitelist, cap and deduplicate with idempotent snapshots',(
 });
 check('approved clean/hard rates and separate first/mission bonuses round and cap correctly',()=>{
  for(let base=0;base<10001;base+=13)for(const clean of [false,true])for(const hard of [false,true]){
-  const reward=calculateDeliveryReward(base,{clean,hard,first:true,mission:CAREER_MISSIONS[0]});
+  const reward=calculateDeliveryReward(base,{clean,hard,first:true,mission:{cash:90,brains:20}});
   assert.equal(reward.base,base);assert.equal(reward.clean,clean?Math.floor(.2*base):0);assert.equal(reward.hard,hard?Math.floor(.15*base):0);
   assert.equal(reward.brains.clean,clean?Math.floor(.04*base):0);assert.equal(reward.brains.hard,hard?Math.floor(.04*base):0);
   assert.ok(reward.brains.clean+reward.brains.hard<=Math.floor(.08*base));assert.equal(reward.first,Math.floor(.05*base));assert.equal(reward.brains.first,Math.floor(.01*base));
@@ -93,38 +93,47 @@ check('biome preview, aborted trips and impossible motion cannot earn delivery o
   g.drive(0,delivery.x,delivery.z);assert.deepEqual(g.snapshot(),before,reset);assert.equal(g.state.run,null);
  }
 });
-check('delivery mission advances across trips and reloads, pays once and starts a fresh next mission',()=>{
+check('delivery milestones survive reloads and pay only through explicit one-time claims',()=>{
  const memory=mem(),store=createCareerStore({storage:memory});let g=make({persistence:store});
- trip(g);assert.equal(g.getCareerMission().progress,1);g=make({persistence:store});assert.equal(g.getCareerMission().progress,1);trip(g);
- const third=trip(g);assert.equal(third.breakdown.mission,90);assert.equal(third.breakdown.brains.mission,20);assert.equal(third.missionCompleted.sequence,0);assert.equal(g.getCareerMission().id,'clean-bridges');assert.equal(g.getCareerMission().progress,0);
- g=make({persistence:store});assert.equal(g.getCareerMission().sequence,1);assert.equal(trip(g).breakdown.mission,0);
+ trip(g);assert.equal(g.getCareerMissions().find(m=>m.id==='deliveries-3').progress,1);
+ g=make({persistence:store});assert.equal(g.getCareerMissions().find(m=>m.id==='deliveries-3').progress,1);trip(g);
+ const third=trip(g);assert.equal(third.breakdown.mission,0);assert.equal(third.breakdown.brains.mission,0);
+ assert.equal(g.getCareerMissions().find(m=>m.id==='deliveries-3').status,'ready');
+ const before={cash:g.state.money,brains:g.state.brains};assert.equal(g.claimCareerMission('deliveries-3'),true);
+ assert.equal(g.state.money,before.cash+200);assert.equal(g.state.brains,before.brains+75);
+ g=make({persistence:store});assert.equal(g.claimCareerMission('deliveries-3'),false);assert.equal(trip(g).breakdown.mission,0);
 });
-check('clean bridge mission counts unique crossings per successful clean trip only',()=>{
- const g=make();assert.ok(g.skipMission());const first=begin(g);g.recordBridgeCrossing({runId:first,bridgeId:BRIDGES[0].id});g.recordBridgeCrossing({runId:first,bridgeId:BRIDGES[0].id});
- assert.equal(deliver(g).breakdown.mission,0);assert.equal(g.getCareerMission().progress,1);
- const dirty=begin(g);g.recordBridgeCrossing({runId:dirty,bridgeId:BRIDGES[1].id});g.recordRunCollision({runId:dirty});assert.equal(deliver(g).breakdown.mission,0);assert.equal(g.getCareerMission().progress,1);
- const aborted=begin(g);g.recordBridgeCrossing({runId:aborted,bridgeId:BRIDGES[1].id});g.returnToGarage('abort');assert.equal(g.getCareerMission().progress,1);
- const last=begin(g);g.recordBridgeCrossing({runId:last,bridgeId:BRIDGES[1].id});const event=deliver(g);assert.equal(event.breakdown.mission,120);assert.equal(event.breakdown.brains.mission,30);assert.equal(g.getCareerMission().id,'hard-delivery');
+
+check('clean delivery milestones ignore collisions and aborted trips',()=>{
+ const g=make();let runId=begin(g);g.recordBridgeCrossing({runId,bridgeId:BRIDGES[0].id});deliver(g);
+ assert.equal(g.state.missions.stats.cleanDeliveries,1);
+ runId=begin(g);g.recordRunCollision({runId});deliver(g);assert.equal(g.state.missions.stats.cleanDeliveries,1);
+ begin(g);g.returnToGarage('abort');assert.equal(g.state.missions.stats.cleanDeliveries,1);
+ const event=trip(g);assert.equal(event.breakdown.mission,0);assert.equal(g.state.missions.stats.cleanDeliveries,2);
 });
-check('two bridges must be distinct across trips, survive reload, and reset on skip or completion',()=>{
- const memory=mem(),store=createCareerStore({storage:memory});let g=make({persistence:store});g.skipMission();
- const first=begin(g);g.recordBridgeCrossing({runId:first,bridgeId:BRIDGES[0].id});deliver(g);assert.equal(g.getCareerMission().progress,1);
- g=make({persistence:store});assert.deepEqual(g.state.retention.missionBridgeIds,[BRIDGES[0].id]);const repeated=begin(g);g.recordBridgeCrossing({runId:repeated,bridgeId:BRIDGES[0].id});
- assert.equal(deliver(g).missionCompleted,null);assert.equal(g.getCareerMission().progress,1);
- const different=begin(g);g.recordBridgeCrossing({runId:different,bridgeId:BRIDGES[1].id});assert.equal(deliver(g).breakdown.mission,120);assert.deepEqual(g.state.retention.missionBridgeIds,[]);
- g.skipMission();g.skipMission();assert.equal(g.getCareerMission().id,'clean-bridges');const another=begin(g);g.recordBridgeCrossing({runId:another,bridgeId:BRIDGES[0].id});deliver(g);g.skipMission();assert.deepEqual(g.state.retention.missionBridgeIds,[]);
- const missing=sanitizeCareer({...freshCareer(),retention:{...freshCareer().retention,missionSequence:1,missionProgress:1,missionBridgeIds:undefined}});assert.equal(missing.retention.missionProgress,0);
+
+check('clean delivery history survives reload without depending on bridge identity',()=>{
+ const memory=mem(),store=createCareerStore({storage:memory});let g=make({persistence:store});
+ let runId=begin(g);g.recordBridgeCrossing({runId,bridgeId:BRIDGES[0].id});deliver(g);
+ g=make({persistence:store});assert.equal(g.state.missions.stats.cleanDeliveries,1);
+ runId=begin(g);g.recordBridgeCrossing({runId,bridgeId:BRIDGES[0].id});deliver(g);
+ assert.equal(g.state.missions.stats.cleanDeliveries,2);trip(g);
+ assert.equal(g.getCareerMissions().find(m=>m.id==='clean-deliveries-3').status,'ready');
 });
-check('hard mission requires approved completed branch and never carries same-trip evidence into next mission',()=>{
- const g=make();g.skipMission();g.skipMission();let runId=begin(g);assert.equal(g.recordHardBranch({runId,forkId:FORK_DEFINITIONS[0].id,branch:'alternate'}),false);assert.equal(deliver(g).missionCompleted,null);
+
+check('hard branch remains a delivery bonus and does not automatically pay a mission',()=>{
+ const g=make();let runId=begin(g);assert.equal(g.recordHardBranch({runId,forkId:FORK_DEFINITIONS[0].id,branch:'alternate'}),false);deliver(g);
  runId=begin(g);g.recordHardBranch({runId,forkId:FORK_DEFINITIONS[0].id,branch:'main'});g.recordHardBranch({runId,forkId:FORK_DEFINITIONS[1].id,branch:'main'});
- const event=deliver(g);assert.equal(event.breakdown.mission,150);assert.equal(event.breakdown.brains.mission,40);assert.equal(event.breakdown.hard,15);assert.equal(g.getCareerMission().id,'deliveries');assert.equal(g.getCareerMission().progress,0);
+ const event=deliver(g);assert.equal(event.breakdown.mission,0);assert.equal(event.breakdown.brains.mission,0);assert.equal(event.breakdown.hard,15);
+ assert.equal(g.getCareerMissions().find(m=>m.id==='deliveries-3').progress,2);
 });
-check('free mission reroll resets progress, persists, gives no money and refuses live/test runs',()=>{
- const memory=mem(),store=createCareerStore({storage:memory}),g=make({persistence:store});trip(g);assert.equal(g.getCareerMission().progress,1);const money=g.state.money,brains=g.state.brains;
- for(let i=0;i<100;i++)assert.ok(g.skipMission());assert.equal(g.getCareerMission().progress,0);assert.equal(g.state.money,money);assert.equal(g.state.brains,brains);assert.equal(make({persistence:store}).getCareerMission().sequence,100);
- begin(g);assert.equal(g.skipMission(),false);g.beginBiomeTest('snow');assert.equal(g.skipMission(),false);
+
+check('catalog has no reroll and cannot claim rewards from live or test runs',()=>{
+ const g=make();trip(g);assert.equal(typeof g.skipMission,'undefined');const before={cash:g.state.money,brains:g.state.brains};
+ begin(g);assert.equal(g.claimCareerMission('first-delivery'),false);g.beginBiomeTest('snow');assert.equal(g.claimCareerMission('first-delivery'),false);
+ assert.equal(g.state.money,before.cash);assert.equal(g.state.brains,before.brains);
 });
+
 check('goal validates an unowned car, reports wallet distance and is cleared on actual purchase',()=>{
  const memory=mem(),store=createCareerStore({storage:memory}),g=make({career:{...freshCareer(),money:VEHICLE_CONFIG[1].price},persistence:store});
  for(const id of [null,'pickup','missing','__proto__'])assert.equal(g.setVehicleGoal(id),false);
@@ -140,7 +149,7 @@ check('test money remains available exactly once and separate from career-earned
 });
 check('single successful storage write includes all claims, currency, goal and mission atomically; no live run survives',()=>{
  const memory=mem(),store=createCareerStore({storage:memory}),g=make({persistence:store});g.setVehicleGoal(VEHICLE_CONFIG[1].id);const writes=memory.writes;begin(g);assert.equal(memory.writes,writes);
- const event=deliver(g);assert.equal(event.saved,true);assert.equal(memory.writes,writes+1);const saved=JSON.parse(memory.raw);assert.equal(saved.money,event.reward);assert.equal(saved.retention.missionProgress,1);assert.deepEqual(saved.retention.claimedCheckpointIds,[delivery.id]);
+ const event=deliver(g);assert.equal(event.saved,true);assert.equal(memory.writes,writes+1);const saved=JSON.parse(memory.raw);assert.equal(saved.money,event.reward);assert.equal(saved.missions.stats.cleanDeliveries,1);assert.equal(saved.completedRuns,1);assert.deepEqual(saved.retention.claimedCheckpointIds,[delivery.id]);
  for(const key of ['run','runId','bridgeIds','hardBranchIds','player','position','cargo','timestamp','elapsed'])assert.equal(key in saved,false,key);
  const reload=make({persistence:store});assert.equal(reload.state.run,null);assert.equal(reload.state.mode,'walking');assert.deepEqual(reload.snapshot(),saved);
 });
@@ -166,6 +175,6 @@ check('real scene delivery-trigger IDs share canonical first-visit claims withou
 check('currency caps stay finite and delivery receipts equal actual credited money and brains',()=>{
  const g=make({career:{...freshCareer(),money:ECONOMY_CONFIG.maxSavedMoney-2,brains:PROGRESSION_CONFIG.maxBrains-.25}});const event=trip(g);
  assert.equal(g.state.money,ECONOMY_CONFIG.maxSavedMoney);assert.equal(g.state.brains,PROGRESSION_CONFIG.maxBrains);assert.equal(event.reward,2);assert.equal(event.breakdown.base,2);assert.equal(event.breakdown.clean,0);assert.equal(event.breakdown.brains.total,.25);assert.equal(g.state.retention.careerCashEarned,2);
- const terminal=make({career:{...freshCareer(),retention:{...freshCareer().retention,missionSequence:MAX_MISSION_SEQUENCE}}});assert.equal(terminal.skipMission(),false);assert.equal(trip(terminal).missionCompleted,null);
+ const terminal=make({career:{...freshCareer(),retention:{...freshCareer().retention,missionSequence:MAX_MISSION_SEQUENCE}}});assert.equal(terminal.getCareerMissions().length,35);assert.equal(trip(terminal).breakdown.mission,0);
 });
 console.log(`Career retention: ${passed} checks passed; Node-only.`);

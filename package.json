@@ -1,6 +1,6 @@
 {
   "name": "urban-route-procedural-three",
-  "version": "1.70.2",
+  "version": "1.71.1",
   "private": true,
   "type": "module",
   "description": "Five-biome delivery driving game with eight career vehicles, shared XP-funded upgrades, five schools and saved skin purchases",
@@ -29,7 +29,8 @@
     "test:quiet-hangar": "node tests/quiet-hangar.mjs && node tests/character-row.mjs && node tests/lighting-audit.mjs && node tests/reverse-pedal.mjs && node tests/reverse-pedal-app.mjs",
     "test:biome-progression": "node --test tests/biome-progression.mjs tests/biome-progression-ui.mjs tests/cloud-career.mjs && node tests/career-route-tracker.mjs && node tests/reward-developer-mode.mjs",
     "test:biome-journeys": "node tests/run-biome-journeys.mjs",
-    "test:career-retention": "node tests/approved-economy-curves.mjs && node tests/career-retention.mjs && node tests/retention-payout-independent.mjs && node tests/retention-ui.mjs && node tests/career-route-tracker.mjs && node tests/retention-app-integration.mjs && node tests/hard-branch-route-audit.mjs && node tests/ten-level-upgrades.mjs && node tests/economy-budget-model.mjs",
+    "test:career-missions": "node --test tests/career-missions.mjs tests/career-missions-ui.mjs",
+    "test:career-retention": "npm run test:career-missions && node tests/approved-economy-curves.mjs && node tests/career-retention.mjs && node tests/retention-payout-independent.mjs && node tests/retention-ui.mjs && node tests/career-route-tracker.mjs && node tests/retention-app-integration.mjs && node tests/hard-branch-route-audit.mjs && node tests/ten-level-upgrades.mjs",
     "test:career-dialogs": "node tests/retention-ui.mjs && node tests/retention-app-integration.mjs && node tests/career-modal-input.mjs && node tests/reverse-pedal-app.mjs && node tests/quiet-hangar.mjs",
     "test:compact-route": "node tests/compact-route-contracts.mjs && node tests/compact-route-geometry.mjs && node tests/compact-route-scene.mjs && node tests/moving-road-hazards.mjs && node tests/compact-static-hazards.mjs && node tests/moving-road-hazards-app.mjs && node tests/career-route-tracker.mjs && node tests/retention-payout-independent.mjs && node tests/retention-app-integration.mjs",
     "test:hazard-spacing": "node tests/hazard-spacing-independent.mjs && npm run test:compact-route",
@@ -64,6 +65,9 @@
     "preview:vk:demo": "GAME_PLATFORM=vk rsbuild preview --dist-path build-vk-demo",
     "server:vk": "node server/vk-server.mjs",
     "test:platforms": "node --test tests/platform-builds.mjs tests/vk-platform.mjs tests/vk-payments.mjs tests/vk-ui.mjs tests/vk-recovery.mjs tests/yandex-platform.mjs tests/cloud-career.mjs tests/premium-skins.mjs tests/jeff-premium.mjs tests/premium-hud.mjs tests/yandex-app.mjs",
+    "test:nitro": "node --test --test-concurrency=2 tests/vehicle-nitro.mjs tests/nitro-card.mjs tests/nitro-touch.mjs tests/nitro-camera.mjs tests/nitro-purchases.mjs tests/nitro-physics.mjs tests/nitro-recovery.mjs tests/nitro-effects.mjs tests/nitro-app.mjs",
+    "test:drift-xp": "node --test --test-concurrency=2 tests/drift-xp.mjs tests/drift-xp-app.mjs",
+    "test:drift-unlocks": "node --test --test-concurrency=2 tests/drift-upgrades-disabled.mjs tests/drift-upgrades-app.mjs tests/bmw-locked-silhouette.mjs",
     "test:canyon": "node --test tests/canyon-*.mjs",
     "test:finish-celebration": "node tests/finish-celebration.mjs && node tests/finish-celebration-app.mjs && node tests/finish-line.mjs && node tests/finish-preview.mjs && node tests/reward-developer-mode.mjs",
     "test:classroom-board": "node --test tests/classroom-*.mjs",
@@ -81,7 +85,9 @@
     "optimize:models": "node scripts/optimize-models.mjs",
     "prepare:vehicle-bounds": "node scripts/prepare-vehicle-bounds.mjs",
     "optimize:media": "node scripts/optimize-media.mjs",
-    "prepare:model-decoders": "node scripts/prepare-model-decoders.mjs"
+    "prepare:model-decoders": "node scripts/prepare-model-decoders.mjs",
+    "test:drift-progression": "node --test --test-concurrency=2 tests/drift-vehicle-progression.mjs tests/drift-vehicle-cloud.mjs tests/drift-unlock-display.mjs tests/canyon-combo-feedback.mjs tests/canyon-ui.mjs tests/hangar-drift-leaderboard.mjs tests/premium-product-names.mjs",
+    "test:production-hud": "node --test tests/production-css-assets.mjs tests/drift-hangar-order.mjs tests/nitro-touch.mjs"
   },
   "devDependencies": {
     "@gltf-transform/core": "4.5.1",

@@ -109,6 +109,15 @@ export async function initializeVkPlatform(options={}){
       }while(!destroyed);
       throw new Error('VK purchase awaits server confirmation; retry purchase refresh');
     },
+    async showRewardedAd(){
+      ensure();if(advertising)throw new Error('VK advertisement already open');
+      advertising=true;
+      try{
+        if(!await supported('VKWebAppShowNativeAds')||!(await send('VKWebAppCheckNativeAds',{ad_format:'reward'}))?.result)return {rewarded:false};
+        const result=await bounded(()=>bridge.send('VKWebAppShowNativeAds',{ad_format:'reward'}),Math.max(timeoutMs,options.adTimeoutMs??120000),'VK rewarded advertisement');
+        return {rewarded:result?.result===true};
+      }finally{advertising=false;}
+    },
     async showAd(callbacks={}){
       ensure();if(advertising)throw new Error('VK advertisement already open');
       advertising=true;

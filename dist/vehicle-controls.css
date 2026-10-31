@@ -9,7 +9,8 @@
   --steering-hit-padding: 32px;
   --pedal-width: 92px;
   --pedal-height: 132px;
-  --control-bottom: calc(env(safe-area-inset-bottom, 0px) + max(108px, 10cqh + 18px));
+  --pedal-right: max(25px, calc(env(safe-area-inset-right, 0px) + 14px));
+  --control-bottom: calc(env(safe-area-inset-bottom, 0px) + max(84px, 10cqh - 6px));
   overscroll-behavior: none;
 }
 .vehicle-controls, .vehicle-controls * {
@@ -57,7 +58,7 @@
   position: absolute;
 
   z-index: 1;
-  right: max(25px, calc(env(safe-area-inset-right, 0px) + 14px));
+  right: var(--pedal-right);
   bottom: var(--control-bottom);
   width: var(--pedal-width);
   height: var(--pedal-height);
@@ -110,8 +111,8 @@
 .drive-tip small { font-size: 11px; }
 body.is-driving canvas { touch-action: none; }
 @media (max-width: 500px) {
-  .vehicle-controls { --pedal-width: 78px; --pedal-height: 116px; }
-  .gas-pedal { right: max(20px, calc(env(safe-area-inset-right, 0px) + 10px)); font-size: 17px; }
+  .vehicle-controls { --pedal-width: 78px; --pedal-height: 116px; --pedal-right: max(20px, calc(env(safe-area-inset-right, 0px) + 10px)); }
+  .gas-pedal { font-size: 17px; }
 }
 @media (max-height: 540px) {
   .vehicle-controls { --pedal-width: 72px; --pedal-height: 100px; }
@@ -176,7 +177,7 @@ body.is-driving canvas { touch-action: none; }
   .drive-bottom-row #drive-status { min-width: 12px; font-size: 10px; }
 }
 @media (max-width: 500px) {
-  .vehicle-controls { --steering-size: 132px; --control-bottom: calc(env(safe-area-inset-bottom, 0px) + 158px); }
+  .vehicle-controls { --steering-size: 132px; --control-bottom: calc(env(safe-area-inset-bottom, 0px) + 134px); }
   .steering-wheel { left: max(20px, calc(env(safe-area-inset-left, 0px) + 10px)); }
 }
 @media (max-width: 480px) {
@@ -185,24 +186,24 @@ body.is-driving canvas { touch-action: none; }
   .biome-name { font-size: 14px; }
 }
 @media (max-height: 650px) and (max-width: 500px) {
-  .vehicle-controls { --control-bottom: calc(env(safe-area-inset-bottom, 0px) + 150px); }
+  .vehicle-controls { --control-bottom: calc(env(safe-area-inset-bottom, 0px) + 126px); }
   .drive-tip { display: none; }
 }
 @media (max-height: 540px) and (max-width: 500px) {
-  .vehicle-controls { --steering-size: 112px; --control-bottom: calc(env(safe-area-inset-bottom, 0px) + 128px); }
+  .vehicle-controls { --steering-size: 112px; --control-bottom: calc(env(safe-area-inset-bottom, 0px) + 104px); }
   .drive-readout .biome-name { display: none; }
 }
 @media (max-height: 500px) and (min-width: 501px) {
-  .vehicle-controls { --steering-size: 112px; --control-bottom: calc(env(safe-area-inset-bottom, 0px) + 96px); }
+  .vehicle-controls { --steering-size: 112px; --control-bottom: calc(env(safe-area-inset-bottom, 0px) + 72px); }
   .drive-tip { display: none; }
   .biome-name { margin-bottom: 5px; font-size: 13px; }
 }
 @media (min-height: 501px) and (min-width: 501px) and (max-width: 760px) {
-  .vehicle-controls { --control-bottom: calc(env(safe-area-inset-bottom, 0px) + 158px); }
+  .vehicle-controls { --control-bottom: calc(env(safe-area-inset-bottom, 0px) + 134px); }
 }
 
 @media (max-height: 420px) and (min-width: 501px) {
-  .vehicle-controls { --steering-size: min(112px, 28.75cqh); --steering-hit-padding: 24px; --control-bottom: calc(env(safe-area-inset-bottom, 0px) + 82px); }
+  .vehicle-controls { --steering-size: min(112px, 28.75cqh); --steering-hit-padding: 24px; --control-bottom: calc(env(safe-area-inset-bottom, 0px) + 60px); }
 }
 @media (prefers-reduced-motion: reduce) {
   .steering-wheel.is-returning, .gas-pedal { transition: none; }
@@ -211,10 +212,10 @@ body.is-driving canvas { touch-action: none; }
 
 
 .vehicle-controls:has(.reverse-pedal) .gas-pedal:not(.reverse-pedal) {
-  bottom: max(var(--control-bottom), calc(env(safe-area-inset-bottom, 0px) + 142px));
+  bottom: max(var(--control-bottom), calc(env(safe-area-inset-bottom, 0px) + 118px));
 }
 .reverse-pedal {
-  bottom: calc(max(var(--control-bottom), calc(env(safe-area-inset-bottom, 0px) + 142px)) - 54px);
+  bottom: calc(max(var(--control-bottom), calc(env(safe-area-inset-bottom, 0px) + 118px)) - 54px);
   width: max(64px, calc(var(--pedal-width) - 12px));
   height: 44px;
   padding: 4px 8px;
@@ -225,10 +226,9 @@ body.is-driving canvas { touch-action: none; }
   background: linear-gradient(145deg, #8eb6dd, #537aa8 45%, #355980);
 }
 
-@media (max-height: 420px) and (min-width: 501px) {
-  .vehicle-controls:has(.reverse-pedal) .gas-pedal {
-    right: max(120px, calc(env(safe-area-inset-right, 0px) + 110px));
-  }
+/* Keep the pedal stack clear of the right navigation column. */
+@media (max-height: 700px) and (min-width: 501px) {
+  .vehicle-controls { --pedal-right: calc(max(14px, env(safe-area-inset-right, 0px)) + var(--hud-navigation-size) + 8px); }
 }
 
 
@@ -243,3 +243,34 @@ body.is-driving canvas { touch-action: none; }
   .reverse-pedal { bottom: calc(env(safe-area-inset-bottom, 0px) + 60px); }
   .vehicle-controls:has(.reverse-pedal) .biome-name { display: none; }
 }
+
+#fuel-hud { position: relative; }
+.nitro-meter { position: absolute; bottom: calc(100% + 7px); left: 0; width: 100%; height: 18px; display: flex; gap: 4px; }
+.nitro-cell { flex: 1; overflow: hidden; border: 2px solid #142544; border-radius: 5px; background: #142544cf; box-shadow: 0 1px 0 #c8f4ff; }
+.nitro-cell i { display: block; height: 100%; background: linear-gradient(#a7f0ff,#15b9ff 55%,#2770eb); }
+.nitro-button { position: absolute; z-index: 1; pointer-events: auto; touch-action: none; right: var(--pedal-right); bottom: calc(max(var(--control-bottom), env(safe-area-inset-bottom, 0px) + 118px) + var(--pedal-height) + 10px); width: var(--pedal-width); height: 52px; display: flex; align-items: center; justify-content: center; gap: 4px; border: 3px solid #142544; border-radius: 16px; background: linear-gradient(#9de8ff,#198fed); color: white; font-family: inherit; font-weight: 900; font-size: 22px; box-shadow: inset 0 3px #fff8,0 4px #142544; }
+.nitro-button img { height: 42px; width: 42px; }
+.nitro-button:disabled { filter: saturate(.45); opacity: .65; }
+.nitro-button.is-active { filter: none; opacity: 1; background: #38d4ff; box-shadow: 0 0 16px #27bcff; }
+.nitro-button:focus-visible { outline: 3px solid #ffed62; outline-offset: 4px; }
+.nitro-meter[hidden], .nitro-cell[hidden], .nitro-button[hidden] { display: none; }
+@media(max-height:420px) and (min-width:501px){.nitro-button{bottom:calc(env(safe-area-inset-bottom,0px) + 122px + clamp(44px,calc(100cqh - 238px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)),var(--pedal-height)));height:42px;}.nitro-button img{height:32px;width:32px;}}
+@media (max-height: 540px) and (max-width: 500px) {
+  :root { --hud-navigation-size: clamp(24px, calc((100dvh - 304px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px))/4), 44px); }
+  .vehicle-controls { --pedal-height: 80px; --control-bottom: calc(env(safe-area-inset-bottom, 0px) + 60px); }
+  .vehicle-controls:has(.reverse-pedal) .gas-pedal:not(.reverse-pedal) { bottom: calc(env(safe-area-inset-bottom, 0px) + 118px); }
+  .reverse-pedal { bottom: calc(env(safe-area-inset-bottom, 0px) + 64px); }
+  .nitro-button { bottom: calc(env(safe-area-inset-bottom, 0px) + 208px); }
+}
+
+.drive-readout:has(.nitro-meter:not([hidden])) .biome-name { margin-bottom: 28px; }
+
+.nitro-screen-effect { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; contain: strict; }
+.nitro-screen-effect[hidden] { display: none; }
+.nitro-screen-effect::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #19bdff50, #19bdff00 17%, #19bdff00 83%, #19bdff50); animation: nitro-edge-in 160ms ease-out both; }
+.nitro-speed-streak { position: absolute; left: 1%; top: calc(23% + var(--streak-row) * 16%); width: clamp(24px, 7vw, 86px); height: 2px; border-radius: 50%; background: linear-gradient(90deg, #b9f4ff00, #b9f4ffb3); transform-origin: right center; animation: nitro-speed-left 680ms linear infinite; animation-delay: var(--streak-delay); }
+.nitro-speed-streak-right { left: auto; right: 1%; transform-origin: left center; background: linear-gradient(90deg, #b9f4ffb3, #b9f4ff00); animation-name: nitro-speed-right; }
+@keyframes nitro-edge-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes nitro-speed-left { 0% { opacity: 0; transform: translate3d(65%, 0, 0) rotate(-18deg) scaleX(.55); } 25% { opacity: .8; } 100% { opacity: 0; transform: translate3d(-160%, 0, 0) rotate(-18deg) scaleX(1.3); } }
+@keyframes nitro-speed-right { 0% { opacity: 0; transform: translate3d(-65%, 0, 0) rotate(18deg) scaleX(.55); } 25% { opacity: .8; } 100% { opacity: 0; transform: translate3d(160%, 0, 0) rotate(18deg) scaleX(1.3); } }
+@media (prefers-reduced-motion: reduce) { .nitro-speed-streak { display: none; } .nitro-screen-effect::before { animation: none; } }

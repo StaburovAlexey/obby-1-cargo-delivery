@@ -1,13 +1,15 @@
+import {sanitizeNitroLevel} from './vehicle-nitro.js';
 import {freshCosmetics,sanitizeCosmetics} from './shop-cosmetics.js';
 import {VEHICLE_NEON_CATALOG} from './vehicle-neon-catalog.js';
 import {FINISH_LINE_SPEC} from './finish-line.js';
-import { ECONOMY_CONFIG, VEHICLE_CONFIG, BIOME_SEQUENCE, DELIVERY_CHECKPOINTS, REWARD_VEHICLE_ID, ROUTE_COMPLETION_PROOF, FINAL_DELIVERY_CHECKPOINT } from './economy-config.js';
+import { ECONOMY_CONFIG, VEHICLE_CONFIG, BIOME_SEQUENCE, DELIVERY_CHECKPOINTS, REWARD_VEHICLE_ID, ROUTE_COMPLETION_PROOF, FINAL_DELIVERY_CHECKPOINT, DRIFT_VEHICLE_UNLOCKS } from './economy-config.js';
 import { CHARACTER_CATALOG, DEFAULT_CHARACTER_ID } from './character-catalog.js';
 import { SCHOOL_CONFIG, PROGRESSION_CONFIG } from './progression-config.js';
 import { UPGRADE_STATS } from './vehicle-upgrades.js';
 import { freshRetention, RETENTION_VERSION, MAX_MISSION_SEQUENCE, getActiveMission } from './career-missions.js';
 import { BRIDGES } from './road-bridges.js';
 import {sanitizeDriftRecord} from './drift-record.js';
+import {freshMissions,sanitizeMissions} from './mission-progress.js';
 
 const characterIds = new Set(CHARACTER_CATALOG.map(character => character.id));
 const purchasableVehicleIds = VEHICLE_CONFIG.filter(vehicle => vehicle.id !== 'pickup' && !vehicle.rewardOnly).map(vehicle => vehicle.id);
@@ -33,6 +35,7 @@ export function freshCareer(characterId = DEFAULT_CHARACTER_ID) {
     characterId: selected,
     completedRuns: 0,
     routeCompletion: null,
+    nitroLevel: 0,
     driftRecord:null,
     brains: 0,
     ownedNeonIds: [], selectedNeonId: null, cosmetics:freshCosmetics(),
@@ -43,6 +46,7 @@ export function freshCareer(characterId = DEFAULT_CHARACTER_ID) {
     upgrades: emptyUpgrades(sharedUpgrades),
     vehicleGrantClaimed: false,
     retention: freshRetention(),
+    missions: freshMissions(),
   };
 }
 
@@ -139,16 +143,26 @@ export function sanitizeCareer(value, fallbackCharacterId = DEFAULT_CHARACTER_ID
   const result = freshCareer(fallbackCharacterId);
   try {
     const data = readData(value, ['version', 'money', 'ownedVehicleIds', 'characterId', 'completedRuns',
-      'brains', 'ownedSkinIds', 'ownedSchoolIds', 'sharedUpgrades', 'tyreTier', 'upgrades', 'vehicleGrantClaimed', 'retention', 'routeCompletion', 'discoveredBiomeIds','driftRecord','ownedNeonIds','selectedNeonId','cosmetics']);
+      'nitroLevel', 'brains', 'ownedSkinIds', 'ownedSchoolIds', 'sharedUpgrades', 'tyreTier', 'upgrades', 'vehicleGrantClaimed', 'retention', 'missions', 'routeCompletion', 'discoveredBiomeIds','driftRecord','ownedNeonIds','selectedNeonId','cosmetics']);
     if (!data || data.version !== ECONOMY_CONFIG.saveVersion) return result;
     result.money = counter(data.money, ECONOMY_CONFIG.maxSavedMoney);
+    result.missions = sanitizeMissions(data.missions);
     const ownedVehicles = readIds(data.ownedVehicleIds);
     result.ownedVehicleIds = ['pickup', ...purchasableVehicleIds.filter(id => ownedVehicles.has(id))];
     const selected = characterIds.has(data.characterId) ? data.characterId : result.characterId;
     result.completedRuns = counter(data.completedRuns, ECONOMY_CONFIG.maxSavedMoney);
     result.routeCompletion = result.completedRuns>0?sanitizeRouteCompletion(data.routeCompletion):null;
+    result.nitroLevel=result.routeCompletion?sanitizeNitroLevel(data.nitroLevel):0;
     result.driftRecord=sanitizeDriftRecord(data.driftRecord);
-    if(result.routeCompletion)result.ownedVehicleIds.push(REWARD_VEHICLE_ID);
+    // Recognize the old completed personal best once. New practice records
+    // must not overwrite the missions' independent eligible-score history.
+    if(data.missions===undefined&&result.routeCompletion&&result.driftRecord)
+      result.missions.stats.canyonBestScore=result.driftRecord.score;
+    if(result.routeCompletion){
+      result.ownedVehicleIds.push(REWARD_VEHICLE_ID);
+      if(result.driftRecord)result.ownedVehicleIds.push(...DRIFT_VEHICLE_UNLOCKS
+        .filter(unlock=>result.driftRecord.score>=unlock.score).map(unlock=>unlock.vehicleId));
+    }
     const visited = readIds(data.discoveredBiomeIds);
     for (let index = 1; index < BIOME_SEQUENCE.length; index++) {
       const biome = BIOME_SEQUENCE[index];

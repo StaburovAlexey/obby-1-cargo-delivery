@@ -1,3 +1,4 @@
+import {isNitroInterrupted} from './vehicle-nitro.js';
 import {WHEEL_SUSPENSION} from './wheel-contact-visuals.js';
 import {getRapier} from './rapier-runtime.js';
 import {vehicleConfig} from './economy-config.js';
@@ -5,7 +6,7 @@ import {CITY_SURFACE, normalizeSurfaceDynamics} from './biome-surfaces.js';
 import {getUpgradeModifiers, getSpeedStabilityDemand, getRoadGripMultiplier, steeringResponseSeconds} from './vehicle-upgrades.js';
 import {TOW_DRIVING, VEHICLE_DYNAMICS, VEHICLE_WHEELS, CONTROLLED_SKID, MAX_SPEED_ASSIST_RATIO,
   evaluateVehicleForces, roadWheelTarget} from './driving-model.js';
-import {BMW_DRIFT, evaluateDriftDynamics, driftTelemetry, driftWheelTarget} from './drift-dynamics.js';
+import {BMW_DRIFT, evaluateDriftDynamics, driftTelemetry, driftWheelTarget, nitroRecoveryFactor} from './drift-dynamics.js';
 import {vehiclePhysicsGeometry} from './vehicle-physics.js';
 
 const MASS = VEHICLE_DYNAMICS.mass;
@@ -80,6 +81,7 @@ function physicalGeometry(metadata, bmw=false) {
 export function createRapierDrivingModel({
   world, x=1.8, z=9.8, y, heading=0, vehicleId='pickup',
   maxSpeed=TOW_DRIVING.maxSpeed, getUpgrades=()=>undefined,
+  getNitro=()=>null, isNitroRoad=()=>true,
   getVehicleMetadata=()=>undefined, groundSurface=()=>CITY_SURFACE,
   onCollision=()=>{}, getRampBoost=()=>null, getSurfaceHazard=()=>null, onSurfaceHazard=()=>{},
 }={}) {
@@ -113,7 +115,7 @@ export function createRapierDrivingModel({
   const state={x,y,z,heading,velocityX:0,velocityY:0,velocityZ:0,angularVelocity:0,
     angularVelocity3D:vec(),quaternion:headingQuaternion(heading),
     speed:0,linearSpeed:0,frontWheelAngle:0,wheelSpin:0,gear:'D',steering:0,
-    active:false,speedDemand:null,moving:false,blocked:false,braking:0,impactSpeed:0,
+    active:false,nitroThrust:false,speedDemand:null,moving:false,blocked:false,braking:0,impactSpeed:0,
     brake:0,handbrake:0,slipAngle:0,driftIntensity:0,driftBlend:0,
     travel:0,pathDistance:0,movingSeconds:0,bodyPitch:0,bodyRoll:0,bodyBob:0,
     grounded:false,airborne:true,wheelContacts:[],upY:1};
@@ -199,7 +201,12 @@ export function createRapierDrivingModel({
     });
   };
   const controlState=(dt,surface,upgrades)=>{
-    const effectiveMaxSpeed=maxSpeed*upgrades.speed;
+    const nitro=spec.rewardDrift?getNitro():null;
+    if(nitro&&isNitroInterrupted(state))nitro.cancel();
+    const boosted=!!nitro?.state.remaining&&state.gear==='D'&&state.grounded&&state.upY>.5;
+    const nitroRecovery=boosted?nitroRecoveryFactor(state,nitro.state.remaining):0;
+    state.nitroThrust=boosted;
+    const effectiveMaxSpeed=boosted?Math.min(53,maxSpeed*upgrades.speed*1.15):maxSpeed*upgrades.speed;
     const stockSurfaceSpeed=Math.max(CONTROLLED_SKID.startSpeed,maxSpeed*surface.speedFactor);
     const speedAssistRatio=!spec.rewardDrift && state.gear==='D' ? clamp(state.speed/stockSurfaceSpeed,1,MAX_SPEED_ASSIST_RATIO):1;
     const requestingReverse=Number.isFinite(state.speedDemand) && state.speedDemand<-.001;
@@ -231,13 +238,13 @@ export function createRapierDrivingModel({
     directionChangePending=false;
     if(state.speed*direction>=0) gearBraking=false;
     if(gearBraking && Math.abs(state.speed)<DIRECTION_CHANGE_STOP_SPEED && state.linearSpeed<DIRECTION_CHANGE_STOP_SPEED) gearBraking=false;
-    const speedFraction=analog ? Math.abs(demand):1;
+    const speedFraction=boosted?1:analog ? Math.abs(demand):1;
     const targetSpeed=effectiveMaxSpeed*surface.speedFactor*speedFraction;
     const excess=state.speed*direction-targetSpeed;
     const analogBrake=analog ? (speedFraction<.001?1:clamp((excess-.04)*.7,0,1)):0;
     const serviceBraking=Math.max(state.brake,gearBraking?1:analogBrake);
     state.braking=Math.max(serviceBraking,state.handbrake);
-    return {effectiveMaxSpeed,speedFraction,targetSpeed,speedAssistRatio,rearGripDeficit,serviceBraking,
+    return {throttleActive:state.active||boosted,engineBoost:boosted?1.5:1,nitroRecovery,effectiveMaxSpeed,speedFraction,targetSpeed,speedAssistRatio,rearGripDeficit,serviceBraking,
       bmwForward:!!spec.rewardDrift && state.gear==='D' && !gearBraking};
   };
   const tireImpulse=(contact,dt,upgrades,controls,snapshot,defer=false)=>{
@@ -248,7 +255,7 @@ export function createRapierDrivingModel({
     const angular=dot(snapshot?.angular ?? body.angvel(),n);
     const pointVelocity=snapshot ? add(snapshot.linear,cross(snapshot.angular,sub(contact.point,snapshot.center))) : body.velocityAtPoint(contact.point);
     const relative=sub(pointVelocity,supportVelocity(contact,contact.point));
-    const virtual={...state,heading:0,angularVelocity:angular,
+    const virtual={...state,active:controls.throttleActive,heading:0,angularVelocity:angular,
       velocityX:dot(relative,right)-angular*contact.z,
       velocityZ:-dot(relative,forward)+angular*contact.x};
     const surface=surfaceAt(contact.point,upgrades);
@@ -259,8 +266,8 @@ export function createRapierDrivingModel({
       // traction limit, while engine torque remains the catalog engine torque.
       surface.frictionFactor=Math.min(surface.frictionFactor/upgrades.grip,1.4)*upgrades.grip;
       forces=evaluateDriftDynamics(virtual,{maxSpeed:controls.targetSpeed,
-        engineAcceleration:catalogAcceleration*upgrades.engine*surface.engineFactor,
-        surface,gradient:{x:0,z:0},braking:controls.serviceBraking,dt,mass:MASS});
+        engineAcceleration:catalogAcceleration*upgrades.engine*surface.engineFactor*controls.engineBoost,
+        surface,gradient:{x:0,z:0},braking:controls.serviceBraking,dt,mass:MASS,nitroRecovery:controls.nitroRecovery});
     } else forces=evaluateVehicleForces(virtual,{maxSpeed:controls.effectiveMaxSpeed,
       gradient:{x:0,z:0},braking:state.braking,speedFraction:controls.speedFraction,surface,
       engineAcceleration:catalogAcceleration*upgrades.engine,brakeFactor:spec.grip*upgrades.grip,
@@ -337,6 +344,7 @@ export function createRapierDrivingModel({
     body.setLinvel(vec(),true);body.setAngvel(vec(),true);readBody();
   };
   const setPose=(pose={}, {clearMotion=true}={})=>{
+    getNitro()?.cancel();state.nitroThrust=false;
     if(!isLive()) return;
     syncGeometry();
     const position=body.translation();
@@ -368,12 +376,14 @@ export function createRapierDrivingModel({
       state.active=state.speedDemand===null?!!active:Math.abs(state.speedDemand)>.001;
       state.brake=clamp(finite(Number(brake)),0,1);
       state.handbrake=spec.rewardDrift?clamp(finite(Number(handbrake)),0,1):0;
+      if(spec.rewardDrift&&isNitroInterrupted(state)){getNitro()?.cancel();state.nitroThrust=false;}
     },
     setGear(gear) {
       if(!isLive()) return;
       if(gear!=='D' && gear!=='R') throw new Error('Gear must be D or R');
       if(state.gear!==gear) {gearBraking=false;directionChangePending=true;}
       state.gear=gear;
+      if(gear==='R'){getNitro()?.cancel();state.nitroThrust=false;}
     },
     setPose,
     setEnabled(value) {
@@ -384,7 +394,7 @@ export function createRapierDrivingModel({
     },
     pause() {
       if(!isLive()) return;
-      state.active=false;state.speedDemand=Number.isFinite(state.speedDemand)?0:null;
+      state.active=false;state.nitroThrust=false;state.speedDemand=Number.isFinite(state.speedDemand)?0:null;
       state.steering=state.frontWheelAngle=state.brake=state.handbrake=state.braking=0;
       state.travel=state.pathDistance=state.movingSeconds=state.impactSpeed=0;
       state.blocked=false;gearBraking=false;directionChangePending=false;hazardSpin=null;stopMotion();resetRender();
@@ -392,7 +402,7 @@ export function createRapierDrivingModel({
     reset() {
       if(!isLive()) return;
       Object.assign(state,{gear:'D',steering:0,frontWheelAngle:0,wheelSpin:0,
-        active:false,speedDemand:null,brake:0,handbrake:0,braking:0});
+        active:false,nitroThrust:false,speedDemand:null,brake:0,handbrake:0,braking:0});
       gearBraking=false;directionChangePending=false;setPose(spawn);
     },
     beginFrame() {
@@ -501,6 +511,11 @@ export function createRapierDrivingModel({
           onCollision({collider:other,normal:{...normal},impactSpeed:speed,vehicleId,state});
         });
       });
+      if(spec.rewardDrift){
+        const nitro=getNitro();
+        nitro?.step(dt,state,{distance:Math.hypot(dx,dz),onRoad:isNitroRoad(state.x,state.z)&&state.wheelContacts.some(c=>c.grounded&&c.normalLoad>0&&['road','support'].includes(c.collider.physicsTag??c.collider.userData?.tag))});
+        if(!nitro?.state.remaining)state.nitroThrust=false;
+      }
       copyRender(currentRender);
       return state;
     },

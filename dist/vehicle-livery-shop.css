@@ -82,3 +82,14 @@ body #vehicle-livery-panel :is(.vehicle-livery-apply, .vehicle-smoke-apply, .veh
   margin-inline: auto;
   align-self: center;
 }
+
+.nitro-card { display: grid; justify-items: center; gap: 12px; padding: 18px; margin-block: 16px; border: 3px solid #253d64; border-radius: 20px; background: linear-gradient(140deg,#e4faff,#a7dfff); color: #142544; text-align: center; }
+.nitro-card[hidden] { display: none; }
+.nitro-card-icon { width: 100px; height: 100px; }
+.nitro-card h3,.nitro-card p { margin: 0; white-space: pre-line; }
+.nitro-buy { display: flex; flex-wrap: nowrap; align-items: center; justify-content: center; gap: 5px; width: max-content; max-width: 100%; height: 56px; min-height: 56px; padding: 8px 12px; font-size: clamp(12px,3vw,16px); white-space: nowrap; }
+.nitro-buy img { width: 24px; height: 24px; object-fit: contain; }
+.nitro-buy [hidden] { display: none; }
+.nitro-stat { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; }
+.nitro-stat-icon { width: 54px; height: 54px; flex: 0 0 54px; object-fit: contain; }
+.nitro-stat span { white-space: pre-line; font-weight: 800; line-height: 1.45; }

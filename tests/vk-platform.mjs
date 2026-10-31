@@ -46,3 +46,14 @@ test('explicit development VK never sends real storage, advertisement or purchas
   await platform.saveSave({version:1});assert.deepEqual(await platform.loadSave(),{version:1});
   assert.deepEqual(await platform.getPurchases(),[]);await assert.rejects(platform.purchase('skin_jandel'),/development|unavailable/i);platform.destroy();
 });
+test('VK rewarded video uses reward format and only confirms a successful result',async()=>{
+ for(const rewarded of [false,true]){
+  const f=bridgeFixture();const original=f.bridge.send;
+  f.bridge.send=async(method,params)=>{
+   if(method==='VKWebAppCheckNativeAds'){assert.equal(params.ad_format,'reward');return {result:true};}
+   if(method==='VKWebAppShowNativeAds'){assert.equal(params.ad_format,'reward');return {result:rewarded};}
+   return original(method,params);
+  };
+  const p=await initialize({bridge:f.bridge});assert.deepEqual(await p.showRewardedAd(),{rewarded});p.destroy();
+ }
+});

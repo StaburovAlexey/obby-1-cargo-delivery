@@ -34,6 +34,6 @@ export function vehicleLiveryName(vehicleId, liveryId, language = 'ru') {
 
 export const PREMIUM_LIVERY_PRODUCTS=Object.freeze(VEHICLE_LIVERY_CATALOG.map(vehicle=>{
  const id=PAID_LIVERY_BY_VEHICLE[vehicle.id];
- return Object.freeze({key:`livery:${vehicle.id}:${id}`,vehicleId:vehicle.id,liveryId:id,productId:`livery_${vehicle.id}_${id}`,price:39,currency:'RUB',name:`${vehicle.name} · ${vehicleLiveryName(vehicle.id,id)}`});
+ return Object.freeze({key:`livery:${vehicle.id}:${id}`,vehicleId:vehicle.id,liveryId:id,productId:`livery_${vehicle.id}_${id}`,price:39,currency:'RUB',name:`${vehicle.name.ru} · ${vehicleLiveryName(vehicle.id,id)}`});
 }));
 export const premiumLiveryProductId=key=>PREMIUM_LIVERY_PRODUCTS.find(item=>item.key===key)?.productId;

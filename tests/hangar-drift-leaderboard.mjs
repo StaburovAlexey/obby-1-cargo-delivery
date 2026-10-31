@@ -44,3 +44,21 @@ test('reopening the trophy dialog reuses its cache instead of making a new SDK a
  let reads=0;const f=fixture({platform:live({getLeaderboardEntries:async()=>{reads++;return {entries:[{rank:1,score:2345,player:{publicName:'Cached driver'}}]};}})});
  try{await f.ui.open();f.ui.close();await f.ui.open();assert.equal(reads,1);assert.equal(f.ids.get('rows').children[0].children[1].textContent,'Cached driver');}finally{f.ui.dispose();}
 });
+
+test('only a new personal best notifies; an automatic result never acknowledges it',async()=>{
+ const career={driftRecord:{score:1000}},f=fixture({getCareer:()=>career});
+ try{
+  f.ui.updateRecordNotification();assert.equal(f.ids.get('button').classList.contains('has-new-record'),false);
+  career.driftRecord.score=1500;f.ui.updateRecordNotification();assert.equal(f.ids.get('button').classList.contains('has-new-record'),true);
+  await f.ui.showResult({result:{score:1500}});f.ui.close();f.ui.updateRecordNotification();assert.equal(f.ids.get('button').classList.contains('has-new-record'),true);
+  await f.ui.open();assert.equal(f.ids.get('button').classList.contains('has-new-record'),false);f.ui.close();
+  career.driftRecord.score=1500;f.ui.updateRecordNotification();assert.equal(f.ids.get('button').classList.contains('has-new-record'),false);
+  career.driftRecord.score=1800;f.ui.updateRecordNotification();assert.equal(f.ids.get('button').classList.contains('has-new-record'),true);
+ }finally{f.ui.dispose();}
+});
+
+test('loading an existing record after UI construction does not create a false notification',()=>{
+ let career=null;const f=fixture({getCareer:()=>career});
+ try{f.ui.updateRecordNotification();career={driftRecord:{score:45000}};f.ui.updateRecordNotification();assert.equal(f.ids.get('button').classList.contains('has-new-record'),false);}
+ finally{f.ui.dispose();}
+});

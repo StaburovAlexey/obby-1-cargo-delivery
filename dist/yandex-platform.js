@@ -147,6 +147,18 @@ export async function initializeYandexPlatform(options = {}) {
     getCatalog() { return accountCall(getPayments, 'getCatalog', []); },
     getPurchases() { return accountCall(getPayments, 'getPurchases', []); },
     purchase(productId) { return accountCall(getPayments, 'purchase', [{ id: productId }], true); },
+    showRewardedAd() {
+      return bounded(() => new Promise((resolve, reject) => {
+        ensureAccount();
+        let settled=false,rewarded=false;
+        if(!sdk.adv?.showRewardedVideo)throw new Error('Rewarded advertisement unavailable');
+        sdk.adv.showRewardedVideo({callbacks:{
+          onRewarded(){if(!settled)rewarded=true;},
+          onClose(){if(settled)return;settled=true;resolve({rewarded});},
+          onError(error){if(settled)return;settled=true;reject(error instanceof Error?error:new Error('Rewarded advertisement failed'));},
+        }});
+      }), Math.max(timeoutMs, Number(options.adTimeoutMs)||120000), 'Yandex rewarded advertisement');
+    },
     showAd(callbacks = {}) {
       return bounded(() => new Promise((resolve, reject) => {
         ensureAccount();

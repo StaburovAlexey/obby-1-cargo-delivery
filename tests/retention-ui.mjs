@@ -12,28 +12,36 @@ let passed=0;const test=(name,fn)=>{fn();passed++;console.log('PASS '+name);};
 function fixture({reentrant=false}={}){
   const dom=createInputDom(),Element=dom.root.constructor,ids=new Map();let time=0;
   dom.doc.body=new Element();dom.doc.body.ownerDocument=dom.doc;dom.doc.body.parent=dom.doc;
-  for(const [,id]of html.matchAll(/\bid="([^"]+)"/g)){const node=new Element();node.id=id;node.ownerDocument=dom.doc;node.focus=()=>{dom.doc.activeElement=node;};ids.set(id,node);dom.doc.body.append(node);}
+  dom.doc.createElement=tag=>{
+    const node=new Element();node.tagName=tag.toUpperCase();node.ownerDocument=dom.doc;
+    Object.defineProperty(node,'parentNode',{get(){return this.parent;}});
+    node.focus=()=>{dom.doc.activeElement=node;};
+    node.replaceChildren=(...children)=>{for(const child of node.children)child.parent=null;node.children=[];for(const child of children)node.append(child);};
+    const setAttribute=node.setAttribute.bind(node);node.setAttribute=(key,value)=>{setAttribute(key,value);if(key==='id'){node.id=String(value);ids.set(node.id,node);}if(key.startsWith('data-'))node.dataset[key.slice(5).replace(/-([a-z])/g,(_,c)=>c.toUpperCase())]=String(value);};
+    return node;
+  };
+  dom.doc.createElementNS=(namespace,tag)=>dom.doc.createElement(tag);
+  for(const [,id]of html.matchAll(/\bid="([^"]+)"/g)){const node=dom.doc.createElement('div');node.setAttribute('id',id);dom.doc.body.append(node);}
   dom.doc.getElementById=id=>ids.get(id)||null;const get=id=>ids.get(id);
   const attach=(parent,child)=>{const node=get(child);if(node.parent)node.parent.children=node.parent.children.filter(item=>item!==node);get(parent).append(node);};
   attach('career-menu','career-panel');attach('delivery-receipt-menu','delivery-receipt');
-  for(const id of ['career-title','career-close','career-goal-section','career-mission-section'])attach('career-panel',id);
+  for(const id of ['career-title','career-close','career-mission-summary','career-goal-section','career-mission-section'])attach('career-panel',id);
   for(const id of ['career-goal-content','career-goal-complete'])attach('career-goal-section',id);
   for(const id of ['career-goal-select','career-goal-amount','career-goal-progress','career-goal-remaining'])attach('career-goal-content',id);
   for(const id of [...ids.keys()].filter(id=>id.startsWith('career-goal-option-')||id==='career-goal-placeholder'))attach('career-goal-select',id);
-  for(const id of ['career-mission-details','career-mission-empty'])attach('career-mission-section',id);
-  for(const id of ['career-mission-name','career-mission-description','career-mission-skip','career-mission-count','career-mission-progress','career-mission-reward'])attach('career-mission-details',id);
+  for(const id of ['career-mission-empty','career-mission-list'])attach('career-mission-section',id);
   for(const id of [...ids.keys()].filter(id=>id.startsWith('receipt-')||id==='delivery-receipt-close'||id==='delivery-receipt-title'))attach('delivery-receipt',id);
-  let owned=new Set(['pickup']),selected=null,money=123,sequence=0,hasMission=true;
-  const missions=[{name:'Три доставки',description:'Доставьте три груза.',progress:1,target:3,cash:100,brains:30},{name:'Мосты без аварий',description:'Пройдите два моста без аварий и доставьте груз.',progress:0,target:2,cash:150,brains:40}];
-  const gameplay={state:{mode:'walking'},isOwned:id=>owned.has(id),getVehicleGoal:()=>{let v=VEHICLE_CONFIG.find(v=>v.id===selected&&!owned.has(v.id));if(!v)return null;selected=v.id;return {...v,money,remaining:Math.max(0,v.price-money),progress:Math.min(1,money/v.price)};},getCareerMission:()=>hasMission?missions[sequence%2]:null};
-  const selections=[],openChanges=[];let skips=0;
+  let owned=new Set(['pickup']),selected=null,money=123,hasMission=true;
+  const missions=[{id:'first-delivery',name:'Три доставки',description:'Доставьте три груза.',progress:3,target:3,cash:100,brains:30,status:'ready'},{id:'deliveries-3',name:'Бережём груз',description:'Доставьте три груза без столкновений.',progress:0,target:3,cash:150,brains:40,status:'progress'}];
+  const gameplay={state:{mode:'walking'},isOwned:id=>owned.has(id),getVehicleGoal:()=>{let v=VEHICLE_CONFIG.find(v=>v.id===selected&&!owned.has(v.id));if(!v)return null;selected=v.id;return {...v,money,remaining:Math.max(0,v.price-money),progress:Math.min(1,money/v.price)};},getCareerMissions:()=>hasMission?[...missions].sort((a,b)=>Number(a.status==='claimed')-Number(b.status==='claimed')):[]};
+  const selections=[],openChanges=[];let claims=0;
   const view={gameplay,playing:true,driving:false,inGarage:true,menuOpen:false};
-  const ui=createRetentionUi(dom.doc,{now:()=>time,onSelectGoal:id=>{selected=id;selections.push(id);},onSkipMission:()=>{sequence++;skips++;},onOpenChange:open=>{openChanges.push(open);if(reentrant)ui.update(view);}});
+  const ui=createRetentionUi(dom.doc,{onSelectGoal:id=>{selected=id;selections.push(id);},onClaimMission:id=>{const mission=missions.find(m=>m.id===id);if(mission?.status==='ready'){mission.status='claimed';claims++;}},onOpenChange:open=>{openChanges.push(open);if(reentrant)ui.update(view);}});
   const update=extra=>{Object.assign(view,extra);ui.update(view);};
   const open=kind=>get('career-'+kind+'-button').dispatch('click');
-  return {...dom,ids,get,gameplay,ui,view,update,open,selections,openChanges,setMission:value=>{hasMission=value;},setMoney:n=>{money=n;},setOwned:values=>{owned=new Set(values);},advance:n=>{time+=n;update();},get skips(){return skips;}};
+  return {...dom,ids,get,gameplay,ui,view,update,open,selections,openChanges,setMission:value=>{hasMission=value;},setMoney:n=>{money=n;},setOwned:values=>{owned=new Set(values);},advance:n=>{time+=n;update();},get claims(){return claims;}};
 }
-const sample={base:120,clean:40,hard:60,first:80,mission:150,brains:{clean:5,hard:10,first:15,mission:40,total:70},totalCash:450};
+const sample={base:120,clean:40,hard:60,first:80,brains:{clean:5,hard:10,first:15,total:30},totalCash:300};
 
 test('The mission launcher starts closed; retired savings stay hidden and inert',()=>{
   const f=fixture();assert.equal(f.ui.isOpen(),false);
@@ -42,8 +50,8 @@ test('The mission launcher starts closed; retired savings stay hidden and inert'
   for(let i=0;i<20;i++)f.update();
   assert.equal(f.get('career-mission-button').hidden,false);assert.equal(f.get('career-goal-button').hidden,true);assert.equal(f.get('career-goal-button').disabled,true);
   for(const id of ['career-panel','career-menu','career-goal-section','career-mission-section'])assert.equal(f.get(id).hidden,true,id);
-  f.open('goal');f.get('career-mission-skip').dispatch('click');f.get('career-goal-select').value='citycourier';f.get('career-goal-select').dispatch('change');
-  assert.equal(f.ui.isOpen(),false);assert.equal(f.skips,0);assert.equal(f.selections.length,0);assert.deepEqual(f.openChanges,[]);
+  f.open('goal');f.get('career-goal-select').value='citycourier';f.get('career-goal-select').dispatch('change');
+  assert.equal(f.ui.isOpen(),false);assert.equal(f.claims,0);assert.equal(f.selections.length,0);assert.deepEqual(f.openChanges,[]);
 });
 test('Repeated mission open/close and reentrant callbacks remain stable',()=>{
   const f=fixture({reentrant:true});f.update();
@@ -60,7 +68,7 @@ test('Repeated mission open/close and reentrant callbacks remain stable',()=>{
 test('Mission modal traps focus, restores inert states and closes via close/Escape/backdrop',()=>{
   const f=fixture();f.update();f.get('viewport').inert=true;
   f.open('mission');assert.equal(f.doc.activeElement,f.get('career-close'));assert.equal(f.get('garage-button').inert,true);assert.notEqual(f.get('career-menu').inert,true);
-  const close=f.get('career-close'),skip=f.get('career-mission-skip');
+  const close=f.get('career-close'),skip=f.get('mission-first-delivery-claim');
   const reverse=close.dispatch('keydown',{key:'Tab',shiftKey:true});assert.equal(reverse.defaultPrevented,true);assert.equal(f.doc.activeElement,skip);
   const forward=skip.dispatch('keydown',{key:'Tab'});assert.equal(forward.defaultPrevented,true);assert.equal(f.doc.activeElement,close);
   f.get('garage-button').dispatch('focusin');assert.equal(f.doc.activeElement,close);
@@ -69,7 +77,7 @@ test('Mission modal traps focus, restores inert states and closes via close/Esca
   f.open('mission');close.dispatch('click');assert.equal(f.ui.isOpen(),false);
   f.open('mission');const esc=f.get('career-panel').dispatch('keydown',{key:'Escape'});assert.equal(esc.defaultPrevented,true);assert.equal(esc.stopped,true);assert.equal(f.ui.isOpen(),false);
   f.open('mission');f.doc.dispatch('keydown',{key:'Escape'});assert.equal(f.ui.isOpen(),false);
-  f.setMission(false);f.open('mission');close.dispatch('keydown',{key:'Tab'});assert.equal(f.doc.activeElement,close);
+  f.setMission(false);f.open('mission');f.get('career-mission-section').focus();f.get('career-mission-section').dispatch('keydown',{key:'Tab'});assert.equal(f.doc.activeElement,close);
 });
 test('Driving, outdoors, overview, other modals and background close missions without reopening',()=>{
   const f=fixture();f.update();
@@ -82,14 +90,15 @@ test('Driving, outdoors, overview, other modals and background close missions wi
   f.open('mission');f.gameplay.state.mode='driving';f.update();assert.equal(f.ui.isOpen(),false);f.gameplay.state.mode='walking';f.update();assert.equal(f.ui.isOpen(),false);
   f.open('mission');f.doc.hidden=true;f.doc.dispatch('visibilitychange');assert.equal(f.ui.isOpen(),false);f.doc.hidden=false;f.doc.dispatch('visibilitychange');assert.equal(f.ui.isOpen(),false);
 });
-test('Panel events do not bubble; hidden and retired controls cannot mutate the saved goal',()=>{
-  const f=fixture();f.update();f.open('mission');
-  for(const type of ['pointerdown','pointermove','pointerup','pointercancel','touchstart','touchmove','touchend','wheel','keydown','keyup'])assert.equal(f.get('career-mission-skip').dispatch(type).stopped,true,type);
-  f.get('career-mission-skip').dispatch('click');assert.equal(f.skips,1);assert.equal(f.get('career-mission-name').textContent,'Мосты без аварий');assert.equal(f.get('career-mission-count').textContent,'0 / 2');assert.equal(f.get('career-mission-cash').textContent,'+150');
-  f.get('career-goal-select').value='citycourier';f.get('career-goal-select').dispatch('change');assert.equal(f.selections.length,0);
-  f.ui.close();f.get('career-mission-skip').dispatch('click');assert.equal(f.skips,1);
-  f.setMission(false);f.open('mission');assert.equal(f.get('career-mission-empty').hidden,false);f.get('career-mission-skip').dispatch('click');assert.equal(f.skips,1);
+test('Panel events do not bubble; claims move to the end and hidden controls cannot mutate',()=>{
+ const f=fixture();f.update();f.open('mission');const claim=f.get('mission-first-delivery-claim');
+ for(const type of ['pointerdown','pointermove','pointerup','pointercancel','touchstart','touchmove','touchend','wheel','keydown','keyup'])assert.equal(claim.dispatch(type).stopped,true,type);
+ claim.dispatch('click');assert.equal(f.claims,1);assert.equal(f.get('career-mission-list').children.at(-1).dataset.missionId,'first-delivery');
+ f.get('career-goal-select').value='citycourier';f.get('career-goal-select').dispatch('change');assert.equal(f.selections.length,0);
+ f.ui.close();claim.dispatch('click');assert.equal(f.claims,1);
+ f.setMission(false);f.open('mission');assert.equal(f.get('career-mission-empty').hidden,false);
 });
+
 test('Ownership updates leave savings hidden and do not select or erase goals',()=>{
   const f=fixture();f.update();assert.equal(f.get('career-goal-option-pickup').disabled,true);
   f.setOwned(['pickup','ashhauler']);f.update();assert.equal(f.get('career-goal-option-ashhauler').disabled,true);
@@ -100,8 +109,8 @@ test('Receipt waits for the hangar, preserves every reward category and pauses g
   const f=fixture({reentrant:true});f.update({driving:true,inGarage:false});f.ui.showDelivery(sample);assert.equal(f.get('delivery-receipt').hidden,true);assert.equal(f.ui.isOpen(),false);
   f.update({driving:false,inGarage:true});assert.equal(f.get('delivery-receipt').hidden,false);assert.equal(f.get('delivery-receipt-menu').hidden,false);assert.equal(f.get('career-panel').hidden,true);assert.equal(f.ui.isOpen(),true);assert.deepEqual(f.openChanges,[true]);
   assert.equal(f.doc.activeElement,f.get('delivery-receipt-close'));assert.equal(f.get('garage-button').inert,true);assert.notEqual(f.get('delivery-receipt-menu').inert,true);
-  for(const key of ['base','clean','hard','first','mission']){assert.equal(f.get('receipt-'+key+'-cash').textContent,'+'+sample[key]);assert.equal(f.get('receipt-'+key+'-brains').textContent,sample.brains[key]?'+'+sample.brains[key]:'—');}
-  assert.equal(f.get('receipt-total-cash').textContent,'+450');assert.equal(f.get('receipt-total-brains').textContent,'+70');
+  for(const key of ['base','clean','hard','first']){assert.equal(f.get('receipt-'+key+'-cash').textContent,'+'+sample[key]);assert.equal(f.get('receipt-'+key+'-brains').textContent,sample.brains[key]?'+'+sample.brains[key]:'—');}
+  assert.equal(f.get('receipt-total-cash').textContent,'+300');assert.equal(f.get('receipt-total-brains').textContent,'+30');
   f.open('mission');assert.equal(f.get('career-menu').hidden,true,'Receipt cannot overlap a mission');
   f.get('delivery-receipt-close').dispatch('click');assert.equal(f.get('delivery-receipt').hidden,true);assert.equal(f.ui.isOpen(),false);f.update();assert.equal(f.get('delivery-receipt').hidden,true);assert.deepEqual(f.openChanges,[true,false]);
   f.ui.showDelivery({base:0,totalCash:0,brains:{total:15,first:15}});assert.equal(f.get('receipt-total-cash').textContent,'+0');assert.equal(f.get('receipt-total-brains').textContent,'+15');assert.equal(f.ui.isOpen(),true);
@@ -138,20 +147,20 @@ test('Receipt focus trap and pointer blocking allow close, Escape and backdrop d
 test('Dispose closes exactly once, restores background and removes all listeners',()=>{
   const f=fixture({reentrant:true});f.update();f.open('mission');f.ui.showDelivery(sample);f.ui.dispose();f.ui.dispose();
   assert.deepEqual(f.openChanges,[true,false]);assert.equal(f.ui.isOpen(),false);assert.notEqual(f.get('garage-button').inert,true);
-  f.update();f.open('goal');f.ui.showDelivery(sample);f.get('career-mission-skip').dispatch('click');
+  f.update();f.open('goal');f.ui.showDelivery(sample);
   for(const id of ['career-panel','career-menu','delivery-receipt','career-goal-button','career-mission-button'])assert.equal(f.get(id).hidden,true,id);
-  assert.equal(f.skips,0);for(const node of [f.doc,...f.ids.values()])for(const listeners of node.listeners.values())assert.equal(listeners.size,0);
+  assert.equal(f.claims,0);for(const node of [f.doc,...f.ids.values()])for(const listeners of node.listeners.values())assert.equal(listeners.size,0);
 });
 test('Long counters remain exact; markup is icon-only with accessible independent modal and receipt',()=>{
-  const f=fixture();f.update();f.ui.showDelivery({...sample,totalCash:1e9,mission:1e9,brains:{total:1e9,mission:1e9}});
-  assert.equal(f.get('receipt-total-cash').textContent,'+1\u202f000\u202f000\u202f000');assert.equal(f.get('receipt-mission-brains').textContent,'+1\u202f000\u202f000\u202f000');
+  const f=fixture();f.update();f.ui.showDelivery({...sample,totalCash:1e9,first:1e9,brains:{total:1e9,first:1e9}});
+  assert.equal(f.get('receipt-total-cash').textContent,'+1\u202f000\u202f000\u202f000');assert.equal(f.get('receipt-first-brains').textContent,'+1\u202f000\u202f000\u202f000');
   assert.equal(careerNumber(NaN),'0');assert.equal(careerNumber(-9),'0');assert.equal(careerNumber(1999.999),'1\u202f999');
   assert.match(html,/id="career-panel"[^>]*role="dialog"[^>]*aria-modal="true"[^>]*aria-labelledby="career-title"[^>]*hidden/);assert.match(html,/id="career-goal-select"[^>]*aria-describedby=/);assert.match(html,/id="delivery-receipt"[^>]*role="dialog"[^>]*aria-modal="true"[^>]*aria-labelledby="delivery-receipt-title"/);
-  assert.match(html,/<\/section>\s*<\/div>\s*<div id="delivery-receipt-menu" hidden>\s*<section id="delivery-receipt"/,'Receipt has a dedicated backdrop outside the career modal');
+  assert.match(html,/<\/section>\s*<\/div>\s*<div id="delivery-receipt-menu"[^>]*hidden>\s*<section id="delivery-receipt"/,'Receipt has a dedicated backdrop outside the career modal');
   const actions=html.match(/<div class="top-actions">([\s\S]*?)<\/div>/)[1];
   for(const kind of ['goal','mission']){const button=actions.match(new RegExp(`<button id="career-${kind}-button"([^>]*)>([\\s\\S]*?)<\\/button>`));assert.ok(button);assert.match(button[1],/aria-haspopup="dialog"[^>]*aria-expanded="false"/);assert.match(button[1],/aria-label=/);assert.match(button[1],/title=/);assert.match(button[1],/hidden/);assert.match(button[2],/class="hud-circle"/);assert.equal(button[2].replace(/<[^>]*>/g,'').trim(),'');}
   assert.doesNotMatch(html,/career-mission-toggle|career-chevron/);
-  assert.match(css,/#career-panel\{[^}]*max-height:100%;overflow:auto/);assert.match(css,/#career-goal-select\{[^}]*min-height:48px/);assert.match(css,/#career-close\{[^}]*min-height:44px/);assert.match(css,/#delivery-receipt-close\{[^}]*min-height:44px/);assert.match(css,/#career-mission-skip\{[^}]*min-height:44px/);
+  assert.match(css,/#career-panel\{[^}]*max-height:[^}]*overflow:hidden/);assert.match(css,/#career-goal-select\{[^}]*min-height:48px/);assert.match(css,/#career-close\{[^}]*min-height:44px/);assert.match(css,/#delivery-receipt-close\{[^}]*min-height:44px/);assert.match(css,/\.mission-claim\{[^}]*min-height:44px/);
   assert.match(css,/#delivery-receipt\{[^}]*overflow:auto[^}]*pointer-events:auto/);assert.match(css,/#delivery-receipt table\{[^}]*table-layout:fixed/);assert.match(css,/#delivery-receipt th,#delivery-receipt td\{[^}]*overflow-wrap:anywhere[^}]*white-space:normal/);assert.match(css,/#career-goal-select:focus-visible/);
   const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);assert.equal(ids.length,new Set(ids).size,'All IDs unique');
 });

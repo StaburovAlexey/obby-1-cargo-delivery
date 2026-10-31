@@ -38,6 +38,12 @@ class Node {
   contains(other) { for (let n = other; n; n = n.parentNode) if (n === this) return true; return false; }
   appendChild(node) { if (node.parentNode) node.parentNode.childNodes = node.parentNode.childNodes.filter(n => n !== node); node.parentNode = this; this.childNodes.push(node); this.ownerDocument.record({type: 'childList', target: this, addedNodes: [node], removedNodes: []}); return node; }
   append(...nodes) { nodes.forEach(n => this.appendChild(typeof n === 'string' ? this.ownerDocument.createTextNode(n) : n)); }
+  replaceChildren(...nodes) { for(const child of this.childNodes)child.parentNode=null;this.childNodes=[];this.append(...nodes); }
+  getBoundingClientRect() { return {top:0,height:100}; }
+  dispatch(type,extra={}) {
+    const event={type,target:this,preventDefault(){},stopped:false,stopPropagation(){this.stopped=true;},...extra};
+    for(let node=this;node;node=node.parentNode){for(const callback of node.listeners?.get(type)||[])callback(event);if(event.stopped)break;}
+  }
   getAttribute(name) { return this.attrs.get(name) ?? null; }
   hasAttribute(name) { return this.attrs.has(name); }
   setAttribute(name, value) { this.attrs.set(name, String(value)); this.ownerDocument.record({type: 'attributes', target: this, attributeName: name}); }
@@ -58,6 +64,7 @@ function fixture(html = '') {
       }
     },
     createElement: tag => new Node(doc, 1, tag),
+    createElementNS: (namespace,tag) => new Node(doc, 1, tag),
     createTextNode: text => { const n = new Node(doc, 3); n._value = String(text); return n; },
     getElementById(id) { const walk = n => n.id === id ? n : n.childNodes.map(walk).find(Boolean); return walk(doc.documentElement) || null; },
     addEventListener() {}, removeEventListener() {},
@@ -186,25 +193,29 @@ await test('Authors, model names, URLs, input values, numbers and explicit exclu
 });
 
 await test('Real mission and delivery renderers remain localized after repeated open/close and numeric updates', async () => {
-  const f = fixture(html), {doc} = f, get = id => doc.getElementById(id), l = createLocalization(doc, {language:'en'});
-  let mission = {...CAREER_MISSIONS[0], progress:1};
-  const gameplay = {state:{mode:'walking'}, isOwned:id => id === 'pickup', getVehicleGoal:() => ({name:'Городской курьер',id:'citycourier',price:1300,money:123,remaining:1177}), getCareerMission:() => mission};
-  const ui = createRetentionUi(doc), view = {gameplay,playing:true,driving:false,inGarage:true,menuOpen:false};
-  for (const entry of CAREER_MISSIONS) {
-    mission = {...entry, progress:1}; ui.update(view); ui.close(); ui.update(view); await tick();
-    assert.equal(get('career-mission-name').textContent, translateGameText(entry.name));
-    assert(!/[А-Яа-яЁё]/u.test(get('career-mission-description').textContent));
-    assert.equal(get('career-mission-count').textContent, `1 / ${entry.target}`);
+  const f=fixture(html),{doc}=f,get=id=>doc.getElementById(id),l=createLocalization(doc,{language:'en'});
+  let mission={...CAREER_MISSIONS[0],progress:1,status:'ready'};
+  const gameplay={state:{mode:'walking'},isOwned:id=>id==='pickup',getVehicleGoal:()=>({name:'Городской курьер',id:'citycourier',price:1300,money:123,remaining:1177}),getCareerMissions:()=>[mission]};
+  const ui=createRetentionUi(doc,{translate:value=>l.translate(value)}),view={gameplay,playing:true,driving:false,inGarage:true,menuOpen:false};
+  for(const entry of CAREER_MISSIONS){
+    mission={...entry,progress:1,status:entry.target===1?'ready':'progress'};ui.update(view);get('career-mission-button').dispatch('click');await tick();
+    const card=get('mission-'+entry.id);
+    assert.equal(get('mission-'+entry.id+'-name').textContent,translateGameText(entry.name));
+    assert(!/[А-Яа-яЁё]/u.test(card.textContent));
     assert(!/[А-Яа-яЁё]/u.test(get('career-mission-button').getAttribute('aria-label')));
-    assert.equal(get('career-goal-option-citycourier').textContent, 'City courier · 1\u202f300');
+    assert.equal(get('career-goal-option-citycourier').textContent,'City courier · 1\u202f300');ui.close();
   }
-  ui.showDelivery({base:1e9,clean:40,hard:60,first:80,mission:150,totalCash:1e9+330,brains:{total:70,clean:5,hard:10,first:15,mission:40},unlockedVehicleId:'bmwreward'}); await tick();
-  assert.equal(get('receipt-total-cash').textContent,'+'+careerNumber(1e9+330));
-  assert.equal(get('receipt-base').getAttribute('aria-label'),'Delivery: 1\u202f000\u202f000\u202f000 game money, 0 brains');
-  assert.equal(get('delivery-receipt').getAttribute('aria-label'),'Cargo delivered: 1\u202f000\u202f000\u202f330 game money and 70 brains');
+  ui.showDelivery({base:1e9,clean:40,hard:60,first:80,totalCash:1e9+180,brains:{total:30,clean:5,hard:10,first:15},unlockedVehicleId:'bmwreward'});await tick();
+  assert.equal(get('receipt-total-cash').textContent,'+'+careerNumber(1e9+180));
+  assert.equal(get('receipt-base').getAttribute('aria-label'),'Delivery: 1\u202f000\u202f000\u202f000 game money, 0 XP');
+  assert.equal(get('delivery-receipt').getAttribute('aria-label'),'Cargo delivered: 1\u202f000\u202f000\u202f180 game money and 30 XP');
   assert.equal(get('receipt-vehicle-unlock').textContent,'Golden BMW unlocked! It is waiting on the pedestal in the hangar.');
-  for (let i=0;i<4;i++) {l.setLanguage('ru'); ui.update(view); await tick(); assert.equal(get('career-mission-name').textContent,mission.name); l.setLanguage('en'); ui.update(view); await tick(); assert.equal(get('career-mission-name').textContent,translateGameText(mission.name));}
-  ui.dispose(); l.dispose();
+  ui.close();get('career-mission-button').dispatch('click');
+  for(let i=0;i<4;i++){
+    l.setLanguage('ru');ui.update(view);await tick();assert.equal(get('mission-'+mission.id+'-name').textContent,mission.name);
+    l.setLanguage('en');ui.update(view);await tick();assert.equal(get('mission-'+mission.id+'-name').textContent,translateGameText(mission.name));
+  }
+  ui.dispose();l.dispose();
 });
 
 await test('Real progression renderer and minimal fixture DOM both support RU/EN refresh', async () => {

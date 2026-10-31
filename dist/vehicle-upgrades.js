@@ -26,6 +26,7 @@ export function sanitizeVehicleUpgrades(input) {
   return Object.fromEntries(VEHICLE_CONFIG.map(({id})=>[id,sanitizeUpgradeLevels(ownData(input,id))]));
 }
 export function getUpgradeModifiers(levels,vehicleId) {
+  if(vehicles.get(vehicleId)?.rewardDrift)return {speed:1,engine:1,handling:1,grip:1,fuel:1};
   const clean=sanitizeUpgradeLevels(levels);
   if(vehicles.get(vehicleId)?.rewardOnly) return {
     speed:1+.01*clean.speed,engine:1+.01*clean.speed,
@@ -81,7 +82,7 @@ export function getVehiclePerformance(vehicleId,levels) {
     grip:v.grip*m.grip,range,capacity:v.rewardOnly?v.capacity*m.fuel:v.capacity*range/v.range,consumption:v.consumption};
 }
 export function getUpgradeOffer(vehicleId,stat,levels) {
-  const v=vehicles.get(vehicleId);if(!v||!statIds.has(stat))return null;
+  const v=vehicles.get(vehicleId);if(!v||v.rewardDrift||!statIds.has(stat))return null;
   const clean=sanitizeUpgradeLevels(levels),currentLevel=clean[stat],maxed=currentLevel===UPGRADE_MAX_LEVEL;
   const nextLevel=maxed?currentLevel:currentLevel+1;
   const currentPerformance=getVehiclePerformance(vehicleId,clean);
